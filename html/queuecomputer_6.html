@@ -1,0 +1,91 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>plot.queue_list</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>ggplot2 method for output from queueing model</h2>
+
+<h3>Description</h3>
+
+<p>ggplot2 method for output from queueing model
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'queue_list'
+plot(x, which = c(2:6), annotated = TRUE, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>an object of class <code>queue_list</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>which</code></td>
+<td>
+<p>Numeric vector of integers from 1 to 6 which represents which plots are to be created. See examples.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>annotated</code></td>
+<td>
+<p>logical, if <code>TRUE</code> annotations will be added to the plot.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>other parameters to be passed through to plotting functions.</p>
+</td>
+</tr>
+</table>
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+## Not run: 
+
+n_customers &lt;- 50
+arrival_rate &lt;- 1.8
+service_rate &lt;- 1
+arrivals &lt;- cumsum(rexp(n_customers, arrival_rate))
+service &lt;- rexp(n_customers, service_rate)
+queue_obj &lt;- queue_step(arrivals, service, servers = 2)
+plot(queue_obj)
+
+
+
+library(ggplot2)
+
+## density plots of arrival and departure times
+plot(queue_obj, which = 1)
+
+## histograms of arrival and departure times
+plot(queue_obj, which = 2)
+
+## density plots of waiting and system times
+plot(queue_obj, which = 3)
+
+## step function of queue length
+plot(queue_obj, which = 4)
+
+## line range plot of customer and server status
+plot(queue_obj, which = 5)
+
+## empirical distribution plot of arrival and departure times
+plot(queue_obj, which = 6)
+
+
+## End(Not run)
+
+</code></pre>
+
+
+</div>

@@ -1,0 +1,89 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>subset-cohorts</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Subset a cohorts object</h2>
+
+<h3>Description</h3>
+
+<p>You can subset cohorts by identifier or by position using the
+<code>`[`</code> operator.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S4 method for signature 'cohorts,missing,missing,missing'
+x[i, j, ..., drop = FALSE]
+
+## S4 method for signature 'cohorts,numeric,missing,missing'
+x[i, j, ..., drop = FALSE]
+
+## S4 method for signature 'cohorts,character,missing,missing'
+x[i, j, ..., drop = FALSE]
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>A cohorts object.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>i</code></td>
+<td>
+<p>Position of the identifier or the name of the identifier itself.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>j</code></td>
+<td>
+<p>Not used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Additional arguments not used here.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>drop</code></td>
+<td>
+<p>Not used.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A cohorts object.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+# Get a few cohorts by their symbol:
+my_cohorts &lt;- get_cohorts(c('23andMe', 'BioImage', 'Rotterdam-SI', 'SGWAS'),
+                progress_bar = FALSE)
+
+#
+# Subsetting by position
+#
+my_cohorts[c(1, 3)]
+
+#
+# Subsetting by cohort symbol (character)
+#
+my_cohorts[c('23andMe', 'SGWAS')]
+
+</code></pre>
+
+
+</div>

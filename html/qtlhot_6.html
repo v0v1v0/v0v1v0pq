@@ -1,0 +1,150 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>CMSTtests</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Perform CMST Tests on cross object</h2>
+
+<h3>Description</h3>
+
+<p>Performs 6 separate CMST tests (3 versions, 2 penalties).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">CMSTtests(cross, pheno1, pheno2, Q.chr, Q.pos,
+  addcov1 = NULL, addcov2 = NULL, intcov1 = NULL, intcov2 = NULL, 
+  method = c("par", "non.par", "joint", "all"),
+  penalty = c("bic", "aic", "both"), verbose = FALSE)
+CMSTtestsList(cross, pheno1, pheno2, Q.chr, Q.pos,
+  addcov1 = NULL, addcov2 = NULL, intcov1 = NULL, intcov2 = NULL, 
+  method = c("par", "non.par", "joint", "all"),
+  penalty = c("bic", "aic", "both"), verbose = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>cross</code></td>
+<td>
+<p>object of class <code>cross</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pheno1</code></td>
+<td>
+<p>first phenotype column number or character string name</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pheno2</code></td>
+<td>
+<p>second phenotype column number or character string name;
+if more than one, then all phenotypes will be tested against <code>pheno1</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Q.chr</code></td>
+<td>
+<p>QTL chromosome (number or label)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Q.pos</code></td>
+<td>
+<p>QTL position in cM</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>addcov1, addcov2</code></td>
+<td>
+<p>additive covariates for first and second
+phenotype, respectively</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>intcov1, intcov2</code></td>
+<td>
+<p>interactive covariates for first and second
+phenotype, respectively</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+<p>test method; see details</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>penalty</code></td>
+<td>
+<p>type of penalty; see details</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p>verbose printout if <code>TRUE</code></p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Explain method and penalty here.
+</p>
+
+
+<h3>References</h3>
+
+<p>Chaibub Neto E, Broman AT, Keller MP, Attie AD, Zhang B, Zhu J, Yandell BS,
+Causal model selection hypothesis tests in systems genetics.
+Genetics (in review).
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>CMSTCross</code>, <code>PrecTpFpMatrix</code>,
+<code>FitAllTests</code></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(CMSTCross)
+nms &lt;- names(CMSTCross$pheno)
+out1 &lt;- CMSTtests(CMSTCross, 
+                  pheno1 = nms[1], 
+                  pheno2 = nms[2],
+                  Q.chr = 1,
+                  Q.pos = 55,
+                  addcov1 = NULL, 
+                  addcov2 = NULL, 
+                  intcov1 = NULL, 
+                  intcov2 = NULL, 
+                  method = "all",
+                  penalty = "both")
+out1[1:6]
+out1[7]
+out1[8:12]
+out1[13:17]
+## list of phenotypes
+out2 &lt;- CMSTtests(CMSTCross, 
+                  pheno1 = nms[1], 
+                  pheno2 = nms[-1],
+                  Q.chr = 1,
+                  Q.pos = 55,
+                  addcov1 = NULL, 
+                  addcov2 = NULL, 
+                  intcov1 = NULL, 
+                  intcov2 = NULL, 
+                  method = "par",
+                  penalty = "bic")
+out2
+</code></pre>
+
+
+</div>

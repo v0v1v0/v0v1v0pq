@@ -1,0 +1,217 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>corp_ml</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+<code>corp_ml</code> decomposes correlations from multilevel data into within-group
+and between-group correlations as well as adds significance symbols to the
+end of each value. The workhorse of the function is
+<code>statsBy</code>. <code>corp_ml</code> is simply a combination of
+<code>cor_ml</code> and <code>add_sig_cor</code>.</h2>
+
+<h3>Description</h3>
+
+<p><code>corp_ml</code> decomposes correlations from multilevel data into within-group
+and between-group correlations as well as adds significance symbols to the
+end of each value. The workhorse of the function is
+<code>statsBy</code>. <code>corp_ml</code> is simply a combination of
+<code>cor_ml</code> and <code>add_sig_cor</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">corp_ml(
+  data,
+  vrb.nm,
+  grp.nm,
+  use = "pairwise.complete.obs",
+  method = "pearson",
+  digits = 3L,
+  p.10 = "",
+  p.05 = "*",
+  p.01 = "**",
+  p.001 = "***",
+  lead.zero = FALSE,
+  trail.zero = TRUE,
+  plus = FALSE,
+  diags = FALSE,
+  lower = TRUE,
+  upper = FALSE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>data.frame of data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vrb.nm</code></td>
+<td>
+<p>character vector of colnames from <code>data</code> specifying the
+variable columns.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>grp.nm</code></td>
+<td>
+<p>character vector of length 1 of a colname from <code>data</code>
+specifying the grouping column.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>use</code></td>
+<td>
+<p>character vector of length 1 specifying how to handle missing
+values when computing the correlations. The options are: 1)
+"pairwise.complete.obs" which uses pairwise deletion, 2) "complete.obs"
+which uses listwise deletion, and 3) "everything" which uses all cases and
+returns NA for any correlations from columns in <code>data[vrb.nm]</code> with
+missing values.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+<p>character vector of length 1 specifying which type of
+correlations to compute. The options are: 1) "pearson" for traditional
+Pearson product-moment correlations, 2) "kendall" for Kendall rank
+correlations, and 3) "spearman" for Spearman rank correlations.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>digits</code></td>
+<td>
+<p>integer vector of length 1 specifying the number of decimals to
+round to.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p.10</code></td>
+<td>
+<p>character vector of length 1 specifying which symbol to append to
+the end of any correlation significant at the p &lt; .10 level.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p.05</code></td>
+<td>
+<p>character vector of length 1 specifying which symbol to append to
+the end of any correlation significant at the p &lt; .05 level.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p.01</code></td>
+<td>
+<p>character vector of length 1 specifying which symbol to append to
+the end of any correlation significant at the p &lt; .01 level.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p.001</code></td>
+<td>
+<p>character vector of length 1 specifying which symbol to append
+to the end of any correlation significant at the p &lt; .001 level.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lead.zero</code></td>
+<td>
+<p>logical vector of length 1 specifying whether to retain a
+zero in front of the decimal place.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>trail.zero</code></td>
+<td>
+<p>logical vector of length 1 specifying whether to retain
+zeros after the decimal place (due to rounding).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>plus</code></td>
+<td>
+<p>logical vector of length 1 specifying whether to include a plus
+sign in front of positive correlations (minus signs are always in front of
+negative correlations).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>diags</code></td>
+<td>
+<p>logical vector of length 1 specifying whether to retain the
+values in the diagonal of the correlation matrix. If TRUE, then the
+diagonal will be 1s with <code>digits</code> number of zeros after the decimal
+place (and no significant symbols). If FALSE, then the diagonal will be NA.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lower</code></td>
+<td>
+<p>logical vector of length 1 specifying whether to retain the
+lower triangle of the correlation matrix. If TRUE, then the lower triangle
+correlations and their significance symbols are retained. If FAlSE, then
+the lower triangle will all be NA.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>upper</code></td>
+<td>
+<p>logical vector of length 1 specifying whether to retain the
+upper triangle of the correlation matrix. If TRUE, then the upper triangle
+correlations and their significance symbols are retained. If FAlSE, then
+the upper triangle will all be NA.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>list of two elements that are data.frames with names "within" and
+"between". The first data.frame has the within-group correlations with
+their significance symbols at the end of the statistically significant
+correlations based on their associated p-value. The second data.frame has
+the between-group correlations with their significance symbols at the end
+of the statistically significant correlations based on their associated
+p-values. The rownames and colnames of each dataframe are <code>vrb.nm</code>.
+The formatting of the two data.frames depends on several of the arguments.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>cor_ml</code> for multilevel correlations without significance symbols,
+<code>corp_by</code> for correlations with significance symbols by group,
+<code>statsBy</code> the workhorse for the <code>corp_ml</code> function,
+<code>add_sig_cor</code> for adding significant symbols to correlation matrices,
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+# traditional use
+tmp &lt;- c("outcome","case","session","trt_time") # roxygen2 does not like c() inside []
+dat &lt;- as.data.frame(lmeInfo::Bryant2016)[tmp]
+stats_by &lt;- psych::statsBy(dat, group = "case") # requires you to include "case" column in dat
+corp_ml(data = dat, vrb.nm = c("outcome","session","trt_time"), grp.nm = "case")
+
+# varying the `use` and `method` arguments
+corp_ml(data = airquality, vrb.nm = c("Ozone","Solar.R","Wind","Temp"), grp.nm = "Month",
+   use = "pairwise", method = "pearson")
+corp_ml(data = airquality, vrb.nm = c("Ozone","Solar.R","Wind","Temp"), grp.nm = "Month",
+   use = "complete", method = "kendall")
+corp_ml(data = airquality, vrb.nm = c("Ozone","Solar.R","Wind","Temp"), grp.nm = "Month",
+   use = "everything", method = "spearman")
+
+</code></pre>
+
+
+</div>

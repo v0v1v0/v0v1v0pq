@@ -1,0 +1,104 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>subset-releases</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Subset a releases object</h2>
+
+<h3>Description</h3>
+
+<p>You can subset releases by identifier (release date) or by
+position using the <code>`[`</code> operator.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S4 method for signature 'releases,missing,missing,missing'
+x[i, j, ..., drop = FALSE]
+
+## S4 method for signature 'releases,numeric,missing,missing'
+x[i, j, ..., drop = FALSE]
+
+## S4 method for signature 'releases,character,missing,missing'
+x[i, j, ..., drop = FALSE]
+
+## S4 method for signature 'releases,Date,missing,missing'
+x[i, j, ..., drop = FALSE]
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>A releases object.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>i</code></td>
+<td>
+<p>Position of the identifier or the name of the identifier itself.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>j</code></td>
+<td>
+<p>Not used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Additional arguments not used here.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>drop</code></td>
+<td>
+<p>Not used.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A releases object.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+# Get details about all PGS Catalog data releases thus far:
+all_releases &lt;- get_releases(date = 'all', progress_bar = FALSE)
+
+#
+# Subsetting by position
+#
+# Releases are, by default, sorted by date in descending order, thus the
+# first PGS Catalog release is in the last position of the returned
+# `all_releases` object. Here's how you can extract that first release (last
+# position in `all_releases`):
+all_releases[n(all_releases)]
+
+#
+# Subsetting by date (character)
+#
+date_of_interest &lt;- '2021-06-11'
+class(date_of_interest)
+all_releases[date_of_interest]
+
+#
+# Subsetting by date (Date object)
+#
+date_of_interest &lt;- as.Date('2021-06-11')
+class(date_of_interest)
+all_releases[date_of_interest]
+
+</code></pre>
+
+
+</div>

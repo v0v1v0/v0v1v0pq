@@ -1,0 +1,98 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>get_level_from_bounds_two_sided</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Calculates Global Significance Level From Simultaneous Two-Sided Bounds for Rejection Region</h2>
+
+<h3>Description</h3>
+
+<p>For a test of uniformity of i.i.d. observations on the unit interval, this function will determine the significance
+level as a function of the rejection region. Suppose <code class="reqn">n</code> observations are drawn i.i.d. from some CDF F(x) on the unit interval,
+and it is desired to test the null hypothesis that F(x) = x for all x in (0, 1) against a two-sided alternative.
+Suppose the acceptance region for the test is described by a set of intervals, one for each order statistic.
+Given the bounds for these intervals, this function calculates the significance level of the test where the
+null hypothesis is rejected if at least one of the order statistics is outside its corresponding interval.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">get_level_from_bounds_two_sided(lower_bounds, upper_bounds)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>lower_bounds</code></td>
+<td>
+<p>Numeric vector where the ith component is the lower bound for the acceptance interval
+for the ith order statistic. The components must lie in [0, 1], and each component must be greater than
+or equal to the previous one.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>upper_bounds</code></td>
+<td>
+<p>Numeric vector of the same length as <code>lower_bounds</code> where the ith component is the upper bound
+for the acceptance interval for the ith order statistic. The components must lie in [0, 1], and each component must be
+greater than or equal to the previous one. In addition,
+the ith component of <code>upper_bounds</code> must be greater than or equal to the ith component of <code>lower_bounds</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Uses the method of Moscovich and Nadler (2016) as implemented in Crossprob (Moscovich 2020).
+</p>
+
+
+<h3>Value</h3>
+
+<p>Global Significance Level <code class="reqn">\alpha</code>
+</p>
+
+
+<h3>References</h3>
+
+
+<ul>
+<li>
+<p><a href="https://www.sciencedirect.com/science/article/abs/pii/S0167715216302802">
+Moscovich, Amit, and Boaz Nadler. "Fast calculation of boundary crossing probabilities for Poisson processes."
+Statistics &amp; Probability Letters 123 (2017): 177-182.</a>
+</p>
+</li>
+<li>
+<p><a href="https://github.com/mosco/crossing-probability">
+Amit Moscovich (2020). Fast calculation of p-values for one-sided
+Kolmogorov-Smirnov type statistics. arXiv:2009.04954</a>
+</p>
+</li>
+</ul>
+<h3>Examples</h3>
+
+<pre><code class="language-R"># For X1, X2 iid unif(0,1), calculate 1 - P(.1 &lt; min(X1, X2) &lt; .6 and .5 &lt; max(X1, X2) &lt; .9)
+get_level_from_bounds_two_sided(lower_bounds = c(.1, .5), upper_bounds = c(.6, .9))
+
+# Finds the global significance level corresponding to the local level eta.
+# Suppose we reject the null hypothesis that X1, ..., Xn are iid unif(0, 1) if and only if at least
+# one of the order statistics X(i) is significantly different from
+# its null distribution based on a level-eta
+# two-sided test, i.e. we reject if and only if X(i) is outside the interval
+# (qbeta(eta/2, i, n - i + 1), qbeta(1 - eta/2, i, n - i + 1)) for at least one i.
+# The lines of code below calculate the global significance level of
+# the test (which is necessarily larger than eta if n &gt; 1).
+n &lt;- 100
+eta &lt;- .05
+lb &lt;- qbeta(eta / 2, c(1:n), c(n:1))
+ub &lt;- qbeta(1 - eta / 2, c(1:n), c(n:1))
+get_level_from_bounds_two_sided(lower_bounds = lb, upper_bounds = ub)
+
+</code></pre>
+
+
+</div>

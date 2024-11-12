@@ -1,0 +1,78 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>get_cohorts</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Get PGS Catalog Cohorts</h2>
+
+<h3>Description</h3>
+
+<p>Retrieves cohorts via the PGS Catalog REST API. Please note that all
+<code>cohort_symbol</code> is vectorised, thus allowing for batch mode search.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">get_cohorts(
+  cohort_symbol = NULL,
+  verbose = FALSE,
+  warnings = TRUE,
+  progress_bar = TRUE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>cohort_symbol</code></td>
+<td>
+<p>A cohort symbol or <code>NULL</code> if all cohorts are
+intended.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p>A <code>logical</code> indicating whether the function should be
+verbose about the different queries or not.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>warnings</code></td>
+<td>
+<p>A <code>logical</code> indicating whether to print warnings, if any.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>progress_bar</code></td>
+<td>
+<p>Whether to show a progress bar indicating download
+progress from the REST API server.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A cohorts object.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># Get information about specific cohorts by their symbols (acronyms)
+get_cohorts(cohort_symbol = c('23andMe', 'IPOBCS'))
+
+# Get info on all cohorts (may take a few minutes to download)
+## Not run: 
+get_cohorts()
+
+## End(Not run)
+
+</code></pre>
+
+
+</div>

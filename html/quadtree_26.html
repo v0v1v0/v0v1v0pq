@@ -1,0 +1,86 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>extract</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Extract <code>Quadtree</code> values</h2>
+
+<h3>Description</h3>
+
+<p>Extracts the cell values and optionally the cell extents at the
+given points.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S4 method for signature 'Quadtree,ANY'
+extract(x, y, extents = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a <code>Quadtree</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>a two-column matrix representing point coordinates. First column
+contains the x-coordinates, second column contains the y-coordinates</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>extents</code></td>
+<td>
+<p>boolean; if <code>FALSE</code> (the default), a vector containing
+cell values is returned. If <code>TRUE</code>, a matrix is returned providing
+each cell's extent in addition to its value</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>If <code>extents = FALSE</code>, returns a numeric vector corresponding to the
+values at the points represented by <code>pts</code>.
+</p>
+<p>If <code>extents = TRUE</code>, returns a six-column numeric matrix providing the
+extent of each cell along with the cell's value and ID. The six columns are,
+in this order: <code>id</code>, <code>xmin</code>, <code>xmax</code>, <code>ymin</code>, <code>ymax</code>,
+<code>value</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(quadtree)
+habitat &lt;- terra::rast(system.file("extdata", "habitat.tif", package="quadtree"))
+
+# create quadtree
+qt1 &lt;- quadtree(habitat, split_threshold = .1, adj_type = "expand")
+plot(qt1)
+
+# create points at which we'll extract values
+coords &lt;- seq(-1000, 40010, length.out = 10)
+pts &lt;- cbind(coords,coords)
+
+# extract the cell values
+vals &lt;- extract(qt1, pts)
+
+# plot the quadtree and the points
+plot(qt1, border_col = "gray50", border_lwd = .4)
+points(pts, pch = 16, cex = .6)
+text(pts, labels = round(vals, 2), pos = 4)
+
+# we can also extract the cell extents in addition to the values
+extract(qt1, pts, extents = TRUE)
+</code></pre>
+
+
+</div>

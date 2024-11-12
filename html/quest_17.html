@@ -1,0 +1,115 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>by2</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Apply a Function to Data by Group</h2>
+
+<h3>Description</h3>
+
+<p><code>by2</code> applies a function to data by group and is an alternative to the
+base R function <code>by</code>. The function is apart of the
+split-apply-combine type of function discussed in the <code>plyr</code> R package
+and is very similar to <code>dlply</code>. It splits up one data.frame
+<code>.data[.vrb.nm]</code>into a data.frame for each group in
+<code>.data[.grp.nm]</code>, applies a function <code>.fun</code> to each data.frame, and
+then returns the results as a list with names equal to the group values
+<code>unique(interaction(.data[.grp.nm], sep = .sep))</code>. <code>by2</code> is simply
+<code>split.data.frame</code> + <code>lapply</code>. Similar to <code>dlply</code>, The
+arguments all start with <code>.</code> so that they do not conflict with arguments
+from the function <code>.fun</code>. If you want to apply a function a (atomic)
+vector rather than data.frame, then use <code>tapply2</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">by2(.data, .vrb.nm, .grp.nm, .sep = ".", .fun, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>.data</code></td>
+<td>
+<p>data.frame of data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>.vrb.nm</code></td>
+<td>
+<p>character vector specifying the colnames of <code>.data</code> to
+select the set of variables to apply <code>.fun</code> to.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>.grp.nm</code></td>
+<td>
+<p>character vector specifying the colnames of <code>.data</code> to
+select the grouping variables.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>.sep</code></td>
+<td>
+<p>character vector of length 1 specifying the string to combine the
+group values together with. <code>.sep</code> is only used if there are multiple
+grouping variables (i.e., <code>length(.grp.nm)</code> &gt; 1).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>.fun</code></td>
+<td>
+<p>function to apply to the set of variables <code>.data[.vrb.nm]</code>
+for each group.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>additional named arguments to pass to <code>.fun</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>list of objects containing the return object of <code>.fun</code> for each
+group. The names are the unique combinations of the grouping variables
+(i.e., <code>unique(interaction(.data[.grp.nm], sep = .sep))</code>).
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>by</code>
+<code>tapply2</code>
+<code>dlply</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+# one grouping variable
+by2(mtcars, .vrb.nm = c("mpg","cyl","disp"), .grp.nm = "vs",
+   .fun = cov, use = "complete.obs")
+
+# two grouping variables
+x &lt;- by2(mtcars, .vrb.nm = c("mpg","cyl","disp"), .grp.nm = c("vs","am"),
+   .fun = cov, use = "complete.obs")
+print(x)
+str(x)
+
+# compare to by
+vrb_nm &lt;- c("mpg","cyl","disp") # Roxygen runs the whole script if I put a c() in a []
+grp_nm &lt;- c("vs","am") # Roxygen runs the whole script if I put a c() in a []
+y &lt;- by(mtcars[vrb_nm], INDICES = mtcars[grp_nm],
+   FUN = cov, use = "complete.obs", simplify = FALSE)
+str(y) # has dimnames rather than names
+</code></pre>
+
+
+</div>

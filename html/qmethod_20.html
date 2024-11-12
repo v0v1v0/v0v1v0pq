@@ -1,0 +1,134 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qbstep</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Q Methodology: Single step for the bootstrap</h2>
+
+<h3>Description</h3>
+
+<p>Bootstraping of Q methodology using PCA.</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qbstep(subdata, subtarget, indet, 
+       nfactors, nqsorts, nstat, 
+       qmts = qmts, qmts_log = qmts_log, 
+       rotation = "unknown", 
+       flagged = flagged, cor.method="pearson", ...)</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>subdata</code></td>
+<td>
+<p>resampled dataset of Q-sorts.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>subtarget</code></td>
+<td>
+<p>target matrix, adapted to match the rows of the resampled dataset.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>indet</code></td>
+<td>
+<p>method to solve the double indeterminacy issue when bootstrapping Principal Components Analysis (PCA). <code>"procrustes"</code> for procrustes rotation from <span class="pkg">MCMCpack</span>, <code>"qindtest"</code> for simple solution valid for at least up to 3 factors extracted (see references), <code>"both"</code> for a <em><code>"qindtest"</code></em> and a <em><code>"procrustes"</code></em> rotation, or <code>"none"</code> for no solution. The latter is not recommended because it introduces inflated variability. If <code>"none"</code> is selected, each replication is rotated using the method set in <code>rotation</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nfactors</code></td>
+<td>
+<p>number of factors in the study.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nqsorts</code></td>
+<td>
+<p>number of Q-sorts in the study.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nstat</code></td>
+<td>
+<p>number of statements in the study.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qmts</code></td>
+<td>
+<p>data frame with two rows and at least one column. This is automatically created when this function is called from <code>qmboots</code>(see <em>Note</em> below).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qmts_log</code></td>
+<td>
+<p>data frame with two rows and at least one column. This is automatically created when this function is called from <code>qmboots</code>(see <em>Note</em> below).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rotation</code></td>
+<td>
+<p>rotation method, defaults to <code>"none"</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>flagged</code></td>
+<td>
+<p>matrix or data frame of <code>nqsorts</code> rows and <code>nfactors</code> columns, with <code>TRUE</code> values for the Q-sorts that are flagged. Automatic flagging can be aplied using <code>qflag</code>. Manual flagging can be done by providing a logical matrix with <code>nqsorts</code> rows and <code>nfactors</code> columns to the argument <code>flagged</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cor.method</code></td>
+<td>
+<p>character string indicating which correlation coefficient is to be computed, to be passed on to the function <code>cor</code>: <code>"pearson"</code> (default), <code>"kendall"</code>, or <code>"spearman"</code>. </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>other arguments to be passed on to <code>qzscores</code> or to <code>principal</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>This function performs a single step within a bootstrap of Q methodology data. It takes one resample, performs the Q method analysis, checks for indeterminacy issues, and corrects them if necessary by calling the function <code>qindtest</code> or <code>qpcrustes</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>step_res</code></td>
+<td>
+<p>summary of the analysis.</p>
+</td>
+</tr></table>
+<h3>Note</h3>
+
+<p>This function is called within the function <code>qmboots</code>. Not intended to be used separately.</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Aiora Zabala</p>
+
+
+<h3>References</h3>
+
+<p>Zabala, Pascual (2016) Bootstrapping Q Methodology to Improve the Understanding of Human Perspectives. PLoS ONE 11(2): e0148087.</p>
+
+
+<h3>See Also</h3>
+
+<p><code>qmethod</code> and <code>qmboots</code> in this package.
+</p>
+
+
+</div>

@@ -1,0 +1,60 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>tab.corr</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Tabulate Corrections</h2>
+
+<h3>Description</h3>
+
+<p>Tabulates what records were added, time deviations and
+concentration imputations were applied, for each subject.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">tab.corr(x, by = character(0), nomtimevar = "time")
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>concentration dataset created by the correct.time and correct.conc functions, containing time and conc corrected data</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>by</code></td>
+<td>
+<p>column names in x indicating grouping variables</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nomtimevar</code></td>
+<td>
+<p>column in x containing the nominal time after dose</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>dataset with applied corrections (rule number and rule text) listed by by-variable(s) and nominal time
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+example(correct.conc)
+corrtab &lt;- x %&gt;% tab.corr(by = 'subject')
+corrtab %&gt;% head
+
+</code></pre>
+
+
+</div>

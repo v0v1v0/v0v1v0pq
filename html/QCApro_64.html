@@ -1,0 +1,149 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>testTESA</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Testing Schneider and Wagemann's Theory-Guided/Enhanced Standard Analysis (T/ESA)
+</h2>
+
+<h3>Description</h3>
+
+<p>This evaluation function can be used to test the implications of Schneider and Wagemann's 
+Theory-Guided/Enhanced Standard Analysis (T/ESA; <a href="http://dx.doi.org/10.1177/1065912912468269">Schneider and Wagemann 2013</a>), and in particular, the procedure's first two stages, with respect to the extent of remainders that would have to be declared insufficient for the outcome. It has been programmed for <a href="http://dx.doi.org/10.1093/pan/mpw024">Thiem (2016)</a>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">testTESA(data, outcome = "", neg.out = FALSE, exo.facs = c(""), n.cut = 1, 
+         incl.cut1 = 1, incl.cut0 = 1)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>A dataset of bivalent crisp-set factors or bivalent fuzzy-set factors 
+or multivalent crisp-set factors.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>outcome</code></td>
+<td>
+<p>The name of the outcome.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>neg.out</code></td>
+<td>
+<p>Logical, use negation of <code>outcome</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>exo.facs</code></td>
+<td>
+<p>A character vector with the names of the exogenous factors.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n.cut</code></td>
+<td>
+<p>The minimum number of cases with set membership score above 0.5 
+for an output function value of "0", "1" or "C".</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>incl.cut1</code></td>
+<td>
+<p>The minimum sufficiency inclusion score for an output function 
+value of "1".</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>incl.cut0</code></td>
+<td>
+<p>The maximum sufficiency inclusion score for an output function 
+value of "0".</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The arguments <code>data</code>, <code>outcome</code>, <code>exo.facs</code>, <code>n.cut</code>, <code>incl.cut1</code> and <code>incl.cut0</code> are those of the <code>eQMC</code> function.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A numeric vector with the percentages of remainder minterms that would have been used as simplifying assumptions by Quine-McCluskey optimization but that were declared to be insufficient for the outcome by T/ESA.
+</p>
+
+
+<h3>Contributors</h3>
+
+
+<table><tr>
+<td style="text-align: left;">
+Thiem, Alrik        </td>
+<td style="text-align: left;">: development, documentation, programming, testing
+</td>
+</tr></table>
+<h3>Author(s)</h3>
+
+<p>Alrik Thiem (<a href="http://www.alrik-thiem.net">Personal Website</a>; <a href="https://www.researchgate.net/profile/Alrik_Thiem">ResearchGate Website</a>)
+</p>
+
+
+<h3>References</h3>
+
+<p>Ragin, Charles C. 2009. “Qualitative Comparative Analysis Using Fuzzy Sets (fsQCA).” In <em>Configurational Comparative Methods: Qualitative Comparative Analysis (QCA) and Related Techniques</em>, ed. B. Rihoux and C. C. Ragin. London: Sage Publications, pp. 87-121.
+</p>
+<p>Schneider, Carsten Q., and Claudius Wagemann. 2013. “Doing Justice to 
+Logical Remainders in QCA: Moving Beyond the Standard Analysis.” <em>Political 
+Research Quarterly</em> <strong>66</strong> (1):211-20. DOI: <a href="http://dx.doi.org/10.1177/1065912912468269">10.1177/1065912912468269</a>.
+</p>
+<p>Thiem, Alrik. 2016. “Standards of Good Practice and the Methodology of Necessary Conditions in Qualitative Comparative Analysis.” <em>Political Analysis</em> <strong>24</strong> (4):478-84. DOI: <a href="http://dx.doi.org/10.1093/pan/mpw024">10.1093/pan/mpw024</a>.  
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>eQMC</code>, <code>truthTable</code>, <code>superSubset</code></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># Schneider and Wagemann (2013, 212), using data from Ragin 
+# (2009, 95), only present L and S as minimally necessary conditions
+#-------------------------------------------------------------------
+
+LIP &lt;- data.frame(
+ D = c(0.81,0.99,0.58,0.16,0.58,0.98,0.89,0.04,0.07,
+       0.72,0.34,0.98,0.02,0.01,0.01,0.03,0.95,0.98),
+ U = c(0.12,0.89,0.98,0.07,0.03,0.03,0.79,0.09,0.16,
+       0.05,0.10,1.00,0.17,0.02,0.03,0.30,0.13,0.99),
+ L = c(0.99,0.98,0.98,0.98,0.99,0.99,0.99,0.13,0.88,
+       0.98,0.41,0.99,0.59,0.01,0.17,0.09,0.99,0.99),
+ I = c(0.73,1.00,0.90,0.01,0.08,0.81,0.96,0.36,0.07,
+       0.01,0.47,0.94,0.00,0.11,0.00,0.21,0.67,1.00),
+ G = c(0.43,0.98,0.91,0.91,0.58,0.95,0.31,0.43,0.13,
+       0.95,0.58,0.99,0.00,0.01,0.84,0.20,0.91,0.98),
+ S = c(0.05,0.95,0.89,0.12,0.77,0.95,0.05,0.06,0.42,
+       0.92,0.05,0.95,0.12,0.05,0.21,0.06,0.95,0.95)
+)
+
+rownames(LIP) &lt;- c("AT","BE","CZ","EE","FI","FR","DE","GR","HU",
+                   "IE","IT","NL","PL","PT","RO","ES","SE","UK")
+
+superSubset(LIP, outcome = "S", incl.cut = 0.9)                   
+
+testTESA(LIP, outcome = "S", incl.cut1 = 0.75)                   
+</code></pre>
+
+
+</div>

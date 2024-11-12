@@ -1,0 +1,95 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>connection.matrix</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Construct connection matrix for network analysis</h2>
+
+<h3>Description</h3>
+
+<p>For data with known labels, this function constructs a connection matrix between unique labels, such as unique cell types. The returned matrix can be used for subject-wise network construction.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">connection.matrix(mat, label, threshold = 0.15, closest = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>mat</code></td>
+<td>
+<p>n*n dissimilarity (1-correlation) matrix (e.g. obtained by QuantNorm).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>label</code></td>
+<td>
+<p>n-dimension vector for the labels of the n subjects. Replicates share the same label.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>threshold</code></td>
+<td>
+<p>A number between 0 to 1. Two groups will be regarded as connected if average 1-correlation &lt; threshold.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>closest</code></td>
+<td>
+<p>True or False. Whether connect the closest group or not if the closest group cannot satisfy the threshold condition.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Returns the connection matrix between unique labels.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Teng Fei. Email: tfei@emory.edu
+</p>
+
+
+<h3>References</h3>
+
+<p>Fei et al (2018), Mitigating the adverse impact of batch effects in sample pattern detection, Bioinformatics, https://doi.org/10.1093/bioinformatics/bty117.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+library(network); library(ggplot2); library(sna); library(GGally) #drawing network graph
+
+data("ENCODE")
+
+#Assigning the batches based on species
+batches &lt;- c(rep(1,13),rep(2,13))
+
+#QuantNorm correction
+corrected.distance.matrix &lt;- QuantNorm(ENCODE,batches,method='row/column', cor_method='pearson',
+                                       logdat=FALSE,standardize = TRUE, tol=1e-4)
+
+#Constructing connection matrix
+
+mat &lt;- connection.matrix(mat=corrected.distance.matrix,label=colnames(corrected.distance.matrix))
+
+#Creating network object and plot
+ENCODE.net=network(mat, directed=FALSE)
+ENCODE.net %v% "Species" &lt;- c(rep('Human',13),rep('Mouse',13))
+p0 &lt;- ggnet2(ENCODE.net,label=TRUE,color = 'Species', palette = "Set2",
+             size = 3, vjust = -0.6,mode = "kamadakawai",label.size = 3,
+             color.legend = 'Species')+theme(legend.position = 'bottom')
+plot(p0)
+</code></pre>
+
+
+</div>

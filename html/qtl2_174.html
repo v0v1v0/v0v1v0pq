@@ -1,0 +1,139 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>viterbi</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Calculate most probable sequence of genotypes</h2>
+
+<h3>Description</h3>
+
+<p>Uses a hidden Markov model to calculate arg max Pr(g | O) where g
+is the underlying sequence of true genotypes and O is the observed
+multipoint marker data, with possible allowance for genotyping
+errors.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">viterbi(
+  cross,
+  map = NULL,
+  error_prob = 0.0001,
+  map_function = c("haldane", "kosambi", "c-f", "morgan"),
+  lowmem = FALSE,
+  quiet = TRUE,
+  cores = 1
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>cross</code></td>
+<td>
+<p>Object of class <code>"cross2"</code>. For details, see the
+<a href="https://kbroman.org/qtl2/assets/vignettes/developer_guide.html">R/qtl2 developer guide</a>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>map</code></td>
+<td>
+<p>Genetic map of markers. May include pseudomarker
+locations (that is, locations that are not within the marker
+genotype data). If NULL, the genetic map in <code>cross</code> is used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>error_prob</code></td>
+<td>
+<p>Assumed genotyping error probability</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>map_function</code></td>
+<td>
+<p>Character string indicating the map function to
+use to convert genetic distances to recombination fractions.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lowmem</code></td>
+<td>
+<p>If <code>FALSE</code>, split individuals into groups with
+common sex and crossinfo and then precalculate the transition
+matrices for a chromosome; potentially a lot faster but using more
+memory.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>quiet</code></td>
+<td>
+<p>If <code>FALSE</code>, print progress messages.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cores</code></td>
+<td>
+<p>Number of CPU cores to use, for parallel calculations.
+(If <code>0</code>, use <code>parallel::detectCores()</code>.)
+Alternatively, this can be links to a set of cluster sockets, as
+produced by <code>parallel::makeCluster()</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>We use a hidden Markov model to find, for each individual
+on each chromosome, the most probable sequence of underlying
+genotypes given the observed marker data.
+</p>
+<p>Note that we break ties at random, and our method for doing this
+may introduce some bias.
+</p>
+<p>Consider the results with caution; the most probable sequence can
+have very low probability, and can have features that are quite
+unusual (for example, the number of recombination events can be too
+small). In most cases, the results of a single imputation with
+<code>sim_geno()</code> will be more realistic.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>"viterbi"</code>: a list of two-dimensional
+arrays of imputed genotypes, individuals x positions.
+Also contains three attributes:
+</p>
+
+<ul>
+<li> <p><code>crosstype</code> - The cross type of the input <code>cross</code>.
+</p>
+</li>
+<li> <p><code>is_x_chr</code> - Logical vector indicating whether chromosomes
+are to be treated as the X chromosome or not, from input <code>cross</code>.
+</p>
+</li>
+<li> <p><code>alleles</code> - Vector of allele codes, from input
+<code>cross</code>.
+</p>
+</li>
+</ul>
+<h3>See Also</h3>
+
+<p><code>sim_geno()</code>, <code>maxmarg()</code>, <code>cbind.viterbi()</code>, <code>rbind.viterbi()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">grav2 &lt;- read_cross2(system.file("extdata", "grav2.zip", package="qtl2"))
+map_w_pmar &lt;- insert_pseudomarkers(grav2$gmap, step=1)
+g &lt;- viterbi(grav2, map_w_pmar, error_prob=0.002)
+</code></pre>
+
+
+</div>

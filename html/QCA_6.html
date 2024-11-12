@@ -1,0 +1,315 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>causalChain</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Perform CNA - coincidence analysis using QCA</h2>
+
+<h3>Description</h3>
+
+<p>This function mimics the functionality in the package <span class="pkg">cna</span>, finding all possible
+necessary and sufficient solutions for all possible outcomes in a specific dataset.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">      
+causalChain(data, ordering = NULL, strict = FALSE, pi.cons = 0, pi.depth = 0,
+      sol.cons = 0, sol.cov = 1, sol.depth = 0, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>A data frame containing calibrated causal conditions.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ordering</code></td>
+<td>
+<p>A character string, or a list of character vectors specifying
+the causal ordering of the causal conditions.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>strict</code></td>
+<td>
+<p>Logical, prevents causal conditions on the same temporal level to
+act as outcomes for each other.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pi.cons</code></td>
+<td>
+<p>Numerical fuzzy value between 0 and 1, minimal consistency
+threshold for a prime implicant to be declared as sufficient.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pi.depth</code></td>
+<td>
+<p>Integer, a maximum number of causal conditions to be used
+when searching for conjunctive prime implicants.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sol.cons</code></td>
+<td>
+<p>Numerical fuzzy value between 0 and 1, minimal consistency 
+threshold for a model to be declared as sufficient.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sol.cov</code></td>
+<td>
+<p>Numerical fuzzy value between 0 and 1, minimal coverage 
+threshold for a model to be declared as necessary.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sol.depth</code></td>
+<td>
+<p>Integer, a maximum number of prime implicants to be used when
+searching for disjunctive models.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Other arguments to be passed to functions <code>minimize()</code>
+and <code>truthTable()</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Although claiming to be a novel technique, coincidence analysis is yet another form
+of Boolean minimization. What it does is very similar and results in the same set of
+solutions as performing separate QCA analyses where every causal condition from the
+<b><code>data</code></b> is considered an outcome.
+</p>
+<p>This function aims to demonstrate this affirmation and show that results from package
+<span class="pkg">cna</span> can be obtained with package <span class="pkg">QCA</span>. It is not intended to offer a
+complete replacement for the function <b><code>cna()</code></b>, but only to
+replicate its so called “asf” - atomic solution formulas.
+</p>
+<p>The three most important arguments from function <b><code>cna()</code></b> have direct
+correspondents in function <b><code>minimize()</code></b>:
+</p>
+
+<table>
+<tr>
+<td style="text-align: right;">
+<b><code>con</code></b> </td>
+<td style="text-align: left;"> corresponds to <b><code>sol.cons</code></b>.</td>
+</tr>
+<tr>
+<td style="text-align: right;">
+<b><code>con.msc</code></b> </td>
+<td style="text-align: left;"> corresponds to <b><code>pi.cons</code></b>.</td>
+</tr>
+<tr>
+<td style="text-align: right;">
+<b><code>cov</code></b> </td>
+<td style="text-align: left;"> corresponds to <b><code>sol.cov</code></b>.
+</td>
+</tr>
+</table>
+<p>Two other arguments from function <b><code>cna()</code></b> have been directly
+imported in this function, to complete the list of arguments that generate the same
+results.
+</p>
+<p>The argument <b><code>ordering</code></b> splits the causal conditions in different temporal
+levels, where prior arguments can act as causal conditions, but not as outcomes for the
+subsequent temporal conditions. One simple way to split conditions is to use a list
+object, where different components act as different temporal levels, in the order of
+their index in the list: conditions from the first component act as the oldest causal
+factors, while those from the and the last component are part of the most recent temporal
+level.
+</p>
+<p>Another, perhaps simpler way to express the same thing is to use a single character,
+where factors on the same level are separated with a comma, and temporal levels are
+separated by the sign <b><code>&lt;</code></b>.
+</p>
+<p>A possible example is: <b><code>"A, B, C &lt; D, E &lt; F"</code></b>.
+</p>
+<p>Here, there are three temporal levels and conditions A, B and C can act as causal factors
+for the conditions D, E and F, while the reverse is not possible. Given that D, E and F
+happen in a subsequent temporal levels, they cannot act as causal conditions for A, B or C.
+The same thing is valid with D and E, which can act as causal conditions for F, whereas
+F cannot act as a causal condition for D or E, and certainly not for A, B or C.
+</p>
+<p>The argument <b><code>strict</code></b> controls whether causal conditions from the same temporal
+level may be outcomes for each other. If activated, none of A, B and C can act as causal
+conditions for the other two, and the same thing happens in the next temporal level where
+neither D nor E can be causally related to each other.
+</p>
+<p>Although the two functions reach the same results, they follow different methods. The input
+for the minimization behind the function <b><code>cna()</code></b> is a coincidence list,
+while in package <span class="pkg">QCA</span> the input for the minimization procedure is a truth table. The
+difference is subtle but important, with the most important difference that package
+<span class="pkg">cna</span> is not exhaustive.
+</p>
+<p>To find a set of solutions in a reasonable time, the formal choice in package <span class="pkg">cna</span> is
+to deliberately stop the search at certain (default) depths of complexity. Users are free
+to experiment with these depths from the argument <b><code>maxstep</code></b>, but there is no
+guarantee the results will be exhaustive.
+</p>
+<p>On the other hand, the function <b><code>causalChain()</code></b> and generally all related
+functions from package <span class="pkg">QCA</span> are spending more time to make sure the search is
+exhaustive. Depths can be set via the arguments <b><code>pi.depth</code></b> and
+<b><code>sol.depth</code></b>, but unlike package <span class="pkg">cna</span> these are not mandatory.
+</p>
+<p>By default, the package <span class="pkg">QCA</span> employes a different search algorithm based on
+Consistency Cubes (Dusa, 2018), analysing all possible combinations of causal conditions
+and all possible combinations of their respective levels. The structure of the input
+dataset (number of causal conditions, number of levels, number of unique rows in the
+truth table) has a direct implication on the search time, as all of those characteristics
+become entry parameters when calculating all possible combinations.
+</p>
+<p>Consequently, two kinds of depth arguments are provided: 
+</p>
+
+<table>
+<tr>
+<td style="text-align: right;">
+<b><code>pi.depth</code></b> </td>
+<td style="text-align: left;"> the maximum number of causal conditions needed to conjunctively</td>
+</tr>
+<tr>
+<td style="text-align: right;">
+ </td>
+<td style="text-align: left;"> construct a prime implicant; it is the complexity level where the search</td>
+</tr>
+<tr>
+<td style="text-align: right;">
+ </td>
+<td style="text-align: left;"> can be stopped, as long as the PI chart can be solved.</td>
+</tr>
+<tr>
+<td style="text-align: right;">
+<b><code>sol.depth</code></b> </td>
+<td style="text-align: left;"> the maximum number of prime implicants needed to disjunctively</td>
+</tr>
+<tr>
+<td style="text-align: right;">
+ </td>
+<td style="text-align: left;"> build a solution model that covers all initial positive output configurations.
+</td>
+</tr>
+</table>
+<p>These arguments introduce a possible new way of deriving prime implicants and solution models,
+that can lead to different results (i.e. even more parsimonious) compared to the classical
+Quine-McCluskey. When either of them is modified from the default value of 0, the minimization
+method is automatically set to <b><code>"CCubes"</code></b> and the remainders are automatically
+included in the minimization.
+</p>
+<p>The higher these depths, the higher the search time. Connversely, the search time can be
+significantly shorter if these depths are smaller. Irrespective of how large 
+<b><code>pi.depth</code></b> is, the algorithm will always stop at a maximum complexity level
+where no new, non-redundant prime implicants are found. The argument <b><code>sol.depth</code></b>
+is relevant only when activating the argument <b><code>all.sol</code></b> to solve the PI chart.
+</p>
+<p>The argument <b><code>sol.cons</code></b> introduces another method of solving the PI chart.
+Normally, once the solution models are found among all possible combinations of
+<b><code>k</code></b> prime implicants, consistencies and coverages are subsequently
+calculated. When <b><code>sol.cons</code></b> is lower than 1, then models are searched
+based on their consistencies, which should be at least equal to this threshold.
+</p>
+<p>Exhaustiveness is guaranteed in package <span class="pkg">QCA</span> precisely because it uses a truth table
+as an input for the minimization procedure. The only exception is the option of finding
+solutions based on their consistency, with the argument <b><code>sol.cons</code></b>: for large
+PI charts, time can quickly increase to infinity, to identify all possible irredundant
+(disjunctions that are not subsets of previously found) disjunctive models. In such a
+situation, the number of combinations of all possible numbers of prime implicants is
+potentially too large to be solved in a polynomial time and if not otherwise specified in
+the argument <b><code>sol.depth</code></b> the function <b><code>causalChain()</code></b> silently
+sets a complexity level of 7 prime implicants per model.
+</p>
+<p>When minimizing a dataset instead of a truth table, unless otherwise specified, the 
+argument <b><code>incl.cut</code></b> is automatically set to the minimum value between
+<b><code>pi.cons</code></b> and <b><code>sol.cons</code></b>, then passed to the function
+<b><code>truthTable()</code></b>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list of length equal to the number of columns in the <b><code>data</code></b>. Each component
+contains the result of the QCA minimization for that specific column acting as an outcome.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Adrian Dusa
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>minimize</code>, <code>truthTable</code></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+# The following examples assume the package cna is installed
+library(cna)
+cna(d.educate, what = "a")
+
+# same results with
+cc &lt;- causalChain(d.educate)
+cc
+
+# inclusion and coverage scores can be inspected for each outcome
+cc$E$IC
+
+
+# another example, function cna() requires specific complexity depths
+cna(d.women, maxstep = c(3, 4, 9), what = "a")
+
+# same results with, no specific depths are required
+causalChain(d.women)
+
+
+# multivalue data require a different function in package cna
+mvcna(d.pban, ordering = list(c("C", "F", "T", "V"), "PB"),
+      cov = 0.95, maxstep = c(6, 6, 10), what = "a")
+
+# same results again, simpler command
+causalChain(d.pban, ordering = "C, F, T, V &lt; PB", sol.cov = 0.95)
+
+
+# specifying a lower consistency threshold for the solutions
+mvcna(d.pban, ordering = list(c("C", "F", "T", "V"), "PB"), con = .93,
+      maxstep = c(6, 6, 10), what = "a")
+
+# same thing with
+causalChain(d.pban, ordering = "C, F, T, V &lt; PB", pi.cons = 0.93,
+            sol.cons = 0.95)
+
+
+# setting consistency thresholds for the PIs, solutions and also
+# a coverage threshold for the solution (note that an yet another
+# function for fuzzy sets is needed in package cna)
+
+dat2 &lt;- d.autonomy[15:30, c("AU","RE", "CN", "DE")]
+fscna(dat2, ordering = list("AU"), con = .9, con.msc = .85, cov = .85,
+      what = "a")
+
+# again, the same results using the same function:
+causalChain(dat2, ordering = "AU", sol.cons = 0.9, pi.cons = 0.85,
+            sol.cov = 0.85)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

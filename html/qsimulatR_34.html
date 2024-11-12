@@ -1,0 +1,65 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>hist.measurement</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Plot the histogram of a quantum measurement</h2>
+
+<h3>Description</h3>
+
+<p>Plot the histogram of a quantum measurement
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'measurement'
+hist(x, only.nonzero = TRUE, by.name = only.nonzero,
+  freq = TRUE, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>object as returned by <code>measure</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>only.nonzero</code></td>
+<td>
+<p>are the states with zero measurements to be plotted?</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>by.name</code></td>
+<td>
+<p>shall the xlabel contain the basis names? If <code>FALSE</code>, the
+index number is used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>freq</code></td>
+<td>
+<p>shall the total counts be plotted? If not, the values are
+normalised to 1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Generic parameters to pass on to <code>barplot()</code></p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>No return value.
+</p>
+
+
+</div>

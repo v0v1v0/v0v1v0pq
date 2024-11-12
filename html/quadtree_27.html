@@ -1,0 +1,212 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>find_lcp</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Find the LCP between two points on a <code>Quadtree</code>
+</h2>
+
+<h3>Description</h3>
+
+<p>Finds the least-cost path (LCP) from the start point (the point
+used to create the <code>LcpFinder</code>) to another point, using a
+<code>Quadtree</code> as a resistance surface.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S4 method for signature 'Quadtree'
+find_lcp(
+  x,
+  start_point,
+  end_point,
+  use_orig_points = TRUE,
+  xlim = NULL,
+  ylim = NULL,
+  search_by_centroid = FALSE
+)
+
+## S4 method for signature 'LcpFinder'
+find_lcp(x, end_point, allow_same_cell_path = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a <code>LcpFinder</code> or a <code>Quadtree</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>start_point</code></td>
+<td>
+<p>two-element numeric vector; the x and y coordinates of the
+starting point. Not used if <code>x</code> is a <code>LcpFinder</code> since the
+start point is determined when the <code>LcpFinder</code> is created
+(using <code>lcp_finder()</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>end_point</code></td>
+<td>
+<p>two-element numeric vector; the x and y coordinates of the
+destination point</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>use_orig_points</code></td>
+<td>
+<p>boolean; if <code>TRUE</code> (the default), the path is
+calculated between <code>start_point</code> and <code>end_point</code>. If
+<code>FALSE</code>, the path is calculated between the centroids of the cells the
+points fall in.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xlim</code></td>
+<td>
+<p>two-element numeric vector (xmin, xmax); passed to
+<code>lcp_finder()</code>; constrains the nodes included in the network to
+those whose x limits fall in the range specified in <code>xlim</code>. If
+<code>NULL</code> the x limits of <code>x</code> are used</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ylim</code></td>
+<td>
+<p>same as <code>xlim</code>, but for y</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>search_by_centroid</code></td>
+<td>
+<p>boolean; passed to <code>lcp_finder()</code>;
+determines which cells are considered to be "in" the box specified by
+<code>xlim</code> and <code>ylim</code>. If <code>FALSE</code> (the default) any cell that
+overlaps with the box is included. If <code>TRUE</code>, a cell is only included
+if its <strong>centroid</strong> falls inside the box.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>allow_same_cell_path</code></td>
+<td>
+<p>boolean; default is FALSE; if TRUE, allows
+paths to be found between two points that fall in the same cell. See
+'Details' for more.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>See the vignette 'quadtree-lcp' for more details and examples (i.e. run
+<code>vignette("quadtree-lcp", package = "quadtree")</code>)
+</p>
+<p>Using <code>find_lcp(&lt;Quadtree&gt;)</code> rather than <code>find_lcp(&lt;LcpFinder&gt;)</code>
+is simply a matter of convenience - when a <code>Quadtree</code> is passed
+to <code>find_lcp()</code>, it automatically creates an <code>LcpFinder</code>
+and then uses <code>find_lcp(&lt;LcpFinder&gt;)</code> to get the path between the two
+points. This is convenient if you only want a single LCP. However, if you
+want to find multiple LCPs from a single start point, it is better to first
+create the <code>LcpFinder</code> object using <code>lcp_finder()</code>
+and then use <code>find_lcp(&lt;LcpFinder&gt;)</code> for finding LCPs. This is because
+an <code>LcpFinder</code> object saves state, so subsequent calls to
+<code>find_lcp(&lt;LcpFinder&gt;)</code> will run faster.
+</p>
+<p>By default, if the end point falls in the same cell as the start point, the
+path will consist only of the point associated with the cell. When using
+<code>find_lcp</code> with a <code>LcpFinder</code>, setting
+<code>allow_same_cell_path</code> to <code>TRUE</code> allows for paths to be found
+within a single cell. In this case, if the start and end points fall in the
+same cell, the path will consist of two points - the point associated with
+the cell and <code>end_point</code>. If using <code>find_lcp</code> with a
+<code>Quadtree</code>, this will automatically be allowed if
+<code>use_orig_points</code> is <code>TRUE</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns a five column matrix representing the LCP. It has the
+following columns:
+</p>
+
+<ul>
+<li>
+<p><code>x</code>: x coordinate of this point (centroid of the cell)
+</p>
+</li>
+<li>
+<p><code>y</code>: y coordinate of this point (centroid of the cell)
+</p>
+</li>
+<li>
+<p><code>cost_tot</code>: the cumulative cost up to this point
+</p>
+</li>
+<li>
+<p><code>dist_tot</code>: the cumulative distance up to this point - note
+that this is not straight-line distance, but instead the distance along
+the path
+</p>
+</li>
+<li>
+<p><code>cost_cell</code>: the cost of the cell that contains this point
+</p>
+</li>
+<li>
+<p><code>id</code>: the ID of the cell that contains this point
+</p>
+</li>
+</ul>
+<p>If no path is possible between the two points, a zero-row matrix with the
+previously described columns is returned.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>lcp_finder()</code> creates the LCP finder object used as
+input to this function. <code>find_lcps()</code> calculates all LCPs
+whose cost-distance is less than some value. <code>summarize_lcps()</code>
+outputs a summary matrix of all LCPs that have been calculated so far.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">####### NOTE #######
+# see the "quadtree-lcp" vignette for more details and examples:
+# vignette("quadtree-lcp", package = "quadtree")
+####################
+
+library(quadtree)
+habitat &lt;- terra::rast(system.file("extdata", "habitat.tif", package="quadtree"))
+
+# create a quadtree
+qt &lt;- quadtree(habitat, split_threshold = .1, adj_type = "expand")
+plot(qt, crop = TRUE, na_col = NULL, border_lwd = .4)
+
+# define our start and end points
+start_pt &lt;- c(6989, 34007)
+end_pt &lt;- c(33015, 38162)
+
+# create the LCP finder object and find the LCP
+lcpf &lt;- lcp_finder(qt, start_pt)
+path &lt;- find_lcp(lcpf, end_pt)
+
+# plot the LCP
+plot(qt, crop = TRUE, na_col = NULL, border_col = "gray30", border_lwd = .4)
+points(rbind(start_pt, end_pt), pch = 16, col = "red")
+lines(path[, 1:2], col = "black")
+
+# note that the above path can also be found as follows:
+path &lt;- find_lcp(qt, start_pt, end_pt)
+</code></pre>
+
+
+</div>

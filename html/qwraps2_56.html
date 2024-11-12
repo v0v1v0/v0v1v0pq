@@ -1,0 +1,108 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qkmplot</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Kaplan-Meier Plot</h2>
+
+<h3>Description</h3>
+
+<p>A ggplot2 version of a Kaplan-Meier Plot
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qkmplot(x, conf_int = FALSE, ...)
+
+qkmplot_bulid_data_frame(x)
+
+## S3 method for class 'survfit'
+qkmplot_bulid_data_frame(x)
+
+qrmst(x, tau = Inf)
+
+## S3 method for class 'survfit'
+qrmst(x, tau = Inf)
+
+## S3 method for class 'qkmplot_data'
+qrmst(x, tau = Inf)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>object</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>conf_int</code></td>
+<td>
+<p>logical if TRUE show the CI</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Other arguments passed to survival::plot.survfit</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tau</code></td>
+<td>
+<p>upper bound on time for restricted mean survival time estimate</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Functions to build, explicitly or implicitly, data.frames and then creating a
+ggplot2 KM plot.
+</p>
+<p>More details and examples for graphics within qwraps2 are in the
+vignette(“qwraps2-graphics”, package = “qwraps2”)
+</p>
+
+
+<h3>Value</h3>
+
+<p>a ggplot.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">require(survival)
+
+leukemia.surv &lt;- survival::survfit(survival::Surv(time, status) ~ x, data = survival::aml)
+
+qkmplot(leukemia.surv, conf_int = TRUE)
+
+qkmplot_bulid_data_frame(leukemia.surv)
+
+qrmst(leukemia.surv) # NaN for rmst.se in Nonmaintained strata as last observation is an event
+qrmst(leukemia.surv, 44)
+
+# pbc examples
+pbc_fit &lt;-
+  survival::survfit(
+      formula = survival::Surv(time, status &gt; 0) ~ trt
+    , data = pbc
+    , subset = !is.na(trt)
+  )
+
+qkmplot(pbc_fit)
+qkmplot(pbc_fit, conf_int = TRUE)
+
+qrmst(pbc_fit)
+qrmst(pbc_fit)
+
+</code></pre>
+
+
+</div>

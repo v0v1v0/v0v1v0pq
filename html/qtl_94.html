@@ -1,0 +1,110 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>formLinkageGroups</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Partition markers into linkage groups</h2>
+
+<h3>Description</h3>
+
+<p>Use pairwise linkage information between markers (as calculated by
+<code>est.rf</code> to partition markers into linkage groups.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">formLinkageGroups(cross, max.rf=0.25, min.lod=3, reorgMarkers=FALSE,
+                  verbose=FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>cross</code></td>
+<td>
+<p>An object of class <code>cross</code>. See
+<code>read.cross</code> for details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>max.rf</code></td>
+<td>
+<p>Maximum recombination fraction for placing two markers in
+the same linkage group (see Details).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>min.lod</code></td>
+<td>
+<p>Minimum LOD score for placing two markers in the same
+linkage group (see Details).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>reorgMarkers</code></td>
+<td>
+<p>If TRUE, the output is a cross object, like the
+input, but with the markers organized into the inferred linkage
+groups.  If FALSE, the output is a table indicating the initial
+chromosome assignments and the inferred linkage group partitions.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p>If TRUE, display information about the progress of the
+calculations.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Two markers are placed in the same linkage group if the estimated
+recombination fraction between them is <code class="reqn">\le</code> <code>max.rf</code> and
+the LOD score (for the test of the rec. frac. = 1/2) is <code class="reqn">\ge</code>
+<code>min.lod</code>.  The transitive property (if A is linked to B and B is
+linked to C then A is linked to C) is used to close the groups.
+</p>
+
+
+<h3>Value</h3>
+
+<p>If <code>reorgMarkers=FALSE</code> (the default), the output is a data frame
+with rows corresponding to the markers and with two columns: the
+initial chromosome assignment and the inferred linkage group.  Linkage
+groups are ordered by the number of markers they contain (from largest
+to smallest).
+</p>
+<p>If <code>reorgMarkers=TRUE</code>, the output is a cross object, like the
+input, but with the markers reorganized into the inferred linkage
+groups.  The marker order and marker positions within the linkage
+groups are arbitrary.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Karl W Broman, <a href="mailto:broman@wisc.edu">broman@wisc.edu</a> </p>
+
+
+<h3>See Also</h3>
+
+ <p><code>est.rf</code>, <code>orderMarkers</code> </p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(listeria)
+listeria &lt;- est.rf(listeria)
+result &lt;- formLinkageGroups(listeria)
+tab &lt;- table(result[,1], result[,2])
+apply(tab, 1, function(a) sum(a!=0))
+apply(tab, 2, function(a) sum(a!=0))
+</code></pre>
+
+
+</div>

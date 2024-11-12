@@ -1,0 +1,104 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>quantize</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Quantizing exposure data</h2>
+
+<h3>Description</h3>
+
+<p>Create variables representing indicator functions with cutpoints defined
+by quantiles. Output a list that includes: 1) a dataset that is a copy of data,
+except that the variables whose names are included in the <code>expnms</code> variable are
+transformed to their quantized version and 2) an unnamed list of the quantile cutpoints
+that are used for each of the variables that were quantized
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">quantize(data, expnms, q = 4, breaks = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>a data frame</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>expnms</code></td>
+<td>
+<p>a character vector with the names of  the columns to be
+quantized</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>q</code></td>
+<td>
+<p>integer, number of quantiles used in creating quantized variables</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>breaks</code></td>
+<td>
+<p>(optional) list of (equal length) numeric vectors that
+characterize the minimum value of each category for which to
+break up the variables named in expnms. This is an alternative to using 'q'
+to define cutpoints.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>This function creates categorical variables in place of the
+exposure variables named in 'expnms.' For example, a continuous exposure
+'x1' will be replaced in the output data by another 'x1' that takes on values
+0:(q-1), where, for example, the value 1 indicates that the original x1 value
+falls between the first and the second quantile.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list containing the following fields
+</p>
+
+<dl>
+<dt>data</dt>
+<dd>
+<p>a quantized version of the original dataframe</p>
+</dd>
+<dt>breaks</dt>
+<dd>
+<p>a list of the quantile cutpoints used to create the quantized variables which
+includes a very small number for the minimum and a very large number for the maximum to avoid
+causing issues when using these breaks to quantize new data.</p>
+</dd>
+</dl>
+<h3>Examples</h3>
+
+<pre><code class="language-R">set.seed(1232)
+dat = data.frame(y=runif(100), x1=runif(100), x2=runif(100), z=runif(100))
+qdata = quantize(data=dat, expnms=c("x1", "x2"), q=4)
+table(qdata$data$x1)
+table(qdata$data$x2)
+summary(dat[c("y", "z")]);summary(qdata$data[c("y", "z")]) # not touched
+dat = data.frame(y=runif(100), x1=runif(100), x2=runif(100), z=runif(100))
+# using 'breaks' requires specifying min and max (the qth quantile)
+# example with theoretical quartiles (could be other relevant values)
+qdata2 = quantize(data=dat, expnms=c("x1", "x2"),
+   breaks=list(c(-1e64, .25, .5, .75, 1e64),
+               c(-1e64, .25, .5, .75, 1e64)
+               ))
+table(qdata2$data$x1)
+table(qdata2$data$x2)
+</code></pre>
+
+
+</div>

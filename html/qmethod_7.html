@@ -1,0 +1,58 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>import.htmlq</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Q methodology: import data from HTMLQ and FlashQ</h2>
+
+<h3>Description</h3>
+
+<p>Imports data from *.CSV files created with HTMLQ or FlashQ softwares for Q-sort administration.</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">import.htmlq(filename, ...)</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>filename</code></td>
+<td>
+<p>a file with extension *.CSV, separated by ";" as done by default in HTMLQ (see full description of the file below in References).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>further arguments to be passed to <code>read.csv2</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Extracts the raw data of a Q methodology study from the native format saved in both <em>FlashQ</em> and <em>HTMLQ</em>. Returns a list with two objects.
+</p>
+<p>The first object contains a data frame with items as rows and Q-sorts as columns, ready to be used in <code>qmethod</code>. It sets the Q-sort names to the values in the column 'uid' or else in 'sid'.
+</p>
+<p>The second object contains the additional data collected. Columns <code>npos</code>, <code>nneu</code> and <code>nneg</code> have the number of items allocated to the groups of 'positive', 'neutral', and 'negative' respectively. Columns which name start with <code>comment*</code> and <code>form*</code> contain further information introduced by the respondent. Columns which name start with <code>dur*</code> contain the time that the respondent spent in each screen. Column <code>datetime</code> contains the data stamp when the Q-sort was responded.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Aiora Zabala</p>
+
+
+<h3>References</h3>
+
+<p>Hackert, Christian and Braehler, Gernot, 2007. <em>FlashQ</em>, Used to be available at: http://www.hackert.biz/flashq, but offline as tested on Feb 2021.
+</p>
+<p>Oschlies, Johannes and Killing, Marvin, 2015. <em>HTMLQ</em>, Available at: <a href="https://github.com/aproxima/htmlq">https://github.com/aproxima/htmlq</a>
+</p>
+
+
+</div>

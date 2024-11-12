@@ -1,0 +1,67 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>difftime_leap_year</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>difftime_leap_year</h2>
+
+<h3>Description</h3>
+
+<p>Function to count the number of days between two dates.
+Optional parameters to count without the leap-days.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">difftime_leap_year(tfinal, tinitial, leapDatesIn = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>tfinal</code></td>
+<td>
+<p>Final date.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tinitial</code></td>
+<td>
+<p>Initial date.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>leapDatesIn</code></td>
+<td>
+<p>If TRUE count leap Dates, else exclude from counting.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Number of days between the specified dates.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Julian Chitiva and Diego Jara
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">#Function accepts Dates as Dates or as characters.
+difftime_leap_year(tfinal='2023-03-05',tinitial='2019-02-28',leapDatesIn=TRUE)
+difftime_leap_year(tfinal=as.Date('2023-03-05'),tinitial=as.Date('2019-02-28'),leapDatesIn=TRUE)
+difftime_leap_year(tfinal='2023-03-05',tinitial='2019-02-28',leapDatesIn=FALSE)
+difftime_leap_year(tfinal='2023-03-05',tinitial=as.Date('2019-02-28'),leapDatesIn=FALSE)
+
+</code></pre>
+
+
+</div>

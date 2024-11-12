@@ -1,0 +1,71 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>cmip6</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>CMIP6 sample</h2>
+
+<h3>Description</h3>
+
+<p>A small extract of model output and native grid ('gn') coordinates from CMIP6. Derived from
+'CMIP6/ssp245/intpp/intpp_Omon_MPI-ESM1-2-LR_ssp245_r1i1p1f1_gn_201501-203412.nc'.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">cmip6
+</code></pre>
+
+
+<h3>Format</h3>
+
+<p>An object of class <code>RasterBrick</code> of dimension 220 x 256 x 3.
+</p>
+
+
+<h3>Details</h3>
+
+<p>The cmip6 object is a 'RasterBrick', defined by the raster package with three
+layers: 'intpp', 'longitude', 'latitude'. The model data is primary organic carbon production 'intpp'.
+</p>
+
+
+<h3>Source</h3>
+
+
+<ul><li>
+<p> A small extract of data and grid coordinates from CMIP 6 produced by the MPI-M.
+</p>
+
+<ul>
+<li>
+<p> Description: Primary Organic Carbon Production by All Types of Phytoplankton.
+</p>
+</li>
+<li>
+<p> Source: Max Planck Institute for Meteorology, Hamburg 20146, Germany (MPI-M)
+</p>
+</li>
+<li>
+<p> URL: https://data.ccamlr.org/dataset/small-scale-management-units
+</p>
+</li>
+<li>
+<p> Reference: doi:10.1029/2017MS001217
+</p>
+</li>
+<li>
+<p> License: CC BY-SA 4.0
+</p>
+</li>
+</ul>
+</li></ul>
+<h3>Examples</h3>
+
+<pre><code class="language-R">mesh_plot(cmip6[[1]])
+</code></pre>
+
+
+</div>

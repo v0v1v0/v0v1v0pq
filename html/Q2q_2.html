@@ -1,0 +1,72 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>getqxt</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>getqxt: obtain the age specific mortality surface</h2>
+
+<h3>Description</h3>
+
+<p>getqxt interpolate the age specific mortality rates for a set of life tables
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">getqxt(Qxt, nag, t)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>Qxt</code></td>
+<td>
+<p>A surface of Five-ages mortality rates which should be a numerical matrix containing mortality rates without age identification column and time identification row</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nag</code></td>
+<td>
+<p>the number of age groups</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>t</code></td>
+<td>
+<p>the number of years</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>qxt a matrix containing the age-specific mortality rates for age x in rows and for year t in columns
+</p>
+<p>lxt a matrix containing the age evolution of survivorship for the year t
+</p>
+<p>dxt a matrix containing the theoretical deaths occured at age x and year t
+</p>
+<p>qxtl the age specific mortality rates interpolated using the Lagrange method for each year t
+</p>
+<p>qxtk the age specific mortality rates interpolated using the Karup-king method for each year t
+</p>
+<p>jonct_ages a vector containing, for each year t, the ages where qxtk and qxtl have been joined
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Farid FLICI
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">getqxt(matrix(rep(c(0.12, seq(0.05, 0.5,by=0.05)), 5), byrow=FALSE, ncol=5), 11, 5)
+
+</code></pre>
+
+
+</div>

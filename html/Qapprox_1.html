@@ -1,0 +1,72 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>Qapprox</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Right-tail probability of quadratic forms of centered Gaussian variables.</h2>
+
+<h3>Description</h3>
+
+<p>Right-tail probability of quadratic forms of centered Gaussian variables.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">Qapprox(q, Sigma, A = NULL, method = "MR")
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>q</code></td>
+<td>
+<p>- quantile, could be a vector.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Sigma</code></td>
+<td>
+<p>- covariance matrix of Gaussian variables.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>A</code></td>
+<td>
+<p>- a positive-semi-definite matrix that defines the quadratic form.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+<p>- "MR": moment-ratio (skewness-kurtosis) matching method; "SW": Satterthwaite-Welch method that matches mean and variance; "LTZ4": Liu-Tang-Zhang method that matches the kurtosis.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>The right-tail probability of a quadratic form (Q = X'AX) of centered Gaussian variables.
+</p>
+
+
+<h3>References</h3>
+
+<p>1. Hong Zhang, Judong Shen and Zheyang Wu. "An efficient and accurate approximation to the distribution of quadratic forms of Gaussian variables", arXiv:2005.00905.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">n &lt;- 100
+Sigma &lt;- toeplitz(1/(1:n))
+thr &lt;- 180
+Qapprox(thr, Sigma, method="SW")
+Qapprox(thr, Sigma, method="LTZ4")
+Qapprox(thr, Sigma, method="MR")
+</code></pre>
+
+
+</div>

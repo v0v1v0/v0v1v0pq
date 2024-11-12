@@ -1,0 +1,287 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>TwoStg_Mopt</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Estimate the Two-stage Mean-Optimal Treatment Regime</h2>
+
+<h3>Description</h3>
+
+<p>This function implements the estimator of 
+two-stage mean-optimal treatment regime by inverse probability of weighting 
+proposed by Baqun Zhang. As there are more than one stage, the second stage
+treatment regime could take into account the evolving status of an individual
+after the first stage
+and the treatment level received in the first stage. We assume the options at 
+the two stages are both binary and take the form:
+</p>
+<p style="text-align: center;"><code class="reqn">d_1(x_{stage1})=I\left(\beta_{10} +\beta_{11}  x_{11} +...+ \beta_{1k}  x_{1k} &gt; 0\right), 
+</code>
+</p>
+
+<p style="text-align: center;"><code class="reqn">d_2(x_{stage2})=I\left(\beta_{20} +\beta_{21}  x_{21} +...+ \beta_{2j}  x_{2j} &gt; 0\right)</code>
+</p>
+
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">TwoStg_Mopt(data, regimeClass.stg1, regimeClass.stg2,
+  moPropen1 = "BinaryRandom", moPropen2 = "BinaryRandom", max = TRUE,
+  s.tol, cl.setup = 1, p_level = 1, it.num = 10, pop.size = 3000,
+  hard_limit = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>a data frame, containing variables in the <code>moPropen</code> and <code>RegimeClass</code> and 
+a component <code>y</code> as the response.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>regimeClass.stg1</code></td>
+<td>
+<p>a formula or a string specifying the Class of treatment regimes
+at stage 1, e.g. <code>a1~x1+x2</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>regimeClass.stg2</code></td>
+<td>
+<p>a formula or a string specifying the Class of treatment regimes
+at stage 2, e.g. <code>a2~x1+a1+x2</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>moPropen1</code></td>
+<td>
+<p>The propensity score model for the probability of receiving 
+treatment level 1 at the first stage .
+When <code>moPropen1</code> equals the string "BinaryRandom",  the proportion of observations
+receiving treatment level 1 in the sample at the first stage will be employed
+as a good estimate of the probability for each observation.
+Otherwise, this argument should be a formula/string, based on which this function 
+will fit a logistic regression on the treatment level.  e.g. <code>a1~x1</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>moPropen2</code></td>
+<td>
+<p>The propensity score model for the probability of receiving 
+treatment level 1 at the second stage .
+When <code>moPropen2</code> equals the string "BinaryRandom",  the proportion of observations
+receiving treatment level 1 in the sample at the second stage will be employed
+as a good estimate of the probability for each observation.
+Otherwise, this argument should be a formula/string,  based on which this function
+will fit a logistic regression on the treatment level.  e.g. <code>a2~x1+a1+x2</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>max</code></td>
+<td>
+<p>logical. If <code>max=TRUE</code>, it indicates we wish to maximize the marginal
+mean; if <code>max=FALSE</code>, we wish to minimize the marginal mean. 
+The default is <code>TRUE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>s.tol</code></td>
+<td>
+<p>This is the tolerance level used by <code>genoud</code>. 
+Default is <code class="reqn">10^{-5}</code> times the difference between
+the largest and the smallest value in the observed responses.
+This is particularly important when it comes to evaluating <code>it.num</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cl.setup</code></td>
+<td>
+<p>the number of nodes. &gt;1 indicates choosing parallel computing option in 
+<code>rgenoud::genoud</code>. Default is 1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p_level</code></td>
+<td>
+<p>choose between 0,1,2,3 to indicate different levels of output
+from the genetic function. Specifically, 0 (minimal printing),
+1 (normal), 2 (detailed), and 3 (debug.)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>it.num</code></td>
+<td>
+<p>integer &gt; 1. This argument will be used in <code>rgeound::geound</code> function.
+If there is no improvement in the objective function in this number of generations,
+<code>rgenoud::genoud</code> will think that it has found the optimum.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pop.size</code></td>
+<td>
+<p>an integer with the default set to be 3000. This is the population number for the first generation
+in the genetic algorithm (<code>rgenoud::genoud</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>hard_limit</code></td>
+<td>
+<p>logical. When it is true the maximum number of generations
+in  <code>rgeound::geound</code> cannot exceed 100. Otherwise, in this function, only
+<code>it.num</code> softly controls when <code>genoud</code> stops. Default is <code>FALSE</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Note that all estimation functions in this package use the same type
+of standardization on covariates. Doing so would allow us to provide a bounded 
+domain of parameters for searching in the genetic algorithm.
+</p>
+<p>For every stage <code>k</code>, <code class="reqn">k=1,2</code>, this estimated parameters indexing the two-stage mean-optimal treatment regime
+are returned <em>in two scales:</em>
+</p>
+
+<ol>
+<li>
+<p> , the returned <code>coef.k</code> 
+is the set of parameters that we estimated after standardizing
+every covariate available for decision-making
+at stage <code>k</code> to be in the interval [0, 1]. To be exact, every covariate is 
+subtracted by the smallest observed value and divided by the difference between 
+the largest and the smallest value.  Next, we carried out the algorithm in Wang 2016 to get the estimated
+regime parameters, <code>coef.k</code>, based on the standardized data. 
+For the identifiability issue, we force the Euclidean norm of <code>coef.k</code>
+to be 1.
+</p>
+</li>
+<li>
+<p> The difference between <code>coef.k</code> and <code>coef.orgn.scale.k</code> is that the latter
+set of parameters correspond to the original covariates,
+so the associated decision rule can be applied directly to novel observations. 
+In other words, let <code class="reqn">\beta</code> denote the estimated parameter in the original 
+scale, then the estimated treatment regime is:  
+</p>
+<p style="text-align: center;"><code class="reqn"> d(x)= I\{\beta_0 + \beta_1 x_1 + ... + \beta_k x_k &gt; 0\},</code>
+</p>
+
+<p>where the <code class="reqn">\beta</code> values are returned as <code>coef.orgn.scale.k</code>, and the
+the vector <code class="reqn">(1, x_1,...,x_k)</code> corresponds to the specified class of treatment
+regimes in the <code>k</code>th stage.
+</p>
+</li>
+</ol>
+<p>If, for every input covariate, the smallest observed value is exactly 0 and the range 
+(i.e. the largest number minus the smallest number) is exactly 1, then the estimated 
+<code>coef.k</code> and <code>coef.orgn.scale.k</code> will render identical.
+</p>
+
+
+<h3>Value</h3>
+
+<p>This function returns an object with 6 objects. Both <code>coef.1</code>, <code>coef.2</code>
+and <code>coef.orgn.scale.1</code>, <code>coef.orgn.scale.2</code>  were normalized to have unit euclidean norm.
+</p>
+
+<dl>
+<dt>
+<code>coef.1</code>, <code>coef.2</code>
+</dt>
+<dd>
+<p>the set of parameters indexing the estimated 
+mean-optimal treatment regime for 
+standardized covariates.</p>
+</dd>
+<dt>
+<code>coef.orgn.scale.1</code>, <code>coef.orgn.scale.2</code>
+</dt>
+<dd>
+<p>the set of parameter 
+indexing the estimated mean-optimal treatment regime for the original input covariates.</p>
+</dd>
+<dt><code>hatM</code></dt>
+<dd>
+<p>the estimated marginal mean when the treatment 
+regime indexed by <code>coef.orgn.scale.1</code> and <code>coef.orgn.scale.2</code> 
+is applied on the entire population.
+See the 'details' for connection between <code>coef.orgn.scale.k</code> and
+<code>coef.k</code>.</p>
+</dd>
+<dt><code>call</code></dt>
+<dd>
+<p>the user's call.</p>
+</dd>
+<dt>
+<code>moPropen1</code>, <code>moPropen2</code>
+</dt>
+<dd>
+<p>the user specified propensity score models
+for the first and the second stage respectively</p>
+</dd>
+<dt>
+<code>regimeClass.stg1</code>,  <code>regimeClass.stg2</code>
+</dt>
+<dd>
+<p>the user specified 
+class of treatment regimes for the first and the second stage respectively</p>
+</dd>
+</dl>
+<h3>Author(s)</h3>
+
+<p>Yu Zhou, <a href="mailto:zhou0269@umn.edu">zhou0269@umn.edu</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Zhang B, Tsiatis AA, Laber EB and Davidian M (2013).
+“Robust estimation of optimal dynamic treatment regimes for sequential treatment decisions.”
+<em>Biometrika</em>, <b>100</b>(3).
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">ilogit &lt;- function(x) exp(x)/(1 + exp(x))
+GenerateData.2stg &lt;- function(n){
+ x1 &lt;- runif(n)
+ p1 &lt;- ilogit(-0.5+x1)
+ a1 &lt;- rbinom(n, size=1, prob=p1)
+ 
+ x2 &lt;- runif(n, x1, x1+1)
+ p2 &lt;- ilogit(-1 + x2)
+ a2 &lt;- rbinom(n, size=1, prob=p2)
+ 
+ mean &lt;- 1+x1+a1*(1-3*(x1-0.2)^2) +x2 + a2*(1-x2-x1)
+ y &lt;- mean + (1+a1*(x1-0.5)+0.5*a2*(x2-1))*rnorm(n,0,sd = 1)
+ return(data.frame(x1,a1,x2,a2,y))
+}
+
+n &lt;- 400
+testdata &lt;- GenerateData.2stg(n)
+
+fit &lt;- TwoStg_Mopt(data=testdata, 
+                   regimeClass.stg1="a1~x1", regimeClass.stg2="a2~x1+a1+x2",
+                   moPropen1="a1~x1", moPropen2="a2~x2",
+                   cl.setup=2)
+fit
+
+fit2 &lt;- TwoStg_Mopt(data=testdata, 
+                   regimeClass.stg1="a1~x1", regimeClass.stg2="a2~a1+x1*x2",
+                   moPropen1="a1~x1", moPropen2="a2~x2",
+                   cl.setup=2)
+fit2
+
+
+
+
+</code></pre>
+
+
+</div>

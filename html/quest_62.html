@@ -1,0 +1,84 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>length_by</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Length of a (Atomic) Vector by Group</h2>
+
+<h3>Description</h3>
+
+<p><code>length_by</code> computes the the length of a (atomic) vector by group. The
+argument <code>na.rm</code> can be used to include (FALSE) or exclude (TRUE)
+missing values.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">length_by(x, grp, na.rm = FALSE, sep = ".")
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>atomic vector.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>grp</code></td>
+<td>
+<p>atomic vector or list of atomic vectors (e.g., data.frame)
+specifying the groups. The atomic vector(s) must be the length of x or else
+an error is returned.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>na.rm</code></td>
+<td>
+<p>logical vector of length 1 specifying whether to include (FALSE)
+or exclude (TRUE) missing values.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sep</code></td>
+<td>
+<p>character vector of length 1 specifying what string should
+separate different group values when naming the return object. This
+argument is only used if grp is a list of atomic vectors (e.g.,
+data.frame).</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>integer vector of length = <code>length(levels(interaction(grp)))</code>
+with names = <code>length(levels(interaction(grp)))</code> providing the number
+of elements (excluding missing values if <code>na.rm</code> = TRUE) in each
+group.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>lengths_by</code>
+<code>length</code>
+<code>agg</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+length_by(x = mtcars$"mpg", grp = mtcars$"gear")
+length_by(x = airquality$"Ozone", grp = airquality$"Month", na.rm = FALSE)
+length_by(x = airquality$"Ozone", grp = airquality$"Month", na.rm = TRUE)
+
+</code></pre>
+
+
+</div>

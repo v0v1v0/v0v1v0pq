@@ -1,0 +1,72 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>simulate_entanglement</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Simulate Entanglement Evolution</h2>
+
+<h3>Description</h3>
+
+<p>This function simulates the evolution of entanglement between two quantum states x1 and x2 using the CNOT gate.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">simulate_entanglement(x1, x2, iterations, angle, verbose = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x1</code></td>
+<td>
+<p>Quantum state for qubit 1, represented as a qstate object.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x2</code></td>
+<td>
+<p>Quantum state for qubit 2, represented as a qstate object.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>iterations</code></td>
+<td>
+<p>Number of iterations for the entanglement process.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>angle</code></td>
+<td>
+<p>Rotation angle for applying Rx gate.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p>If TRUE, prints detailed information to the console.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list containing the entangled quantum state x2 after each iteration and other relevant information.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(qsimulatR)
+library(qvirus)
+x1 &lt;- qstate(1, coefs = as.complex(c(0.8, 0.6)))
+x2 &lt;- qstate(1, coefs = as.complex(c(0.38, 0.92)))
+results &lt;- simulate_entanglement(x1, x2, iterations = 3, angle = pi/4, verbose = TRUE)
+print(results)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,84 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>fake.bc</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Simulated data for a backcross</h2>
+
+<h3>Description</h3>
+
+<p>Simulated data for a backcross, obtained using
+<code>sim.cross</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">data(fake.bc)</code></pre>
+
+
+<h3>Format</h3>
+
+<p>An object of class <code>cross</code>.  See <code>read.cross</code>
+for details.
+</p>
+
+
+<h3>Details</h3>
+
+<p>There are 400 backcross individuals typed at 91 markers and with two
+phenotypes and two covariates (sex and age).
+</p>
+<p>The two phenotypes are due to four QTLs, with no epistasis.  There is
+one on chromosome 2 (at 30 cM), two on chromosome 5 (at 10 and 50 cM),
+and one on chromosome 10 (at 30 cM).  The QTL on chromosome 2 has an
+effect only in the males (sex=1); the two QTLs on chromosome 5 have
+effect in coupling for the first phenotype and in repulsion for the
+second phenotype. Age has an effect of increasing the phenotypes.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Karl W Broman, <a href="mailto:broman@wisc.edu">broman@wisc.edu</a> </p>
+
+
+<h3>See Also</h3>
+
+ <p><code>sim.cross</code>, <code>fake.4way</code>,
+<code>fake.f2</code>, <code>listeria</code>,
+<code>hyper</code>,
+<code>bristle3</code>, <code>bristleX</code> </p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(fake.bc)
+
+summary(fake.bc)
+plot(fake.bc)
+
+# genome scans without covariates
+fake.bc &lt;- calc.genoprob(fake.bc, step=2.5)
+out.nocovar &lt;- scanone(fake.bc, pheno.col=1:2)
+
+# genome scans with covariates
+ac &lt;- pull.pheno(fake.bc, c("sex","age"))
+ic &lt;- pull.pheno(fake.bc, "sex")
+out.covar &lt;- scanone(fake.bc, pheno.col=1:2,
+                      addcovar=ac, intcovar=ic)
+
+# summaries
+summary(out.nocovar, thr=3, format="allpeaks")
+summary(out.covar, thr=3, format="allpeaks")
+
+# plots
+plot(out.nocovar, out.covar, chr=c(2,5,10), lod=1, col="blue",
+     lty=1:2, ylim=c(0,13))
+plot(out.nocovar, out.covar, chr=c(2,5,10), lod=2, col="red",
+     lty=1:2, add=TRUE)
+</code></pre>
+
+
+</div>

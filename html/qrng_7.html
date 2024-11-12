@@ -1,0 +1,88 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>to_array</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Compute Matrices to Arrays</h2>
+
+<h3>Description</h3>
+
+<p>Converting higher-dimensional matrices of quasi-random numbers to
+arrays of specific formats.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">to_array(x, f, format = c("(n*f,d)", "(n,f,d)"))
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>(<code class="reqn">n</code>,<code class="reqn">f</code><code class="reqn">d</code>)-matrix of quasi-random numbers to
+be converted.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>f</code></td>
+<td>
+<p>factor <code class="reqn">f\ge 1</code> dividing <code>ncol{x}</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>format</code></td>
+<td>
+<p><code>character</code> string indicating the output format
+to which <code>x</code> should be converted.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p><code>to_array()</code> is helpful for converting quasi-random numbers
+to time series paths.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>(n * f, d)-matrix</code> or <code>(n, f, d)-array</code>
+depending on the chosen <code>format</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Marius Hofert</p>
+
+
+<h3>See Also</h3>
+
+<p><code>korobov()</code>, <code>ghalton()</code>, <code>sobol()</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Basic call
+N &lt;- 4 # replications
+n &lt;- 3 # time steps
+d &lt;- 2 # dimension
+set.seed(271) # note: respected for the choice of 'randomize'
+x &lt;- sobol(N, d = n * d, randomize = "digital.shift") # higher-dim. Sobol'
+stopifnot(dim(to_array(x, f = n)) == c(N * n, d)) # conversion and check
+stopifnot(dim(to_array(x, f = n, format = "(n,f,d)")) == c(N, n, d))
+
+## See how the conversion is done
+(x &lt;- matrix(1:(N * n * d), nrow = N, byrow = TRUE))
+to_array(x, f = n) # =&gt; (n * d)-column x was blocked in n groups of size d each
+</code></pre>
+
+
+</div>

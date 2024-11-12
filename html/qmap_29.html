@@ -1,0 +1,247 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>fitQmapSSPLIN</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Quantile mapping using a smoothing spline
+</h2>
+
+<h3>Description</h3>
+
+<p><code>fitQmapSSPLIN</code> fits a smoothing spline to the quantile-quantile
+plot of observed and modelled time series. <code>doQmapSSPLIN</code> uses
+the spline function to adjust the distribution of the modelled data
+to match the distribution of the observations.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">fitQmapSSPLIN(obs, mod, ...)
+## Default S3 method:
+fitQmapSSPLIN(obs,mod,wet.day=TRUE,qstep=0.01,
+spline.par,...)
+## S3 method for class 'matrix'
+fitQmapSSPLIN(obs, mod, ...)
+## S3 method for class 'data.frame'
+fitQmapSSPLIN(obs, mod, ...)
+
+doQmapSSPLIN(x,fobj,...)
+## Default S3 method:
+doQmapSSPLIN(x,fobj,...)
+## S3 method for class 'matrix'
+doQmapSSPLIN(x,fobj,...)
+## S3 method for class 'data.frame'
+doQmapSSPLIN(x,fobj,...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>obs</code></td>
+<td>
+
+<p><code>numeric</code> vector, column <code>matrix</code> or <code>data.frame</code>
+with observed time  series.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mod</code></td>
+<td>
+
+<p><code>numeric</code> vector, column <code>matrix</code> or <code>data.frame</code>
+with modelled time series, corresponding to <code>obs</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>wet.day</code></td>
+<td>
+
+<p><code>logical</code>, indicating whether to perform wet day correction or
+not. OR a <code>numeric</code> threshold below which all values are set to
+zero. See details. 
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qstep</code></td>
+<td>
+
+<p><code>NULL</code> or a numeric value between 0 and 1. See Details.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>spline.par</code></td>
+<td>
+
+<p>a named list with parameters passed to <code>smooth.spline</code>. 
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+
+<p><code>numeric</code> vector or a column <code>matrix</code> of modelled time
+series
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fobj</code></td>
+<td>
+
+<p>output from <code>fitQmapDIST</code>
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+
+<p>Further arguments passed to methods
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Before further computations the empirical cumulative distribution
+functions (CDF) of the observed (<code>obs</code>) and modelled (<code>mod</code>)
+are estimated. If <code>!is.null(qstep)</code> than <code>mod</code> and
+<code>obs</code> are aggregated to quantiles before model identification as: 
+<code>quantile(x,probs=seq(0,1,by=qstep)</code>. If <code>!is.null(qstep)</code> 
+than <code>mod</code> and <code>obs</code> are sorted to produce an estimate of
+the empirical CDF. In case of different length of <code>mod</code> and
+<code>obs</code> than <code>quantile(x,probs=seq(0,1,len=n)]</code> is used, where
+</p>
+<p><code>n &lt;- min(length(obs),length(mod))</code>. NOTE that large values of
+<code>qstep</code> effectively reduce the sample-size and can be used to
+speedup computations - but may render estimates less reliable.   
+</p>
+<p><code>wet.day</code> is intended for the use for precipitation data. Wet day
+correction  attempts to equalise the fraction of days with
+precipitation between the observed and the modelled data. If
+<code>wet.day=TRUE</code> the empirical probability of nonzero observations
+is found (<code>obs&gt;=0</code>) and the corresponding modelled value is
+selected as a threshold. All modelled  values below this threshold are
+set to zero. If <code>wet.day</code> is <code>numeric</code> the same procedure is
+performed after setting all <code>obs&lt;wet.day</code> to zero. The
+transformations are then only fitted to the portion of the
+distributions corresponding to observed wet days.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>fitQmapSSPLIN</code> returns an object of class <code>fitQmapSSPLIN</code>
+containing following elements:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>par </code></td>
+<td>
+
+<p>A list containing objects of class <code>smooth.spline.fit</code>, which
+are equivalent to the value of the element <code>fit</code> in the output
+of <code>smooth.spline</code>. The spline coefficients are checked
+for monotony and adjusted if necessary by replacement with the
+previous value. If <code>mod</code> is a matrix the names of <code>par</code>
+correspond to <code>colnames(mod)</code>. 
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>wet.day</code></td>
+<td>
+
+<p><code>logical</code>, indicating whether to perform wet day correction or
+not. OR a <code>numeric</code> threshold below which all values are set to
+zero. 
+</p>
+</td>
+</tr>
+</table>
+<p><code>doQmapSSPLIN</code> returns a <code>numeric</code> vector or <code>matrix</code>
+depending on the format of <code>x</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Lukas Gudmundsson
+</p>
+
+
+<h3>References</h3>
+
+<p>Gudmundsson, L.; Bremnes, J. B.; Haugen, J. E. &amp; Engen-Skaugen,
+T. Technical Note: Downscaling RCM precipitation to the station scale
+using statistical transformations - a comparison of methods. Hydrology
+and Earth System Sciences, 2012, 16, 3383-3390,
+doi:10.5194/hess-16-3383-2012.  
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>fitQmap</code>, <code>smooth.spline</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(obsprecip)
+data(modprecip)
+
+qm.a.fit &lt;- fitQmapSSPLIN(obsprecip[,2],modprecip[,2],
+                      qstep=0.01,wet.day=TRUE)
+qm.a &lt;- doQmapSSPLIN(modprecip[,2],qm.a.fit)
+
+## example on how to use spline.par
+## (this example has little effect)
+qm.b.fit &lt;- fitQmapSSPLIN(obsprecip[,2],modprecip[,2],
+                          qstep=0.01,wet.day=TRUE,
+                          spline.par=list(cv=TRUE))
+qm.b &lt;- doQmapSSPLIN(modprecip[,2],qm.b.fit)
+
+sqrtquant &lt;- function(x,qstep=0.01){
+  qq &lt;- quantile(x,prob=seq(0,1,by=qstep))
+  sqrt(qq)
+}
+
+plot(sqrtquant(modprecip[,2]),
+     sqrtquant(obsprecip[,2]))
+lines(sqrtquant(modprecip[,2]),
+      sqrtquant(qm.a),col="red")
+lines(sqrtquant(modprecip[,2]),
+      sqrtquant(qm.b),col="blue")
+legend("topleft",legend=c("cv=FALSE","cv=TRUE"),
+       lty=1,col=c("red","blue"))
+
+qm2.fit &lt;- fitQmapSSPLIN(obsprecip,modprecip,
+                      qstep=0.1,wet.day=TRUE)
+qm2 &lt;- doQmapSSPLIN(modprecip,qm2.fit)
+
+
+op &lt;- par(mfrow=c(1,3))
+for(i in 1:3){
+  plot(sqrtquant(modprecip[,i]),
+       sqrtquant(obsprecip[,i]),
+       main=names(qm2)[i])
+  lines(sqrtquant(modprecip[,i]),
+        sqrtquant(qm2[,i]),col="red")
+}
+par(op)
+
+</code></pre>
+
+
+</div>

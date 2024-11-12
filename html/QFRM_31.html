@@ -1,0 +1,84 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>LadderMC</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Ladder option valuation via Monte Carlo (MC) simulation.</h2>
+
+<h3>Description</h3>
+
+<p>Calculates the price of a Ladder Option using 5000 Monte Carlo simulations.
+The helper function LadderCal() aims to calculate expected payout for each stock prices.
+</p>
+<p><em>Important Assumptions</em>:
+The option o follows a General Brownian Motion (BM)
+<code class="reqn">ds = mu * S * dt + sqrt(vol) * S * dW</code> where <code class="reqn">dW ~ N(0,1)</code>.
+The value of <code class="reqn">mu</code> (the expected price increase) is assumed to be <code>o$r</code>, the risk free rate of return.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">LadderMC(o = OptPx(o = Opt(Style = "Ladder"), NSteps = 5), NPaths = 5,
+  L = c(60, 80, 100))
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>o</code></td>
+<td>
+<p>The <code>OptPx</code> Ladder option object to price.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>NPaths</code></td>
+<td>
+<p>The number of simulation paths to use in calculating the price</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>L</code></td>
+<td>
+<p>A series of ladder strike price.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>The option <code>o</code> with the price in the field <code>PxMC</code> based on MC simulations
+and the ladder strike price <code>L</code> set by the users themselves
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Huang Jiayao, Risk Management and Business Intelligence at Hong Kong University of Science and Technology,
+Exchange student at Rice University, Spring 2015
+</p>
+
+
+<h3>References</h3>
+
+<p><a href="http://stackoverflow.com/questions/25946852/r-monte-carlo-simulation-price-path-converging-volatility-issue">http://stackoverflow.com/questions/25946852/r-monte-carlo-simulation-price-path-converging-volatility-issue</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">(o = LadderMC())$PxMC #Price = ~12.30
+
+ o = OptPx(o=Opt(Style='Ladder'), NSteps = 5)
+ (o = LadderMC(o))$PxMC        #Price = ~11.50
+
+ o = OptPx(Opt(Style='Ladder', Right='Put'))
+ (o = LadderMC(o, NPaths = 5))$PxMC   # Price = ~12.36
+
+ (o = LadderMC(L=c(55,65,75)))$PxMC   # Price = ~10.25
+</code></pre>
+
+
+</div>

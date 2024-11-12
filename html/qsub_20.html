@@ -1,0 +1,117 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qsub_lapply</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Apply a Function over a List or Vector on a gridengine system!</h2>
+
+<h3>Description</h3>
+
+<p>Apply a Function over a List or Vector on a gridengine system!
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qsub_lapply(
+  X,
+  FUN,
+  object_envir = environment(FUN),
+  qsub_config = NULL,
+  qsub_environment = NULL,
+  qsub_packages = NULL,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>X</code></td>
+<td>
+<p>A vector (atomic or list) or an expression object. Other objects (including classed objects) will be coerced by base::as.list.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>FUN</code></td>
+<td>
+<p>The function to be applied to each element of X.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>object_envir</code></td>
+<td>
+<p>The environment in which to go looking for the qsub_environment variables, if these are characters.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qsub_config</code></td>
+<td>
+<p>The configuration to use for this execution.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qsub_environment</code></td>
+<td>
+<p><code>NULL</code>, a character vector or an environment. Specifies what data and functions will be uploaded to the server.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qsub_packages</code></td>
+<td>
+<p>The packages to be loaded on the cluster.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>optional arguments to FUN.</p>
+</td>
+</tr>
+</table>
+<h3>See Also</h3>
+
+<p><code>create_qsub_config</code>, <code>set_default_qsub_config</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+# Initial configuration and execution
+qsub_config &lt;- create_qsub_config(
+  remote = "myserver",
+  local_tmp_path = "/home/myuser/workspace/.r2gridengine",
+  remote_tmp_path = "/scratch/myuser/.r2gridengine"
+)
+qsub_lapply(
+  X = seq_len(3),
+  FUN = function(i) { Sys.sleep(1); i+1 },
+  qsub_config = qsub_config
+)
+
+# Setting a default configuration and short hand notation for execution
+set_default_qsub_config(qsub_config, permanent = T)
+qsub_lapply(seq_len(3), function(i) { Sys.sleep(1); i+1 })
+
+# Overriding a default qsub_config
+qsub_lapply(seq_len(3), function(i) i + 1,
+  qsub_config = override_qsub_config(name = "MyJob"))
+
+# Don't wait for results, get a handle instead and retrieve later.
+handle &lt;- qsub_lapply(seq_len(3), function(i) i + 1,
+  qsub_config = override_qsub_config(wait = F))
+
+# Wait until results have been generated on the remote
+
+# Retrieve results
+qsub_retrieve(handle)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

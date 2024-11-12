@@ -1,0 +1,141 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>quest-package</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Pre-processing Questionnaire Data</h2>
+
+<h3>Description</h3>
+
+<p><code>quest</code> is a package for pre-processing questionnaire data
+to get it ready for statistical modeling. It contains functions for
+investigating missing data (e.g., <code>rowNA</code>), reshaping data
+(e.g., <code>wide2long</code>), validating responses (e.g.,
+<code>revalids</code>), recoding variables (e.g., <code>recodes</code>),
+scoring (e.g., <code>scores</code>), centering (e.g.,
+<code>centers</code>), aggregating (e.g., <code>aggs</code>), shifting
+(e.g., <code>shifts</code>), etc. Functions whose first phrases end with
+an <code>s</code> are vectorized versions of their functions without an <code>s</code>
+at the end of the first phrase. For example, <code>center</code> inputs a
+(atomic) vector and outputs a atomic vector to center and/or scale a single
+variable; <code>centers</code> inputs a data.frame and outputs a data.frame to
+center and/or scale multiple variables. Functions that end in <code>_by</code>
+are calculated by group. For example, <code>center</code> does grand-mean
+centering while <code>center_by</code> does group-mean centering. Putting the two
+together, <code>centers_by</code> inputs a data.frame and outputs a data.frame to
+center and/or scale multiple variables by group. Functions that end in
+<code>_ml</code> calculate a "multilevel" result with a within-group result and
+between-group result. Functions that end in <code>_if</code> are calculated
+dependent on the frequency of observed values (aka amount of missing data).
+The <code>quest</code> package uses the <code>str2str</code> package internally to
+convert R objects from one structure to another. See <code>str2str</code>
+for details.
+</p>
+
+
+<h3>Types of functions</h3>
+
+<p>There are three main types of functions. 1)
+Helper functions that primarily exist to save a few lines of code and are
+primarily for convenience (e.g., <code>vecNA</code>). 2) Functions for
+wrangling questionnaire data (e.g., <code>nom2dum</code>,
+<code>reverses</code>). 3) Functions for preliminary statistical
+calculation (e.g., <code>means_diff</code>, <code>corp_by</code>).
+</p>
+
+
+<h3>Abbreviations</h3>
+
+<p>See the table below
+</p>
+
+<dl>
+<dt>vrb</dt>
+<dd>
+<p>variable</p>
+</dd>
+<dt>grp</dt>
+<dd>
+<p>group</p>
+</dd>
+<dt>nm</dt>
+<dd>
+<p>names</p>
+</dd>
+<dt>NA</dt>
+<dd>
+<p>missing values</p>
+</dd>
+<dt>ov</dt>
+<dd>
+<p>observed values</p>
+</dd>
+<dt>prop</dt>
+<dd>
+<p>proportion</p>
+</dd>
+<dt>sep</dt>
+<dd>
+<p>separator</p>
+</dd>
+<dt>cor</dt>
+<dd>
+<p>correlations</p>
+</dd>
+<dt>id</dt>
+<dd>
+<p>identifier</p>
+</dd>
+<dt>rtn</dt>
+<dd>
+<p>return</p>
+</dd>
+<dt>fun</dt>
+<dd>
+<p>function</p>
+</dd>
+<dt>dfm</dt>
+<dd>
+<p>data.frame</p>
+</dd>
+<dt>fct</dt>
+<dd>
+<p>factor</p>
+</dd>
+<dt>nom</dt>
+<dd>
+<p>nominal variable</p>
+</dd>
+<dt>bin</dt>
+<dd>
+<p>binary variable</p>
+</dd>
+<dt>dum</dt>
+<dd>
+<p>dummy variable</p>
+</dd>
+<dt>pomp</dt>
+<dd>
+<p>percentage of maximum possible</p>
+</dd>
+<dt>std</dt>
+<dd>
+<p>standardize</p>
+</dd>
+<dt>wth</dt>
+<dd>
+<p>within-groups</p>
+</dd>
+<dt>btw</dt>
+<dd>
+<p>between-groups</p>
+</dd>
+</dl>
+<h3>Author(s)</h3>
+
+<p><strong>Maintainer</strong>: David Disabato <a href="mailto:ddisab01@gmail.com">ddisab01@gmail.com</a> (<a href="https://orcid.org/0000-0001-7094-4996">ORCID</a>)
+</p>
+
+
+</div>

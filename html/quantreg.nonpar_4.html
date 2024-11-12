@@ -1,0 +1,77 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>formulaDeriv</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Derivative of Right Hand Side of Formula
+</h2>
+
+<h3>Description</h3>
+
+<p>Takes the symbolic derivative (or multiple derivatives) of the right hand side of a formula and returns a matrix with the derivative evaluated at each observation in a dataset
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">formulaDeriv(inFormula, derivVar, data, nDerivs = 1)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>inFormula</code></td>
+<td>
+
+<p>a formula object, with the response Y on the left of a ~ operator, and the covariate terms, separated by + operators on the right, not including the regressor whose effect is to be estimated nonparametrically. Operators such as '*', ':', 'log()', and 'I()' are allowable. However, factor variables should be constructed prior to entry in the formula: the 'factor()' operator is not allowable.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>derivVar</code></td>
+<td>
+
+<p>a character object giving the name of the variable with respect to which the derivative will be taken.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+
+<p>a data.frame in which to interpret the variables named in the <code>formula</code> and <code>derivVar</code> arguments.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nDerivs</code></td>
+<td>
+
+<p>an integer: the number of derivatives to be taken.
+</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p><code>formulaDeriv</code> returns a matrix whose dimensions are the number of observations in <code>data</code> and the number of variables on the right hand side of <code>formula</code>. Each row is the derivative of <code>formula</code> evaluated at the corresponding observation in <code>data</code>
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Michael Lipsitz, Alexandre Belloni, Victor Chernozhukov, Ivan Fernandez-Val
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>npqr</code>
+</p>
+
+
+</div>

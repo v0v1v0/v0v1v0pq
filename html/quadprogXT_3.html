@@ -1,0 +1,53 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>normalizeConstraints</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Normalize constraint matrix</h2>
+
+<h3>Description</h3>
+
+<p>it is not uncommon for quadprog to fail when there are large differences in 2-norm
+between the columns of the constraint matrix (Amat).  It is possible to alleviate this issue in
+some cases by normalizing the constraints (and their boundaries, defined by bvec).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">normalizeConstraints(Amat, bvec)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>Amat</code></td>
+<td>
+<p>constraint matrix as defined by solve.QP</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bvec</code></td>
+<td>
+<p>constraints as defined by solve.QP</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>a list with two elements: Amat and bvec that contain the normalized constraints.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>quadprog::solve.QP
+</p>
+<p>quadprog::solve.QP.compact
+</p>
+
+
+</div>

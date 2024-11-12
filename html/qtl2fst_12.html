@@ -1,0 +1,71 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>replace_path</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Replace the path used in fst_genoprob object</h2>
+
+<h3>Description</h3>
+
+<p>Replace the path used in an fst_genoprob object.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">replace_path(object, path)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>An object of class <code>"fst_genoprob"</code> as created by <code>fst_genoprob()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>path</code></td>
+<td>
+<p>New path (directory + file stem as a single character string) to be used in the object.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>The input <code>object</code> with the path replaced.
+If any of the expected files don't exist with the new path, warnings are issued.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>fst_path()</code>, <code>fst_files()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(qtl2)
+grav2 &lt;- read_cross2(system.file("extdata", "grav2.zip", package="qtl2"))
+probs &lt;- calc_genoprob(grav2, error_prob=0.002)
+dir &lt;- tempdir()
+fprobs &lt;- fst_genoprob(probs, "grav2", dir, overwrite=TRUE)
+
+# move the probabilities into a different directory
+new_dir &lt;- file.path(tempdir(), "subdir")
+if(!dir.exists(new_dir)) dir.create(new_dir)
+for(file in fst_files(fprobs)) {
+   file.rename(file, file.path(new_dir, basename(file)))
+}
+
+# revise the path in fprobs
+new_path &lt;- sub(dir, new_dir, fst_path(fprobs))
+fprobs &lt;- replace_path(fprobs, new_path)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,165 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>decomposes</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Decompose Numeric Data by Group</h2>
+
+<h3>Description</h3>
+
+<p><code>decomposes</code> decomposes numeric data by group into within-group and
+between- group components via within-group centering and group-mean
+aggregation. There is an option to create a grand-mean centered version of
+the between-group components.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">decomposes(
+  data,
+  vrb.nm,
+  grp.nm,
+  grand = TRUE,
+  n.shift = NULL,
+  undefined = NA,
+  suffix.wth = "_w",
+  suffix.btw = "_b",
+  suffix.grand = "c",
+  suffix.lead = "_dw",
+  suffix.lag = "_gw"
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>data.frame of data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vrb.nm</code></td>
+<td>
+<p>character vector of colnames from <code>data</code> specifying the
+variables.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>grp.nm</code></td>
+<td>
+<p>character vector of colnames from <code>data</code> specifying the
+groups.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>grand</code></td>
+<td>
+<p>logical vector of length 1 specifying whether grand-mean
+centered versions of the the between-group components should be computed.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n.shift</code></td>
+<td>
+<p>integer vector specifying the direction and magnitude of the
+shifts. For example a one-lead is +1 and a two-lag is -2. See
+<code>Shift_by</code> details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>undefined</code></td>
+<td>
+<p>atomic vector of length 1 (probably makes sense to be the
+same typeof as the vectors in <code>data[vrb.nm]</code>). Specifies what to
+insert for undefined values after the shifting takes place. See details of
+<code>Shift_by</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>suffix.wth</code></td>
+<td>
+<p>character vector with a single element specifying the
+string to append to the end of the within-group component colnames of the
+return object.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>suffix.btw</code></td>
+<td>
+<p>character vector with a single element specifying the
+string to append to the end of the between-group component colnames of the
+return object.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>suffix.grand</code></td>
+<td>
+<p>character vector with a single element specifying the
+string to append to the end of the grand-mean centered version of the
+between-group component colnames of the return object. Note, this is a
+string that is appended after <code>suffix.btw</code> has already been appended.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>suffix.lead</code></td>
+<td>
+<p>character vector with a single element specifying the
+string to append to the end of the positive shift colnames of the return
+object. Note, <code>decomposes</code> will add <code>abs(n.shift)</code> to the end of
+<code>suffix.lead</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>suffix.lag</code></td>
+<td>
+<p>character vector with a single element specifying the
+string to append to the end of the negative shift colnames of the return
+object. Note, <code>decomposes</code> will add <code>abs(n.shift)</code> to the end of
+<code>suffix.lag</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>data.frame with nrow = <code>nrow(data</code> and rownames =
+<code>row.names(data)</code>. The first set of columns correspond to the
+within-group components, followed by the between-group components. If grand
+= TRUE, then the next set of columns correspond to the grand-mean centered
+between-group components. If shift != NULL, then the last columns are the
+shifts by group indicated by n.shift, where the shifts of
+<code>data[vrb.nm]</code> are first and then the shifts of the within-group
+components are second.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>decompose</code>
+<code>centers_by</code>
+<code>aggs</code>
+<code>shifts_by</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">ChickWeight2 &lt;- as.data.frame(ChickWeight)
+row.names(ChickWeight2) &lt;- as.numeric(row.names(ChickWeight)) / 1000
+decomposes(data = ChickWeight2, vrb.nm = c("weight","Time"), grp.nm = "Chick")
+decomposes(data = ChickWeight2, vrb.nm = c("weight","Time"), grp.nm = "Chick",
+   suffix.wth = ".wth", suffix.btw = ".btw", suffix.grand = ".grand")
+decomposes(data = as.data.frame(CO2), vrb.nm = c("conc","uptake"),
+   grp.nm = c("Type","Treatment")) # multiple grouping columns
+decomposes(data = as.data.frame(CO2), vrb.nm = c("conc","uptake"),
+   grp.nm = c("Type","Treatment"), n.shift = 1) # with lead
+decomposes(data = as.data.frame(CO2), vrb.nm = c("conc","uptake"), grp.nm = c("Type","Treatment"),
+   n.shift = c(+2, +1, -1, -2)) # with multiple lead/lags
+</code></pre>
+
+
+</div>

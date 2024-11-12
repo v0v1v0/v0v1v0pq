@@ -1,0 +1,243 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>ggplot_snpasso</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Plot SNP associations</h2>
+
+<h3>Description</h3>
+
+<p>Plot SNP associations, with possible expansion from distinct snps to all snps.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">ggplot_snpasso(
+  scan1output,
+  snpinfo,
+  genes = NULL,
+  lodcolumn = 1,
+  show_all_snps = TRUE,
+  drop_hilit = NA,
+  col_hilit = "violetred",
+  col = "darkslateblue",
+  ylim = NULL,
+  gap = 25,
+  minlod = 0,
+  bgcolor = "gray90",
+  altbgcolor = "gray85",
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>scan1output</code></td>
+<td>
+<p>Output of <code>scan1</code>.  Should
+contain an attribute, <code>"snpinfo"</code>, as when
+<code>scan1</code> are run with SNP probabilities
+produced by <code>genoprob_to_snpprob</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>snpinfo</code></td>
+<td>
+<p>Data frame with SNP information with the following
+columns (the last three are generally derived from with
+<code>index_snps</code>):
+</p>
+
+<ul>
+<li> <p><code>chr</code> - Character string or factor with chromosome
+</p>
+</li>
+<li> <p><code>pos</code> - Position (in same units as in the <code>"map"</code>
+attribute in <code>genoprobs</code>.
+</p>
+</li>
+<li> <p><code>sdp</code> - Strain distribution pattern: an integer, between
+1 and <code class="reqn">2^n - 2</code> where <code class="reqn">n</code> is the number of strains, whose
+binary encoding indicates the founder genotypes
+</p>
+</li>
+<li> <p><code>snp</code> - Character string with SNP identifier (if
+missing, the rownames are used).
+</p>
+</li>
+<li> <p><code>index</code> - Indices that indicate equivalent
+groups of SNPs.
+</p>
+</li>
+<li> <p><code>intervals</code> - Indexes that indicate which marker
+intervals the SNPs reside.
+</p>
+</li>
+<li> <p><code>on_map</code> - Indicate whether SNP coincides with a marker
+in the <code>genoprobs</code>
+</p>
+</li>
+</ul>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>genes</code></td>
+<td>
+<p>Optional data frame containing gene information for
+the region, with columns 'start' and 'stop' in Mbp, 'strand'
+(as '"-"', '"+"', or 'NA'), and 'Name'. If included, a
+two-panel plot is produced, with SNP associations above and
+gene locations below.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lodcolumn</code></td>
+<td>
+<p>LOD score column to plot (a numeric index, or a
+character string for a column name). One or more value(s) allowed.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>show_all_snps</code></td>
+<td>
+<p>If TRUE, expand to show all SNPs.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>drop_hilit</code></td>
+<td>
+<p>SNPs with LOD score within this amount of the maximum SNP association will be highlighted.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>col_hilit</code></td>
+<td>
+<p>Color of highlighted points</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>col</code></td>
+<td>
+<p>Color of other points</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ylim</code></td>
+<td>
+<p>y-axis limits</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gap</code></td>
+<td>
+<p>Gap between chromosomes.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>minlod</code></td>
+<td>
+<p>Minimum LOD to display. (Mostly for GWAS, in which
+case using 'minlod=1' will greatly increase the plotting speed,
+since the vast majority of points would be omittted.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bgcolor</code></td>
+<td>
+<p>Background color for the plot.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>altbgcolor</code></td>
+<td>
+<p>Background color for alternate chromosomes.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Additional graphics parameters.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>object of class <code>ggplot</code>.
+</p>
+
+
+<h3>Hidden graphics parameters</h3>
+
+<p>A number of graphics parameters can be passed via '...'. For
+example, 'bgcolor' to control the background color and 'altbgcolor'
+to control the background color on alternate chromosomes.
+'cex' for character expansion for the points (default 0.5),
+'pch' for the plotting character for the points (default 16),
+and 'ylim' for y-axis limits.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>ggplot_scan1</code>, <code>ggplot_coef</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">dirpath &lt;- "https://raw.githubusercontent.com/rqtl/qtl2data/master/DOex"
+
+# Read DOex example cross from 'qtl2data'
+DOex &lt;- subset(qtl2::read_cross2(file.path(dirpath, "DOex.zip")), chr = "2")
+
+# Download genotype probabilities
+tmpfile &lt;- tempfile()
+download.file(file.path(dirpath, "DOex_genoprobs_2.rds"), tmpfile, quiet=TRUE)
+pr &lt;- readRDS(tmpfile)
+unlink(tmpfile)
+
+# Download SNP info for DOex from web and read as RDS.
+tmpfile &lt;- tempfile()
+download.file(file.path(dirpath, "c2_snpinfo.rds"), tmpfile, quiet=TRUE)
+snpinfo &lt;- readRDS(tmpfile)
+unlink(tmpfile)
+snpinfo &lt;- dplyr::rename(snpinfo, pos = pos_Mbp)
+
+# Convert to SNP probabilities
+snpinfo &lt;- qtl2::index_snps(DOex$pmap, snpinfo)
+snppr &lt;- qtl2::genoprob_to_snpprob(pr, snpinfo)
+
+# Scan SNPs.
+scan_snppr &lt;- qtl2::scan1(snppr, DOex$pheno)
+
+# plot results
+ggplot_snpasso(scan_snppr, snpinfo, show_all_snps=FALSE, patterns="all", drop_hilit=1.5)
+
+
+# can also just type autoplot() if ggplot2 attached
+library(ggplot2)
+
+# plot just subset of distinct SNPs
+autoplot(scan_snppr, snpinfo, show_all_snps=FALSE, drop_hilit=1.5)
+
+# highlight SDP patterns in SNPs; connect with lines.
+autoplot(scan_snppr, snpinfo, patterns="all",drop_hilit=4)
+
+# query function for finding genes in region
+gene_dbfile &lt;- system.file("extdata", "mouse_genes_small.sqlite", package="qtl2")
+query_genes &lt;- qtl2::create_gene_query_func(gene_dbfile)
+genes &lt;- query_genes(2, 97, 98)
+
+# plot SNP association results with gene locations
+autoplot(scan_snppr, snpinfo, patterns="hilit", drop_hilit=1.5, genes=genes)
+
+
+</code></pre>
+
+
+</div>

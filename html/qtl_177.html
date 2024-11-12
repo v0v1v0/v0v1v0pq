@@ -1,0 +1,76 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>plot.rfmatrix</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Plot recombination fractions or LOD scores for a single marker</h2>
+
+<h3>Description</h3>
+
+<p>Plot a slice (corresponding to a single marker) through the pairwise
+recombination fractions or LOD scores calculated by
+<code>est.rf</code> and extracted with <code>pull.rf</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'rfmatrix'
+plot(x, marker, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>An object of class <code>rfmatrix</code>, as output by <code>pull.rf</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>marker</code></td>
+<td>
+<p>A single marker name, as a character string.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Optional arguments passed to <code>plot.scanone</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>An object of class <code>"scanone"</code> (as output by <code>scanone</code>,
+and which may be summarized by <code>summary.scanone</code> or plotted
+with <code>plot.scanone</code>), containing the estimated recombination
+fractions or LOD scores for the input marker against all others.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Karl W Broman, <a href="mailto:broman@wisc.edu">broman@wisc.edu</a> </p>
+
+
+<h3>See Also</h3>
+
+ <p><code>pull.rf</code>, <code>est.rf</code>, <code>plotRF</code> </p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(fake.f2)
+
+fake.f2 &lt;- est.rf(fake.f2)
+marker &lt;- markernames(fake.f2, chr=5)[6]
+lod &lt;- pull.rf(fake.f2, "lod")
+plot(lod, marker, bandcol="gray70")
+</code></pre>
+
+
+</div>

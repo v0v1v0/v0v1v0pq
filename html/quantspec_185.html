@@ -1,0 +1,65 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>LagOperator-class</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Interface Class to access different types of operators on time series.</h2>
+
+<h3>Description</h3>
+
+<p><code>LagOperator</code> is an S4 class that provides a common interface to
+implementations of an operator <code class="reqn">\Gamma(Y)</code> which is calculated on 
+all pairs of observations <code class="reqn">(Y_0,Y_k)</code> with lag smaller than maxLag
+</p>
+
+
+<h3>Details</h3>
+
+<p>Currently one implementation is available:
+(1) <code>ClippedCov</code>.
+</p>
+<p>Currently, the implementation of this class allows only for the analysis of
+univariate time series.
+</p>
+
+
+<h3>Slots</h3>
+
+
+<dl>
+<dt><code>values</code></dt>
+<dd>
+<p>an array of dimension <code>c(maxLag,length(levels.1),length(levels.2))</code>
+containing the values of the operator.</p>
+</dd>
+<dt><code>Y</code></dt>
+<dd>
+<p>is the time series the operator shall be applied to</p>
+</dd>
+<dt><code>maxLag</code></dt>
+<dd>
+<p>maximum lag between two observations</p>
+</dd>
+<dt><code>levels</code></dt>
+<dd>
+<p>a vector of numerics that determines the levels of the operator</p>
+</dd>
+<dt><code>isRankBased</code></dt>
+<dd>
+<p>A flag that is <code>FALSE</code> if the determined <code>values</code>
+are based on the original time series and <code>TRUE</code> if it
+is based on the ranks.</p>
+</dd>
+<dt><code>positions.boot</code></dt>
+<dd>
+<p>An object of type <code>BootPos</code>,
+that is used to determine the block bootstrapped
+replicates of the time series.</p>
+</dd>
+<dt><code>B</code></dt>
+<dd>
+<p>Number of bootstrap replications to perform.</p>
+</dd>
+</dl>
+</div>

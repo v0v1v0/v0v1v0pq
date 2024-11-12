@@ -1,0 +1,241 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>sim.wordlist</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Similarity matrices from wordlists
+</h2>
+
+<h3>Description</h3>
+
+<p>A few different approaches are implemented here to compute similarities from wordlists. <code>sim.lang</code> computes similarities between languages, assuming a harmonized orthography (i.e. symbols can be equated across languages). <code>sim.con</code> computes similarities between concepts, using only language-internal similarities. <code>sim.graph</code> computes similarities between graphemes (i.e. language-specific symbols) between languages, as a crude approximation of regular sound correspondences.
+</p>
+<p>WARNING: All these methods are really very crude! If they seem to give expected results, then this should be a lesson to rethink more complex methods proposed in the literature. However, in most cases the methods implemented here should be taken as a proof-of-concept, showing that such high-level similarities can be computed efficiently for large datasets. For actual research, I strongly urge anybody to adapt the current methods, and fine-tune them as needed.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">sim.lang(wordlist, 
+	doculects = "DOCULECT", concepts = "CONCEPT", counterparts = "COUNTERPART",
+	method = "parallel", assoc.method =  res, weight = NULL, sep = "")
+
+sim.con(wordlist,
+	doculects = "DOCULECT", concepts = "CONCEPT", counterparts = "COUNTERPART",
+	method = "bigrams", assoc.method = res, weight = NULL, sep = "")
+
+sim.graph(wordlist,
+	doculects = "DOCULECT", concepts = "CONCEPT", counterparts = "TOKENS",
+	method = "cooccurrence", assoc.method = poi, weight = NULL, sep = " ")
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>wordlist</code></td>
+<td>
+
+<p>Dataframe or matrix containing the wordlist data. Should have at least columns corresponding to languages (DOCULECT), meanings (CONCEPT) and translations (COUNTERPART). 
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>doculects, concepts, counterparts</code></td>
+<td>
+
+<p>The name (or number) of the column of <code>wordlist</code> in which the respective information is to be found. The defaults are set to coincide with the naming of the example dataset included in this package. See <code>huber</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+
+<p>Specific approach for the computation of the similarities. See Details below.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>assoc.method, weight</code></td>
+<td>
+
+<p>Measures to be used internally (passed on to <code>assocSparse</code> or <code>cosSparse</code>). See Details below.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sep</code></td>
+<td>
+<p>Separator to be used to split strings. See <code>link{splitStrings}</code> for details.
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The following methods are currently implemented (all methods can be abbreviated):
+</p>
+<p>For <code>sim.lang</code>:
+</p>
+
+<dl>
+<dt>
+<code>global</code>:</dt>
+<dd>
+<p>Global bigram similarity, i.e. ignoring the separation into concepts, and simply taking the bigram vector of all words per language. Probably best combined with <code>weight = idf</code>.</p>
+</dd>
+<dt>
+<code>parallel</code>:</dt>
+<dd>
+<p>By default, computes a parallel bigram similarity, i.e. splitting the bigram vectors per language and per concepts, and then simply making one long vector per language from all individual concept-bigram vectors. This approach seems to be very similar (if not slightly better) than the widespread ‘average Levenshtein’ distance.</p>
+</dd>
+</dl>
+<p>For <code>sim.con</code>:
+</p>
+
+<dl>
+<dt>
+<code>colexification</code>:</dt>
+<dd>
+<p>Simply count the number of languages in which two concepts have at least one complete identical translations. No normalization is attempted, and <code>assoc.method</code> and <code>weight</code> are ignored (internally this just uses <code>tcrossprod</code> on the <code>CW (concepts x words)</code> sparse matrix). Because no splitting of strings is necessary, this method is very quick.</p>
+</dd>
+<dt>
+<code>global</code>:</dt>
+<dd>
+<p>Global bigram similarity, i.e. ignoring the separation into languages, and simply taking the bigram vector of all words per concept. Probably best combined with <code>weight = idf</code>.</p>
+</dd>
+<dt>
+<code>bigrams</code>:</dt>
+<dd>
+<p>By default, compute the similarity between concepts by comparing bigraphs, i.e. language-specific bigrams. In that way, cross-linguistically recurrent partial similarities are uncovered. It is very interesting to compare this measure with <code>colexification</code> above.</p>
+</dd>
+</dl>
+<p>For <code>sim.graph</code>:
+</p>
+
+<dl>
+<dt>
+<code>cooccurrence</code>:</dt>
+<dd>
+<p>Currently the only method implemented. Computes the co-occurrence statistics for all pair of graphemes (e.g. between symbol x from language L1 and symbol y from language L2). See Prokic &amp; Cysouw (2013) for an example using this approach.</p>
+</dd>
+</dl>
+<p>All these methods (except for <code>sim.con(method = "colexification")</code>) use either <code>assocSparse</code> or <code>cosSparse</code> for the computation of the similarities. For the different measures available, see the documentation there. Currently implemented are <code>res, poi, pmi, wpmi</code> for <code>assocSparse</code> and <code>idf, isqrt, none</code> for <code>cosWeight</code>. It is actually very easy to define your own measure.  
+</p>
+<p>When <code>weight = NULL</code>, then <code>assocSparse</code> is used with the internal method as specified in <code>assoc.method</code>. When <code>weight</code> is specified, then <code>cosSparse</code> is used with an Euclidean norm and the weighting as specified in <code>weight</code>. When <code>weight</code> is specified, and specification of <code>assoc.method</code> is ignored.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A sparse similarity matrix of class <code>dsCMatrix</code>. The magnitude of the actual values in the matrices depend strongly on the methods chosen.
+</p>
+<p>With <code>sim.graph</code> a list of two matrices is returned.
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>GG</code></td>
+<td>
+<p>The grapheme by grapheme similarity matrix of class <code>dsCMatrix</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>GD</code></td>
+<td>
+<p>A pattern matrix of class  indicating which grapheme belongs to which language.</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Michael Cysouw
+</p>
+
+
+<h3>References</h3>
+
+<p>Prokic, Jelena and Michael Cysouw. 2013. Combining regular sound correspondences and geographic spread. <em>Language Dynamics and Change</em> 3(2). 147–168.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Based on <code>splitWordlist</code> for the underlying conversion of the wordlist into sparse matrices. The actual similarities are mostly computed using <code>assocSparse</code> or <code>cosSparse</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># ----- load data -----
+
+# an example wordlist, see help(huber) for details
+data(huber)
+
+# ----- similarity between languages -----
+
+# most time is spend splitting the strings
+# the rest does not really influence the time needed
+system.time( sim &lt;- sim.lang(huber, method = "p") )
+
+# a simple distance-based UPGMA tree
+
+## Not run: 
+# note non-ASCII characters in data might lead to plot errors on some platforms
+plot(hclust(as.dist(-sim), method = "average"), cex = .7)
+
+## End(Not run)
+
+# ----- similarity between concepts -----
+
+# similarity based on bigrams
+system.time( simB &lt;- sim.con(huber, method = "b") )
+# similarity based on colexification. much easier to calculate
+system.time( simC &lt;- sim.con(huber, method = "c") )
+
+# As an example, look at all adjectival concepts
+adj &lt;- c(1,5,13,14,28,35,40,48,67,89,105,106,120,131,137,146,148,
+	171,179,183,188,193,195,206,222,234,259,262,275,279,292,
+	294,300,309,341,353,355,359)
+
+# show them as trees
+
+## Not run: 
+# note non-ASCII characters in data might lead to plot errors on some platforms
+oldpar&lt;-par("mfrow")
+par(mfrow = c(1,2)) 
+plot(hclust(as.dist(-simB[adj,adj]), method = "ward.D2"), 
+	cex = .5, main = "bigrams")
+plot(hclust(as.dist(-simC[adj,adj]), method = "ward.D2"), 
+	cex = .5, main = "colexification")
+par(mfrow = oldpar)
+
+## End(Not run)
+
+# ----- similarity between graphemes -----
+
+# this is a very crude approach towards regular sound correspondences
+# when the languages are not too distantly related, it works rather nicely 
+# can be used as a quick first guess of correspondences for input in more advanced methods
+
+# all 2080 graphemes in the data by all 2080 graphemes, from all languages
+system.time( X &lt;- sim.graph(huber) )
+
+# throw away the low values
+# select just one pair of languages for a quick visualisation
+X$GG &lt;- drop0(X$GG, tol = 1)
+colnames(X$GG) &lt;- rownames(X$GG)
+correspondences &lt;- X$GG[X$GD[,"bora"],X$GD[,"muinane"]]
+
+## Not run: 
+# note non-ASCII characters in data might lead to plot errors on some platforms
+heatmap(as.matrix(correspondences))
+
+## End(Not run)
+</code></pre>
+
+
+</div>

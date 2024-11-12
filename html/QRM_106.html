@@ -1,0 +1,53 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>Pdeconstruct</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Disassemble a Correlation Matrix for ML Copula Fitting 
+</h2>
+
+<h3>Description</h3>
+
+<p>This function takes a correlation matrix <code class="reqn">P</code> and returns the
+elements of a lower-triangular matrix <code class="reqn">A</code> with ones on the
+diagonal such that <code class="reqn">P</code> is the corelation matrix corresponding to
+the covariance matrix <code class="reqn">AA'</code> (see page 235 in QRM).   
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">Pdeconstruct(P)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>P</code></td>
+<td>
+<p><code>matrix</code>, a correlation matrix</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>vector
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>Pconstruct</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">P &lt;- Pconstruct(1:6) 
+Pdeconstruct(P) 
+</code></pre>
+
+
+</div>

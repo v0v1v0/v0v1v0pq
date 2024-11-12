@@ -1,0 +1,138 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>DeMorgan</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Negate Boolean Expressions using De Morgan's Laws</h2>
+
+<h3>Description</h3>
+
+<p>This function negates simple or complex Boolean expressions using the two 
+De Morgan Laws.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">DeMorgan(expression, and.split = "", use.tilde = FALSE)
+
+is.DeMorgan(x)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>expression</code></td>
+<td>
+<p>A string representing a Boolean expression or a solution 
+object of class 'qca'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>and.split</code></td>
+<td>
+<p>The AND-operator (if any).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>use.tilde</code></td>
+<td>
+<p>Logical, use '~' for negation with bivalent variables.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>An object of class 'DeMorgan'.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The two De Morgan laws posit that the negation of a disjunction is the 
+conjunction of its separate negations, and the negation of a conjunction is the 
+disjunction of its separate negations (Hohn 1966, p.80).
+</p>
+<p>The argument <code>expression</code> can be any complex string representing a 
+Boolean expression of disjunctions and conjunctions, or a solution object of 
+class 'qca' (objects returned by the '<code>eQMC</code>' function).
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list of solutions with their negations as components if <code>expression</code> 
+is an object of class 'qca', or simply a list with the following components 
+if <code>expression</code> is a string:<br></p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>initial</code></td>
+<td>
+<p>The initial expression.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>negated</code></td>
+<td>
+<p>The negation of the initial expression.</p>
+</td>
+</tr>
+</table>
+<h3>Contributors</h3>
+
+
+<table>
+<tr>
+<td style="text-align: left;">
+Dusa, Adrian</td>
+<td style="text-align: left;">: development, programming, testing</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+Thiem, Alrik</td>
+<td style="text-align: left;">: development, documentation, testing
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Alrik Thiem (<a href="http://www.alrik-thiem.net">Personal Website</a>; <a href="https://www.researchgate.net/profile/Alrik_Thiem">ResearchGate Website</a>)
+</p>
+
+
+<h3>References</h3>
+
+<p>Hohn, Franz E. 1966. <em>Applied Boolean Algebra: An Elementary Introduction</em>. 
+2nd ed. New York: Macmillan.
+</p>
+<p>Ragin, Charles C. 1987. <em>The Comparative Method: Moving beyond Qualitative 
+and Quantitative Strategies</em>. Berkeley: University of California Press.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>eQMC</code></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># example from Ragin (1987, p.99)
+DeMorgan("AC + B~C")
+
+# with different AND-operators
+DeMorgan("A*C + B*~C", and.split = "*")
+DeMorgan("A&amp;C + B&amp;~C", and.split = "&amp;")
+
+# use solution object of class 'qca' returned by 'eQMC' function, 
+# even with multiple models
+data(d.represent)
+KRO.ps &lt;- eQMC(d.represent, outcome = "WNP")
+DeMorgan(KRO.ps)
+</code></pre>
+
+
+</div>

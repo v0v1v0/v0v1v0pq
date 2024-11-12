@@ -1,0 +1,71 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>get_common_ids</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Get common set of IDs from objects</h2>
+
+<h3>Description</h3>
+
+<p>For a set objects with IDs as row names (or, for a vector, just
+names), find the IDs that are present in all of the objects.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">get_common_ids(..., complete.cases = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>A set of objects: vectors, lists, matrices, data frames,
+and/or arrays. If one is a character vector with no names
+attribute, it's taken to be a set of IDs, itself.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>complete.cases</code></td>
+<td>
+<p>If TRUE, look at matrices and non-character
+vectors and keep only individuals with no missing values.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>This is used (mostly internally) to align phenotypes,
+genotype probabilities, and covariates in preparation for a genome
+scan. The <code>complete.cases</code> argument is used to omit
+individuals with any missing covariate values.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A vector of character strings for the individuals that are
+in common.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">x &lt;- matrix(0, nrow=10, ncol=5); rownames(x) &lt;- LETTERS[1:10]
+y &lt;- matrix(0, nrow=5, ncol=5);  rownames(y) &lt;- LETTERS[(1:5)+7]
+z &lt;- LETTERS[5:15]
+get_common_ids(x, y, z)
+
+x[8,1] &lt;- NA
+get_common_ids(x, y, z)
+get_common_ids(x, y, z, complete.cases=TRUE)
+
+</code></pre>
+
+
+</div>

@@ -1,0 +1,64 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>genoprob_to_alleleprob</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Convert genotype probabilities to allele probabilities</h2>
+
+<h3>Description</h3>
+
+<p>Reduce genotype probabilities (as calculated by
+<code>calc_genoprob()</code>) to allele probabilities.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">genoprob_to_alleleprob(probs, quiet = TRUE, cores = 1)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>probs</code></td>
+<td>
+<p>Genotype probabilities, as calculated from
+<code>calc_genoprob()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>quiet</code></td>
+<td>
+<p>IF <code>FALSE</code>, print progress messages.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cores</code></td>
+<td>
+<p>Number of CPU cores to use, for parallel calculations.
+(If <code>0</code>, use <code>parallel::detectCores()</code>.)
+Alternatively, this can be links to a set of cluster sockets, as
+produced by <code>parallel::makeCluster()</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>An object of class <code>"calc_genoprob"</code>, like the input <code>probs</code>,
+but with probabilities collapsed to alleles rather than genotypes. See <code>calc_genoprob()</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">iron &lt;- read_cross2(system.file("extdata", "iron.zip", package="qtl2"))
+gmap_w_pmar &lt;- insert_pseudomarkers(iron, step=1)
+probs &lt;- calc_genoprob(iron, gmap_w_pmar, error_prob=0.002)
+allele_probs &lt;- genoprob_to_alleleprob(probs)
+</code></pre>
+
+
+</div>

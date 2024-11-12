@@ -1,0 +1,77 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>data_push</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Add data to another data like array_push in PHP</h2>
+
+<h3>Description</h3>
+
+<p>Shorthand to add data to a dataset and save as the same name
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">data_push(., add, which = c("rows", "cols"))
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>.</code></td>
+<td>
+<p>first data set</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>add</code></td>
+<td>
+<p>data set to add</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>which</code></td>
+<td>
+<p>where to append the new data e.g. rows or cols</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>the combined dataset store to a variable with the name of the first
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># initialize p1 and p2
+init(p1,p2)
+p1
+p2
+
+# declare p1 and p2 as data frame
+p1 &lt;- data.frame(PK=1:10,ID2=1:10)
+p2 &lt;- data.frame(PK=11:20,ID2=21:30)
+
+p1
+p2
+
+#add p1 to p2 by row, and resave as p1
+data_push(p1,p2,"rows")
+# p2 # p2 remains the same
+p1 #p1 has been updated
+
+# declare a new data frame called p3
+p3 &lt;- data.frame(Hindex=number(20),Rindex=number(20,seed=20))
+
+# add p3 to p1 as column, and resave as p1
+data_push(p1,p3,"cols")
+p1 # p1 has been updated
+</code></pre>
+
+
+</div>

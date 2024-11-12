@@ -1,0 +1,78 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>logit</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>logit and inverse logit functions</h2>
+
+<h3>Description</h3>
+
+<p>transform <code>x</code> either via the logit, or inverse logit.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">logit(x)
+
+invlogit(x)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a numeric vector</p>
+</td>
+</tr></table>
+<h3>Details</h3>
+
+<p>The logit and inverse logit functions are part of R via the
+logistic distribution functions in the stats package.
+Quoting from the documentation for the logistic distribution
+</p>
+<p>"<code>qlogis(p)</code> is the same as the <code>logit</code> function, <code>logit(p) =
+log(p/1-p)</code>, and <code>plogis(x)</code> has consequently been called the 'inverse
+logit'."
+</p>
+<p>See the examples for benchmarking these functions.  The <code>logit</code> and
+<code>invlogit</code> functions are faster than the <code>qlogis</code> and <code>plogis</code>
+functions.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>qlogis</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(rbenchmark)
+
+# compare logit to qlogis
+p &lt;- runif(1e5)
+identical(logit(p), qlogis(p))
+
+## Not run: 
+rbenchmark::benchmark(logit(p), qlogis(p))
+
+## End(Not run)
+
+# compare invlogit to plogis
+x &lt;- runif(1e5, -1000, 1000)
+identical(invlogit(x), plogis(x))
+
+## Not run: 
+rbenchmark::benchmark(invlogit(x), plogis(x))
+
+## End(Not run)
+
+</code></pre>
+
+
+</div>

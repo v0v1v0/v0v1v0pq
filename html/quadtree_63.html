@@ -1,0 +1,71 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>read_quadtree</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Read/write a <code>Quadtree</code>
+</h2>
+
+<h3>Description</h3>
+
+<p>Reads and writes a <code>Quadtree</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S4 method for signature 'character'
+read_quadtree(x)
+
+## S4 method for signature 'character,Quadtree'
+write_quadtree(x, y)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>character; the filepath to read from or write to</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>a <code>Quadtree</code></p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>To read/write a quadtree object, the C++ library <code>cereal</code> is used to
+serialize the quadtree and save it to a file. The file extension is
+unimportant - it can be anything (I've been using the extension '.qtree').
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>read_quadtree()</code> - returns a <code>Quadtree</code>
+</p>
+<p><code>write_quadtree()</code> - no return value
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(quadtree)
+habitat &lt;- terra::rast(system.file("extdata", "habitat.tif", package="quadtree"))
+
+qt &lt;- quadtree(habitat, .1)
+
+path &lt;- tempfile(fileext = "qtree")
+write_quadtree(path, qt)
+qt2 &lt;- read_quadtree(path)
+</code></pre>
+
+
+</div>

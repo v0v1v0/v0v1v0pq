@@ -1,0 +1,69 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>correl</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Handle Correlations Between <code>quantities</code> Objects</h2>
+
+<h3>Description</h3>
+
+<p>Methods to set or retrieve correlations or covariances between
+<code>quantities</code> objects.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 replacement method for class 'quantities'
+correl(x, y) &lt;- value
+
+## S3 replacement method for class 'quantities'
+covar(x, y) &lt;- value
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>an object of class <code>quantities</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>an object of class <code>quantities</code> of the same length as <code>x</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>value</code></td>
+<td>
+<p>a compatible object of class <code>units</code> of length 1 or the
+same length as <code>x</code>. For correlations, this means a unitless vector (a
+numeric vector is also accepted in this case). For covariances, this means
+the same magnitude as <code>x*y</code>.</p>
+</td>
+</tr>
+</table>
+<h3>See Also</h3>
+
+<p><code>correl</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">x &lt;- set_quantities(1:10, m/s, 0.1)
+y &lt;- set_quantities(10:1, km/h, 0.2)
+correl(x, y) &lt;- 0.1 # accepted
+correl(x, y) &lt;- set_units(0.1) # recommended
+correl(x, y)
+covar(x, y)
+
+</code></pre>
+
+
+</div>

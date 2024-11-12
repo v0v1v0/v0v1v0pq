@@ -1,0 +1,75 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>showQsprayX1X2X3</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Print a 'qspray' object</h2>
+
+<h3>Description</h3>
+
+<p>Prints a <code>qspray</code> object given a string for the variable.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">showQsprayX1X2X3(x = "x", collapse = ".", ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x, collapse</code></td>
+<td>
+<p>see <code>showMonomialX1X2X3</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>arguments passed to <code>showQspray</code>, such as 
+<code>compact=TRUE</code></p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A function which prints a <code>qspray</code> object.
+</p>
+
+
+<h3>Note</h3>
+
+<p>The way <code>qspray</code> objects are displayed can be controlled with the 
+help of the function <code>showQsprayOption&lt;-</code>, and 
+<code>showQsprayX1X2X3()</code> is a possible option to pass in 
+<code>showQsprayOption&lt;-</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>showMonomialX1X2X3</code>, <code>showQspray</code>, 
+<code>showQsprayOption&lt;-</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">set.seed(3141)
+( qspray &lt;- rQspray() )
+showQsprayX1X2X3("X")(qspray)
+# setting a show option:
+showQsprayOption(qspray, "showQspray") &lt;- showQsprayX1X2X3("A")
+qspray
+# this is equivalent to:
+showQsprayOption(qspray, "showMonomial") &lt;- showMonomialX1X2X3("A")
+# and also equivalent to:
+showQsprayOption(qspray, "x") &lt;- "A"
+</code></pre>
+
+
+</div>

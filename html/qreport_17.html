@@ -1,0 +1,85 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>makecnote</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>makecnote</h2>
+
+<h3>Description</h3>
+
+<p>Print an Object in a Collapsible Note
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">makecnote(
+  x,
+  label = paste0("`", deparse(substitute(x)), "`"),
+  wide = FALSE,
+  type = c("print", "run", "cat"),
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>an object having a suitable <code>print</code> method</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>label</code></td>
+<td>
+<p>a character string providing a title for the tab.  Default is the name of the argument passed to <code>makecnote</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>wide</code></td>
+<td>
+<p>set to <code>TRUE</code> to expand the width of the text body</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>type</code></td>
+<td>
+<p>default is to <code>print</code>; can also be <code>run</code>, <code>cat</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>an optional list of arguments to be passed to <code>print</code></p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Prints an object in a Quarto collapsible note.
+</p>
+
+
+<h3>Value</h3>
+
+<p>nothing is returned, used for rendering markup
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Frank Harrell
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">makecnote('This is some text', label='mylab', wide=TRUE)
+</code></pre>
+
+
+</div>

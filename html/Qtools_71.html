@@ -1,0 +1,148 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>nlControl</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Control parameters for gradient search estimation
+</h2>
+
+<h3>Description</h3>
+
+<p>A list of parameters for controlling the fitting process.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">nlControl(tol_ll = 1e-05, tol_theta = 0.001, check_theta = FALSE,
+	step = NULL, beta = 0.5, gamma = 1.25, reset_step = FALSE,
+	maxit = 1000, smooth = FALSE, omicron = 0.001, verbose = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>tol_ll</code></td>
+<td>
+
+<p>tolerance expressed as relative change of the objective function.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tol_theta</code></td>
+<td>
+
+<p>tolerance expressed as relative change of the estimates.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>check_theta</code></td>
+<td>
+
+<p>logical flag. If <code>TRUE</code> the algorithm performs a check on the change in the estimates in addition to the likelihood.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>step</code></td>
+<td>
+
+<p>step size (default standard deviation of response).
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>beta</code></td>
+<td>
+
+<p>decreasing step factor for line search (0,1).
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gamma</code></td>
+<td>
+
+<p>nondecreasing step factor for line search (&gt;= 1).
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>reset_step</code></td>
+<td>
+
+<p>logical flag. If <code>TRUE</code> the step size is re-setted to the initial value at each iteration.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>maxit</code></td>
+<td>
+
+<p>maximum number of iterations.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>smooth</code></td>
+<td>
+
+<p>logical flag. If <code>TRUE</code> the standard loss function is replaced with a smooth approximation.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>omicron</code></td>
+<td>
+
+<p>small constant for smoothing the loss function when using <code>smooth = TRUE</code>. See details.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+
+<p>logical flag.
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The optimization algorithm is along the lines of the gradient search algorithm (Bottai et al, 2015). If <code>smooth = TRUE</code>, the classical non-differentiable loss function is replaced with a smooth version (Chen and Wei, 2005).
+</p>
+
+
+<h3>Value</h3>
+
+<p>a list of control parameters.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Marco Geraci</p>
+
+
+<h3>References</h3>
+
+<p>Bottai M, Orsini N, Geraci M (2015). A Gradient Search Maximization Algorithm for the Asymmetric Laplace Likelihood, Journal of Statistical Computation and Simulation, 85(10), 1919-1925.
+</p>
+<p>Chen C, Wei Y (2005). Computational issues for quantile regression. Sankhya: The Indian Journal of Statistics, 67(2), 399-417.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>nlrq1</code>
+</p>
+
+
+</div>

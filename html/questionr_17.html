@@ -1,0 +1,133 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>cross.multi.table</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Two-way frequency table between a multiple choices question and a factor</h2>
+
+<h3>Description</h3>
+
+<p>This function allows to generate a two-way frequency table from a multiple
+choices question and a factor. The question's answers must be stored in a
+series of binary variables.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">cross.multi.table(
+  df,
+  crossvar,
+  weights = NULL,
+  digits = 1,
+  freq = FALSE,
+  tfreq = "col",
+  n = FALSE,
+  na.rm = TRUE,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>df</code></td>
+<td>
+<p>data frame with the binary variables</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>crossvar</code></td>
+<td>
+<p>factor to cross the multiple choices question with</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>weights</code></td>
+<td>
+<p>optional weighting vector</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>digits</code></td>
+<td>
+<p>number of digits to keep in the output</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>freq</code></td>
+<td>
+<p>display percentages</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tfreq</code></td>
+<td>
+<p>type of percentages to compute ("row" or "col")</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p>if <code>TRUE</code>, and freq is <code>TRUE</code>, display number of observations per row or column</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>na.rm</code></td>
+<td>
+<p>Remove any NA values in <code>crossvar</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>arguments passed to <code>multi.table</code></p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>See the <code>multi.table</code> help page for details on handling of the multiple
+choices question and corresponding binary variables.
+</p>
+<p>If <code>freq</code> is set to TRUE, the resulting table gives the columns percentages
+based on the contingency table of crossvar in the respondants population.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Object of class table.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>multi.table</code>, <code>multi.split</code>, <code>table</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Sample data frame
+set.seed(1337)
+sex &lt;- sample(c("Man","Woman"),100,replace=TRUE)
+jazz &lt;- sample(c(0,1),100,replace=TRUE)
+rock &lt;- sample(c(TRUE, FALSE),100,replace=TRUE)
+electronic &lt;- sample(c("Y","N"),100,replace=TRUE)
+weights &lt;- runif(100)*2
+df &lt;- data.frame(sex,jazz,rock,electronic,weights)
+## Two-way frequency table on 'music' variables by sex
+cross.multi.table(df[,c("jazz", "rock","electronic")], df$sex, true.codes=list("Y"))
+## Column percentages based on respondants
+cross.multi.table(df[,c("jazz", "rock","electronic")], df$sex, true.codes=list("Y"), freq=TRUE)
+## Row percentages based on respondants
+cross.multi.table(df[,c("jazz", "rock","electronic")], 
+                  df$sex, true.codes=list("Y"), freq=TRUE, tfreq="row", n=TRUE)
+</code></pre>
+
+
+</div>

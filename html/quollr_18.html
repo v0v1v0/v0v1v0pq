@@ -1,0 +1,62 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>gen_scaled_data</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Scaling the data</h2>
+
+<h3>Description</h3>
+
+<p>This function scales the x and y coordinates.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">gen_scaled_data(data, x, y, hex_ratio = NA)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>A tibble or data frame.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>The name of the column that contains values along the x-axis.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>The name of the column that contains values along the y-axis.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>hex_ratio</code></td>
+<td>
+<p>Numeric value representing the ratio of the hexagon size.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list contains scaled x and y coordinates.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">gen_scaled_data(data = s_curve_noise_umap, x = "UMAP1", y = "UMAP2")
+
+</code></pre>
+
+
+</div>

@@ -1,0 +1,81 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>truth.table</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Method truth.table</h2>
+
+<h3>Description</h3>
+
+<p>Method truth.table
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">truth.table(e1, nbits, bits, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>e1</code></td>
+<td>
+<p>gate to measure.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nbits</code></td>
+<td>
+<p>number of bits the gate acts on.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bits</code></td>
+<td>
+<p>optional vector of length <code>nbits</code> containing the qubit order in the gate.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>additional parameters to passed be on to 'e1'</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>calculates the quantum truth table of the gate <code>e1</code>.
+If a basis state is transformed to a superposition of basis states by
+the gate, the result is 'NA'.
+</p>
+
+
+<h3>Value</h3>
+
+<p>returns a data.frame containing the truth table. Each row corresponds
+to one input-output combination. Each column to one specific bit.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## truth table for a single bit gate
+truth.table(X, 1)
+## for a 2-bit gate
+truth.table(CNOT, 2)
+## for a 2-bit gate with reversed controll and target bits
+truth.table(CNOT, bits=2:1)
+## for a general controlled gate
+truth.table(cqgate, 2, gate=H(2))
+## for an arbitrary circuit (here a swap implementation using only CNOTs)
+myswap &lt;- function(bits){ function(x){ CNOT(bits) * (CNOT(rev(bits)) * (CNOT(bits) * x))}}
+truth.table(myswap, 2)
+
+</code></pre>
+
+
+</div>

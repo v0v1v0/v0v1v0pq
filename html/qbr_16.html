@@ -1,0 +1,133 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qb_run</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Run a Quickbase report</h2>
+
+<h3>Description</h3>
+
+<p>Run a report and get its data.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qb_run(
+  subdomain,
+  token,
+  table_id,
+  report_id,
+  agent = NULL,
+  skip = 0,
+  top = 0,
+  type_suffix = FALSE,
+  paginate = TRUE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>subdomain</code></td>
+<td>
+<p>Character vector with one element. Found at the beginning of
+the Quickbase URL. Realm specific.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>token</code></td>
+<td>
+<p>Character vector with one element. Created in 'My Preferences'
+under 'Manage user tokens' link.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>table_id</code></td>
+<td>
+<p>Character vector with one element. Found in the URL of a
+Quickbase table between /db/ and ?</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>report_id</code></td>
+<td>
+<p>Character vector with one element. Found in the 'Reports &amp;
+Charts' page in Quickbase and in the report URL.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>agent</code></td>
+<td>
+<p>Optional. Character vector with one element. Describes
+user/agent making API call.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>skip</code></td>
+<td>
+<p>Optional. Integer. The number of rows to skip from the top of a
+record set.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>top</code></td>
+<td>
+<p>Optional. Integer. The limit on the number of records to pull
+starting at the top of a record set.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>type_suffix</code></td>
+<td>
+<p>Optional. Logical. Set TRUE to append each field label
+with its Quickbase data type.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>paginate</code></td>
+<td>
+<p>Optional. Logical. Set TRUE to recursively call the API until
+all report pages are collected</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A tibble.
+</p>
+
+
+<h3>References</h3>
+
+<p><a href="https://developer.quickbase.com">Quickbase API
+documentation</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+
+    # Get all data in a report
+    my_tibble &lt;- qb_run(subdomain = "abc",
+                        token = keyring::key_get("qb_example"),
+                        table_id = "bn9d8iesz",
+                        report_id = "1")
+
+    # Get rows 3 to 6 from a report
+    my_tibble &lt;- qb_run(subdomain = "abc.quickbase.com",
+                        token = keyring::key_get("qb_example"),
+                        table_id = "bn9d8iesz",
+                        report_id = "1",
+                        skip = 2,
+                        top = 3)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

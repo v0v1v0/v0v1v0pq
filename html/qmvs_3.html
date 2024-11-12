@@ -1,0 +1,146 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>queue</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Simulation of the queueing model of visual search</h2>
+
+<h3>Description</h3>
+
+<p><code>queue</code> simulates the response and response time on a single trial
+in an experiment using standard visual search paradigm.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">queue(miat, mst, c, pr, L, misidd, misidt, arrival, serving, tposition,
+      old=FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>miat</code></td>
+<td>
+<p>A positive number representing the scale parameter of the
+exponential distribution of interarrival times, i.e., the mean
+interarrival time.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mst</code></td>
+<td>
+<p>A positive number representing the scale parameter of the
+exponential distribution of service times, i.e., the mean service
+time.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>c</code></td>
+<td>
+<p>A natural number representing the number of parallel servers of the system.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pr</code></td>
+<td>
+<p>Logical. If pr is <code>TRUE</code>, the function simulates data on target present trials; if pr is <code>FALSE</code>, it simulates data on target absent trials.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>L</code></td>
+<td>
+<p>A natural number representing the number of stimuli that have
+been identified to terminate the queueing process.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>misidd</code></td>
+<td>
+<p>Logical vector of length k.
+Here, <code>FALSE</code> means
+correct identification and <code class="reqn">TRUE</code> misidentification of a distractor.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>misidt</code></td>
+<td>
+<p>Logical. Here,
+<code>FALSE</code> means correct identification and <code>TRUE</code>
+misidentification of the target.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>arrival</code></td>
+<td>
+<p>A vector of length set size. Elements must be
+exponentially distributed random numbers with rate 1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>serving</code></td>
+<td>
+<p>A vector of length set size. Elements must be
+exponentially distributed random numbers with rate 1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tposition</code></td>
+<td>
+<p>A natural number representing the position of the
+target in the queue, in target present case less or equal to set
+size, in target absent case equal to set size +1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>old</code></td>
+<td>
+<p>Logical. If old is <code>TRUE</code>, the simulation is implemented by R code; if old is <code>FALSE</code>, it is implemented by C code. Only for comparison of speed. Default option is <code>FALSE</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A numeric vector of length 5 indicating the number of visual items
+processed, the mean processing time of a single item, the maximum of
+processing time of a single item, the system response time and the response.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Yiq Li, <a href="mailto:yiqi.li@web.de">yiqi.li@web.de</a>,<a href="https://www.xing.com/profile/Yiqi_Li3">https://www.xing.com/profile/Yiqi_Li3</a>, Martin Schlather,<a href="mailto:martin.schlather@uni-mannheim.de">martin.schlather@uni-mannheim.de</a>,<a href="https://www.wim.uni-mannheim.de/schlather/">https://www.wim.uni-mannheim.de/schlather/</a></p>
+
+
+<h3>References</h3>
+
+<p>Li, Yiqi (2020) <em>Visual search as a queueing process</em>. Doctoral dissertation, University of Mannheim.
+</p>
+<p>Moore C. M.,and Wolfe J. M. (2001)
+Getting beyond the serial/parallel debate in
+visual search: A hybrid approach. In Shapiro, K.L. <em>The Limits of
+Attention: Temporal Constraints on Human Information
+Processing.</em> Oxford University Press 
+<a href="https://doi.org/10.1093/acprof%3Aoso/9780198505150.003.0009">doi:10.1093/acprof:oso/9780198505150.003.0009</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>sim, distance</code>,
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">queue(miat = 30, mst = 200, c = 4, pr = TRUE, L = 12,
+      misidd = rep(0L, 12), misidt = 0, arrival = rexp(12),
+      serving = rexp(12), tposition = 7, old=FALSE)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,81 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>read_probs</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Read genotype probability object from file</h2>
+
+<h3>Description</h3>
+
+<p>Read object from file stored according to method.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">read_probs(
+  chr = NULL,
+  start_val = NULL,
+  end_val = NULL,
+  datapath,
+  allele = TRUE,
+  method,
+  probdir = "genoprob"
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>chr</code></td>
+<td>
+<p>vector of chromosome identifiers</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>start_val, end_val</code></td>
+<td>
+<p>start and end values in Mbp</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>datapath</code></td>
+<td>
+<p>name of folder with Derived Data</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>allele</code></td>
+<td>
+<p>read haplotype allele probabilities (if <code>TRUE</code>) or diplotype allele-pair probabilities (if <code>FALSE</code>)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+<p>method of genoprob storage</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>probdir</code></td>
+<td>
+<p>genotype probability directory (default <code>"genoprob"</code>)</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>list with <code>probs</code> = large object of class <code>calc_genoprob</code> and <code>map</code> = physical map for selected <code>chr</code>
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Brian S Yandell, <a href="mailto:brian.yandell@wisc.edu">brian.yandell@wisc.edu</a>
+</p>
+
+
+</div>

@@ -1,0 +1,79 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>parse_expression</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Parse a SQL expression</h2>
+
+<h3>Description</h3>
+
+<p>Parses a SQL expression into an R expression
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">parse_expression(expr, tidyverse = FALSE, secure = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>expr</code></td>
+<td>
+<p>a character string containing a SQL expression</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tidyverse</code></td>
+<td>
+<p>set to <code>TRUE</code> to use functions from <span class="pkg">tidyverse</span>
+packages including <span class="pkg">dplyr</span>, <span class="pkg">stringr</span>, and <span class="pkg">lubridate</span> in the
+returned R expression</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>secure</code></td>
+<td>
+<p>set to <code>FALSE</code> to allow potentially dangerous functions in
+the returned R expression</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The expression must not end with a column alias assignment.
+Use <code>extract_alias</code> to extract and remove column alias
+assignments.
+</p>
+<p>The expression must not contain any unquoted whitespace characters except
+spaces, and there must be no unquoted runs or two or more spaces. The
+expression must not contain line comments (<code>--</code>) or block comments
+(<code>/* */</code>). Use <code>squish_sql</code> to satisfy these whitespace
+requirements and remove any comments.
+</p>
+
+
+<h3>Value</h3>
+
+<p>an unevaluated R expression (a <code>call</code>)
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>parse_query</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">expr &lt;- "round(AVG(arr_delay))"
+parse_expression(expr)
+</code></pre>
+
+
+</div>

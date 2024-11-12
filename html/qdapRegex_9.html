@@ -1,0 +1,65 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>bind_or</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Boundary Wrap (Bind) and 'or' Concatenate Elements</h2>
+
+<h3>Description</h3>
+
+<p>A wrapper for <code>bind</code> and <code>pastex</code> that wraps each sub-expression 
+element with left/right boundaries (<code>\b</code> by default) and then 
+concatenate/joins bound strings with a regex 'or' ("|").  Equivalent to 
+<code>pastex(bind(...), sep = "|")</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">bind_or(..., group.all = TRUE, left = "\\b", right = left)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>group.all</code></td>
+<td>
+<p>logical.  If <code>TRUE</code> the resulting 'or' concatenated 
+elements will be wrapped with grouping parenthesis.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>left</code></td>
+<td>
+<p>A single length character vector to use as the left bound.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>right</code></td>
+<td>
+<p>A single length character vector to use as the right bound.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Regular expressions to paste together or a named expression 
+from the default regular expression dictionary prefixed with single at 
+(<code>@</code>) (e.g., <code>"@rm_hash"</code>) or a regular expression from 
+<code>regex_supplement</code> dictionary prefixed with an at 
+(<code>@</code>) (e.g., <code>"@time_12_hours"</code>).</p>
+</td>
+</tr>
+</table>
+<h3>Examples</h3>
+
+<pre><code class="language-R">bind_or(LETTERS)
+bind_or("them", "those", "that", "these")
+bind_or("them", "those", "that", "these", group.all = FALSE)
+</code></pre>
+
+
+</div>

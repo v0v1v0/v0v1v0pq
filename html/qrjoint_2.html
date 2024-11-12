@@ -1,0 +1,99 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>coef.qde</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Coefficient Extraction from qde Model Fit</h2>
+
+<h3>Description</h3>
+
+<p>Post process MCMC output from <code>qde</code> to create summaries of the quantile estimates.</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R"> 
+## S3 method for class 'qde'
+coef(object, burn.perc = 0.5, nmc = 200, reduce = TRUE, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>a fitted model of the class <code>qde</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>burn.perc</code></td>
+<td>
+<p>a positive fraction indicating what fraction of the saved draws are to be discarded as burn-in</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nmc</code></td>
+<td>
+<p>integer giving the number of samples, post burn-in, to be used in Monte Carlo averaging</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>reduce</code></td>
+<td>
+<p>logical indicating if the tail-expanded grid of tau values is to be reduced to the regular increment grid</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>not currently implemented</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Extracts posterior draws of intercept and slope functions from saved draws of model parameters. A plot may be obtained if <code>plot = TRUE</code>. A list is returned invisibly with three fields.
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>beta.samp</code></td>
+<td>
+<p>a matrix with <code>nmc</code> many columns and <code>length(tau.grid)</code> many rows.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>beta.est</code></td>
+<td>
+<p>a 3-column matrix of median, 2.5th and 97.5th percentiles of the posterior distribution of <code class="reqn">\beta_0</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>parametric</code></td>
+<td>
+<p>a matrix with 3 columns giving the estimate (posterior median) and the lower and upper end points of the 95% posterior credible interval for <code class="reqn">\gamma_0</code>, <code class="reqn">\sigma</code>, and, <code class="reqn">\nu</code>.</p>
+</td>
+</tr>
+</table>
+<h3>See Also</h3>
+
+<p><code>qde</code> and <code>summary.qde</code> for model fitting under qrjoint. Also see <code>getBands</code> for plotting credible bands for coefficients.</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Plasma data analysis
+data(plasma)
+Y &lt;- plasma$BetaPlasma
+Y &lt;- Y + 0.1 * rnorm(length(Y)) ## remove atomicity
+
+# model fitting with 50 posterior samples from 100 iterations (thin = 2)
+fit.qde &lt;- qde(Y, 50, 2)
+betas &lt;- coef(fit.qde)
+signif(betas$parametric, 3)
+</code></pre>
+
+
+</div>

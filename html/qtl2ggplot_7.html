@@ -1,0 +1,95 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>color_patterns_set</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Set up colors for patterns or points</h2>
+
+<h3>Description</h3>
+
+<p>Set up colors for patterns or points
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">color_patterns_set(
+  scan1output,
+  snpinfo,
+  patterns,
+  col,
+  pattern,
+  show_all_snps,
+  col_hilit,
+  drop_hilit,
+  maxlod
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>scan1output</code></td>
+<td>
+<p>output of linear mixed model for <code>phename</code> (see <code>scan1</code>)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>snpinfo</code></td>
+<td>
+<p>Data frame with snp information</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>patterns</code></td>
+<td>
+<p>Connect SDP patterns: one of <code>c("none","all","hilit")</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>col</code></td>
+<td>
+<p>Color of other points, or colors for patterns</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pattern</code></td>
+<td>
+<p>allele pattern as of form <code>AB:CDEFGH</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>show_all_snps</code></td>
+<td>
+<p>show all SNPs if <code>TRUE</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>col_hilit</code></td>
+<td>
+<p>Color of highlighted points</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>drop_hilit</code></td>
+<td>
+<p>SNPs with LOD score within this amount of the maximum SNP association will be highlighted.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>maxlod</code></td>
+<td>
+<p>Maximum LOD for drop of <code>drop_hilit</code></p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>list of <code>col</code> and <code>pattern</code>.
+</p>
+
+
+</div>

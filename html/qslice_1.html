@@ -1,0 +1,85 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>auc</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Area Under the Curve (histogram)</h2>
+
+<h3>Description</h3>
+
+<p>Calculate the histogram approximation to the area under the curve after restricting
+the curve to fit within the unit square. Specifically, the highest histogram bar reaches 1 and
+the support is the unit interval. See Heiner et al. (2024+).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">auc(u = NULL, x = NULL, y = NULL, nbins = 30)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>u</code></td>
+<td>
+<p>Numeric vector of samples supported on unit interval with which to
+create a histogram (use <code>u = NULL</code> if <code>x</code> and <code>y</code> are supplied).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>Numeric vector of histogram locations. (Not used if <code>u</code> is supplied).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>Numeric vector of histogram heights OR function evaluating the curve
+for a given value of <code>u</code> supported on (0,1). (Not used if <code>u</code> is supplied).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nbins</code></td>
+<td>
+<p>Number of histogram bins to use (defaults to 30).</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Accepts either samples <code>u</code> or a function <code>y</code> representing a (possibly
+unnormalized) probability density supported on the unit interval.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The (approximate) area under the curve as a numeric value of length one.
+</p>
+
+
+<h3>References</h3>
+
+<p>Heiner, M. J., Johnson, S. B., Christensen, J. R., and Dahl, D. B. (2024+), "Quantile Slice Sampling," <em>arXiv preprint arXiv:###</em>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">u_samples &lt;- rbeta(10e3, 2, 2)
+auc(u = u_samples)
+auc(u = u_samples, nbins = 50)
+auc(y = function(x) {dbeta(x, 2, 2)}, nbins = 30)
+auc(y = function(x) {dbeta(x, 2, 2)}, nbins = 300)
+xx &lt;- seq(0.001, 0.999, length = 1000)
+auc(x = xx, y = function(x) {dbeta(x, 2, 2)})
+auc(x = xx, y = dbeta(xx, 2, 2))
+</code></pre>
+
+
+</div>

@@ -1,0 +1,110 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>mqmplot.permutations</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Plot results from mqmpermutation</h2>
+
+<h3>Description</h3>
+
+<p>Plotting routine to display the results from a permutation QTL scan. (the
+output of <code>mqmpermutation</code>)
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">mqmplot.permutations(permutationresult, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>permutationresult</code></td>
+<td>
+ <p><code>mqmmulti</code> object returned by
+<code>mqmpermutation</code> permutation analysis.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p> Extra arguments passed to <code>polyplot</code></p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p> No value returned (plotting routine) </p>
+
+
+<h3>Author(s)</h3>
+
+<p>Danny Arends <a href="mailto:danny.arends@gmail.com">danny.arends@gmail.com</a> 
+, Rutger Brouwer
+</p>
+
+
+<h3>See Also</h3>
+
+
+
+<ul>
+<li>
+<p> The MQM tutorial: <a href="https://rqtl.org/tutorials/MQM-tour.pdf">https://rqtl.org/tutorials/MQM-tour.pdf</a>
+</p>
+</li>
+<li> <p><code>MQM</code> - MQM description and references
+</p>
+</li>
+<li> <p><code>mqmscan</code> - Main MQM single trait analysis
+</p>
+</li>
+<li> <p><code>mqmscanall</code> - Parallellized traits analysis
+</p>
+</li>
+<li> <p><code>mqmaugment</code> - Augmentation routine for estimating missing data
+</p>
+</li>
+<li> <p><code>mqmautocofactors</code> - Set cofactors using marker density
+</p>
+</li>
+<li> <p><code>mqmsetcofactors</code> - Set cofactors at fixed locations
+</p>
+</li>
+<li> <p><code>mqmpermutation</code> - Estimate significance levels
+</p>
+</li>
+<li> <p><code>scanone</code> - Single QTL scanning
+
+</p>
+</li>
+</ul>
+<h3>Examples</h3>
+
+<pre><code class="language-R"># Simulated F2 Population
+# QTL at chromosome 3
+f2qtl &lt;- c(3,15,1,0)
+
+# Mouse genetic map
+data(map10)
+
+
+# Simulate a F2 Cross
+f2cross &lt;- sim.cross(map10,f2qtl,n=100,type="f2")
+f2cross &lt;- calc.genoprob(f2cross)
+## Not run: # Permutations to obtain significance threshold
+f2result &lt;- mqmpermutation(f2cross, n.perm=1000, method="permutation")
+
+## End(Not run)
+
+# Plot results
+mqmplot.permutations(f2result)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,121 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>ForeignEquityBS</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>ForeignEquity option valuation via Black-Scholes (BS) model</h2>
+
+<h3>Description</h3>
+
+<p>ForeignEquity Option via Black-Scholes (BS) model
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">ForeignEquityBS(o = OptPx(Opt(Style = "ForeignEquity")), I1 = 1540,
+  I2 = 1/90, sigma1 = 0.14, sigma2 = 0.18, g1 = 0.02, rho = -0.3,
+  Type = c("Foreign", "Domestic"))
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>o</code></td>
+<td>
+<p>An object of class <code>OptPx</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>I1</code></td>
+<td>
+<p>A spot price of the underlying security 1 (usually I1)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>I2</code></td>
+<td>
+<p>A spot price of the underlying security 2 (usually I2)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sigma1</code></td>
+<td>
+<p>a vector of implied volatilities for the associated security 1</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sigma2</code></td>
+<td>
+<p>a vector of implied volatilities for the associated security 2</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>g1</code></td>
+<td>
+<p>is the payout rate of the first stock</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rho</code></td>
+<td>
+<p>is the correlation between asset 1 and asset 2</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Type</code></td>
+<td>
+<p>ForeignEquity option type: 'Foreign' or 'Domestic'</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Two types of ForeignEquity options are priced: <code>'Foreign'</code> and <code>'Domestic'</code>.
+See "Exotic Options", 2nd, Peter G. Zhang for more details.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list of class <code>ForeignEquityBS</code> consisting of the original <code>OptPx</code> object
+and the option pricing parameters <code>I1</code>,<code>I2</code>, <code>Type</code>, <code>isForeign</code>, and <code>isDomestic</code>
+as well as the computed price <code>PxBS</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Chengwei Ge, Department of Statistics, Rice University, 2015
+</p>
+
+
+<h3>References</h3>
+
+<p>Zhang, Peter G.  <em>Exotic Options</em>, 2nd, 1998.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">o = OptPx(Opt(Style = 'ForeignEquity', Right = "Put"), r= 0.03)
+ForeignEquityBS(o, I1=1540, I2=1/90, g1=.02, sigma1=.14,sigma2=0.18, rho=.03,Type='Foreign')
+
+o = OptPx(Opt(Style = 'ForeignEquity',  Right = "Put", ttm=9/12, K=1600), r=.03)
+ForeignEquityBS(o, I1=1540, I2=1/90, g1=.02, sigma1=.14,sigma2=0.18, rho=0.03,Type='Foreign')
+
+o = OptPx(Opt(Style = 'ForeignEquity', Right = "C", ttm=9/12, K=1600), r=.03)
+ForeignEquityBS(o, I1=1540, I2=1/90, g1=.02, sigma1=.14,sigma2=0.18, rho=0.03,Type='Foreign')
+
+o = OptPx(Opt(Style = 'ForeignEquity', Right = "C", ttm=9/12, K=1600), r=.03)
+ForeignEquityBS(o, I1=1540, I2=1/90, g1=.02, sigma1=.14,sigma2=0.18, rho=0.03,Type='Domestic')
+
+o = OptPx(Opt(Style = 'ForeignEquity', Right = "P", ttm=9/12, K=1600), r=.03)
+ForeignEquityBS(o, I1=1540, I2=1/90, g1=.02, sigma1=.14,sigma2=0.18, rho=0.03,Type='Domestic')
+</code></pre>
+
+
+</div>

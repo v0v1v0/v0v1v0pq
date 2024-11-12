@@ -1,0 +1,50 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>getValues-SpecDistrWeight</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Get values from a weight object of type <code>SpecDistrWeight</code>
+</h2>
+
+<h3>Description</h3>
+
+<p>For an <code>object</code> of type <code>SpecDistrWeight</code> and an optional integer
+<code>N</code> the weights <code class="reqn">W_n</code> are returned as a vector that has
+<code class="reqn">W_n(2\pi(k-1)/n)</code> at position <code>k</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S4 method for signature 'SpecDistrWeight'
+getValues(object, N = length(object@env$values))
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p><code>SpecDistrWeight</code> of which to get the values</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>N</code></td>
+<td>
+<p>a <code>numeric</code> specifying the number of equaly spaced Fourier
+frequencies from <code class="reqn">[0,2\pi)</code> for which the weight will
+be computed; by default the number <code>N</code> specified on construction.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Returns a vector of size <code>N</code> as described in the Description
+section.
+</p>
+
+
+</div>

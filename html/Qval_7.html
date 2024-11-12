@@ -1,0 +1,65 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>get.Rmatrix</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Restriction matrix</h2>
+
+<h3>Description</h3>
+
+<p>This function returns the restriction matrix (de la Torre, 2011; Ma &amp; de la Torre, 2020) based on two q-vectors, 
+where the two q-vectors can only differ by one attribute.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">get.Rmatrix(Q.i, Q.i.k)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>Q.i</code></td>
+<td>
+<p>A q-vector</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Q.i.k</code></td>
+<td>
+<p>Another q-vector</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A restriction matrix
+</p>
+
+
+<h3>References</h3>
+
+<p>de la Torre, J. (2011). The Generalized DINA Model Framework. Psychometrika, 76(2), 179-199. DOI: 10.1007/s11336-011-9207-7.
+</p>
+<p>Ma, W., &amp; de la Torre, J. (2020). An empirical Q-matrix validation method for the sequential generalized DINA model. British Journal of Mathematical and Statistical Psychology, 73(1), 142-163. DOI: 10.1111/bmsp.12156.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">Q.i &lt;- c(1, 1, 0)
+Q.i.k &lt;- c(1, 1, 1)
+
+Rmatrix &lt;- get.Rmatrix(Q.i, Q.i.k)
+
+print(Rmatrix)
+
+
+</code></pre>
+
+
+</div>

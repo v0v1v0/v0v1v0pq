@@ -1,0 +1,93 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>get_users</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Get users</h2>
+
+<h3>Description</h3>
+
+<p>Get all users in an account. Provides options to limit
+values to a set of users and/or apps.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">get_users(
+  subdomain,
+  auth,
+  agent = NULL,
+  account_id = NULL,
+  user_emails = NULL,
+  app_ids = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>subdomain</code></td>
+<td>
+<p>Character vector with one element. Found at the beginning of
+the Quickbase URL. Realm specific.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>auth</code></td>
+<td>
+<p>Character vector with one element. The Quickbase authentication
+scheme you are using to authenticate the request (e.g., user token).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>agent</code></td>
+<td>
+<p>Optional. Character vector with one element. Describes
+user/agent making API call.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>account_id</code></td>
+<td>
+<p>Optional. Positive integer. The account ID being used to
+get users. If no value is specified, the first account associated with the
+requesting user token is chosen.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>user_emails</code></td>
+<td>
+<p>Optional. List of characters. Limit returned users to those
+specified in this list.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>app_ids</code></td>
+<td>
+<p>Optional. List of characters. Limit returned users to those
+assigned to these app ID's. The provided app ID's should belong to the same
+account.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A tibble.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+   get_users(subdomain = "abc",
+             auth = keyring::key_get("qb_example"))
+
+## End(Not run)
+</code></pre>
+
+
+</div>

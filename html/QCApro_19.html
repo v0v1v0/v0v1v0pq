@@ -1,0 +1,192 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>d.transport</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Determinants of High Transport Project Acceptance</h2>
+
+<h3>Description</h3>
+
+<p>This dataset is from <a href="http://dx.doi.org/10.1177/1098214011411574">Sager and Andereggen (2012)</a>, who analyze the determinants 
+of high transport project acceptance in Switzerland using mvQCA. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">data(d.transport)</code></pre>
+
+
+<h3>Format</h3>
+
+<p>This data frame contains 21 rows (cases) and the following 10 columns (factors):
+</p>
+
+<table>
+<tr>
+<td style="text-align: right;">
+[ , 1]  </td>
+<td style="text-align: left;"> <b>FED</b> </td>
+<td style="text-align: left;"> exogenous factor: </td>
+<td style="text-align: left;"> federal level                             </td>
+</tr>
+<tr>
+<td style="text-align: right;">
+        </td>
+<td style="text-align: left;">            </td>
+<td style="text-align: left;">            </td>
+<td style="text-align: left;"> ("2" federal, "1" cantonal, "0" municipal)</td>
+</tr>
+<tr>
+<td style="text-align: right;">
+[ , 2]  </td>
+<td style="text-align: left;"> <b>FIN</b> </td>
+<td style="text-align: left;"> exogenous factor: </td>
+<td style="text-align: left;"> financial situation                       </td>
+</tr>
+<tr>
+<td style="text-align: right;">
+        </td>
+<td style="text-align: left;">            </td>
+<td style="text-align: left;">            </td>
+<td style="text-align: left;"> ("1" positive, "0" negative)              </td>
+</tr>
+<tr>
+<td style="text-align: right;">
+[ , 3]  </td>
+<td style="text-align: left;"> <b>URB</b> </td>
+<td style="text-align: left;"> exogenous factor: </td>
+<td style="text-align: left;"> sociostructural project location          </td>
+</tr>
+<tr>
+<td style="text-align: right;">
+        </td>
+<td style="text-align: left;">            </td>
+<td style="text-align: left;">            </td>
+<td style="text-align: left;"> ("1" urban, "0" rural)                    </td>
+</tr>
+<tr>
+<td style="text-align: right;">
+[ , 4]  </td>
+<td style="text-align: left;"> <b>GER</b> </td>
+<td style="text-align: left;"> exogenous factor: </td>
+<td style="text-align: left;"> cultural project location                 </td>
+</tr>
+<tr>
+<td style="text-align: right;">
+        </td>
+<td style="text-align: left;">            </td>
+<td style="text-align: left;">            </td>
+<td style="text-align: left;"> ("1" German-speaking, "0" French-speaking)</td>
+</tr>
+<tr>
+<td style="text-align: right;">
+[ , 5]  </td>
+<td style="text-align: left;"> <b>HIS</b> </td>
+<td style="text-align: left;"> exogenous factor: </td>
+<td style="text-align: left;"> prior history                             </td>
+</tr>
+<tr>
+<td style="text-align: right;">
+        </td>
+<td style="text-align: left;">            </td>
+<td style="text-align: left;">            </td>
+<td style="text-align: left;"> ("1" yes, "0" no)                         </td>
+</tr>
+<tr>
+<td style="text-align: right;">
+[ , 6]  </td>
+<td style="text-align: left;"> <b>COO</b> </td>
+<td style="text-align: left;"> exogenous factor: </td>
+<td style="text-align: left;"> planning coordination                     </td>
+</tr>
+<tr>
+<td style="text-align: right;">
+        </td>
+<td style="text-align: left;">            </td>
+<td style="text-align: left;">            </td>
+<td style="text-align: left;"> ("1" strong, "0" not strong)              </td>
+</tr>
+<tr>
+<td style="text-align: right;">
+[ , 7]  </td>
+<td style="text-align: left;"> <b>PRO</b> </td>
+<td style="text-align: left;"> exogenous factor: </td>
+<td style="text-align: left;"> administrative professionalization        </td>
+</tr>
+<tr>
+<td style="text-align: right;">
+        </td>
+<td style="text-align: left;">            </td>
+<td style="text-align: left;">            </td>
+<td style="text-align: left;"> ("1" high, "0" not high)                  </td>
+</tr>
+<tr>
+<td style="text-align: right;">
+[ , 8]  </td>
+<td style="text-align: left;"> <b>DIS</b> </td>
+<td style="text-align: left;"> exogenous factor: </td>
+<td style="text-align: left;"> administration's discretion               </td>
+</tr>
+<tr>
+<td style="text-align: right;">
+        </td>
+<td style="text-align: left;">            </td>
+<td style="text-align: left;">            </td>
+<td style="text-align: left;"> ("1" broad, "0" not broad)                </td>
+</tr>
+<tr>
+<td style="text-align: right;">
+[ , 9]  </td>
+<td style="text-align: left;"> <b>EXP</b> </td>
+<td style="text-align: left;"> exogenous factor: </td>
+<td style="text-align: left;"> influence of external experts             </td>
+</tr>
+<tr>
+<td style="text-align: right;">
+        </td>
+<td style="text-align: left;">            </td>
+<td style="text-align: left;">            </td>
+<td style="text-align: left;"> ("1" great, "0" not great)                </td>
+</tr>
+<tr>
+<td style="text-align: right;">
+[ , 10] </td>
+<td style="text-align: left;"> <b>ACC</b> </td>
+<td style="text-align: left;"> endogenous factor:   </td>
+<td style="text-align: left;"> project acceptance                        </td>
+</tr>
+<tr>
+<td style="text-align: right;">
+        </td>
+<td style="text-align: left;">            </td>
+<td style="text-align: left;">            </td>
+<td style="text-align: left;"> ("1" high, "0" not high)
+</td>
+</tr>
+</table>
+<h3>Contributors</h3>
+
+
+<table><tr>
+<td style="text-align: left;">
+Thiem, Alrik: collection, documentation
+</td>
+</tr></table>
+<h3>Author(s)</h3>
+
+<p>Alrik Thiem (<a href="http://www.alrik-thiem.net">Personal Website</a>; <a href="https://www.researchgate.net/profile/Alrik_Thiem">ResearchGate Website</a>)
+</p>
+
+
+<h3>Source</h3>
+
+<p>Sager, Fritz, and Celine Andereggen. 2012. “Dealing With Complex Causality 
+in Realist Synthesis: The Promise of Qualitative Comparative Analysis.” 
+<em>American Journal of Evaluation</em> <strong>33</strong> (1):60-78.
+DOI: <a href="http://dx.doi.org/10.1177/1098214011411574">10.1177/1098214011411574</a>.
+</p>
+
+
+</div>

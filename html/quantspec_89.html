@@ -1,0 +1,113 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>getPointwiseCIs-LagEstimator</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Get pointwise confidence intervals for the quantile spectral density kernel</h2>
+
+<h3>Description</h3>
+
+<p>Returns a list of two arrays <code>lowerCIs</code> and <code>upperCIs</code> that contain
+the upper and lower limits for a level <code>1-alpha</code> confidence interval of
+the copula spectral density kernel. Each array is of dimension <code>[J,K1,K2]</code>,
+where <code>J=length(frequencies)</code>, <code>K1=length(levels.1)</code>, and
+<code>K2=length(levels.2))</code>.
+At position <code>(j,k1,k2)</code> the real (imaginary) part of the returned values
+are the bounds of the confidence interval for the the real (imaginary) part
+of the quantile spectrum, which corresponds to
+<code>frequencies[j]</code>, <code>levels.1[k1]</code> and <code>levels.2[k2]</code> closest
+to the Fourier frequencies, <code>levels.1</code> and <code>levels.2</code>
+available in <code>object</code>; <code>closest.pos</code> is used to determine
+what closest to means.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S4 method for signature 'LagEstimator'
+getPointwiseCIs(
+  object,
+  frequencies = 2 * pi * (0:(length(object@Y) - 1))/length(object@Y),
+  levels.1 = getLevels(object, 1),
+  levels.2 = getLevels(object, 2),
+  alpha = 0.1,
+  type = c("naive.sd", "boot.sd", "boot.full")
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p><code>LagEstimator</code> of which to get the confidence intervals</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>frequencies</code></td>
+<td>
+<p>a vector of frequencies for which to get the result</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>levels.1</code></td>
+<td>
+<p>the first vector of levels for which to get the result</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>levels.2</code></td>
+<td>
+<p>the second vector of levels for which to get the result</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>alpha</code></td>
+<td>
+<p>the level of the confidence interval; must be from <code class="reqn">(0,1)</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>type</code></td>
+<td>
+<p>a flag indicating which type of confidence interval should be
+returned; can only take one values at the moment.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Currently, only one <code>type</code> of confidence interval is
+available:
+</p>
+
+<ul><li> <p><code>"naive.sd"</code>: confidence intervals based on the asymptotic
+normality of the lag-window estimator; standard deviations
+are estimated using <code>getSdNaive</code>.
+</p>
+</li></ul>
+<h3>Value</h3>
+
+<p>Returns a named list of two arrays <code>lowerCIS</code> and <code>upperCIs</code>
+containing the lower and upper bounds for the confidence intervals.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">lagEst &lt;- lagEstimator(rnorm(2^10), levels.1=0.5)
+CI.upper &lt;- Re(getPointwiseCIs(lagEst)$upperCIs[,1,1])
+CI.lower &lt;- Re(getPointwiseCIs(lagEst)$lowerCIs[,1,1])
+freq = 2*pi*(0:1023)/1024
+plot(x = freq, y = rep(0.25/(2*pi),1024),
+   ylim=c(min(CI.lower), max(CI.upper)),
+   type="l", col="red") # true spectrum
+lines(x = freq, y = CI.upper)
+lines(x = freq, y = CI.lower)
+</code></pre>
+
+
+</div>

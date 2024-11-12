@@ -1,0 +1,78 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>switch_rows</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Switch the index of two rows in a data set</h2>
+
+<h3>Description</h3>
+
+<p>Allows the user to choose precisely which two rows they want to swap places,
+while optionally preventing some columns from being altered in the process.
+Excluded columns within the rows act as anchors that are immune from the switching operation
+on the selected rows.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">switch_rows(data, row1, row2, keep.cols = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>dataset object</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>row1</code></td>
+<td>
+<p>numeric. the first row number</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>row2</code></td>
+<td>
+<p>numeric. the second row number</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>keep.cols</code></td>
+<td>
+<p>numeric or character. column number or name to keep</p>
+</td>
+</tr>
+</table>
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+# Example using mtcars
+data100 &lt;- mtcars[1:7,]
+
+head(data100) # preview overall data
+
+# task 1: basic result of switching rows 5 and 6
+head(switch_rows(data100, 5, 6))
+
+# task 2: switch rows, but retain some columns
+data100[5:6,2:10] # preview the portion that is to be changed
+
+# lets switch 2 rows, but keep content of columns 7, 8, 9 10 within the changed rows
+res1 &lt;- switch_rows(data100, row1 = 5, row2 = 6, keep.cols = 7:10) # use column numbers
+res1[5:6,] # check result, pay attention to columns 9 and 10 as well
+res2 &lt;- switch_rows(data100,
+row1 = 5,
+row2 = 6,
+keep.cols = c("disp","cyl")) # use column names
+res2[5:6,] # check result, pay attention to columns "disp","cyl" as well
+
+</code></pre>
+
+
+</div>

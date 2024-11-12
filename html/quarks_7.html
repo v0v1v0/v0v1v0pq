@@ -1,0 +1,78 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>hs</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Nonparametric calculation of univariate Value at Risk and Expected Shortfall</h2>
+
+<h3>Description</h3>
+
+<p>Computes Value at Risk and Expected Shortfall (Conditional Value
+at Risk) by means of plain and age-weighted historical simulation.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">hs(x, p = 0.975, method = c("age", "plain"), lambda = 0.98)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a numeric vector of asset returns</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p</code></td>
+<td>
+<p>confidence level for VaR calculation; default is <code>0.975</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+<p>method to be used for calculation; default is <code>'plain'</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lambda</code></td>
+<td>
+<p>decay factor for the calculation of weights; default is <code>0.98</code></p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Returns a list with the following elements:
+</p>
+
+<dl>
+<dt>VaR</dt>
+<dd>
+<p>Calculated Value at Risk</p>
+</dd>
+<dt>ES</dt>
+<dd>
+<p>Calculated Expected Shortfall (Conditional Value at Risk)</p>
+</dd>
+<dt>p</dt>
+<dd>
+<p>Confidence level for VaR calculation</p>
+</dd>
+</dl>
+<h3>Examples</h3>
+
+<pre><code class="language-R">prices &lt;- DAX$price_close
+returns &lt;- diff(log(prices))
+hs(x = returns, p = 0.975, method = 'plain')
+hs(x = returns, p = 0.975, method = 'age', lambda = 0.98)
+</code></pre>
+
+
+</div>

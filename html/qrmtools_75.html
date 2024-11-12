@@ -1,0 +1,407 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>risk_measures</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Risk Measures</h2>
+
+<h3>Description</h3>
+
+<p>Computing risk measures.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## Value-at-risk
+VaR_np(x, level, names = FALSE, type = 1, ...)
+VaR_t(level, loc = 0, scale = 1, df = Inf)
+VaR_t01(level, df = Inf)
+VaR_GPD(level, shape, scale)
+VaR_Par(level, shape, scale = 1)
+VaR_GPDtail(level, threshold, p.exceed, shape, scale)
+
+## Expected shortfall
+ES_np(x, level, method = c("&gt;", "&gt;="), verbose = FALSE, ...)
+ES_t(level, loc = 0, scale = 1, df = Inf)
+ES_t01(level, df = Inf)
+ES_GPD(level, shape, scale)
+ES_Par(level, shape, scale = 1)
+ES_GPDtail(level, threshold, p.exceed, shape, scale)
+
+## Range value-at-risk
+RVaR_np(x, level, ...)
+
+## Multivariate geometric value-at-risk and expectiles
+gVaR(x, level, start = colMeans(x),
+     method = if(length(level) == 1) "Brent" else "Nelder-Mead", ...)
+gEX(x, level, start = colMeans(x),
+    method = if(length(level) == 1) "Brent" else "Nelder-Mead", ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+
+
+<dl>
+<dt>
+<code>gVaR()</code>, <code>gEX()</code>:</dt>
+<dd>
+<p><code>matrix</code> of
+(rowwise) multivariate losses.</p>
+</dd>
+<dt>
+<code>VaR_np()</code>, <code>ES_np()</code>, <code>RVaR_np()</code>:</dt>
+<dd>
+<p>if <code>x</code> is a
+<code>matrix</code> then <code>rowSums()</code> is applied
+first (so value-at-risk and expected shortfall of the sum
+is computed).</p>
+</dd>
+<dt>otherwise:</dt>
+<dd>
+<p><code>vector</code> of losses.</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>level</code></td>
+<td>
+
+
+<dl>
+<dt>
+<code>RVaR_np()</code>:</dt>
+<dd>
+<p><code>vector</code> of length 1 or 2
+giving the lower and upper confidence level; if of length 1,
+it is interpreted as the lower confidence level and the upper
+one is taken to be 1.</p>
+</dd>
+<dt>
+<code>gVaR()</code>, <code>gEX()</code>:</dt>
+<dd>
+<p><code>vector</code> or
+<code>matrix</code> of	(rowwise) confidence levels <code class="reqn">\alpha</code>
+(all in <code class="reqn">[0,1]</code>).</p>
+</dd>
+<dt>otherwise:</dt>
+<dd>
+<p>confidence level <code class="reqn">\alpha\in[0,1]</code>.</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>names</code></td>
+<td>
+<p>see <code>?quantile</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>type</code></td>
+<td>
+<p>see <code>?quantile</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>loc</code></td>
+<td>
+<p>location parameter <code class="reqn">\mu</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>shape</code></td>
+<td>
+
+
+<dl>
+<dt>
+<code>VaR_GPD()</code>, <code>ES_GPD()</code>:</dt>
+<dd>
+<p>GPD shape parameter
+<code class="reqn">\xi</code>, a real number.</p>
+</dd>
+<dt>
+<code>VaR_Par()</code>, <code>ES_Par()</code>:</dt>
+<dd>
+<p>Pareto shape parameter
+<code class="reqn">\theta</code>, a positive number.</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>scale</code></td>
+<td>
+
+
+<dl>
+<dt>
+<code>VaR_t()</code>, <code>ES_t()</code>:</dt>
+<dd>
+<p><code class="reqn">t</code> scale parameter
+<code class="reqn">\sigma</code>, a positive number.</p>
+</dd>
+<dt>
+<code>VaR_GPD()</code>, <code>ES_GPD()</code>:</dt>
+<dd>
+<p>GPD scale parameter
+<code class="reqn">\beta</code>, a positive number.</p>
+</dd>
+<dt>
+<code>VaR_Par()</code>, <code>ES_Par()</code>:</dt>
+<dd>
+<p>Pareto scale parameter
+<code class="reqn">\kappa</code>, a positive number.</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>df</code></td>
+<td>
+<p>degrees of freedom, a positive number; choose <code>df = Inf</code>
+for the normal distribution. For the standardized <code class="reqn">t</code>
+distributions, <code>df</code> has to be greater than 2.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>threshold</code></td>
+<td>
+<p>threhold <code class="reqn">u</code> (used to estimate the exceedance
+probability based on the data <code>x</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p.exceed</code></td>
+<td>
+<p>exceedance probability; typically <code>mean(x &gt; threshold)</code>
+for <code>x</code> being the data modeled with the peaks-over-threshold
+(POT) method.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>start</code></td>
+<td>
+<p><code>vector</code> of initial values for the underlying
+<code>optim()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+
+
+<dl>
+<dt>
+<code>ES_np()</code>:</dt>
+<dd>
+<p><code>character</code> string indicating the method
+for computing expected shortfall.</p>
+</dd>
+<dt>
+<code>gVaR()</code>, <code>gEX()</code>:</dt>
+<dd>
+<p>the optimization method passed to the
+underlying <code>optim()</code>.</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p><code>logical</code> indicating whether verbose
+output is given (in case the mean is computed over (too) few
+observations).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+
+
+<dl>
+<dt>
+<code>VaR_np()</code>:</dt>
+<dd>
+<p>additional arguments passed to the
+underlying <code>quantile()</code>.</p>
+</dd>
+<dt>
+<code>ES_np()</code>, <code>RVaR_np()</code>:</dt>
+<dd>
+<p>additional arguments passed to
+the underlying <code>VaR_np()</code>.</p>
+</dd>
+<dt>
+<code>gVaR()</code>, <code>gEX()</code>:</dt>
+<dd>
+<p>additional arguments passed to
+the underlying <code>optim()</code>.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The distribution function of the Pareto distribution is given by
+</p>
+<p style="text-align: center;"><code class="reqn">F(x) = 1-(\kappa/(\kappa+x))^{\theta},\ x\ge 0,</code>
+</p>
+<p> where <code class="reqn">\theta &gt; 0</code>, <code class="reqn">\kappa &gt; 0</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>VaR_np()</code>, <code>ES_np()</code>, <code>RVaR_np()</code> estimate
+value-at-risk, expected shortfall and range value-at-risk
+non-parametrically. For expected shortfall, if <code>method = "&gt;="</code>
+(<code>method = "&gt;"</code>, the default), losses greater than or equal to
+(strictly greater than) the nonparametric value-at-risk estimate are
+averaged; in the former case, there might be no such loss, in which
+case <code>NaN</code> is returned. For range value-at-risk, losses greater
+than the nonparametric VaR estimate at level
+<code>level[1]</code> and less than or equal to the nonparametric VaR
+estimate at level <code>level[2]</code> are averaged.
+</p>
+<p><code>VaR_t()</code>, <code>ES_t()</code> compute value-at-risk and expected
+shortfall for the <code class="reqn">t</code> (or normal) distribution. <code>VaR_t01()</code>,
+<code>ES_t01()</code> compute value-at-risk and expected shortfall for the
+standardized <code class="reqn">t</code> (or normal) distribution, so scaled <code class="reqn">t</code>
+distributions to have mean 0 and variance 1; note that they require
+a degrees of freedom parameter greater than 2.
+</p>
+<p><code>VaR_GPD()</code>, <code>ES_GPD()</code> compute value-at-risk and expected
+shortfall for the generalized Pareto distribution (GPD).
+</p>
+<p><code>VaR_Par()</code>, <code>ES_Par()</code> compute value-at-risk and expected
+shortfall for the Pareto distribution.
+</p>
+<p><code>gVaR()</code>, <code>gEX()</code> compute the multivariate geometric
+value-at-risk and expectiles suggested by Chaudhuri (1996) and
+Herrmann et al. (2018), respectively.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Marius Hofert</p>
+
+
+<h3>References</h3>
+
+<p>McNeil, A. J., Frey, R. and Embrechts, P. (2015).
+<em>Quantitative Risk Management: Concepts, Techniques, Tools</em>.
+Princeton University Press.
+</p>
+<p>Chaudhuri, P. (1996).
+On a geometric notion of quantiles for multivariate data.
+<em>Journal of the American Statistical Assosiation</em> 91(434),
+862–872.
+</p>
+<p>Herrmann, K., Hofert, M. and Mailhot, M. (2018).
+Multivariate geometric expectiles.
+<em>Scandinavian Actuarial Journal</em>, 2018(7), 629–659.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">### 1 Univariate measures ######################################################
+
+## Generate some losses and (non-parametrically) estimate VaR_alpha and ES_alpha
+set.seed(271)
+L &lt;- rlnorm(1000, meanlog = -1, sdlog = 2) # L ~ LN(mu, sig^2)
+## Note: - meanlog = mean(log(L)) = mu, sdlog = sd(log(L)) = sig
+##       - E(L) = exp(mu + (sig^2)/2), var(L) = (exp(sig^2)-1)*exp(2*mu + sig^2)
+##         To obtain a sample with E(L) = a and var(L) = b, use:
+##         mu = log(a)-log(1+b/a^2)/2 and sig = sqrt(log(1+b/a^2))
+VaR_np(L, level = 0.99)
+ES_np(L,  level = 0.99)
+
+## Example 2.16 in McNeil, Frey, Embrechts (2015)
+V &lt;- 10000 # value of the portfolio today
+sig &lt;- 0.2/sqrt(250) # daily volatility (annualized volatility of 20%)
+nu &lt;- 4 # degrees of freedom for the t distribution
+alpha &lt;- seq(0.001, 0.999, length.out = 256) # confidence levels
+VaRnorm &lt;- VaR_t(alpha, scale = V*sig, df = Inf)
+VaRt4 &lt;- VaR_t(alpha, scale = V*sig*sqrt((nu-2)/nu), df = nu)
+ESnorm &lt;- ES_t(alpha, scale = V*sig, df = Inf)
+ESt4 &lt;- ES_t(alpha, scale = V*sig*sqrt((nu-2)/nu), df = nu)
+ran &lt;- range(VaRnorm, VaRt4, ESnorm, ESt4)
+plot(alpha, VaRnorm, type = "l", ylim = ran, xlab = expression(alpha), ylab = "")
+lines(alpha, VaRt4, col = "royalblue3")
+lines(alpha, ESnorm, col = "darkorange2")
+lines(alpha, ESt4, col = "maroon3")
+legend("bottomright", bty = "n", lty = rep(1,4), col = c("black",
+       "royalblue3", "darkorange3", "maroon3"),
+       legend = c(expression(VaR[alpha]~~"for normal model"),
+                  expression(VaR[alpha]~~"for "*t[4]*" model"),
+                  expression(ES[alpha]~~"for normal model"),
+                  expression(ES[alpha]~~"for "*t[4]*" model")))
+
+
+### 2 Multivariate measures ####################################################
+
+## Setup
+library(copula)
+n &lt;- 1e4 # MC sample size
+nu &lt;- 3 # degrees of freedom
+th &lt;- iTau(tCopula(df = nu), tau = 0.5) # correlation parameter
+cop &lt;- tCopula(param = th, df = nu) # t copula
+set.seed(271) # for reproducibility
+U &lt;- rCopula(n, cop = cop) # copula sample
+theta &lt;- c(2.5, 4) # marginal Pareto parameters
+stopifnot(theta &gt; 2) # need finite 2nd moments
+X &lt;- sapply(1:2, function(j) qPar(U[,j], shape = theta[j])) # generate X
+N &lt;- 17 # number of angles (rather small here because of run time)
+phi &lt;- seq(0, 2*pi, length.out = N) # angles
+r &lt;- 0.98 # radius
+alpha &lt;- r * cbind(alpha1 = cos(phi), alpha2 = sin(phi)) # vector of confidence levels
+
+## Compute geometric value-at-risk
+system.time(res &lt;- gVaR(X, level = alpha))
+gvar &lt;- t(sapply(seq_len(nrow(alpha)), function(i) {
+    x &lt;- res[[i]]
+    if(x[["convergence"]] != 0) # 0 = 'converged'
+        warning("No convergence for alpha = (", alpha[i,1], ", ", alpha[i,2],
+                ") (row ", i, ")")
+    x[["par"]]
+})) # (N, 2)-matrix
+
+## Compute geometric expectiles
+system.time(res &lt;- gEX(X, level = alpha))
+gex &lt;- t(sapply(seq_len(nrow(alpha)), function(i) {
+    x &lt;- res[[i]]
+    if(x[["convergence"]] != 0) # 0 = 'converged'
+        warning("No convergence for alpha = (", alpha[i,1], ", ", alpha[i,2],
+                ") (row ", i, ")")
+    x[["par"]]
+})) # (N, 2)-matrix
+
+## Plot geometric VaR and geometric expectiles
+plot(gvar, type = "b", xlab = "Component 1 of geometric VaRs and expectiles",
+     ylab = "Component 2 of geometric VaRs and expectiles",
+     main = "Multivariate geometric VaRs and expectiles")
+lines(gex, type = "b", col = "royalblue3")
+legend("bottomleft", lty = 1, bty = "n", col = c("black", "royalblue3"),
+       legend = c("geom. VaR", "geom. expectile"))
+lab &lt;- substitute("MC sample size n ="~n.*","~t[nu.]~"copula with Par("*th1*
+                  ") and Par("*th2*") margins",
+                  list(n. = n, nu. = nu, th1 = theta[1], th2 = theta[2]))
+mtext(lab, side = 4, line = 1, adj = 0)
+</code></pre>
+
+
+</div>

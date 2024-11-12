@@ -1,0 +1,92 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>probs_doqtl_to_qtl2</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Convert DOQTL genotype probabilities to R/qtl2 format</h2>
+
+<h3>Description</h3>
+
+<p>Convert DOQTL genotype probabilities to R/qtl2 format
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">probs_doqtl_to_qtl2(
+  probs,
+  map,
+  is_female = NULL,
+  chr_column = "chr",
+  pos_column = "cM",
+  marker_column = "marker"
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>probs</code></td>
+<td>
+<p>3d array of genotype probabilities as calculated from DOQTL
+(individuals x genotypes x positions)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>map</code></td>
+<td>
+<p>Data frame with marker map</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>is_female</code></td>
+<td>
+<p>Optional logical vector indicating which
+individuals are female. Names should contain the individual
+identifiers, matching the row names in <code>probs</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>chr_column</code></td>
+<td>
+<p>Name of the column in <code>map</code> that contains the chromosome IDs.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pos_column</code></td>
+<td>
+<p>Name of the column in <code>map</code> that contains the marker positions.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>marker_column</code></td>
+<td>
+<p>Name of the column in <code>map</code> that contains
+the marker names. If NULL, use the row names.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>We assume that the X chromosome is labeled <code>"X"</code> (must be
+upper-case) and that any other chromosomes are autosomes.
+We assume that the genotypes are labeled using the 8 letters A-H.
+</p>
+<p>If the probabilities are for the full 36 states and the X
+chromosome is included but <code>is_female</code> is not provided, we'll guess
+which individuals are females based on their genotype
+probabilities. (If the average, across loci, of the sum of the
+heterozygote probabilities is small, we'll assume it's a female.)
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of the form produced by <code>qtl2::calc_genoprob()</code>.
+</p>
+
+
+</div>

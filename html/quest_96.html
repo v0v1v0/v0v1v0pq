@@ -1,0 +1,313 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>prop_diff</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Proportion Difference for a Single Variable across Two Independent Groups
+(Chi-square Test of Independence)</h2>
+
+<h3>Description</h3>
+
+<p><code>prop_diff</code> tests for proportion differences across two independent
+groups with a chi-square test of independence. The function also calculates
+the descriptive statistics for each group, various standardized effect sizes
+(e.g., Cramer's V), and can provide the 2x2 contingency tables.
+<code>prop_diff</code> is simply a wrapper for <code>prop.test</code> plus
+some extra calculations.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">prop_diff(
+  x,
+  bin,
+  lvl = levels(as.factor(bin)),
+  yates = TRUE,
+  zero.cell = 0.05,
+  smooth = TRUE,
+  ci.level = 0.95,
+  rtn.table = TRUE,
+  check = TRUE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>numeric vector that only has values of 0 or 1 (or missing values),
+otherwise known as a dummy variable.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bin</code></td>
+<td>
+<p>atomic vector that only takes on two values (or missing values),
+otherwise known as a binary variable.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lvl</code></td>
+<td>
+<p>character vector with length 2 specifying the unique values for
+the two groups. If <code>bin</code> is a factor, then <code>lvl</code> should be the
+factor levels rather than the underlying integer codes. This argument
+allows you to specify the direction of the prop difference.
+<code>prop_diff</code> calculates the prop difference as <code>x[ bin == lvl[2]
+]</code> - <code>x[ bin == lvl[1] ]</code> such that it is group 2 - group 1. By
+changing which group is group 1 vs. group 2, the direction of the prop
+difference can be changed. See details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>yates</code></td>
+<td>
+<p>logical vector of length 1 specifying whether the Yate's
+continuity correction should be applied for small samples. See
+<code>chisq.test</code> for details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>zero.cell</code></td>
+<td>
+<p>numeric vector of length 1 specifying what value to impute
+for zero cell counts in the 2x2 contingency table when computing the
+tetrachoric correlation. See <code>tetrachoric</code> for details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>smooth</code></td>
+<td>
+<p>logical vector of length 1 specifying whether a smoothing
+algorithm should be applied when estimating the tetrachoric correlation.
+See <code>tetrachoric</code> for details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ci.level</code></td>
+<td>
+<p>numeric vector of length 1 specifying the confidence level.
+<code>ci.level</code> must range from 0 to 1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rtn.table</code></td>
+<td>
+<p>logical vector of lengh 1 specifying whether the return
+object should include the 2x2 contingency table of counts with totals and
+the 2x2 overall percentages table. If TRUE, then the last two elements of
+the return object are "count" containing a matrix of counts and "percent"
+containing a matrix of overall percentages.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>check</code></td>
+<td>
+<p>logical vector of length 1 specifying whether the input
+arguments should be checked for errors. For example, if <code>bin</code> has more
+than 2 unique values (other than missing values) or if <code>bin</code> has
+length different than the length of <code>x</code>. This is a tradeoff between
+computational efficiency (FALSE) and more useful error messages (TRUE).</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>list of numeric vectors containing statistical information about the
+mean difference: 1) nhst = chi-square test of independence stat info in a numeric vector,
+2) desc = descriptive statistics stat info in a numeric vector, 3) std = various
+standardized effect sizes in a numeric vector, 4) count = numeric matrix with
+dim = <code>[3, 3]</code> of the 2x2 contingency table of counts with an additional
+row and column for totals (if <code>rtn.table</code> = TRUE), 5) percent = numeric
+matrix with dim = <code>[3, 3]</code> of the 2x2 contingency table of overall percentages
+with an additional row and column for totals (if <code>rtn.table</code> = TRUE)
+</p>
+<p>1) nhst = chi-square test of independence stat info in a numeric vector
+</p>
+
+<dl>
+<dt>est</dt>
+<dd>
+<p>mean difference estimate (i.e., group 2 - group 1)</p>
+</dd>
+<dt>se</dt>
+<dd>
+<p>NA (to remind the user there is no standard error for the test)</p>
+</dd>
+<dt>X2</dt>
+<dd>
+<p>chi-square value</p>
+</dd>
+<dt>df</dt>
+<dd>
+<p>degrees of freedom (will always be 1)</p>
+</dd>
+<dt>p</dt>
+<dd>
+<p>two-sided p-value</p>
+</dd>
+<dt>lwr</dt>
+<dd>
+<p>lower bound of the confidence interval</p>
+</dd>
+<dt>upr</dt>
+<dd>
+<p>upper bound of the confidence interval</p>
+</dd>
+</dl>
+<p>2) desc = descriptive statistics stat info in a numeric vector
+</p>
+
+<dl>
+<dt>prop_'lvl[2]'</dt>
+<dd>
+<p>proportion of group 2</p>
+</dd>
+<dt>prop_'lvl[1]'</dt>
+<dd>
+<p>proportion of group 1</p>
+</dd>
+<dt>sd_'lvl[2]'</dt>
+<dd>
+<p>standard deviation of group 2</p>
+</dd>
+<dt>sd_'lvl[1]'</dt>
+<dd>
+<p>standard deviation of group 1</p>
+</dd>
+<dt>n_'lvl[2]'</dt>
+<dd>
+<p>sample size of group 2</p>
+</dd>
+<dt>n_'lvl[1]'</dt>
+<dd>
+<p>sample size of group 1</p>
+</dd>
+</dl>
+<p>3) std = various standardized effect sizes in a numeric vector
+</p>
+
+<dl>
+<dt>cramer</dt>
+<dd>
+<p>Cramer's V estimate</p>
+</dd>
+<dt>h</dt>
+<dd>
+<p>Cohen's h estimate</p>
+</dd>
+<dt>phi</dt>
+<dd>
+<p>Phi coefficient estimate</p>
+</dd>
+<dt>yule</dt>
+<dd>
+<p>Yule coefficient estimate</p>
+</dd>
+<dt>tetra</dt>
+<dd>
+<p>Tetrachoric correlation estimate</p>
+</dd>
+<dt>OR</dt>
+<dd>
+<p>odds ratio estimate</p>
+</dd>
+<dt>RR</dt>
+<dd>
+<p>risk ratio estimate calculated as (i.e., group 2 / group 1).
+Note this value will often differ when recoding variables (as it should).</p>
+</dd>
+</dl>
+<p>4) count = numeric matrix with dim = <code>[3, 3]</code> of the 2x2 contingency table of
+counts with an additional row and column for totals (if <code>rtn.table</code> = TRUE).
+</p>
+<p>The two unique observed values of <code>x</code> (i.e., 0 and 1) - plus the
+total - are the rows and the two unique observed values of <code>bin</code> - plus
+the total - are the columns. The dimlabels are "bin" for the rows and "x" for
+the columns. The rownames are 1. "0", 2. "1", 3. "total". The colnames are 1.
+'lvl[1]', 2. 'lvl[2]', 3. "total"
+</p>
+<p>5) percent = numeric matrix with dim = <code>[3, 3]</code> of the 2x2 contingency table of overall percentages with an additional
+row and column for totals (if <code>rtn.table</code> = TRUE).
+</p>
+<p>The two unique observed values of <code>x</code> (i.e., 0 and 1) - plus the total -
+are the rows and the two unique observed values of <code>bin</code> - plus the total -
+are the columns. The dimlabels are "bin" for the rows and "x" for the columns.
+The rownames are 1. "0", 2. "1", 3. "total". The colnames are 1. 'lvl[1]',
+2. 'lvl[2]', 3. "total"
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>prop.test</code> the workhorse for <code>prop_diff</code>,
+<code>props_diff</code> for multiple dummy variables,
+<code>phi</code> for another phi coefficient function
+<code>Yule</code> for another yule coefficient function
+<code>tetrachoric</code> for another tetrachoric coefficient function
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+# chi-square test of independence
+# x = "am", bin = "vs"
+mtcars2 &lt;- mtcars
+mtcars2$"vs_bin" &lt;- ifelse(mtcars$"vs" == 1, yes = "yes", no = "no")
+agg(mtcars2$"am", grp = mtcars2$"vs_bin", rep = FALSE, fun = mean)
+prop_diff(x = mtcars2$"am", bin = mtcars2$"vs_bin")
+prop_diff(x = mtcars2$"am", bin = mtcars2$"vs")
+
+# using \code{lvl} argument
+prop_diff(x = mtcars2$"am", bin = mtcars2$"vs_bin")
+prop_diff(x = mtcars2$"am", bin = mtcars2$"vs_bin",
+   lvl = c("yes","no")) # reverses the direction of the effect
+prop_diff(x = mtcars2$"am", bin = mtcars2$"vs",
+   lvl = c(1, 0)) # levels don't have to be character
+
+# recoding the variables
+prop_diff(x = mtcars2$"am", bin = ifelse(mtcars2$"vs_bin" == "yes",
+   yes = "no", no = "yes")) # reverses the direction of the effect
+prop_diff(x = ifelse(mtcars2$"am" == 1, yes = 0, no = 1),
+   bin = mtcars2$"vs") # reverses the direction of the effect
+prop_diff(x = ifelse(mtcars2$"am" == 1, yes = 0, no = 1),
+   bin = ifelse(mtcars2$"vs_bin" == "yes",
+      yes = "no", no = "yes")) # double reverse means same direction of the effect
+
+# compare to stats::prop.test
+# x = "am", bin = "vs_bin" (binary as the rows; dummy as the columns)
+tmp &lt;- c("vs_bin","am") # b/c Roxygen2 will cause problems
+table_obj &lt;- table(mtcars2[tmp])
+row_order &lt;- nrow(table_obj):1
+col_order &lt;- ncol(table_obj):1
+table_obj4prop &lt;- table_obj[row_order, col_order]
+prop.test(table_obj4prop)
+
+# compare to stats:chisq.test
+chisq.test(x = mtcars2$"am", y = mtcars2$"vs_bin")
+
+# compare to psych::phi
+cor(mtcars2$"am", mtcars$"vs")
+psych::phi(table_obj, digits = 7)
+
+# compare to psych::yule()
+psych::Yule(table_obj)
+
+# compare to psych::tetrachoric
+psych::tetrachoric(table_obj)
+# Note, I couldn't find a case where psych::tetrachoric() failed to compute
+psych::tetrachoric(table_obj4prop)
+
+# different than single logistic regression
+summary(glm(am ~ vs, data = mtcars, family = binomial(link = "logit")))
+
+</code></pre>
+
+
+</div>

@@ -1,0 +1,78 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>int.in.range</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Check if an object is an integer in a given range
+</h2>
+
+<h3>Description</h3>
+
+<p>This function checks if an object is an integer in the range
+<code>[low.bound, up.bound]</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">int.in.range(x, low.bound = 1, up.bound = 4)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+
+<p>An object to be tested.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>low.bound</code></td>
+<td>
+
+<p>The lower bound. Default value is 1.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>up.bound</code></td>
+<td>
+
+<p>The upper bound. Default value is 4.
+</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p><code>TRUE</code> if x is an integer in <code>[low.bound, up.bound]</code>,
+<code>FALSE</code> otherwise.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Johan Barthelemy.
+</p>
+<p>Maintainer: Johan Barthelemy <a href="mailto:johan@uow.edu.au">johan@uow.edu.au</a>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># test if x in [0,10]
+x &lt;- 5
+int.in.range(x, low.bound = 0, up.bound = 10)
+# test if y in [1,4]
+y &lt;- 10
+int.in.range(y)
+</code></pre>
+
+
+</div>

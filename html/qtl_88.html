@@ -1,0 +1,64 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>find_large_intervals</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Find large intervals in a map</h2>
+
+<h3>Description</h3>
+
+<p>Find large inter-marker intervals in a map.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">find_large_intervals(map, min_length=35)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>map</code></td>
+<td>
+<p>A list of numeric vectors; each component is a chromosome
+with the positions of markers on that chromosome. Can also
+be an object of class <code>cross</code>, in which case
+<code>pull.map</code> is used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>min_length</code></td>
+<td>
+<p>Minimum length of interval to be flagged.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Data frame with chromosome, left and right markers and interval length.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Karl W Broman, <a href="mailto:broman@wisc.edu">broman@wisc.edu</a></p>
+
+
+<h3>See Also</h3>
+
+ <p><code>summaryMap</code> </p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(fake.f2)
+
+find_large_intervals(fake.f2, 30)
+</code></pre>
+
+
+</div>

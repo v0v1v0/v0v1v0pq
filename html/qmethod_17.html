@@ -1,0 +1,168 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>plot.QmethodRes</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Q Method: plot for statement z-scores</h2>
+
+<h3>Description</h3>
+
+<p>Takes an object of class <code>QmethodRes</code> resulting from <code>qmethod</code> and makes a dot-chart with the z-scores for statements and all factors.</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'QmethodRes'
+plot(x, xlab = 'z-scores', ylab = 'statements', 
+     pchlist = NULL, colours = NULL, 
+     fnames = NULL, legend = TRUE,
+     dist = TRUE, pchlist.fill = NULL,
+     leg.pos="bottomright", xlim= NULL, 
+     sort.items=T, factors = NULL,
+     ...)</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>results object returned by <code>qmethod</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xlab</code></td>
+<td>
+<p>label for x axis. Defaults to 'z-scores'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ylab</code></td>
+<td>
+<p>label for y axis. Defaults to 'statements'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pchlist</code></td>
+<td>
+<p>array of <code>pch</code> symbols to be used in plotting the points for each factor. Defaults to a pre-defined set of symbols.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>colours</code></td>
+<td>
+<p>array of colours to be used when plotting the points for each perspective. Defaults to a pre-defined set of colours based on the <code>rainbow</code> palette.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fnames</code></td>
+<td>
+<p>names for factors to be used in the legend. In results where factor names have not been changed (using, e.g. <code>q.fnames</code>) it defaults to <code>'Factor 1'</code>, <code>'Factor 2'</code>, etc.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>legend</code></td>
+<td>
+<p>logical; if <code>FALSE</code>, no <code>legend</code> will be drawn.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dist</code></td>
+<td>
+<p>Logical. Should distinguishing statements be indicated in the plot dots? If <code>TRUE</code>, then the z-score values that are distinguishing for a given statement and factor are represented with a different (filled) symbol.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pchlist.fill</code></td>
+<td>
+<p>List of symbols to indicate distinguishing statements. By default, this is set to <code>NULL</code>, which provides a set of symbols that coincides with those in <code>pchlist</code>, but filled.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>leg.pos</code></td>
+<td>
+<p>Position of the legend.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xlim</code></td>
+<td>
+<p>Limits for the x axis, given as a vector of two numbers. If this is not provided, the limits are calculated from the sample.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sort.items</code></td>
+<td>
+<p>Whether and how the items are sorted in the vertical axis. Defaults to <code>TRUE</code>, which sorts the items according to the standard deviation of their z-scores for all factors; items of most disagreement are placed at the top. To invert this order (items of most disagreement at the bottom), set this argument to "consensus.top" A value of <code>FALSE</code> will not sort the items, and these are displayed in the same order as in the raw data. A numerical vector can also be provided in order to sort the statements manually: the vector needs to have the same length as the number of items, and provides the order in which the items are to be ordered.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>factors</code></td>
+<td>
+<p>The factors to plot. Defaults to <code>NULL</code>, which plots all the factors in the object <code>x</code> in the order given. To print a subset of these factors or to print them in a different order, provide a numeric vector here with the factors and the order desired, e.g. <code>c(2,1)</code></p>
+</td>
+</tr>
+</table>
+<p>.
+</p>
+<table><tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>other arguments for <code>plot</code>.</p>
+</td>
+</tr></table>
+<h3>Note</h3>
+
+<p>The names of items to be plotted are taken from the matrix <code>x$zsc</code>.
+</p>
+<p>To change these names, change the row names in that matrix first, e.g.:
+<code>rownames(x$zsc) &lt;- vector.of.item.names</code>.
+</p>
+<p>If the margin width is not enough to read the items, specify <code>par(mai=...)</code> first. See <code>par</code> for details.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Aiora Zabala</p>
+
+
+<h3>References</h3>
+
+<p>This specific dotchart visualisation of Q results implemented in <code>plot.QmethodRes</code> was first developed and introduced in this R package, in preparation for the study published in <a href="https://www.sciencedirect.com/science/article/abs/pii/S0921800916302683">Zabala et al. (2017)</a>.
+</p>
+
+<ul>
+<li>
+<p> Zabala, A., 2014. qmethod: A Package to Explore Human Perspectives Using Q Methodology. <em>The R Journal</em>, 6(2):163-173.<br> Available from: <a href="https://journal.r-project.org/archive/2014-2/zabala.pdf">https://journal.r-project.org/archive/2014-2/zabala.pdf</a>.
+</p>
+</li>
+<li>
+<p> Zabala, A., Pascual, U. and Garcia-Barrios, L. 2017. Payments for Pioneers? Revisiting the Role of External Rewards for Sustainable Innovation under Heterogeneous Motivations. <em>Ecological Economics</em>, 135:234-245.<br> Available from: <a href="https://www.sciencedirect.com/science/article/pii/S0921800916302683/">https://www.sciencedirect.com/science/article/pii/S0921800916302683/</a>.
+</p>
+</li>
+</ul>
+<h3>See Also</h3>
+
+<p><code>dotchart</code> and <code>points</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(lipset)
+results &lt;- qmethod(lipset[[1]], nfactors = 3, rotation = "varimax")
+title &lt;- "Q method z-scores, lipset dataset"
+subtitle &lt;- paste0("Three factors, PCA, varimax. Printed on ",
+                  Sys.Date())
+plot(results, main = title, sub = subtitle)
+
+# Order the items in a different way
+plot(results, main = title, sub = subtitle, 
+     sort.items = c(rev(1:nrow(results$zsc))))
+</code></pre>
+
+
+</div>

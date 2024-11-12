@@ -1,0 +1,79 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qser2ar</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Autoregression (AR) Model of Quantile Series</h2>
+
+<h3>Description</h3>
+
+<p>This function fits an autoregression (AR) model to quantile series (QSER) separately for each quantile level using <code>stats::ar()</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qser2ar(y.qser, p = NULL, order.max = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>y.qser</code></td>
+<td>
+<p>matrix or array of pre-calculated QSER, e.g., using <code>qser()</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p</code></td>
+<td>
+<p>order of AR model (default = <code>NULL</code>: selected by AIC)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>order.max</code></td>
+<td>
+<p>maximum order for AIC if <code>p = NULL</code> (default = <code>NULL</code>: determined by <code>stats::ar()</code>)</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>a list with the following elements:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>A</code></td>
+<td>
+<p>matrix or array of AR coefficients</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>V</code></td>
+<td>
+<p>vector or matrix of residual covariance</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p</code></td>
+<td>
+<p>order of AR model</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p>length of time series</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>residuals</code></td>
+<td>
+<p>matrix or array of residuals</p>
+</td>
+</tr>
+</table>
+</div>

@@ -1,0 +1,183 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>findRows</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Find untenable configurations</h2>
+
+<h3>Description</h3>
+
+<p>This function finds various types of untenable assumptions that are used when
+excluding certain configurations from the minimization process.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">findRows(obj = NULL, expression = "", observed = FALSE, type = 1, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>obj</code></td>
+<td>
+<p>A truth table (an object of class <code>"QCA_tt"</code>) or an equivalent
+numerical matrix.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>expression</code></td>
+<td>
+<p>String: a QCA expression written in sum of products form.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>observed</code></td>
+<td>
+<p>Logical: also return subset relations for observed
+configurations, when <code>obj</code> is a truth table.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>type</code></td>
+<td>
+<p>Numeric vector, specifying the type(s) of untenable configurations.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Additional arguments to be passed to function
+<code>truthTable()</code>, for the negation of the outcome.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The primary purpose is to find untenable assumptions to be excluded from the
+Boolean minimization process. For this reason, the input is most of the times a
+truth table, but for demonstration purposes it can also be a simple matrix
+having column names.
+</p>
+<p>It started as a function to find rows that are subsets of a given SOP expression,
+and it developed to cover even more untenable asumptions.
+</p>
+<p>Subset rows can be anything, from remainders to the observed configurations:
+positive output, negative output and contradictions). By default, the function
+returns only the subset configurations for the remaiders, but activating the
+argument <b><code>observed</code></b> adds the corresponding observed configurations
+to the output.
+</p>
+<p>It might ocasionally find negative output configurations or contradictions, but
+that doesn't have any side effect because they are going to be excluded from the
+minimization anyways, unless contradictions are included in the minimization.
+The only category that really matters if they are identified or not, are the
+positive output configurations.
+</p>
+<p>The contradictory simplifying assumptions (CSAs) are those which are used for
+both the presence and the absence of the outcome, while simultaneous subset
+relations (SSRs) when observed configurations are sufficient for both the
+presence and the absence of the outcome. CSAs and SSRs are incoherent
+conterfactuals, part of a category called Untenable Assumptions.
+</p>
+<p>This function takes does what is normally done with a series of commands, in a
+more integrated and systematic way.
+</p>
+<p>Providing a truth table is sufficient to perform all these tasks, because a
+truth table already contains all necessary information of how it was produced,
+most importantly the inclusion cut-off(s). By default, it uses the same options
+to produce a truth table for the negation of the outcome (if the input truth
+table was created for its presence, or the other way round), and minimizes both
+to inspect their simplifying assumptions to detect which are contradictory.
+</p>
+<p>Identical simplifying assumptions that found in both parsimonious solutions are
+declared as contradictory. Observed configurations that are sufficient for both
+the presence and the absence of the outcome are incoherent because of the
+simultaneous subset relations problem.
+</p>
+<p>The following types of untenable assumptions can be searched for:
+</p>
+
+<table>
+<tr>
+<td style="text-align: right;">
+    <code>0</code> </td>
+<td style="text-align: left;"> all of them</td>
+</tr>
+<tr>
+<td style="text-align: right;">
+    <code>1</code> </td>
+<td style="text-align: left;"> subsets of a given <b><code>expression</code></b> (default)</td>
+</tr>
+<tr>
+<td style="text-align: right;">
+    <code>2</code> </td>
+<td style="text-align: left;"> contradictory simplifying assumptions</td>
+</tr>
+<tr>
+<td style="text-align: right;">
+    <code>3</code> </td>
+<td style="text-align: left;"> simultaneous subset relations</td>
+</tr>
+<tr>
+<td style="text-align: right;">
+</td>
+</tr>
+</table>
+<p>To find contradictory simplifying assumptions, a truth table for the negated
+outcome is constructed, using the <b><code>incl.cut</code></b> argument from the
+<b><code>obj</code></b> input object. If the inclusion cut-off has a single value, the
+same is used for the negated outcome, and if it has two values the second is used.
+</p>
+<p>If very specific cutoff values are needed for the negation of the outcome, these
+can be provided via the <b><code>...</code></b> argument, that will be passed to
+function <b><code>truthTable()</code></b>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A numeric vector of row numbers from the truth table.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Adrian Dusa
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>truthTable</code>, <code>minimize</code></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># Lipset's binary crisp version
+ttLC &lt;- truthTable(LC, "SURV", show.cases = TRUE)
+
+findRows(obj = ttLC, "DEV*~IND*STB")
+
+## all subset rows from the truth table, also for observed configurations
+findRows(obj = ttLC, "DEV*~IND*STB", observed = TRUE)
+
+
+# Lipset's fuzzy version
+ttLF &lt;- truthTable(LF, outcome = "SURV", incl.cut = 0.8)
+
+findRows(obj = ttLF, type = 2) # contradictory simplifying assumptions
+
+
+# Contradictory simplifying assumptions using different cutoff values
+# for the _negation_ of the outcome
+
+findRows(obj = ttLF, type = 2, incl.cut = 0.9, pri.cut = 0.7)
+</code></pre>
+
+
+</div>

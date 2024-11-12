@@ -1,0 +1,85 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>dictionary2-class</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>dictionary class objects and functions</h2>
+
+<h3>Description</h3>
+
+<p>The <code>dictionary2</code> class constructed by <code>dictionary()</code>, and associated core
+class functions.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S4 method for signature 'dictionary2'
+as.list(x, flatten = FALSE, levels = 1:100)
+
+## S4 method for signature 'dictionary2,index,ANY,ANY'
+x[i]
+
+## S4 method for signature 'dictionary2,index'
+x[[i]]
+
+## S3 method for class 'dictionary2'
+x$name
+
+## S4 method for signature 'dictionary2'
+c(x, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>flatten</code></td>
+<td>
+<p>flatten the nested structure if <code>TRUE</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>levels</code></td>
+<td>
+<p>integer vector indicating levels in the dictionary. Used only
+when <code>flatten = TRUE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>i</code></td>
+<td>
+<p>index for entries</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>name</code></td>
+<td>
+<p>the dictionary key</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>dictionary objects to be concatenated</p>
+</td>
+</tr>
+</table>
+<h3>Slots</h3>
+
+
+<dl>
+<dt><code>.Data</code></dt>
+<dd>
+<p>named list of mode character, where each element name is a
+dictionary "key" and each element is one or more dictionary entry "values"
+consisting of a pattern match</p>
+</dd>
+<dt><code>meta</code></dt>
+<dd>
+<p>list of object metadata</p>
+</dd>
+</dl>
+</div>

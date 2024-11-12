@@ -1,0 +1,99 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>complexity</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Number of combinations at a given complexity layer</h2>
+
+<h3>Description</h3>
+
+<p>This function calculates the number of all possible combinations of conditions
+(including all levels for each condition), at a given complexity layer.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">complexity(n, layers, noflevels, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p>Numeric scalar, the number of input conditions.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>layers</code></td>
+<td>
+<p>Numeric vector, the complexity layer(s) with values from 1 to n.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>noflevels</code></td>
+<td>
+<p>Numeric vector containing the number of levels for each
+of the n conditions.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Other arguments, mainly for internal use.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>These are the number of combinations which the CCubes algorithm (Dusa, 2018) checks
+to determine the prime implicants from a minimization process.
+</p>
+<p>In the bottom-up approach, CCubes first checks for single conditions (combinations of 
+both presence and absence, or more levels if multi-value), then all possible combinations
+of levels for two conditions etc.
+</p>
+<p>The precise equation that partitions the search space into complexity layers is:
+</p>
+<p style="text-align: center;"><code class="reqn">
+    \sum_{c = 1}^{k} {k\choose c} \prod_{s = 1}^{c} l_s
+</code>
+</p>
+
+<p>where <code class="reqn">l</code> stands for the number of levels for each combination of <code class="reqn">c</code>
+conditions out of <code class="reqn">k</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A numeric vector.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Adrian Dusa
+</p>
+
+
+<h3>References</h3>
+
+<p>Dusa, A. (2018) “Consistency Cubes: A Fast, Efficient Method for Boolean
+Minimization”, R Journal, <a href="https://doi.org/10.32614/RJ-2018-080">doi:10.32614/RJ-2018-080</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">complexity(3) # all layers from 1 to 3
+
+complexity(5, layers = 2)
+</code></pre>
+
+
+</div>

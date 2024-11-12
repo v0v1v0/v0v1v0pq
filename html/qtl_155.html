@@ -1,0 +1,172 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>mqmscanfdr</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2> Estimate FDR for multiple trait QTL analysis </h2>
+
+<h3>Description</h3>
+
+<p>Estimate the false discovery rate (FDR) for multiple trait analysis
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">mqmscanfdr(cross, scanfunction=mqmscanall,
+  thresholds=c(1,2,3,4,5,7,10,15,20), n.perm=10,
+  verbose=FALSE, ...
+  )
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>cross</code></td>
+<td>
+
+<p>An object of class <code>cross</code>. See <code>read.cross</code> for details. 
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>scanfunction</code></td>
+<td>
+<p> QTL mapping function, Note: Must use scanall or mqmscanall. Otherwise this will
+not produce usefull results. Reason: We need a function that maps all traits ecause of the correlation
+structure which is not changed (between traits) during permutation (Valis options: scanall or mqmscanall)
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>thresholds</code></td>
+<td>
+<p> False discovery rate (FDR) is calculated for peaks
+above these LOD thresholds (DEFAULT=Range from 1 to 20, using 10 thresholds)
+Parameter is a list of LOD scores at which FDR is calculated.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n.perm</code></td>
+<td>
+<p> Number of permutations (DEFAULT=10 for quick analysis, however
+for publications use 1000, or higher)
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p> verbose output </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p> Parameters passed to the mapping function
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>This function wraps the analysis of <code>scanone</code>, <code>cim</code>
+and <code>mqmscan</code> to scan for QTL in shuffled/randomized data. It is
+recommended to also install the <code>snow</code> library for parallelization of
+calculations. The <code>snow</code> library allows
+calculations to run on multiple cores or even scale it up to an entire cluster,
+thus speeding up calculation by the number of computers used.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns a data.frame with 3 columns: FalsePositives, FalseNegatives and False Discovery Rates.
+In the rows the userspecified thresholds are with scores for the 3 columns.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Ritsert C Jansen; Danny Arends; Pjotr Prins; Karl W Broman <a href="mailto:broman@wisc.edu">broman@wisc.edu</a> 
+</p>
+
+
+<h3>References</h3>
+
+
+
+<ul>
+<li>
+<p> Bruno M. Tesson, Ritsert C. Jansen (2009) Chapter 3.7. Determining the significance threshold <em>eQTL Analysis in Mice and Rats</em> <b>1</b>, 20–25
+</p>
+</li>
+<li>
+<p> Churchill, G. A. and Doerge, R. W. (1994) Empirical threshold values for quantitative trait mapping. <em>Genetics</em> <b>138</b>, 963–971.
+
+
+</p>
+</li>
+<li>
+<p> Rossini, A., Tierney, L., and Li, N. (2003), Simple parallel statistical computing.  <em>R. UW Biostatistics working paper series</em> University of Washington. <b>193</b>
+</p>
+</li>
+<li>
+<p> Tierney, L., Rossini, A., Li, N., and Sevcikova, H. (2004), The snow Package: Simple Network of Workstations. Version 0.2-1.
+
+</p>
+</li>
+</ul>
+<h3>See Also</h3>
+
+
+
+<ul>
+<li>
+<p> The MQM tutorial: <a href="https://rqtl.org/tutorials/MQM-tour.pdf">https://rqtl.org/tutorials/MQM-tour.pdf</a>
+</p>
+</li>
+<li> <p><code>MQM</code> - MQM description and references
+</p>
+</li>
+<li> <p><code>mqmscan</code> - Main MQM single trait analysis
+</p>
+</li>
+<li> <p><code>mqmscanall</code> - Parallellized traits analysis
+</p>
+</li>
+<li> <p><code>mqmaugment</code> - Augmentation routine for estimating missing data
+</p>
+</li>
+<li> <p><code>mqmautocofactors</code> - Set cofactors using marker density
+</p>
+</li>
+<li> <p><code>mqmsetcofactors</code> - Set cofactors at fixed locations
+</p>
+</li>
+<li> <p><code>mqmpermutation</code> - Estimate significance levels
+</p>
+</li>
+<li> <p><code>scanone</code> - Single QTL scanning
+
+</p>
+</li>
+</ul>
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(multitrait)
+
+# impute missing genotype data
+multitrait &lt;- fill.geno(multitrait)
+## Not run: # Calculate the thresholds
+result &lt;- mqmscanfdr(multitrait, threshold=10.0, n.perm=1000)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

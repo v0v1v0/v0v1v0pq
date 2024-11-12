@@ -1,0 +1,94 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>paretochart</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Pareto chart</h2>
+
+<h3>Description</h3>
+
+<p>Creates a pareto chart from a categorical variable
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">paretochart(
+  x,
+  main,
+  ylab = "Frequency",
+  xlab = "",
+  cumperc.by = 20,
+  cex = 0.8,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>Categorical vector to be plotted</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>main</code></td>
+<td>
+<p>Plot title</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ylab</code></td>
+<td>
+<p>Label on y axis</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xlab</code></td>
+<td>
+<p>Label on x axis</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cumperc.by</code></td>
+<td>
+<p>Grid interval</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cex</code></td>
+<td>
+<p>Number indicating the amount by which text and symbols should be magnified.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Further arguments to plot function</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A table of frequencies and percentages from the pareto analysis
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jacob Anhoej
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">x &lt;- rep(LETTERS[1:9], c(256, 128, 64, 32, 16, 8, 4, 2, 1))
+paretochart(x)
+</code></pre>
+
+
+</div>

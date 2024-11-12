@@ -1,0 +1,119 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qdc</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Q methodology: distinguishing and consensus statements</h2>
+
+<h3>Description</h3>
+
+<p>Indicates the distinguishing and consensus statements. It does so by comparing the z-scores between each pair factors.</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qdc(dataset, nfactors, zsc, sed)</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>dataset</code></td>
+<td>
+<p>a matrix or a dataframe containing original data, with statements as rows, Q sorts as columns, and grid column values in each cell.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nfactors</code></td>
+<td>
+<p>number of factors extracted.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>zsc</code></td>
+<td>
+<p>a matrix or a dataframe with the factor z-scores for statements resulting from <code>qzscores</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sed</code></td>
+<td>
+<p>a matrix or a dataframe with the standard error of differences resulting from <code>qfcharact</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Finds the distinguishing and consensus statements, based on the absolute differences between factor z-scores being larger than the standard error of differences (SED, calculated in <code>qfcharact</code>) for a given pair of factors.
+</p>
+<p>Returns a single data frame with the differences in z-scores between each pair of factors and the variable <code>dist.and.cons</code>, indicating whether each statement is distinguishing or consensus and for which factor(s) it is distinguishing. These are the possible categories in the <code>dist.and.cons</code> variable:
+</p>
+
+<ul>
+<li>
+<p> Where all the comparisons between each pair of factors are significantly different at p-value &lt; .05 the statement is labelled as <code>"Distinguishes all"</code>.
+</p>
+</li>
+<li>
+<p> Where the comparisons of a given factor with all other factors are significant at p-value &lt; .05, and comparisons between all other factors are not significant, the statement is labeled as <code>"Distinguishes f*"</code>.
+</p>
+</li>
+<li>
+<p> Where none of the comparisons are significantly different, the statement is labeled as <code>"Consensus"</code>.
+</p>
+</li>
+<li>
+<p> Statements that have category <code>""</code> (empty) are not distinguishing for any of the factors in particularly. They distinguish one or more pairs of factors and the star indications may be inspected to understand their role.
+</p>
+</li>
+</ul>
+<p>Significant differences at p-values:
+</p>
+
+<ul>
+<li> <p>p &gt;= 0.05 &lt;- <code>""</code> (i.e. nothing)
+</p>
+</li>
+<li> <p>p &lt; 0.05 &lt;- <code>"*"</code>
+</p>
+</li>
+<li> <p>p &lt; 0.01 &lt;- <code>"**"</code>
+</p>
+</li>
+<li> <p>p &lt; 0.001 &lt;- <code>"***"</code>
+</p>
+</li>
+<li> <p>p &lt; 0.000001 &lt;- <code>"6*"</code>
+</p>
+</li>
+</ul>
+<h3>Note</h3>
+
+<p>This is a function used within <code>qmethod</code>. Rarely to be used independently.</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Aiora Zabala</p>
+
+
+<h3>References</h3>
+
+<p>Brown, S. R., 1980 <em>Political subjectivity: Applications of Q methodology in political science</em>, New Haven, CT: Yale University Press.
+</p>
+<p>See further references on the methodology in <code>qmethod-package</code>.</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(lipset)
+results &lt;- qmethod(lipset[[1]], nfactors = 3, rotation = "varimax")
+sed &lt;- as.data.frame(results[[7]][[3]])
+zsc &lt;- results[[5]]
+qdc(lipset[[1]], nfactors = 3, zsc = zsc, sed = sed)
+</code></pre>
+
+
+</div>

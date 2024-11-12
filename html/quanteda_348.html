@@ -1,0 +1,152 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>fcm-class</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Virtual class "fcm" for a feature co-occurrence matrix</h2>
+
+<h3>Description</h3>
+
+<p>The fcm class of object is a special type of fcm object with
+additional slots, described below.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S4 method for signature 'fcm'
+t(x)
+
+## S4 method for signature 'fcm,numeric'
+Arith(e1, e2)
+
+## S4 method for signature 'numeric,fcm'
+Arith(e1, e2)
+
+## S4 method for signature 'fcm,index,index,missing'
+x[i, j, ..., drop = TRUE]
+
+## S4 method for signature 'fcm,index,index,logical'
+x[i, j, ..., drop = TRUE]
+
+## S4 method for signature 'fcm,missing,missing,missing'
+x[i, j, ..., drop = TRUE]
+
+## S4 method for signature 'fcm,missing,missing,logical'
+x[i, j, ..., drop = TRUE]
+
+## S4 method for signature 'fcm,index,missing,missing'
+x[i, j, ..., drop = TRUE]
+
+## S4 method for signature 'fcm,index,missing,logical'
+x[i, j, ..., drop = TRUE]
+
+## S4 method for signature 'fcm,missing,index,missing'
+x[i, j, ..., drop = TRUE]
+
+## S4 method for signature 'fcm,missing,index,logical'
+x[i, j, ..., drop = TRUE]
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>the fcm object</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>e1</code></td>
+<td>
+<p>first quantity in "+" operation for fcm</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>e2</code></td>
+<td>
+<p>second quantity in "+" operation for fcm</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>i</code></td>
+<td>
+<p>index for features</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>j</code></td>
+<td>
+<p>index for features</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>additional arguments not used here</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>drop</code></td>
+<td>
+<p>always set to <code>FALSE</code></p>
+</td>
+</tr>
+</table>
+<h3>Slots</h3>
+
+
+<dl>
+<dt><code>context</code></dt>
+<dd>
+<p>the context definition</p>
+</dd>
+<dt><code>window</code></dt>
+<dd>
+<p>the size of the window, if <code>context = "window"</code></p>
+</dd>
+<dt><code>count</code></dt>
+<dd>
+<p>how co-occurrences are counted</p>
+</dd>
+<dt><code>weights</code></dt>
+<dd>
+<p>context weighting for distance from target feature, equal in length to <code>window</code></p>
+</dd>
+<dt><code>margin</code></dt>
+<dd>
+<p>frequencies of features in the original dfm or tokens</p>
+</dd>
+<dt><code>tri</code></dt>
+<dd>
+<p>whether the lower triangle of the symmetric <code class="reqn">V \times V</code> matrix is recorded</p>
+</dd>
+<dt><code>ordered</code></dt>
+<dd>
+<p>whether a term appears before or after the target feature
+are counted separately</p>
+</dd>
+</dl>
+<h3>See Also</h3>
+
+<p>fcm
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># fcm subsetting
+fcmat &lt;- fcm(tokens(c("this contains lots of stopwords",
+                  "no if, and, or but about it: lots"),
+                remove_punct = TRUE))
+fcmat[1:3, ]
+fcmat[4:5, 1:5]
+
+
+</code></pre>
+
+
+</div>

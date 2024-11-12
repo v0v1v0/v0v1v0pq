@@ -1,0 +1,122 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>elflss</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Extended log-F model with variable scale</h2>
+
+<h3>Description</h3>
+
+<p>The <code>elflss</code> family implements the Extended log-F (ELF) density of Fasiolo et al. (2017) and it is supposed
+to work in conjuction with the general GAM fitting methods of Wood et al. (2017), implemented by
+<code>mgcv</code>. It differs from the <code>elf</code> family, because here the scale of the density 
+(sigma, aka the learning rate) can depend of the covariates, while in 
+while in <code>elf</code> it is a single scalar. NB this function was use within the <code>qgam</code> function, but
+since <code>qgam</code> version 1.3 quantile models with varying learning rate are fitted using different methods
+(a parametric location-scale model, see Fasiolo et al. (2017) for details.).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">elflss(link = list("identity", "log"), qu, co, theta, remInter = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>link</code></td>
+<td>
+<p>vector of two characters indicating the link function for the quantile location and for the log-scale.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qu</code></td>
+<td>
+<p>parameter in (0, 1) representing the chosen quantile. For instance, to fit the median choose <code>qu=0.5</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>co</code></td>
+<td>
+<p>positive vector of constants used to determine parameter lambda of the ELF density (lambda = co / sigma).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>theta</code></td>
+<td>
+<p>a scalar representing the intercept of the model for the log-scale log(sigma).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>remInter</code></td>
+<td>
+<p>if TRUE the intercept of the log-scale model is removed.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>This function is meant for internal use only.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object inheriting from mgcv's class <code>general.family</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Matteo Fasiolo &lt;matteo.fasiolo@gmail.com&gt; and Simon N. Wood.
+</p>
+
+
+<h3>References</h3>
+
+<p>Fasiolo, M., Wood, S.N., Zaffran, M., Nedellec, R. and Goude, Y., 2020. 
+Fast calibrated additive quantile regression. 
+Journal of the American Statistical Association (to appear).
+<a href="https://www.tandfonline.com/doi/full/10.1080/01621459.2020.1725521">https://www.tandfonline.com/doi/full/10.1080/01621459.2020.1725521</a>.
+</p>
+<p>Wood, Simon N., Pya, N. and Safken, B. (2017). Smoothing parameter and model selection for 
+general smooth models. Journal of the American Statistical Association.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+set.seed(651)
+n &lt;- 1000
+x &lt;- seq(-4, 3, length.out = n)
+X &lt;- cbind(1, x, x^2)
+beta &lt;- c(0, 1, 1)
+sigma =  1.2 + sin(2*x)
+f &lt;- drop(X %*% beta)
+dat &lt;- f + rnorm(n, 0, sigma)
+dataf &lt;- data.frame(cbind(dat, x))
+names(dataf) &lt;- c("y", "x")
+
+# Fit median using elflss directly: NOT RECOMMENDED
+fit &lt;- gam(list(y~s(x, bs = "cr"), ~ s(x, bs = "cr")), 
+           family = elflss(theta = 0, co = rep(0.2, n), qu = 0.5), 
+           data = dataf)
+
+plot(x, dat, col = "grey", ylab = "y")
+tmp &lt;- predict(fit, se = TRUE)
+lines(x, tmp$fit[ , 1])
+lines(x, tmp$fit[ , 1] + 3 * tmp$se.fit[ , 1], col = 2)
+lines(x, tmp$fit[ , 1] - 3 * tmp$se.fit[ , 1], col = 2) 
+
+## End(Not run)     
+
+
+</code></pre>
+
+
+</div>

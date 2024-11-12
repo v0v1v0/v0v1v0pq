@@ -1,0 +1,63 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>log1pexp</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Calculating log(1+exp(x)) accurately</h2>
+
+<h3>Description</h3>
+
+<p>Calculates <code>log(1+exp(x))</code> in a numerically stable fashion.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">log1pexp(x)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a numeric vector.</p>
+</td>
+</tr></table>
+<h3>Details</h3>
+
+<p>We follow the recipe of Machler (2012), that is formula (10) page 7.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A numeric vector where the i-th entry is equal to <code>log(1+exp(x[i]))</code>, but computed more stably.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Matteo Fasiolo &lt;matteo.fasiolo@gmail.com&gt;.
+</p>
+
+
+<h3>References</h3>
+
+<p>Machler, M. (2012). Accurately computing log(1-exp(-|a|)). 
+URL: <a href="https://cran.r-project.org/package=Rmpfr/vignettes/log1mexp-note.pdf">https://cran.r-project.org/package=Rmpfr/vignettes/log1mexp-note.pdf</a>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">set.seed(141)
+library(qgam); 
+x &lt;- rnorm(100, 0, 100)
+log1pexp(x) - log1p(exp(x))
+</code></pre>
+
+
+</div>

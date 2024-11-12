@@ -1,0 +1,66 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qtl2rel</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Convert data from R/qtl to QTLRel format</h2>
+
+<h3>Description</h3>
+
+<p>Convert the data for a QTL mapping experiment from the R/qtl format
+(see http://www.rqtl.org) to that used by QTLRel.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qtl2rel(cross)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>cross</code></td>
+<td>
+<p>An object of class <code>"cross"</code>, as defined by the R/qtl package</p>
+</td>
+</tr></table>
+<h3>Details</h3>
+
+<p>The input cross must by an intercross (class <code>"f2"</code>).
+</p>
+<p>Simple pedigree information is created, assuming the data are from a
+standard intercross.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list with four components: <code>"ped"</code> (pedigree information),
+<code>"gdat"</code> (genotype data), <code>"pdat"</code> (phenotype data), and
+<code>"gmap"</code> (genetic map), in the formats used by QTLRel.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Karl W Broman, <a href="mailto:kbroman@biostat.wisc.edu">kbroman@biostat.wisc.edu</a> </p>
+
+
+<h3>See Also</h3>
+
+ <p><code>rel2qtl</code> </p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(qtl)
+data(listeria)
+listeria &lt;- listeria[as.character(1:19),]
+reldat &lt;- qtl2rel(listeria)
+</code></pre>
+
+
+</div>

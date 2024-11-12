@@ -1,0 +1,80 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>QZ-package</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Generalized Eigenvalues and QZ Decomposition</h2>
+
+<h3>Description</h3>
+
+<p>QZ package provides generalized eigenvalues and QZ decomposition
+(generalized Schur form) for an N-by-N non-symmetric
+matrix A or paired matrices (A,B) with eigenvalues reordering
+mechanism. The package is mainly based complex*16 and double
+precision of LAPACK library (version 3.4.2.)
+</p>
+
+
+<h3>Details</h3>
+
+<p>The QZ package contains R functions for generalized eigenvalues and
+QZ decomposition (generalized Schur form) for an N-by-N non-symmetric
+matrix A or paired matrices (A,B) via two main functions, <code>qz.geigen()</code>
+and <code>qz()</code>. The <code>qz()</code> function also provides an option for
+eigenvalues reordering.
+</p>
+<p>The QZ package is also based on a minimum set of complex*16 and double
+precision of LAPACK and BLAS Fortran libraries.
+Most functions are wrapped in C via <code>.Call()</code> to avoid
+extra memory copy and to improve performance and memory usage.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Wei-Chen Chen <a href="mailto:wccsnow@gmail.com">wccsnow@gmail.com</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Anderson, E., et al. (1999) <em>LAPACK User's Guide,</em>
+3rd edition, SIAM, Philadelphia.
+</p>
+<p><a href="https://en.wikipedia.org/wiki/Schur_decomposition">https://en.wikipedia.org/wiki/Schur_decomposition</a>
+</p>
+<p><a href="https://www.netlib.org/lapack/">https://www.netlib.org/lapack/</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>qz.geigen</code>,
+<code>qz</code>, <br><code>qz.zgges</code>,
+<code>qz.zggev</code>,
+<code>qz.ztgsen</code>,
+<code>qz.dgges</code>,
+<code>qz.dggev</code>,
+<code>qz.dtgsen</code>, <br><code>qz.zgees</code>,
+<code>qz.zgeev</code>,
+<code>qz.ztrsen</code>,
+<code>qz.dgees</code>,
+<code>qz.dgeev</code>,
+<code>qz.dtrsen</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+demo(ex1_geigen, "QZ")
+demo(ex2_qz, "QZ")
+demo(ex3_ordqz, "QZ")
+demo(ex4_fda_geigen, "QZ")
+
+## End(Not run)
+</code></pre>
+
+
+</div>

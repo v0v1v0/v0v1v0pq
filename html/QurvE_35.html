@@ -1,0 +1,152 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>plot.drBootSpline</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Generic plot function for <code>gcBootSpline</code> objects.</h2>
+
+<h3>Description</h3>
+
+<p>Generic plot function for <code>gcBootSpline</code> objects.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'drBootSpline'
+plot(
+  x,
+  pch = 19,
+  colData = 1,
+  colSpline = "black",
+  cex.point = 1,
+  cex.lab = 1.5,
+  cex.axis = 1.3,
+  lwd = 2,
+  plot = TRUE,
+  export = FALSE,
+  height = 7,
+  width = 9,
+  out.dir = NULL,
+  combine = FALSE,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>A <code>drBootSpline</code> object created with <code>growth.drBootSpline</code> or stored within a <code>grofit</code> or <code>drFit</code> object created with <code>growth.workflow</code> or <code>growth.drFit</code>, respectively.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pch</code></td>
+<td>
+<p>(Numeric) Shape of the raw data symbols.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>colData</code></td>
+<td>
+<p>(Numeric or Character) Color used to plot the raw data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>colSpline</code></td>
+<td>
+<p>(Numeric or Character) Color used to plot the splines.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cex.point</code></td>
+<td>
+<p>(Numeric) Size of the raw data points.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cex.lab</code></td>
+<td>
+<p>(Numeric) Font size of axis titles.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cex.axis</code></td>
+<td>
+<p>(Numeric) Font size of axis annotations.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lwd</code></td>
+<td>
+<p>(Numeric) Spline line width.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>plot</code></td>
+<td>
+<p>(Logical) Show the generated plot in the <code>Plots</code> pane (<code>TRUE</code>) or not (<code>FALSE</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>export</code></td>
+<td>
+<p>(Logical) Export the generated plot as PDF and PNG files (<code>TRUE</code>) or not (<code>FALSE</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>height</code></td>
+<td>
+<p>(Numeric) Height of the exported image in inches.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>width</code></td>
+<td>
+<p>(Numeric) Width of the exported image in inches.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>out.dir</code></td>
+<td>
+<p>(Character) Name or path to a folder in which the exported files are stored. If <code>NULL</code>, a "Plots" folder is created in the current working directory to store the files in.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>combine</code></td>
+<td>
+<p>(Logical) Indicate whether both dose-response curves and parameter plots shall be shown within the same window.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Further arguments to refine the generated base R plot.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A plot with the all dose-response spline fits from the bootstrapping operation.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">conc &lt;- c(0, rev(unlist(lapply(1:18, function(x) 10*(2/3)^x))),10)
+response &lt;- c(1/(1+exp(-0.7*(4-conc[-20])))+stats::rnorm(19)/50, 0)
+
+TestRun &lt;- growth.drBootSpline(conc, response, drID = "test",
+        control = growth.control(log.x.dr = TRUE, smooth.dr = 0.8, nboot.dr = 50))
+
+print(summary(TestRun))
+plot(TestRun, combine = TRUE)
+
+</code></pre>
+
+
+</div>

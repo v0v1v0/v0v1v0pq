@@ -1,0 +1,90 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>plot.qrmix</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Plot Method for a qrmix Object
+</h2>
+
+<h3>Description</h3>
+
+<p>Three types of plots (chosen with <code>type</code>) are currently available: density of the response variable by cluster, plots of the response variable against each covariate included in the model (scatterplots with the k fitted lines for continues variables and boxplots by cluster for the categorical variables), and boxplots of the residuals by cluster.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'qrmix'
+plot(x, data = NULL, type = c(1,2,3), lwd = 2, bw = "SJ", adjust = 2, ...)
+
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x </code></td>
+<td>
+<p>a fitted object of class <code>"qrmix"</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data </code></td>
+<td>
+<p>the data used to fit the model <code>object</code>. It is only necessary when the when the parameter <code>xy</code> was set to FALSE when fitting the qrmix model.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>type</code></td>
+<td>
+<p>a numeric vector with values chosen from 1:3 to specify a subset of types of plots required.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lwd</code></td>
+<td>
+<p>the line width for the first type of plot (density plot), a positive number. If a negative number is given, <code>lwd = 1</code> will be used instead. See <code>par</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bw</code></td>
+<td>
+<p>the smoothing bandwidth to be used to obtain the density for the first type of plot. See <code>density</code> for details.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>adjust</code></td>
+<td>
+<p>the bandwidth used is adjust*bw. See <code>density</code> for details.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>other argumets passed to other methods.
+</p>
+</td>
+</tr>
+</table>
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+data(blood.pressure)
+
+#qrmix model using default function values:
+mod1 = qrmix(bmi ~ ., data = blood.pressure, k = 3)
+plot(mod1)
+plot(mod1, type = c(1,3), lwd = 1)
+
+</code></pre>
+
+
+</div>

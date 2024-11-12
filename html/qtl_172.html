@@ -1,0 +1,101 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>pickMarkerSubset</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Identify the largest subset of markers that are some distance apart</h2>
+
+<h3>Description</h3>
+
+<p>Identify the largest subset of markers for which no two adjacent
+markers are separated by less than some specified distance; if weights
+are provided, find the marker subset for which the sum of the weights
+is maximized.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">pickMarkerSubset(locations, min.distance, weights)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>locations</code></td>
+<td>
+<p>A vector of marker locations.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>min.distance</code></td>
+<td>
+<p>Minimum distance between adjacent markers in the
+chosen subset.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>weights</code></td>
+<td>
+<p>(Optional) vector of weights for the markers.  If
+missing, we take <code>weights == 1</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Let <code class="reqn">d_i</code> be
+the location of marker <code class="reqn">i</code>, for <code class="reqn">i \in 1, \dots, M</code>.  We use the dynamic programming algorithm of Broman and Weber
+(1999) to identify the subset of markers <code class="reqn">i_1, \dots, i_k</code> for which <code class="reqn">d_{i_{j+1}} - d_{i_j} \le</code>
+<code>min.distance</code> and <code class="reqn">\sum w_{i_j}</code> is maximized.
+</p>
+<p>If there are multiple optimal subsets, we pick one at random.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A vector of marker names.</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Karl W Broman, <a href="mailto:broman@wisc.edu">broman@wisc.edu</a> </p>
+
+
+<h3>References</h3>
+
+<p>Broman,  K. W. and Weber,  J. L. (1999) Method for constructing
+confidently ordered linkage maps. <em>Genet. Epidemiol.</em>, <b>16</b>,
+337–343.
+</p>
+
+
+<h3>See Also</h3>
+
+ <p><code>drop.markers</code>, <code>pull.markers</code>,
+<code>findDupMarkers</code> </p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(hyper)
+
+# subset of markers on chr 4 spaced &gt;= 5 cM
+pickMarkerSubset(pull.map(hyper)[[4]], 5)
+
+# no. missing genotypes at each chr 4 marker
+n.missing &lt;- nmissing(subset(hyper, chr=4), what="mar")
+
+# weight by -log(prop'n missing), but don't let 0 missing go to +Inf
+wts &lt;- -log( (n.missing+1) / (nind(hyper)+1) )
+
+# subset of markers on chr 4 spaced &gt;= 5 cM, with weights = -log(prop'n missing)
+pickMarkerSubset(pull.map(hyper)[[4]], 5, wts)
+</code></pre>
+
+
+</div>

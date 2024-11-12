@@ -1,0 +1,97 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>VaRbound</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Computing lower and upper bounds for the (smallest or largest) VaR</h2>
+
+<h3>Description</h3>
+
+<p><code>VaRbound()</code> computes lower and upper bounds for the lower or upper
+Value-at-Risk bound.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">VaRbound(alpha, N, qmargins, bound = c("upper", "lower"), verbose = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>alpha</code></td>
+<td>
+<p>confidence level in (0,1).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>N</code></td>
+<td>
+<p>tail discretization parameter; see Embrechts et al. (2013).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qmargins</code></td>
+<td>
+<p><code>list</code> containing the marginal quantile
+functions.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bound</code></td>
+<td>
+<p><code>character</code> string indicating the VaR bound to
+be approximated (largest (default) or smallest).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p><code>logical</code> indicating whether progress
+information is displayed.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Due to the nature of the rearrangement algorithm, note that this
+purely R based implementation can be slow.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>numeric</code> vector of length two, containing the lower and
+upper bound for the (chosen) Value-at-Risk estimate.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Marius Hofert.</p>
+
+
+<h3>References</h3>
+
+<p>Embrechts, P., Puccetti, G., and Rüschendorf, L. (2013),
+Model uncertainty and VaR aggregation,
+<em>Journal of Banking and Finance</em> <b>37</b>(8), 2750–2764.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">qPar &lt;- function(p, theta) (1-p)^(-1/theta)-1
+qmar &lt;- lapply(1:3, function(j) function(p) qPar(p, theta=2.5))
+## bounds for the largest VaR
+VaRbound(0.99, N=50, qmargins=qmar)
+## bounds for the smallest VaR
+VaRbound(0.99, N=50, qmargins=qmar, bound="lower")
+</code></pre>
+
+
+</div>

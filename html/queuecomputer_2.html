@@ -1,0 +1,72 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>as.server.stepfun</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Create a <code>server.stepfun</code> object with a roster of times and number of available servers.</h2>
+
+<h3>Description</h3>
+
+<p>Create a <code>server.stepfun</code> object with a roster of times and number of available servers.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">as.server.stepfun(x, y)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>numeric vector giving the times of changes in number of servers.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>numeric vector one longer than <code>x</code> giving the number of servers
+available between x values.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>This function uses the analogy of a step function to specify the number of
+available servers throughout the day. It is used as input to the <code>queue_step</code>
+function. Alternatively one may use <code>as.server.list</code> to specify available servers as
+a list, however <code>queue_step</code> is much faster when <code>as.server.stepfun</code> is used
+as input rather than <code>as.server.list</code>.
+</p>
+<p>If any of the service times are large compared to any element of <code>diff(x)</code> then the
+<code>as.server.list</code> function should be used.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A <code>list</code> and <code>server.stepfun</code> object with x and y as elements.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>as.server.list</code>, <code>queue_step</code>, <code>stepfun</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+servers &lt;- as.server.stepfun(c(15,30,50), c(0, 1, 3, 2))
+servers
+
+</code></pre>
+
+
+</div>

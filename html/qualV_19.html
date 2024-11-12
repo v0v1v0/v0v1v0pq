@@ -1,0 +1,407 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>quantV</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Quantitative Validation Methods</h2>
+
+<h3>Description</h3>
+
+<p>Different methods for calculating the difference between two vectors.</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">generalME(o, p,
+          ignore   = c("raw", "centered", "scaled", "ordered"),
+          geometry = c("real", "logarithmic", "geometric", "ordinal"),
+          measure  = c("mad", "var", "sd"),
+          type     = c("dissimilarity", "normalized", "similarity",
+                       "reference", "formula", "name", "function"),
+                       method = NULL)
+   MAE(o, p, type = "dissimilarity")
+  MAPE(o, p, type = "dissimilarity")
+   MSE(o, p, type = "dissimilarity")
+
+  RMSE(o, p, type = "dissimilarity")
+  CMAE(o, p, type = "dissimilarity")
+  CMSE(o, p, type = "dissimilarity")
+ RCMSE(o, p, type = "dissimilarity")
+  SMAE(o, p, type = "dissimilarity")
+  SMSE(o, p, type = "dissimilarity")
+ RSMSE(o, p, type = "dissimilarity")
+  MALE(o, p, type = "dissimilarity")
+  MAGE(o, p, type = "dissimilarity")
+ RMSLE(o, p, type = "dissimilarity")
+ RMSGE(o, p, type = "dissimilarity")
+
+ SMALE(o, p, type = "dissimilarity")
+ SMAGE(o, p, type = "dissimilarity")
+ SMSLE(o, p, type = "dissimilarity")
+
+RSMSLE(o, p, type = "dissimilarity")
+RSMSGE(o, p, type = "dissimilarity")
+
+  MAOE(o, p, type = "dissimilarity")
+  MSOE(o, p, type = "dissimilarity")
+ RMSOE(o, p, type = "dissimilarity")
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>o</code></td>
+<td>
+<p>vector of observed values</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p</code></td>
+<td>
+<p>vector of corresponding predicted values</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>type</code></td>
+<td>
+<p>one of <code>"dissimilarity"</code>, <code>"normalized"</code>,
+<code>"similarity"</code>, <code>"reference"</code>, <code>"formula"</code>, for the dissimilarity
+measure, the normalized dissimilarity measure, the similarity
+measure, or the formula for the normalized measure. For
+<code>generalME</code> it is additionally possible to specify
+<code>"function"</code> for getting the corresponding function and
+<code>"name"</code> for getting the name of the function.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ignore</code></td>
+<td>
+<p>specifies which aspects should be ignored: <code>"raw"</code>
+compares original values, <code>"centered"</code> removes differences in mean,
+<code>"scaled"</code> ignores scaling, <code>"ordered"</code> indicates the use of the
+ordinal geometry only.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>geometry</code></td>
+<td>
+<p>indicating the geometry to be used for the data and
+the output, <code>"real"</code> corresponds to arithmetic differences and means,
+<code>"logarithmic"</code> to handling relative data on a logarithmic scale,
+<code>"geometric"</code> to geometric means and differences and <code>"ordinal"</code>
+to a pure ordinal treatment.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>measure</code></td>
+<td>
+<p>indicates how distances should be measured: as mean
+absolute distances like in MAD, as squared distances like in a
+variance, or as the root of mean squared distances like in sd.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+<p>optionally the function to be used can specified
+directly as a function or as a string.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>These comparison criteria are designed for a semiquantitative
+comparison of observed values <code>o</code> with predicted values
+<code>p</code> to validate the performance of the prediction.
+<br>
+The general naming convention follows the grammar scheme
+<br><code>[R][C|S]M[S|A][L|G|O]E</code>
+<br>
+corresponding to
+<code>[Root] [Centered | Scaled] Mean [Squared | Absolute]</code>
+<br><code>[Logarithmic, Geometric, Ordinal] Error</code>
+</p>
+
+<dl>
+<dt>Root</dt>
+<dd>
+<p>is used together with squared errors to indicate, that a
+root is applied to the mean.</p>
+</dd>
+<dt>Centered</dt>
+<dd>
+<p>indicates that an additive constant is allowed.</p>
+</dd>
+<dt>Scaled</dt>
+<dd>
+<p>indicates that a scaling of the predictive sequence is
+allowed. Scaled implies centered for real scale.</p>
+</dd>
+<dt>Squared</dt>
+<dd>
+<p>indicates that squared error is used.</p>
+</dd>
+<dt>Absolute</dt>
+<dd>
+<p>indicates that absolute error is used.</p>
+</dd>
+<dt>Logarithmic</dt>
+<dd>
+<p>indicates that the error is calculated based on the
+logarithms of the values. This is useful for data on a relative
+scale.</p>
+</dd>
+<dt>Geometric</dt>
+<dd>
+<p>indicates that the result is to be understood as a
+factor, similar to a geometric mean.</p>
+</dd>
+<dt>Ordinal</dt>
+<dd>
+<p>indicates that only the order of the observations is
+taken into account by analyzing the data by ranks scaled to the
+interval [0, 1].</p>
+</dd>
+</dl>
+<p>The mean errors for squared error measures are
+based on the number of degrees of freedom of the residuals.
+</p>
+
+
+<h3>Value</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>generalME</code></td>
+<td>
+<p>selects the best deviance measure according to the
+description given in the parameters. It has the two additional
+possibilities of name and function in the type parameter.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>MAE</code></td>
+<td>
+<p>mean absolute error <code class="reqn">\frac1n</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>MAPE</code></td>
+<td>
+<p>mean absolute percentage error</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>MSE</code></td>
+<td>
+<p>mean squared error</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>RMSE</code></td>
+<td>
+<p>root mean squared error</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>CMAE</code></td>
+<td>
+<p>centered mean absolute error</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>CMSE</code></td>
+<td>
+<p>centered mean squared error</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>RCMSE</code></td>
+<td>
+<p>root centered mean squared error</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>SMAE</code></td>
+<td>
+<p>scaled mean absolute error</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>SMSE</code></td>
+<td>
+<p>scaled mean squared error</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>RSMSE</code></td>
+<td>
+<p>root scaled mean squared error</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>MALE</code></td>
+<td>
+<p>mean absolute logarithmic error</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>MAGE</code></td>
+<td>
+<p>mean absolute geometric error</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>MSLE</code></td>
+<td>
+<p>mean squared logarithmic error</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>MSGE</code></td>
+<td>
+<p>mean squared geometric error</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>RMSLE</code></td>
+<td>
+<p>root mean squared logarithmic error</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>SMALE</code></td>
+<td>
+<p>scaled mean absolute logarithmic error</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>SMAGE</code></td>
+<td>
+<p>scaled mean absolute relative error</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>SMSLE</code></td>
+<td>
+<p>scaled mean squared logarithmic error</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>RSMSLE</code></td>
+<td>
+<p>root scaled mean squared logarithmic error</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>RSMSGE</code></td>
+<td>
+<p>root scaled mean squared geometric error</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>MAOE</code></td>
+<td>
+<p>mean absolute ordinal error </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>MSOE</code></td>
+<td>
+<p>mean squared ordinal error</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>RMSOE</code></td>
+<td>
+<p>root mean squared ordinal error</p>
+</td>
+</tr>
+</table>
+<h3>References</h3>
+
+<p>Mayer, D. G. and Butler, D. G. (1993) Statistical
+Validation. Ecological Modelling, 68, 21-32.
+</p>
+<p>Jachner, S., van den Boogaart, K.G. and Petzoldt, T. (2007) Statistical
+methods for the qualitative assessment of dynamic models with time
+delay (R package qualV), Journal of Statistical Software, 22(8), 1–30.
+<a href="https://doi.org/10.18637/jss.v022.i08">doi:10.18637/jss.v022.i08</a>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>EF</code>, <code>GRI</code>, <code>compareME</code></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(phyto)
+obsb &lt;- na.omit(obs[match(sim$t, obs$t), ])
+simb &lt;- sim[na.omit(match(obs$t, sim$t)), ]
+o &lt;- obsb$y
+p &lt;- simb$y
+
+generalME(o, p, ignore = "raw", geometry = "real")
+
+   MAE(o, p)
+  MAPE(o, p)
+   MSE(o, p)
+  RMSE(o, p)
+  CMAE(o, p)
+  CMSE(o, p)
+ RCMSE(o, p)
+  SMAE(o, p)
+  SMSE(o, p)
+ RSMSE(o, p)
+  MALE(o, p)
+  MAGE(o, p)
+ RMSLE(o, p)
+ RMSGE(o, p)
+
+ SMALE(o, p)
+ SMAGE(o, p)
+ SMSLE(o, p)
+
+RSMSLE(o, p)
+RSMSGE(o, p)
+
+  MAOE(o, p)
+  MSOE(o, p)
+ RMSOE(o, p)
+   MAE(o, p)
+  MAPE(o, p)
+
+
+   MSE(o, p, type = "s")
+  RMSE(o, p, type = "s")
+  CMAE(o, p, type = "s")
+  CMSE(o, p, type = "s")
+ RCMSE(o, p, type = "s")
+  SMAE(o, p, type = "s")
+  SMSE(o, p, type = "s")
+ RSMSE(o, p, type = "s")
+  MALE(o, p, type = "s")
+  MAGE(o, p, type = "s")
+ RMSLE(o, p, type = "s")
+ RMSGE(o, p, type = "s")
+
+ SMALE(o, p, type = "s")
+ SMAGE(o, p, type = "s")
+ SMSLE(o, p, type = "s")
+
+RSMSLE(o, p, type = "s")
+RSMSGE(o, p, type = "s")
+
+  MAOE(o, p, type = "s")
+  MSOE(o, p, type = "s")
+ RMSOE(o, p, type = "s")
+</code></pre>
+
+
+</div>

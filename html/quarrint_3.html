@@ -1,0 +1,112 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>as.data.frame.quarry</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Coerce a Quarry to a Data Frame
+</h2>
+
+<h3>Description</h3>
+
+<p>Coerce an object of type <code>quarry</code> to a <code>data.frame</code>. The attributes
+to be stored in the data frame can be specified (default: keeping every
+attributes).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'quarry'
+as.data.frame(x, row.names = NULL, optional = NULL, 
+              attr = "all", ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+
+<p>An object of type <code>quarry</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>row.names</code></td>
+<td>
+
+<p>Not used.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>optional</code></td>
+<td>
+
+<p>Not used.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>attr</code></td>
+<td>
+
+<p>A vector listing the dummy variables to be retained in the data frame.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+
+<p>Further arguments passed to or from other methods.
+</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A data frame with the columns listed in <code>attr</code>.
+</p>
+
+
+<h3>Note</h3>
+
+<p>The data frame will only stores the dummy variables of the quarry.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Johan Barthelemy.
+</p>
+<p>Maintainer: Johan Barthelemy <a href="mailto:johan@uow.edu.au">johan@uow.edu.au</a>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>as.data.frame</code> for the generic method.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># creating a quarry
+q &lt;- quarry(geological.context = 2, hydrogeological.context = 4,
+            piezometric.context = 1, quarry.position = 4,
+            production.catchment = 4, quality.catchment = 3)
+
+# coercing to a data frame
+q.df &lt;- as.data.frame(q)
+
+# coercing to a data frame, keeping only "H1", "Z1" and "C2"
+q.df.subset &lt;- as.data.frame(q, attr = c("H1","Z1","C2"))
+</code></pre>
+
+
+</div>

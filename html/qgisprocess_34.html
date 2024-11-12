@@ -1,0 +1,94 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qgis_enable_plugins</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Enable or disable QGIS plugins</h2>
+
+<h3>Description</h3>
+
+<p>Processing plugins, installed in QGIS, can be in an 'enabled' or 'disabled'
+state in QGIS.
+The plugin state can be controlled from R.
+<code>qgis_enable_plugins()</code> enables plugins while <code>qgis_disable_plugins()</code>
+does the reverse.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qgis_enable_plugins(names = NULL, quiet = FALSE)
+
+qgis_disable_plugins(names = NULL, quiet = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>names</code></td>
+<td>
+<p>Optional character vector of plugin names.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>quiet</code></td>
+<td>
+<p>Use <code>FALSE</code> to display more information,
+possibly useful for debugging.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The cache is immediately updated upon enabling or disabling plugins from R.
+</p>
+<p>Run <code>qgis_plugins()</code> to list the available plugins that implement processing
+providers.
+</p>
+<p>If you installed, removed, enabled or disabled plugins in the QGIS GUI, then
+run <code>qgis_configure()</code> to make those changes available in R.
+</p>
+<p>If <code>names</code> is not provided to <code>qgis_enable_plugins()</code>, it is assumed that all
+<em>disabled</em> plugins are to be enabled.
+If <code>names</code> is not provided to <code>qgis_disable_plugins()</code>, it is assumed that all
+<em>enabled</em> plugins are to be disabled.
+Note that the 'processing' plugin is ignored, because it is always available
+to 'qgis_process' (not QGIS though).
+</p>
+
+
+<h3>Value</h3>
+
+<p>A tibble of plugins, invisibly.
+</p>
+
+
+<h3>Note</h3>
+
+<p>Only plugins that implement processing providers are supported.
+Installing or removing plugins is not supported.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>qgis_plugins()</code>
+</p>
+<p>Other topics about configuring QGIS and qgisprocess: 
+<code>qgis_configure()</code>,
+<code>qgis_run()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+qgis_enable_plugins("name_of_plugin")
+
+</code></pre>
+
+
+</div>

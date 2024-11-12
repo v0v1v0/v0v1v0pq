@@ -1,0 +1,138 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>cindex</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Concordance Index Calculation (C-Index)</h2>
+
+<h3>Description</h3>
+
+<p>Computes the concordance index for a predictor as a discrimination metric for binary, time-to-event, and competing risks outcomes.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">cindex(
+  prob,
+  fstatus,
+  ftime,
+  type = "crr",
+  failcode = 1,
+  cencode = 0,
+  tol = 1e-20
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>prob</code></td>
+<td>
+<p>A risk score (typically a probability giving the risk of event failure)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fstatus</code></td>
+<td>
+<p>The event status</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ftime</code></td>
+<td>
+<p>The event times. Applies when the <code>type</code> argument is <code>"survival"</code> or <code>"crr"</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>type</code></td>
+<td>
+<p>The outcome type: <code>"logistic"</code> for binary, <code>"survival"</code> for ordinary time-to-event, and <code>"crr"</code> for competing risks outcomes. Defaults to <code>"crr"</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>failcode</code></td>
+<td>
+<p>The value of <code>fstatus</code> that indicates the event of interest. Defaults to <code>1</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cencode</code></td>
+<td>
+<p>The censoring event code. Defaults to <code>0</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tol</code></td>
+<td>
+<p>Error tolerance (not used)</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A named vector with following elements:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>N</code></td>
+<td>
+<p>Total number of observations in the input data</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p>Number of observations used for calculation</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>usable</code></td>
+<td>
+<p>Total number of usable pairs</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>concordant</code></td>
+<td>
+<p>Number of concordant pairs</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cindex</code></td>
+<td>
+<p>The concordance index: number of concordant pairs divided by the total number of usable pairs</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Changhong Yu, Michael Kattan, Brian Wells, Amy Nowacki.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">dd &lt;- datadist(prostate.dat)
+options(datadist = "dd")
+prostate.f &lt;- cph(Surv(TIME_EVENT,EVENT_DOD == 1) ~ TX  + rcs(PSA,3) +
+           BX_GLSN_CAT +  CLIN_STG + rcs(AGE,3) +
+           RACE_AA, data = prostate.dat,
+           x = TRUE, y = TRUE, surv = TRUE,time.inc = 144)
+prostate.crr &lt;- crr.fit(prostate.f, cencode = 0, failcode = 1)
+
+# Cross-validated predictions
+prostate.dat$preds.cv.prostate.crr.120 &lt;- tenf.crr(prostate.crr, time = 120, fold = 2)
+
+## calculate the competing-risks version of concordance index
+with(prostate.dat, cindex(preds.cv.prostate.crr.120,
+                          ftime = TIME_EVENT,
+                          fstatus =EVENT_DOD, type = "crr"))["cindex"]
+
+</code></pre>
+
+
+</div>

@@ -1,0 +1,92 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qgcomp.survcurve.boot</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Survival curve data from a qgcomp survival fit</h2>
+
+<h3>Description</h3>
+
+<p>It is often of interest to examine survival curves from qgcomp.cox.boot
+models. They can be useful for checking assumptions about how well
+the marginal structural model conforms to the underlying conditional
+model, such that the overall fit approximates the non-linearity
+in the underlying model. This function will yield survival curves,
+but no measures of uncertainty.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qgcomp.survcurve.boot(x, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a <code>qgcompfit</code> object from <code>qgcomp.cox.boot</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>not used</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>a list of data.frames:
+#'  </p>
+
+<ul>
+<li>
+<p>'mdfpop': Average Survival curve (survival, time) based on
+marginal structural model, averaged over the population at every quantile
+of exposure
+</p>
+</li>
+<li>
+<p>'cdfpop': Population average survival curve (survival, time) based on
+the underlying conditional model
+</p>
+</li>
+<li>
+<p>'mdfq': Survival curves (survival, time) for each quantile
+based on marginal structural model
+</p>
+</li>
+<li>
+<p>'cdfq': Survival curves (survival, time) for each quantile
+based on underlying conditional model
+</p>
+</li>
+</ul>
+<h3>Examples</h3>
+
+<pre><code class="language-R">set.seed(50)
+N=200
+dat &lt;- data.frame(time=(tmg &lt;- pmin(.1,rweibull(N, 10, 0.1))), 
+                  d=1.0*(tmg&lt;0.1), x1=runif(N), x2=runif(N), z=runif(N))
+expnms=paste0("x", 1:2)
+f = survival::Surv(time, d)~x1 + x2
+(fit1 &lt;- survival::coxph(f, data = dat))
+(obj &lt;- qgcomp.cox.noboot(f, expnms = expnms, data = dat))
+## Not run: 
+## Not run: 
+(obj2 &lt;- qgcomp.cox.boot(f, expnms = expnms, data = dat, B=10, MCsize=20000))
+curves = cox.survcurve.boot(obj2)
+rbind(head(curves$mdfq),tail(curves$mdfq))
+
+## End(Not run)
+
+
+</code></pre>
+
+
+</div>

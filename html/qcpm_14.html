@@ -1,0 +1,104 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>reliability</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Measurement model reliability and internal consistence</h2>
+
+<h3>Description</h3>
+
+<p><code>reliability</code> returns the classical indices used in PLS-PM to assess 
+the reliability and internal consistence of the measurement model (Hair et al., 2019). 
+In order it provides: Cronbach's alpha, Dillon-Goldstein's rho, the Dijkstra-Henseler rho, and 
+first and second eigenvalue of the correlation matrix of the manifest variables. The function 
+also returns the outer mode (A or B) and the number of manifest variables for each block.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">reliability(qcpm)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>qcpm</code></td>
+<td>
+<p>is an object of class <code>qcpm</code></p>
+</td>
+</tr></table>
+<h3>Details</h3>
+
+<p>The function only returns Dijkstra-Henseler rho values for quantile 0.5. When mode 
+B is selected, or there are some intra-block inverse correlations, the Dijkstra-Henseler rho, 
+Cronbach's alpha, and Dillon-Goldstein's rho are not calculated.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A table containing, for each block, the outer mode (A or B), 
+the number of manifest variables, Cronbach's alpha, Dillon-Goldstein's rho, 
+Dijkstra-Henseler rho, and first and second eigenvalue of the manifest variable 
+correlation matrix.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Cristina Davino, Pasquale Dolce, Giuseppe Lamberti, Domenico Vistocco
+</p>
+
+
+<h3>References</h3>
+
+<p>Hair, J.F., Risher, J.J., Sarstedt, M. and Ringle, C.M. (2019). When to 
+use and how to report the results of PLS-SEM. <em>European Business Review</em>, <b>31 (1)</b>,
+pp. 2–24, doi: 10.1108/EBR-11-2018-0203
+</p>
+<p>Sanchez, G. (2013). PLS Path Modeling with R Trowchez Editions. Berkeley, 2013. 
+Available at <a href="https://www.gastonsanchez.com/PLS_Path_Modeling_with_R.pdf">https://www.gastonsanchez.com/PLS_Path_Modeling_with_R.pdf</a>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>qcpm</code>, <code>assessment</code>, <code>boot</code>, and 
+<code>summary</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+# Example of QC-PM in Well-Being analysis
+# model with three LVs and reflective indicators
+
+# load library and dataset province
+library(qcpm)
+data(province)
+
+# Define the model using laavan sintax. Use a set of regression formulas defining 
+# firstly the structural model and then the measurement model
+model &lt;- "
+ECOW ~ EDU
+HEALTH ~ EDU + ECOW
+
+# Reflective measurement model
+EDU =~ EDU1 + EDU2 + EDU3 + EDU4 + EDU5 + EDU6 + EDU7
+ECOW =~ ECOW1 + ECOW2 + ECOW3 + ECOW4 + ECOW5 + ECOW6
+HEALTH =~  HEALTH1 + HEALTH2 + HEALTH3
+"
+
+
+# Apply qcpm
+well.qcpm = qcpm(model,province)
+reliability(well.qcpm)   
+
+</code></pre>
+
+
+</div>

@@ -1,0 +1,156 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>dfm_trim</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Trim a dfm using frequency threshold-based feature selection</h2>
+
+<h3>Description</h3>
+
+<p>Returns a document by feature matrix reduced in size based on
+document and term frequency, usually in terms of a minimum frequency, but
+may also be in terms of maximum frequencies.  Setting a combination of
+minimum and maximum frequencies will select features based on a range.
+</p>
+<p>Feature selection is implemented by considering features across
+all documents, by summing them for term frequency, or counting the
+documents in which they occur for document frequency. Rank and quantile
+versions of these are also implemented, for taking the first <code class="reqn">n</code>
+features in terms of descending order of overall global counts or document
+frequencies, or as a quantile of all frequencies.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">dfm_trim(
+  x,
+  min_termfreq = NULL,
+  max_termfreq = NULL,
+  termfreq_type = c("count", "prop", "rank", "quantile"),
+  min_docfreq = NULL,
+  max_docfreq = NULL,
+  docfreq_type = c("count", "prop", "rank", "quantile"),
+  sparsity = NULL,
+  verbose = quanteda_options("verbose")
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a dfm object</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>min_termfreq, max_termfreq</code></td>
+<td>
+<p>minimum/maximum values of feature frequencies
+across all documents, below/above which features will
+be removed</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>termfreq_type</code></td>
+<td>
+<p>how <code>min_termfreq</code> and <code>max_termfreq</code> are
+interpreted.  <code>"count"</code> sums the frequencies; <code>"prop"</code> divides the
+term frequencies by the total sum; <code>"rank"</code> is matched against the
+inverted ranking of features in terms of overall frequency, so that 1, 2,
+... are the highest and second highest frequency features, and so on;
+<code>"quantile"</code> sets the cutoffs according to the quantiles (see
+<code>quantile()</code>) of term frequencies.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>min_docfreq, max_docfreq</code></td>
+<td>
+<p>minimum/maximum values of a feature's document
+frequency, below/above which features will be removed</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>docfreq_type</code></td>
+<td>
+<p>specify how <code>min_docfreq</code> and <code>max_docfreq</code> are
+interpreted.   <code>"count"</code> is the same as <code style="white-space: pre;">⁠[docfreq](x, scheme = "count")⁠</code>; <code>"prop"</code> divides the document frequencies by the total
+sum; <code>"rank"</code> is matched against the inverted ranking of document
+frequency, so that 1, 2, ... are the features with the highest and second
+highest document frequencies, and so on; <code>"quantile"</code> sets the cutoffs
+according to the quantiles (see <code>quantile()</code>) of document
+frequencies.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sparsity</code></td>
+<td>
+<p>equivalent to <code>1 - min_docfreq</code>, included for comparison
+with <span class="pkg">tm</span></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p>print messages</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A dfm reduced in features (with the same number of documents)
+</p>
+
+
+<h3>Note</h3>
+
+<p>Trimming a dfm object is an operation based on the <em>values</em>
+in the document-feature matrix.  To select subsets of a dfm based on the
+features themselves (meaning the feature labels from
+<code>featnames()</code>) – such as those matching a regular expression, or
+removing features matching a stopword list, use <code>dfm_select()</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>dfm_select()</code>, <code>dfm_sample()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">dfmat &lt;- dfm(tokens(data_corpus_inaugural))
+
+# keep only words occurring &gt;= 10 times and in &gt;= 2 documents
+dfm_trim(dfmat, min_termfreq = 10, min_docfreq = 2)
+
+# keep only words occurring &gt;= 10 times and in at least 0.4 of the documents
+dfm_trim(dfmat, min_termfreq = 10, min_docfreq = 0.4, docfreq_type = "prop")
+
+# keep only words occurring &lt;= 10 times and in &lt;=2 documents
+dfm_trim(dfmat, max_termfreq = 10, max_docfreq = 2)
+
+# keep only words occurring &lt;= 10 times and in at most 3/4 of the documents
+dfm_trim(dfmat, max_termfreq = 10, max_docfreq = 0.75, docfreq_type = "prop")
+
+# keep only words occurring 5 times in 1000, and in 2 of 5 of documents
+dfm_trim(dfmat, min_docfreq = 0.4, min_termfreq = 0.005, termfreq_type = "prop")
+
+## Not run: 
+# compare to removeSparseTerms from the tm package
+(dfmattm &lt;- convert(dfmat, "tm"))
+tm::removeSparseTerms(dfmattm, 0.7)
+dfm_trim(dfmat, min_docfreq = 0.3)
+dfm_trim(dfmat, sparsity = 0.7)
+
+## End(Not run)
+
+</code></pre>
+
+
+</div>

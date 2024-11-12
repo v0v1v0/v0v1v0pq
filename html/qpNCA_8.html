@@ -1,0 +1,126 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>est.thalf</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Calculate Lambda_z and Elimination Half-life</h2>
+
+<h3>Description</h3>
+
+<p>Calculates lambda_z and thalf for each PK curve identified using <code>by</code>. <br></p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">est.thalf(
+  x,
+  by = character(0),
+  timevar = "time",
+  depvar = "dv",
+  includeCmax = "Y",
+  exclvar = NA
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a dataset</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>by</code></td>
+<td>
+<p>column names in x indicating grouping variables</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>timevar</code></td>
+<td>
+<p>variable name containing the actual sampling time after dose</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>depvar</code></td>
+<td>
+<p>variable name containing the dependent variable (e.g., concentration)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>includeCmax</code></td>
+<td>
+<p>include results of regression including Cmax in selection? (y/n); x$includeCmax overrides if provided</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>exclvar</code></td>
+<td>
+<p>a variable name containing information about points to be excluded (these should have exclvar = 1)</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The function starts with the last three sample points and performs
+log-linear regression on it. It then adds one sampling point at a time
+(including and ending at tmax) and performs the regression again.
+The results of the regression with the highest adjusted R-squared are returned. <br><br>
+Visual outliers can be excluded from the regression analysis.
+</p>
+
+
+<h3>Value</h3>
+
+<p>a dataset with estimates for each regression analysis in one observation.
+The following parameters are available.
+</p>
+
+<ul>
+<li> <p><strong>no.points</strong> number of data points used in the regression analysis
+</p>
+</li>
+<li> <p><strong>intercept</strong> estimated intercept
+</p>
+</li>
+<li> <p><strong>lambda_z</strong> -1*estimated slope
+</p>
+</li>
+<li> <p><strong>r.squared</strong> square of the correlation coefficient
+</p>
+</li>
+<li> <p><strong>adj.r.squared</strong> adjusted square of the correlation coefficient
+</p>
+</li>
+<li> <p><strong>thalf</strong> elimination half-life
+</p>
+</li>
+<li> <p><strong>start_th</strong> time of first sample included in the thalf estimation
+</p>
+</li>
+<li> <p><strong>end_th time</strong> of last sample included in the thalf estimation
+</p>
+</li>
+<li> <p><strong>includeCmax</strong> include results of regression including Cmax in selection? (y/n)
+</p>
+</li>
+<li> <p><strong>points_excluded</strong> are time points excluded from the half-life estimation? (y/n)
+</p>
+</li>
+</ul>
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+example(correct.loq)
+x %&lt;&gt;% mutate(includeCmax = 'Y')
+th &lt;- x %&gt;% est.thalf(by='subject',exclvar=)
+th %&gt;%  head
+
+</code></pre>
+
+
+</div>

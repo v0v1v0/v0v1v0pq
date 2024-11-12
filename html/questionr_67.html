@@ -1,0 +1,89 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>quant.cut</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Transform a quantitative variable into a qualitative variable</h2>
+
+<h3>Description</h3>
+
+<p>This function transforms a quantitative variable into a qualitative
+one by breaking it into classes with the same frequencies.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">quant.cut(var, nbclass, include.lowest = TRUE, right = FALSE, dig.lab = 5, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>var</code></td>
+<td>
+<p>variable to transform</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nbclass</code></td>
+<td>
+<p>number of classes</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>include.lowest</code></td>
+<td>
+<p>argument passed to the <code>cut</code> function</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>right</code></td>
+<td>
+<p>argument passed to the <code>cut</code> function</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dig.lab</code></td>
+<td>
+<p>argument passed to the <code>cut</code> function</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>arguments passed to the <code>cut</code> function</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>This is just a simple wrapper around the <code>cut</code> and <code>quantile</code>
+functions.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The result is a factor.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>cut</code>, <code>quantile</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(iris)
+sepal.width3cl &lt;- quant.cut(iris$Sepal.Width,3)
+table(sepal.width3cl)
+</code></pre>
+
+
+</div>

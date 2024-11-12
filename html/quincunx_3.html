@@ -1,0 +1,60 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>bind</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Bind PGS Catalog objects</h2>
+
+<h3>Description</h3>
+
+<p>Binds together PGS Catalog objects of the same class. Note that
+<code>bind()</code> preserves duplicates whereas
+<code>union</code> does not.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">bind(x, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>An object of either class scores, publications,
+traits, performance_metrics, sample_sets,
+cohorts or trait_categories.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Objects of the same class as <code>x</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>An object of the same class as <code>x</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+# Get some `scores` objects:
+my_scores_1 &lt;- get_scores(c('PGS000012', 'PGS000013'))
+my_scores_2 &lt;- get_scores(c('PGS000013', 'PGS000014'))
+
+# NB: with `bind()`, PGS000013 is repeated (as opposed to `union()`)
+bind(my_scores_1, my_scores_2)@scores
+
+</code></pre>
+
+
+</div>

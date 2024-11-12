@@ -1,0 +1,134 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>corpus-class</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Base method extensions for corpus objects</h2>
+
+<h3>Description</h3>
+
+<p>Extensions of base R functions for corpus objects.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'corpus'
+c1 + c2
+
+## S3 method for class 'corpus'
+c(..., recursive = FALSE)
+
+## S3 method for class 'corpus'
+x[i, drop_docid = TRUE]
+
+## S3 method for class 'summary.corpus'
+print(x, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>c1</code></td>
+<td>
+<p>corpus one to be added</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>c2</code></td>
+<td>
+<p>corpus two to be added</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>recursive</code></td>
+<td>
+<p>logical used by <code>c()</code> method, always set to <code>FALSE</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a corpus object</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>i</code></td>
+<td>
+<p>document names or indices for documents to extract.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>drop_docid</code></td>
+<td>
+<p>if <code>TRUE</code>, drop <code>docid</code> for documents removed as the result of extraction.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The <code>+</code> operator for a corpus object will combine two corpus
+objects, resolving any non-matching <code>docvars()</code> by making them
+into <code>NA</code> values for the corpus lacking that field. Corpus-level meta
+data is concatenated, except for <code>source</code> and <code>notes</code>, which are
+stamped with information pertaining to the creation of the new joined
+corpus.
+</p>
+<p>The <code>c()</code> operator is also defined for corpus class objects, and provides
+an easy way to combine multiple corpus objects.
+</p>
+<p>There are some issues that need to be addressed in future revisions of
+quanteda concerning the use of factors to store document variables and
+meta-data.  Currently most or all of these are not recorded as factors,
+because we use <code>stringsAsFactors=FALSE</code> in the
+<code>data.frame()</code> calls that are used to create and store the
+document-level information, because the texts should always be stored as
+character vectors and never as factors.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The <code>+</code> and <code>c()</code> operators return a <code>corpus()</code> object.
+</p>
+<p>Indexing a corpus works in three ways, as of v2.x.x:
+</p>
+
+<ul>
+<li> <p><code>[</code> returns a subsetted corpus
+</p>
+</li>
+<li> <p><code>[[</code> returns the textual contents of a subsetted corpus (similar to <code>as.character()</code>)
+</p>
+</li>
+<li> <p><code>$</code> returns a vector containing the single named docvars
+</p>
+</li>
+</ul>
+<h3>See Also</h3>
+
+<p><code>summary.corpus()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># concatenate corpus objects
+corp1 &lt;- corpus(data_char_ukimmig2010[1:2])
+corp2 &lt;- corpus(data_char_ukimmig2010[3:4])
+corp3 &lt;- corpus(data_char_ukimmig2010[5:6])
+summary(c(corp1, corp2, corp3))
+
+# two ways to index corpus elements
+data_corpus_inaugural["1793-Washington"]
+data_corpus_inaugural[2]
+
+# return the text itself
+data_corpus_inaugural[["1793-Washington"]]
+</code></pre>
+
+
+</div>

@@ -1,0 +1,124 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qgraph.loadings</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>qgraph.loadings</h2>
+
+<h3>Description</h3>
+
+<p>This function is a wrapper function for <code>qgraph</code> designed to visualize factor loadings.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qgraph.loadings( fact, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>fact</code></td>
+<td>
+<p>A matrix containing factor loadings (items per row, factors per column) or an "loadings" object</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Additional optional arguments passed to <code>qgraph</code> and special arguments used in this function (described below).</p>
+</td>
+</tr>
+</table>
+<h3>Additional optional arguments</h3>
+
+	
+
+<dl>
+<dt>layout</dt>
+<dd>
+<p>If "default" a standard layout for factor models will be made. If this is "circle" the default layout is circled (factors in the centre, items at the edge). No other layouts are currently supported.</p>
+</dd>
+<dt>vsize</dt>
+<dd>
+<p>A vector where the first value indicates the size of manifest variables and the second value indicates the size of latent variables.</p>
+</dd>
+<dt>model</dt>
+<dd>
+<p>"reflective" to have arrows go to manifest variables, "formative" to have arrows go to latent variables or "none" (default) for no arrows</p>
+</dd>
+<dt>crossloadings</dt>
+<dd>
+<p>Logical, if TRUE then for each manifest variable the strongest loading is omitted (default to FALSE).</p>
+</dd>
+<dt>groups</dt>
+<dd>
+<p>An optional list containing the measurement model, see  <code>qgraph</code></p>
+</dd>
+<dt>Fname</dt>
+<dd>
+<p>When there is only one factor, this is it's name. If there are more factors, the names in the groups list are used only if the factors can be identified.</p>
+</dd>
+<dt>resid</dt>
+<dd>
+<p>Values for the residuals</p>
+</dd>
+<dt>residSize</dt>
+<dd>
+<p>Size of the residuals, defaults to 0.1</p>
+</dd>
+<dt>factorCors</dt>
+<dd>
+<p>Correlation matrix of the factors</p>
+</dd>
+</dl>
+<h3>Author(s)</h3>
+
+<p>Sacha Epskamp (mail@sachaepskamp.com)
+</p>
+
+
+<h3>References</h3>
+
+<p>Sacha Epskamp, Angelique O. J. Cramer, Lourens J.
+Waldorp, Verena D. Schmittmann, Denny Borsboom (2012).
+qgraph: Network Visualizations of Relationships in
+Psychometric Data. Journal of Statistical Software,
+48(4), 1-18. URL http://www.jstatsoft.org/v48/i04/.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>qgraph</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+# Load big5 dataset:
+data(big5)
+data(big5groups)
+
+big5efa &lt;- factanal(big5,factors=5,rotation="promax",scores="regression")
+big5loadings &lt;- loadings(big5efa)
+qgraph.loadings(big5loadings,groups=big5groups,minimum=0.2,
+				cut=0.4,vsize=c(1.5,15),borders=FALSE,vTrans=200,
+				model = "reflective", resid = big5efa$uniquenesses)
+
+# Tree layout:
+qgraph.loadings(big5loadings,groups=big5groups,minimum=0.2,
+				cut=0.4,vsize=c(1.5,15),borders=FALSE,vTrans=200,
+				layout="tree",width=20,model = "reflective", 
+				resid = big5efa$uniquenesses)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

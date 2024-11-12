@@ -1,0 +1,85 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>quest</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Construct and apply the QuEST model with your own data</h2>
+
+<h3>Description</h3>
+
+<p>Construct and apply the QuEST model with your own data
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">quest(x, y, newx = x, method = "linear", lower.thr = 0, n.gene = 0)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>A data matrix (row: samples, col: genes).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>A vector of an environment in which the samples were collected.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>newx</code></td>
+<td>
+<p>A data matrix (row: samples, col: genes).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+<p>A string to specify the method of regression for calculating R-squared values.
+"linear" (default), "quadratic" or "cubic" regression model can be specified.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lower.thr</code></td>
+<td>
+<p>The lower threshold of R-squared value to be used in QuEST model (default: 0).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n.gene</code></td>
+<td>
+<p>The number of candidate genes to be used in QuEST model (default: 30).</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A vector of the environment in which the samples of newx were collected
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Takahiko Koizumi
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(Pinus)
+train &lt;- q.clean(Pinus$train)
+test &lt;- Pinus$test
+test &lt;- test[, colnames(train)]
+target &lt;- Pinus$target
+cor(target, quest(train, target, newx = test, method = "cubic"))
+</code></pre>
+
+
+</div>

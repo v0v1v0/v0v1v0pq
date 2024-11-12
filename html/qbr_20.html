@@ -1,0 +1,109 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>update_records</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Insert/Update records</h2>
+
+<h3>Description</h3>
+
+<p>Insert and/or update record(s) in a table. Update can use the key field on
+the table, or any other supported unique field. Refer to the
+<a href="https://developer.quickbase.com/fieldInfo">Field types page</a> for more
+information about how each field type should be formatted. This operation
+allows for incremental processing of successful records, even when some of
+the records fail. This endpoint supports a maximum payload size of 10MB.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">update_records(
+  subdomain,
+  auth,
+  to,
+  records,
+  mergeFieldId = 3,
+  fieldsToReturn = list(3),
+  agent = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>subdomain</code></td>
+<td>
+<p>Character vector with one element. Found at the beginning of
+the Quickbase URL. Realm specific.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>auth</code></td>
+<td>
+<p>Character vector with one element. The Quickbase authentication
+scheme you are using to authenticate the request (e.g., user token).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>to</code></td>
+<td>
+<p>Character vector. Identifier of the target table.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>records</code></td>
+<td>
+<p>Tibble containing the data you want to insert/update in the
+target table, where column names correspond to field identifiers.
+Alternatively, a list containing record data as json if your data contain
+User or List-user data types.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mergeFieldId</code></td>
+<td>
+<p>Character vector. Field identifier of the key field or
+unique field to merge upon. Defaults to 3, representing Record ID#.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fieldsToReturn</code></td>
+<td>
+<p>Character vector of field identifiers. Returns data for
+field 3 (Record ID#) in addition to any field identifiers supplied.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>agent</code></td>
+<td>
+<p>Optional. Character vector with one element. Describes
+user/agent making API call.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>List of JSON containing return data requested via the fieldsToReturn
+argument and metadata regarding created/updated records, referenced but
+unchanged records, and records having any errors while being processed.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+  new_data &lt;- dplyr::tibble(`3` = c(5, 7), `6` = c("A", "B"))
+  update_records(subdomain = "bhi",
+                 auth = keyring::key_get("qb_example"),
+                 to = "bn9d8iesz",
+                 records = new_data)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

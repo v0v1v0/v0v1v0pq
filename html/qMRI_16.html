@@ -1,0 +1,445 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>extract-methods</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Methods to extract information from objects of class <code>"MPMData"</code>,
+<code>"ESTATICSModel"</code>, <code>"sESTATICSModel"</code>, <code>"qMaps"</code>,
+<code>"IRdata"</code>, <code>"IRfluid"</code> and <code>"IRmixed"</code>.
+</h2>
+
+<h3>Description</h3>
+
+<p>The extract-methods extract and/or compute specified statistics from object of class
+<code>"MPMData"</code>, <code>"ESTATICSModel"</code>, <code>"sESTATICSModel"</code>, <code>"qMaps"</code>,
+<code>"IRdata"</code>, <code>"IRfluid"</code> and <code>"IRmixed"</code>.
+The [-methods can be used to reduce objects of class
+<code>"MPMData"</code>, <code>"ESTATICSModel"</code>, <code>"sESTATICSModel"</code>, <code>"qMaps"</code>,
+<code>"IRdata"</code>, <code>"IRfluid"</code> and <code>"IRmixed"</code> such that they contain a subcube of data and results.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'MPMData'
+extract(x, what, ...)
+## S3 method for class 'ESTATICSModel'
+extract(x, what, ...)
+## S3 method for class 'sESTATICSModel'
+extract(x, what, ...)
+## S3 method for class 'qMaps'
+extract(x, what, ...)
+## S3 method for class 'IRdata'
+extract(x, what, ...)
+## S3 method for class 'IRfluid'
+extract(x, what, ...)
+## S3 method for class 'IRmixed'
+extract(x, what, ...)
+## S3 method for class 'MPMData'
+x[i, j, k, ...]
+## S3 method for class 'ESTATICSModel'
+x[i, j, k, ...]
+## S3 method for class 'sESTATICSModel'
+x[i, j, k, ...]
+## S3 method for class 'qMaps'
+x[i, j, k, ...]
+## S3 method for class 'IRdata'
+x[i, j, k, tind, ...]
+## S3 method for class 'IRfluid'
+x[i, j, k, ...]
+## S3 method for class 'IRmixed'
+x[i, j, k, ...]
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+
+<p>object of class <code>"MPMData"</code>, <code>"ESTATICSModel"</code>, <code>"sESTATICSModel"</code>
+or <code>"qMaps"</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>what</code></td>
+<td>
+
+<p>Character vector of of names of statistics to extract. See Methods Section for details.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>i</code></td>
+<td>
+
+<p>index vector for first spatial dimension
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>j</code></td>
+<td>
+
+<p>index vector for second spatial dimension
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>k</code></td>
+<td>
+
+<p>index vector for third spatial dimension
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tind</code></td>
+<td>
+
+<p>index vector for inversion times
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+
+<p>additional parameters, currently unused.
+</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list with components carrying the names of the options specified in
+argument <code>what</code>.
+</p>
+
+
+<h3>Methods</h3>
+
+
+<dl>
+<dt>class(x) = "ANY"</dt>
+<dd>
+<p> Returns a warning for <code>extract</code></p>
+</dd>
+<dt>class(x) = "MPMData"</dt>
+<dd>
+<p>Depending the occurence of names in <code>what</code> a list with the specified components
+is returned
+</p>
+
+<ul>
+<li>
+<p> ddata: mpm data
+</p>
+</li>
+<li>
+<p> sdim: dimension of image cube
+</p>
+</li>
+<li>
+<p> nFiles: number of images / image files
+</p>
+</li>
+<li>
+<p> t1Files: character - filenames of t1Files
+</p>
+</li>
+<li>
+<p> pdFiles: character - filenames of pdFiles
+</p>
+</li>
+<li>
+<p> mtFiles: character - filenames of mtFiles
+</p>
+</li>
+<li>
+<p> model: Number of the ESTATICS model that can be used
+</p>
+</li>
+<li>
+<p> maskFile: character - filenames of   maskFile
+</p>
+</li>
+<li>
+<p> mask: mask
+</p>
+</li>
+<li>
+<p> TR: vector of TR values
+</p>
+</li>
+<li>
+<p> TE: vector of TE values
+</p>
+</li>
+<li>
+<p> FA: vector of FA values
+</p>
+</li>
+</ul>
+</dd>
+<dt>class(x) = "ESTATICSModel"</dt>
+<dd>
+<p>Depending the occurence of names in <code>what</code> a list with the specified components
+is returned
+</p>
+
+<ul>
+<li>
+<p> modelCoeff: Estimated parameter maps
+</p>
+</li>
+<li>
+<p> invCov: map of inverse covariance matrices
+</p>
+</li>
+<li>
+<p> rsigma: map of residual standard deviations
+</p>
+</li>
+<li>
+<p> isConv: convergence indicator map
+</p>
+</li>
+<li>
+<p> isThresh: logical map indicating where <code>R2star==maxR2star</code>
+</p>
+</li>
+<li>
+<p> sdim: image dimension
+</p>
+</li>
+<li>
+<p> nFiles: number of images
+</p>
+</li>
+<li>
+<p> t1Files: vector of T1 filenames
+</p>
+</li>
+<li>
+<p> pdFiles: vector of PD filenames
+</p>
+</li>
+<li>
+<p> mtFiles: vector of MT filenames
+</p>
+</li>
+<li>
+<p> model: model used (depends on specification of MT files)
+</p>
+</li>
+<li>
+<p> maskFile: filename of brain mask
+</p>
+</li>
+<li>
+<p> mask: brain mask
+</p>
+</li>
+<li>
+<p> sigma: standard deviation sigma
+</p>
+</li>
+<li>
+<p> L: effective number of receiver coils L
+</p>
+</li>
+<li>
+<p> TR: TR values
+</p>
+</li>
+<li>
+<p> TE: TE values
+</p>
+</li>
+<li>
+<p> FA: Flip angles (FA)
+</p>
+</li>
+<li>
+<p> TEScale: TEScale
+</p>
+</li>
+<li>
+<p> dataScale: dataScale
+</p>
+</li>
+</ul>
+</dd>
+<dt>class(x) = "sESTATICSModel"</dt>
+<dd>
+<p>Depending the occurence of names in <code>what</code> a list with the specified components
+is returned
+</p>
+
+<ul>
+<li>
+<p> modelCoeff: Estimated parameter maps
+</p>
+</li>
+<li>
+<p> invCov: map of inverse covariance matrices
+</p>
+</li>
+<li>
+<p> rsigma: map of residual standard deviations
+</p>
+</li>
+<li>
+<p> isConv: convergence indicator map
+</p>
+</li>
+<li>
+<p> bi: Sum of weights map from AWS/PAWS
+</p>
+</li>
+<li>
+<p> smoothPar: smooting parameters used in AWS/PAWS
+</p>
+</li>
+<li>
+<p> smoothedData: smoothed mpmData
+</p>
+</li>
+<li>
+<p> isThresh: logical map indicating where <code>R2star==maxR2star</code>
+</p>
+</li>
+<li>
+<p> sdim: image dimension
+</p>
+</li>
+<li>
+<p> nFiles: number of images
+</p>
+</li>
+<li>
+<p> t1Files: vector of T1 filenames
+</p>
+</li>
+<li>
+<p> pdFiles: vector of PD filenames
+</p>
+</li>
+<li>
+<p> mtFiles: vector of MT filenames
+</p>
+</li>
+<li>
+<p> model: model used (depends on specification of MT files)
+</p>
+</li>
+<li>
+<p> maskFile: filename of brain mask
+</p>
+</li>
+<li>
+<p> mask: brain mask
+</p>
+</li>
+<li>
+<p> sigma: sigma
+</p>
+</li>
+<li>
+<p> L: effective number of receiver coils L
+</p>
+</li>
+<li>
+<p> TR: TR values
+</p>
+</li>
+<li>
+<p> TE: TE values
+</p>
+</li>
+<li>
+<p> FA: Flip angles (FA)
+</p>
+</li>
+<li>
+<p> TEScale: TEScale
+</p>
+</li>
+<li>
+<p> dataScale: dataScale
+</p>
+</li>
+</ul>
+</dd>
+<dt>class(x) = "qMaps"</dt>
+<dd>
+<p>Depending the occurence of names in <code>what</code> a list with the specified components
+is returned
+</p>
+
+<ul>
+<li>
+<p> b1Map: b1Map
+</p>
+</li>
+<li>
+<p> R1: Estimated map of R1
+</p>
+</li>
+<li>
+<p> R2star: Estimated map of R2star
+</p>
+</li>
+<li>
+<p> PD: Estimated map of PD
+</p>
+</li>
+<li>
+<p> MT: Estimated map of delta (if MT-series was used)
+</p>
+</li>
+<li>
+<p> model: Type of ESTATICS model used
+</p>
+</li>
+<li>
+<p> t1Files: filenames T1
+</p>
+</li>
+<li>
+<p> mtFiles: filenames MT
+</p>
+</li>
+<li>
+<p> pdFiles: filenames PD
+</p>
+</li>
+<li>
+<p> mask: brainmask
+</p>
+</li>
+</ul>
+</dd>
+</dl>
+<h3>Author(s)</h3>
+
+<p>Karsten Tabelow <a href="mailto:tabelow@wias-berlin.de">tabelow@wias-berlin.de</a><br>
+J\"org Polzehl <a href="mailto:polzehl@wias-berlin.de">polzehl@wias-berlin.de</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>J. Polzehl and K. Tabelow (2023), Magnetic Resonance Brain Imaging:
+Modeling and Data Analysis Using R, 2nd Edition, Chapter 7, Springer, Use R! Series.
+&lt;doi:10.1007/978-3-031-38949-8_7&gt;.
+</p>
+
+
+</div>

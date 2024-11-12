@@ -1,0 +1,120 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>QGvar.dist</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Compute the distribution variance</h2>
+
+<h3>Description</h3>
+
+<p>This function computes the variance emerging from the error distribution around the individual expected value. This variance, added to the variance of the individual expected values themselves (see <code>QGvar.exp</code>) yields the total observed phenotypic variance.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">QGvar.dist(mu = NULL, var, var.func, predict = NULL, width = 10)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>mu</code></td>
+<td>
+<p>Latent intercept estimated from a GLMM (ignored if predict is not <code>NULL</code>). (numeric of length 1)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>var</code></td>
+<td>
+<p>Latent total phenotypic variance estimated from a GLMM. Usually, the sum of the estimated variances of the random effects, plus the "residual" variance. (numeric of length 1)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>var.func</code></td>
+<td>
+<p>Function giving the variance of the distribution according to a given latent value. (function)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>predict</code></td>
+<td>
+<p>Optional vector of predicted values on the latent scale (i.e. matrix product <b>Xb</b>). The latent predicted values must be computed while only accounting for the fixed effects (marginal to the random effects). (numeric)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>width</code></td>
+<td>
+<p>Parameter for the integral computation. The integral is evaluated from <code>mu</code> - <code>width * sqrt(var)</code> to <code>mu</code> + <code>width * sqrt(var)</code>. The default value is 10, which should be sensible for most models. (numeric)</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The distribution variance is the part of the observed variance emerging from the error distribution. It is calculated as an average error variance over all possible latent values. The distribution variance added to the variance of the expected values gives the total phenotypic variance on the observed scale.
+</p>
+<p>The variance function (<code>var.func</code>) is a function giving the variance of the error distribution of the GLMM according to a given latent value.
+</p>
+<p>Using a Poisson distribution with a logarithm link, this function is <code>exp(x)</code>, because the variance of a Poisson is its mean. Using a Negative Binomial distribution with a logarithm link, this function will now be <code>exp(x) + exp(2 * x) / theta</code>. Note that the dispersion parameter <code>theta</code> is necessary for a Negative Binomial distribution.
+</p>
+<p>The <code>var.func</code> function is yielded by <code>QGlink.funcs</code> according to a given distribution.link model (see Example below).
+</p>
+<p>Contrary to <code>QGparams</code>, <code>QGvar.exp</code> never uses the closed form solutions, but always compute the integrals.
+</p>
+
+
+<h3>Value</h3>
+
+<p>This function yields the distribution variance. (numeric)</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Pierre de Villemereuil &amp; Michael B. Morrissey
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>QGvar.exp</code>, <code>QGparams</code>, <code>QGpred</code>, <code>QGlink.funcs</code>, <code>QGmean</code>, <code>QGpsi</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Example using Poisson.log model
+mu &lt;- 1
+va &lt;- 0.2
+vp &lt;- 0.5
+
+# The variance function is simply the inverse-link function
+# because the variance of a Poisson is its mean
+varfunc &lt;- function(x) { exp(x) }
+
+QGvar.dist(mu = mu, var = vp, var.func = varfunc)
+
+# The QGlink.funcs gives a ready - to - use var.func
+funcs &lt;- QGlink.funcs(name = "Poisson.log")
+
+# Calculating the distribution variance
+vdist &lt;- QGvar.dist(mu = mu, var = vp, var.func = funcs$var.func)
+
+vdist           # Same value as above
+
+# Calculating the variance of the expected values
+vexp &lt;- QGvar.exp(mu = mu, var = vp, link.inv = funcs$inv.link)
+
+# The phenotypic variance on the observed scale is then:
+vexp + vdist
+
+# This computation is automatically performed by QGparams
+# but directly using the closed form solutions when available
+QGparams(mu = mu, var.p = vp, var.a = va, model = "Poisson.log")
+# var.obs is equal to the sum above
+</code></pre>
+
+
+</div>

@@ -1,0 +1,95 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qgis_search_algorithms</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Search geoprocessing algorithms</h2>
+
+<h3>Description</h3>
+
+<p>Searches for algorithms using a regular expression.
+In its simplest form
+that is just a string that must match part of a character value.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qgis_search_algorithms(
+  algorithm = NULL,
+  provider = NULL,
+  group = NULL,
+  include_deprecated = FALSE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>algorithm</code></td>
+<td>
+<p>Regular expression to match the <code>algorithm</code> or
+<code>algorithm_title</code> value from the output of <code>qgis_algorithms()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>provider</code></td>
+<td>
+<p>Regular expression to match the <code>provider</code> or
+<code>provider_title</code> value from the output of <code>qgis_algorithms()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>group</code></td>
+<td>
+<p>Regular expression to match the <code>group</code> value
+from the output of <code>qgis_algorithms()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>include_deprecated</code></td>
+<td>
+<p>Logical. Should deprecated algorithms be included?</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>When using multiple arguments in combination, only the algorithms are
+returned that fulfill all conditions.
+</p>
+<p>All regular expressions that <code>stringr::str_detect()</code> can handle, are
+accepted.
+Have a look at <code>stringi::search_regex()</code> to get a nice overview.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A tibble.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Other topics about information on algorithms &amp; processing providers: 
+<code>qgis_algorithms()</code>,
+<code>qgis_show_help()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+qgis_search_algorithms(
+  algorithm = "point.*line",
+  provider = "^native$"
+)
+
+</code></pre>
+
+
+</div>

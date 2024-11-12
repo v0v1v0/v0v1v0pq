@@ -1,0 +1,107 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>deff</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Design Effect from Multilevel Numeric Vector</h2>
+
+<h3>Description</h3>
+
+<p><code>deff</code> computes the design effect for a multilevel numeric vector.
+Design effects summarize how much larger sampling variances (i.e., squared
+standard errors) are due to the multilevel structure of the data. By taking
+the square root, the value summarizes how much larger standard errors are due
+to the multilevel structure of the data.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">deff(x, grp, how = "lme", REML = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>numeric vector.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>grp</code></td>
+<td>
+<p>atomic vector the same length as <code>x</code> providing the grouping
+variable.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>how</code></td>
+<td>
+<p>character vector of length 1 specifying how the ICC(1,1) should be
+calculated. There are four options: 1) "lme" uses a linear mixed effects
+model with the function <code>lme</code> from the package
+<code>nlme</code>, 2) "lmer" uses a linear mixed effects modeling with the
+function <code>lmer</code> from the package <code>lme4</code>, 3) "aov"
+uses a one-way analysis of variance with the function
+<code>aov</code>, and 4) "raw" uses the observed variances, which
+provides a biased estimate of the ICC(1,1) and is not recommended (It is
+only included for teaching purposes).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>REML</code></td>
+<td>
+<p>logical vector of length 1 specifying whether restricted maximum
+likelihood estimation (TRUE) should be used rather than traditional maximum
+likelihood estimation (FALSE). Only used for linear mixed effects models if
+how = "lme" or how = "lmer".</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Design effects are a function of both the intraclass correlation (ICC) and
+the average group size. Design effects can be large due to large ICCs and
+small group sizes or small ICCs and large group sizes. For example, with an
+ICC = .01 and average group size of 100, the design effect would be 2.0,
+whose square root is 1.41. For more information, see myths 1 and 2 in
+Huang (2018).
+</p>
+
+
+<h3>Value</h3>
+
+<p>double vector of lenght 1 providing the design effect.
+</p>
+
+
+<h3>References</h3>
+
+<p>Huang, F. L. (2018). Multilevel modeling myths School Psychology Quarterly,
+33(3), 492-499.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>icc_11</code>
+<code>deffs</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+icc_11(x = airquality$"Ozone", grp = airquality$"Month")
+length_by(x = airquality$"Ozone", grp = airquality$"Month", na.rm = TRUE)
+deff(x = airquality$"Ozone", grp = airquality$"Month")
+sqrt(deff(x = airquality$"Ozone", grp = airquality$"Month")) # how much SE inflated
+
+</code></pre>
+
+
+</div>

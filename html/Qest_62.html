@@ -1,0 +1,92 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>Qcoxph.control</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Auxiliary for Controlling Qcoxph Fitting
+</h2>
+
+<h3>Description</h3>
+
+<p>Auxiliary function for controlling <code>Qcoxph</code> fitting. Estimation proceeds in three steps: (i) evaluation of starting points; (iia) stochastic gradient-based optimization (iib) standard gradient-based optimization; and (iii) Newton-Raphson. Step (i) is based on a preliminary fit of a Cox model via <code>coxph</code>. Steps (iia) and (iib) find an approximate solution, and make sure that the Jacobian matrix is well-defined. Finally, step (iii) finds a more precise solution.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">Qcoxph.control(tol = 1e-8, maxit, safeit, alpha0, display = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>tol</code></td>
+<td>
+
+<p>tolerance for convergence of Newton-Raphson algorithm, default is 1e-8.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>maxit</code></td>
+<td>
+
+<p>maximum number of iterations of Newton-Raphson algorithm. If not provided, a default is computed as <code>50 + 25*npar</code>, where <code>npar</code> is the total number of parameters.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>safeit</code></td>
+<td>
+
+<p>maximum number of iterations of gradient-search algorithm. If not provided, a default is computed as <code>10 + 5*npar</code>, where <code>npar</code> is the total number of parameters.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>alpha0</code></td>
+<td>
+
+<p>step size for the preliminary gradient-based iterations. If estimation fails, you can try choosing a small value of <code>alpha0</code>. If <code>alpha0</code> is missing, an adaptive choiche will be made internally.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>display</code></td>
+<td>
+
+<p>Logical. If <code>TRUE</code>, tracing information on the progress of the optimization is printed on screen. Default is <code>FALSE</code>.
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>If called with no arguments, <code>Qcoxph.control()</code> returns a list with the current settings of these parameters. Any arguments included in the call sets those parameters to the new values, and then silently returns.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list with named elements as in the argument list
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Gianluca Sottile &lt;gianluca.sottile@unipa.it&gt;
+Paolo Frumento &lt;paolo.frumento@unipi.it&gt;
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>Qcoxph</code>
+</p>
+
+
+</div>

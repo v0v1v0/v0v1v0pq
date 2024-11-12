@@ -1,0 +1,89 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>startbernweibull</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Rough parameter estimate for the Bernoulli-Weibull distribution
+</h2>
+
+<h3>Description</h3>
+
+<p>Estimates rough starting values for the Bernoulli-Weibull distribution
+using the method of moments for the <code>shape</code> and the <code>scale</code>
+parameters. The probability of non-zero events is estimated as the
+fraction of values that are larger than zero.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">startbernweibull(x)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+
+<p>numeric vector.
+</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>A list containing:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>prob</code></td>
+<td>
+<p>probability of non-zero event.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>scale</code></td>
+<td>
+<p>scale parameter of the weibull distribution.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>shape</code></td>
+<td>
+<p>shape parameter of the weibull distribution.</p>
+</td>
+</tr>
+</table>
+<h3>Note</h3>
+
+<p>In this package <code>startbernweibull</code> is intended to be used in
+conjunction with <code>fitQmapDIST</code> (and
+<code>mledist</code>) with parameter <code>distr="bernweibull"</code>. 
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Lukas Gudmundsson
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>fitQmapDIST</code>, <code>bernweibull</code>,
+<code>fitdist</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">gg &lt;- rbernweibull(n=300, prob=0.2, scale=1, shape=1)
+startbernweibull(gg)
+mledist(gg,"bernweibull",startbernweibull(gg))
+</code></pre>
+
+
+</div>

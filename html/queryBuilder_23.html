@@ -1,0 +1,74 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>queryToExpr</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Parse query rules to R filtering expression</h2>
+
+<h3>Description</h3>
+
+<p>The function takes a list of condition rules provided by the widget (<code>input[[&lt;widget-name&gt;]]</code>) and
+returns valid R expression that can be used for example in filter function.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">queryToExpr(query, keep_na = FALSE, .queryBuilderConfig = queryBuilderConfig)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>query</code></td>
+<td>
+<p>Query definition (see queryRule and queryGroup).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>keep_na</code></td>
+<td>
+<p>Should query keep or exclude missing values?</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>.queryBuilderConfig</code></td>
+<td>
+<p>R6 class object storing query configuration. See queryBuilderConfigClass.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Object of class 'call'. A filtering expression that can be passed to 'dplyr'-based filtering methods.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+query &lt;- queryGroup(
+  condition = "AND",
+  queryGroup(
+    queryRule(
+      field = "Species",
+      operator = "equal",
+      value = "setosa"
+    ),
+    queryRule(
+      field = "Petal.Length",
+      operator = "less",
+      value = 1.2
+    )
+  )
+)
+queryToExpr(query)
+dplyr::filter(iris, !!queryToExpr(query))
+
+</code></pre>
+
+
+</div>

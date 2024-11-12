@@ -1,0 +1,151 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>fdqcs.depth</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Function to plot depth functional data (DFD) - chart</h2>
+
+<h3>Description</h3>
+
+<p>This function is used to compute statistics required by the DFD chart.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">fdqcs.depth(x, ...)
+
+## Default S3 method:
+fdqcs.depth(
+  x,
+  data.name = NULL,
+  func.depth = depth.mode,
+  nb = 200,
+  type = c("trim", "pond"),
+  ns = 0.01,
+  plot = TRUE,
+  trim = 0.025,
+  smo = 0.05,
+  draw.control = NULL,
+  ...
+)
+
+## S3 method for class 'fdqcd'
+fdqcs.depth(
+  x,
+  func.depth = depth.mode,
+  nb = 200,
+  type = c("trim", "pond"),
+  ns = 0.01,
+  plot = TRUE,
+  trim = 0.025,
+  smo = 0.05,
+  draw.control = NULL,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>an R object (used to select the method). See details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>arguments passed to or from methods.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data.name</code></td>
+<td>
+<p>a string that specifies the title displayed on the plots. 
+If not provided it is taken from the name of the object's data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>func.depth</code></td>
+<td>
+<p>Type of depth measure, by default depth.mode.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nb</code></td>
+<td>
+<p>The number of bootstrap samples.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>type</code></td>
+<td>
+<p>the method used to trim the data (trim or pond).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ns</code></td>
+<td>
+<p>Quantile to determine the cutoff from the Bootstrap procedure</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>plot</code></td>
+<td>
+<p>a logical value indicating that it should be plotted.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>trim</code></td>
+<td>
+<p>The porcentage of the trimming.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>smo</code></td>
+<td>
+<p>The smoothing parameter for the bootstrap samples.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>draw.control</code></td>
+<td>
+<p>ist that it specifies the col, lty and lwd for objects: fdataobj, statistic, IN and OUT.</p>
+</td>
+</tr>
+</table>
+<h3>References</h3>
+
+<p>Flores, M.; Naya, S.; Fernández-Casal,R.; Zaragoza, S.; Raña, P.; Tarrío-Saavedra, J. 
+Constructing a Control Chart Using Functional Data. Mathematics 2020, 8, 58.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+library(qcr)
+m &lt;- 30
+tt&lt;-seq(0,1,len=m)
+mu&lt;-30 * tt * (1 - tt)^(3/2)
+n0 &lt;- 100
+set.seed(12345)
+mdata&lt;-matrix(NA,ncol=m,nrow=n0)
+sigma &lt;- exp(-3*as.matrix(dist(tt))/0.9)
+for (i in 1:n0) mdata[i,]&lt;- mu+0.5*mvrnorm(mu = mu,Sigma = sigma )
+fdchart &lt;- fdqcd(mdata)
+plot.fdqcd(fdchart,type="l",col="gray")
+set.seed(1234)
+fddep &lt;- fdqcs.depth(fdchart,plot = T)
+plot(fddep,title.fdata = "Fdata",title.depth = "Depth")
+summary(fddep)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,123 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>GEV</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Generalized Extreme Value Distribution</h2>
+
+<h3>Description</h3>
+
+<p>Density, distribution function, quantile function and random variate
+generation for the generalized extreme value distribution (GEV).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">dGEV(x, shape, loc = 0, scale = 1, log = FALSE)
+pGEV(q, shape, loc = 0, scale = 1, lower.tail = TRUE, log.p = FALSE)
+qGEV(p, shape, loc = 0, scale = 1, lower.tail = TRUE, log.p = FALSE)
+rGEV(n, shape, loc = 0, scale = 1)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x, q</code></td>
+<td>
+<p>vector of quantiles.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p</code></td>
+<td>
+<p>vector of probabilities.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p>number of observations.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>shape</code></td>
+<td>
+<p>GEV shape parameter <code class="reqn">\xi</code>, a real.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>loc</code></td>
+<td>
+<p>GEV location parameter <code class="reqn">\mu</code>, a real.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>scale</code></td>
+<td>
+<p>GEV scale parameter <code class="reqn">\sigma</code>, a positive real.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lower.tail</code></td>
+<td>
+<p><code>logical</code>; if <code>TRUE</code> (default)
+probabilities are <code class="reqn">P(X \le x)</code> otherwise, <code class="reqn">P(X &gt; x)</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>log, log.p</code></td>
+<td>
+<p>logical; if <code>TRUE</code>, probabilities <code>p</code> are
+given as <code>log(p)</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The distribution function of the generalized extreme value
+distribution is given by
+</p>
+<p style="text-align: center;"><code class="reqn">F(x) = \left\{ \begin{array}{ll}
+    \exp(-(1-\xi(x-\mu)/\sigma)^{-1/\xi}), &amp; \xi\neq 0,\ 1+\xi(x-\mu)/\sigma&gt;0,\\
+    \exp(-e^{-(x-\mu)/\sigma}), &amp; \xi = 0,
+  \end{array}\right.</code>
+</p>
+
+<p>where <code class="reqn">\sigma&gt;0</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>dGEV()</code> computes the density, <code>pGEV()</code> the distribution
+function, <code>qGEV()</code> the quantile function and <code>rGEV()</code> random
+variates of the generalized extreme value distribution.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Marius Hofert</p>
+
+
+<h3>References</h3>
+
+<p>McNeil, A. J., Frey, R., and Embrechts, P. (2015).
+<em>Quantitative Risk Management: Concepts, Techniques, Tools</em>.
+Princeton University Press.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Basic sanity checks
+plot(pGEV(rGEV(1000, shape = 0.5), shape = 0.5)) # should be U[0,1]
+curve(dGEV(x, shape = 0.5), from = -3, to = 5)
+</code></pre>
+
+
+</div>

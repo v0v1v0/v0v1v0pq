@@ -1,0 +1,322 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>Credit</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Credit Risk Modelling 
+</h2>
+
+<h3>Description</h3>
+
+<p>Functions for modelling credit risk:
+</p>
+
+<ul>
+<li>
+<p> Bernoulli mixture model with prescribed default and joint
+default probabilities
+</p>
+</li>
+<li>
+<p> Bernoulli mixture model with Clayton copula dependencies of
+default.
+</p>
+</li>
+<li>
+<p> Probitnormal Mixture of Bernoullis
+</p>
+</li>
+<li>
+<p> Beta-Binomial Distribution
+</p>
+</li>
+<li>
+<p> Logitnormal-Binomial Distribution
+</p>
+</li>
+<li>
+<p> Probitnormal-Binomial Distribution
+</p>
+</li>
+</ul>
+<h3>Usage</h3>
+
+<pre><code class="language-R">cal.beta(pi1, pi2)
+cal.claytonmix(pi1, pi2)
+cal.probitnorm(pi1, pi2)
+dclaytonmix(x, pi, theta) 
+pclaytonmix(q, pi, theta) 
+rclaytonmix(n, pi, theta)
+rtcopulamix(n, pi, rho.asset, df)
+dprobitnorm(x, mu, sigma) 
+pprobitnorm(q, mu, sigma) 
+rprobitnorm(n, mu, sigma)
+rbinomial.mixture(n = 1000, m = 100,
+                  model = c("probitnorm", "logitnorm", "beta"), ...)
+rlogitnorm(n, mu, sigma)
+fit.binomial(M, m)
+fit.binomialBeta(M, m, startvals = c(2, 2), ses = FALSE, ...)
+fit.binomialLogitnorm(M, m, startvals = c(-1, 0.5), ...)
+fit.binomialProbitnorm(M, m, startvals = c(-1, 0.5), ...)
+momest(data, trials, limit = 10)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p><code>vector</code>, numbers of defaults in each time period.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>df</code></td>
+<td>
+<p><code>numeric</code>, degree of freedom.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>limit</code></td>
+<td>
+<p><code>intgeger</code>, maximum order of joint default probability
+to estimate.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>M</code></td>
+<td>
+<p><code>vector</code>, count of successes.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>m</code></td>
+<td>
+<p><code>vector</code>, count of trials.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>model</code></td>
+<td>
+<p><code>character</code>, name of mixing distribution.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mu</code></td>
+<td>
+<p><code>numeric</code>, location parameter.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p><code>integer</code>, count of random variates.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pi</code></td>
+<td>
+<p><code>numeric</code>, default probability.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pi1</code></td>
+<td>
+<p><code>numeric</code>, default probability.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pi2</code></td>
+<td>
+<p><code>numeric</code>, joint default probability.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>q</code></td>
+<td>
+<p><code>numeric</code>, values at which CDF should be evaluated.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sigma</code></td>
+<td>
+<p><code>numeric</code>, scale parameter.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ses</code></td>
+<td>
+<p><code>logical</code>, whether standard errors should be returned.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>startvals</code></td>
+<td>
+<p><code>numeric</code>, starting values.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>theta</code></td>
+<td>
+<p><code>numeric</code>, parameter of distribution.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>trials</code></td>
+<td>
+<p><code>vector</code>, group sizes in each time period.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p><code>numeric</code>, values at which density should be evaluated.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rho.asset</code></td>
+<td>
+<p><code>numeric</code>, asset correlation parameter.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>ellipsis, arguments are passed down to either mixing
+distribution or <code>nlminb()</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p><code>cal.beta()</code>: calibrates a beta mixture distribution on unit
+interval to give an exchangeable Bernoulli mixture model with
+prescribed default and joint default probabilities (see pages 354-355
+in QRM).<br><code>cal.claytonmix()</code>: calibrates a mixture distribution on unit
+interval to give an exchangeable Bernoulli mixture model with
+prescribed default and joint default probabilities. The mixture
+distribution is the one implied by a Clayton copula model of default
+(see page 362 in QRM).<br><code>cal.probitnorm()</code>: calibrates a probitnormal mixture
+distribution on unit interval to give an exchangeable Bernoulli
+mixture model with prescribed default and joint default probabilities
+(see page 354 in QRM).<br><code>dclaytonmix()</code>, <code>pclaytonmix()</code>, <code>rclaytonmix()</code>:
+density, cumulative probability, and random generation for a mixture
+distribution on the unit interval which gives an exchangeable
+Bernoulli mixture model equivalent to a Clayton copula model (see page
+362 in QRM).<br><code>fit.binomial()</code>: fits binomial distribution by maximum
+likelihood.<br><code>dprobitnorm()</code>, <code>pprobitnorm()</code>, <code>rprobitnorm()</code>:
+density, cumulative probability and random number generation for
+distribution of random variable Q on unit interval such that the
+probit transform of Q has a normal distribution with parameters
+<code class="reqn">\mu</code> and <code class="reqn">\sigma</code> (see pages 353-354 in QRM).<br><code>fit.binomialBeta()</code>: fit a beta-binomial distribution by maximum
+likelihood.<br><code>fit.binomialLogitnorm()</code>: fits a mixed binomial distribution
+where success probability has a logitnormal distribution. Lower and
+upper bounds for the input parameters M and m can be specified by
+means of the arguments <code>lower</code> and <code>upper</code>, which are passed to
+<code>nlminb()</code>. If convergence occurs at an endpoint of either limit,
+one need to reset lower and upper parameter estimators and run the
+function again.<br><code>fit.binomialProbitnorm()</code>: Fits a mixed binomial distribution
+where success probability has a probitnormal distribution. Lower and
+upper bounds for the input parameters M and m can be specified by
+means of the arguments <code>lower</code> and <code>upper</code>, which are passed to
+<code>nlminb()</code>. If convergence occurs at an endpoint of either limit,
+one need to reset lower and upper parameter estimators and run the
+function again.<br><code>momest()</code>: calculates moment estimator of default probabilities
+and joint default probabilities for a homogeneous group. First
+returned value is default probability estimate; second value is
+estimate of joint default probability for two firms; and so on (see
+pages 375-376 in QRM).<br><code>rbinomial.mixture()</code>: random variates from mixed binomial
+distribution (see pages 354-355 and pages 375-377 of QRM).<br><code>rlogitnorm()</code>: Random number generation for distribution of
+random variable Q on unit interval such that the probit transform of Q
+has a normal distribution with parameters <code class="reqn">\mu</code> and
+<code class="reqn">\sigma</code> (see pages 353-354 in QRM).<br><code>rtcopulamix()</code>: random generation for mixing distribution on
+unit interval yielding Student's t copula model (see page 361 in QRM,
+exchangeable case of this model is considered). 
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>link[stats]{nlminb}</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## calibrating models
+pi.B &lt;- 0.2
+pi2.B &lt;- 0.05 
+probitnorm.pars &lt;- cal.probitnorm(pi.B, pi2.B) 
+probitnorm.pars 
+beta.pars &lt;- cal.beta(pi.B, pi2.B) 
+beta.pars 
+claytonmix.pars &lt;- cal.claytonmix(pi.B, pi2.B) 
+claytonmix.pars 
+q &lt;- (1:1000) / 1001 
+q &lt;- q[q &lt; 0.25] 
+p.probitnorm &lt;- pprobitnorm(q, probitnorm.pars[1],
+                            probitnorm.pars[2]) 
+p.beta &lt;- pbeta(q, beta.pars[1], beta.pars[2]) 
+p.claytonmix &lt;- pclaytonmix(q, claytonmix.pars[1],
+                            claytonmix.pars[2]) 
+scale &lt;- range((1 - p.probitnorm), (1 - p.beta), (1 - p.claytonmix)) 
+plot(q, (1 - p.probitnorm), type = "l", log = "y", xlab = "q", 
+           ylab = "P(Q &gt; q)",ylim=scale) 
+lines(q, (1 - p.beta), col = 2) 
+lines(q, (1 - p.claytonmix), col = 3) 
+legend("topright", c("Probit-normal", "Beta", "Clayton-Mixture"), 
+          lty=rep(1,3),col = (1:3))
+## Clayton Mix
+pi.B &lt;- 0.0489603 
+pi2.B &lt;- 0.003126529 
+claytonmix.pars &lt;- cal.claytonmix(pi.B, pi2.B)
+claytonmix.pars
+q &lt;- (1:1000) / 1001
+q &lt;- q[q &lt; 0.25]
+d.claytonmix &lt;- dclaytonmix(q, claytonmix.pars[1], claytonmix.pars[2])
+head(d.claytonmix)
+## SP Data
+data(spdata.raw) 
+attach(spdata.raw) 
+BdefaultRate &lt;- Bdefaults / Bobligors 
+## Binomial Model
+mod1a &lt;- fit.binomial(Bdefaults, Bobligors)
+## Binomial Logitnorm Model
+mod1b &lt;- fit.binomialLogitnorm(Bdefaults, Bobligors) 
+## Binomial Probitnorm Model
+mod1c &lt;- fit.binomialProbitnorm(Bdefaults, Bobligors)
+## Binomial Beta Model
+mod1d &lt;- fit.binomialBeta(Bdefaults, Bobligors); 
+## Moment estimates for default probabilities
+momest(Bdefaults, Bobligors)
+pi.B &lt;- momest(Bdefaults, Bobligors)[1]
+pi2.B &lt;- momest(Bdefaults, Bobligors)[2]
+## Probitnorm
+probitnorm.pars &lt;- cal.probitnorm(pi.B, pi2.B) 
+q &lt;- (1:1000)/1001
+q &lt;- q[ q &lt; 0.25]
+d.probitnorm &lt;- dprobitnorm(q, probitnorm.pars[1], probitnorm.pars[2])
+p &lt;- c(0.90,0.95,0.975,0.99,0.995,0.999,0.9999,0.99999,0.999999)
+sigma &lt;- 0.2 * 10000 / sqrt(250)
+VaR.t4 &lt;- qst(p, df = 4, sd = sigma, scale = TRUE)
+VaR.t4
+detach(spdata.raw)
+## Binomial Mixture Models
+pi &lt;- 0.04896 
+pi2 &lt;- 0.00321 
+beta.pars &lt;- cal.beta(pi, pi2)
+probitnorm.pars &lt;- cal.probitnorm(pi, pi2) 
+n &lt;- 1000 
+m &lt;- rep(500, n) 
+mod2a &lt;- rbinomial.mixture(n, m, "beta", shape1 = beta.pars[1],
+                          shape2 = beta.pars[2]) 
+mod2b &lt;- rbinomial.mixture(n, m, "probitnorm",
+                          mu = probitnorm.pars[1],
+                          sigma = probitnorm.pars[2])
+</code></pre>
+
+
+</div>

@@ -1,0 +1,146 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>pred_beyond_prey</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Identify predator signature proportions beyond range of prey</h2>
+
+<h3>Description</h3>
+
+<p>The function <code>pred_beyond_prey</code> identifies predator signaturee
+proportions that are outside the range of proportions observed in the
+individual and mean prey signatures.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">pred_beyond_prey(pred_sigs, prey_sigs, mean_sigs)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>pred_sigs</code></td>
+<td>
+<p>A numeric matrix of predator signature(s) in
+column-major format. Intended to be the object <code>pred_sigs</code> returned by
+the function <code>est_diet</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>prey_sigs</code></td>
+<td>
+<p>A numeric matrix of prey signatures in column-major format.
+Intended to be the object <code>prey_sigs</code> returned by the function
+<code>est_diet</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mean_sigs</code></td>
+<td>
+<p>A numeric matrix of mean prey-type signatures. Intended to
+be the object <code>prey_sigs</code> returned by the function
+<code>est_diet</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list containing the following elements: </p>
+
+<dl>
+<dt>beyond_ind</dt>
+<dd>
+<p>A logical matrix with TRUE indicating that the
+corresponding predator proportion is outside the range of individual
+prey proportions.</p>
+</dd>
+<dt>beyond_mean</dt>
+<dd>
+<p>A logical matrix with TRUE indicating that the
+corresponding predator proportion is outside the range of mean prey
+proportions.</p>
+</dd>
+<dt>err_code</dt>
+<dd>
+<p>An integer error code (0 if no error is detected).</p>
+</dd>
+<dt>err_message</dt>
+<dd>
+<p>A string contains a brief summary of the execution.</p>
+</dd>
+</dl>
+<h3>Details</h3>
+
+<p>In quantitative fatty acid signature analysis, predator signatues are assumed
+to be a linear mixture of mean prey signatures (Iverson et al. 2004).
+Predator signature proportions should therefore be within the range of
+the prey signature proportions. Signature proportions outside the range of
+prey proportions are indicative of a violation of one or both of the primary
+model assumptions, i.e., the prey library is incomplete or the calibration
+coefficients are inaccurate (Bromaghin et al. 2015, 2016a). Consequently,
+checking for predator proportions that are outside the range of mean prey
+proportions is an important diagnostic aid to evaluate the reliability
+of diet estimates.
+</p>
+<p>The function <code>pred_beyond_prey</code> identifies predator signature
+proportions that outside the range of proportions observed among the
+individual and mean prey signatures. For purposes of diet estimation,
+proportions outside the range of the mean signatures are most important.
+However, <code>pred_beyond_prey</code> also identifies predator proportions that
+are outside the range of the individual prey proportions for exploratory
+purposes.
+</p>
+<p><code>pred_beyond_prey</code> is designed to be called with inputs returned by the
+function <code>est_diet</code>. Although it is not conceptually necessary to
+estimate diets before performing this diagnostic check, doing so ensures that
+the predator and prey signatures have been transformed to the optimization
+space (Bromaghin et al. 2015) in which diets have been estimated.
+</p>
+
+
+<h3>References</h3>
+
+<p>Iverson, S.J., C. Field, W.D. Bowen, and W. Blanchard. 2004.
+Quantitative fatty acid signature analysis: A new method of
+estimating predator diets. <em>Ecological Monographs</em> 74:211-235.
+</p>
+<p>Bromaghin, J.F., S.M. Budge, G.W. Thiemann, and K.D. Rode. 2016. Assessing
+the robustness of quantitative fatty acid signature analysis to assumption
+violations. <em>Methods in Ecology and Evolution</em> 7:51-59.
+</p>
+<p>Bromaghin, J.F., K.D. Rode, S.M. Budge, and G.W. Thiemann. 2015. Distance
+measures and optimization spaces in quantitative fatty acid signature
+analysis. <em>Ecology and Evolution</em> 5:1249-1262.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">pred_beyond_prey(pred_sigs = matrix(c(0.05, 0.10, 0.30, 0.55,
+                                      0.04, 0.11, 0.29, 0.56,
+                                      0.10, 0.05, 0.35, 0.50,
+                                      0.12, 0.03, 0.37, 0.48,
+                                      0.10, 0.06, 0.35, 0.49,
+                                      0.05, 0.15, 0.35, 0.45), ncol = 6),
+                 prey_sigs = matrix(c(0.06, 0.09, 0.31, 0.54,
+                                      0.05, 0.09, 0.30, 0.56,
+                                      0.03, 0.10, 0.30, 0.57,
+                                      0.08, 0.07, 0.30, 0.55,
+                                      0.09, 0.05, 0.33, 0.53,
+                                      0.09, 0.06, 0.34, 0.51,
+                                      0.09, 0.07, 0.34, 0.50,
+                                      0.08, 0.11, 0.35, 0.46,
+                                      0.06, 0.14, 0.36, 0.44), ncol = 9),
+                 mean_sigs = matrix(c(0.047, 0.093, 0.303, 0.557,
+                                      0.087, 0.050, 0.323, 0.530,
+                                      0.077, 0.106, 0.350, 0.467), ncol = 3))
+
+</code></pre>
+
+
+</div>

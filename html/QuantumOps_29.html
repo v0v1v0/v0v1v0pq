@@ -1,0 +1,50 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>GroverOracle</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>GroverOracle</h2>
+
+<h3>Description</h3>
+
+<p>If integer is input, returns the matrix of GroverOracle operation on the integer number of qubits. If ket given as input, applies a GroverOracle operation to the input ket and returns the resulting ket
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">GroverOracle(w,input)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>w</code></td>
+<td>
+<p>Integer specifying the state to search for, between 0 and 2^n-1 where n is the number of qubits</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>input</code></td>
+<td>
+<p> Either integer specifying size of operation (in number of qubits it is applied to) or input ket to apply GroverOracle to   </p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Either the matrix of the GroverOracle gate of the specified size or ket after a GroverOracle operation is applied
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"> GroverOracle(0,ket(1,1,1,1,1,1,1,1))
+ GroverOracle(0,3)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,44 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>lz4_decompress_raw</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>lz4 decompression</h2>
+
+<h3>Description</h3>
+
+<p>Decompresses an lz4 compressed raw vector.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">lz4_decompress_raw(x)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>A raw vector.</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>The de-serialized object.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">x &lt;- 1:1e6
+xserialized &lt;- serialize(x, connection=NULL)
+xcompressed &lt;- lz4_compress_raw(xserialized, compress_level = 1)
+xrecovered &lt;- unserialize(lz4_decompress_raw(xcompressed))
+</code></pre>
+
+
+</div>

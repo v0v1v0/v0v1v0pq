@@ -1,0 +1,75 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qstate</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>The qstate class</h2>
+
+<h3>Description</h3>
+
+<p>This class represents a quantum state
+</p>
+
+
+<h3>Details</h3>
+
+<p>The qubits are counted from 1 to <code>nbits</code> starting with the least
+significant bit.
+</p>
+
+
+<h3>Slots</h3>
+
+
+<dl>
+<dt><code>nbits</code></dt>
+<dd>
+<p>The number of qubits</p>
+</dd>
+<dt><code>coefs</code></dt>
+<dd>
+<p>The 2^nbits complex valued vector of coefficients</p>
+</dd>
+<dt><code>basis</code></dt>
+<dd>
+<p>String or vector of strings. A single string will be interpreted
+as the <code>collapse</code>-parameter in <code>genComputationalBasis</code>. A vector
+of length 2^nbits yields the basis directly.</p>
+</dd>
+<dt><code>noise</code></dt>
+<dd>
+<p>List containing the probability <code>p</code> some noise is applied
+to one of the <code>bits</code> after a gate application, the model
+<code>error</code> of this noise and further arguments <code>args</code> to be passed to the
+function <code>noise</code>. See function <code>noise</code> for details.
+The list <code>noise</code> can be generated with <code>genNoise</code>.</p>
+</dd>
+<dt><code>circuit</code></dt>
+<dd>
+<p>List containing the number of non-quantum bits <code>ncbits</code>
+and a list of gates <code>gatelist</code> applied to the original state.
+Filled automatically as gates are applied, required for plotting.</p>
+</dd>
+</dl>
+<h3>Examples</h3>
+
+<pre><code class="language-R">x &lt;- qstate(nbits=2)
+x
+
+x &lt;- qstate(nbits=2, coefs=as.complex(sqrt(rep(0.25, 4))), basis=",")
+x
+
+x &lt;- qstate(nbits=1, coefs=as.complex(sqrt(rep(0.5, 2))), basis=c("|dead&gt;", "|alive&gt;"))
+x
+
+x &lt;- qstate(nbits=2, noise=genNoise(nbits=2, p=1))
+Id(2) * x
+
+x &lt;- qstate(nbits=3, noise=genNoise(p=1, bits=1:2, error="small", sigma=0.1))
+Id(2) * x
+
+</code></pre>
+
+
+</div>

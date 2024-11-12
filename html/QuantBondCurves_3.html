@@ -1,0 +1,253 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>basis.curve</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Basis Curve</h2>
+
+<h3>Description</h3>
+
+<p>Function that calibrates a "discount basis rate" curve according
+to data of cross currency swaps. Available methods are bootstrapping or residual
+sum of squares (RSS) between the value of a given or inferred fixed foreign leg
+and the value of the local leg.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">basis.curve(
+  swaps,
+  ex.rate = NULL,
+  analysis.date = Sys.Date(),
+  rates,
+  rates2,
+  freq = 1,
+  rate.type = 1,
+  daycount = "ACT/365",
+  npieces = NULL,
+  obj = "Price",
+  Weights = NULL,
+  nsimul = 1,
+  piece.term = NULL,
+  nodes = seq(0, 15, 0.001),
+  approximation = "constant"
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>swaps</code></td>
+<td>
+<p>Matrix containing relevant information of cross currency swaps where each
+row represents a swap and each column represents the next attributes: maturity, legs,
+coupon rate of local leg, coupon rate of foreign leg, spread of local leg, spread of
+variable leg, principal of local and principal of variable leg. <code>colnames(swaps)</code>
+must be defined as the following: <code>c("Mat", "Legs", "C1", "C2", "spread1", "spread2", "prin1", "prin2")</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ex.rate</code></td>
+<td>
+<p>Exchange rate on analysis date. Format has to be local currency divided
+by foreign currency.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>analysis.date</code></td>
+<td>
+<p>Date in which the asset is valued. By default, the
+current date.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rates</code></td>
+<td>
+<p>Discount rates given by the local zero coupon rate curve. The curve has to
+have nodes with at least, with 3 decimals.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rates2</code></td>
+<td>
+<p>Discount rates given by the foreign zero coupon rate curve. The curve has to
+have nodes with at least, with 3 decimals.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>freq</code></td>
+<td>
+<p>Frequency of payments of a given asset in a year. For LIBOR and
+IBR the default frequency is four (quarterly payments). TES has a default
+frequency of one (annual payments).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rate.type</code></td>
+<td>
+<p>(1) for discrete compounded discount rates and (0) for continuosly
+compounded discount rates. By default rates are assumed to be discrete.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>daycount</code></td>
+<td>
+<p>Day count convention. See also 'Details'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>npieces</code></td>
+<td>
+<p>Number of constant or linear segments for the curve to have. By
+default <code>NULL</code>, and bootstrapping method is used, otherwise, minimization of
+RSS is used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>obj</code></td>
+<td>
+<p>String related to the definition of the error in the RSS methodology.
+Set <code>"Price"</code> for minimization of error by price or <code>"Rate"</code> for
+minimization of error by rate.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Weights</code></td>
+<td>
+<p>Vector of weights used to dot product with residual squares in order to
+calculate residual sum of squares. By default, each residual is assigned the same weight.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nsimul</code></td>
+<td>
+<p>Number of simulations for the terms of the pieces. The more simulations,
+the more likely to find a better local solution. By default <code>1</code>, and terms are
+defined in such way each piece occupies the same length in the abscissa axis.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>piece.term</code></td>
+<td>
+<p>Vector that establishes a unique term structure for optimization to take place.
+Each piece or segment must have a unique maturity, as numeric value in years,
+that signifies the end of the segment. Last segment maturity must not be introduced, it is assumed to be equivalent to
+the last term introduced on analysis date. Therefore, the <code>piece.term</code> vector must always have a length equal to <code>npieces</code> - 1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nodes</code></td>
+<td>
+<p>Desired output nodes of the curve.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>approximation</code></td>
+<td>
+<p>String that establish the approximation. Set <code>'linear'</code> for a
+linear approximation, or <code>'constant'</code> for a piecewise constant function.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p><code>daycount</code> convention accepts the following values:
+</p>
+
+<ul>
+<li>
+<p> 30/360.
+</p>
+</li>
+<li>
+<p> ACT/365.
+</p>
+</li>
+<li>
+<p> ACT/360 (Default).
+</p>
+</li>
+<li>
+<p> ACT/365L.
+</p>
+</li>
+<li>
+<p> NL/365.
+</p>
+</li>
+<li>
+<p> ACT/ACT-ISDA
+</p>
+</li>
+<li>
+<p> ACT/ACT-AFB
+</p>
+</li>
+</ul>
+<p><code>swaps["Legs"]</code> makes reference to the following types of legs composition of the
+cross currency swaps.
+</p>
+
+<ul>
+<li>
+<p> "FF" for fixed leg in local currency and fixed leg in foreign currency.
+</p>
+</li>
+<li>
+<p> "FV" for fixed leg in local currency and variable leg in foreign currency.
+</p>
+</li>
+<li>
+<p> "VF" for variable leg in local currency and fixed leg in foreign currency.
+</p>
+</li>
+<li>
+<p> "VV" for variable leg in local currency and variable leg in foreign currency.
+</p>
+</li>
+</ul>
+<h3>Value</h3>
+
+<p>Constant or Linear piecewise basis curve.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Camilo Díaz
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># Inputs for calibration of spot curve
+yield.curve  &lt;- c(0.015,0.0175, 0.0225, 0.0275, 0.0325, 0.0375,0.04,0.0425,0.045,0.0475,0.05)
+names(yield.curve) &lt;- c(0.5,1,2,3,4,5,6,7,8,9,10)
+nodes &lt;- seq(0,10,0.001)
+# Calibration of local spot curve
+rates &lt;- curve.calibration (yield.curve = yield.curve, market.assets = NULL,
+                            analysis.date = "2019-01-03" , asset.type = "IBRSwaps",
+                            freq = 4, rate.type = 0, fwd = 0, npieces = NULL,
+                            obj = "Price", nodes = nodes, approximation = "linear")
+# Input for Basis Curve
+ex.rate &lt;- 4814
+swaps &lt;- rbind(c("2024-03-01", "FF", 0.07 , 0.0325, NA   , NA    , 2000 * ex.rate, 2000),
+               c("2025-03-01", "VV", NA   , NA    , 0.015, 0.0175, 2000 * ex.rate, 2000),
+               c("2026-03-01", "FF", 0.075, 0.03  , NA   ,  NA   , 5000000, 5000000 / ex.rate),
+               c("2027-03-01", "VV", NA   , NA    , 0.01 , 0.015 , 5000000, 5000000 / ex.rate),
+               c("2028-03-01", "FF", 0.08 ,0.035  , NA   , NA    , 3000000, 3000000 / ex.rate),
+               c("2029-03-01", "VV", NA   , NA    , 0.01 , 0.0125, 3000000, 3000000 / ex.rate))
+colnames(swaps) &lt;- c("Mat"  ,"Legs", "C1" , "C2", "spread1", "spread2", "prin1", "prin2")
+# Function
+basis.curve(swaps = swaps, ex.rate = 4814, analysis.date = "2023-03-01",
+            rates = rates, rates2 = rates / 4, freq = c(2,2,2,2,1,1),
+            rate.type = 1, npieces = 4, obj = "Price", Weights = NULL,
+            nsimul = 1, nodes = nodes, approximation = "linear")
+</code></pre>
+
+
+</div>

@@ -1,0 +1,114 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>export.pqmethod</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Q methodology: export to PQMethod *.DAT and *.STA files</h2>
+
+<h3>Description</h3>
+
+<p>Exports Q data to *.DAT and *.STA files readable in PQMethod software.</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">export.pqmethod(dataset, study.name, 
+     study.description, col.range, 
+     filename='Q_data_forPQmethod', 
+     left.zeros, right.zeros, statements)</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>dataset</code></td>
+<td>
+<p>a matrix or data frame qwith Q data: Q-sorts as columns and statements as rows. The names of the columns will be used as Q-sort IDs in the *.DAT file.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>study.name</code></td>
+<td>
+<p>a string with a short name of the study. No space characters are allowed.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>study.description</code></td>
+<td>
+<p>a string with a one-sentence description of the study).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>col.range</code></td>
+<td>
+<p>a two-element numerical vector with the values at the two extremes of the Q distribution (e.g. <code>c(-4, 4)</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>filename</code></td>
+<td>
+<p>a filename. The extension *.DAT is added automatically).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>left.zeros</code></td>
+<td>
+<p>number of zeros before the distribution, in the second line of *.DAT file.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>right.zeros</code></td>
+<td>
+<p>number of zeros after the distribution, in the second line of *.DAT file).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>statements</code></td>
+<td>
+<p>a matrix with statements, one in each row).</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Exports the raw data of a Q methodology study into the native format used in PQMethod. Returns a message with some basic information about the data.
+</p>
+<p>Note that <b>no checks are made on the data</b>, such as whether there are duplicated or non-forced Q-sorts.
+</p>
+<p>This function is not applicable to non-forced distributions.
+</p>
+
+
+<h3>Note</h3>
+
+<p>This function is experimental. Use with caution and verify that the output is as desired.</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Aiora Zabala</p>
+
+
+<h3>References</h3>
+
+<p>Schmolck, Peter, 2014. <em>PQMethod Software</em>, Available at: <a href="http://schmolck.org/qmethod/">http://schmolck.org/qmethod/</a>
+</p>
+<p>File descriptions in <em>PQMethod Manual</em>: <a href="http://schmolck.org/qmethod/pqmanual.htm#appdxa">http://schmolck.org/qmethod/pqmanual.htm#appdxa</a></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># data(lipset)
+# db &lt;- lipset[[1]]
+# export.pqmethod(dataset = db, 
+#                study.name = 'mystudy', 
+#                study.description = 'great study', 
+#                col.range = c(-4, 4), 
+#                filename = 'mystudy',
+#                statements=lipset[[2]])
+</code></pre>
+
+
+</div>

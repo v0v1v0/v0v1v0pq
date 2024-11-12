@@ -1,0 +1,155 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>writeESTATICS</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Write maps of ESTATICS parameters in standardized form as NIfTI files.
+</h2>
+
+<h3>Description</h3>
+
+<p><code>R2</code>, <code>ST1</code>, <code>SPD</code> and, if available, <code>SMT</code>-maps are written
+as compressed NIfTI files into directory the speecified directory.
+If <code>class(mpmESTATICSModel) == "sESTATICSModel"</code> and an smoothed data are stored in
+<code>mpmESTATICSModel$smoothedData</code> the smoothed data are stored as ompressed NIfTI files
+in <code>dir</code> with filenames assembled using <code>prefix</code> and the names of the data source
+files.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">writeESTATICS(mpmESTATICSModel, dir = NULL, prefix = "estatics", verbose = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>mpmESTATICSModel</code></td>
+<td>
+
+<p>Object of class 'ESTATICSModel' or 'sESTATICSModel' as returned from function
+<code>estimateESTATICS</code> or <code>smoothESTATICS</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dir</code></td>
+<td>
+
+<p>Directory name (or path) for output.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>prefix</code></td>
+<td>
+
+<p>Prefix for file names
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+
+<p>logical - provide information on progress
+</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>The function returns <code>NULL</code>
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Karsten Tabelow <a href="mailto:tabelow@wias-berlin.de">tabelow@wias-berlin.de</a><br>
+J\"org Polzehl <a href="mailto:polzehl@wias-berlin.de">polzehl@wias-berlin.de</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>J. Polzehl and K. Tabelow (2023), Magnetic Resonance Brain Imaging:
+Modeling and Data Analysis Using R, 2nd Edition, Chapter 6, Springer, Use R! Series.
+&lt;doi:10.1007/978-3-031-38949-8_6&gt;.
+</p>
+<p>J. Polzehl and K. Tabelow (2023), Magnetic Resonance Brain Imaging - 
+Modeling and Data Analysis Using R: Code and Data.
+&lt;doi:10.20347/WIAS.DATA.6&gt;.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>readMPMData</code>, <code>estimateESTATICS</code>,
+<code>smoothESTATICS</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">dataDir &lt;- system.file("extdata",package="qMRI")
+outDir &lt;- tempdir()
+#
+#  set file names for T1w, MTw and PDw images
+#
+t1Names &lt;- paste0("t1w_",1:8,".nii.gz")
+mtNames &lt;- paste0("mtw_",1:6,".nii.gz")
+pdNames &lt;- paste0("pdw_",1:8,".nii.gz")
+t1Files &lt;- file.path(dataDir, t1Names)
+mtFiles &lt;- file.path(dataDir, mtNames)
+pdFiles &lt;- file.path(dataDir, pdNames)
+#
+#  file names of mask and B1 field map
+#
+B1File &lt;- file.path(dataDir, "B1map.nii.gz")
+maskFile &lt;- file.path(dataDir, "mask0.nii.gz")
+#
+#  Acquisition parameters (TE, TR, Flip Angle) for T1w, MTw and PDw images
+#
+TE &lt;- c(2.3, 4.6, 6.9, 9.2, 11.5, 13.8, 16.1, 18.4,
+        2.3, 4.6, 6.9, 9.2, 11.5, 13.8,
+        2.3, 4.6, 6.9, 9.2, 11.5, 13.8, 16.1, 18.4)
+TR &lt;- rep(25, 22)
+FA &lt;- c(rep(21, 8), rep(6, 6), rep(6, 8))
+#
+#   read MPM example data
+#
+library(qMRI)
+mpm &lt;- readMPMData(t1Files, pdFiles, mtFiles,
+                   maskFile, TR = TR, TE = TE,
+                   FA = FA, verbose = FALSE)
+#
+#  Estimate Parameters in the ESTATICS model
+#
+modelMPM &lt;- estimateESTATICS(mpm, method = "NLR")
+#
+#  resulting ESTATICS parameter maps for central coronal slice
+#
+if(require(adimpro)){
+rimage.options(zquantiles=c(.01,.99), ylab="z")
+oldpar &lt;- par(mfrow=c(2,2),mar=c(3,3,3,1),mgp=c(2,1,0))
+on.exit(par(oldpar))
+pnames &lt;- c("T1","MT","PD","R2star")
+modelCoeff &lt;- extract(modelMPM,"modelCoeff")
+for(i in 1:4){
+   rimage(modelCoeff[i,,11,])
+   title(pnames[i])
+   }
+}
+#
+#  write ESTATICS parameter maps
+#
+writeESTATICS(modelMPM, dir=outDir, prefix="estatics")
+par(oldpar)
+</code></pre>
+
+
+</div>

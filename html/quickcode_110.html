@@ -1,0 +1,64 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>track_func</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>A function that tracks usage of other functions</h2>
+
+<h3>Description</h3>
+
+<p>Up count the number of times a particular function is called
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">track_func(output.dest = "output_tracking.csv")
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>output.dest</code></td>
+<td>
+<p>destination of csv file to store outputs</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>the numeric count of a function usage
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+# Track usage of type2 and type1 functions
+store.usage.file &lt;- tempfile()
+type5 &lt;- function(x) type2(x)
+type4 &lt;- function(x) type3(x)
+type3 &lt;- function(x) type1(x)
+type1 &lt;- function(x) {
+  mean(x)
+  sd(x)
+  track_func(store.usage.file)
+}
+type2 &lt;- function(x) {
+  type1(x)
+  track_func(store.usage.file)
+}
+
+# add usage counts to store.usage.file
+type1(number(10))
+type2(number(10))
+type3(number(10))
+type4(number(10))
+type5(number(10))
+
+## End(Not run)
+</code></pre>
+
+
+</div>

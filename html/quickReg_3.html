@@ -1,0 +1,151 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>display_table</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Display a table used in paper</h2>
+
+<h3>Description</h3>
+
+<p>Display count, frequency or mean, standard deviation and test of normality, etc.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">display_table(data = NULL, variables = NULL, group = NULL,
+  mean_or_median = "mean", addNA = TRUE, table_margin = 2,
+  discrete_limit = 10, exclude_discrete = TRUE, save_to_file = NULL,
+  normtest = NULL, fill_variable = FALSE)
+
+display_table_group(data = NULL, variables = NULL, group = NULL,
+  super_group = NULL, group_combine = FALSE, mean_or_median = "mean",
+  addNA = TRUE, table_margin = 2, discrete_limit = 10,
+  exclude_discrete = TRUE, normtest = NULL, fill_variable = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>A data.frame</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>variables</code></td>
+<td>
+<p>Column indices or names of the variables in the dataset to display, the default columns are all the variables except group variable</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>group</code></td>
+<td>
+<p>Column indices or names of the first subgroup variables. Must provide.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mean_or_median</code></td>
+<td>
+<p>A character to specify mean or median to used for continuous variables, either "mean" or "median". The default is "mean"</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>addNA</code></td>
+<td>
+<p>Whether to include NA values in the table, see <code>table</code> for more details</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>table_margin</code></td>
+<td>
+<p>Index of generate margin for, see <code>prop.table</code> for more details</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>discrete_limit</code></td>
+<td>
+<p>Defining the minimal of unique value to display the variable as count and frequency, the default is 10</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>exclude_discrete</code></td>
+<td>
+<p>Logical, whether to exclude discrete variables with more unique values specified by discrete_limit</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>save_to_file</code></td>
+<td>
+<p>A character, containing file name or path</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>normtest</code></td>
+<td>
+<p>A character indicating test of normality, the default method is <code>shapiro.test</code> when sample size no more than 5000, otherwise <code>lillie.test</code> Kolmogorov-Smirnov is used, see package <strong>nortest</strong> for more methods.Use 'shapiro.test', 'lillie.test', 'ad.test', etc to specify methods.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fill_variable</code></td>
+<td>
+<p>A logical, whether to fill the variable column in result, the default is FALSE</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>super_group</code></td>
+<td>
+<p>Column indices or names of the further subgroup variables.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>group_combine</code></td>
+<td>
+<p>A logical, subgroup analysis for combination of variables or for each variable. The default is FALSE (subgroup analysis for each variable)</p>
+</td>
+</tr>
+</table>
+<h3>Functions</h3>
+
+
+<ul><li> <p><code>display_table_group</code>: Allow more subgroup analysis, see the package vignette for more details
+</p>
+</li></ul>
+<h3>Note</h3>
+
+<p>The return table is a data.frame.
+</p>
+<p>- P.value1 is ANOVA P value for continuous variables and chi-square test P value for discrete variables
+</p>
+<p>- P.value2 is Kruskal-Wallis test P value for continuous variables and fisher test P value for discrete variables if expected counts less than 5
+</p>
+<p>- normality is normality test P value for each group
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+data(diabetes)
+head(diabetes)
+library(dplyr);library(rlang)
+result_1&lt;-diabetes %&gt;%
+ group_by(sex) %&gt;%
+ do(display_table(data=.,variables=c("age","smoking"),group="CFHrs2230199")) %&gt;%
+ ungroup()
+result_2&lt;-display_table_group(data=diabetes,variables=c("age","smoking"),
+group="CFHrs2230199",super_group = "sex")
+identical(result_1,result_2)
+result_3&lt;-display_table_group(data=diabetes,variables=c("age","education"),
+group=c("smoking"),super_group = c("CFHrs2230199","sex"))
+result_4&lt;-display_table_group(data=diabetes,variables=c("age","education"),
+group=c("smoking"),super_group = c("CFHrs2230199","sex"),group_combine=TRUE)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

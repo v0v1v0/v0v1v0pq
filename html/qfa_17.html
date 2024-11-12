@@ -1,0 +1,76 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qspec.lw</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Lag-Window (LW) Estimator of Quantile Spectrum</h2>
+
+<h3>Description</h3>
+
+<p>This function computes lag-window (LW) estimate of quantile spectrum/cross-spectrum from QACF.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qspec.lw(y.qacf, M = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>y.qacf</code></td>
+<td>
+<p>matrix or array of pre-calculated QACF from <code>qdft2qacf()</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>M</code></td>
+<td>
+<p>bandwidth parameter of lag window (default = <code>NULL</code>: quantile periodogram)</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list with the following elements:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>spec</code></td>
+<td>
+<p>matrix or array of quantile spectrum/cross-spectrum</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lw</code></td>
+<td>
+<p>lag-window sequence</p>
+</td>
+</tr>
+</table>
+<h3>Examples</h3>
+
+<pre><code class="language-R"># single time series
+y1 &lt;- stats::arima.sim(list(order=c(1,0,0), ar=0.5), n=64)
+tau &lt;- seq(0.1,0.9,0.05)
+y.qdft &lt;- qdft(y1,tau)
+y.qacf &lt;- qdft2qacf(y.qdft)
+y.qper.lw &lt;- qspec.lw(y.qacf,M=5)$spec
+n &lt;- length(y1)
+ff &lt;- c(0:(n-1))/n
+sel.f &lt;- which(ff &gt; 0 &amp; ff &lt; 0.5)
+qfa.plot(ff[sel.f],tau,Re(y.qper.lw[sel.f,]))
+# multiple time series
+y2 &lt;- stats::arima.sim(list(order=c(1,0,0), ar=-0.5), n=64)
+y.qdft &lt;- qdft(cbind(y1,y2),tau)
+y.qacf &lt;- qdft2qacf(y.qdft)
+y.qper.lw &lt;- qspec.lw(y.qacf,M=5)$spec
+qfa.plot(ff[sel.f],tau,Re(y.qper.lw[1,2,sel.f,]))
+</code></pre>
+
+
+</div>

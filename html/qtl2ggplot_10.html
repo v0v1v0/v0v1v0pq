@@ -1,0 +1,93 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>ggplot_genes</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Plot gene locations for a genomic interval</h2>
+
+<h3>Description</h3>
+
+<p>Plot gene locations for a genomic interval, as rectangles with gene
+symbol (and arrow indicating strand/direction) below.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">ggplot_genes(
+  object,
+  xlim = NULL,
+  minrow = 4,
+  padding = 0.2,
+  colors = c("black", "red3", "green4", "blue3", "orange"),
+  ...
+)
+
+## S3 method for class 'genes'
+autoplot(object, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>Object of class <code>object</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xlim</code></td>
+<td>
+<p>x-axis limits (in Mbp)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>minrow</code></td>
+<td>
+<p>Minimum number of rows of object</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>padding</code></td>
+<td>
+<p>Proportion to pad with white space around the object</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>colors</code></td>
+<td>
+<p>Vectors of colors, used sequentially and then re-used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Optional arguments passed to <code>plot</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>None.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">filename &lt;- file.path("https://raw.githubusercontent.com/rqtl",
+                      "qtl2data/master/DOex", 
+                      "c2_genes.rds")
+tmpfile &lt;- tempfile()
+download.file(filename, tmpfile, quiet=TRUE)
+gene_tbl &lt;- readRDS(tmpfile)
+unlink(tmpfile)
+
+ggplot_genes(gene_tbl)
+
+</code></pre>
+
+
+</div>

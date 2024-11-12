@@ -1,0 +1,88 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>buildTooltipOrPopoverOptionsList</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Custom tooltip function</h2>
+
+<h3>Description</h3>
+
+<p>This function creates a custom tooltip for a given element in a Shiny application.
+The implementation is based on the shinyBS package.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">buildTooltipOrPopoverOptionsList(title, placement, trigger, options, content)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>title</code></td>
+<td>
+<p>The text for the tooltip's title.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>placement</code></td>
+<td>
+<p>Placement of the tooltip. One of 'top', 'bottom', 'left', or 'right'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>trigger</code></td>
+<td>
+<p>The events that trigger the tooltip. One or more of 'click', 'hover', 'focus', or 'manual'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>options</code></td>
+<td>
+<p>A list of additional options for the tooltip.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>content</code></td>
+<td>
+<p>Optional HTML content for the tooltip.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list of tooltip options to be used in the Shiny application.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="https://CRAN.R-project.org/package=shinyBS">https://CRAN.R-project.org/package=shinyBS</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+tooltip_options &lt;- custom_tooltip(
+  title = "Sample tooltip",
+  placement = "top",
+  trigger = "hover",
+  options = list(delay = 100),
+  content = "This is a custom tooltip."
+)
+
+# In a Shiny app
+# shiny::tags$span("Hover me!", `data-toggle` = "tooltip",
+                   `data-placement` = "top", `data-trigger` = "hover",
+                   `title` = "Hello, tooltip!")
+
+## End(Not run)
+</code></pre>
+
+
+</div>

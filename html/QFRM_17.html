@@ -1,0 +1,113 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>ChooserMC</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Chooser option valuation via Monte Carlo (MC) simulations</h2>
+
+<h3>Description</h3>
+
+<p>Price chooser option using Monte Carlo (MC) simulation.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">ChooserMC(o = OptPx(Opt(Style = "Chooser")), isEu = TRUE, T1 = 1,
+  NPaths = 5, plot = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>o</code></td>
+<td>
+<p>An object of class <code>OptPx</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>isEu</code></td>
+<td>
+<p>Values <code>TRUE</code> or <code>FALSE</code> indicating
+if the chooser is an European or American style option</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>T1</code></td>
+<td>
+<p>The time when the choice is made whether the option is a call or put</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>NPaths</code></td>
+<td>
+<p>The number of Monte Carol simulation paths</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>plot</code></td>
+<td>
+<p>Values <code>TRUE</code> or <code>FALSE</code> indicating
+whether to include a comparison plot of option price versus number of paths</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>A chooser option (sometimes referred to as an as you like it option) has the feature that,
+after a specified period of time, the holder can choose whether the option is a call or a put.
+In this algorithm, we can price chooser options when the underlying options are both European or are both American.
+When the underlying is an American option, the option holder can exercise before and after T1.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list of class <code>ChooserMC</code> consisting of original <code>OptPx</code> object,
+option pricing parameters <code>isEu</code>, <code>NPaths</code>, and <code>T1</code>,
+as well as the computed price <code>PxMC</code> for the chooser option.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Xinnan Lu, Department of Statistics, Rice University, Spring 2015
+</p>
+
+
+<h3>References</h3>
+
+<p>Hull, John C., <em>Options, Futures and Other Derivatives</em>, 9ed, 2014. Prentice Hall.
+ISBN 978-0-13-345631-8, <a href="http://www-2.rotman.utoronto.ca/~hull/ofod/index.html">http://www-2.rotman.utoronto.ca/~hull/ofod/index.html</a>.
+p.603.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">(o = ChooserMC())$PxMC
+
+o = OptPx(Opt(Right='Call',Style="Chooser"))
+ ChooserMC(o,isEu=TRUE,NPaths=5, plot=TRUE)
+
+ o = OptPx(Opt(Right='Put',Style="Chooser"))
+ ChooserMC(o,isEu=TRUE,NPaths=5, plot=TRUE)
+
+ o = Opt(Right='C',S0=100,K=110,ttm=4,Style="Chooser")
+ o = OptPx(o,vol=0.2,r=0.05,q=0.04)
+ ChooserMC(o,isEu=TRUE,T1=2,NPaths=5)
+
+ o = Opt(Right='P',S0=110,K=100,ttm=4,Style="Chooser")
+ o = OptPx(o,vol=0.2,r=0.05,q=0.04)
+ ChooserMC(o,isEu=TRUE,T1=2,NPaths=5)
+
+ o = Opt(Right='C',S0=50,K=50,ttm=0.5,Style="Ch")
+ o = OptPx(o,vol=0.25,r=0.08,q=0.1)
+ ChooserMC(o,isEu=FALSE,T1=0.25,NPaths=5)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,116 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>winsors</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Winsorize Numeric Data</h2>
+
+<h3>Description</h3>
+
+<p><code>winsors</code> winsorizes numeric data by recoding extreme values as a user
+identified boundary value, which is defined by z-score units. The <code>to.na</code>
+argument provides the option of recoding the extreme values as missing.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">winsors(
+  data,
+  vrb.nm,
+  z.min = -3,
+  z.max = 3,
+  rtn.int = FALSE,
+  to.na = FALSE,
+  suffix = "_win"
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>data.frame of data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vrb.nm</code></td>
+<td>
+<p>character vector of colnames from <code>data</code> specifying the variables.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>z.min</code></td>
+<td>
+<p>numeric vector of length 1 specifying the lower boundary value
+in z-score units.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>z.max</code></td>
+<td>
+<p>numeric vector of length 1 specifying the upper boundary value
+in z-score units.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rtn.int</code></td>
+<td>
+<p>logical vector of length 1 specifying whether the recoded values
+should be rounded to the nearest integer. This can be useful when working with
+count data and decimal values are impossible.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>to.na</code></td>
+<td>
+<p>logical vector of length 1 specifying whether the extreme values
+should be recoded to NA rather than winsorized to the boundary values.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>suffix</code></td>
+<td>
+<p>character vector of length 1 specifying the string to append
+to the end of the colnames in the return object.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>data.frame of winsorized data with extreme values recoded as either
+the boundary values or NA and colnames = <code>paste0(vrb.nm, suffix)</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>winsor</code>
+<code>winsor</code> # psych package
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+# winsorize
+lapply(X = quakes[c("mag","stations")], FUN = table)
+new &lt;- winsors(quakes, vrb.nm = names(quakes))
+lapply(X = new, FUN = table)
+
+# recode as NA
+vecNA(quakes)
+new &lt;- winsors(quakes, vrb.nm = names(quakes), to.na = TRUE)
+vecNA(new)
+
+# rtn.int = TRUE
+winsors(data = cars, vrb.nm = names(cars), z.min = -2, z.max = 2, rtn.int = FALSE)
+winsors(data = cars, vrb.nm = names(cars), z.min = -2, z.max = 2, rtn.int = TRUE)
+</code></pre>
+
+
+</div>

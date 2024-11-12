@@ -1,0 +1,104 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>scanTwo</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Genome Scan for Epistasis
+</h2>
+
+<h3>Description</h3>
+
+<p>Evaluate log-likelihood ratio test statistic for epistasis (QTL by QTL interaction).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">scanTwo(y, x, gdat, prdat = NULL, vc = NULL, numGeno = FALSE,
+   minorGenoFreq = 0, rmv = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+
+<p>A numeric vector or a numeric matrix of one column (representing a phenotype for instance).
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+
+<p>A data frame or matrix, representing covariates if not missing.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gdat</code></td>
+<td>
+
+<p>Genotype data. Should be a matrix or a data frame, with each row representing an observation and each column a marker locus. The column names should be marker names. Optional if an object <code>prdat</code> from <code>genoProb</code> is used as an argument.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>prdat</code></td>
+<td>
+
+<p>An object from <code>genoProb</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vc</code></td>
+<td>
+
+<p>An object from <code>estVC</code> or <code>aicVC</code>, or an estimated variance-covariance matrix induced by relatedness and environment.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>numGeno</code></td>
+<td>
+
+<p>Whether to treat numeric coding of genotypes as numeric. If true, <code>minorGenoFreq</code> will be ignored.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>minorGenoFreq</code></td>
+<td>
+
+<p>Specify the minimum tolerable minor genotype frequency at a scanning locus if <code>gdat</code> is used.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rmv</code></td>
+<td>
+
+<p>A logical variable. If true, then the scanning locus will be skipped if the minor genotype frequency at the locus is smaller than <code>minorGenoFreq</code>. Otherwise, the scanning process will stop and return with NULL.
+</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A matrix whose entry in the upper triangle is the log-likelihood test statistic for epistatic effect.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>scanOne</code>.
+</p>
+
+
+</div>

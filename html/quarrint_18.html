@@ -1,0 +1,163 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>quarrint-package</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Interaction Prediction Between Groundwater and Quarry Extension Using Discrete
+Choice Models and Artificial Neural Networks
+</h2>
+
+<h3>Description</h3>
+
+<p>An implementation of two interaction indices between extractive activity and
+groundwater resources based on hazard and vulnerability parameters used in the
+assessment of natural hazards. One index is based on a discrete choice model and
+the other is relying on an artificial neural network.
+</p>
+
+
+<h3>Details</h3>
+
+
+<table>
+<tr>
+<td style="text-align: left;">
+Package: </td>
+<td style="text-align: left;"> quarrint</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+Type: </td>
+<td style="text-align: left;"> Package</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+Version: </td>
+<td style="text-align: left;"> 1.0.0</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+Date: </td>
+<td style="text-align: left;"> 2016-11-23</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+Depends: </td>
+<td style="text-align: left;"> R(&gt;= 2.10.0), neuralnet</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+License: </td>
+<td style="text-align: left;"> GPL-2</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+</td>
+</tr>
+</table>
+<p>This package provides two interactions indices between quarries (extractive
+activity) and groundwater ressources using two different methodologies, namely
+the discrete choice models and artificial neural networks. The design of those
+indices is fully detailed in Barthelemy et al. (2016).
+</p>
+<p>The quarries and the groudwater ressources are described by 6 parameters,
+each classified into 4 modalities. These parameters are grouped into 2 distinct
+categories:
+</p>
+
+<ul>
+<li>
+<p>the geological, hydrogeological and piezometric contexts defining the hazard
+that a quarry represents;
+
+</p>
+</li>
+<li>
+<p>the relative position of the quarry and the water catchments, the production
+of the catchments and the potential quality of the groundwater
+characterising the vulnerability of the groundwater resources.
+
+</p>
+</li>
+</ul>
+<p>Each of the resulting 3327 physically feasible combinations of these parameters
+(out of a theoretical number of 4 6 = 4096 possible combinations) determines one
+particular quarry site type. These feasible combination are provided in the
+data frame <code>quarries</code>.
+</p>
+<p>Depending on the values of the parameters, the interaction index can then be
+low, medium, high or very high. The interaction level can then be used to
+inform a quarry operator on the required level of investigation before
+considering any extension of the quarry.
+</p>
+<p>The method <code>compute.interaction</code>
+provides an interface to compute the 2 interaction indices. It takes as an input
+an object of type <code>quarry</code> that can be constructed with the method
+<code>quarry</code>.
+</p>
+<p>The discrete choice-based and the neural network-based indices can be
+respectively be computed with the functions
+<code>compute.dc</code> and
+<code>compute.ann</code> also taking as an input an
+object of type <code>quarry</code>.
+</p>
+<p>The package also includes the function
+<code>train.ann</code> to allow the training of custom
+artificial neural network that can be used with the functions
+<code>compute.ann</code> and
+<code>compute.interaction</code>.
+</p>
+<p>Finally an auxillary function <code>int.in.range</code>
+is also provided to determine if a given integer is within a specified range.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Johan Barthelemy, Timoteo Carletti, Louise Collier, Vincent Hallet, Marie
+Moriame, M. and Annick Sartenaer.
+</p>
+<p>Maintainer: Johan Barthelemy <a href="mailto:johan@uow.edu.au">johan@uow.edu.au</a>.
+</p>
+
+
+<h3>References</h3>
+
+<p>Barthelemy, J., Carletti, T., Collier L., Hallet, V., Moriame, M.,
+Sartenaer, A. (2016)
+Interaction prediction between groundwater and quarry extension using discrete
+choice models and artificial neural networks
+<em>Environmental Earth Sciences</em> (in press)
+</p>
+<p>Collier, L., Barthelemy, J., Carletti, T., Moriame, M., Sartenaer, A.,
+Hallet, H. (2015)
+Calculation of an Interaction Index between the Extractive Activity and
+Groundwater Resources
+<em>Energy Procedia</em> 76, 412-420
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>neuralnet</code> for training and using artifical
+neural network and BIOGEME to estimate discrete choice models
+(<a href="http://biogeme.epfl.ch/home.html">http://biogeme.epfl.ch/home.html</a>).
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># creating a quarry
+q &lt;- quarry(geological.context = 2, hydrogeological.context = 4,
+            piezometric.context = 1, quarry.position = 4,
+            production.catchment = 4, quality.catchment = 3)
+print(q)
+# computing the interaction index
+inter.idx &lt;- compute.interaction(q)
+print(inter.idx)
+</code></pre>
+
+
+</div>

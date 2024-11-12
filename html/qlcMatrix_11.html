@@ -1,0 +1,157 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>corSparse</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Pearson correlation between columns (sparse matrices)
+</h2>
+
+<h3>Description</h3>
+
+<p>This function computes the product-moment correlation coefficients between the columns of sparse matrices. Performance-wise, this improves over the approach taken in the <code>cor</code> function. However, because the resulting matrix is not-sparse, this function still cannot be used with very large matrices.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">corSparse(X, Y = NULL, cov = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>X</code></td>
+<td>
+
+<p>a sparse matrix in a format of the <code>Matrix</code> package, typically <code>dgCMatrix</code> . The correlations will be calculated between the columns of this matrix.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Y</code></td>
+<td>
+
+<p>a second matrix in a format of the <code>Matrix</code> package. When <code>Y = NULL</code>, then the correlations between the columns of X and itself will be taken. If Y is specified, the association between the columns of X and the columns of Y will be calculated.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cov</code></td>
+<td>
+
+<p>when <code>TRUE</code> the covariance matrix is returned, instead of the default correlation matrix.
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>To compute the covariance matrix, the code uses the principle that
+</p>
+<p style="text-align: center;"><code class="reqn">E[(X - \mu(X))' (Y - \mu(Y))] = E[X' Y] - \mu(X') \mu(Y)</code>
+</p>
+
+<p>With sample correction n/(n-1) this leads to the covariance between X and Y as
+</p>
+<p style="text-align: center;"><code class="reqn">( X' Y - n * \mu(X') \mu(Y) ) / (n-1)</code>
+</p>
+
+<p>The computation of the standard deviation (to turn covariance into correlation) is trivial in the case <code>Y = NULL</code>, as they are found on the diagonal of the covariance matrix. In the case <code>Y != NULL</code> uses the principle that 
+</p>
+<p style="text-align: center;"><code class="reqn">E[X - \mu(X)]^2 = E[X^2] - \mu(X)^2</code>
+</p>
+
+<p>With sample correction n/(n-1) this leads to 
+</p>
+<p style="text-align: center;"><code class="reqn">sd^2 = ( X^2 - n * \mu(X)^2 ) / (n-1)</code>
+</p>
+
+
+
+<h3>Value</h3>
+
+<p>The result is a regular square (non-sparse!) Matrix with the Pearson product-moment correlation coefficients between the columns of <code>X</code>. 
+</p>
+<p>When <code>Y</code> is specified, the result is a rectangular (non-sparse!) Matrix of size <code>nrow(X)</code> by <code>nrow(Y)</code> with the correlation coefficients between the columns of <code>X</code> and <code>Y</code>.
+</p>
+<p>When <code>cov = T</code>, the result is a covariance matrix (i.e. a non-normalized correlation).
+</p>
+
+
+<h3>Note</h3>
+
+<p>Because of the ‘centering’ of the Pearson correlation, the resulting Matrix is completely filled. This implies that this approach is normally not feasible with resulting matrices with more than 1e8 cells or so (except in dedicated computational environments with lots of RAM). However, in most sparse data situations, the cosine similarity <code>cosSparse</code> will almost be identical to the Pearson correlation, so consider using that one instead. For a comparison, see examples below.
+</p>
+<p>For further usage, the many small coefficients are often unnecessary anyway, and can be removed for reasons of sparsity. Consider something like <code>M &lt;- drop0(M, tol = value)</code> on the resulting <code>M</code> matrix (which removes all values between -value and +value). See examples below.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Michael Cysouw
+</p>
+<p>Slightly extended and optimized, based on the code from a discussion at <a href="https://stackoverflow.com/questions/5888287/running-cor-or-any-variant-over-a-sparse-matrix-in-r">stackoverflow</a>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>cor</code> in the base packages, <code>cosSparse</code>, <code>assocSparse</code> for other sparse association measures.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+# reasonably fast (though not instantly!) with
+# sparse matrices 1e4x1e4 up to a resulting matrix size of 1e8 cells.
+# However, the calculations and the resulting matrix take up lots of memory
+
+X &lt;- rSparseMatrix(1e3, 1e3, 1e4)
+system.time(M &lt;- corSparse(X))
+print(object.size(M), units = "auto") # more than 750 Mb
+
+# Most values are low, so it often makes sense 
+# to remove low values to keep results sparse
+
+M &lt;- drop0(M, tol = 0.4)
+print(object.size(M), units = "auto") # normally reduces size to about a quarter
+length(M@x) / prod(dim(M)) # down to less than 0.01% non-zero entries
+
+
+# comparison with other methods
+# corSparse is much faster than cor from the stats package
+# but cosSparse is even quicker than both!
+# do not try the regular cor-method with larger matrices than 1e3x1e3
+X &lt;- rSparseMatrix(1e3, 1e3, 1e4)
+X2 &lt;- as.matrix(X)
+
+# if there is a warning, try again with different random X
+system.time(McorRegular &lt;- cor(X2)) 
+system.time(McorSparse &lt;- corSparse(X))
+system.time(McosSparse &lt;- cosSparse(X))
+
+# cor and corSparse give identical results
+all.equal(McorSparse, McorRegular)
+
+# corSparse and cosSparse are not identical, but close
+McosSparse &lt;- as.matrix(McosSparse)
+dimnames(McosSparse) &lt;- NULL
+all.equal(McorSparse, McosSparse) 
+
+# Actually, cosSparse and corSparse are *almost* identical!
+cor(as.dist(McorSparse), as.dist(McosSparse))
+
+# So: consider using cosSparse instead of cor or corSparse.
+# With sparse matrices, this gives mostly the same results, 
+# but much larger matrices are possible
+# and the computations are quicker and more sparse
+
+</code></pre>
+
+
+</div>

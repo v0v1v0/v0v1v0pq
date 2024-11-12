@@ -1,0 +1,698 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>CppQuadtree-class</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+<code>CppQuadtree</code>: C++ quadtree data structure</h2>
+
+<h3>Description</h3>
+
+<p>The <code>CppQuadtree</code> class is the underlying C++ data structure used by
+the <code>Quadtree</code> S4 class. Note that the average user should not
+need to use these functions - there are R wrapper functions that provide
+access to the many of the member functions.
+</p>
+
+
+<h3>Details</h3>
+
+<p>This class is defined in 'src/QuadtreeWrapper.h' and
+'src/QuadtreeWrapper.cpp'. When made available to R, it is exposed as
+<code>CppQuadtree</code> rather than <code>QuadtreeWrapper</code>.
+<code>QuadtreeWrapper</code> contains a pointer to a <code>Quadtree</code> C++ object
+(defined in 'src/Quadtree.h' and 'src/Quadtree.cpp'). All of the core
+functionality is in the <code>Quadtree</code> C++ class - <code>QuadtreeWrapper</code>
+is a wrapper class that adds the 'Rcpp' code required for it to be
+accessible from R.
+</p>
+
+
+<h3>Fields</h3>
+
+
+<dl>
+<dt><code>constructor</code></dt>
+<dd>
+<ul>
+<li> <p><strong>Description</strong>: Default constructor. Can be used as follows:
+<code>qt &lt;- new(CppQuadtree)</code>
+</p>
+</li>
+<li> <p><strong>Parameters</strong>: none
+</p>
+</li>
+<li> <p><strong>Returns</strong>: an empty <code>CppQuadtree</code> object
+</p>
+</li>
+</ul>
+</dd>
+<dt><code>constructor</code></dt>
+<dd>
+<ul>
+<li> <p><strong>Description</strong>: Constructor. Can be used as follows: <code>qt
+  &lt;- new(CppQuadtree, xlims, ylims, maxCellLength, minCellLength,
+  splitAllNAs, splitAnyNAs)</code>. Used in <code>quadtree()</code>. The
+parameters for this constructor correspond with the similarly named
+parameters in <code>quadtree()</code> - see its documentation for more
+details on what the parameters signify. Note that the constructor does not
+"build" the quadtree structure - that is done by <code>createTree()</code>.
+</p>
+</li>
+<li> <p><strong>Parameters</strong>: </p>
+
+<ul>
+<li> <p><code>xlims</code>: two-element numeric vector (xmin, xmax)
+</p>
+</li>
+<li> <p><code>ylims</code>: two-element numeric vector (ymin, ymax)
+</p>
+</li>
+<li> <p><code>maxCellLength</code>: two-element numeric vector - first element is
+for the x dimension, second is for the y dimension
+</p>
+</li>
+<li> <p><code>minCellLength</code>: two-element numeric vector - first element is
+for the x dimension, second is for the y dimension
+</p>
+</li>
+<li> <p><code>splitAllNAs</code>: boolean
+</p>
+</li>
+<li> <p><code>splitAnyNAs</code>: boolean
+</p>
+</li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt><code>readQuadtree</code></dt>
+<dd>
+<ul>
+<li> <p><strong>Description</strong>: Reads a quadtree from a file. Note that this is
+a static function, so it does not require an instance of <code>CppQuadtree</code>
+to be called. <code>read_quadtree()</code> is a wrapper for this function
+- see its documentation for more details.
+</p>
+</li>
+<li> <p><strong>Parameters</strong>: </p>
+
+<ul><li> <p><code>filePath</code>: string; the file to read from
+</p>
+</li></ul>
+</li>
+<li> <p><strong>Returns</strong>: a <code>CppQuadtree</code>
+</p>
+</li>
+</ul>
+</dd>
+<dt><code>asList</code></dt>
+<dd>
+<ul>
+<li> <p><strong>Description</strong>: Outputs a list containing details about
+each cell. <code>as_data_frame()</code> is a wrapper for this function
+that <code>rbind</code>s the individual list elements into a data frame.
+</p>
+</li>
+<li> <p><strong>Parameters</strong>: none
+</p>
+</li>
+<li> <p><strong>Returns</strong>: a list of named numeric vectors. Each
+numeric vector provides information on a single cell. The elements returned
+are the same as the columns described in the documentation for
+<code>as_data_frame()</code> - see that help page for details.
+</p>
+</li>
+</ul>
+</dd>
+<dt><code>asVector</code></dt>
+<dd>
+<ul>
+<li> <p><strong>Description</strong>: Returns cell values as a vector.
+<code>as_vector()</code> is a wrapper for this function.
+</p>
+</li>
+<li> <p><strong>Parameters</strong>: </p>
+
+<ul><li> <p><code>terminalOnly</code>: boolean; if <code>TRUE</code>, returns only the
+values of the terminal cells. If <code>FALSE</code>, returns all cell values
+</p>
+</li></ul>
+</li>
+<li> <p><strong>Returns</strong>: a numeric vector
+</p>
+</li>
+</ul>
+</dd>
+<dt><code>copy</code></dt>
+<dd>
+<ul>
+<li> <p><strong>Description</strong>: Returns a deep copy of a quadtree.
+<code>copy()</code> is a wrapper for this function - see the
+documentation for that function for more details.
+</p>
+</li>
+<li> <p><strong>Parameters</strong>: none
+</p>
+</li>
+<li> <p><strong>Returns</strong>: a <code>CppQuadtree</code> object
+</p>
+</li>
+</ul>
+</dd>
+<dt><code>createTree</code></dt>
+<dd>
+<ul>
+<li> <p><strong>Description</strong>: Constructs a quadtree from a matrix.
+<code>quadtree()</code> is a wrapper for this function and should be used
+to create quadtrees. The parameters correspond with the similarly
+named parameters in <code>quadtree()</code> - see the
+documentation of that function for details on the parameters.
+</p>
+</li>
+<li> <p><strong>Parameters</strong>: </p>
+
+<ul>
+<li> <p><code>mat</code>: matrix; data to be used to create the quadtree
+</p>
+</li>
+<li> <p><code>splitMethod</code>: string
+</p>
+</li>
+<li> <p><code>splitThreshold</code>: double
+</p>
+</li>
+<li> <p><code>splitFun</code>: function
+</p>
+</li>
+<li> <p><code>splitArgs</code>: list
+</p>
+</li>
+<li> <p><code>combineFun</code>: function
+</p>
+</li>
+<li> <p><code>combineArgs</code>: list
+</p>
+</li>
+<li> <p><code>templateQuadtree</code>: <code>CppQuadtree</code> object
+</p>
+</li>
+</ul>
+</li>
+<li> <p><strong>Returns</strong>: void - no return value
+</p>
+</li>
+</ul>
+</dd>
+<dt><code>extent</code></dt>
+<dd>
+<ul>
+<li> <p><strong>Description</strong>: Returns the extent of the quadtree. This is
+equivalent to <code>extent(qt, original = FALSE)</code>
+</p>
+</li>
+<li> <p><strong>Parameters</strong>: none
+</p>
+</li>
+<li> <p><strong>Returns</strong>: four-element numeric vector, in this order: xmin,
+xmax, ymin, ymax
+</p>
+</li>
+</ul>
+</dd>
+<dt><code>getCell</code></dt>
+<dd>
+<ul>
+<li> <p><strong>Description</strong>: Given the x and y coordinates of a point,
+returns the cell at that point.
+</p>
+</li>
+<li> <p><strong>Parameters</strong>: </p>
+
+<ul><li> <p><code>pt</code>: two-element numeric vector (x,y)
+</p>
+</li></ul>
+</li>
+<li> <p><strong>Returns</strong>: a <code>CppNode</code> object representing the
+cell that contains the point
+</p>
+</li>
+</ul>
+</dd>
+<dt><code>getCells</code></dt>
+<dd>
+<ul>
+<li> <p><strong>Description</strong>: Given x and y coordinates of points, returns a
+list of the cells at those points (as <code>CppNode</code> objects). It is
+the same as <code>getCell</code>, except that it allows users to get multiple
+cells at once instead of one at a time.
+</p>
+</li>
+<li> <p><strong>Parameters</strong>: </p>
+
+<ul>
+<li> <p><code>x</code>: numeric vector; the x coordinates
+</p>
+</li>
+<li> <p><code>y</code>: numeric vector; the y coordinates; must be the same
+length as <code>x</code>
+</p>
+</li>
+</ul>
+</li>
+<li> <p><strong>Returns</strong>: a list of <code>CppNode</code> objects
+corresponding to the x and y coordinates passed to the function
+</p>
+</li>
+</ul>
+</dd>
+<dt><code>getCellsDetails</code></dt>
+<dd>
+<ul>
+<li> <p><strong>Description</strong>: Given points defined by their x and y
+coordinates, returns a matrix giving details on the cells at each of the
+points.
+<code>extract(qt, extents = TRUE)</code> is a wrapper for this function.
+</p>
+</li>
+<li> <p><strong>Parameters</strong>: </p>
+
+<ul>
+<li> <p><code>x</code>: numeric vector; the x coordinates
+</p>
+</li>
+<li> <p><code>y</code>: numeric vector; the y coordinates; must be the same
+length as x
+</p>
+</li>
+</ul>
+</li>
+<li> <p><strong>Returns</strong>: A matrix with the cell details. See
+<code>extract()</code> for details about the matrix columns
+</p>
+</li>
+</ul>
+</dd>
+<dt><code>getLcpFinder</code></dt>
+<dd>
+<ul>
+<li> <p><strong>Description</strong>: Returns a <code>CppLcpFinder</code> object
+that can be used to find least-cost paths on the quadtree.
+<code>lcp_finder()</code> is a wrapper for this function. For details on
+the parameters see the documentation of the similarly named parameters in
+<code>lcp_finder()</code>.
+</p>
+</li>
+<li> <p><strong>Parameters</strong>: </p>
+
+<ul>
+<li> <p><code>startPoint</code>: two-element numeric vector
+</p>
+</li>
+<li> <p><code>xlim</code>: two-element numeric vector
+</p>
+</li>
+<li> <p><code>ylim</code>: two-element numeric vector
+</p>
+</li>
+<li> <p><code>searchByCentroid</code> : boolean
+</p>
+</li>
+</ul>
+</li>
+<li> <p><strong>Returns</strong>: a <code>CppLcpFinder</code> object
+</p>
+</li>
+</ul>
+</dd>
+<dt><code>getNeighborList</code></dt>
+<dd>
+<ul>
+<li> <p><strong>Description</strong>: Returns the neighbor relationships between all
+cells.
+</p>
+</li>
+<li> <p><strong>Parameters</strong>: none
+</p>
+</li>
+<li> <p><strong>Returns</strong>: a list of matrices. Each matrix corresponds to
+a single cell and has one line for each neighboring cell. "neighbor"
+includes diagonal adjacency. Each matrix has the following columns:
+</p>
+
+<ul>
+<li> <p><code>id0</code>, <code>x0</code>, <code>y0</code>, <code>val0</code>, <code>hasChildren0</code>:
+the ID, x and y coordinates of the centroid, cell value, and whether the
+cell has children. This is for the cell of interest. Note that the values
+of these columns will be same across all rows because they refer to the
+same cell.
+</p>
+</li>
+<li> <p><code>id1</code>, <code>x1</code>, <code>y1</code>, <code>val1</code>, <code>hasChildren1</code>:
+the ID, x and y coordinates of the centroid, cell value, and whether the
+cell has children. This is for the neighbors of the cell of interest.
+(i.e. the cell represented by the columns suffixed with '0').
+</p>
+</li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt><code>getNeighbors</code></dt>
+<dd>
+<ul>
+<li> <p><strong>Description</strong>: Given a point, returns a matrix with info on
+the cells that neighbor the cell that the point falls in.
+<code>get_neighbors()</code> is a wrapper for this function.
+</p>
+</li>
+<li> <p><strong>Parameters</strong>: </p>
+
+<ul><li> <p><code>pt</code>: two-element numeric vector (x,y)
+</p>
+</li></ul>
+</li>
+<li> <p><strong>Returns</strong>: a six-column matrix with one row per neighboring
+cell. It has the following columns: </p>
+
+<ul>
+<li> <p><code>id</code>
+</p>
+</li>
+<li> <p><code>xmin</code>
+</p>
+</li>
+<li> <p><code>xmax</code>
+</p>
+</li>
+<li> <p><code>ymin</code>
+</p>
+</li>
+<li> <p><code>ymax</code>
+</p>
+</li>
+<li> <p><code>value</code>
+</p>
+</li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt><code>getValues</code></dt>
+<dd>
+<ul>
+<li> <p><strong>Description</strong>: Given points defined by their x and y
+coordinates, returns a numeric vector of the values of the cells at each of
+the points.
+<code>extract(qt, extents = FALSE)</code> is a wrapper for this function.
+</p>
+</li>
+<li> <p><strong>Parameters</strong>: </p>
+
+<ul>
+<li> <p><code>x</code>: numeric vector; the x coordinates
+</p>
+</li>
+<li> <p><code>y</code>: numeric vector; the y coordinates; must be the same
+length as <code>x</code>
+</p>
+</li>
+</ul>
+</li>
+<li> <p><strong>Returns</strong>: a numeric vector of cell values corresponding with
+the x and y coordinates passed to the function
+</p>
+</li>
+</ul>
+</dd>
+<dt><code>maxCellDims</code></dt>
+<dd>
+<ul>
+<li> <p><strong>Description</strong>: Returns the maximum allowable cell length used
+when constructing the quadtree (i.e. the value passed to the
+<code>max_cell_length</code> parameter of <code>quadtree()</code>). Note that
+this does <strong>not</strong> return the maximum cell size in the quadtree - it
+returns the maximum <em>allowable</em> cell size. Also note that if no value
+was provided for <code>max_cell_length</code>, the max allowable cell length is
+set to the length and width of the total extent.
+</p>
+</li>
+<li> <p><strong>Parameters</strong>: none
+</p>
+</li>
+<li> <p><strong>Returns</strong>: A two-element numeric vector giving the maximum
+allowable side length for the x and y dimensions.
+</p>
+</li>
+</ul>
+</dd>
+<dt><code>minCellDims</code></dt>
+<dd>
+<ul>
+<li> <p><strong>Description</strong>: Returns the minimum allowable cell length used
+when constructing the quadtree (i.e. the value passed to the
+<code>min_cell_length</code> parameter of <code>quadtree()</code>). Note that
+this does <strong>not</strong> return the minimum cell size in the quadtree - it
+returns the minimum <em>allowable</em> cell size. Also note that if no value
+was provided for <code>min_cell_length</code>, the min allowable cell length is
+set to -1.
+</p>
+</li>
+<li> <p><strong>Parameters</strong>: none
+</p>
+</li>
+<li> <p><strong>Returns</strong>: A two-element numeric vector giving the minimum
+allowable side length for the x and y dimensions.
+</p>
+</li>
+</ul>
+</dd>
+<dt><code>nNodes</code></dt>
+<dd>
+<ul>
+<li> <p><strong>Description</strong>: Returns the total number of nodes in the
+quadtree. Note that this includes <em>all</em> nodes, not just terminal
+nodes.
+</p>
+</li>
+<li> <p><strong>Parameters</strong>: none
+</p>
+</li>
+<li> <p><strong>Returns</strong>: integer
+</p>
+</li>
+</ul>
+</dd>
+<dt><code>originalDim</code></dt>
+<dd>
+<ul>
+<li> <p><strong>Description</strong>: Returns the dimensions of the raster used to
+create the quadtree <em>before</em> its dimensions were adjusted.
+</p>
+</li>
+<li> <p><strong>Parameters</strong>: none
+</p>
+</li>
+<li> <p><strong>Returns</strong>: two-element numeric vector that gives the number of
+cells along the x and y dimensions.
+</p>
+</li>
+</ul>
+</dd>
+<dt><code>originalExtent</code></dt>
+<dd>
+<ul>
+<li> <p><strong>Description</strong>: Returns the extent of the raster used to create
+the quadtree <em>before</em> its dimensions/extent were adjusted. This is
+equivalent to <code>extent(qt, original = TRUE)</code>
+</p>
+</li>
+<li> <p><strong>Parameters</strong>: none
+</p>
+</li>
+<li> <p><strong>Returns</strong>: four-element numeric vector, in this order: xmin,
+xmax, ymin, ymax
+</p>
+</li>
+</ul>
+</dd>
+<dt><code>originalRes</code></dt>
+<dd>
+<ul>
+<li> <p><strong>Description</strong>: Returns the resolution of the raster used to
+create the quadtree <em>before</em> its dimensions/extent were adjusted.
+</p>
+</li>
+<li> <p><strong>Parameters</strong>: none
+</p>
+</li>
+<li> <p><strong>Returns</strong>: two-element numeric vector (x cell length, y cell
+length)
+</p>
+</li>
+</ul>
+</dd>
+<dt><code>print</code></dt>
+<dd>
+<ul>
+<li> <p><strong>Description</strong>: Returns a string that represents the quadtree.
+</p>
+</li>
+<li> <p><strong>Parameters</strong>: none
+</p>
+</li>
+<li> <p><strong>Returns</strong>: a string
+</p>
+</li>
+</ul>
+</dd>
+<dt><code>projection</code></dt>
+<dd>
+<ul>
+<li> <p><strong>Description</strong>: Returns the projection of the quadtree.
+</p>
+</li>
+<li> <p><strong>Parameters</strong>: none
+</p>
+</li>
+<li> <p><strong>Returns</strong>: a string
+</p>
+</li>
+</ul>
+</dd>
+<dt><code>root</code></dt>
+<dd>
+<ul>
+<li> <p><strong>Description</strong>: Returns the root node of the quadtree.
+</p>
+</li>
+<li> <p><strong>Parameters</strong>: none
+</p>
+</li>
+<li> <p><strong>Returns</strong>: a <code>CppNode</code> object
+</p>
+</li>
+</ul>
+</dd>
+<dt><code>setOriginalValues</code></dt>
+<dd>
+<ul>
+<li> <p><strong>Description</strong>: Sets the properties that record the extent and
+dimensions of the original raster used to create the quadtree
+</p>
+</li>
+<li> <p><strong>Parameters</strong>: </p>
+
+<ul>
+<li> <p><code>xmin</code>: double
+</p>
+</li>
+<li> <p><code>xmax</code>: double
+</p>
+</li>
+<li> <p><code>ymin</code>: double
+</p>
+</li>
+<li> <p><code>ymax</code>: double
+</p>
+</li>
+<li> <p><code>nX</code>: integer - number of cells along the x dimension
+</p>
+</li>
+<li> <p><code>nY</code>: integer - number of cells along the y dimension
+</p>
+</li>
+</ul>
+</li>
+<li> <p><strong>Returns</strong>: void - no return value
+</p>
+</li>
+</ul>
+</dd>
+<dt><code>setProjection</code></dt>
+<dd>
+<ul>
+<li> <p><strong>Description</strong>: Sets the the projection of the quadtree.
+</p>
+</li>
+<li> <p><strong>Parameters</strong>: </p>
+
+<ul><li> <p><code>projection</code>: string
+</p>
+</li></ul>
+</li>
+<li> <p><strong>Returns</strong>: void - no return value
+</p>
+</li>
+</ul>
+</dd>
+<dt><code>setValues</code></dt>
+<dd>
+<ul>
+<li> <p><strong>Description</strong>: Given points defined by their x and y
+coordinates and a vector of values, sets the values of the quadtree cells
+at each of the points. <code>set_values()</code> is a wrapper for this
+function - see its documentation page for more details.
+</p>
+</li>
+<li> <p><strong>Parameters</strong>: </p>
+
+<ul>
+<li> <p><code>x</code>: numeric vector; the x coordinates
+</p>
+</li>
+<li> <p><code>y</code>: numeric vector; the y coordinates; must be the same
+length as x
+</p>
+</li>
+<li> <p><code>newVals</code>: numeric vector; must be the same length as x and y
+</p>
+</li>
+</ul>
+</li>
+<li> <p><strong>Returns</strong>: void - no return value
+</p>
+</li>
+</ul>
+</dd>
+<dt><code>transformValues</code></dt>
+<dd>
+<ul>
+<li> <p><strong>Description</strong>: Uses a function to transform the values of all
+cells. <code>transform_values()</code> is a wrapper for this function -
+see its documentation page for more details.
+</p>
+</li>
+<li> <p><strong>Parameters</strong>: </p>
+
+<ul><li> <p><code>trasform_fun</code>: function
+</p>
+</li></ul>
+</li>
+<li> <p><strong>Returns</strong>: void - no return value
+</p>
+</li>
+</ul>
+</dd>
+<dt><code>writeQuadtree</code></dt>
+<dd>
+<ul>
+<li> <p><strong>Description</strong>: Writes a quadtree to a file.
+<code>write_quadtree()</code> is a wrapper for this function - see its
+documentation page for more details.
+</p>
+</li>
+<li> <p><strong>Parameters</strong>: </p>
+
+<ul><li> <p><code>filePath</code>: string; the file to save the quadtree to
+</p>
+</li></ul>
+</li>
+<li> <p><strong>Returns</strong>: void - no return value
+</p>
+</li>
+</ul>
+</dd>
+</dl>
+</div>

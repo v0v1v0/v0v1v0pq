@@ -1,0 +1,180 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>test.fit.iqr</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Goodness-of-Fit Test
+</h2>
+
+<h3>Description</h3>
+
+<p>Goodness-of-fit test for a model
+fitted with <code>iqr</code>. The Kolmogorov-Smirnov statistic and the Cramer-Von Mises statistic
+are computed. Their distribution under the null hypothesis is evaluated
+with Monte Carlo.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'iqr'
+test.fit(object, R = 100, zcmodel, icmodel, trace = FALSE, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+
+<p>an object of class “<code>iqr</code>”.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>R</code></td>
+<td>
+
+<p>number of Monte Carlo replications. If <kbd>R = 0</kbd>, the function only returns the test statistics.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>zcmodel</code></td>
+<td>
+<p>a numeric value indicating how to model the joint distribution of censoring 
+(<code class="reqn">C</code>) and truncation (<code class="reqn">Z</code>). See ‘Details’.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>icmodel</code></td>
+<td>
+<p>a list of operational parameters to simulate interval-censored data. See ‘Details’.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>trace</code></td>
+<td>
+<p>logical. If <kbd>TRUE</kbd>, the progress will be printed.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>for future arguments.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>This function permits assessing goodness of fit by testing the null hypothesis
+that the <abbr><span class="acronym">CDF</span></abbr> values follow a <code class="reqn">U(0,1)</code> distribution, indicating that
+the model is correctly specified.
+Since the fitted <abbr><span class="acronym">CDF</span></abbr> values depend on estimated parameters, the distribution of 
+the test statistic is not known. To evaluate it, the model is fitted on <kbd>R</kbd> simulated datasets 
+generated under the null hypothesis. 
+</p>
+<p>The testing procedures are described in details by Frumento and Bottai (2016, 2017) and Frumento and Corsini (2024).
+</p>
+<p><b>Right-censored and left-truncated data</b>. If the data are censored and truncated, <code>object$CDF</code> is as well a censored and truncated outcome, and its quantiles must be computed by using a suitable version of Kaplan-Meier product-limit estimator. The fitted survival curve is then compared with that of a <code class="reqn">U(0,1)</code> distribution. 
+</p>
+<p>To run Monte Carlo simulations when data are censored or truncated, it is necessary to estimate
+the distribution of the censoring and that of the truncation variable. To this goal,
+the function <code>pchreg</code> from the <span class="pkg">pch</span> package is used, with default settings.
+</p>
+<p>The joint distribution of the censoring variable (<code class="reqn">C</code>) and the truncation variable (<code class="reqn">Z</code>) 
+can be specified in two ways:
+</p>
+
+<ul>
+<li>
+<p> If <kbd>zcmodel = 1</kbd>, it is assumed that <code class="reqn">C = Z + U</code>,
+where <code class="reqn">U</code> is a positive variable and is independent of <code class="reqn">Z</code>, given covariates. This is the most
+common situation, and is verified when censoring occurs at the end of the follow-up. Under this scenario,
+<code class="reqn">C</code> and <code class="reqn">Z</code> are correlated with <code class="reqn">P(C &gt; Z) = 1</code>. 
+</p>
+</li>
+<li>
+<p> If <kbd>zcmodel = 2</kbd>, it is assumed that <code class="reqn">C</code> and <code class="reqn">Z</code> are conditionally independent.
+This situation is more plausible when all censoring is due to drop-out.
+</p>
+</li>
+</ul>
+<p><b>Interval-censored data</b>. 
+</p>
+<p>If the data are interval-censored, <code>object$CDF</code> is composed of two columns, <code>left</code> and <code>right</code>. A nonparametric estimator is applied to the interval-censored pair <code>(left, right)</code> using the <span class="pkg">icenReg</span> R package. The fitted quantiles are then compared with those of a <code class="reqn">U(0,1)</code> distribution.
+</p>
+<p>To simulate interval-censored data, additional information is required about the censoring mechanism. This testing procedure assumes that interval censoring occurs because each individual is only examined at discrete time points, say <code>t[1], t[2], t[3],</code>... If this is not the mechanism that generated your data, you should not use this function.
+</p>
+<p>In the ideal situation, one can use <code>t[1], t[2], t[3],</code>... to estimate the distribution of the time between visits, <code>t[j + 1] - t[j]</code>. If, however, one only knows <code>time1</code> and <code>time2</code>, the two endpoints of the interval, things are more complicated. The empirical distribution of <code>time2 - time1</code> is NOT a good estimator of the distribution of <code>t[j + 1] - t[j]</code>, because the events are likely contained in longer intervals, a fact that obviously generates selection bias. There are two common situations: either <code>t[j + 1] - t[j]</code> is a constant (e.g., one month), or it is random. If <code>t[j + 1] - t[j]</code> is random and has an Exponential distribution with scale <code>lambda</code>, then <code>time2 - time1</code> has a <code>Gamma(shape = 2, scale = lambda)</code> distribution. This is due to the property of memoryless of the Exponential distribution, and may only be an approximation if there is a floor effect (i.e., if <code>lambda</code> is larger than the low quantiles of the time-to-event).
+</p>
+<p>The <code>icmodel</code> argument must be a list with four elements, <code>model</code>, <code>lambda</code> (optional), <code>t0</code>, and <code>logscale</code>:
+</p>
+
+<ul>
+<li> <p><code>model</code>. A character string, either <code>'constant'</code> or <code>'exponential'</code>.
+</p>
+</li>
+<li> <p><code>lambda</code>. If <code>model = 'constant'</code>, <code>lambda</code> will be interpreted as a constant time between visits. If <code>model = 'exponential'</code>, instead, it will be interpreted as the <em>mean</em> (not the rate) of the Exponential distribution that is assumed to describe the time between visits.
+</p>
+<p>If you either <em>know</em> <code>lambda</code>, or you can estimate it by using additional information (e.g., individual data on <em>all</em> visit times <code>t[1], t[2], t[3], </code>...), you can supply a scalar value, that will be used for all individuals, or a vector, allowing <code>lambda</code> to differ across individuals.
+</p>
+<p>If, instead, <code>lambda</code> is not supplied or is <code>NULL</code>, the algorithm proceeds as follows. If <code>model = 'constant'</code>, the time between visits is assumed to be constant and equal to <code>lambda = mean(time2 - time1)</code>. If <code>model = 'exponential'</code>, times between visits are generated from an Exponential distribution in which the mean, <code>lambda</code>, is allowed to depend on covariates according to a log-linear model, and is estimated by fitting a Gamma model on <code>time2 - time1</code> as described earlier. 
+</p>
+</li>
+<li> <p><code>t0</code>. If <code>t0 = 0</code>, data will be simulated assuming that the first visit occurs at time = 0 (the “onset”), i.e., when the individual enters the risk set. This mechanism cannot generate left censoring. If <code>t0 = 1</code>, instead, the first visit occurs <em>after</em> time zero. This mechanism generates left censoring whenever the event occurs before the first visit. Finally, if <code>t0 = -1</code>, visits start <em>before</em> time 0. Under this scenario, it is assumed that not only the time at the event, but also the time at onset is interval-censored. If the event occurs in the interval <code>(time1, time2)</code>, and the onset is in <code>(t01, t02)</code>, then the total duration is in the interval <code>(time1 - t02, time2 - t01)</code>.
+</p>
+</li>
+<li> <p><code>logscale</code>. Logical: is the response variable on the log scale? If this is the case, the Monte Carlo procedure will act accordingly. Note that <code>lambda</code> will always be assumed to describe the time between visits on the <em>natural</em> scale.
+</p>
+</li>
+</ul>
+<p>The mechanism described above can automatically account for the presence of left censoring.
+In order to simulate right-censored observations (if present in the data), the distribution of the censoring variable is estimated with the function <code>pchreg</code> from the <span class="pkg">pch</span> package.
+</p>
+
+
+<h3>Value</h3>
+
+<p>a matrix with columns <code>statistic</code> and <code>p.value</code>, 
+reporting the Kolmogorov-Smirnov and Cramer-Von Mises statistic and the associated
+p-values evaluated with Monte Carlo.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Paolo Frumento <a href="mailto:paolo.frumento@unipi.it">paolo.frumento@unipi.it</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Frumento, P., and Bottai, M. (2016). <em>Parametric modeling of quantile regression coefficient functions</em>. Biometrics, 72 (1), pp 74-84, doi: 10.1111/biom.12410.
+</p>
+<p>Frumento, P., and Bottai, M. (2017). <em>Parametric modeling of quantile regression coefficient functions with censored and truncated data</em>. Biometrics, doi: 10.1111/biom.12675.
+</p>
+<p>Frumento, P., and Corsini, L. (2024). <em>Using parametric quantile regression
+to investigate determinants of unemployment duration</em>. Unpublished manuscript.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">y &lt;- rnorm(1000)
+m1 &lt;- iqr(y ~ 1, formula.p = ~ I(qnorm(p))) # correct
+m2 &lt;- iqr(y ~ 1, formula.p = ~ p)  # misspecified
+
+test.fit(m1)
+test.fit(m2)
+
+</code></pre>
+
+
+</div>

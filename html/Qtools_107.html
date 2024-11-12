@@ -1,0 +1,253 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qlss</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Quantile-based Summary Statistics for Location, Scale and Shape
+</h2>
+
+<h3>Description</h3>
+
+<p>This function calculates quantile-based summary statistics for location, scale and shape of a distribution, unconditional or conditional.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qlss(...)
+## Default S3 method:
+qlss(fun = "qnorm", probs = 0.1, ...)
+## S3 method for class 'numeric'
+qlss(x, probs = 0.1, ...)
+## S3 method for class 'formula'
+qlss(formula, probs = 0.1, data = sys.frame(sys.parent()), subset, weights,
+	na.action, contrasts = NULL, method = "fn", type = "rq", tsf = "mcjI",
+	symm = TRUE, dbounded = FALSE, lambda = NULL, conditional = FALSE, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>fun</code></td>
+<td>
+
+<p>quantile function.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+
+<p>a numeric vector.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>formula</code></td>
+<td>
+
+<p>an object of class <code>formula</code>: a symbolic description of the model to be fitted. The details of model specification are given under "Details".
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>probs</code></td>
+<td>
+
+<p>a vector of probabilities.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+
+<p>an optional data frame, list or environment (or object coercible by as.data.frame to a data frame) containing the variables in the model. By default the variables are taken from the environment from which the call is made.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>subset</code></td>
+<td>
+
+<p>an optional vector specifying a subset of observations to be used in the fitting process.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>weights</code></td>
+<td>
+
+<p>an optional vector of weights to be used in the fitting process. Should be NULL or a numeric vector. 
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>na.action</code></td>
+<td>
+
+<p>a function which indicates what should happen when the data contain <code>NA</code>s.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>contrasts</code></td>
+<td>
+
+<p>an optional list. See the <code>contrasts.arg</code> of <code>model.matrix.default</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+
+<p>the algorithm used to solve the linear program. See <code>rq</code> for further details. The Frisch-Newton interior point method is the default.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>type</code></td>
+<td>
+
+<p>possible options are <code>rq</code> for linear quantile regression (default) or <code>rqt</code> for transformation-based quantile regression.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tsf</code></td>
+<td>
+
+<p>transformation to be used. Possible options are <code>mcjI</code> for Proposal I transformation models (default), <code>bc</code> for Box-Cox and <code>ao</code> for Aranda-Ordaz transformation models. See <code>tsrq</code> for further details.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>symm</code></td>
+<td>
+
+<p>logical flag. If <code>TRUE</code> (default) a symmetric transformation is used.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dbounded</code></td>
+<td>
+
+<p>logical flag. If <code>TRUE</code> the response is assumed to be doubly bounded on [a,b]. If <code>FALSE</code> the response is assumed to be singly bounded (ie, strictly positive).
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lambda</code></td>
+<td>
+
+<p>values of transformation parameters for grid search.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>conditional</code></td>
+<td>
+
+<p>logical flag. If <code>TRUE</code>, the transformation parameter is assumed to be known and this must be provided via the arguments <code>lambda</code> using a vector of length <code>3 + 2 x length(probs)</code> (see details).
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+
+<p>other arguments for <code>fun</code>, <code>rq</code> or <code>tsrq</code>.
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>This function computes a number of quantile-based summary statistics for location (median), scale (inter-quartile range and inter-quantile range), and shape (Bowley skewness and shape index) of a distribution. These statistics can be computed for unconditional and conditional distributions.
+</p>
+<p>Let <code class="reqn">Y</code> be a continuous random variable and let <code class="reqn">Q(p)</code> be its <em>p</em>th quantile. The function <code>qlss</code> computes the median <code class="reqn">Q(0.5)</code>, the inter-quartile range <code class="reqn">IQR = Q(0.75) - Q(0.25)</code>, the inter-quantile range <code class="reqn">IPR(p) = Q(1-p) - Q(p)</code>, the Bowley skewness index <code class="reqn">A(p) = (Q(1-p) + Q(p) - 2Q(0.5))/IPR(p)</code>, and the shape index <code class="reqn">T(p) = IPR(p)/IQR</code>, for <code class="reqn">0 &lt; p &lt; 0.25</code>.
+</p>
+<p>The default <code>qlss</code> function computes the summary statistics of a standard normal distribution or any other theoretical distribution via the argument <code>fun</code>. The latter must be a function with <code>p</code> as its probability argument (see for example <code>qnorm</code>, <code>qt</code>, <code>qchisq</code>, <code>qgamma</code>, etc.). When a variable <code>x</code> is provided, LSS measures are computed using empirical (sample) quantiles.
+</p>
+<p>The argument <code>formula</code> specifies a quantile function for <code class="reqn">Y</code> conditional on predictors <code class="reqn">X</code>. Linear models are fitted via standard quantile regression with <code>type = "rq"</code>. Nonlinear models are fitted via transformation-based quantile regression with <code>type = "rqt"</code> (proposal II transformation models are not available.). When <code>conditional = TRUE</code>, <code>lambda</code> is a vector of transformation parameters of length <code>3 + 2 x np</code>, where <code>np = length(probs)</code> (3 quartiles, <code>np</code> quantiles at level <code class="reqn">p</code>, <code>np</code> quantiles at level <code class="reqn">1 - p</code>).
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>qlss</code> returns an object of <code>class</code> <code>qlss</code>. This is a list that contains at least three elements:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>location</code></td>
+<td>
+<p>summary statistic(s) for location.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>scale</code></td>
+<td>
+<p>summary statistic(s) for scale.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>shape</code></td>
+<td>
+<p>summary statistic(s) for shape.</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Marco Geraci
+</p>
+
+
+<h3>References</h3>
+
+<p>Geraci M and Jones MC. Improved transformation-based quantile regression. Canadian Journal of Statistics 2015;43(1):118-132.
+</p>
+<p>Gilchrist W. Statistical modelling with quantile functions. Chapman and Hall/CRC; 2000.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>predict.qlss</code>, <code>plot.qlss</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+# Compute summary statistics of a normal distribution
+qlss()
+
+# Compute summary statistics of a t distribution with 3 df
+qlss(fun = "qt", df = 3, probs = 0.05)
+
+# Compute summary statistics for a sample using a sequence of probabilities
+x &lt;- rnorm(1000)
+qlss(x, probs = c(0.1, 0.2, 0.3, 0.4))
+
+# Compute summary statistics for Volume conditional on Height
+trees2 &lt;- trees[order(trees$Height),]
+fit &lt;- qlss(Volume ~ Height, data = trees2)
+plot(fit, z = trees2$Height, xlab = "height")
+
+# Use a quadratic model for Height
+fit &lt;- qlss(Volume ~ poly(Height,2), data = trees2)
+plot(fit, z = trees2$Height, xlab = "height")
+
+
+</code></pre>
+
+
+</div>

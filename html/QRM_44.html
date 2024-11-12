@@ -1,0 +1,56 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>equicorr</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Equal Correlation Matrix 
+</h2>
+
+<h3>Description</h3>
+
+<p>Construction of an equal correlation matrix 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">equicorr(d, rho)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>d</code></td>
+<td>
+<p>integer, dimension of matrix</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rho</code></td>
+<td>
+<p>numeric, value of correlation</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>matrix
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">equicorr(7, 0.5)
+ll &lt;- c(0.01, 0.99)
+BiDensPlot(func = dcopula.gauss, xpts = ll, ypts = ll,
+           Sigma = equicorr(2,0.5))
+BiDensPlot(func = dcopula.t, xpts = ll, ypts = ll , df = 4,
+           Sigma = equicorr(2, 0.5)) 
+</code></pre>
+
+
+</div>

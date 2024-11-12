@@ -1,0 +1,70 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>VN.o_MMC</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Returns the variance of the number of customers in the M/M/c queueing model</h2>
+
+<h3>Description</h3>
+
+<p>Returns the variance of the number of customers in the M/M/c queueing model
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">  ## S3 method for class 'o_MMC'
+VN(x, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a object of class o_MMC</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>aditional arguments</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Returns the variance of the number of customers in the M/M/c queueing model</p>
+
+
+<h3>References</h3>
+
+<p>[Sztrik2012] Dr. Janos Sztrik (2012).<br><em>Basic Queueing Theory</em>.<br>
+University of Debrecen, Faculty of Informatics.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>QueueingModel.i_MMC</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+## create input parameters
+i_mmc &lt;- NewInput.MMC(lambda=5, mu=10, c=2, n=0, method=0)
+
+## Build the model
+o_mmc &lt;- QueueingModel(i_mmc)
+
+## Returns the variance
+VN(o_mmc)
+</code></pre>
+
+
+</div>

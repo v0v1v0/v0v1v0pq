@@ -1,0 +1,57 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>subset_input</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Subset an input object - allele probabilities array or phenotypes matrix or covariates matrix. Kinship has its own subset function</h2>
+
+<h3>Description</h3>
+
+<p>An inputted matrix or 3-dimensional array is first subsetted - by rownames - to remove
+those subjects who are not in ‘id2keep'. After that, the object’s rows
+are ordered to match the ordering of subject ids in the vector 'id2keep'. This
+(possibly reordered) object is returned.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">subset_input(input, id2keep)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>input</code></td>
+<td>
+<p>a matrix of either phenotypes or covariates or array of allele probabilities</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>id2keep</code></td>
+<td>
+<p>a character vector of subject ids to identify those subjects that are shared by all inputs</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>an object resulting from subsetting of 'input'. Its rows are ordered per 'id2keep'
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># define s_id
+s_id &lt;- paste0("s", 1:10)
+# set up input matrix
+foo &lt;- matrix(data = rnorm(10 * 3), nrow = 10, ncol = 3)
+rownames(foo) &lt;- s_id
+subset_input(input = foo, id2keep = s_id)
+</code></pre>
+
+
+</div>

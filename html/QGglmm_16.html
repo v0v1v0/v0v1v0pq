@@ -1,0 +1,147 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>QGvcov</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Compute the phenotypic variance-covariance matrix on the observed / expected scale</h2>
+
+<h3>Description</h3>
+
+<p>This function computes the total phenotypic variance-covariance matrix on the observed or expected scales.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">QGvcov(mu = NULL, vcov, link.inv, var.func, mvmean.obs = NULL,
+       predict = NULL, rel.acc = 0.001, width = 10, exp.scale = FALSE, mask = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>mu</code></td>
+<td>
+<p>Vector of latent intercepts estimated from a GLMM (ignored if predict is not <code>NULL</code>). (numeric)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vcov</code></td>
+<td>
+<p>Latent total phenotypic variance-covariance matrix estimated from a GLMM. Usually, the sum of all the estimated variance-covariance matrices. (numeric)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>link.inv</code></td>
+<td>
+<p>Inverse functions of the link functions. This function should accept a vector and yield a vector of the same length, see Details and Example below. (function)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>var.func</code></td>
+<td>
+<p>Function giving the variance function for each trait. This function should accept a vector and yield a vector of the same length, see Details and Example below. (function)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mvmean.obs</code></td>
+<td>
+<p>Optional parameter giving the multivariate phenotypic mean on the observed scale. Automatically computed if not provided. (numeric)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>predict</code></td>
+<td>
+<p>Optional matrix of predicted values on the latent scale (each trait in each column). The latent predicted values must be computed while only accounting for the fixed effects (marginal to the random effects). (numeric)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rel.acc</code></td>
+<td>
+<p>Relative accuracy of the integral approximation. (numeric)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>width</code></td>
+<td>
+<p>Parameter for the integral computation. The default value is 10, which should be sensible for most models. (numeric)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>exp.scale</code></td>
+<td>
+<p>Should the variance-covariance matrix be computed on the expected scale? <code>FALSE</code> by default, which means the variance-covariance matrix is computed on the observed scale. (boolan)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mask</code></td>
+<td>
+<p>Masking filter for removing predictions that don't exist in the population (e.g. female predictions for males for a sex - based bivariate model). Should the same dimensions as <code>predict</code> and values should be <code>FALSE</code> when the predictions should be filtered out.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>This function needs the multivariate latent population mean (<code>mu</code>) or the marginal predicted values (<code>predict</code>) and the total latent variance-covariance matrix (<code>vcov</code>) to compute the phenotypic variance-covariance matrix on the observed scale (or on the expected scale if <code>exp.scale</code> is <code>TRUE</code>).
+</p>
+<p>To do so, it also requires the inverse functions of the link functions (<code>link.inv</code>) and the distribution variance functions (<code>var.func</code>). For an analysis with d traits, the function given to these arguments should use a vector of length d and yield a vector of length d (see Example below).
+</p>
+
+
+<h3>Value</h3>
+
+<p>This function yields the phenotypic variance-covariance on the observed or expected scale. (numeric)</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Pierre de Villemereuil &amp; Michael B. Morrissey
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>QGvar.exp</code>, <code>QGvar.dist</code>, <code>QGmvparams</code>, <code>QGlink.funcs</code>, <code>QGmvpsi</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Example using a bivariate model (Binary trait/Gaussian trait)
+# Parameters
+mu &lt;- c(0, 1)
+P &lt;- diag(c(1, 4))
+
+# Note: no phenotypic, nor genetic correlations, hence should be equal to univariate case!
+
+# Setting up the link functions
+# Note that since the use of "cubature" to compute the integrals,
+# the functions must use a matrix as input and yield a matrix as output,
+# each row corresponding to a trait
+inv.links &lt;- function(mat) {matrix(c(pnorm(mat[1, ]), mat[2, ]), nrow = 2, byrow = TRUE)}
+
+# Setting up the distribution variance functions
+var.funcs &lt;- function(mat) {matrix(c(pnorm(mat[1, ]) * (1 - pnorm(mat[1, ])), 0 * mat[2, ]),
+                                   nrow = 2, 
+                                   byrow = TRUE)}
+# The first row is p * (1 - p) (variance of a binomial)
+# The second row is 0 because no extra distribution is assumed for a Gaussian trait
+
+# Computing the multivariate mean on observed scale
+# Phenotypic VCV matrix on observed scale
+QGvcov(mu = mu, vcov = P, link.inv = inv.links, var.func = var.funcs) 
+# Phenotypic VCV matrix on the expected scale
+QGvcov(mu = mu, vcov = P, link.inv = inv.links, var.func = var.funcs, exp.scale = TRUE) 
+
+QGvar.exp(mu = 0, var = 1, link.inv = pnorm) # Same variance on the expected scale
+QGvar.exp(mu = 0, var = 1, link.inv = pnorm) +
+    QGvar.dist(mu = 0, var = 1, var.func = function(x){pnorm(x) * (1 - pnorm(x))})
+# Same variance on the observed scale
+# Reminder: the results are the same here because we have no correlation between the two traits
+</code></pre>
+
+
+</div>

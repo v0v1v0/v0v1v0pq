@@ -1,0 +1,93 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>n</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Number of PGS Catalog entities</h2>
+
+<h3>Description</h3>
+
+<p>This function returns the number of entities in a PGS Catalog object. To
+avoid ambiguity with <code>dplyr::n()</code> use <code>quincunx::n()</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">n(x, unique = FALSE)
+
+## S4 method for signature 'scores'
+n(x, unique = FALSE)
+
+## S4 method for signature 'publications'
+n(x, unique = FALSE)
+
+## S4 method for signature 'traits'
+n(x, unique = FALSE)
+
+## S4 method for signature 'performance_metrics'
+n(x, unique = FALSE)
+
+## S4 method for signature 'sample_sets'
+n(x, unique = FALSE)
+
+## S4 method for signature 'cohorts'
+n(x, unique = FALSE)
+
+## S4 method for signature 'trait_categories'
+n(x, unique = FALSE)
+
+## S4 method for signature 'releases'
+n(x, unique = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>A scores, publications,
+traits, performance_metrics,
+sample_sets, cohorts,
+trait_categories or releases object.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>unique</code></td>
+<td>
+<p>Whether to count only unique entries (<code>TRUE</code>) or not
+(<code>FALSE</code>).</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>An integer scalar.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+# Return the number of polygenic scores in a scores object:
+my_scores &lt;- get_scores(pgs_id = c('PGS000007', 'PGS000007', 'PGS000042'))
+n(my_scores)
+
+# If you want to count unique scores only, then use the `unique` parameter:
+n(my_scores, unique = TRUE)
+
+# Total number of curated publications in the PGS Catalog:
+all_pub &lt;- get_publications(interactive = FALSE, progress_bar = FALSE)
+n(all_pub)
+
+# Total number of curated traits in the PGS Catalog:
+all_traits &lt;- get_traits(interactive = FALSE, progress_bar = FALSE)
+n(all_traits)
+
+</code></pre>
+
+
+</div>

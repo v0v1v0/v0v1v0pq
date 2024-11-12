@@ -1,0 +1,129 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>mqcs.mewma</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Function to plot mewma chart</h2>
+
+<h3>Description</h3>
+
+<p>This function is used to compute statistics required by the mewma chart.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">mqcs.mewma(x, ...)
+
+## Default S3 method:
+mqcs.mewma(
+  x,
+  data.name = NULL,
+  limits = NULL,
+  Xmv = NULL,
+  S = NULL,
+  method = "sw",
+  plot = FALSE,
+  ...
+)
+
+## S3 method for class 'mqcd'
+mqcs.mewma(
+  x,
+  limits = NULL,
+  Xmv = NULL,
+  S = NULL,
+  lambda = 0.1,
+  method = "sw",
+  plot = FALSE,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>an R object (used to select the method). See details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>arguments passed to or from methods.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data.name</code></td>
+<td>
+<p>a string that specifies the title displayed on the plots. 
+If not provided it is taken from the name of the object's data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>limits</code></td>
+<td>
+<p>a two-values vector specifying the control limits.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Xmv</code></td>
+<td>
+<p>is the mean vector. It is only specified for Phase II or when the parameters of the distribution are known.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>S</code></td>
+<td>
+<p>is the sample covariance matrix. It is only used for Phase II or when the parameters of the distribution are known.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+<p>is the method employed to compute the covatiance matrix
+in the individual observation case. Two methods are used "sw" 
+for compute according to (Sullivan,Woodall 1996a) and "hm" 
+by (Holmes,Mergen 1993)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>plot</code></td>
+<td>
+<p>a logical value indicating that it should be plotted.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lambda</code></td>
+<td>
+<p>is the smoothing constant. Only values of 0.1, 0.2,...,0.9 are allowed.</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Edgar Santos-Fernandez
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+##
+##  Continuous data 
+##
+library(qcr)
+data(dowel1)
+str(dowel1)
+data.mqcd &lt;- mqcd(dowel1)
+res.mqcs &lt;- mqcs.mewma(data.mqcd)
+summary(res.mqcs)
+plot(res.mqcs, title =" MEWMA Control Chart for dowel1")
+</code></pre>
+
+
+</div>

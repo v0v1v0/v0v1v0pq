@@ -1,0 +1,88 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>request</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Request a resource from the PGS REST API</h2>
+
+<h3>Description</h3>
+
+<p>Performs a <code>GET</code> request on the endpoint as specified by
+<code>resource_url</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">request(
+  resource_url,
+  base_url = pgs_server(),
+  user_agent = user_agent_id(),
+  verbose = FALSE,
+  warnings = TRUE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>resource_url</code></td>
+<td>
+<p>Endpoint URL. The endpoint is internally appended to the
+<code>base_url</code>. It should start with a forward slash (<code>'/'</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>base_url</code></td>
+<td>
+<p>The PGS REST API base URL.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>user_agent</code></td>
+<td>
+<p>User agent.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p>Whether to be verbose.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>warnings</code></td>
+<td>
+<p>Whether to print warnings.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A named list of four elements:
+</p>
+
+<dl>
+<dt>resource</dt>
+<dd>
+<p>The URL endpoint.</p>
+</dd>
+<dt>code</dt>
+<dd>
+<p><a href="https://tinyurl.com/8yqvhwf">HTTP
+status code</a>.</p>
+</dd>
+<dt>message</dt>
+<dd>
+<p>A string describing the status of the response obtained:
+<code>'OK'</code> if successful or a description of the error.</p>
+</dd>
+<dt>json</dt>
+<dd>
+<p>JSON response as string.</p>
+</dd>
+</dl>
+</div>

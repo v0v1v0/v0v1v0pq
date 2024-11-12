@@ -1,0 +1,267 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>list2df</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>List/Matrix/Vector to Dataframe/List/Matrix</h2>
+
+<h3>Description</h3>
+
+<p><code>list2df</code> - Convert a named list of vectors to a dataframe.
+</p>
+<p><code>matrix2df</code> - Convert a matrix to a dataframe and convert the rownames 
+to the first column.
+</p>
+<p><code>vect2df</code> - Convert a named vector to a dataframe.
+</p>
+<p><code>list_df2df</code> - Convert a list of equal numbered/named columns to a 
+dataframe using the list names as the level two variable.
+</p>
+<p><code>list_vect2df</code> - Convert a list of named vectors to a hierarchical
+dataframe.
+</p>
+<p><code>counts2list</code> - Convert a count matrix to a named list of elements.
+</p>
+<p><code>vect2list</code> - Convert a vector to a named list.
+</p>
+<p><code>df2matrix</code> - Convert a dataframe to a <code>matrix</code> and simultaneously 
+move a column (default is the first column) to the rownames of a 
+<code>matrix</code>.
+</p>
+<p><code>matrix2long</code> - Convert a matrix to a long format dataframe where column 
+names become column 1, row names, column 2 and the values become column 3.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">list2df(list.object, col1 = "X1", col2 = "X2")
+
+matrix2df(matrix.object, col1 = "var1")
+
+vect2df(vector.object, col1 = "X1", col2 = "X2", order = TRUE, rev = FALSE)
+
+list_df2df(list.df.object, col1 = "X1")
+
+list_vect2df(
+  list.vector.object,
+  col1 = "X1",
+  col2 = "X2",
+  col3 = "X3",
+  order = TRUE,
+  ...
+)
+
+counts2list(mat, nm = rownames(mat))
+
+vect2list(vector.object, use.names = TRUE, numbered.names = FALSE)
+
+df2matrix(data.frame.object, i = 1)
+
+matrix2long(matrix.object, col1 = "cols", col2 = "rows", col3 = "vals")
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>list.object</code></td>
+<td>
+<p>A named <code>list</code> of vectors..</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>col1</code></td>
+<td>
+<p>Name for column 1 (the vector elements if converting a list or 
+the rownames if converting a matrix).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>col2</code></td>
+<td>
+<p>Name for column 2 (the names of the vectors).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>matrix.object</code></td>
+<td>
+<p>A matrix or simple_triplet_matrix object.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vector.object</code></td>
+<td>
+<p>A vector object.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>order</code></td>
+<td>
+<p>logical.  If <code>TRUE</code> the dataframe will be ordered.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rev</code></td>
+<td>
+<p>logical. If <code>TRUE</code> and <code>order = TRUE</code> the dataframe will 
+be ordered in descending order.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>list.df.object</code></td>
+<td>
+<p>A list of dataframes with equal number/named of columns.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>list.vector.object</code></td>
+<td>
+<p>A list of dataframes with equal number/named of 
+columns.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>col3</code></td>
+<td>
+<p>The name of the third column (<code>list_vect2df</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Further arguments passed to <code>vect2df</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mat</code></td>
+<td>
+<p>A matrix of counts.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nm</code></td>
+<td>
+<p>A character vector of names to assign to the list.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>use.names</code></td>
+<td>
+<p>logical.  If <code>TRUE</code> and the vector is named, these 
+names will be transferred to the list names.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>numbered.names</code></td>
+<td>
+<p>logical.  If <code>TRUE</code> padded numbers will be used
+as list names.  If <code>FALSE</code> the vector elements themselves will become
+the list names.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data.frame.object</code></td>
+<td>
+<p>A <code>data.frame</code> object.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>i</code></td>
+<td>
+<p>The column number or name to become the rownames of the 
+<code>matrix</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p><code>list2df</code> - Returns a dataframe with two columns.
+</p>
+<p><code>matrix2df</code> - Returns a dataframe.
+</p>
+<p><code>vect2df</code> - Returns a dataframe.
+</p>
+<p><code>list_df2df</code> - Returns a dataframe.
+</p>
+<p><code>list_vect2df</code> - Returns a dataframe.
+</p>
+<p><code>counts2list</code> - Returns a list of elements.
+</p>
+<p><code>vect2list</code> - Returns a list of named elements.
+</p>
+<p><code>df2matrix</code> - Returns a matrix.
+</p>
+<p><code>matrix2long</code> - Returns a long format dataframe.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>mtabulate</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">lst1 &lt;- list(x=c("foo", "bar"), y=1:5)
+list2df(lst1)
+
+lst2 &lt;- list(a=c("hello", "everybody"), b = mtcars[1:6, 1])
+list2df(lst2, "col 1", "col 2")
+
+matrix2df(mtcars)
+matrix2df(cor(mtcars))
+matrix2df(matrix(1:9, ncol=3))
+
+vect2df(1:10)
+vect2df(c(table(mtcars[, "gear"])))
+
+list_df2df(list(mtcars, mtcars))
+
+L1 &lt;- list(a=1:10, b=1:6, c=5:8)
+list_vect2df(L1)
+
+L2 &lt;- list(
+  months=setNames(1:12, month.abb),
+  numbers=1:6, 
+  states=setNames(factor(state.name[1:4]), state.abb[1:4])
+)
+
+list_vect2df(L2)
+
+set.seed(10)
+cnts &lt;- data.frame(month=month.name,
+    matrix(sample(0:2, 36, TRUE), ncol=3))
+
+counts2list(cnts[, -1], cnts[, 1])
+df2matrix(cnts)
+counts2list(df2matrix(cnts))
+counts2list(t(df2matrix(cnts)))
+
+mat &lt;- matrix(1:9, ncol=3)
+matrix2long(mat)
+matrix2long(mtcars)
+
+## Not run: 
+library(qdap)
+term &lt;- c("the ", "she", " wh")
+(out &lt;- with(raj.act.1,  termco(dialogue, person, term)))
+x &lt;- counts(out)
+
+counts2list(x[, -c(1:2)], x[, 1])
+
+## End(Not run)
+
+vect2list(LETTERS[1:10])
+vect2list(LETTERS[1:10], numbered.names = TRUE)
+x &lt;- setNames(LETTERS[1:4], paste0("Element_", 1:4))
+vect2list(x)
+vect2list(x, FALSE)
+vect2list(x, FALSE, TRUE)
+</code></pre>
+
+
+</div>

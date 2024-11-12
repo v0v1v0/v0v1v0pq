@@ -1,0 +1,99 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qiita_user</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Qiita User API</h2>
+
+<h3>Description</h3>
+
+<p>Get, follow or unfollow users via Qiita API.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qiita_get_stockers(item_id, per_page = 100L, page_offset = 0L, page_limit = 1L)
+
+qiita_get_users(user_id)
+
+qiita_get_followees(
+  user_id,
+  per_page = 100L,
+  page_offset = 0L,
+  page_limit = 1L
+)
+
+qiita_get_followers(
+  user_id,
+  per_page = 100L,
+  page_offset = 0L,
+  page_limit = 1L
+)
+
+qiita_follow_user(user_id)
+
+qiita_unfollow_user(user_id)
+
+qiita_is_following_user(user_id)
+
+qiita_get_authenticated_user()
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>item_id</code></td>
+<td>
+<p>Item (article) ID.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>per_page</code></td>
+<td>
+<p>Number of items per one page.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>page_offset</code></td>
+<td>
+<p>Number of offset pages.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>page_limit</code></td>
+<td>
+<p>Max number of pages to retrieve.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>user_id</code></td>
+<td>
+<p>User ID (e.g. <code>"yutannihilation"</code>).</p>
+</td>
+</tr>
+</table>
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+# get a user by id
+qiita_get_users("yutannihilation")
+
+# follow a user
+qiita_follow_user("user1")
+
+# unfollow a user
+qiita_unfollow_user("user1")
+
+# get the current user
+qiita_get_authenticated_user()
+
+## End(Not run)
+
+</code></pre>
+
+
+</div>

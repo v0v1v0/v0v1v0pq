@@ -1,0 +1,56 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>coordinates</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Extract coordinates from a variety of spatial objects</h2>
+
+<h3>Description</h3>
+
+<p>This will extract using <code>terra::crds</code>, <code>sf::st_coordinates</code> and
+<code>raster::coordinates</code>. Other packages can create methods, as this is
+generic.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S4 method for signature 'ANY'
+coordinates(obj, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>obj</code></td>
+<td>
+<p>An object from which to extract the coordinates (e.g., <code>sf</code>, <code>sp</code>)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Ignored.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A 2 column matrix of coordinates (x and y)
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(terra)
+caribou &lt;- terra::vect(x = cbind(x = stats::runif(1e1, -50, 50),
+                                        y = stats::runif(1e1, -50, 50)))
+coordinates(caribou)
+
+</code></pre>
+
+
+</div>

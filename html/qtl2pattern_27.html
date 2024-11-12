@@ -1,0 +1,81 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>sdp_to_pattern</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Convert sdp to pattern</h2>
+
+<h3>Description</h3>
+
+<p>Convert strain distribution pattern (sdp) to letter pattern.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">sdp_to_pattern(sdp, haplos, symmetric = TRUE)
+
+sdp_to_logical(sdp, haplos, symmetric = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>sdp</code></td>
+<td>
+<p>vector of sdp values</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>haplos</code></td>
+<td>
+<p>letter codes for haplotypes (required)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>symmetric</code></td>
+<td>
+<p>make patterns symmetric if <code>TRUE</code></p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>vector of letter patterns
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Brian S Yandell, <a href="mailto:brian.yandell@wisc.edu">brian.yandell@wisc.edu</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">dirpath &lt;- "https://raw.githubusercontent.com/rqtl/qtl2data/master/DOex"
+
+
+# Download SNP info for DOex from web and read as RDS.
+tmpfile &lt;- tempfile()
+download.file(file.path(dirpath, "c2_snpinfo.rds"), tmpfile, quiet=TRUE)
+snpinfo &lt;- readRDS(tmpfile)
+unlink(tmpfile)
+snpinfo &lt;- dplyr::rename(snpinfo, pos = pos_Mbp)
+
+# Extract strain distribution pattern.
+sdp &lt;- snpinfo$sdp
+# Find out how many alleles.
+nallele &lt;- ceiling(log2(max(sdp)))
+out &lt;- sdp_to_pattern(sdp, LETTERS[seq_len(nallele)])
+# Show most frequent patterns. 
+head(rev(sort(c(table(out)))))
+
+
+</code></pre>
+
+
+</div>

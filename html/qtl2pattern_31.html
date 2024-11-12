@@ -1,0 +1,170 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>gene_exon</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Get exons for set of genes</h2>
+
+<h3>Description</h3>
+
+<p>Match up exon start,stop,strand with genes. Use <code>query_genes</code> to find features; see <code>create_gene_query_func</code>.
+</p>
+<p>Returns table of gene and its exons.
+</p>
+<p>Uses <code>gene_exon</code> to plot genes, exons, mRNA with SNPs.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">gene_exon(
+  top_snps_tbl,
+  feature_tbl = query_genes(chr_id, range_Mbp[1], range_Mbp[2])
+)
+
+## S3 method for class 'gene_exon'
+summary(object, gene_name = NULL, top_snps_tbl = NULL, extra = 0.005, ...)
+
+## S3 method for class 'gene_exon'
+subset(x, gene_val, ...)
+
+ggplot_gene_exon(
+  object,
+  top_snps_tbl = NULL,
+  plot_now = TRUE,
+  genes = unique(object$gene),
+  ...
+)
+
+## S3 method for class 'gene_exon'
+autoplot(object, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>top_snps_tbl</code></td>
+<td>
+<p>table from <code>top_snps</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>feature_tbl</code></td>
+<td>
+<p>table of features from <code>query_genes</code>; see <code>create_gene_query_func</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>Object of class <code>gene_exon</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gene_name</code></td>
+<td>
+<p>name of gene as character string</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>extra</code></td>
+<td>
+<p>extra region beyond gene for SNPs (in Mbp)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>arguments passed along to <code>gene_exon</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>Object of class <code>gene_exon</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gene_val</code></td>
+<td>
+<p>Name of gene from object <code>x</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>plot_now</code></td>
+<td>
+<p>plot now if TRUE</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>genes</code></td>
+<td>
+<p>Names of genes in <code>object</code></p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>tbl of exon and gene features
+</p>
+<p>tbl of summary
+</p>
+<p>list of ggplots (see <code>gene_exon</code>)
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Brian S Yandell, <a href="mailto:brian.yandell@wisc.edu">brian.yandell@wisc.edu</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">dirpath &lt;- "https://raw.githubusercontent.com/rqtl/qtl2data/master/DOex"
+
+# Read DOex example cross from 'qtl2data'
+DOex &lt;- subset(qtl2::read_cross2(file.path(dirpath, "DOex.zip")), chr = "2")
+
+
+# Download genotype probabilities
+tmpfile &lt;- tempfile()
+download.file(file.path(dirpath, "DOex_genoprobs_2.rds"), tmpfile, quiet=TRUE)
+pr &lt;- readRDS(tmpfile)
+unlink(tmpfile)
+
+# Download SNP info for DOex from web and read as RDS.
+tmpfile &lt;- tempfile()
+download.file(file.path(dirpath, "c2_snpinfo.rds"), tmpfile, quiet=TRUE)
+snpinfo &lt;- readRDS(tmpfile)
+unlink(tmpfile)
+snpinfo &lt;- dplyr::rename(snpinfo, pos = pos_Mbp)
+
+# Convert to SNP probabilities
+snpinfo &lt;- qtl2::index_snps(DOex$pmap, snpinfo)
+snppr &lt;- qtl2::genoprob_to_snpprob(pr, snpinfo)
+
+# Scan SNPs.
+scan_snppr &lt;- qtl2::scan1(snppr, DOex$pheno)
+
+# Collect top SNPs
+top_snps_tbl &lt;- top_snps_pattern(scan_snppr, snpinfo)
+
+# Download Gene info for DOex from web via RDS
+tmpfile &lt;- tempfile()
+download.file(file.path(dirpath, "c2_genes.rds"), tmpfile, quiet=TRUE)
+gene_tbl &lt;- readRDS(tmpfile)
+unlink(tmpfile)
+
+# Get Gene exon information.
+out &lt;- gene_exon(top_snps_tbl, gene_tbl)
+summary(out, gene = out$gene[1])
+
+
+</code></pre>
+
+
+</div>

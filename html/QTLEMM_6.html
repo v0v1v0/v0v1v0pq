@@ -1,0 +1,87 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>EQF.plot</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>EQF plot</h2>
+
+<h3>Description</h3>
+
+<p>Generate an EQF plot based on the result of the permutation process
+used to detect the QTL hotspot.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">EQF.plot(result, plot.all = TRUE, plot.chr = TRUE, plot.main = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>result</code></td>
+<td>
+<p>list. The data list of the output from LOD.QTLdetect(),
+EQF.permu(), or Qhot.EQF().</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>plot.all</code></td>
+<td>
+<p>logical. When set to TRUE, it directs the function to
+output one figure of the EQF values over the bins.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>plot.chr</code></td>
+<td>
+<p>logical. When set to TRUE, it instructs the function to
+output the figures of the EQF values over the bins for each chromosome.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>plot.main</code></td>
+<td>
+<p>logical of character. When set to TRUE, it will use the
+default title on the plot. When set to FALSE, it will be no title on the
+plot. Users can also use this argument to set their own title.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>One or several EQF plots.
+</p>
+
+
+<h3>References</h3>
+
+<p>Wu, P.-Y., M.-.H. Yang, and C.-H. KAO 2021 A Statistical Framework
+for QTL Hotspot Detection. G3: Genes, Genomes, Genetics: jkab056. &lt;doi: 10.1093/g3journal/jkab056&gt;
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>LOD.QTLdetect</code>
+<code>EQF.permu</code>
+<code>Qhot.EQF</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># load the example data
+load(system.file("extdata", "LODexample.RDATA", package = "QTLEMM"))
+
+# run and result
+EQF.plot(LOD.QTLdetect.result)
+EQF.plot(EQF.permu.result)
+</code></pre>
+
+
+</div>

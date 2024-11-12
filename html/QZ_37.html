@@ -1,0 +1,199 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qz.zggev</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Generalized Eigenvalues Decomposition for Complex Paired Matrices</h2>
+
+<h3>Description</h3>
+
+<p>This function call 'zggev' in Fortran to decompose 'complex' matrices (A,B).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">  qz.zggev(A, B, vl = TRUE, vr = TRUE, LWORK = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>A</code></td>
+<td>
+<p>a 'complex' matrix, dim = c(N, N).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>B</code></td>
+<td>
+<p>a 'complex' matrix, dim = c(N, N).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vl</code></td>
+<td>
+<p>if compute left 'complex' eigen vectors. (U)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vr</code></td>
+<td>
+<p>if compute right 'complex' eigen vectors. (V)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>LWORK</code></td>
+<td>
+<p>optional, dimension of array WORK for workspace. (&gt;= 2N)</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>See 'zggev.f' for all details.
+</p>
+<p>ZGGEV computes for a pair of N-by-N complex non-symmetric matrices
+(A,B), the generalized eigenvalues, and optionally, the left and/or
+right generalized eigenvectors.
+</p>
+<p>A generalized eigenvalue for a pair of matrices (A,B) is a scalar
+lambda or a ratio alpha/beta = lambda, such that A - lambda*B is
+singular. It is usually represented as the pair (alpha,beta), as
+there is a reasonable interpretation for beta=0, and even for both
+being zero.
+</p>
+<p>The right generalized eigenvector v(j) corresponding to the
+generalized eigenvalue lambda(j) of (A,B) satisfies
+</p>
+<p>A * v(j) = lambda(j) * B * v(j).
+</p>
+<p>The left generalized eigenvector u(j) corresponding to the
+generalized eigenvalues lambda(j) of (A,B) satisfies
+</p>
+<p>u(j)**H * A = lambda(j) * u(j)**H * B
+</p>
+<p>where u(j)**H is the conjugate-transpose of u(j).
+</p>
+
+
+<h3>Value</h3>
+
+<p>Return a list contains next:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>'ALPHA'</code></td>
+<td>
+<p>original returns from 'zggev.f'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>'BETA'</code></td>
+<td>
+<p>original returns from 'zggev.f'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>'VL'</code></td>
+<td>
+<p>original returns from 'zggev.f'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>'VR'</code></td>
+<td>
+<p>original returns from 'zggev.f'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>'WORK'</code></td>
+<td>
+<p>optimal LWORK (for zggev.f only)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>'INFO'</code></td>
+<td>
+<p>= 0: successful. &lt; 0: if INFO = -i, the i-th argument had
+an illegal value. =1,...,N: QZ iteration failed.
+=N+1: other than QZ iteration failed in ZHGEQZ.
+=N+2: reordering problem.
+=N+3: reordering failed.</p>
+</td>
+</tr>
+</table>
+<p>Extra returns in the list:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>'U'</code></td>
+<td>
+<p>the left eigen vectors.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>'V'</code></td>
+<td>
+<p>the right eigen vectors.</p>
+</td>
+</tr>
+</table>
+<p>Note that 'VL' and 'VR' are scaled so the largest component has
+abs(real part) + abs(imag. part) = 1.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Wei-Chen Chen <a href="mailto:wccsnow@gmail.com">wccsnow@gmail.com</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Anderson, E., et al. (1999) <em>LAPACK User's Guide,</em>
+3rd edition, SIAM, Philadelphia.
+</p>
+<p><a href="https://www.netlib.org/lapack/complex16/zggev.f">https://www.netlib.org/lapack/complex16/zggev.f</a>
+</p>
+<p><a href="https://en.wikipedia.org/wiki/Schur_decomposition">https://en.wikipedia.org/wiki/Schur_decomposition</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>qz.zgges</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+library(QZ, quiet = TRUE)
+
+### https://www.nag.com/lapack-ex/node122.html
+A &lt;- exAB1$A
+B &lt;- exAB1$B
+ret &lt;- qz.zggev(A, B)
+
+# Verify 1
+(lambda &lt;- ret$ALPHA / ret$BETA)    # Unstable
+diff.R &lt;- matrix(ret$BETA, 4, 4, byrow = TRUE) * A %*% ret$V -
+          matrix(ret$ALPHA, 4, 4, byrow = TRUE) * B %*% ret$V
+diff.L &lt;- matrix(ret$BETA, 4, 4) * H(ret$U) %*% A -
+          matrix(ret$ALPHA, 4, 4) * H(ret$U) %*% B
+round(diff.R)
+round(diff.L)
+
+# Verify 2
+round(ret$U %*% solve(ret$U))
+round(ret$V %*% solve(ret$V))
+
+</code></pre>
+
+
+</div>

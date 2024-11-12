@@ -1,0 +1,70 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>densities</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Density plots</h2>
+
+<h3>Description</h3>
+
+<p>Create desnsity plots for all quantitative variables in a data frame.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">densities(data, fill = "deepskyblue2", adjust = 1)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>data frame</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fill</code></td>
+<td>
+<p>fill color for density plots</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>adjust</code></td>
+<td>
+<p>a factor multiplied by the smoothing bandwidth. See details.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The <code>densities</code> function will only plot quantitative variables from
+a data frame. Categorical variables are ignored.
+</p>
+<p>The <code>adjust</code> parameter mulitplies the smoothing parameter. For example
+<code>adjust = 2</code> will make the density plots twice as smooth.
+The <code>adjust = 1/2</code> will make the density plots half as smooth (i.e., twice as spiky).
+</p>
+
+
+<h3>Value</h3>
+
+<p>a ggplot graph
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">densities(cars74)
+
+densities(cars74, adjust=2)
+
+densities(cars74, adjust=1/2)
+</code></pre>
+
+
+</div>

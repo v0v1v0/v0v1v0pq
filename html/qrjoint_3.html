@@ -1,0 +1,122 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>coef.qrjoint</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Regression Coefficient Extraction from qrjoint Model Fit</h2>
+
+<h3>Description</h3>
+
+<p>Post process MCMC output from <code>qrjoint</code> to create summaries of intercept and slope function estimates</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R"> 
+## S3 method for class 'qrjoint'
+coef(object, burn.perc = 0.5, nmc = 200, plot = FALSE, show.intercept = TRUE, 
+        reduce = TRUE, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>a fitted model of the class <code>qrjoint</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>burn.perc</code></td>
+<td>
+<p>a positive fraction indicating what fraction of the saved draws are to be discarded as burn-in</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nmc</code></td>
+<td>
+<p>integer giving the number of samples, post burn-in, to be used in Monte Carlo averaging</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>plot</code></td>
+<td>
+<p>logical indicating if plots are to be made</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>show.intercept</code></td>
+<td>
+<p>whether to plot the intercept curve when <code>plot = TRUE</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>reduce</code></td>
+<td>
+<p>logical indicating if the tail-expanded grid of tau values is to be reduced to the regular increment grid</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>limited plotting parameters that are passed onto the call of <code>getBands</code></p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Extracts posterior draws of intercept and slope functions from saved draws of model parameters. A plot may be obtained if <code>plot = TRUE</code>. A list is returned invisibly with three fields.
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>beta.samp</code></td>
+<td>
+<p>a three-dimensional array of posterior samples of <code class="reqn">\beta_j</code>. Its dimensions are <code>L</code> (length of tau.grid)  x <code>p+1</code> (intercept + slopes) x <code>nmc</code> (retained posterior draws).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>beta.est</code></td>
+<td>
+<p>a three-dimensional array containing posterior summaries (2.5th,  50th, and 97.5th percentiles) of <code class="reqn">\beta_j</code>. Its dimensions are <code>L</code> (length of tau.grid)  x <code>p+1</code> (intercept + slopes) x 3 (posterior summaries).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>parametric</code></td>
+<td>
+<p>a matrix with 3 columns giving the estimate (posterior median) and the lower and upper end points of the 95% posterior credible interval for <code class="reqn">\gamma_0</code>, <code class="reqn">\gamma</code>, <code class="reqn">\sigma</code>, and, <code class="reqn">\nu</code>.</p>
+</td>
+</tr>
+</table>
+<h3>See Also</h3>
+
+<p><code>qrjoint</code> and <code>summary.qrjoint</code> for model fitting under qrjoint. Also see <code>getBands</code> for plotting credible bands for coefficients.</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"> 
+## Plasma data analysis
+
+# recoding variables
+data(plasma)
+plasma$Sex &lt;- as.factor(plasma$Sex)
+plasma$SmokStat &lt;- as.factor(plasma$SmokStat)
+plasma$VitUse &lt;- 3 - plasma$VitUse
+plasma$VitUse &lt;- as.factor(plasma$VitUse)
+
+# model fitting with 50 posterior samples from 100 iterations (thin = 2)
+fit.qrj &lt;- qrjoint(BetaPlasma ~ Age + Sex + SmokStat + Quetelet + VitUse + Calories + 
+        Fat + Fiber + Alcohol + Cholesterol + BetaDiet, plasma, nsamp = 40, thin = 2)
+
+## Not run: 
+betas &lt;- coef(fit.qrj) ## no plots
+betas &lt;- coef(fit.qrj, plot = TRUE) ## estimates are plotted
+
+## End(Not run)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,157 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>bernweibull</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+The Bernoulli-Weibull distribution
+</h2>
+
+<h3>Description</h3>
+
+<p>Density, distribution function, quantile function and random
+generation for the Bernoulli-Weibull distribution with parameters
+<code>prob</code>, <code>shape</code>,  and <code>scale</code>. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">dbernweibull(x, prob, scale, shape)
+pbernweibull(q, prob, scale, shape)
+qbernweibull(p, prob, scale, shape)
+rbernweibull(n, prob, scale, shape)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x,q</code></td>
+<td>
+
+<p>vector of quantiles.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p</code></td>
+<td>
+
+<p>vector of probabilities.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>prob</code></td>
+<td>
+
+<p>probability of non-zero event.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+
+<p>number of random samples.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>scale,shape</code></td>
+<td>
+
+<p>shape and scale parameters of the weibull distribution.
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Mixture of Bernoulli and Weibull distribution. The mixture is analogue
+to the one described for the <code>berngamma</code> distribution. 
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>dbernweibull</code> gives the density (pdf), <code>pbernweibull</code> gives
+the distribution function (cdf), <code>qbernweibull</code> gives the
+quantile function (inverse cdf), and <code>rbernweibull</code> generates
+random deviates.  
+</p>
+
+
+<h3>Note</h3>
+
+<p>The implementation is largely based on the <code>bweibull</code> family in
+the <code>CaDENCE</code>-package (Cannon, 2012) that was only available as
+test version at time of implementation (Mar. 2012). The
+<code>CaDENCE</code>-package is available at
+<a href="http://www.eos.ubc.ca/~acannon/CaDENCE/">http://www.eos.ubc.ca/~acannon/CaDENCE/</a>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Lukas Gudmundsson
+</p>
+
+
+<h3>References</h3>
+
+<p>Cannon, A. J. Neural networks for probabilistic environmental
+prediction: Conditional Density Estimation Network Creation and
+Evaluation (CaDENCE) in R. Computers &amp; Geosciences, 2012, 41, 126 -
+135, doi:10.1016/j.cageo.2011.08.023.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>Weibull</code>, <code>berngamma</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(obsprecip)
+
+(ts &lt;- startbernweibull(obsprecip[,1]))
+hist(obsprecip[,1],freq=FALSE) 
+lines(seq(0,max(obsprecip[,1])),
+      dbernweibull(seq(0,max(obsprecip[,1])),
+                   prob=ts$prob,
+                   shape=ts$shape,
+                   scale=ts$scale),
+      col="red")
+
+pp &lt;- seq(0.01,0.99,by=0.01)
+qq &lt;-quantile(obsprecip[,1],probs=pp) 
+
+plot(qq,pp)
+lines(qbernweibull(pp,
+                   prob=ts$prob,
+                   scale=ts$scale,
+                   shape=ts$shape),
+      pp,col="red")
+
+plot(qq,pp)
+lines(qq,
+      pbernweibull(qq,
+                   prob=ts$prob,
+                   scale=ts$scale,
+                   shape=ts$shape),
+      col="red")
+
+hist(rbernweibull(1000,prob=ts$prob,
+                      shape=ts$shape,
+                      scale=ts$scale),freq=TRUE)
+
+</code></pre>
+
+
+</div>

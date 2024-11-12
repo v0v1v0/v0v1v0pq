@@ -1,0 +1,701 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>VaR_ES_bounds_rearrange</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Worst and Best Value-at-Risk and Best Expected Shortfall
+for Given Marginals via Rearrangements</h2>
+
+<h3>Description</h3>
+
+<p>Compute the worst and best Value-at-Risk (VaR) and the best expected
+shortfall (ES) for given marginal distributions via rearrangements.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## Workhorses
+## Column rearrangements
+rearrange(X, tol = 0, tol.type = c("relative", "absolute"),
+          n.lookback = ncol(X), max.ra = Inf,
+          method = c("worst.VaR", "best.VaR", "best.ES"),
+	  sample = TRUE, is.sorted = FALSE, trace = FALSE, ...)
+## Block rearrangements
+block_rearrange(X, tol = 0, tol.type = c("absolute", "relative"),
+                n.lookback = ncol(X), max.ra = Inf,
+                method = c("worst.VaR", "best.VaR", "best.ES"),
+                sample = TRUE, trace = FALSE, ...)
+
+## User interfaces
+## Rearrangement Algorithm
+RA(level, qF, N, abstol = 0, n.lookback = length(qF), max.ra = Inf,
+   method = c("worst.VaR", "best.VaR", "best.ES"), sample = TRUE)
+## Adaptive Rearrangement Algorithm
+ARA(level, qF, N.exp = seq(8, 19, by = 1), reltol = c(0, 0.01),
+    n.lookback = length(qF), max.ra = 10*length(qF),
+    method = c("worst.VaR", "best.VaR", "best.ES"),
+    sample = TRUE)
+## Adaptive Block Rearrangement Algorithm
+ABRA(level, qF, N.exp = seq(8, 19, by = 1), absreltol = c(0, 0.01),
+     n.lookback = NULL, max.ra = Inf,
+     method = c("worst.VaR", "best.VaR", "best.ES"),
+     sample = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>X</code></td>
+<td>
+<p>(<code>N</code>, <code>d</code>)-matrix of quantiles (to be
+rearranged). If <code>is.sorted</code> it is assumed that the columns of
+<code>X</code> are sorted in <em>increasing</em> order.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tol</code></td>
+<td>
+<p>(absolute or relative) tolerance to determine (the
+individual) convergence.  This should normally be a number
+greater than or equal to 0, but <code>rearrange()</code> also allows
+for <code>tol = NULL</code> which means that columns are rearranged
+until each column is oppositely ordered to the sum of all other
+columns.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tol.type</code></td>
+<td>
+<p><code>character</code> string indicating the
+type of convergence tolerance function to be used (<code>"relative"</code>
+for relative tolerance and <code>"absolute"</code> for absolute tolerance).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n.lookback</code></td>
+<td>
+<p>number of rearrangements to look back for deciding
+about numerical convergence. Use this option with care.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>max.ra</code></td>
+<td>
+<p>maximal number of (considered) column rearrangements
+of the underlying matrix of quantiles (can be set to <code>Inf</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+<p><code>character</code> string indicating whether bounds
+for the worst/best VaR or the best ES should be computed.
+These bounds are termed <code class="reqn">\underline{s}_N</code> and <code class="reqn">\overline{s}_N</code>
+in the literature (and below) and are theoretically not guaranteed
+bounds of worst/best VaR or best ES;
+however, they are treated as such in practice and are typically in
+line with results from <code>VaR_bounds_hom()</code> in the homogeneous
+case, for example.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sample</code></td>
+<td>
+<p><code>logical</code> indicating whether each column of
+the two underlying matrices of quantiles (see Step 3 of the Rearrangement
+Algorithm in Embrechts et al. (2013))
+are randomly permuted before the rearrangements begin. This typically has
+quite a positive effect on run time (as most of the time is spent
+(oppositely) ordering columns (for <code>rearrange()</code>) or blocks
+(for <code>block_rearrange()</code>)).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>is.sorted</code></td>
+<td>
+<p><code>logical</code> indicating whether the columns of
+<code>X</code> are sorted in increasing order.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>trace</code></td>
+<td>
+<p><code>logical</code> indicating whether the underlying
+matrix is printed after each rearrangement step. See
+<code>vignette("VaR_bounds", package = "qrmtools")</code> for how to interpret
+the output.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>level</code></td>
+<td>
+<p>confidence level <code class="reqn">\alpha</code> for VaR and ES (e.g., 0.99).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qF</code></td>
+<td>
+<p><code>d</code>-list containing the marginal quantile functions.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>N</code></td>
+<td>
+<p>number of discretization points.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>abstol</code></td>
+<td>
+<p>absolute convergence tolerance <code class="reqn">\epsilon</code>
+to determine the individual convergence, i.e., the change in the computed
+minimal row sums (for <code>method = "worst.VaR"</code>) or maximal
+row sums (for <code>method = "best.VaR"</code>) or expected shortfalls (for
+<code>method = "best.ES"</code>) for the lower bound <code class="reqn">\underline{s}_N</code>
+and the upper bound <code class="reqn">\overline{s}_N</code>. <code>abstol</code> is typically
+<code class="reqn">\ge0</code>; it can also be <code>NULL</code>, see <code>tol</code>
+above.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>N.exp</code></td>
+<td>
+<p>exponents of the number of discretization points
+(a <code>vector</code>) over which the algorithm iterates to find
+the smallest number of discretization points for which the desired
+accuracy (specified by <code>abstol</code> and <code>reltol</code>) is attained;
+for each number of discretization points, at most <code>max.ra</code>-many
+column rearrangements are of the underlying matrix of quantiles
+are considered.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>reltol</code></td>
+<td>
+<p><code>vector</code> of length two containing the
+individual (first component; used to determine convergence of the
+minimal row sums (for <code>method = "worst.VaR"</code>) or maximal row
+sums (for <code>method = "best.VaR"</code>) or expected shortfalls (for
+<code>method = "best.ES"</code>) for <code class="reqn">\underline{s}_N</code> and
+<code class="reqn">\overline{s}_N</code>) and the joint (second component; relative
+tolerance between the computed <code class="reqn">\underline{s}_N</code> and
+<code class="reqn">\overline{s}_N</code> with respect to <code class="reqn">\overline{s}_N</code>) relative
+convergence tolerances. <code>reltol</code> can also be of length one
+in which case it denotes the joint relative tolerance; the
+individual relative tolerance is taken as <code>NULL</code>
+(see <code>tol</code> above) in this case.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>absreltol</code></td>
+<td>
+<p><code>vector</code> of length two containing the
+individual (first component; used to determine convergence of the
+minimal row sums (for <code>method = "worst.VaR"</code>) or maximal row
+sums (for <code>method = "best.VaR"</code>) or expected shortfalls (for
+<code>method = "best.ES"</code>) for <code class="reqn">\underline{s}_N</code> and
+<code class="reqn">\overline{s}_N</code>) absolute and the joint (second component; relative
+tolerance between the computed <code class="reqn">\underline{s}_N</code> and
+<code class="reqn">\overline{s}_N</code> with respect to <code class="reqn">\overline{s}_N</code>) relative
+convergence tolerances. <code>absreltol</code> can also be of length one
+in which case it denotes the joint relative tolerance; the
+individual absolute tolerance is taken as 0 in this case.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>additional arguments passed to the underlying
+optimization function. Currently, this is only used if
+<code>method = "best.ES"</code> in which case the required confidence
+level <code class="reqn">\alpha</code> must be provided as argument <code>level</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p><code>rearrange()</code> is an auxiliary
+function (workhorse). It is called by <code>RA()</code> and <code>ARA()</code>.
+After a column rearrangement of <code>X</code>, the tolerance between the
+minimal row sum (for the worst VaR) or maximal row sum (for the best
+VaR) or expected shortfall (obtained from the row sums; for the best
+ES) after this rearrangement and the one of <code class="reqn">n.lookback</code>
+rearrangement steps before is computed and convergence determined.
+For performance reasons, no input checking is done for
+<code>rearrange()</code> and it can change in future versions to (futher)
+improve run time. Overall it should only be used by experts.
+</p>
+<p><code>block_rearrange()</code>, the workhorse underlying <code>ABRA()</code>,
+is similar to <code>rearrange()</code> in that it
+checks whether convergence has occurred after every rearrangement by
+comparing the change to the row sum variance from <code>n.lookback</code>
+rearrangement steps back. <code>block_rearrange()</code> differs from
+<code>rearrange</code> in the following ways. First, instead of single columns,
+whole (randomly chosen) blocks (two at a time) are chosen and
+oppositely ordered. Since some of the ideas for improving the speed of
+<code>rearrange()</code> do not carry over to <code>block_rearrange()</code>, the
+latter should in general not be as fast as the former.
+Second, instead of using minimal or maximal row
+sums or expected shortfall to determine numerical convergence,
+<code>block_rearrange()</code> uses the variance of the vector of row sums
+to determine numerical convergence. By default, it targets a variance
+of 0 (which is also why the default <code>tol.type</code> is <code>"absolute"</code>).
+</p>
+<p>For the Rearrangement Algorithm <code>RA()</code>, convergence of
+<code class="reqn">\underline{s}_N</code> and <code class="reqn">\overline{s}_N</code> is determined if the
+minimal row sum (for the worst VaR) or maximal row sum (for the best
+VaR) or expected shortfall (obtained from the row sums; for the best ES)
+satisfies the specified <code>abstol</code> (so <code class="reqn">\le\epsilon</code>)
+after at most <code>max.ra</code>-many column rearrangements. This is different
+from Embrechts et al. (2013) who use <code class="reqn">&lt;\epsilon</code> and
+only check for convergence after an iteration through all
+columns of the underlying matrix of quantiles has been completed.
+</p>
+<p>For the Adaptive Rearrangement Algorithm <code>ARA()</code>
+and the Adaptive Block Rearrangement Algorithm <code>ABRA()</code>,
+convergence of <code class="reqn">\underline{s}_N</code> and <code class="reqn">\overline{s}_N</code>
+is determined if, after at most <code>max.ra</code>-many column
+rearrangements, the (the individual relative tolerance)
+<code>reltol[1]</code> is satisfied <em>and</em> the
+relative (joint) tolerance between both bounds is at most <code>reltol[2]</code>.
+</p>
+<p>Note that <code>RA()</code>, <code>ARA()</code> and <code>ABRA()</code> need to evalute the
+0-quantile (for the lower bound for the best VaR) and
+the 1-quantile (for the upper bound for the
+worst VaR). As the algorithms, due to performance reasons, can only
+handle finite values, the 0-quantile and the 1-quantile need to be
+adjusted if infinite. Instead of the 0-quantile,
+the <code class="reqn">\alpha/(2N)</code>-quantile is
+computed and instead of the 1-quantile the
+<code class="reqn">\alpha+(1-\alpha)(1-1/(2N))</code>-quantile
+is computed for such margins (if the 0-quantile or the 1-quantile is
+finite, no adjustment is made).
+</p>
+<p><code>rearrange()</code>, <code>block_rearrange()</code>, <code>RA()</code>, <code>ARA()</code>
+and <code>ABRA()</code> compute <code class="reqn">\underline{s}_N</code> and
+<code class="reqn">\overline{s}_N</code> which are, from a practical
+point of view, treated as bounds for the worst (i.e., largest) or the
+best (i.e., smallest) VaR or the best (i.e., smallest ES), but which are
+not known to be such bounds from a theoretical point of view; see also above.
+Calling them “bounds” for worst/best VaR or best ES is thus
+theoretically not correct (unless proven) but “practical”.
+The literature thus speaks of <code class="reqn">(\underline{s}_N, \overline{s}_N)</code> as
+the rearrangement gap.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>rearrange()</code> and <code>block_rearrange()</code> return a
+<code>list</code> containing
+</p>
+
+<dl>
+<dt>
+<code>bound</code>:</dt>
+<dd>
+<p>computed <code class="reqn">\underline{s}_N</code>
+or <code class="reqn">\overline{s}_N</code>.</p>
+</dd>
+<dt>
+<code>tol</code>:</dt>
+<dd>
+<p>reached tolerance (i.e., the (absolute or
+relative) change of the minimal row sum (for
+<code>method = "worst.VaR"</code>) or maximal row sum
+(for <code>method = "best.VaR"</code>) or expected shortfall (for
+<code>method = "best.ES"</code>) after the last rearrangement).</p>
+</dd>
+<dt>
+<code>converged</code>:</dt>
+<dd>
+<p><code>logical</code> indicating whether
+the desired (absolute or relative) tolerance <code>tol</code> has been
+reached.</p>
+</dd>
+<dt>
+<code>opt.row.sums</code>:</dt>
+<dd>
+<p><code>vector</code> containing the
+computed optima (minima for <code>method = "worst.VaR"</code>; maxima
+for <code>method = "best.VaR"</code>; expected shortfalls for
+<code>method = "best.ES"</code>) for the row sums after each (considered)
+rearrangement.</p>
+</dd>
+<dt>
+<code>X.rearranged</code>:</dt>
+<dd>
+<p>(<code>N</code>, <code>d</code>)-<code>matrix</code>
+containing the rearranged <code>X</code>.</p>
+</dd>
+<dt>
+<code>X.rearranged.opt.row</code>:</dt>
+<dd>
+<p><code>vector</code> containing
+the row of <code>X.rearranged</code> which leads to the final optimal
+sum. If there is more than one such row, the columnwise averaged
+row is returned.</p>
+</dd>
+</dl>
+<p><code>RA()</code> returns a <code>list</code> containing
+</p>
+
+<dl>
+<dt>
+<code>bounds</code>:</dt>
+<dd>
+<p>bivariate vector containing the computed
+<code class="reqn">\underline{s}_N</code> and <code class="reqn">\overline{s}_N</code> (the so-called
+rearrangement range) which are typically treated as bounds for
+worst/best VaR or best ES; see also above.</p>
+</dd>
+<dt>
+<code>rel.ra.gap</code>:</dt>
+<dd>
+<p>reached relative tolerance (also known as
+relative rearrangement gap) between
+<code class="reqn">\underline{s}_N</code> and <code class="reqn">\overline{s}_N</code> computed with
+respect to <code class="reqn">\overline{s}_N</code>.</p>
+</dd>
+<dt>
+<code>ind.abs.tol</code>:</dt>
+<dd>
+<p>bivariate <code>vector</code> containing
+the reached individual absolute tolerances (i.e., the absolute change
+of the minimal row sums
+(for <code>method = "worst.VaR"</code>) or maximal row sums
+(for <code>method = "best.VaR"</code>) or expected shortfalls
+(for <code>mehtod = "best.ES"</code>) for computing <code class="reqn">\underline{s}_N</code>
+and <code class="reqn">\overline{s}_N</code>;
+see also <code>tol</code> returned by <code>rearrange()</code> above).</p>
+</dd>
+<dt>
+<code>converged</code>:</dt>
+<dd>
+<p>bivariate <code>logical</code> vector
+indicating convergence of the computed <code class="reqn">\underline{s}_N</code> and
+<code class="reqn">\overline{s}_N</code> (i.e., whether the desired tolerances were
+reached).</p>
+</dd>
+<dt>
+<code>num.ra</code>:</dt>
+<dd>
+<p>bivariate vector containing the number
+of column rearrangments of the underlying matrices
+of quantiles for
+<code class="reqn">\underline{s}_N</code> and <code class="reqn">\overline{s}_N</code>.</p>
+</dd>
+<dt>
+<code>opt.row.sums</code>:</dt>
+<dd>
+<p><code>list</code> of length two containing
+the computed optima (minima for <code>method = "worst.VaR"</code>; maxima
+for <code>method = "best.VaR"</code>; expected shortfalls for
+<code>method = "best.ES"</code>) for the row sums after each
+(considered) column rearrangement for the computed
+<code class="reqn">\underline{s}_N</code> and <code class="reqn">\overline{s}_N</code>; see also
+<code>rearrange()</code>.</p>
+</dd>
+<dt>
+<code>X</code>:</dt>
+<dd>
+<p>initially constructed (<code>N</code>, <code>d</code>)-matrices
+of quantiles for computing
+<code class="reqn">\underline{s}_N</code> and <code class="reqn">\overline{s}_N</code>.</p>
+</dd>
+<dt>
+<code>X.rearranged</code>:</dt>
+<dd>
+<p>rearranged matrices <code>X</code> for
+<code class="reqn">\underline{s}_N</code> and <code class="reqn">\overline{s}_N</code>.</p>
+</dd>
+<dt>
+<code>X.rearranged.opt.row</code>:</dt>
+<dd>
+<p>rows corresponding to optimal
+row sum (see <code>X.rearranged.opt.row</code> as returned by
+<code>rearrange()</code>) for <code class="reqn">\underline{s}_N</code> and <code class="reqn">\overline{s}_N</code>.</p>
+</dd>
+</dl>
+<p><code>ARA()</code> and <code>ABRA()</code> return a <code>list</code> containing
+</p>
+
+<dl>
+<dt>
+<code>bounds</code>:</dt>
+<dd>
+<p>see <code>RA()</code>.</p>
+</dd>
+<dt>
+<code>rel.ra.gap</code>:</dt>
+<dd>
+<p>see <code>RA()</code>.</p>
+</dd>
+<dt>
+<code>tol</code>:</dt>
+<dd>
+<p>trivariate <code>vector</code> containing
+the reached individual (relative for <code>ARA()</code>; absolute for
+<code>ABRA()</code>) tolerances and the reached joint
+relative tolerance (computed with respect to <code class="reqn">\overline{s}_N</code>).</p>
+</dd>
+<dt>
+<code>converged</code>:</dt>
+<dd>
+<p>trivariate <code>logical</code>
+<code>vector</code> indicating individual convergence of the computed
+<code class="reqn">\underline{s}_N</code> (first entry) and <code class="reqn">\overline{s}_N</code>
+(second entry) and indicating joint convergence of the two bounds
+according to the attained joint relative tolerance (third entry).</p>
+</dd>
+<dt>
+<code>N.used</code>:</dt>
+<dd>
+<p>actual <code>N</code> used for computing
+the (final) <code class="reqn">\underline{s}_N</code> and <code class="reqn">\overline{s}_N</code>.</p>
+</dd>
+<dt>
+<code>num.ra</code>:</dt>
+<dd>
+<p>see <code>RA()</code>; computed for <code>N.used</code>.</p>
+</dd>
+<dt>
+<code>opt.row.sums</code>:</dt>
+<dd>
+<p>see <code>RA()</code>; computed for <code>N.used</code>.</p>
+</dd>
+<dt>
+<code>X</code>:</dt>
+<dd>
+<p>see <code>RA()</code>; computed for <code>N.used</code>.</p>
+</dd>
+<dt>
+<code>X.rearranged</code>:</dt>
+<dd>
+<p>see <code>RA()</code>; computed for <code>N.used</code>.</p>
+</dd>
+<dt>
+<code>X.rearranged.opt.row</code>:</dt>
+<dd>
+<p>see <code>RA()</code>; computed for <code>N.used</code>.</p>
+</dd>
+</dl>
+<h3>Author(s)</h3>
+
+<p>Marius Hofert</p>
+
+
+<h3>References</h3>
+
+<p>Embrechts, P., Puccetti, G., Rüschendorf, L.,
+Wang, R. and Beleraj, A. (2014).  An Academic Response to Basel
+3.5. <em>Risks</em> <b>2</b>(1), 25–48.
+</p>
+<p>Embrechts, P., Puccetti, G. and Rüschendorf, L. (2013).
+Model uncertainty and VaR aggregation. <em>Journal of Banking &amp;
+Finance</em> <b>37</b>, 2750–2764.
+</p>
+<p>McNeil, A. J., Frey, R. and Embrechts, P. (2015).
+<em>Quantitative Risk Management: Concepts, Techniques, Tools</em>.
+Princeton University Press.
+</p>
+<p>Hofert, M., Memartoluie, A., Saunders, D. and Wirjanto, T. (2017).
+Improved Algorithms for Computing Worst
+Value-at-Risk. <em>Statistics &amp; Risk Modeling</em>
+or, for an earlier version, <a href="https://arxiv.org/abs/1505.02281">https://arxiv.org/abs/1505.02281</a>.
+</p>
+<p>Bernard, C., Rüschendorf, L. and Vanduffel,
+S. (2013). Value-at-Risk bounds with variance constraints.
+See <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2342068">https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2342068</a>.
+</p>
+<p>Bernard, C. and McLeish, D. (2014). Algorithms for Finding Copulas
+Minimizing Convex Functions of Sums.
+See <a href="https://arxiv.org/abs/1502.02130v3">https://arxiv.org/abs/1502.02130v3</a>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>VaR_bounds_hom()</code> for an “analytical” approach for
+computing best and worst Value-at-Risk in the homogeneous casse.
+</p>
+<p><code>vignette("VaR_bounds", package = "qrmtools")</code>
+for more example calls, numerical challenges
+encoutered and a comparison of the different methods for computing
+the worst (i.e., largest) Value-at-Risk.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">### 1 Reproducing selected examples of McNeil et al. (2015; Table 8.1) #########
+
+## Setup
+alpha &lt;- 0.95
+d &lt;- 8
+theta &lt;- 3
+qF &lt;- rep(list(function(p) qPar(p, shape = theta)), d)
+
+## Worst VaR
+N &lt;- 5e4
+set.seed(271)
+system.time(RA.worst.VaR &lt;- RA(alpha, qF = qF, N = N, method = "worst.VaR"))
+RA.worst.VaR$bounds
+stopifnot(RA.worst.VaR$converged,
+          all.equal(RA.worst.VaR$bounds[["low"]],
+                    RA.worst.VaR$bounds[["up"]], tol = 1e-4))
+
+## Best VaR
+N &lt;- 5e4
+set.seed(271)
+system.time(RA.best.VaR &lt;- RA(alpha, qF = qF, N = N, method = "best.VaR"))
+RA.best.VaR$bounds
+stopifnot(RA.best.VaR$converged,
+          all.equal(RA.best.VaR$bounds[["low"]],
+                    RA.best.VaR$bounds[["up"]], tol = 1e-4))
+
+## Best ES
+N &lt;- 5e4 # actually, we need a (much larger) N here (but that's time consuming)
+set.seed(271)
+system.time(RA.best.ES &lt;- RA(alpha, qF = qF, N = N, method = "best.ES"))
+RA.best.ES$bounds
+stopifnot(RA.best.ES$converged,
+          all.equal(RA.best.ES$bounds[["low"]],
+                    RA.best.ES$bounds[["up"]], tol = 5e-1))
+
+
+### 2 More Pareto examples (d = 2, d = 8; hom./inhom. case; explicit/RA/ARA) ###
+
+alpha &lt;- 0.99 # VaR confidence level
+th &lt;- 2 # Pareto parameter theta
+qF &lt;- function(p, theta = th) qPar(p, shape = theta) # Pareto quantile function
+pF &lt;- function(q, theta = th) pPar(q, shape = theta) # Pareto distribution function
+
+
+### 2.1 The case d = 2 #########################################################
+
+d &lt;- 2 # dimension
+
+## ``Analytical''
+VaRbounds &lt;- VaR_bounds_hom(alpha, d = d, qF = qF) # (best VaR, worst VaR)
+
+## Adaptive Rearrangement Algorithm (ARA)
+set.seed(271) # set seed (for reproducibility)
+ARAbest  &lt;- ARA(alpha, qF = rep(list(qF), d), method = "best.VaR")
+ARAworst &lt;- ARA(alpha, qF = rep(list(qF), d))
+
+## Rearrangement Algorithm (RA) with N as in ARA()
+RAbest  &lt;- RA(alpha, qF = rep(list(qF), d), N = ARAbest$N.used, method = "best.VaR")
+RAworst &lt;- RA(alpha, qF = rep(list(qF), d), N = ARAworst$N.used)
+
+## Compare
+stopifnot(all.equal(c(ARAbest$bounds[1], ARAbest$bounds[2],
+                       RAbest$bounds[1],  RAbest$bounds[2]),
+                    rep(VaRbounds[1], 4), tolerance = 0.004, check.names = FALSE))
+stopifnot(all.equal(c(ARAworst$bounds[1], ARAworst$bounds[2],
+                       RAworst$bounds[1],  RAworst$bounds[2]),
+                    rep(VaRbounds[2], 4), tolerance = 0.003, check.names = FALSE))
+
+
+### 2.2 The case d = 8 #########################################################
+
+d &lt;- 8 # dimension
+
+## ``Analytical''
+I &lt;- crude_VaR_bounds(alpha, qF = qF, d = d) # crude bound
+VaR.W     &lt;- VaR_bounds_hom(alpha, d = d, method = "Wang", qF = qF)
+VaR.W.Par &lt;- VaR_bounds_hom(alpha, d = d, method = "Wang.Par", shape = th)
+VaR.dual  &lt;- VaR_bounds_hom(alpha, d = d, method = "dual", interval = I, pF = pF)
+
+## Adaptive Rearrangement Algorithm (ARA) (with different relative tolerances)
+set.seed(271) # set seed (for reproducibility)
+ARAbest  &lt;- ARA(alpha, qF = rep(list(qF), d), reltol = c(0.001, 0.01), method = "best.VaR")
+ARAworst &lt;- ARA(alpha, qF = rep(list(qF), d), reltol = c(0.001, 0.01))
+
+## Rearrangement Algorithm (RA) with N as in ARA and abstol (roughly) chosen as in ARA
+RAbest  &lt;- RA(alpha, qF = rep(list(qF), d), N = ARAbest$N.used,
+              abstol = mean(tail(abs(diff(ARAbest$opt.row.sums$low)), n = 1),
+                            tail(abs(diff(ARAbest$opt.row.sums$up)), n = 1)),
+              method = "best.VaR")
+RAworst &lt;- RA(alpha, qF = rep(list(qF), d), N = ARAworst$N.used,
+              abstol = mean(tail(abs(diff(ARAworst$opt.row.sums$low)), n = 1),
+                            tail(abs(diff(ARAworst$opt.row.sums$up)), n = 1)))
+
+## Compare
+stopifnot(all.equal(c(VaR.W[1], ARAbest$bounds, RAbest$bounds),
+                    rep(VaR.W.Par[1],5), tolerance = 0.004, check.names = FALSE))
+stopifnot(all.equal(c(VaR.W[2], VaR.dual[2], ARAworst$bounds, RAworst$bounds),
+                    rep(VaR.W.Par[2],6), tolerance = 0.003, check.names = FALSE))
+
+## Using (some of) the additional results computed by (A)RA()
+xlim &lt;- c(1, max(sapply(RAworst$opt.row.sums, length)))
+ylim &lt;- range(RAworst$opt.row.sums)
+plot(RAworst$opt.row.sums[[2]], type = "l", xlim = xlim, ylim = ylim,
+     xlab = "Number or rearranged columns",
+     ylab = paste0("Minimal row sum per rearranged column"),
+     main = substitute("Worst VaR minimal row sums ("*alpha==a.*","~d==d.*" and Par("*
+                       th.*"))", list(a. = alpha, d. = d, th. = th)))
+lines(1:length(RAworst$opt.row.sums[[1]]), RAworst$opt.row.sums[[1]], col = "royalblue3")
+legend("bottomright", bty = "n", lty = rep(1,2),
+       col = c("black", "royalblue3"), legend = c("upper bound", "lower bound"))
+## =&gt; One should use ARA() instead of RA()
+
+
+### 3 "Reproducing" examples from Embrechts et al. (2013) ######################
+
+### 3.1 "Reproducing" Table 1 (but seed and eps are unknown) ###################
+
+## Left-hand side of Table 1
+N &lt;- 50
+d &lt;- 3
+qPar &lt;- rep(list(qF), d)
+p &lt;- alpha + (1-alpha)*(0:(N-1))/N # for 'worst' (= largest) VaR
+X &lt;- sapply(qPar, function(qF) qF(p))
+cbind(X, rowSums(X))
+
+## Right-hand side of Table 1
+set.seed(271)
+res &lt;- RA(alpha, qF = qPar, N = N)
+row.sum &lt;- rowSums(res$X.rearranged$low)
+cbind(res$X.rearranged$low, row.sum)[order(row.sum),]
+
+
+### 3.2 "Reproducing" Table 3 for alpha = 0.99 #################################
+
+## Note: The seed for obtaining the exact results as in Table 3 is unknown
+N &lt;- 2e4 # we use a smaller N here to save run time
+eps &lt;- 0.1 # absolute tolerance
+xi &lt;- c(1.19, 1.17, 1.01, 1.39, 1.23, 1.22, 0.85, 0.98)
+beta &lt;- c(774, 254, 233, 412, 107, 243, 314, 124)
+qF.lst &lt;- lapply(1:8, function(j){ function(p) qGPD(p, shape = xi[j], scale = beta[j])})
+set.seed(271)
+res.best &lt;- RA(0.99, qF = qF.lst, N = N, abstol = eps, method = "best.VaR")
+print(format(res.best$bounds, scientific = TRUE), quote = FALSE) # close to first value of 1st row
+res.worst &lt;- RA(0.99, qF = qF.lst, N = N, abstol = eps)
+print(format(res.worst$bounds, scientific = TRUE), quote = FALSE) # close to last value of 1st row
+
+
+### 4 Further checks ###########################################################
+
+## Calling the workhorses directly
+set.seed(271)
+ra &lt;- rearrange(X)
+bra &lt;- block_rearrange(X)
+stopifnot(ra$converged, bra$converged,
+          all.equal(ra$bound, bra$bound, tolerance = 6e-3))
+
+## Checking ABRA against ARA
+set.seed(271)
+ara  &lt;- ARA (alpha, qF = qPar)
+abra &lt;- ABRA(alpha, qF = qPar)
+stopifnot(ara$converged, abra$converged,
+          all.equal(ara$bound[["low"]], abra$bound[["low"]], tolerance = 2e-3),
+          all.equal(ara$bound[["up"]],  abra$bound[["up"]],  tolerance = 6e-3))
+</code></pre>
+
+
+</div>

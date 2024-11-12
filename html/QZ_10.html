@@ -1,0 +1,104 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>fda.geigen</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2> Generalized Eigen Analysis as in fda Package</h2>
+
+<h3>Description</h3>
+
+<p>This is an equivalent function to <code>fda::geigen</code> which 
+finds matrices L and M to maximize
+</p>
+<p>tr(L'AM) / sqrt(tr(L'BL) tr(M'CM))
+</p>
+<p>where A = a p x q matrix, B = p x p symmetric, positive definite
+matrix, B = q x q symmetric positive definite matrix, L = p x s
+matrix, and M = q x s matrix, where s = the number of non-zero
+generalized eigenvalues of A.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">  fda.geigen(Amat, Bmat, Cmat)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>Amat</code></td>
+<td>
+<p> a numeric matrix </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Bmat</code></td>
+<td>
+
+<p>a symmetric, positive definite matrix with dimension = number of
+rows of A
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Cmat</code></td>
+<td>
+
+<p>a symmetric, positive definite matrix with dimension = number of
+columns of A
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>This function is equivalent to <code>fda::geigen(Amat, Bmat, Cmat)</code>
+except that this is rewritten and utilizes LAPACK functions
+via <code>qz.dggev</code>.
+</p>
+<p>Also, <code>Lmat</code> and <code>Mmat</code> are both scaled such that
+L'BL and M'CM are identity matrices.
+</p>
+
+
+<h3>Value</h3>
+
+<p>list(values, Lmat, Mmat)
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Wei-Chen Chen <a href="mailto:wccsnow@gmail.com">wccsnow@gmail.com</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>qz.geigen</code>, <code>qz.dggev</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+library(QZ, quiet = TRUE)
+
+A &lt;- matrix(as.double(1:6), 2)
+B &lt;- matrix(as.double(c(2, 1, 1, 2)), 2)
+C &lt;- diag(as.double(1:3))
+
+ret.qz &lt;- fda.geigen(A, B, C)
+
+### Verify
+library(fda, quiet = TRUE)
+ret.fda &lt;- fda::geigen(A, B, C)
+
+</code></pre>
+
+
+</div>

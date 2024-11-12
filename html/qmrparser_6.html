@@ -1,0 +1,117 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>concatenation</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+One phrase then another
+</h2>
+
+<h3>Description</h3>
+
+<p>Applies to the recognition a parsers sequence. Recognition will succeed as long as all of them succeed.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">  
+  concatenation(..., 
+                action = function(s)   list(type="concatenation",value=s),
+                error  = function(p,h) list(type="concatenation",pos=p ,h=h)) 
+  
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>list of parsers to be executed</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>action</code></td>
+<td>
+<p>Function to be executed if recognition succeeds. It takes as input parameters information derived from parsers involved as parameters</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>error</code></td>
+<td>
+<p>Function to be executed if recognition does not succeed. I takes two parameters:
+</p>
+
+<ul>
+<li>  <p><code>p</code> 
+</p>
+<p>with position where parser, <code>streamParser</code>,  starts its recognition, obtained with <code>streamParserPosition</code>
+</p>
+</li>
+<li> <p><code>h</code>
+</p>
+<p>with information obtained from parsers involved as parameters, normally related with failure(s) position in component parsers.
+</p>
+<p>Its information depends on how parser involved as parameters are combined and on the <code>error</code> definition in these parsers.
+</p>
+</li>
+</ul>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>In case of success, parameter <code>s</code> from <code>action</code> gets a list with information about <code>node</code> from all parsers processed.
+</p>
+<p>In case of failure, parameter <code>h</code> from <code>error</code> gets the value returned by the failing parser.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Anonymous functions, returning a list.
+</p>
+<p><code>function(stream)</code> –&gt;  <code> list(status,node,stream) </code>
+</p>
+<p>From these input parameters, an anonymous function is constructed. This function admits just one parameter, stream, with <code>streamParser</code> class, and returns a three-field list:
+</p>
+
+<ul>
+<li>
+<p>status      
+</p>
+<p>"ok" or "fail" 
+</p>
+</li>
+<li>
+<p>node         
+</p>
+<p>With <code>action</code> or <code>error</code> function output, depending on the case
+</p>
+</li>
+<li>
+<p>stream      
+</p>
+<p>With information about the input, after success or failure in recognition
+</p>
+</li>
+</ul>
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+# ok
+stream  &lt;- streamParserFromString("123Hello world")
+( concatenation(numberNatural(),symbolic())(stream) )[c("status","node")]
+
+
+# fail
+stream  &lt;- streamParserFromString("123 Hello world")
+( concatenation(string(),symbolic())(stream) )[c("status","node")]
+
+</code></pre>
+
+
+</div>

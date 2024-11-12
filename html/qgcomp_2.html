@@ -1,0 +1,160 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>coxmsm_fit</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Marginal structural Cox model (MSM) fitting within quantile g-computation</h2>
+
+<h3>Description</h3>
+
+<p>this is an internal function called by <code>qgcomp.cox.noboot</code>,
+<code>qgcomp.cox.boot</code>, and <code>qgcomp.cox.noboot</code>,
+but is documented here for clarity. Generally, users will not need to call
+this function directly.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">coxmsm_fit(
+  f,
+  qdata,
+  intvals,
+  expnms,
+  main = TRUE,
+  degree = 1,
+  id = NULL,
+  weights,
+  cluster = NULL,
+  MCsize = 10000,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>f</code></td>
+<td>
+<p>an R formula representing the conditional model for the outcome, given all
+exposures and covariates. Interaction terms that include exposure variables
+should be represented via the <code>AsIs</code> function. Offset
+terms can be included via <code>Surv(time,event) ~ exposure + offset(z)</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qdata</code></td>
+<td>
+<p>a data frame with quantized exposures (as well as outcome and other covariates)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>intvals</code></td>
+<td>
+<p>sequence, the sequence of integer values that the joint exposure
+is 'set' to for estimating the msm. For quantile g-computation, this is just
+0:(q-1), where q is the number of quantiles of exposure.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>expnms</code></td>
+<td>
+<p>a character vector with the names of the columns in qdata that represent
+the exposures of interest (main terms only!)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>main</code></td>
+<td>
+<p>logical, internal use: produce estimates of exposure effect (psi)
+and expected outcomes under g-computation and the MSM</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>degree</code></td>
+<td>
+<p>polynomial bases for marginal model (e.g. degree = 2
+allows that the relationship between the whole exposure mixture and the outcome
+is quadratic. Default=1)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>id</code></td>
+<td>
+<p>(optional) NULL, or variable name indexing individual units of
+observation (only needed if analyzing data with multiple observations per
+id/cluster)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>weights</code></td>
+<td>
+<p>"case weights" - passed to the "weight" argument of
+<code>coxph</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cluster</code></td>
+<td>
+<p>not yet implemented</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>MCsize</code></td>
+<td>
+<p>integer: sample size for simulation to approximate marginal
+hazards ratios</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>arguments to coxph (e.g. ties)</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>This function first computes expected outcomes under hypothetical
+interventions to simultaneously set all exposures to a specific quantile. These
+predictions are based on g-computation, where the exposures are ‘quantized’,
+meaning that they take on ordered integer values according to their ranks,
+and the integer values are determined by the number of quantile cutpoints used.
+The function then takes these expected outcomes and fits an additional model
+(a marginal structural model) with the expected outcomes as the outcome and
+the intervention value of the exposures (the quantile integer) as the exposure.
+Under causal identification assumptions and correct model specification,
+the MSM yields a causal exposure-response representing the incremental
+change in the expected outcome given a joint intervention on all exposures.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>qgcomp.cox.boot</code>, and <code>qgcomp.cox.noboot</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">set.seed(50)
+dat &lt;- data.frame(time=(tmg &lt;- pmin(.1,rweibull(50, 10, 0.1))), d=1.0*(tmg&lt;0.1), 
+                  x1=runif(50), x2=runif(50), z=runif(50))
+expnms=paste0("x", 1:2)
+qdata  = quantize(dat, expnms)$data
+f = survival::Surv(time, d)~x1 + x2
+fit &lt;- survival::coxph(f, data = qdata, y=TRUE, x=TRUE)
+r1 = qdata[1,,drop=FALSE]
+times = survival::survfit(fit, newdata=r1, se.fit=FALSE)$time
+(obj &lt;- coxmsm_fit(f, qdata, intvals=c(0,1,2,3), expnms, main=TRUE, degree=1, 
+   id=NULL, MCsize=100))
+#dat2 &lt;- data.frame(psi=seq(1,4, by=0.1))
+#summary(predict(obj))
+#summary(predict(obj, newdata=dat2))
+</code></pre>
+
+
+</div>

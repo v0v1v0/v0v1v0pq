@@ -1,0 +1,92 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qgis_result_status</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Access processing results: extra tools</h2>
+
+<h3>Description</h3>
+
+<p>A <code>qgis_result</code> object is a list that, next to the output elements,
+also contains other elements that can be useful in scripting.
+Several of these can be extracted with convenience functions:
+the exit status of the process, standard output and standard error of
+'qgis_process', arguments passed to 'qgis_process'.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qgis_result_status(x)
+
+qgis_result_stdout(x)
+
+qgis_result_stderr(x)
+
+qgis_result_args(x)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>A <code>qgis_result</code> object returned by <code>qgis_run_algorithm()</code>.</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+
+<ul>
+<li>
+<p> A number in case of <code>qgis_result_status()</code>.
+</p>
+</li>
+<li>
+<p> A string in case of <code>qgis_result_stdout()</code> and <code>qgis_result_stderr()</code>.
+</p>
+</li>
+<li>
+<p> A list in case of <code>qgis_result_args()</code>.
+</p>
+</li>
+</ul>
+<h3>See Also</h3>
+
+<p>Other topics about programming or debugging utilities: 
+<code>qgis_run()</code>,
+<code>qgis_tmp_file()</code>,
+<code>qgis_unconfigure()</code>,
+<code>qgis_using_json_input()</code>
+</p>
+<p>Other topics about accessing or managing processing results: 
+<code>qgis_as_raster()</code>,
+<code>qgis_as_terra()</code>,
+<code>qgis_clean_result()</code>,
+<code>qgis_extract_output()</code>,
+<code>st_as_sf</code>,
+<code>st_as_stars</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+result &lt;- qgis_run_algorithm(
+  "native:buffer",
+  INPUT = system.file("longlake/longlake_depth.gpkg", package = "qgisprocess"),
+  DISTANCE = 10
+)
+
+qgis_result_status(result)
+stdout &lt;- qgis_result_stdout(result)
+cat(substr(stdout, 1, 335))
+qgis_result_stderr(result)
+qgis_result_args(result)
+
+</code></pre>
+
+
+</div>

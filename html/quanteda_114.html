@@ -1,0 +1,85 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>dfm_replace</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Replace features in dfm</h2>
+
+<h3>Description</h3>
+
+<p>Substitute features based on vectorized one-to-one matching for lemmatization
+or user-defined stemming.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">dfm_replace(
+  x,
+  pattern,
+  replacement,
+  case_insensitive = TRUE,
+  verbose = quanteda_options("verbose")
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>dfm whose features will be replaced</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pattern</code></td>
+<td>
+<p>a character vector.  See pattern
+for more details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>replacement</code></td>
+<td>
+<p>if <code>pattern</code> is a character vector, then
+<code>replacement</code> must be character vector of equal length, for a 1:1
+match.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>case_insensitive</code></td>
+<td>
+<p>logical; if <code>TRUE</code>, ignore case when matching a
+<code>pattern</code> or dictionary values</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p>print status messages if <code>TRUE</code></p>
+</td>
+</tr>
+</table>
+<h3>Examples</h3>
+
+<pre><code class="language-R">dfmat1 &lt;- dfm(tokens(data_corpus_inaugural))
+
+# lemmatization
+taxwords &lt;- c("tax", "taxing", "taxed", "taxed", "taxation")
+lemma &lt;- rep("TAX", length(taxwords))
+featnames(dfm_select(dfmat1, pattern = taxwords))
+dfmat2 &lt;- dfm_replace(dfmat1, pattern = taxwords, replacement = lemma)
+featnames(dfm_select(dfmat2, pattern = taxwords))
+
+# stemming
+feat &lt;- featnames(dfmat1)
+featstem &lt;- char_wordstem(feat, "porter")
+dfmat3 &lt;- dfm_replace(dfmat1, pattern = feat, replacement = featstem, case_insensitive = FALSE)
+identical(dfmat3, dfm_wordstem(dfmat1, "porter"))
+</code></pre>
+
+
+</div>

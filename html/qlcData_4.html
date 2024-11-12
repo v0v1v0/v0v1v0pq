@@ -1,0 +1,121 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>getTree</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Extract parts out of the full Glottolog 2016 tree
+</h2>
+
+<h3>Description</h3>
+
+<p>getTree is a convenience function to extract parts from the Glottolog 2016 data as provided here in <code>glottolog</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">getTree(up = NULL, kind = "iso", down = NULL, reduce = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>up</code></td>
+<td>
+
+<p>a vector of names from which to extract the tree upwards. Can be names from Glottolog, ISO 639-3 codes, WALS codes or glottocodes. Default settings expect ISO 639-3 codes.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>kind</code></td>
+<td>
+
+<p>what kind of names are specified in <code>up</code>? Choose one of <code>iso</code>, <code>wals</code>, <code>glottocode</code> or <code>name</code> for full names from Glottolog.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>down</code></td>
+<td>
+
+<p>a vector of family names from Glottolog from which to extract the tree downwards. For consistency, a node "World" as added on top, linking separate families. Specifying families that are part of other families in <code>down</code> will lead to a warning, but any overlap will be gracefully removed.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>reduce</code></td>
+<td>
+
+<p>remove all nodes in the tree that do not branch.
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Specifying both <code>up</code> and <code>down</code> will extract only the intersection of the two. So any name in <code>up</code> that lies outside any family in <code>down</code> will be discarded.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns a data.frame with the relevant lines from the full glottolog data.
+</p>
+
+
+<h3>Note</h3>
+
+<p>This function is hard-coded to only use the data as available in <code>glottolog</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Michael Cysouw &lt;cysouw@mac.com
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>asPhylo</code> for tweaking branch lengths in phylo conversion.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># use getTree() to select genealogical parts of the data
+data(glottolog)
+
+( aalawa &lt;- getTree(up = "aala1237", kind = "glottocode") )
+( kandas &lt;- getTree(down = "Kandas-Duke of York") )
+( treeFull &lt;- getTree(up = c("deu", "eng", "ind", "cha"), kind = "iso") )
+( treeReduced &lt;- getTree(up = c("deu", "eng", "ind", "cha"), kind = "iso", reduce = TRUE) )
+
+
+# use FromDataFrameNetwork() to visualize the tree
+# and export it into various other tree formats in R
+
+library(data.tree)
+treeF &lt;- FromDataFrameNetwork(treeFull)
+treeR &lt;- FromDataFrameNetwork(treeReduced)
+
+plot(treeF)
+plot(treeR)
+
+# turn into phylo format from library 'ape'
+t &lt;- as.phylo.Node(treeR)
+plot(t)
+
+# turn into dendrogram
+t &lt;- as.dendrogram(treeF)
+plot(t, center = TRUE)
+
+</code></pre>
+
+
+</div>

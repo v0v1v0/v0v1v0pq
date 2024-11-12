@@ -1,0 +1,111 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>thin</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Thin a polygon using <code>fastshp::thin</code>
+</h2>
+
+<h3>Description</h3>
+
+<p>For visualizing, it is sometimes useful to remove points in <code style="white-space: pre;">⁠Spatial*⁠</code> objects.
+This will change the geometry, so it is not recommended for computation.
+This is similar to <code>sf::st_simplify</code>,
+but faster (see examples) for large shapefiles, particularly if
+<code>returnDataFrame</code> is <code>TRUE</code>.
+<em><code>thin</code> will not attempt to preserve topology.</em>
+It is strictly for making smaller polygons for the (likely) purpose of visualizing more quickly.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">thin(
+  x,
+  tolerance,
+  returnDataFrame,
+  minCoordsToThin,
+  ...,
+  verbose = getOption("quickPlot.verbose")
+)
+
+thnSpatialPolygons(
+  x,
+  tolerance = NULL,
+  returnDataFrame = FALSE,
+  minCoordsToThin = 1e+05,
+  maxNumPolygons = getOption("quickPlot.maxNumPolygons", 3000),
+  ...,
+  verbose = getOption("quickPlot.verbose")
+)
+
+## Default S3 method:
+thin(
+  x,
+  tolerance,
+  returnDataFrame,
+  minCoordsToThin,
+  maxNumPolygons,
+  ...,
+  verbose = getOption("quickPlot.verbose")
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>A <code style="white-space: pre;">⁠Spatial*⁠</code> object</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tolerance</code></td>
+<td>
+<p>Maximum allowable distance for a point to be removed.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>returnDataFrame</code></td>
+<td>
+<p>If <code>TRUE</code>, this will return a list of 3 elements,
+<code>xyOrd</code>, <code>hole</code>, and <code>idLength</code>.
+If <code>FALSE</code> (default), it will return a <code>SpatialPolygons</code> object.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>minCoordsToThin</code></td>
+<td>
+<p>If the number of coordinates is smaller than this number,
+then thin will just pass through, though it will take the time required to
+calculate how many points there are (which is not <code>NROW(coordinates(x))</code> for
+a <code>SpatialPolygon</code>)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Passed to methods (e.g., <code>maxNumPolygons</code>)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p>Numeric or logical. If <code>TRUE</code> or <code style="white-space: pre;">⁠&gt;0⁠</code>, then messages will be
+shown. If <code>FALSE</code> or <code>0</code>, most messages will be suppressed.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>maxNumPolygons</code></td>
+<td>
+<p>For speed, <code>thin</code> can also simply remove some of the
+polygons. This is likely only a reasonable thing to do if there are
+a lot of polygons being plotted in a small space. Current default is
+taken from <code>options('quickPlot.maxNumPolygons')</code>, with a message.</p>
+</td>
+</tr>
+</table>
+</div>

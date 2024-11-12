@@ -1,0 +1,120 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>simJLSDdata</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Function to generate simulation data from a sequentially randomized
+experiment designed in (Jiang et al. 2017)</h2>
+
+<h3>Description</h3>
+
+<p>Function to generate simulation data from a sequentially randomized
+experiment designed in (Jiang et al. 2017)
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">simJLSDdata(n, case = "a", s_Diff_Time = 1, C_max = 5,
+  Censored = TRUE, fix_x0_value = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p>sample size</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>case</code></td>
+<td>
+<p>string. One of "a", "b", "c", corresponding to three models.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>s_Diff_Time</code></td>
+<td>
+<p>Numeric. Default is 1. This is the length of time between two stages of treatment</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>C_max</code></td>
+<td>
+<p>Numeric. Default is 5. This the upper bound of the uniform distribution of the 
+censoring time variable. Changing this value shifts the overall censoring rate easily.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Censored</code></td>
+<td>
+<p>Boolean. Default is TRUE. Whether the data has censoring or not. If TRUE, all survival time
+would not be censored at all in the returned data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fix_x0_value</code></td>
+<td>
+<p>Numeric. Default is Null. If supplied, it will generate simulated 
+data with a fixed value, <code>fix_x0_value</code>, of the univariate baseline covarate.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>This generative model is proposed in (Jiang et al. 2017), Section 5, the second example. 
+It uniformly defined three
+sets of conditional distributions of the survival times given the observable
+covariates at each stage within the same framework.
+</p>
+<p>All three models satisfy the independent censoring assumption.
+</p>
+
+
+<h3>Value</h3>
+
+<p>This function returns a data.frame with simulated subject trajectories.
+</p>
+
+<ul>
+<li>
+<p><code>x0</code> the baseline covariate, always observable at relative time point 0; 
+</p>
+</li>
+<li>
+<p><code>a0</code> the observed first-stage treatment level at relative time point 0;
+</p>
+</li>
+<li>
+<p><code>x1</code> an updated covariate observable to the relative time point 
+<code>s_Diff_Time</code>, when the 
+a second stage treatment is scheduled
+</p>
+</li>
+<li>
+<p><code>a1</code> the observed second-stage treatment level at relative time point <code>s_Diff_Time</code>.
+</p>
+</li>
+</ul>
+<h3>References</h3>
+
+<p>Jiang R, Lu W, Song R, Davidian M (2017).
+“On estimation of optimal treatment regimes for maximizing t-year survival probability.”
+<em>Journal of the Royal Statistical Society: Series B (Statistical Methodology)</em>, <b>79</b>(4), 1165–1185.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">dataA &lt;- simJLSDdata(500,case="a")
+dataB &lt;- simJLSDdata(500,case="b")
+dataC &lt;- simJLSDdata(500,case="c")
+
+</code></pre>
+
+
+</div>

@@ -1,0 +1,73 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qgis_tmp_file</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Manage temporary files</h2>
+
+<h3>Description</h3>
+
+<p>These functions create temporary files that can be used
+in calls to <code>qgis_run_algorithm()</code> or elsewhere. These
+files are created in a special temporary directory
+(<code>qgis_tmp_base()</code>) that should be periodically cleaned up
+using <code>qgis_clean_tmp()</code>. You can set your preferred
+vector and/or raster file extension using
+<code>options(qgisprocess.tmp_vector_ext = "...")</code> and/or
+<code>options(qgisprocess.tmp_raster_ext = "...")</code>, respectively.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qgis_tmp_file(ext)
+
+qgis_tmp_folder()
+
+qgis_tmp_vector(ext = getOption("qgisprocess.tmp_vector_ext", ".gpkg"))
+
+qgis_tmp_raster(ext = getOption("qgisprocess.tmp_raster_ext", ".tif"))
+
+qgis_tmp_base()
+
+qgis_clean_tmp()
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>ext</code></td>
+<td>
+<p>The file extension to be used.</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>A character vector indicating the location of a
+(not yet created) temporary file.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Other topics about programming or debugging utilities: 
+<code>qgis_result_status()</code>,
+<code>qgis_run()</code>,
+<code>qgis_unconfigure()</code>,
+<code>qgis_using_json_input()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">qgis_tmp_base()
+qgis_tmp_file(".csv")
+qgis_tmp_vector()
+qgis_tmp_raster()
+
+</code></pre>
+
+
+</div>

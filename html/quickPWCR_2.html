@@ -1,0 +1,64 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>randompair</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>randompair</h2>
+
+<h3>Description</h3>
+
+<p>ramdonly pair players using reservoir sampling method.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">randompair(players, k, cores = 1)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>players</code></td>
+<td>
+<p>vector, indicating a list of players.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>k</code></td>
+<td>
+<p>numeric, indicating how many players each player will be paired with.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cores</code></td>
+<td>
+<p>numeric, indicating the number of CUP cores to be used for parallel</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>dataframe
+</p>
+
+
+<h3>References</h3>
+
+<p>JVitter, J. S. (1985). Random sampling with a reservoir.
+ACM Transactions on Mathematical Software (TOMS), 11(1), 37-57.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">players &lt;- c(1, 'a', 'c', 4, 7, 2, 'w', 'y', 3, 0, 8)
+pw &lt;- quickPWCR::randompair(players = players, k = 3)
+
+</code></pre>
+
+
+</div>

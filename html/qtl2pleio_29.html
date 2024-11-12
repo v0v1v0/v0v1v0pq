@@ -1,0 +1,174 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>scan_pvl</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Perform model fitting for all ordered pairs of markers in a genomic region of interest</h2>
+
+<h3>Description</h3>
+
+<p>'scan_pvl' calculates log likelihood for d-variate phenotype model fits. Inputted parameter 'start_snp' indicates where in the 'probs' object to start the scan.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">scan_pvl(
+  probs,
+  pheno,
+  kinship = NULL,
+  addcovar = NULL,
+  start_snp = 1,
+  n_snp,
+  max_iter = 10000,
+  max_prec = 1/1e+08,
+  cores = 1
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>probs</code></td>
+<td>
+<p>an array of founder allele probabilities for a single chromosome</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pheno</code></td>
+<td>
+<p>a matrix of phenotypes</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>kinship</code></td>
+<td>
+<p>a kinship matrix for one chromosome</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>addcovar</code></td>
+<td>
+<p>a matrix, n subjects by c additive covariates</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>start_snp</code></td>
+<td>
+<p>index of where to start the scan within probs</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n_snp</code></td>
+<td>
+<p>the number of (consecutive) markers to include in the scan</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>max_iter</code></td>
+<td>
+<p>maximum number of iterations for EM algorithm</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>max_prec</code></td>
+<td>
+<p>stepwise precision for EM algorithm. EM stops once incremental difference in log likelihood is less than max_prec</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cores</code></td>
+<td>
+<p>number of cores to use when parallelizing via parallel::mclapply. Set to 1 for no parallelization.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The function first discards individuals with one or more missing phenotypes or missing covariates.
+It then infers variance components, Vg and Ve. Both Vg and Ve
+are d by d covariance matrices. It uses an expectation maximization algorithm, as
+implemented in the 'gemma2' R package. 'gemma2' R package is an R implementation of the
+GEMMA algorithm for multivariate variance component estimation (Zhou &amp; Stephens 2014 Nature methods).
+Note that variance components are fitted on a model that uses the d-variate phenotype
+but contains no genetic information. This model does, however,
+use the specified covariates (after dropping dependent columns
+in the covariates matrix).
+These inferred covariance matrices, <code class="reqn">\hat{Vg}</code> and <code class="reqn">\hat{Ve}</code>,
+are then used in subsequent model fitting via
+generalized least squares.
+Generalized least squares model fitting is applied to every d-tuple of
+markers within the specified genomic region for 'scan_pvl'.
+For a single d-tuple of markers, we fit the model:
+</p>
+<p style="text-align: center;"><code class="reqn">vec(Y) = Xvec(B) + vec(G) + vec(E)</code>
+</p>
+<p> where
+</p>
+<p style="text-align: center;"><code class="reqn">G \sim MN(0, K, \hat{Vg})</code>
+</p>
+<p> and </p>
+<p style="text-align: center;"><code class="reqn">E \sim MN(0, I, \hat{Ve})</code>
+</p>
+<p> where <code class="reqn">MN</code> denotes the matrix-variate
+normal distribution with three parameters: mean matrix, covariance among rows, and
+covariance among columns. <code class="reqn">vec</code> denotes the vectorization operation, ie, stacking by columns.
+<code class="reqn">K</code> is a kinship matrix, typically calculated by leave-one-chromosome-out methods.
+<code class="reqn">Y</code> is the n by d phenotypes matrix. <code class="reqn">X</code> is a block-diagonal nd by fd matrix consisting of
+d blocks each of dimension n by f. Each n by f block (on the diagonal) contains a matrix of
+founder allele probabilities for the n subjects at a single marker. The off-diagonal blocks
+have only zero entries.
+The log-likelihood is returned for each model. The outputted object is a tibble with
+d + 1 columns. The first d columns specify the markers used in the corresponding model fit, while
+the last column specifies the log-likelihood value at that d-tuple of markers.
+</p>
+
+
+<h3>Value</h3>
+
+<p>a tibble with d + 1 columns. First d columns indicate the genetic data (by listing the marker ids) used in the design matrix; last is log10 likelihood
+</p>
+
+
+<h3>References</h3>
+
+<p>Knott SA, Haley CS (2000) Multitrait
+least squares for quantitative trait loci detection.
+Genetics 156: 899–911.
+</p>
+<p>Jiang C, Zeng ZB (1995) Multiple trait analysis
+of genetic mapping for quantitative trait loci.
+Genetics 140: 1111-1127.
+</p>
+<p>Zhou X, Stephens M (2014) Efficient multivariate linear
+mixed model algorithms for genome-wide association studies.
+Nature methods 11:407-409.
+</p>
+<p>Broman KW, Gatti DM, Simecek P, Furlotte NA, Prins P, Sen S, Yandell BS, Churchill GA (2019)
+R/qtl2: software for mapping quantitative trait loci with high-dimensional data and
+multi-parent populations. GENETICS https://www.genetics.org/content/211/2/495.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># read data
+n &lt;- 50
+pheno &lt;- matrix(rnorm(2 * n), ncol = 2)
+rownames(pheno) &lt;- paste0("s", 1:n)
+colnames(pheno) &lt;- paste0("tr", 1:2)
+probs &lt;- array(dim = c(n, 2, 5))
+probs[ , 1, ] &lt;- rbinom(n * 5, size = 1, prob = 0.2)
+probs[ , 2, ] &lt;- 1 - probs[ , 1, ]
+rownames(probs) &lt;- paste0("s", 1:n)
+colnames(probs) &lt;- LETTERS[1:2]
+dimnames(probs)[[3]] &lt;- paste0("m", 1:5)
+scan_pvl(probs = probs, pheno = pheno, kinship = NULL,
+start_snp = 1, n_snp = 5, cores = 1)
+</code></pre>
+
+
+</div>

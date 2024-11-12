@@ -1,0 +1,103 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>set_qbms_config</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Configure BMS Server Settings</h2>
+
+<h3>Description</h3>
+
+<p>Configures the BMS server connection settings, including URL, API path, page size, and timeout.
+This function allows you to set up the connection for different server backends like BMS, Gigwa, 
+EBS, and Breedbase, and choose the appropriate BrAPI version.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">set_qbms_config(
+  url = "http://localhost",
+  path = NULL,
+  page_size = 1000,
+  time_out = 120,
+  no_auth = FALSE,
+  engine = "bms",
+  brapi_ver = "v1",
+  verbose = TRUE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>url</code></td>
+<td>
+<p>The URL of the BMS login page or API base (default is "http://localhost").</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>path</code></td>
+<td>
+<p>The API path to use (default is NULL, which sets a path based on the engine).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>page_size</code></td>
+<td>
+<p>The number of records per page when making API calls (default is 1000).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>time_out</code></td>
+<td>
+<p>The maximum number of seconds to wait for a response (default is 120).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>no_auth</code></td>
+<td>
+<p>Logical, whether the server requires authentication (default is FALSE).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>engine</code></td>
+<td>
+<p>The backend system (default is "bms"). Options include "bms", "gigwa", "breedbase", "ebs".</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>brapi_ver</code></td>
+<td>
+<p>The version of BrAPI to use, either "v1" or "v2" (default is "v1").</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p>Logical, indicating whether to display progress information when making API calls (default is TRUE).</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>No return value.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Khaled Al-Shamaa, <a href="mailto:k.el-shamaa@cgiar.org">k.el-shamaa@cgiar.org</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">set_qbms_config("https://bms.icarda.org/ibpworkbench")
+
+</code></pre>
+
+
+</div>

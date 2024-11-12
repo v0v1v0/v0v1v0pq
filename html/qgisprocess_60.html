@@ -1,0 +1,83 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qgis_run</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Call the 'qgis_process' command directly</h2>
+
+<h3>Description</h3>
+
+<p><code>qgis_run()</code> offers full access to 'qgis_process'.
+Run <code>cat(qgis_run("--help")$stdout)</code> to get the command's help.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qgis_run(args = character(), ..., env = qgis_env(), path = qgis_path())
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>args</code></td>
+<td>
+<p>Command-line arguments</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Passed to <code>processx::run()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>env</code></td>
+<td>
+<p>A <code>list()</code> of environment variables.
+Defaults to
+<code>getOption("qgisprocess.env", list(QT_QPA_PLATFORM = "offscreen"))</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>path</code></td>
+<td>
+<p>A path to the 'qgis_process' executable. Defaults to
+<code>qgis_path()</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A <code>processx::run()</code> return value, i.e. a list with <code>status</code>, <code>stdout</code>,
+<code>stderr</code> and <code>timeout</code> elements.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Other topics about programming or debugging utilities: 
+<code>qgis_result_status()</code>,
+<code>qgis_tmp_file()</code>,
+<code>qgis_unconfigure()</code>,
+<code>qgis_using_json_input()</code>
+</p>
+<p>Other topics about configuring QGIS and qgisprocess: 
+<code>qgis_configure()</code>,
+<code>qgis_enable_plugins()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+processx_list &lt;- qgis_run(args = "--help")
+cat(processx_list$stdout)
+
+</code></pre>
+
+
+</div>

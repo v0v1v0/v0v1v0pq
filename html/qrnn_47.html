@@ -1,0 +1,74 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>YVRprecip</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Daily precipitation data at Vancouver Int'l Airport (YVR)
+</h2>
+
+<h3>Description</h3>
+
+<p>Daily precipitation totals (mm) at Vancouver Int'l Airport (YVR) for
+the period 1971-2000.
+</p>
+<p>Covariates for a simple downscaling task include daily sea-level
+pressures (Pa), 700-hPa specific humidities (kg/kg), and 500-hPa
+geopotential heights (m) from the NCEP/NCAR Reanalysis
+(Kalnay et al., 1996) grid point centered on 50 deg. N and 237.5 deg. E.
+</p>
+<p>NCEP/NCAR Reanalysis data provided by the NOAA/OAR/ESRL PSD, Boulder,
+Colorado, USA, from their Web site at <a href="https://psl.noaa.gov/">https://psl.noaa.gov/</a>.
+</p>
+
+
+<h3>References</h3>
+
+<p>Kalnay, E. et al., 1996. The NCEP/NCAR 40-year reanalysis project,
+Bulletin of the American Meteorological Society, 77: 437-470. 
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## YVR precipitation data with seasonal cycle and NCEP/NCAR Reanalysis
+## covariates
+
+data(YVRprecip)
+y &lt;- YVRprecip$precip
+x &lt;- cbind(sin(2*pi*seq_along(y)/365.25),
+           cos(2*pi*seq_along(y)/365.25),
+           YVRprecip$ncep)
+
+## Fit QRNN and quantile regression models for the conditional 75th
+## percentile using the final 3 years of record for training and the
+## remaining years for testing.
+train &lt;- as.numeric(format(YVRprecip$date, "%Y")) &gt;= 1998
+test &lt;- !train
+
+set.seed(1)
+w.qrnn &lt;- qrnn.fit(x=x[train,], y=y[train,,drop=FALSE],
+                   n.hidden=1, tau=0.75, iter.max=200,
+                   n.trials=1, lower=0)
+p.qrnn &lt;- qrnn.predict(x=x[test,], parms=w.qrnn)
+w.qreg &lt;- qrnn.fit(x=x[train,], y=y[train,,drop=FALSE],
+                   tau=0.75, n.trials=1, lower=0,
+                   Th=linear, Th.prime=linear.prime)
+p.qreg &lt;- qrnn.predict(x=x[test,], parms=w.qreg)
+
+## Tilted absolute value cost function on test dataset
+qvs.qrnn &lt;- mean(tilted.abs(y[test]-p.qrnn, 0.75))
+qvs.qreg &lt;- mean(tilted.abs(y[test]-p.qreg, 0.75))
+cat("Cost QRNN", qvs.qrnn, "\n")
+cat("Cost QREG", qvs.qreg, "\n")
+
+## Plot first year of test dataset
+plot(y[test][1:365], type="h", xlab="Day", ylab="Precip. (mm)")
+points(p.qrnn[1:365], col="red", pch=19)
+points(p.qreg[1:365], col="blue", pch=19)
+
+</code></pre>
+
+
+</div>

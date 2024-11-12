@@ -1,0 +1,61 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>timeSeriesValidator</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Validates if <code>Y</code> is of an appropriate type and converts to a numeric.</h2>
+
+<h3>Description</h3>
+
+<p>Checks whether <code>Y</code> is either
+</p>
+
+<ul>
+<li> <p><code>numeric</code>,
+</p>
+</li>
+<li>
+<p> a <code>ts</code> object, or
+</p>
+</li>
+<li>
+<p> a <code>zoo</code> object.
+</p>
+</li>
+</ul>
+<p>If not, an error is returned. If it is one of the three the data is returned
+as a numeric.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">timeSeriesValidator(Y)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>Y</code></td>
+<td>
+<p>the time series to be validated.</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>Returns the time series as a matrix.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">Y &lt;- timeSeriesValidator(sp500)
+Y &lt;- timeSeriesValidator(wheatprices)
+Y &lt;- timeSeriesValidator(rnorm(10))
+## Not run: Y &lt;- timeSeriesValidator("Not a valid input")
+</code></pre>
+
+
+</div>

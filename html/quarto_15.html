@@ -1,0 +1,66 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>quarto_serve</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Serve Interactive Document</h2>
+
+<h3>Description</h3>
+
+<p>Serve a Shiny interactive document. By default, the document will
+be rendered first and then served If you have previously rendered
+the document, pass <code>render = FALSE</code> to skip rendering.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">quarto_serve(
+  input,
+  render = TRUE,
+  port = getOption("shiny.port"),
+  host = getOption("shiny.host", "127.0.0.1"),
+  browse = TRUE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>input</code></td>
+<td>
+<p>The input file to run. Should be a file with
+a <code>server: shiny</code> entry in its YAML front-matter.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>render</code></td>
+<td>
+<p>Render the document before serving it.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>port</code></td>
+<td>
+<p>Port to listen on (defaults to 4848)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>host</code></td>
+<td>
+<p>Hostname to bind to (defaults to 127.0.0.1)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>browse</code></td>
+<td>
+<p>Open a browser to preview the content. Defaults to using the
+RStudio Viewer when running within RStudio.Pass a function (e.g.
+<code>utils::browseURL</code> to override this behavior).</p>
+</td>
+</tr>
+</table>
+</div>

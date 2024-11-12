@@ -1,0 +1,151 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>ipleiotropy</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Tool to explore pleiotropy</h2>
+
+<h3>Description</h3>
+
+<p>Creates an interactive graph of a scatterplot of two phenotypes,
+plus optionally the LOD curves for the two traits along one
+chromosome, with a slider for selecting the locations of two QTL
+which are then indicated on the LOD curves and the corresponding
+genotypes used to color the points in the scatterplot.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">ipleiotropy(
+  cross,
+  scanoneOutput = NULL,
+  pheno.col = 1:2,
+  lodcolumn = 1:2,
+  chr = NULL,
+  interval = NULL,
+  fillgenoArgs = NULL,
+  chartOpts = NULL,
+  digits = 5
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>cross</code></td>
+<td>
+<p>(Optional) Object of class '"cross"', see
+[qtl::read.cross()].</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>scanoneOutput</code></td>
+<td>
+<p>(Optional) object of class '"scanone"',
+as output from [qtl::scanone()].</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pheno.col</code></td>
+<td>
+<p>Vector indicating two phenotype column in cross
+object; either numeric or character strings (the latter being
+the phenotype column names).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lodcolumn</code></td>
+<td>
+<p>Vector of two numeric values indicating LOD score
+columns to plot.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>chr</code></td>
+<td>
+<p>A single chromosome ID, as a character string.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>interval</code></td>
+<td>
+<p>A numeric vector of length 2, defining an interval
+that indicates what portion of the chromosome should be
+included.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fillgenoArgs</code></td>
+<td>
+<p>List of named arguments to pass to
+[qtl::fill.geno()], if needed.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>chartOpts</code></td>
+<td>
+<p>A list of options for configuring the chart (see
+the coffeescript code). Each element must be named using the
+corresponding option.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>digits</code></td>
+<td>
+<p>Round data to this number of significant digits
+before passing to the chart function. (Use NULL to not round.)</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>[qtl::fill.geno()]
+is used to impute missing genotypes. In this case, arguments to
+[qtl::fill.geno()] are passed as a list, for example
+'fillgenoArgs=list(method="argmax", error.prob=0.002,
+map.function="c-f")'.
+</p>
+<p>Individual IDs (viewable when hovering over a point in the
+scatterplot of the two phenotypes) are taken from the input
+'cross' object, using the [qtl::getid()] function in
+R/qtl.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class 'htmlwidget' that will
+intelligently print itself into HTML in a variety of contexts
+including the R console, within R Markdown documents, and within
+Shiny output bindings.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>[iplotScanone()], [iplotMScanone()],
+[iplotPXG()]
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(qtl)
+data(fake.bc)
+fake.bc &lt;- calc.genoprob(fake.bc[5,], step=1) # select chr 5
+out &lt;- scanone(fake.bc, method="hk", pheno.col=1:2)
+
+ipleiotropy(fake.bc, out)
+
+
+# omit the LOD curves
+ipleiotropy(fake.bc)
+
+</code></pre>
+
+
+</div>

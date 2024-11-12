@@ -1,0 +1,55 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>Pconstruct</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Assemble a Correlation Matrix for ML Copula Fitting 
+</h2>
+
+<h3>Description</h3>
+
+<p>This function converts a vector of values representing the terms of a
+lower triangular matrix <code class="reqn">A</code> with ones on the diagonal and
+returns the correlation matrix corresponding to the covariance matrix
+<code class="reqn">AA'</code> (see page 235 in QRM).  
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">Pconstruct(theta)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>theta</code></td>
+<td>
+<p><code>vector</code>, elements of a lower triangular matrix
+<code class="reqn">A</code> with ones on the diagonal.</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>matrix
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>link{Pdeconstruct}</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">P &lt;- Pconstruct(1:6) 
+eigen(P) 
+Pdeconstruct(P) 
+</code></pre>
+
+
+</div>

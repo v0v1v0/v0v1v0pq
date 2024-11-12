@@ -1,0 +1,360 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>splitWordlist</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Construct sparse matrices from comparative wordlists (aka ‘Swadesh list’)
+</h2>
+
+<h3>Description</h3>
+
+<p>A comparative wordlist (aka ‘Swadesh list’) is a collection of wordforms from different languages, which are translations of a selected set of meanings. This function dismantles this data structure into a set of sparse matrices.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">splitWordlist(data,
+	doculects = "DOCULECT", concepts = "CONCEPT", counterparts = "COUNTERPART",
+	splitstrings = TRUE, sep =  "", bigram.binder = "", grapheme.binder = "_", 
+	simplify = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+
+<p>A dataframe or matrix with each row describing a combination of language (DOCULECT), meaning (CONCEPT) and translation (COUNTERPART).
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>doculects, concepts, counterparts</code></td>
+<td>
+
+<p>The name (or number) of the column of <code>data</code> in which the respective information is to be found.  The defaults are set to coincide with the naming of the example dataset included in this package: <code>huber</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>splitstrings</code></td>
+<td>
+
+<p>Should the counterparts be separated into unigrams and bigrams (using <code>splitStrings</code>)?
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sep</code></td>
+<td>
+
+<p>Separator to be passed to <code>splitStrings</code> to specify where to split the strings. Only used when <code>splitstrings = T</code>, ignored otherwise.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bigram.binder</code></td>
+<td>
+
+<p>Separator to be passed to <code>splitStrings</code> to be inserted between the parts of the bigrams
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>grapheme.binder</code></td>
+<td>
+
+<p>Separator to be used to separate a grapheme from the language name. Graphemes are language-specific symbols (i.e. the 'a' in the one language is not assumed to be the same as the 'a' from another language).
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>simplify</code></td>
+<td>
+
+<p>Should the output be reduced to the most important matrices only, with the row and columns names included in the matrices? Defaults to <code>simplify = F</code>, separating everything into different object. See Value below for details on the format of the results.
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The meanings that are selected for a wordlist are called CONCEPTS here, and the translations into the various languages COUNTERPARTS (following Poornima &amp; Good 2010). The languages are called DOCULECTS (‘documented lects’) to generalize over their status as dialects, languages, or even small families (following Cysouw &amp; Good 2013).
+</p>
+
+
+<h3>Value</h3>
+
+<p>There are four different possible outputs, depending on the option chosen.
+</p>
+<p>By default, when <code>splitstrings = T, simplify = F</code>, the following list of 15 objects is returned. It starts with 8 different character vectors, which are actually the row/column names of the following sparse pattern matrices. The naming of the objects is an attempt to make everything easy to remember.
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>doculects</code></td>
+<td>
+<p>Character vector with names of doculects in the data</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>concepts</code></td>
+<td>
+<p>Character vector with names of concepts in the data</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>words</code></td>
+<td>
+<p>Character vector with all words, i.e. unique counterparts per language. The same string in the same language is only included once, but an identical string occurring in different doculect is separately included for each doculects.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>segments</code></td>
+<td>
+<p>Character vector with all unigram-tokens in order of appearance, including boundary symbols and gap symbols (see <code>splitStrings</code> for more information about the gap symbols)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>unigrams</code></td>
+<td>
+<p>Character vector with all unique unigrams in the data</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bigrams</code></td>
+<td>
+<p>Character vector with all unique bigrams in the data</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>graphemes</code></td>
+<td>
+<p>Character vector with all unique graphemes (i.e. combinations of unigrams+doculects) occurring in the data</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>digraphs</code></td>
+<td>
+<p>Character vector with all unique digraphs (i.e. combinations of bigrams+doculects) occurring in the data</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>DW</code></td>
+<td>
+<p>Sparse pattern matrix of class <code>ngCMatrix</code> linking doculects (D) to words (W)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>CW</code></td>
+<td>
+<p>Sparse pattern matrix of class <code>ngCMatrix</code> linking concepts (C) to words (W)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>SW</code></td>
+<td>
+<p>Sparse pattern matrix of class <code>ngCMatrix</code> linking all token-segments (S) to words (W)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>US</code></td>
+<td>
+<p>Sparse pattern matrix of class <code>ngCMatrix</code> linking unigrams (U) to segments (S)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>BS</code></td>
+<td>
+<p>Sparse pattern matrix of class <code>ngCMatrix</code> linking bigrams (B) to segments (S)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>GS</code></td>
+<td>
+<p>Sparse pattern matrix of class <code>ngCMatrix</code> linking language-specific graphemes (G) to segments (S)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>TS</code></td>
+<td>
+<p>Sparse pattern matrix of class <code>ngCMatrix</code> linking digraphs (T, as no other letter was available) to segments (S)</p>
+</td>
+</tr>
+</table>
+<p>When <code>splitstrings = F, simplify = F</code>, only the following objects from the above list are returned:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>doculects</code></td>
+<td>
+<p>Character vector with names of doculects in the data</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>concepts</code></td>
+<td>
+<p>Character vector with names of concepts in the data</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>words</code></td>
+<td>
+<p>Character vector with all words, i.e. unique counterparts per language. The same string in the same language is only included once, but an identical string occurring in different doculect is separately included for each doculects.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>DW</code></td>
+<td>
+<p>Sparse pattern matrix of class <code>ngCMatrix</code> linking doculects (D) to words (W)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>CW</code></td>
+<td>
+<p>Sparse pattern matrix of class <code>ngCMatrix</code> linking concepts (C) to words (W)</p>
+</td>
+</tr>
+</table>
+<p>When <code>splitstrings = T, simplify = T</code> only the bigram-separation is returned, and all row and columns names are included into the matrices. However, for reasons of space, the <code>words</code> vector is only included once:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>DW</code></td>
+<td>
+<p>Sparse pattern matrix of class <code>ngCMatrix</code> linking doculects (D) to words (W). Doculects are in the rownames, colnames are left empty.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>CW</code></td>
+<td>
+<p>Sparse pattern matrix of class <code>ngCMatrix</code> linking concepts (C) to words (W). Concepts are in the rownames, colnames are left empty.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>BW</code></td>
+<td>
+<p>Sparse pattern matrix of class <code>ngCMatrix</code> linking bigrams (B) to words (W). Bigrams (note: not digraphs!) are in the rownames. This matrix includes all words as colnames.</p>
+</td>
+</tr>
+</table>
+<p>Finally, when <code>splitstrings = F, simplify = T</code>, only the following subset of the above is returned.
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>DW</code></td>
+<td>
+<p>Sparse pattern matrix of class <code>ngCMatrix</code> linking doculects (D) to words (W). Doculects are in the rownames, colnames are left empty.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>CW</code></td>
+<td>
+<p>Sparse pattern matrix of class <code>ngCMatrix</code> linking concepts (C) to words (W). Concepts are in the rownames, colnames are left empty.</p>
+</td>
+</tr>
+</table>
+<h3>Note</h3>
+
+<p>Note that the default behavior probably overgenerates information (specifically when <code>splitstrings = T</code>), and might be performing unnecessary computation for specific goals. In practice, it might be useful to tweak the underlying code (mainly by throwing out unnecessary steps) to optimize performance.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Michael Cysouw
+</p>
+
+
+<h3>References</h3>
+
+<p>Cysouw, Michael &amp; Jeff Good. 2013. Languoid, Doculect, Glossonym: Formalizing the notion “language”. <em>Language Documentation and Conservation</em> 7. 331-359.
+</p>
+<p>Poornima, Shakthi &amp; Jeff Good. 2010. Modeling and Encoding Traditional Wordlists for Machine Applications. <em>Proceedings of the 2010 Workshop on NLP and Linguistics: Finding the Common Ground.</em>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>sim.wordlist</code> for various quick similarities that can be computed using these matrices.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># ----- load data -----
+
+# an example wordlist, see the help(huber) for details
+data(huber)
+
+# ----- show output -----
+
+# a selection, to see the result of splitWordlist
+# only show the simplified output here, 
+# the full output is rather long even for just these six words
+sel &lt;- c(1:3, 1255:1258)
+splitWordlist(huber[sel,], simplify = TRUE)
+
+# ----- split complete data -----
+
+# splitting the complete wordlist is a lot of work !
+# it won't get much quicker than this
+# most time goes into the string-splitting of the almost 26,000 words
+# Default version, included splitStrings:
+system.time( H &lt;- splitWordlist(huber) )
+
+# Simplified version without splitStrings is much quicker:
+system.time( H &lt;- splitWordlist(huber, splitstrings = FALSE, simplify = TRUE) )
+
+# ----- investigate colexification -----
+
+# The simple version can be used to check how often two concepts 
+# are expressed identically across all languages ('colexification')
+H &lt;- splitWordlist(huber, splitstrings = FALSE, simplify = TRUE)
+sim &lt;- tcrossprod(H$CW*1)
+
+# select only the frequent colexifications for a quick visualisation
+diag(sim) &lt;- 0
+sim &lt;- drop0(sim, tol = 5)
+sim &lt;- sim[rowSums(sim) &gt; 0, colSums(sim) &gt; 0]
+
+## Not run: 
+# this might lead to errors on some platforms because of non-ASCII symbols
+plot( hclust(as.dist(-sim), method = "average"), cex = .5)
+
+## End(Not run)
+
+# ----- investigate regular sound correspondences -----
+
+# One central problem with data from many languages is the variation of orthography
+# It is preferred to solve that problem separately
+# e.g. check the column "TOKENS" in the huber data
+# This is a grapheme-separated version of the data.
+# can be used to investigate co-occurrence of graphemes (approx. phonemes)
+H &lt;- splitWordlist(huber, counterparts = "TOKENS", sep = " ")
+
+# co-occurrence of all pairs of the 2150 different graphemes through all languages
+system.time( G &lt;- assocSparse( (H$CW*1) %*% t(H$SW*1) %*% t(H$GS*1), method = poi))
+rownames(G) &lt;- colnames(G) &lt;- H$graphemes
+G &lt;- drop0(G, tol = 1)
+
+# select only one language pair for a quick visualisation
+# check the nice sound changes between bora and muinane!
+GD &lt;- H$GS %*% H$SW %*% t(H$DW)
+colnames(GD) &lt;- H$doculects
+correspondences &lt;- G[GD[,"bora"],GD[,"muinane"]]
+
+## Not run: 
+# this might lead to errors on some platforms because of non-ASCII symbols
+heatmap(as.matrix(correspondences))
+
+## End(Not run)
+</code></pre>
+
+
+</div>

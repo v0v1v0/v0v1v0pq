@@ -1,0 +1,162 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qdg.perm.test</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2> Conduct permutation test for LOD score of edge direction on
+directed graph </h2>
+
+<h3>Description</h3>
+
+<p>Conduct permutation test for LOD score of edge direction on
+directed graph.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qdg.perm.test(cross, nperm, node1, node2, common.cov = NULL,
+  DG, QTLs, addcov = NULL, intcov = NULL)
+## S3 method for class 'qdg.perm.test'
+summary(object, ...)
+## S3 method for class 'qdg.perm.test'
+print(x, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>cross</code></td>
+<td>
+<p> Object of class <code>cross</code> (see <code>read.cross</code>). </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nperm</code></td>
+<td>
+<p> Number of permutations. </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>node1</code></td>
+<td>
+<p> Character string with name of a phenotype nodes. </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>node2</code></td>
+<td>
+<p> Character string with name of a phenotype nodes. </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>common.cov</code></td>
+<td>
+<p> Character string with name of common phenotype covariates. </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>DG</code></td>
+<td>
+<p> Directed graph of class <code>QDG</code> </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>QTLs</code></td>
+<td>
+<p> List of objects of class <code>qtl</code>. </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>addcov</code></td>
+<td>
+<p> Names of additive covariates. Must be valid phenotype
+names in <code>cross</code>. Expanded to include all <code>intcov</code> names. </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>intcov</code></td>
+<td>
+<p> Names of additive covariates. Must be valid phenotype
+names in <code>cross</code>. </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x,object</code></td>
+<td>
+<p>Object of class <code>qdg.perm.test</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Additional arguments ignored.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p><code>qdg.perm.test</code> performs <code>nperm</code> permutation-based test
+of LOD score for an 
+edge of a directed graph.
+</p>
+
+
+<h3>Value</h3>
+
+<p>List composed by:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>pvalue</code></td>
+<td>
+<p>Permutation p-value.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>obs.lod</code></td>
+<td>
+<p>Observed LOD score.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>PermSample</code></td>
+<td>
+<p>Permutation LOD scores sample.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>node1</code></td>
+<td>
+<p>Character string with name of a phenotype nodes.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>node2</code></td>
+<td>
+<p>Character string with name of a phenotype nodes.</p>
+</td>
+</tr>
+</table>
+<h3>References</h3>
+
+<p> Chaibub Neto et al. (2008) Inferring causal phenotype networks from 
+segregating populations. Genetics 179: 1089-1100.</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(glxnet)
+glxnet.cross &lt;- calc.genoprob(glxnet.cross)
+set.seed(1234)
+glxnet.cross &lt;- sim.geno(glxnet.cross)
+## Should really use nperm = 1000 here.
+qdg.perm.test(glxnet.cross, nperm = 10, "Glx", "Slc1a2",
+   DG = glxnet.qdg$DG, QTLs = glxnet.qtl)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,122 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qspec.qslw</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Quantile-Smoothing-Lag-Window (QSLW) Estimator of Quantile Spectrum</h2>
+
+<h3>Description</h3>
+
+<p>This function computes quantie-smoothing-lag-window (QSLW estimate of quantile spectrum/cross-spectrum 
+from time series or quantile discrete Fourier transform (QDFT).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qspec.qslw(
+  y,
+  tau,
+  y.qdft = NULL,
+  M = NULL,
+  method = c("gamm", "sp"),
+  spar = "GCV",
+  n.cores = 1,
+  cl = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>vector or matrix of time series (if matrix, <code>nrow(y)</code> = length of time series)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tau</code></td>
+<td>
+<p>sequence of quantile levels in (0,1)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y.qdft</code></td>
+<td>
+<p>matrix or array of pre-calculated QDFT (default = <code>NULL</code>: compute from <code>y</code> and <code>tau</code>);
+if <code>y.qdft</code> is supplied, <code>y</code> and <code>tau</code> can be left unspecified</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>M</code></td>
+<td>
+<p>bandwidth parameter of lag window (default = <code>NULL</code>: quantile periodogram)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+<p>smoothing method: <code>"gamm"</code> for <code>mgcv::gamm()</code> (default), 
+<code>"sp"</code> for <code>stats::smooth.spline()</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>spar</code></td>
+<td>
+<p>smoothing parameter in <code>smooth.spline()</code> if <code>method = 'sp'</code> (default = <code>"GCV"</code>)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n.cores</code></td>
+<td>
+<p>number of cores for parallel computing (default = 1)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cl</code></td>
+<td>
+<p>pre-existing cluster for repeated parallel computing (default = <code>NULL</code>)</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list with the following elements:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>spec</code></td>
+<td>
+<p>matrix or array of quantile spectrum/cross-spectrum</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lw</code></td>
+<td>
+<p>lag-window sequence</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qdft</code></td>
+<td>
+<p>matrix or array of quantile discrete Fourier transform if <code>y.qdft = NULL</code></p>
+</td>
+</tr>
+</table>
+<h3>Examples</h3>
+
+<pre><code class="language-R">y1 &lt;- stats::arima.sim(list(order=c(1,0,0), ar=0.5), n=64)
+y2 &lt;- stats::arima.sim(list(order=c(1,0,0), ar=-0.5), n=64)
+tau &lt;- seq(0.1,0.9,0.05)
+n &lt;- length(y1)
+ff &lt;- c(0:(n-1))/n
+sel.f &lt;- which(ff &gt; 0 &amp; ff &lt; 0.5)
+y.qper.qslw &lt;- qspec.qslw(cbind(y1,y2),tau,M=5,method="sp",spar=0.9)$spec
+qfa.plot(ff[sel.f],tau,Re(y.qper.qslw[1,1,sel.f,]))
+</code></pre>
+
+
+</div>

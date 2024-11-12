@@ -1,0 +1,101 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>crossqreg</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Cross-Quantilogram</h2>
+
+<h3>Description</h3>
+
+<p>Returns the cross-quantilogram
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">crossqreg(DATA1, DATA2, vecA, k)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>DATA1</code></td>
+<td>
+<p>An input matrix (T x p1)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>DATA2</code></td>
+<td>
+<p>An input matrix (T x p2)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vecA</code></td>
+<td>
+<p>A pair of two probability values at which sample quantiles are estimated</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>k</code></td>
+<td>
+<p>A lag order (integer)</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>This function obtains the cross-quantilogram at the k lag order.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Cross-Quantilogram
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Heejoon Han, Oliver Linton, Tatsushi Oka and Yoon-Jae Whang
+</p>
+
+
+<h3>References</h3>
+
+<p>Han, H., Linton, O., Oka, T., and Whang, Y. J. (2016).
+"The cross-quantilogram: Measuring quantile dependence and testing directional predictability between time series."
+<em>Journal of Econometrics</em>, 193(1), 251-270.
+</p>
+<p>Koenker, R., and Bassett Jr, G. (1978).
+"Regression quantiles." <em>Econometrica</em>, 46(1), 33-50.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## data source 
+data(sys.risk)
+
+## sample size
+T = nrow(sys.risk)
+
+## matrix for quantile regressions
+## - 1st column: dependent variables
+## - the rest:   regressors or predictors 
+D1 = cbind(sys.risk[2:T,"Market"], sys.risk[1:(T-1),"Market"])
+D2 = cbind(sys.risk[2:T,"JPM"], sys.risk[1:(T-1),"JPM"])
+
+## probability levels
+vecA = c(0.1, 0.2)
+
+## cross-quantilogram with the lag of 5, after quantile regression 
+crossqreg(D1, D2, vecA, 5)
+
+</code></pre>
+
+
+</div>

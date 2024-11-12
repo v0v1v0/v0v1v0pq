@@ -1,0 +1,67 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>decomp_kinship</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Calculate eigen decomposition of kinship matrix</h2>
+
+<h3>Description</h3>
+
+<p>Calculate the eigen decomposition of a kinship matrix, or of a list of such matrices.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">decomp_kinship(kinship, cores = 1)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>kinship</code></td>
+<td>
+<p>A square matrix, or a list of square matrices.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cores</code></td>
+<td>
+<p>Number of CPU cores to use, for parallel calculations.
+(If <code>0</code>, use <code>parallel::detectCores()</code>.)
+Alternatively, this can be links to a set of cluster sockets, as
+produced by <code>parallel::makeCluster()</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The result contains an attribute <code>"eigen_decomp"</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The eigen values and the <strong>transposed</strong> eigen vectors,
+as a list containing a vector <code>values</code> and a matrix
+<code>vectors</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">iron &lt;- read_cross2(system.file("extdata", "iron.zip", package="qtl2"))
+
+map &lt;- insert_pseudomarkers(iron$gmap, step=1)
+probs &lt;- calc_genoprob(iron, map, error_prob=0.002)
+K &lt;- calc_kinship(probs)
+
+Ke &lt;- decomp_kinship(K)
+
+</code></pre>
+
+
+</div>

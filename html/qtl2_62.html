@@ -1,0 +1,98 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>fread_csv</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Read a csv file</h2>
+
+<h3>Description</h3>
+
+<p>Read a csv file via <code>data.table::fread()</code> using a
+particular set of options, including the ability to transpose the
+result.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">fread_csv(
+  filename,
+  sep = ",",
+  na.strings = c("NA", "-"),
+  comment.char = "#",
+  transpose = FALSE,
+  rownames_included = TRUE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>filename</code></td>
+<td>
+<p>Name of input file</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sep</code></td>
+<td>
+<p>Field separator</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>na.strings</code></td>
+<td>
+<p>Missing value codes</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>comment.char</code></td>
+<td>
+<p>Comment character; rest of line after this character is ignored</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>transpose</code></td>
+<td>
+<p>If TRUE, transpose the result</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rownames_included</code></td>
+<td>
+<p>If TRUE, the first column is taken to be row names.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Initial two lines can contain comments with number of rows
+and columns. Number of columns includes an ID column; number of
+rows does not include the header row.
+</p>
+<p>The first column is taken to be a set of row names
+</p>
+
+
+<h3>Value</h3>
+
+<p>Data frame
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>fread_csv_numer()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: mydata &lt;- fread_csv("myfile.csv", transpose=TRUE)
+</code></pre>
+
+
+</div>

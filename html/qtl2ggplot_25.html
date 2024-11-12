@@ -1,0 +1,164 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>summary_scan1</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Summary of scan1 object</h2>
+
+<h3>Description</h3>
+
+<p>Summary of scan1 object
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">summary_scan1(
+  object,
+  map,
+  snpinfo = NULL,
+  lodcolumn = seq_len(ncol(object)),
+  chr = names(map),
+  sum_type = c("common", "best"),
+  drop = 1.5,
+  show_all_snps = TRUE,
+  ...
+)
+
+## S3 method for class 'scan1'
+summary(object, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>object from <code>scan1</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>map</code></td>
+<td>
+<p>A list of vectors of marker positions, as produced by
+<code>insert_pseudomarkers</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>snpinfo</code></td>
+<td>
+<p>Data frame with SNP information with the following
+columns (the last three are generally derived from with
+<code>index_snps</code>):
+</p>
+
+<ul>
+<li> <p><code>chr</code> - Character string or factor with chromosome
+</p>
+</li>
+<li> <p><code>pos</code> - Position (in same units as in the <code>"map"</code>
+attribute in <code>genoprobs</code>.
+</p>
+</li>
+<li> <p><code>sdp</code> - Strain distribution pattern: an integer, between
+1 and <code class="reqn">2^n - 2</code> where <code class="reqn">n</code> is the number of strains, whose
+binary encoding indicates the founder genotypes
+</p>
+</li>
+<li> <p><code>snp</code> - Character string with SNP identifier (if
+missing, the rownames are used).
+</p>
+</li>
+<li> <p><code>index</code> - Indices that indicate equivalent
+groups of SNPs.
+</p>
+</li>
+<li> <p><code>intervals</code> - Indexes that indicate which marker
+intervals the SNPs reside.
+</p>
+</li>
+<li> <p><code>on_map</code> - Indicate whether SNP coincides with a marker
+in the <code>genoprobs</code>
+</p>
+</li>
+</ul>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lodcolumn</code></td>
+<td>
+<p>one or more lod columns</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>chr</code></td>
+<td>
+<p>one or more chromosome IDs</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sum_type</code></td>
+<td>
+<p>type of summary</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>drop</code></td>
+<td>
+<p>LOD drop from maximum</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>show_all_snps</code></td>
+<td>
+<p>show all SNPs if <code>TRUE</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>other arguments not used</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>tbl summary
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Brian S Yandell, <a href="mailto:brian.yandell@wisc.edu">brian.yandell@wisc.edu</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># read data
+iron &lt;- qtl2::read_cross2(system.file("extdata", "iron.zip", package="qtl2"))
+# insert pseudomarkers into map
+map &lt;- qtl2::insert_pseudomarkers(iron$gmap, step=1)
+
+# calculate genotype probabilities
+probs &lt;- qtl2::calc_genoprob(iron, map, error_prob=0.002)
+
+# grab phenotypes and covariates; ensure that covariates have names attribute
+pheno &lt;- iron$pheno
+covar &lt;- match(iron$covar$sex, c("f", "m")) # make numeric
+names(covar) &lt;- rownames(iron$covar)
+Xcovar &lt;- qtl2::get_x_covar(iron)
+
+# perform genome scan
+out &lt;- qtl2::scan1(probs, pheno, addcovar=covar, Xcovar=Xcovar)
+
+# summary
+summary(out, map)
+
+</code></pre>
+
+
+</div>

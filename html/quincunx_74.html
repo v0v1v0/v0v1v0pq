@@ -1,0 +1,199 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>sample_sets-class</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>An S4 class to represent a set of PGS Catalog Sample Sets</h2>
+
+<h3>Description</h3>
+
+<p>The sample_sets object consists of four tables (slots) that combined form a
+relational database of a subset of PGS Catalog sample sets. Each sample set
+is an observation (row) in the <code>sample_sets</code> table (first table).
+</p>
+
+
+<h3>Slots</h3>
+
+
+<dl>
+<dt><code>sample_sets</code></dt>
+<dd>
+<p>A table of sample sets. Each sample set (row) is uniquely
+identified by the column <code>pss_id</code>. Columns:
+</p>
+
+<dl>
+<dt>pss_id</dt>
+<dd>
+<p>A PGS Sample Set identifier. Example: <code>"PSS000042"</code>.</p>
+</dd>
+</dl>
+</dd>
+<dt><code>samples</code></dt>
+<dd>
+<p>A table of samples. Each sample (row) is uniquely identified by
+the combination of values from the columns: <code>pss_id</code> and
+<code>sample_id</code>. Columns:
+</p>
+
+<dl>
+<dt>pss_id</dt>
+<dd>
+<p>A PGS Sample Set identifier. Example: <code>"PSS000042"</code>.</p>
+</dd>
+<dt>sample_id</dt>
+<dd>
+<p>Sample identifier. This is a surrogate key to identify each sample.</p>
+</dd>
+<dt>stage</dt>
+<dd>
+<p>Sample stage: should be always Evaluation (<code>"eval"</code>).</p>
+</dd>
+<dt>sample_size</dt>
+<dd>
+<p>Number of individuals included in the sample.</p>
+</dd>
+<dt>sample_cases</dt>
+<dd>
+<p>Number of cases.</p>
+</dd>
+<dt>sample_controls</dt>
+<dd>
+<p>Number of controls.</p>
+</dd>
+<dt>sample_percent_male</dt>
+<dd>
+<p>Percentage of male participants.</p>
+</dd>
+<dt>phenotype_description</dt>
+<dd>
+<p>Detailed phenotype description.</p>
+</dd>
+<dt>ancestry_category</dt>
+<dd>
+<p>Author reported ancestry is mapped to the best matching
+ancestry category from the NHGRI-EBI GWAS Catalog framework (see
+<code>ancestry_categories</code>) for possible values.</p>
+</dd>
+<dt>ancestry</dt>
+<dd>
+<p>A more detailed description of sample ancestry
+that usually matches the most specific description described by the authors
+(e.g. French, Chinese).</p>
+</dd>
+<dt>country</dt>
+<dd>
+<p>Author reported countries of recruitment (if available).</p>
+</dd>
+<dt>ancestry_additional_description</dt>
+<dd>
+<p>Any additional description not
+captured in the other columns (e.g. founder or genetically isolated
+populations, or further description of admixed samples).</p>
+</dd>
+<dt>study_id</dt>
+<dd>
+<p>Associated GWAS Catalog study accession identifier, e.g.,
+<code>"GCST002735"</code>.</p>
+</dd>
+<dt>pubmed_id</dt>
+<dd>
+<p><a href="https://en.wikipedia.org/wiki/PubMed">PubMed</a>
+identifier.</p>
+</dd>
+<dt>cohorts_additional_description</dt>
+<dd>
+<p>Any additional description about the
+samples (e.g. sub-cohort information).</p>
+</dd>
+</dl>
+</dd>
+<dt><code>demographics</code></dt>
+<dd>
+<p>A table of sample demographics' variables. Each
+demographics' variable (row) is uniquely identified by the combination of
+values from the columns: <code>pss_id</code>, <code>sample_id</code>, and
+<code>variable</code>. Columns:
+</p>
+
+<dl>
+<dt>pss_id</dt>
+<dd>
+<p>A PGS Sample Set identifier. Example: <code>"PSS000042"</code>.</p>
+</dd>
+<dt>sample_id</dt>
+<dd>
+<p>Sample identifier. This is a surrogate identifier to
+identify each sample.</p>
+</dd>
+<dt>variable</dt>
+<dd>
+<p>Demographics variable. Following columns report about the
+indicated variable.</p>
+</dd>
+<dt>estimate_type</dt>
+<dd>
+<p>Type of statistical estimate for variable.</p>
+</dd>
+<dt>estimate</dt>
+<dd>
+<p>The variable's statistical value.</p>
+</dd>
+<dt>unit</dt>
+<dd>
+<p>Unit of the variable.</p>
+</dd>
+<dt>variability_type</dt>
+<dd>
+<p>Measure of statistical dispersion for variable, e.g.
+standard error (se) or standard deviation (sd).</p>
+</dd>
+<dt>variability</dt>
+<dd>
+<p>The value of the measure of dispersion.</p>
+</dd>
+<dt>interval_type</dt>
+<dd>
+<p>Type of statistical interval for variable: range, iqr
+(interquartile), ci (confidence interval).</p>
+</dd>
+<dt>interval_lower</dt>
+<dd>
+<p>Interval lower bound.</p>
+</dd>
+<dt>interval_upper</dt>
+<dd>
+<p>Interval upper bound.</p>
+</dd>
+</dl>
+</dd>
+<dt><code>cohorts</code></dt>
+<dd>
+<p>A table of cohorts. Each cohort (row) is uniquely identified by
+the combination of values from the columns: <code>pss_id</code>, <code>sample_id</code>
+and <code>cohort_symbol</code>. Columns:
+</p>
+
+<dl>
+<dt>pss_id</dt>
+<dd>
+<p>A PGS Sample Set identifier. Example: <code>"PSS000042"</code>.</p>
+</dd>
+<dt>sample_id</dt>
+<dd>
+<p>Sample identifier. This is a surrogate key to identify each sample.</p>
+</dd>
+<dt>cohort_symbol</dt>
+<dd>
+<p>Cohort symbol.</p>
+</dd>
+<dt>cohort_name</dt>
+<dd>
+<p>Cohort full name.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</div>

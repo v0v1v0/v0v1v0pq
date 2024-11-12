@@ -1,0 +1,178 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>rm_citation_tex</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Remove/Replace/Extract LaTeX Citations</h2>
+
+<h3>Description</h3>
+
+<p>Remove/replace/extract LaTeX citations from a string.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">rm_citation_tex(
+  text.var,
+  trim = !extract,
+  clean = TRUE,
+  pattern = "@rm_citation_tex",
+  replacement = "",
+  extract = FALSE,
+  split = extract,
+  unlist.extract = TRUE,
+  dictionary = getOption("regex.library"),
+  ...
+)
+
+ex_citation_tex(
+  text.var,
+  trim = !extract,
+  clean = TRUE,
+  pattern = "@rm_citation_tex",
+  replacement = "",
+  extract = TRUE,
+  split = extract,
+  unlist.extract = TRUE,
+  dictionary = getOption("regex.library"),
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>text.var</code></td>
+<td>
+<p>The text variable.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>trim</code></td>
+<td>
+<p>logical.  If <code>TRUE</code> removes leading and trailing white 
+spaces.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>clean</code></td>
+<td>
+<p>trim logical.  If <code>TRUE</code> extra white spaces and escaped 
+character will be removed.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pattern</code></td>
+<td>
+<p>A character string containing a regular expression (or 
+character string).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>replacement</code></td>
+<td>
+<p>Replacement for matched <code>pattern</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>extract</code></td>
+<td>
+<p>logical.  If <code>TRUE</code> the dates are extracted into a 
+list of vectors.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>split</code></td>
+<td>
+<p>logical.  If <code>TRUE</code> and <code>extract = TRUE</code> the bibkey 
+will be removed from the LaTeX citation code curly braces and split on 
+commas.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>unlist.extract</code></td>
+<td>
+<p>logical.  If <code>TRUE</code> the splits from between LaTeX 
+citation code curly braces will be unlisted. if <code>FALSE</code> the list 
+structure (1 per citation code curly brace) will be retained.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dictionary</code></td>
+<td>
+<p>A dictionary of canned regular expressions to search within 
+if <code>pattern</code> begins with <code>"@rm_"</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Additional arguments passed to 
+<code>rm_default</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Returns a character string with citations (bibkeys) removed.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>gsub</code>,
+<code>stri_extract_all_regex</code>
+</p>
+<p>Other rm_ functions: 
+<code>rm_abbreviation()</code>,
+<code>rm_between()</code>,
+<code>rm_bracket()</code>,
+<code>rm_caps_phrase()</code>,
+<code>rm_caps()</code>,
+<code>rm_citation()</code>,
+<code>rm_city_state_zip()</code>,
+<code>rm_city_state()</code>,
+<code>rm_date()</code>,
+<code>rm_default()</code>,
+<code>rm_dollar()</code>,
+<code>rm_email()</code>,
+<code>rm_emoticon()</code>,
+<code>rm_endmark()</code>,
+<code>rm_hash()</code>,
+<code>rm_nchar_words()</code>,
+<code>rm_non_ascii()</code>,
+<code>rm_non_words()</code>,
+<code>rm_number()</code>,
+<code>rm_percent()</code>,
+<code>rm_phone()</code>,
+<code>rm_postal_code()</code>,
+<code>rm_repeated_characters()</code>,
+<code>rm_repeated_phrases()</code>,
+<code>rm_repeated_words()</code>,
+<code>rm_tag()</code>,
+<code>rm_time()</code>,
+<code>rm_title_name()</code>,
+<code>rm_url()</code>,
+<code>rm_white()</code>,
+<code>rm_zip()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">x &lt;- c(
+    "I say \\parencite*{Ted2005, Moe1999} go there in \\textcite{Few2010} said to.",
+    "But then \\authorcite{Ware2013} said it was so \\pcite[see][p. 22]{Get9999c}.", 
+    "then I \\citep[p. 22]{Foo1882c} him")
+
+rm_citation_tex(x)
+rm_citation_tex(x, replacement="[[CITATION]]")
+ex_citation_tex(x)
+</code></pre>
+
+
+</div>

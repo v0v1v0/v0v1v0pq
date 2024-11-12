@@ -1,0 +1,72 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>spacyr-methods</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Extensions for and from spacy_parse objects</h2>
+
+<h3>Description</h3>
+
+<p>These functions provide <span class="pkg">quanteda</span> methods for <span class="pkg">spacyr</span> objects, and
+also extend spacy_parse and
+spacy_tokenize to work directly with corpus
+objects.
+</p>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>an object returned by <code>spacy_parse</code>, or (for
+<code>spacy_parse</code>) a corpus object</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>not used for these functions</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p><code>spacy_parse(x, ...)</code> and <code>spacy_tokenize(x, ...)</code> work directly on
+<span class="pkg">quanteda</span> corpus objects.
+</p>
+<p><code>docnames(x)</code> returns the document names
+</p>
+<p><code>ndoc(x)</code> returns the number of documents
+</p>
+<p><code>ntoken(x, ...)</code> returns the number of tokens by document
+</p>
+<p><code>ntype(x, ...)</code> returns the number of types (unique tokens) by document
+</p>
+<p><code>nsentence(x)</code> returns the number of sentences by document
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+library("spacyr")
+spacy_initialize()
+
+corp &lt;- corpus(c(doc1 = "And now, now, now for something completely different.",
+                 doc2 = "Jack and Jill are children."))
+spacy_tokenize(corp)
+(parsed &lt;- spacy_parse(corp))
+
+ntype(parsed)
+ntoken(parsed)
+ndoc(parsed)
+docnames(parsed)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

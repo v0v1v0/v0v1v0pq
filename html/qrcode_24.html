@@ -1,0 +1,100 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qr_sepa</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Generate a QR code for a SEPA payment</h2>
+
+<h3>Description</h3>
+
+<p>Generate a QR code for a SEPA payment
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qr_sepa(
+  iban,
+  beneficiary,
+  amount,
+  unstructured_reference = "",
+  bic = "",
+  purpose = "",
+  structured_reference = ""
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>iban</code></td>
+<td>
+<p>the IBAN of the beneficiary.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>beneficiary</code></td>
+<td>
+<p>the name of the beneficiary.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>amount</code></td>
+<td>
+<p>the amount to transfer. Must be in EUR.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>unstructured_reference</code></td>
+<td>
+<p>the unstructured reference.
+The unstructured reference is a string of maximum 140 characters.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bic</code></td>
+<td>
+<p>the BIC of the beneficiary.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>purpose</code></td>
+<td>
+<p>the purpose of the payment.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>structured_reference</code></td>
+<td>
+<p>the structured reference.</p>
+</td>
+</tr>
+</table>
+<h3>See Also</h3>
+
+<p>Other qr: 
+<code>coordinates()</code>,
+<code>generate_svg()</code>,
+<code>plot.qr_code()</code>,
+<code>print.qr_code()</code>,
+<code>qr_code()</code>,
+<code>qr_event()</code>,
+<code>qr_location()</code>,
+<code>qr_wifi()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">qr_sepa(
+  iban = "GB33BUKB20201555555555", beneficiary = "John Doe",
+  amount = 100, unstructured_reference = "Test payment"
+) |&gt;
+  plot()
+</code></pre>
+
+
+</div>

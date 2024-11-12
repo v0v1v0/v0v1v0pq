@@ -1,0 +1,111 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>maketabs</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>maketabs</h2>
+
+<h3>Description</h3>
+
+<p>Make Quarto Tabs
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">maketabs(
+  ...,
+  wide = FALSE,
+  cwidth = if (wide) "column-page",
+  initblank = FALSE,
+  baselabel = NULL,
+  cap = NULL,
+  basecap = NULL,
+  debug = FALSE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>a series of formulas or a single named list.  For formulas the left side is the tab label (if multiple words or other illegal R expressions enclose in backticks) and the right hand side has expressions to evaluate during chunk execution, plus optional <code>raw</code>, <code>caption</code>, and <code>fig.size</code> options.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>wide</code></td>
+<td>
+<p>set to <code>TRUE</code> to use a Quarto <code>column-page</code> for the body of the text to allow it to use some of the margins</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cwidth</code></td>
+<td>
+<p>specify a legal <code>Quarto</code> character string instead of <code>wide</code> to specify the width of the output.  These are defined <a href="https://quarto.org/docs/authoring/article-layout.html#options-reference/">here</a>.  Commonly used values are <code>'column-screen-right'</code>, <code>'column-page-left'</code>, <code>'column-screen-inset-shaded'</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>initblank</code></td>
+<td>
+<p>set to <code>TRUE</code> to create a first tab that is blank so that the report will not initially show any tabbed material</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>baselabel</code></td>
+<td>
+<p>a one-word character string that provides the base name of <code>label</code>s for tabs with figure captions.  The sequential tab number is appended to <code>baselabel</code> to obtain the full figure label.  If using formulas the figure label may instead come from <code>caption(.., label)</code>. If not specified it is taken to be the name of the current chunk with <code style="white-space: pre;">⁠fig-⁠</code> prepended.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cap</code></td>
+<td>
+<p>applies to the non-formula use of <code>maketabs</code> and is an integer vector specifying which tabs are to be given figure labels and captions.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>basecap</code></td>
+<td>
+<p>a single character string providing the base text for captions if <code>cap</code> is specified.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>debug</code></td>
+<td>
+<p>set to <code>TRUE</code> to output debugging information in file <code style="white-space: pre;">⁠/tmp/z⁠</code></p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Loops through a series of formulas or elements of a named list and outputs each element into
+a separate <code>Quarto</code> tab.  <code>wide</code> and <code>column</code> arguments are used to expand the width
+of the output outside the usual margins.  An <code>initblank</code> argument
+creates a first tab that is empty, or you can specify a formula <code style="white-space: pre;">⁠ ⁠</code> ~ <code style="white-space: pre;">⁠ ⁠</code>.  This allows one to show nothing
+until one of the other tabs is clicked.  Multiple commands can be run in one chunk by including multiple right hand terms in a formula.  A chunk can be marked for producing raw output by including a term <code>raw</code> somewhere in the formula's right side.  If can be marked for constructing a label and caption by including <code style="white-space: pre;">⁠+ caption(caption string, label string)⁠</code>.  The tab number is appended to the label string, and if the label is not provided <code>baselabel</code> will be used.
+</p>
+
+
+<h3>Value</h3>
+
+<p>nothing is returned; used to render markup
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Frank Harrell
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">X &lt;- list(A=data.frame(x=1:2), B=data.frame(x=1:2, y=11:12))
+maketabs(X)
+</code></pre>
+
+
+</div>

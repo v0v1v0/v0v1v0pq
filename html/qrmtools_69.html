@@ -1,0 +1,140 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>GPD</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>(Generalized) Pareto Distribution</h2>
+
+<h3>Description</h3>
+
+<p>Density, distribution function, quantile function and random variate
+generation for the (generalized) Pareto distribution (GPD).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">dGPD(x, shape, scale, log = FALSE)
+pGPD(q, shape, scale, lower.tail = TRUE, log.p = FALSE)
+qGPD(p, shape, scale, lower.tail = TRUE, log.p = FALSE)
+rGPD(n, shape, scale)
+
+dPar(x, shape, scale = 1, log = FALSE)
+pPar(q, shape, scale = 1, lower.tail = TRUE, log.p = FALSE)
+qPar(p, shape, scale = 1, lower.tail = TRUE, log.p = FALSE)
+rPar(n, shape, scale = 1)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x, q</code></td>
+<td>
+<p>vector of quantiles.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p</code></td>
+<td>
+<p>vector of probabilities.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p>number of observations.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>shape</code></td>
+<td>
+<p>GPD shape parameter <code class="reqn">\xi</code> (a real number) and
+Pareto shape parameter <code class="reqn">\theta</code> (a positive number).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>scale</code></td>
+<td>
+<p>GPD scale parameter <code class="reqn">\beta</code> (a positive number)
+and Pareto scale parameter <code class="reqn">\kappa</code> (a positive number).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lower.tail</code></td>
+<td>
+<p><code>logical</code>; if <code>TRUE</code> (default)
+probabilities are <code class="reqn">P(X \le x)</code> otherwise, <code class="reqn">P(X &gt; x)</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>log, log.p</code></td>
+<td>
+<p>logical; if <code>TRUE</code>, probabilities <code>p</code> are
+given as <code>log(p)</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The distribution function of the generalized Pareto distribution is
+given by
+</p>
+<p style="text-align: center;"><code class="reqn">F(x) = \left\{ \begin{array}{ll}
+    1-(1+\xi x/\beta)^{-1/\xi}, &amp; \xi \neq 0,\\
+    1-\exp(-x/\beta), &amp; \xi = 0,
+    \end{array}\right.</code>
+</p>
+
+<p>where <code class="reqn">\beta&gt;0</code> and <code class="reqn">x\ge0</code> if <code class="reqn">\xi\ge
+  0</code>
+and <code class="reqn">x\in[0,-\beta/\xi]</code> if <code class="reqn">\xi&lt;0</code>.
+</p>
+<p>The distribution function of the Pareto distribution is given by
+</p>
+<p style="text-align: center;"><code class="reqn">F(x) = 1-(1+x/\kappa)^{-\theta},\ x\ge 0,</code>
+</p>
+<p> where <code class="reqn">\theta &gt; 0</code>, <code class="reqn">\kappa &gt; 0</code>.
+</p>
+<p>In contrast to <code>dGPD()</code>, <code>pGPD()</code>, <code>qGPD()</code> and
+<code>rGPD()</code>, the functions <code>dPar()</code>, <code>pPar()</code>,
+<code>qPar()</code> and <code>rPar()</code> are vectorized in their main
+argument and the parameters.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>dGPD()</code> computes the density, <code>pGPD()</code> the distribution
+function, <code>qGPD()</code> the quantile function and <code>rGPD()</code> random
+variates of the generalized Pareto distribution.
+</p>
+<p>Similary for <code>dPar()</code>, <code>pPar()</code>, <code>qPar()</code> and
+<code>rPar()</code> for the Pareto distribution.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Marius Hofert</p>
+
+
+<h3>References</h3>
+
+<p>McNeil, A. J., Frey, R., and Embrechts, P. (2015).
+<em>Quantitative Risk Management: Concepts, Techniques, Tools</em>.
+Princeton University Press.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Basic sanity checks
+curve(dGPD(x, shape = 0.5, scale = 3), from = -1, to = 5)
+plot(pGPD(rGPD(1000, shape = 0.5, scale = 3), shape = 0.5, scale = 3)) # should be U[0,1]
+</code></pre>
+
+
+</div>

@@ -1,0 +1,209 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>means_test</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Test for Multiple Sample Means Against Mu (one-sample t-tests)</h2>
+
+<h3>Description</h3>
+
+<p><code>means_test</code> computes sample means and compares them against specified
+population <code>mu</code> values. These are sometimes referred to as one-sample
+t-tests. It provides the same results as <code>t.test</code>, but
+provides the confidence intervals for the mean differences from mu rather
+than the mean itself. The function also calculates the descriptive statistics
+and the standardized mean differences (i.e., Cohen's d) based on the sample
+standard deviations.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">means_test(
+  data,
+  vrb.nm,
+  mu = 0,
+  d.ci.type = "tdist",
+  ci.level = 0.95,
+  check = TRUE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>data.frame or data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vrb.nm</code></td>
+<td>
+<p>character vector of colnames specifying the variables in
+<code>data</code> to conduct the one-sample t-tests for.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mu</code></td>
+<td>
+<p>numeric vector of length = <code>length(vrb.nm)</code> or length 1
+specifying the population mean values to compare the sample means against.
+The order of the values should be the same as the order in <code>vrb.nm</code>.
+When length 1, the same population mean value is used for all the
+variables.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>d.ci.type</code></td>
+<td>
+<p>character vector with length 1 of specifying the type of
+confidence intervals to compute for the standardized mean differences
+(i.e., Cohen's d). There are currently two options: 1. "tdist" which
+calculates the confidence intervals based on the t-distribution using the
+function <code>cohen.d.ci</code>. No standard error is calculated
+for this option and NA is returned for "d_se" in the return object. 2.
+"classic" which calculates the confidence intervals of Cohen's d based on
+the confidence interval of the mean difference itself. The lower and upper
+confidence bounds are divided by the sample standard deviation.
+Technically, this confidence interval is biased due to not taking into
+account the uncertainty of the standard deviations. No standard error is
+calculated for this option and NA is returned for "d_se" in the return
+object.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ci.level</code></td>
+<td>
+<p>numeric vector of length 1 specifying the confidence level.
+It must be between 0 and 1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>check</code></td>
+<td>
+<p>logical vector of length 1 specifying whether the input
+arguments should be checked for errors. For example, checking whether
+<code>ci.level</code> is between 0 and 1. This is a tradeoff between
+computational efficiency (FALSE) and more useful error messages (TRUE).</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>list of data.frames containing statistical information about the
+sample means (the rownames of the data.frames are <code>vrb.nm</code>): 1)
+nhst = one-sample t-test stat info in a data.frame, 2) desc = descriptive
+statistics stat info in a data.frame, 3) std = standardized mean difference
+stat info in a data.frame
+</p>
+<p>1) nhst = one-sample t-test stat info in a data.frame
+</p>
+
+<dl>
+<dt>est</dt>
+<dd>
+<p>mean - mu estimate</p>
+</dd>
+<dt>se</dt>
+<dd>
+<p>standard error</p>
+</dd>
+<dt>t</dt>
+<dd>
+<p>t-value</p>
+</dd>
+<dt>df</dt>
+<dd>
+<p>degrees of freedom</p>
+</dd>
+<dt>p</dt>
+<dd>
+<p>two-sided p-value</p>
+</dd>
+<dt>lwr</dt>
+<dd>
+<p>lower bound of the confidence interval</p>
+</dd>
+<dt>upr</dt>
+<dd>
+<p>upper bound of the confidence interval</p>
+</dd>
+</dl>
+<p>2) desc = descriptive statistics stat info in a data.frame
+</p>
+
+<dl>
+<dt>mean</dt>
+<dd>
+<p>mean of <code>x</code></p>
+</dd>
+<dt>mu</dt>
+<dd>
+<p>population value of comparison</p>
+</dd>
+<dt>sd</dt>
+<dd>
+<p>standard deviation of <code>x</code></p>
+</dd>
+<dt>n</dt>
+<dd>
+<p>sample size of <code>x</code></p>
+</dd>
+</dl>
+<p>3) std = standardized mean difference stat info in a data.frame
+</p>
+
+<dl>
+<dt>d_est</dt>
+<dd>
+<p>Cohen's d estimate</p>
+</dd>
+<dt>d_se</dt>
+<dd>
+<p>Cohen's d standard error</p>
+</dd>
+<dt>d_lwr</dt>
+<dd>
+<p>Cohen's d lower bound of the confidence interval</p>
+</dd>
+<dt>d_upr</dt>
+<dd>
+<p>Cohen's d upper bound of the confidence interval</p>
+</dd>
+</dl>
+<h3>See Also</h3>
+
+<p><code>mean_test</code> one-sample t-test for a single variable,
+<code>t.test</code> same results,
+<code>means_diff</code> independent two-sample t-tests for multiple variables,
+<code>means_change</code> dependent two-sample t-tests for multiple variables,
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+# one-sample t-tests
+means_test(data = attitude, vrb.nm = names(attitude), mu = 50)
+means_test(data = attitude, vrb.nm = c("rating","complaints","privileges"),
+   mu = c(60, 55, 50))
+means_test(data = attitude, vrb.nm = names(attitude), mu = 50, ci.level = 0.90)
+means_test(airquality, vrb.nm = names(airquality)) # different df and n due to missing data
+
+# compare to t.test
+means_test(data = attitude, vrb.nm = "rating", mu = 50, ci.level = .99)
+t.test(attitude$"rating", mu = 50, conf.level = .99)
+
+# same as intercept-only regression
+means_test(data = attitude, vrb.nm = "rating")
+lm_obj &lt;- lm(rating ~ 1, data = attitude)
+coef(summary(lm_obj))
+
+</code></pre>
+
+
+</div>

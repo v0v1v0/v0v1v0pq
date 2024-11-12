@@ -1,0 +1,115 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qgis_as_terra</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Convert a qgis_result object or one of its elements to a terra object</h2>
+
+<h3>Description</h3>
+
+<p>This function performs coercion to one of the terra classes
+<code>SpatRaster</code>, <code>SpatVector</code> or <code>SpatVectorProxy</code> (add <code>proxy = TRUE</code> for the
+latter).
+The distinction between <code>SpatRaster</code> and <code>SpatVector</code> is based on the
+output type.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qgis_as_terra(x, ...)
+
+## S3 method for class 'qgis_outputRaster'
+qgis_as_terra(x, ...)
+
+## S3 method for class 'qgis_outputLayer'
+qgis_as_terra(x, ...)
+
+## S3 method for class 'qgis_outputVector'
+qgis_as_terra(x, ...)
+
+## S3 method for class 'qgis_result'
+qgis_as_terra(x, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>A <code>qgis_result</code> object from <code>qgis_run_algorithm()</code> or a
+<code style="white-space: pre;">⁠qgis_output*⁠</code> object from one of the <code>qgis_extract_output()</code> functions.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Arguments passed to <code>terra::rast()</code> or <code>terra::vect()</code>, depending
+on the output type of <code>x</code> (or one of its elements, if <code>x</code> is a
+<code>qgis_result</code>).</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A <code>SpatRaster</code>, <code>SpatVector</code> or <code>SpatVectorProxy</code> object.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Other topics about coercing processing output: 
+<code>qgis_as_raster()</code>,
+<code>st_as_sf</code>,
+<code>st_as_stars</code>
+</p>
+<p>Other topics about accessing or managing processing results: 
+<code>qgis_as_raster()</code>,
+<code>qgis_clean_result()</code>,
+<code>qgis_extract_output()</code>,
+<code>qgis_result_status()</code>,
+<code>st_as_sf</code>,
+<code>st_as_stars</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+
+# not running below examples in R CMD check to save time
+result &lt;- qgis_run_algorithm(
+  "native:slope",
+  INPUT = system.file("longlake/longlake_depth.tif", package = "qgisprocess")
+)
+
+# most direct approach, autoselecting a `qgis_outputRaster` type
+# output from the `result` object and reading as SpatRaster:
+qgis_as_terra(result)
+
+# if you need more control, extract the needed output element first:
+output_raster &lt;- qgis_extract_output(result, "OUTPUT")
+qgis_as_terra(output_raster)
+
+# Same holds for coercion to SpatVector
+result2 &lt;- qgis_run_algorithm(
+  "native:buffer",
+  INPUT = system.file("longlake/longlake.gpkg", package = "qgisprocess"),
+  DISTANCE = 100
+)
+
+qgis_as_terra(result2)
+output_vector &lt;- qgis_extract_output(result2, "OUTPUT")
+qgis_as_terra(output_vector)
+
+# SpatVectorProxy:
+qgis_as_terra(result2, proxy = TRUE)
+
+
+</code></pre>
+
+
+</div>

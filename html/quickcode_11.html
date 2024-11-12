@@ -1,0 +1,112 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>archivedPkg</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Listing of all CRAN archived R packages</h2>
+
+<h3>Description</h3>
+
+<p>Retrieve a list of all currently archived R packages and their archive date
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">archivedPkg(
+  startsWith = c("all", letters),
+  after = NULL,
+  inc.date = TRUE,
+  as = c("data.frame", "list")
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>startsWith</code></td>
+<td>
+<p>one letter that the package name starts with eg. a, e, f</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>after</code></td>
+<td>
+<p>packages archived after a specific date eg. 2011-05-10</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>inc.date</code></td>
+<td>
+<p>should archive date be included in the result</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>as</code></td>
+<td>
+<p>return result as data frame or as list</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>a data frame or list containing listing of all archived R packages
+</p>
+
+
+<h3>Use case</h3>
+
+<p>This function allows the retrieval of various R packages archived by CRAN along with
+the respective latest archive date. The packages retrieved include both active and
+inactive R projects submitted to CRAN. When a new version of an active R package is published,
+the older versions of the package gets archived. In the same way, when a package is
+decommissioned from CRAN active projects for one reason or another, it gets archived.
+</p>
+
+
+<h3>Note</h3>
+
+<p>* The "startsWith" argument should be one letter and should be in lowercase <br>
+* If no argument is provided for "startsWith", all the packages will be retrieved<br>
+* The format of the "after" argument must be YYYY-MM-DD e.g. 2022-04-11
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+# Task 1: get archived R packages with names beginning with C or All
+head(archivedPkg(startsWith = "all"), n= 10) #retrieves all packages
+head(archivedPkg(startsWith = "c"), n= 10) #retrieves only packages beginning with a
+
+# Task 2: return the packages from Task 1 without including latest archive date
+res.dt2 &lt;- archivedPkg(startsWith = "b", inc.date = FALSE)
+res.dt2[1:10,]
+
+# Task 3: return the results from Task 2 as a list
+res.dt3 &lt;- archivedPkg(startsWith = "c", inc.date = FALSE, as = "list")
+res.dt3$name[1:10]
+
+res.dt3 &lt;- archivedPkg(startsWith = "e", as = "list")
+res.dt3$name[1:10]
+
+# Task 4: return the archived packages beginning with Y archived after 2022-08-12
+# Note that startsWith should be lowercase
+
+#without archive date
+yRPkg &lt;- archivedPkg(startsWith = "y", after= NULL)
+nrow(yRPkg) #number of rows returned
+head(yRPkg, n = 15) #show first 15 rows
+
+#with archive date
+yRPkg2 &lt;- archivedPkg(startsWith = "y", after= "2022-08-12")
+nrow(yRPkg2) #number of rows returned
+head(yRPkg2, n = 15) #show first 15 rows, notice no archive date before 2022-08-12
+
+</code></pre>
+
+
+</div>

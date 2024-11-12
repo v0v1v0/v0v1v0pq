@@ -1,0 +1,102 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>dataOverview</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>dataOverview</h2>
+
+<h3>Description</h3>
+
+<p>Produce a Data Overview Quarto Section
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">dataOverview(
+  d,
+  d2 = NULL,
+  id = NULL,
+  plot = c("scatter", "dot", "none"),
+  pr = nvar &lt;= 50,
+  which = 1,
+  dec = 3
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>d</code></td>
+<td>
+<p>a data frame or table</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>d2</code></td>
+<td>
+<p>optional second dataset used for analyzing uniqueness of subject IDs</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>id</code></td>
+<td>
+<p>optional formula providing names of subject identifiers</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>plot</code></td>
+<td>
+<p>specifies type of plot, defaulting to <code>'scatter'</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pr</code></td>
+<td>
+<p>set to <code>FALSE</code> to omit detailed table and present only graphics</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>which</code></td>
+<td>
+<p>when two datasets are given which one should be the focus</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dec</code></td>
+<td>
+<p>certain summary statistics are rounded to the nearest <code>dec</code> places</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Produces a multi-tabbed dataset overview as exemplified <a href="https://hbiostat.org/rflow/doverview.html#sec-doverview-data/">here</a>.  This includes provision of data about data such as variable type, symmetry, missingness, rarest and most common values.
+</p>
+
+
+<h3>Value</h3>
+
+<p>nothing; renders a report with Quarto/RMarkdown
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Frank Harrell
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+dataOverview(mydata, secondarydataset)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

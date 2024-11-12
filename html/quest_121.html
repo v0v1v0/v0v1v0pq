@@ -1,0 +1,87 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>valids_test</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Test for Invalid Elements in Data</h2>
+
+<h3>Description</h3>
+
+<p><code>Valid.test</code> tests whether data has any invalid elements. Valid values
+are specified by <code>valid</code>. Each variable is tested independently. If the
+variable in <code>data[vrb.nm]</code> has any values other than <code>valid</code>, then
+FALSE is returned for that variable; If the variable in <code>data[vrb.nm]</code>
+only has values in <code>valid</code>, then TRUE is returned for that variable.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">valids_test(data, vrb.nm, valid, na.rm = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>data.frame of data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vrb.nm</code></td>
+<td>
+<p>character vector of colnames from <code>data</code> specifying the
+variables</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>valid</code></td>
+<td>
+<p>atomic vector or list vector of valid values.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>na.rm</code></td>
+<td>
+<p>logical vector of length 1 specifying whether NA should be
+ignored from the validity test. If TRUE (default), then any NAs are treated
+as valid.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>logical vector with length = <code>length(vrb.nm)</code> and names =
+<code>vrb.nm</code> specifying whether all elements in each variable of
+<code>data[vrb.nm]</code> are valid. If FALSE, then (at least one) invalid values
+are present in that variable of <code>data[vrb.nm]</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>valid_test</code>
+<code>revalids</code>
+<code>revalid</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">valids_test(data = psych::bfi, vrb.nm = names(psych::bfi)[1:25],
+   valid = 1:6) # return TRUE
+valids_test(data = psych::bfi, vrb.nm = names(psych::bfi)[1:25],
+   valid = 0:5) # 6 is not present in `valid`
+valids_test(data = psych::bfi, vrb.nm = names(psych::bfi)[1:25],
+   valid = 1:6, na.rm = FALSE) # NA is not present in `valid`
+valids_test(data = ToothGrowth, vrb.nm = c("supp","dose"),
+   valid = list("VC", "OJ", 0.5, 1.0, 2.0)) # list vector as `valid` to allow for
+   # elements of different typeof
+</code></pre>
+
+
+</div>

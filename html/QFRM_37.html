@@ -1,0 +1,82 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>pbnorm</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Bivariate Standard Normal CDF</h2>
+
+<h3>Description</h3>
+
+<p>Bivariate Standard Normal CDF Calculator For Given Values of x, y, and rho
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">pbnorm(x = 0, y = 0, rho = 0)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>The <code class="reqn">x</code> value (want probability under this value of <code class="reqn">x</code>); values in <code class="reqn">(-25, 25)</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>The <code class="reqn">y</code> value (want probability under this value of <code class="reqn">y</code>); values in <code class="reqn">(-25, 25)</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rho</code></td>
+<td>
+<p>The correlation between variables <code class="reqn">x</code> and <code class="reqn">y</code>; values in <code class="reqn">[-1, 1]</code></p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>This runs a bivariate standard normal pdf then calculates the cdf from that based on the input parameters
+</p>
+
+
+<h3>Value</h3>
+
+<p>Density under the bivariate standard normal distribution
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Robert Abramov, Department of Statistics, Rice University, 2015
+</p>
+
+
+<h3>References</h3>
+
+<p>Adapted from
+"Bivariate normal distribution with R", Edouard Tallent's blog from Sep 21, 2012
+<br> https://quantcorner.wordpress.com/2012/09/21/bivariate-normal-distribution-with-r
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">pbnorm(1, 1, .5)
+#pbnorm(2, 2, 0)
+#pbnorm(-1, -1, .35)
+#pbnorm(0, 0, 0)
+
+ttl = 'cdf of x, at y=0'
+X = seq(-5,5,1)
+graphics::plot(X, sapply(X, function(x) pbnorm(0,x,0)), type='l', main=ttl)
+</code></pre>
+
+
+</div>

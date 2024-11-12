@@ -1,0 +1,56 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>summary.drFitModel</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Generic summary function for drFitModel objects</h2>
+
+<h3>Description</h3>
+
+<p>Generic summary function for drFitModel objects
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'drFitModel'
+summary(object, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>object of class <code>drFitModel</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Additional arguments. This has currently no effect and is only meant to fulfill the requirements of a generic function.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A dataframe with parameters extracted from the dose-response analysis of a single sample.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">conc &lt;- c(0, rev(unlist(lapply(1:18, function(x) 10*(2/3)^x))),10)
+response &lt;- c(1/(1+exp(-0.7*(4-conc[-20])))+rnorm(19)/50, 0)
+
+TestRun &lt;- growth.drFitModel(conc, response, drID = 'test')
+
+print(summary(TestRun))
+
+</code></pre>
+
+
+</div>

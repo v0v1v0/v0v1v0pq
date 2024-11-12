@@ -1,0 +1,202 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>IPWE_Qopt_IndCen</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Function to estimate the quantile-optimal treatment regime: 
+the independent censoring Case</h2>
+
+<h3>Description</h3>
+
+<p>This function implements the estimation method proposed in Chapter 2 of
+(Zhou 2018). It estimates the quantile-optimal treatment regime 
+for a given quantile level of interest from a single-stage clinical randomized
+experiment or 
+a single-stage observational study under the independent censoring assumption. In other
+words, we estimate the parameters indexing the quantile-optimal treatment regime.
+</p>
+<p>Our assumption of independent censoring means
+the distribution of the censoring time is the same 
+conditional on baseline covariates, treatment group and the two potential survival times.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">IPWE_Qopt_IndCen(data, regimeClass, tau, moPropen = "BinaryRandom",
+  Domains = NULL, cluster = FALSE, p_level = 1, s.tol = 1e-04,
+  it.num = 8, pop.size = 6000, sign_beta1 = NULL,
+  Penalty.level = 0)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>a data.frame, containing variables in the <code>moPropen</code> and 
+<code>RegimeClass</code> and also the response variables, namely <code>censor_y</code> as the censored response, 
+and <code>delta</code> as the censoring indicator.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>regimeClass</code></td>
+<td>
+<p>a formula specifying the class of treatment regimes to search,
+e.g. if <code>regimeClass = a~x1+x2</code>, and then this function will 
+search the class of treatment regimes
+of the form 
+</p>
+<p style="text-align: center;"><code class="reqn">d(x) = I \left(\beta_0 +\beta_1  x_1 + \beta_2  x_2 &gt; 0\right).
+</code>
+</p>
+
+<p>Polynomial arguments are also supported.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tau</code></td>
+<td>
+<p>a value between 0 and 1. This is the quantile of interest.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>moPropen</code></td>
+<td>
+<p>The propensity score model for the probability of receiving 
+treatment level 1.
+When <code>moPropen</code> equals the string "BinaryRandom",  the proportion of observations
+receiving treatment level 1 in the sample will be plugged in as an estimate
+of the propensity.
+Otherwise, this argument should be a formula/string, based on which this function
+will fit a logistic regression on the treatment level.  e.g. <code>a1~x1</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Domains</code></td>
+<td>
+<p>default is NULL. Otherwise, the object should be a <code>nvars *2</code> 
+matrix used as the space of parameters, which will be supplied to <code>rgenoud::genoud</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cluster</code></td>
+<td>
+<p>default is FALSE, meaning do not use parallel computing for the genetic algorithm(GA).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p_level</code></td>
+<td>
+<p>choose between 0,1,2,3 to indicate different levels of output
+from the genetic function. Specifically, 0 (minimal printing),
+1 (normal), 2 (detailed), and 3 (debug).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>s.tol</code></td>
+<td>
+<p>tolerance level for the GA algorithm. This is input for parameter <code>solution.tolerance</code>
+in function <code>rgenoud::genoud</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>it.num</code></td>
+<td>
+<p>the maximum GA iteration number</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pop.size</code></td>
+<td>
+<p>an integer with the default set to be 3000. This is roughly the 
+number individuals for the first generation
+in the genetic algorithm (<code>rgenoud::genoud</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sign_beta1</code></td>
+<td>
+<p>logical. Default is NULL. FALSE if the coefficient for the first continuous variable is fixed to be negative one; TRUE if positive one.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Penalty.level</code></td>
+<td>
+<p>0: stop if the marginal quantiles cannot be further optimized; 1: continue
+the search among treatment regimes with with same value for the TR
+with the smallest intended proportion of treatment.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The input argument <code>data</code> is the dataframe that contains:
+</p>
+    
+<ol>
+<li> <p><code>a</code> observed treatment assignment
+</p>
+</li>
+<li> <p><code>censor_y</code> the censored response variable
+</p>
+</li>
+<li> <p><code>delta</code> the censoring indicator
+</p>
+</li>
+</ol>
+<p>The naming of these three columns should be strict.
+</p>
+<p>Note that this function currently only works for scenarios in which 
+treatment is binary.
+</p>
+
+
+<h3>References</h3>
+
+<p>Zhou Y (2018).
+<em>Quantile-Optimal Treatment Regimes with Censored Data</em>.
+Ph.D. thesis, University of Minnesota.
+</p>
+<p>Horowitz JL (1992).
+“A smoothed maximum score estimator for the binary response model.”
+<em>Econometrica: journal of the Econometric Society</em>, 505–531.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">     
+GenerateData &lt;- function(n)
+{
+  x1 &lt;- runif(n, min=-0.5,max=0.5)
+  x2 &lt;- runif(n, min=-0.5,max=0.5)
+  error &lt;- rnorm(n, sd= 1)
+  ph &lt;- exp(-0.5+1*(x1+x2))/(1+exp(-0.5 + 1*(x1+x2)))
+  a &lt;- rbinom(n = n, size = 1, prob=ph)
+  c &lt;- 1 + 1*a + runif(n = n, min=0, max=2)
+  cmplt_y &lt;-  pmin(2+x1+x2 +  a*(1 - x1 - x2) +  (0.2 + a*(1+x1+x2)) * error, 4.4)
+  censor_y &lt;- pmin(cmplt_y, c)
+  delta &lt;- as.numeric(c &gt; cmplt_y)
+  return(data.frame(x1=x1,x2=x2,a=a, censor_y = censor_y, delta=delta))
+}
+n &lt;- 400
+
+data &lt;- GenerateData(n)
+fit1 &lt;- IPWE_Qopt_IndCen(data = data, regimeClass = a~x1+x2, tau=0.25)
+
+# We can used the returned model to visualize the Kaplan-meier
+# estimate of survival function of the censoring time variable,
+# justified by the independent censoring assumption.
+library(survminer)
+ggsurvplot(fit1$survfitCensorTime, data=fit1$data_aug, risk.table = TRUE)
+ 
+
+ 
+</code></pre>
+
+
+</div>

@@ -1,0 +1,58 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>cntrld</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>cntrld</h2>
+
+<h3>Description</h3>
+
+<p>Creates a matrix representing a controlled gate on a system of qubits. The target and control qubits can be located at arbitrarying positions.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">cntrld(gate,n,...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>gate</code></td>
+<td>
+<p> single qubit gate to create controlled version of   </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p> Number of qubits in the ket, including target, control, and all other qubits</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>List of qubits. The last qubit in the list is the target. Any others listed before it are control qubits. Can be any number between 1 and n-1 control qubits, where n is the number of qubits in the ket. Qubits are indexed from 0, starting at the most significant qubit</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A matrix representing the operation of a controlled qubit gate on any subset of the input ket
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"> cntrld(X(),2,0,1)
+ cntrld(X(),2,1,0)
+ cntrld(Y(),4,2,3)
+ cntrld(X(),8,0,5)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,129 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>quadmesh</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Create a quad-type mesh for use in rgl.</h2>
+
+<h3>Description</h3>
+
+<p>Convert an object to a <code>mesh3d</code> quadrangle mesh,
+with methods for <code>raster::raster()</code> and <code>matrix</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">dquadmesh(
+  x,
+  z = x,
+  na.rm = FALSE,
+  ...,
+  texture = NULL,
+  texture_filename = NULL
+)
+
+## Default S3 method:
+dquadmesh(
+  x,
+  z = x,
+  na.rm = FALSE,
+  ...,
+  texture = NULL,
+  texture_filename = NULL
+)
+
+quadmesh(x, z = x, na.rm = FALSE, ..., texture = NULL, texture_filename = NULL)
+
+## S3 method for class 'BasicRaster'
+quadmesh(x, z = x, na.rm = FALSE, ..., texture = NULL, texture_filename = NULL)
+
+## S3 method for class 'matrix'
+quadmesh(x, z = x, na.rm = FALSE, ..., texture = NULL, texture_filename = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>raster object for mesh structure</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>z</code></td>
+<td>
+<p>raster object for height values</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>na.rm</code></td>
+<td>
+<p>remove quads where missing values?</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>ignored</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>texture</code></td>
+<td>
+<p>optional input RGB raster, 3-layers</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>texture_filename</code></td>
+<td>
+<p>optional input file path for PNG texture</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p><code>quadmesh()</code> generates the cell-based interpretation of a raster (AREA) but applies a continuous
+interpretation of the values of the cells to each quad corner. <code>dquadmesh</code> splits the mesh and
+applies a discrete interpretation directly. Loosely, the quadmesh is a continuous surface and the dquadmesh
+is free-floating cells, but it's a little more complicated and depends on the options applied. (The interpolation)
+applied in the quadmesh case is not entirely consistent.
+</p>
+<p>The output is described as a mesh because it is a dense representation
+of a continuous shape, in this case plane-filling quadrilaterals defined
+by index of four of the available vertices.
+</p>
+<p>The <code>z</code> argument defaults to the input <code>x</code> argument, though may be set to <code>NULL</code>, a constant
+numeric value, or another raster. If the coordinate system of <code>z</code> and <code>x</code> don't match the z values
+are queried by reprojection.
+</p>
+<p>Any raster RGB object (3-layers, ranging in 0-255) may be used as
+a <em>texture</em> on the resulting mesh3d object. If <code>texture</code> is a palette raster it will be
+auto-expanded to RGB.
+</p>
+<p>It is not possible to provide rgl with an object of data for texture, it must be a PNG file and so
+the in-memory <code>texture</code> argument is written out to PNG file (with a message). The location of the file
+may be set explicitly with <code>texture_filename</code>.  Currently it's not possible to not use the <code>texture</code> object
+in-memory.
+</p>
+
+
+<h3>Value</h3>
+
+<p>mesh3d
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(raster)
+data(volcano)
+r &lt;- setExtent(raster(volcano), extent(0, 100, 0, 200))
+qm &lt;- quadmesh(r)
+</code></pre>
+
+
+</div>

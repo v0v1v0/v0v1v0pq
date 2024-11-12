@@ -1,0 +1,128 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>confint2.default</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Confidence Intervals from Parameter Estimates and Standard Errors</h2>
+
+<h3>Description</h3>
+
+<p><code>confint2.default</code> is the default method for the generic function
+<code>confint2</code> and computes the statistical information for confidence
+intervals from parameter estimates, standard errors, and degrees of freedom.
+If degrees of freedom are not applicable or available, then <code>df</code> can be
+set to <code>Inf</code> (the default) and critical z-values rather than critical
+t-values will be used.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## Default S3 method:
+confint2(obj, se, df = Inf, level = 0.95, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>obj</code></td>
+<td>
+<p>numeric vector of parameter estimates. A better name for this
+argument would be <code>est</code>; however, uses of S3 generic functions requires
+the first argument to be the same name (i.e., <code>obj</code>) across methods.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>se</code></td>
+<td>
+<p>numeric vector of standard errors. Must be the same length as
+<code>obj</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>df</code></td>
+<td>
+<p>numeric vector of degrees of freedom. Must have length 1 or the
+same length as <code>obj</code> and <code>se</code>. If degrees of freedom are not
+applicable or available, then <code>df</code> can be set to <code>Inf</code> (the
+default) and critical z-values rather than critical t-values will be used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>level</code></td>
+<td>
+<p>double vector of length 1 specifying the confidence level. Must
+be between 0 and 1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>This argument has no use. Technically, it is additional arguments
+for <code>confint2.default</code>, but is only included for Roxygen2 to satisfy
+"checking S3 generic/method consistency".</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>data.frame with nrow equal to the lengths of <code>obj</code> and
+<code>se</code>. The rownames are taken from <code>obj</code>, unless <code>obj</code> does not
+have any names and then the rownames are taken from the names of <code>se</code>.
+If neither have names, then the rownames are automatic (i.e.,
+<code>1:nrow()</code>). The columns are the following:
+</p>
+
+<dl>
+<dt>est</dt>
+<dd>
+<p>parameter estimates</p>
+</dd>
+<dt>se</dt>
+<dd>
+<p>standard errors</p>
+</dd>
+<dt>lwr</dt>
+<dd>
+<p>lower bound of the confidence intervals</p>
+</dd>
+<dt>upr</dt>
+<dd>
+<p>upper bound of the confidence intervals</p>
+</dd>
+</dl>
+<h3>See Also</h3>
+
+<p><code>confint2.boot</code>
+<code>nhst</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+# single estimate
+confint2.default(obj = 10, se = 3)
+
+# multiple estimates
+est &lt;- colMeans(attitude)
+se &lt;- apply(X = str2str::d2m(attitude), MARGIN = 2, FUN = function(vec)
+   sqrt(var(vec) / length(vec)))
+df &lt;- nrow(attitude) - 1
+confint2.default(obj = est, se = se, df = df)
+confint2.default(obj = est, se = se) # default is df = Inf and use of ctitical z-values
+confint2.default(obj = est, se = se, df = df, level = 0.99)
+
+# error
+## Not run: 
+confint2.default(obj = c(10, 12), se = c(3, 4, 5))
+
+## End(Not run)
+
+</code></pre>
+
+
+</div>

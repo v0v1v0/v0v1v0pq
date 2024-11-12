@@ -1,0 +1,124 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>aldmix</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Asymmetric Laplace distribution</h2>
+
+<h3>Description</h3>
+
+<p>Cumulative density, probability distribution function, quantile
+function and random generation for the asymmetric Laplace distribution with
+quantile <code class="reqn">p</code>, location parameter <code>mu</code> and scale parameter <code>sigma</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">raldmix(n, mu, sigma, p)
+
+daldmix(x, mu = 0, sigma = 1, p = 0.5)
+
+paldmix(q, mu = 0, sigma = 1, p = 0.5, lower.tail = TRUE)
+
+qaldmix(prob, mu = 0, sigma = 1, p = 0.5, lower.tail = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p>: number of observations</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mu</code></td>
+<td>
+<p>: location parameter</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sigma</code></td>
+<td>
+<p>: scale parameter</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p, prob</code></td>
+<td>
+<p>: probability at which to calculate quantile</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x, q</code></td>
+<td>
+<p>: vector of quantiles</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lower.tail</code></td>
+<td>
+<p>: logical; decides b/w <code class="reqn">P(X&lt;=p)</code> or <code class="reqn">P(X&gt;p)</code> for p/q</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The asymmetric Laplace distribution (ALD), which has the following pdf:
+</p>
+<p style="text-align: center;"><code class="reqn">f(x;\mu,\sigma,p) = \frac{p(1-p)}{\sigma} \exp\{-\frac{(x-\mu)}{\sigma}(p-I(x \le \mu))\}</code>
+</p>
+
+<p>If not specified, <code class="reqn">p=0.5</code>, <code class="reqn">mu = 0</code>, <code class="reqn">sigma = 1</code>.
+</p>
+
+
+<h3>Value</h3>
+
+
+<ul>
+<li> <p><code>raldmix</code> returns a vector of random numbers from <code>AL(mu,sigma,p).</code>
+</p>
+</li>
+<li> <p><code>daldmix</code> returns returns density of <code>AL(mu,sigma,p)</code> at point x.
+</p>
+</li>
+<li> <p><code>paldmix</code> returns CDF prob of <code>AL(mu,sigma,p)</code> at quantile q.
+</p>
+</li>
+<li> <p><code>qaldmix</code> returns inverse CDF quantile of <code>AL(mu,sigma,p)</code> at prob.
+</p>
+</li>
+</ul>
+<h3>References</h3>
+
+<p>Keming Yu &amp; Jin Zhang (2005) A Three-Parameter Asymmetric Laplace Distribution
+and Its Extension, Communications in Statistics - Theory and Methods, 34:9-10,
+1867-1879, DOI: 10.1080/03610920500199018
+</p>
+<p>Kobayashi, Genya. (2011). Gibbs Sampling Methods for Bayesian Quantile Regression.
+J Stat Comput Simul. 81. 1565. 10.1080/00949655.2010.496117.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>rgig</code> for random sampling from GIG distribution
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">raldmix(n = 10, mu = 5, sigma = 10, p = 0.5)
+daldmix(c(4,5),mu = 0,sigma = 1,p = 0.5)
+paldmix(c(1,4),mu = 0,sigma = 1,p = 0.5,lower.tail=TRUE)
+qaldmix(0.5,mu = 0,sigma = 1,p = 0.5,lower.tail=TRUE)
+
+</code></pre>
+
+
+</div>

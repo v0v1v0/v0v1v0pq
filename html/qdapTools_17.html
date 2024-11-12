@@ -1,0 +1,75 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>id</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>ID By Row Number or Sequence Along</h2>
+
+<h3>Description</h3>
+
+<p>Generate a sequence of integers the 
+<code>length</code>/<code>ncol</code> of an object.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">id(x, prefix = FALSE, pad = TRUE, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>A dataframe, matrix, vector, or list object.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>prefix</code></td>
+<td>
+<p>A character string to use as a prefix. <code>FALSE</code> or 
+<code>NULL</code> results in no prefix being used.  <code>TRUE</code> will utilize the 
+prefix <code>"X."</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pad</code></td>
+<td>
+<p>logical.  If <code>TRUE</code> the beginning number will be padded with 
+zeros.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Other arguments passed to <code>pad</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Returns a vector of sequential integers.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">id(list(1, 4, 6))
+id(matrix(1:10, ncol=1))
+id(mtcars)
+id(mtcars, TRUE)
+id("w")
+id(mtcars, prefix="id-")
+## Not run: 
+library(qdap)
+question_type(DATA.SPLIT$state, id(DATA.SPLIT, TRUE))
+
+## End(Not run)
+</code></pre>
+
+
+</div>

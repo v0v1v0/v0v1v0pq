@@ -1,0 +1,57 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>rbind.calc_genoprob</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Join genotype probabilities for different individuals</h2>
+
+<h3>Description</h3>
+
+<p>Join multiple genotype probability objects, as produced by
+<code>calc_genoprob()</code>, for the same set of markers and genotypes but for
+different individuals.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'calc_genoprob'
+rbind(...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Genotype probability objects as produced by
+<code>calc_genoprob()</code>. Must have the same set of markers and
+genotypes.</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>An object of class <code>"calc_genoprob"</code>, like the input; see <code>calc_genoprob()</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>cbind.calc_genoprob()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">grav2 &lt;- read_cross2(system.file("extdata", "grav2.zip", package="qtl2"))
+map &lt;- insert_pseudomarkers(grav2$gmap, step=1)
+probsA &lt;- calc_genoprob(grav2[1:5,], map, error_prob=0.002)
+probsB &lt;- calc_genoprob(grav2[6:12,], map, error_prob=0.002)
+probs &lt;- rbind(probsA, probsB)
+
+</code></pre>
+
+
+</div>

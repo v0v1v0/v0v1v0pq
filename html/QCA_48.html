@@ -1,0 +1,119 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>findTh</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Find calibration thresholds</h2>
+
+<h3>Description</h3>
+
+<p>The purpose of this function is to automatically find calibration thresholds
+for a numerical causal condition, to be split into separate groups.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">findTh(x, n = 1, hclustm = "complete", distm = "euclidean", ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>A numerical causal condition.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p>The number of thresholds to find.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>hclustm</code></td>
+<td>
+<p>The agglomeration (clustering) method to be used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>distm</code></td>
+<td>
+<p>The distance measure to be used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Other arguments (mainly for backwards compatibility).</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The process of calibration into crisp sets assumes expert knowledge about the
+best threshold(s) that separate the raw data into the most meaningful
+groups.
+</p>
+<p>In the absence of such knowledge, an automatic procedure might help grouping
+the raw data according to statistical clustering techniques.
+</p>
+<p>The number of groups to split depends on the number of thresholds: one
+thresholds splits into two groups, two thresholds splits into three groups etc.
+</p>
+<p>For more details about how many groups can be formed with how many thresholds,
+see <b><code>cutree()</code></b>.
+</p>
+<p>More details about the clustering techniques used in this function are found
+using <b><code>hclust()</code></b>, and also more details about different
+distance measures can be found with <b><code>dist()</code></b>. This
+function uses their default values.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A numeric vector of length <b><code>n</code></b>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Adrian Dusa
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>cutree</code>, <code>hclust</code>, <code>dist</code></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+# hypothetical list of country GDPs
+gdp &lt;- c(460, 500, 900, 2000, 2100, 2400, 15000, 16000, 20000)
+
+
+# find one threshold to separate into two groups
+findTh(gdp)
+# 8700
+
+
+# find two thresholds to separate into two groups
+findTh(gdp, n = 2)
+# 8700 18000
+
+
+# using different clustering methods
+findTh(gdp, n = 2, hclustm = "ward.D2", distm = "canberra")
+# 1450 8700
+
+</code></pre>
+
+
+</div>

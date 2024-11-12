@@ -1,0 +1,84 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>tsqr.fit</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Trigonometric Spline Quantile Regression (TSQR)</h2>
+
+<h3>Description</h3>
+
+<p>This function computes trigonometric spline quantile regression (TSQR) for univariate time series at a single frequency.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">tsqr.fit(y, f0, tau, c0, d = 1, weighted = FALSE, prepared = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>vector of time series</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>f0</code></td>
+<td>
+<p>frequency in [0,1)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tau</code></td>
+<td>
+<p>sequence of quantile levels in (0,1)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>c0</code></td>
+<td>
+<p>penalty parameter</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>d</code></td>
+<td>
+<p>subsampling rate of quantile levels (default = 1)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>weighted</code></td>
+<td>
+<p>if <code>TRUE</code>, penalty function is weighted (default = <code>FALSE</code>)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>prepared</code></td>
+<td>
+<p>if <code>TRUE</code>, intercept is removed and coef of cosine is doubled when <code>f0 = 0.5</code></p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>object of <code>sqr.fit()</code> (coefficients in <code>$coef</code>)
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">y &lt;- stats::arima.sim(list(order=c(1,0,0), ar=0.5), n=64)
+tau &lt;- seq(0.1,0.9,0.05)
+fit &lt;- tqr.fit(y,f0=0.1,tau=tau)
+fit.sqr &lt;- tsqr.fit(y,f0=0.1,tau=tau,c0=0.02,d=4)
+plot(tau,fit$coef[1,],type='p',xlab='QUANTILE LEVEL',ylab='TQR COEF')
+lines(tau,fit.sqr$coef[1,],type='l')
+</code></pre>
+
+
+</div>

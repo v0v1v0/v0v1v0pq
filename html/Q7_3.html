@@ -1,0 +1,66 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>clone.Q7instance</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Clone an Instance</h2>
+
+<h3>Description</h3>
+
+<p>Clone an Instance
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'Q7instance'
+clone(inst, deep = TRUE, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>inst</code></td>
+<td>
+<p>Q7 object instance</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>deep</code></td>
+<td>
+<p>to copy nested object instances recursively; Boolean</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>dot-dot-dot</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Q7 object instance
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+Type1 &lt;- type(function(num){
+  print_num &lt;- function(){
+    base::print(num)
+  }
+})
+myType1 &lt;- Type1(1)
+myType1$print_num()
+myType1_clone &lt;- clone(myType1)
+myType1_clone$print_num()
+
+</code></pre>
+
+
+</div>

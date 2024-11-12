@@ -1,0 +1,97 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>lag_lead</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Estimate Lagging and Leading Times and Concentrations</h2>
+
+<h3>Description</h3>
+
+<p>Estimates lagging and leading times and concentrations.
+Used by correct.xx functions to estimate lagging and leading timepoints
+and concentrations for each timepoint.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">lag_lead(
+  x,
+  nomtimevar1 = NA,
+  depvar1 = NA,
+  timevar1 = NA,
+  lagc = NA,
+  lagt = NA,
+  leadc = NA,
+  leadt = NA,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>data.frame</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nomtimevar1</code></td>
+<td>
+<p>column name in x indicating nominal time after dose</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>depvar1</code></td>
+<td>
+<p>column name in x indicating concentration</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>timevar1</code></td>
+<td>
+<p>column name in x indicating actual time after dose</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lagc</code></td>
+<td>
+<p>concentration at previous sampling time</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lagt</code></td>
+<td>
+<p>previous sampling time</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>leadc</code></td>
+<td>
+<p>concentration at next sampling time</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>leadt</code></td>
+<td>
+<p>next sampling time</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>ignored</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>data.frame
+</p>
+
+
+</div>

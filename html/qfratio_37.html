@@ -1,0 +1,254 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>d2_ij</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Coefficients in polynomial expansion of generating function—for
+ratios with two matrices</h2>
+
+<h3>Description</h3>
+
+<p>These are internal functions to calculate the coefficients
+in polynomial expansion of joint generating functions for two
+quadratic forms in potentially noncentral multivariate normal variables,
+<code class="reqn">\mathbf{x} \sim N_n(\bm{\mu}, \mathbf{I}_n)</code>.  They
+are primarily used in calculations around moments of a ratio
+involving two or three quadratic forms.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">d2_ij_m(
+  A1,
+  A2,
+  m = 100L,
+  p = m,
+  q = m,
+  thr_margin = 100,
+  fill_all = !missing(p) || !missing(q)
+)
+
+d2_ij_v(
+  L1,
+  L2,
+  m = 100L,
+  p = m,
+  q = m,
+  thr_margin = 100,
+  fill_all = !missing(p) || !missing(q)
+)
+
+d2_pj_m(A1, A2, m = 100L, p = 1L, thr_margin = 100)
+
+d2_1j_m(A1, A2, m = 100L, thr_margin = 100)
+
+d2_pj_v(L1, L2, m = 100L, p = 1L, thr_margin = 100)
+
+d2_1j_v(L1, L2, m = 100L, thr_margin = 100)
+
+h2_ij_m(
+  A1,
+  A2,
+  mu = rep.int(0, n),
+  m = 100L,
+  p = m,
+  q = m,
+  thr_margin = 100,
+  fill_all = !missing(p) || !missing(q)
+)
+
+h2_ij_v(
+  L1,
+  L2,
+  mu = rep.int(0, n),
+  m = 100L,
+  p = m,
+  q = m,
+  thr_margin = 100,
+  fill_all = !missing(p) || !missing(q)
+)
+
+htil2_pj_m(A1, A2, mu = rep.int(0, n), m = 100L, p = 1L, thr_margin = 100)
+
+htil2_1j_m(A1, A2, mu = rep.int(0, n), m = 100L, thr_margin = 100)
+
+htil2_pj_v(L1, L2, mu = rep.int(0, n), m = 100L, p = 1L, thr_margin = 100)
+
+htil2_1j_v(L1, L2, mu = rep.int(0, n), m = 100L, thr_margin = 100)
+
+hhat2_pj_m(A1, A2, mu = rep.int(0, n), m = 100L, p = 1L, thr_margin = 100)
+
+hhat2_1j_m(A1, A2, mu = rep.int(0, n), m = 100L, thr_margin = 100)
+
+hhat2_pj_v(L1, L2, mu = rep.int(0, n), m = 100L, p = 1L, thr_margin = 100)
+
+hhat2_1j_v(L1, L2, mu = rep.int(0, n), m = 100L, thr_margin = 100)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>A1, A2</code></td>
+<td>
+<p>Argument matrices.  Assumed to be symmetric and of the same order.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>m</code></td>
+<td>
+<p>Integer-alike to specify the desired order along <code>A2</code>/<code>L2</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p, q</code></td>
+<td>
+<p>Integer-alikes to specify the desired orders along
+<code>A1</code>/<code>L1</code> and <code>A2</code>/<code>L2</code>, respectively.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>thr_margin</code></td>
+<td>
+<p>Optional argument to adjust the threshold for scaling (see “Scaling”
+in <code>d1_i</code>)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fill_all</code></td>
+<td>
+<p>Logical to specify whether all the output matrix should be filled.  See
+“Details”.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>L1, L2</code></td>
+<td>
+<p>Eigenvalues of the argument matrices</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mu</code></td>
+<td>
+<p>Mean vector <code class="reqn">\bm{\mu}</code> for <code class="reqn">\mathbf{x}</code></p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p><code>d2_**_*()</code> functions calculate
+<code class="reqn">d_{i,j}(\mathbf{A}_1, \mathbf{A}_2)</code> in
+Hillier et al. (2009, 2014) and Bao and Kan (2013).  These are also related to
+the top-order invariant polynomials
+<code class="reqn">C_{[k_1],[k_2]}(\mathbf{A}_1, \mathbf{A}_2)</code>
+in the following way:
+<code class="reqn"> d_{i,j}(\mathbf{A}_1, \mathbf{A}_2) =
+     \frac{1}{k_1! k_2!} \left( \frac{1}{2} \right)_{k_1 + k_2}
+     C_{[k_1],[k_2]}(\mathbf{A}_1, \mathbf{A}_2) </code>,
+where <code class="reqn">(x)_k = x (x + 1) \dots (x + k - 1)</code>
+(Chikuse 1987; Hillier et al. 2009).
+</p>
+<p><code>h2_ij_*()</code> and <code>htil2_pj_*()</code> functions calculate
+<code class="reqn">h_{i,j}(\mathbf{A}_1, \mathbf{A}_2)</code> and
+<code class="reqn">\tilde{h}_{i,j}(\mathbf{A}_1; \mathbf{A}_2)</code>,
+respectively, in Bao and Kan (2013).  Note that the latter is denoted by the
+symbol <code class="reqn">h_{i,j}</code> in Hillier et al. (2014).  <code>hhat2_pj_*()</code>
+functions are for
+<code class="reqn">\hat{h}_{i,j}(\mathbf{A}_1; \mathbf{A}_2)</code>
+in Hillier et al. (2014), used to calculate an error bound for
+truncated sum for moments of a ratio of quadratic forms.  The
+mean vector <code class="reqn">\bm{\mu}</code> is a parameter in all these.
+</p>
+<p>There are two different situations in which these coefficients are used
+in calculation of moments of ratios of quadratic forms:
+<strong>1</strong>) within an infinite series for one of the subscripts, with the
+other subscript fixed (when the exponent <code class="reqn">p</code> of the numerator
+is integer); <strong>2</strong>) within a double infinite series for both subscripts
+(when <code class="reqn">p</code> is non-integer) (see Bao and Kan 2013).  In this package,
+the situation <strong>1</strong> is handled by the <code>*_pj_*</code> (and <code>*_1j_*</code>)
+functions, and <strong>2</strong> is by the <code>*_ij_*</code> functions.
+</p>
+<p>In particular, the <code>*_pj_*</code> functions always return a
+<code>(p + 1) * (m + 1)</code> matrix where all elements are filled with
+the relevant coefficients (e.g., <code class="reqn">d_{i,j}</code>, <code class="reqn">\tilde{h}_{i,j}</code>),
+from which, typically, the <code>[p + 1, ]</code>-th row is used for
+subsequent calculations.  (Those with <code>*_1q_*</code> are simply fast versions
+for the commonly used case where <code class="reqn">p = 1</code>.)
+On the other hand, the <code>*_ij_*</code> functions by default return a
+<code>(m + 1) * (m + 1)</code> matrix whose upper-left triangular part
+(including the diagonals) is filled with the coefficients
+(<code class="reqn">d_{i,j}</code> or <code class="reqn">h_{i,j}</code>), the rest being 0, and all the coefficients
+are used in subsequent calculations.
+</p>
+<p>(At present, the <code>*_ij_*</code> functions also have the functionality to
+fill all coefficients of a potentially non-square output matrix,
+but this is less efficient than <code>*_pj_*</code> functions so may
+be omitted in the future development.)
+</p>
+<p>Those ending with <code>_m</code> take matrices as arguments, whereas
+those with <code>_v</code> take eigenvalues.  The latter can be used only when
+the argument matrices share the same eigenvectors, to which the eigenvalues
+correspond in the orders given, but is substantially faster.
+</p>
+<p>This package also involves C++ equivalents for most of these functions
+(which are suffixed by <code>E</code> for <code>Eigen</code>),
+but these are exclusively for internal use and not exposed to the user.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>(p + 1) * (m + 1)</code> matrix for the <code>*_pj_*</code> functions.
+</p>
+<p><code>(m + 1) * (m + 1)</code> matrix for the <code>*_ij_*</code> functions.
+</p>
+<p>The rows and columns correspond to increasing orders for
+<code class="reqn">\mathbf{A}_1</code> and <code class="reqn">\mathbf{A}_2</code>, respectively.  And
+the 1st row/column of each dimension corresponds
+to the 0th order (hence <code>[p + 1, q + 1]</code> for the <code class="reqn">(p,q)</code>-th order).
+</p>
+<p>Has the attribute <code>"logscale"</code> as described in the
+“Scaling” section in <code>d1_i</code>.  This is
+a matrix of the same size as the return itself.
+</p>
+
+
+<h3>References</h3>
+
+<p>Bao, Y. and Kan, R. (2013) On the moments of ratios of quadratic forms in
+normal random variables. <em>Journal of Multivariate Analysis</em>, <strong>117</strong>,
+229–245.
+<a href="https://doi.org/10.1016/j.jmva.2013.03.002">doi:10.1016/j.jmva.2013.03.002</a>.
+</p>
+<p>Chikuse, Y. (1987) Methods for constructing top order invariant polynomials.
+<em>Econometric Theory</em>, <strong>3</strong>, 195–207.
+<a href="https://doi.org/10.1017/S026646660001029X">doi:10.1017/S026646660001029X</a>.
+</p>
+<p>Hillier, G., Kan, R. and Wang, X. (2009) Computationally efficient recursions
+for top-order invariant polynomials with applications.
+<em>Econometric Theory</em>, <strong>25</strong>, 211–242.
+<a href="https://doi.org/10.1017/S0266466608090075">doi:10.1017/S0266466608090075</a>.
+</p>
+<p>Hillier, G., Kan, R. and Wang, X. (2014) Generating functions and
+short recursions, with applications to the moments of quadratic forms
+in noncentral normal vectors. <em>Econometric Theory</em>, <strong>30</strong>, 436–473.
+<a href="https://doi.org/10.1017/S0266466613000364">doi:10.1017/S0266466613000364</a>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>qfrm</code> and <code>qfmrm</code> are
+major front-end functions that utilize these functions
+</p>
+<p><code>dtil2_pq</code> for <code class="reqn">\tilde{d}</code>
+used for moments of a product of quadratic forms
+</p>
+<p><code>d3_ijk</code> for equivalents for three matrices
+</p>
+
+
+</div>

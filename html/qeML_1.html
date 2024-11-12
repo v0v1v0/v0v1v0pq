@@ -1,0 +1,125 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>Utilities</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Utilities</h2>
+
+<h3>Description</h3>
+
+<p>Miscellaneous functions, used mainly internally in the package, but of
+possible use externally.</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">buildQEcall(qeFtnName,dataName,yName=NULL,opts=NULL,holdout=NULL,
+    holdoutArg=TRUE) 
+evalr(toexec) 
+newDFRow(dta,yName,x,dtaRowNum=1)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>qeFtnName</code></td>
+<td>
+<p>Quoted name of a <span class="pkg">qeML</span> predictive function.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dataName</code></td>
+<td>
+<p>Quoted name of a data frame.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>yName</code></td>
+<td>
+<p>Quoted name of a column to be predicted.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>opts</code></td>
+<td>
+<p>Non-default arguments for the function specified
+in <code>qeFtnName</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>holdout</code></td>
+<td>
+<p>Size of holdout set, if any.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>holdoutArg</code></td>
+<td>
+<p>A value TRUE means the function specified in 
+<code>qeFtnName</code> has an argument 'holdout'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>toexec</code></td>
+<td>
+<p>Quoted string containing an R function call.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dta</code></td>
+<td>
+<p>A data frame.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>An R list specifying fields to be set.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dtaRowNum</code></td>
+<td>
+<p>Row number in 'dta' to be used as a basis.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The function <code>qeFtnName</code> does what its name implies:  It assembles
+a string consisting of a <span class="pkg">qeML</span> function call.  Typically the latter
+is then executed via evalr.  See for instance the source code of
+<code>qeLeaveOut1Var</code>.
+</p>
+<p>R's generic <code>predict</code> function generally required that the input
+rows match the original training data in name and class.  The
+<code>newDFRow</code> function can be used to construct such a row.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Norm Matloff
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+# function to list all the objects loaded by the specified package
+lsp &lt;- function(pkg) {
+   cmd &lt;- paste('ls(package:',pkg,')')
+   evalr(cmd)
+}
+lsp('regtools')
+# outputs 
+#  [1] "clusterApply"        "clusterApplyLB"      "clusterCall"        
+#  [4] "clusterEvalQ"        "clusterExport"       "clusterMap"         
+# ...
+</code></pre>
+
+
+</div>

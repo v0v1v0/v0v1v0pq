@@ -1,0 +1,199 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>convert</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Convert quanteda objects to non-quanteda formats</h2>
+
+<h3>Description</h3>
+
+<p>Convert a quanteda dfm or corpus object to a format useable by other
+packages. The general function <code>convert</code> provides easy conversion from a dfm
+to the document-term representations used in all other text analysis packages
+for which conversions are defined.  For corpus objects, <code>convert</code> provides
+an easy way to make a corpus and its document variables into a data.frame.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">convert(x, to, ...)
+
+## S3 method for class 'dfm'
+convert(
+  x,
+  to = c("lda", "tm", "stm", "austin", "topicmodels", "lsa", "matrix", "data.frame",
+    "tripletlist"),
+  docvars = NULL,
+  omit_empty = TRUE,
+  docid_field = "doc_id",
+  ...
+)
+
+## S3 method for class 'corpus'
+convert(x, to = c("data.frame", "json"), pretty = FALSE, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a dfm or corpus to be converted</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>to</code></td>
+<td>
+<p>target conversion format, one of:
+</p>
+ <dl>
+<dt><code>"lda"</code></dt>
+<dd>
+<p>a list with components "documents" and "vocab" as
+needed by the function
+lda.collapsed.gibbs.sampler from the
+<span class="pkg">lda</span> package</p>
+</dd>
+<dt><code>"tm"</code></dt>
+<dd>
+<p>a DocumentTermMatrix from the <span class="pkg">tm</span>
+package.  Note: The <span class="pkg">tm</span> package version of <code>as.TermDocumentMatrix()</code>
+allows a <code>weighting</code> argument, which supplies a weighting function for
+<code>TermDocumentMatrix()</code>.  Here the default is for
+term frequency weighting. If you want a different weighting, apply the
+weights after converting using one of the <span class="pkg">tm</span> functions. For other
+available weighting functions from the <span class="pkg">tm</span> package, see
+TermDocumentMatrix.</p>
+</dd>
+<dt><code>"stm"</code></dt>
+<dd>
+<p>the  format for the <span class="pkg">stm</span> package</p>
+</dd> <dt><code>"austin"</code></dt>
+<dd>
+<p>the
+<code>wfm</code> format from the <strong>austin</strong> package</p>
+</dd>
+<dt><code>"topicmodels"</code></dt>
+<dd>
+<p>the "dtm" format as used by the <span class="pkg">topicmodels</span>
+package</p>
+</dd>
+<dt><code>"lsa"</code></dt>
+<dd>
+<p>the "textmatrix" format as
+used by the <span class="pkg">lsa</span> package</p>
+</dd>
+<dt><code>"data.frame"</code></dt>
+<dd>
+<p>a data.frame of without row.names, in which documents
+are rows, and each feature is a variable (for a dfm),
+or each text and its document variables form a row (for a corpus)</p>
+</dd>
+<dt><code>"json"</code></dt>
+<dd>
+<p>(corpus only) convert a corpus and its document variables
+into JSON format, using the format described in
+jsonlite::toJSON()</p>
+</dd>
+<dt><code>"tripletlist"</code></dt>
+<dd>
+<p>a named "triplet" format list consisting of
+<code>document</code>, <code>feature</code>, and <code>frequency</code></p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>unused directly</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>docvars</code></td>
+<td>
+<p>optional data.frame of document variables used as the
+<code>meta</code> information in conversion to the <span class="pkg">stm</span> package format.
+This aids in selecting the document variables only corresponding to the
+documents with non-zero counts.  Only affects the "stm" format.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>omit_empty</code></td>
+<td>
+<p>logical; if <code>TRUE</code>, omit empty documents and features
+from the converted dfm. This is required for some formats (such as STM)
+that do not accept empty documents.  Only used when <code>to = "lda"</code> or
+<code>to = "topicmodels"</code>.  For <code>to = "stm"</code> format, <code>omit_empty</code> is
+always <code>TRUE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>docid_field</code></td>
+<td>
+<p>character; the name of the column containing document
+names used when <code>to = "data.frame"</code>.  Unused for other conversions.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pretty</code></td>
+<td>
+<p>adds indentation whitespace to JSON output. Can be TRUE/FALSE or a number specifying the number of spaces to indent. See <code>prettify()</code></p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A converted object determined by the value of <code>to</code> (see above).
+See conversion target package documentation for more detailed descriptions
+of the return formats.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## convert a dfm
+
+toks &lt;- corpus_subset(data_corpus_inaugural, Year &gt; 1970) |&gt;
+    tokens()
+dfmat1 &lt;- dfm(toks)
+
+# austin's wfm format
+identical(dim(dfmat1), dim(convert(dfmat1, to = "austin")))
+
+# stm package format
+stmmat &lt;- convert(dfmat1, to = "stm")
+str(stmmat)
+
+# triplet
+tripletmat &lt;- convert(dfmat1, to = "tripletlist")
+str(tripletmat)
+
+## Not run: 
+# tm's DocumentTermMatrix format
+tmdfm &lt;- convert(dfmat1, to = "tm")
+str(tmdfm)
+
+# topicmodels package format
+str(convert(dfmat1, to = "topicmodels"))
+
+# lda package format
+str(convert(dfmat1, to = "lda"))
+
+## End(Not run)
+
+## convert a corpus into a data.frame
+
+corp &lt;- corpus(c(d1 = "Text one.", d2 = "Text two."),
+               docvars = data.frame(dvar1 = 1:2, dvar2 = c("one", "two"),
+                                    stringsAsFactors = FALSE))
+convert(corp, to = "data.frame")
+convert(corp, to = "json")
+</code></pre>
+
+
+</div>

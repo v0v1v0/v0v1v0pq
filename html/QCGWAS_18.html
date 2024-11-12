@@ -1,0 +1,108 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>plot_precision</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>GWAS Precision Plot</h2>
+
+<h3>Description</h3>
+
+<p>This function generates the precision plot created by
+<code>QC_series</code>. Precision is defined as:
+</p>
+<p><code>1 / median standard-error</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">plot_precision(SE, N,
+               labels = NULL,
+               save_name = "Graph_precision",
+               save_dir = getwd(), ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>SE, N</code></td>
+<td>
+<p>numeric vectors containing the median standard-error
+and sample size of the datasets, respectively.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>labels</code></td>
+<td>
+<p>vector containing names or other identifiers for
+the datapoints, to be plotted in the graph. Note: it's best
+to keep these very short. To disable labeling, set to
+<code>NULL</code> (default).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>save_name</code></td>
+<td>
+<p>character string; the filename, <em>without</em>
+extension, for the graph file.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>save_dir</code></td>
+<td>
+<p>character string; the directory where the
+graph is saved. Note that R uses <em>forward</em>
+slash (/) where Windows uses backslash (\).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>arguments passed to <code>plot</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>When running a QC over multiple files, <code>QC_series</code>
+collects the values of the <code>SE_HQ_median</code> and <code>sample_size_HQ</code>
+outputs of <code>QC_GWAS</code> in a table, which is then
+passed to this function to convert it to a plot.
+</p>
+<p>The plot is to provide a visual estimate whether the standard
+errors are within the expected range. As sample size increases,
+the median standard error is expected to decrease, so the plot
+should show a linear relation.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An invisible <code>NULL</code>.</p>
+
+
+<h3>See Also</h3>
+
+<p><code>plot_distribution</code> and <code>plot_skewness</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+  value_SE &lt;- c(0.078, 0.189, 0.077, 0.040, 0.021, 0.072)
+  value_N &lt;- c(870, 830, 970, 690, 2200, 870)
+  value_labels &lt;- paste("cohort", 1:6)
+  
+  plot_precision(SE = value_SE, N = value_N,
+                 labels = value_labels,
+                 save_name = "sample_precision")
+                 
+## End(Not run)
+</code></pre>
+
+
+</div>

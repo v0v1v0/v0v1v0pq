@@ -1,0 +1,212 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>textmodel_nb</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Naive Bayes classifier for texts</h2>
+
+<h3>Description</h3>
+
+<p>Fit a multinomial or Bernoulli Naive Bayes model, given a dfm and some
+training labels.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">textmodel_nb(
+  x,
+  y,
+  smooth = 1,
+  prior = c("uniform", "docfreq", "termfreq"),
+  distribution = c("multinomial", "Bernoulli")
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>the dfm on which the model will be fit.  Does not
+need to contain only the training documents.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>vector of training labels associated with each document identified
+in <code>train</code>.  (These will be converted to factors if not already
+factors.)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>smooth</code></td>
+<td>
+<p>smoothing parameter for feature counts, added to the
+feature frequency totals by training class</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>prior</code></td>
+<td>
+<p>prior distribution on texts; one of <code>"uniform"</code>,
+<code>"docfreq"</code>, or <code>"termfreq"</code>.  See Prior Distributions below.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>distribution</code></td>
+<td>
+<p>count model for text features, can be <code>multinomial</code> or
+<code>Bernoulli</code>.  To fit a "binary multinomial" model, first convert the dfm to
+a binary matrix using <code style="white-space: pre;">⁠[quanteda::dfm_weight](x, scheme = "boolean")⁠</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p><code>textmodel_nb()</code> returns a list consisting of the following (where
+<code class="reqn">I</code> is the total number of documents, <code class="reqn">J</code> is the total number of
+features, and <code class="reqn">k</code> is the total number of training classes):
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>call</code></td>
+<td>
+<p>original function call</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>param</code></td>
+<td>
+<p><code class="reqn">k \times V</code>; class conditional posterior estimates</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>the <code class="reqn">N \times V</code> training dfm <code>x</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>the <code class="reqn">N</code>-length <code>y</code> training class vector, where NAs will
+not be used will be retained in the saved <code>x</code> matrix</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>distribution</code></td>
+<td>
+<p>character; the distribution of <code>x</code> for the NB
+model</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>priors</code></td>
+<td>
+<p>numeric; the class prior probabilities</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>smooth</code></td>
+<td>
+<p>numeric; the value of the smoothing parameter</p>
+</td>
+</tr>
+</table>
+<h3>Prior distributions</h3>
+
+<p>Prior distributions refer to the prior probabilities assigned to the
+training classes, and the choice of prior distribution affects the
+calculation of the fitted probabilities.  The default is uniform priors,
+which sets the unconditional probability of observing the one class to be
+the same as observing any other class.
+</p>
+<p>"Document frequency" means that the class priors will be taken from the
+relative proportions of the class documents used in the training set.  This
+approach is so common that it is assumed in many examples, such as the
+worked example from Manning, Raghavan, and Schütze (2008) below.  It is not
+the default in <span class="pkg">quanteda</span>, however, since there may be nothing
+informative in the relative numbers of documents used to train a classifier
+other than the relative availability of the documents.  When training
+classes are balanced in their number of documents (usually advisable),
+however, then the empirically computed "docfreq" would be equivalent to
+"uniform" priors.
+</p>
+<p>Setting <code>prior</code> to "termfreq" makes the priors equal to the proportions of
+total feature counts found in the grouped documents in each training class,
+so that the classes with the largest number of features are assigned the
+largest priors. If the total count of features in each training class was
+the same, then "uniform" and "termfreq" would be the same.
+</p>
+
+
+<h3>Smoothing parameter</h3>
+
+<p>The <code>smooth</code> value is added to the feature frequencies, aggregated by
+training class, to avoid zero frequencies in any class.  This has the
+effect of giving more weight to infrequent term occurrences.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Kenneth Benoit
+</p>
+
+
+<h3>References</h3>
+
+<p>Manning, C.D., Raghavan, P., &amp; Schütze, H. (2008). <em>An
+Introduction to Information Retrieval</em>. Cambridge: Cambridge University
+Press (Chapter 13). Available at
+<a href="https://nlp.stanford.edu/IR-book/pdf/irbookonlinereading.pdf">https://nlp.stanford.edu/IR-book/pdf/irbookonlinereading.pdf</a>.
+</p>
+<p>Jurafsky, D. &amp; Martin, J.H. (2018). From <em>Speech and Language Processing:
+An Introduction to Natural Language Processing, Computational Linguistics,
+and Speech Recognition</em>. Draft of September 23, 2018 (Chapter 6, Naive
+Bayes). Available at <a href="https://web.stanford.edu/~jurafsky/slp3/">https://web.stanford.edu/~jurafsky/slp3/</a>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>predict.textmodel_nb()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Example from 13.1 of _An Introduction to Information Retrieval_
+library("quanteda")
+txt &lt;- c(d1 = "Chinese Beijing Chinese",
+         d2 = "Chinese Chinese Shanghai",
+         d3 = "Chinese Macao",
+         d4 = "Tokyo Japan Chinese",
+         d5 = "Chinese Chinese Chinese Tokyo Japan")
+x &lt;- dfm(tokens(txt), tolower = FALSE)
+y &lt;- factor(c("Y", "Y", "Y", "N", NA), ordered = TRUE)
+
+## replicate IIR p261 prediction for test set (document 5)
+(tmod1 &lt;- textmodel_nb(x, y, prior = "docfreq"))
+summary(tmod1)
+coef(tmod1)
+predict(tmod1, type = "prob")
+predict(tmod1)
+
+# contrast with other priors
+predict(textmodel_nb(x, y, prior = "uniform"))
+predict(textmodel_nb(x, y, prior = "termfreq"))
+
+## replicate IIR p264 Bernoulli Naive Bayes
+tmod2 &lt;- textmodel_nb(x, y, distribution = "Bernoulli", prior = "docfreq")
+predict(tmod2, newdata = x[5, ], type = "prob")
+predict(tmod2, newdata = x[5, ])
+</code></pre>
+
+
+</div>

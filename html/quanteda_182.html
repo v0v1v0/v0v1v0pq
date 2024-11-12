@@ -1,0 +1,51 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>make_docvars</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Internal function to make new system-level docvars</h2>
+
+<h3>Description</h3>
+
+<p>Internal function to make new system-level docvars
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">make_docvars(n, docname = NULL, unique = TRUE, drop_docid = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p>the number of documents</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>docname</code></td>
+<td>
+<p>a character vector for the names of documents. Must be the
+same length as <code>n</code> or <code>NULL</code>. If NULL, names are generated automatically.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>unique</code></td>
+<td>
+<p>if <code>TRUE</code>, names must be all unique. If <code>FALSE</code>, documents with the same
+names are treated as segments from the same document and given serial number.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>drop_docid</code></td>
+<td>
+<p>if <code>TRUE</code>, drop unused names of documents.</p>
+</td>
+</tr>
+</table>
+</div>

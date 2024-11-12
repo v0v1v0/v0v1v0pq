@@ -1,0 +1,148 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>aggs</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Aggregate Data by Group</h2>
+
+<h3>Description</h3>
+
+<p><code>aggs</code> evaluates a function separately for each group and combines the
+results back together into a data.frame that is returned. Depending on
+<code>rep</code>, the results of <code>fun</code> are repeated for each element of
+<code>data[vrb.nm]</code> in the group (TRUE) or only once for each group (FALSE).
+Note, <code>aggs</code> evaluates <code>fun</code> separately for each variable
+<code>vrb.nm</code> within <code>data</code>. If instead, you want to evaluate <code>fun</code>
+for variables as a set <code>data[vrb.nm]</code>, then use <code>agg_dfm</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">aggs(
+  data,
+  vrb.nm,
+  grp.nm,
+  rep = TRUE,
+  rtn.grp = !rep,
+  sep = "_",
+  suffix = "_a",
+  fun,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>data.frame of data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vrb.nm</code></td>
+<td>
+<p>character vector of colnames from <code>data</code> specifying the
+variables.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>grp.nm</code></td>
+<td>
+<p>character vector of colnames from <code>data</code> specifying the
+groups.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rep</code></td>
+<td>
+<p>logical vector of length 1 specifying whether the result of
+<code>fun</code> should be repeated for every instance of the group in
+<code>data[vrb.nm]</code> (TRUE) or only once for each group (FALSE).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rtn.grp</code></td>
+<td>
+<p>logical vector of length 1 specifying whether the group
+columns (i.e., <code>data[grp.nm]</code>) should be included in the return object
+as columns. The default is the opposite of <code>rep</code> as traditionally it
+is most important to return the group columns when <code>rep</code> = FALSE.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sep</code></td>
+<td>
+<p>character vector of length 1 specifying what string should
+separate different group values when naming the return object. This
+argument is only used if <code>grp.nm</code> has length &gt; 1 AND <code>rep</code> =
+FALSE AND <code>rtn.grp</code> = FALSE.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>suffix</code></td>
+<td>
+<p>character vector of length 1 specifying the string to append to
+the end of the colnames in the return object.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fun</code></td>
+<td>
+<p>function to use for aggregation. This function is expected to
+return an atomic vector of length 1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>additional named arguments to <code>fun</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>If <code>rep</code> = TRUE, then <code>agg</code> calls <code>ave</code>; if <code>rep</code> =
+FALSE, then <code>agg</code> calls <code>aggregate</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>data.frame of aggregated values. If <code>rep</code> is TRUE, then nrow =
+<code>nrow(data)</code>. If <code>rep</code> = FALSE, then nrow =
+<code>length(levels(interaction(data[grp.nm])))</code>. The names are specified
+by <code>paste0(vrb.nm, suffix)</code>. If <code>rtn.grp</code> = TRUE, then the group
+columns are appended to the begining of the data.frame.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>agg</code>,
+<code>agg_dfm</code>,
+<code>ave</code>,
+<code>aggregate</code>,
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">aggs(data = airquality, vrb.nm = c("Ozone","Solar.R"), grp.nm = "Month",
+   fun = mean, na.rm = TRUE)
+aggs(data = airquality, vrb.nm = c("Ozone","Solar.R"), grp.nm = "Month",
+   rtn.grp = TRUE, fun = mean, na.rm = TRUE) # include the group columns
+aggs(data = airquality, vrb.nm = c("Ozone","Solar.R"), grp.nm = "Month",
+   rep = FALSE, fun = mean, na.rm = TRUE) # do NOT repeat aggregated values
+aggs(data = mtcars, vrb.nm = c("mpg","cyl","disp"), grp.nm = c("vs","am"),
+   rep = FALSE, fun = mean, na.rm = TRUE) # with multiple group columns
+aggs(data = mtcars, vrb.nm = c("mpg","cyl","disp"), grp.nm = c("vs","am"),
+   rep = FALSE, rtn.grp = FALSE, fun = mean, na.rm = TRUE) # without returning groups
+</code></pre>
+
+
+</div>

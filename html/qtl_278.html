@@ -1,0 +1,82 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>summary.scanoneboot</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Bootstrap confidence interval for QTL location</h2>
+
+<h3>Description</h3>
+
+<p>Calculates a bootstrap confidence interval for QTL location, using the
+bootstrap results from <code>scanoneboot</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'scanoneboot'
+summary(object, prob=0.95, expandtomarkers=FALSE, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>Output from <code>scanoneboot</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>prob</code></td>
+<td>
+<p>Desired coverage.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>expandtomarkers</code></td>
+<td>
+<p>If TRUE, the interval is expanded to the nearest
+flanking markers.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Ignored at this point.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>An object of class <code>scanone</code>, indicating the
+position with the maximum LOD, and indicating endpoints
+for the estimated bootstrap confidence interval.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Karl W Broman, <a href="mailto:broman@wisc.edu">broman@wisc.edu</a> </p>
+
+
+<h3>See Also</h3>
+
+ <p><code>scanoneboot</code>, <code>plot.scanoneboot</code>,
+<code>lodint</code>, <code>bayesint</code> </p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: data(fake.f2)
+fake.f2 &lt;- calc.genoprob(fake.f2, step=1, err=0.001)
+bootoutput &lt;- scanoneboot(fake.f2, chr=13, method="hk")
+
+summary(bootoutput)
+## End(Not run)
+</code></pre>
+
+
+</div>

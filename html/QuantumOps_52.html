@@ -1,0 +1,75 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>QFT</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>QFT</h2>
+
+<h3>Description</h3>
+
+<p>If integer is input, returns the matrix of QFT operation on the integer number of qubits. If ket given as input, applies a QFT operation to the input ket and returns the resulting ket. If byCycle is TRUE, it generated the circuit for the QFT and returns a list of the cycles.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">QFT(input,byCycle=FALSE,swaps=TRUE,CliffordT=FALSE,prec=10,path="./")
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>input</code></td>
+<td>
+<p> Either integer specifying size of operation (in number of qubits it is applied to) or input ket to apply QFT to   </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>byCycle</code></td>
+<td>
+<p>Boolean which specifies whether the circuit should be generated or not. If TRUE, rather than returning the matrix or performing the algorithm, the function will generate and return the equivalent circuit.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>swaps</code></td>
+<td>
+<p>Boolean which specifies if the the SWAP gates required at the end of the QFT should be inserted. May not be necessary if qubit reordering is acceptable. Only valid if byCycle is TRUE.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>CliffordT</code></td>
+<td>
+<p>Boolean which specifies if the generated circuit should be decomposed into the Clifford+T set. Only valid if byCycle is TRUE.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>prec</code></td>
+<td>
+<p>The precision of the decomposition into the Clifford+T set. Only valid if byCycle and CliffordT are both TRUE.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>path</code></td>
+<td>
+<p>Path from current working directory to the gridsynth binary. Only used if CliffordT is set to TRUE. The gridsynth binary is not contained in QuantumOps but available from https://www.mathstat.dal.ca/~selinger/newsynth/</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>If the input is an integer, the matrix of the QFT gate of the specified size. If the input is a ket, the ket after a QFT operation is applied. If byCycle is TRUE, a list of the cycles of the algorithm.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"> QFT(ket(1,0))
+ QFT(ket(1,0,0,1))
+ QFT(3)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,76 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>increasePrecision-QuantileSD</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Increase the precision of a <code>QuantileSD</code>
+</h2>
+
+<h3>Description</h3>
+
+<p>The precision is increased by generating an additional <code>R</code>
+<code>QuantilePG</code> objects (independent of the previous ones) and
+then including them in the average.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S4 method for signature 'QuantileSD'
+increasePrecision(object, R = 1, quiet = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>The <code>QuantileSD</code> of which to increase the precision.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>R</code></td>
+<td>
+<p>value of which to enlarge R</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>quiet</code></td>
+<td>
+<p>Don't report progress to console when computing the <code>R</code>
+independent quantile periodograms.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Returns an <code>QuantileSD</code> object determined from
+<code>oldR + R</code> independent repetitions.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+# First simulate a copula spectral density from R=20 independent runs.
+csd &lt;- quantileSD(N=2^9, ts=ts1, levels.1=c(0.25,0.5), type="copula", R=20)
+
+# Check out the result:
+getR(csd)
+plot(csd)
+
+# Now increase the number of independent simulation runs to 50.
+csd &lt;- increasePrecision(csd, R=30)
+
+# Check out the (more precise) result:
+getR(csd)
+plot(csd)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,103 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>has_qgis</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Check availability of QGIS, a plugin, a provider or an algorithm</h2>
+
+<h3>Description</h3>
+
+<p><code>has_qgis()</code> checks whether the loaded qgisprocess cache is populated,
+which means that a QGIS installation was accessible and responsive when
+loading the package.
+<code>qgis_has_plugin()</code>, <code>qgis_has_provider()</code> and <code>qgis_has_algorithm()</code> check
+for the availability of one or several plugins, processing providers and
+algorithms, respectively.
+They are vectorized.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">has_qgis()
+
+qgis_has_plugin(plugin, query = FALSE, quiet = TRUE)
+
+qgis_has_provider(provider, query = FALSE, quiet = TRUE)
+
+qgis_has_algorithm(algorithm, query = FALSE, quiet = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>plugin</code></td>
+<td>
+<p>A plugin name (e.g., <code>"native"</code>).
+Can be a vector of names.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>query</code></td>
+<td>
+<p>Use <code>TRUE</code> to refresh the cached value.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>quiet</code></td>
+<td>
+<p>Use <code>FALSE</code> to display more information,
+possibly useful for debugging.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>provider</code></td>
+<td>
+<p>A provider name (e.g., <code>"native"</code>).
+Can be a vector of names.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>algorithm</code></td>
+<td>
+<p>A qualified algorithm name
+(e.g., <code>"native:buffer"</code>).
+Can be a vector of names.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A logical, with length 1 in case of <code>has_qgis()</code>.
+</p>
+
+
+<h3>Note</h3>
+
+<p>Only plugins that implement processing providers are supported.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Other topics about reporting the QGIS state: 
+<code>qgis_algorithms()</code>,
+<code>qgis_path()</code>,
+<code>qgis_using_json_input()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">has_qgis()
+if (has_qgis()) qgis_has_algorithm("native:filedownloader")
+if (has_qgis()) qgis_has_provider("native")
+if (has_qgis()) qgis_has_plugin(c("grassprovider", "processing_saga_nextgen"))
+
+</code></pre>
+
+
+</div>

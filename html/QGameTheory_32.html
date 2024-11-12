@@ -1,0 +1,56 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>Rz</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Rotation operation about z-axis of the Bloch sphere</h2>
+
+<h3>Description</h3>
+
+<p>This function operates the Rotation gate about the z-axis of the Bloch sphere by an angle <code>theta</code> on a conformable input matrix <code>n</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">Rz(n, theta)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p>a vector/matrix</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>theta</code></td>
+<td>
+<p>an angle</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A vector or a matrix after operating the Rotation gate about the z-axis of the Bloch sphere, by an angle <code>theta</code>, on a conformable input matrix or a vector <code>n</code>.
+</p>
+
+
+<h3>References</h3>
+
+<p><a href="https://en.wikipedia.org/wiki/Quantum_logic_gate">https://en.wikipedia.org/wiki/Quantum_logic_gate</a><br><a href="http://www2.optics.rochester.edu/~stroud/presentations/muthukrishnan991/LogicGates.pdf">http://www2.optics.rochester.edu/~stroud/presentations/muthukrishnan991/LogicGates.pdf</a><br><a href="http://www.physics.udel.edu/~msafrono/650/Lecture%204%20-%205.pdf">http://www.physics.udel.edu/~msafrono/650/Lecture%204%20-%205.pdf</a><br></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">init()
+Rz(Q$Q1, pi)
+
+</code></pre>
+
+
+</div>

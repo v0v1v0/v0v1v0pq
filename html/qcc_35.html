@@ -1,0 +1,62 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>orangejuice2</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Orange juice data –  Part 2</h2>
+
+<h3>Description</h3>
+
+<p>A full description of the problem is given in <code>orangejuice</code>. <br></p>
+<p>This dataset contains samples taken after the machine adjustment was made. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">data(orangejuice)</code></pre>
+
+
+<h3>Format</h3>
+
+<p>A data frame with 64 observations on the following 4 variables:
+</p>
+<dl>
+<dt>sample</dt>
+<dd>
+<p>sample id</p>
+</dd>
+<dt>D</dt>
+<dd>
+<p>number of defectives</p>
+</dd>
+<dt>size</dt>
+<dd>
+<p>sample sizes</p>
+</dd>
+<dt>trial</dt>
+<dd>
+<p>trial samples (TRUE/FALSE)</p>
+</dd>
+</dl>
+<h3>References</h3>
+
+<p>Montgomery, D.C. (1991) <em>Introduction to Statistical Quality Control</em>, 2nd ed, New York, John Wiley &amp; Sons, pp. 155–159.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(orangejuice2)
+orangejuice2$d &lt;- orangejuice2$D/orangejuice2$size
+attach(orangejuice2)
+summary(orangejuice2)
+boxplot(d ~ trial)
+mark &lt;- ifelse(trial, 1, 2)
+plot(sample, d, type="b", col=mark, pch=mark)
+detach(orangejuice2)
+</code></pre>
+
+
+</div>

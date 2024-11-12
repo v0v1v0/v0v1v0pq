@@ -1,0 +1,281 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>.preparePlotGrob</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Internal functions used by <code>Plot</code>
+</h2>
+
+<h3>Description</h3>
+
+<p>Extract colours, legends and other things from object, and convert to a <code>plotGrob</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">.preparePlotGrob(
+  grobToPlot,
+  sGrob,
+  takeFromPlotObj,
+  arr,
+  newArr,
+  prevMinMax,
+  quickPlotGrobCounter,
+  subPlots,
+  cols
+)
+
+.xyAxes(sGrob, arr, whPlotFrame)
+
+## S4 method for signature '.quickPlotGrob,.arrangement'
+.xyAxes(sGrob, arr, whPlotFrame)
+
+.Plot(
+  sGrob,
+  grobToPlot,
+  subPlots,
+  quickSubPlots,
+  quickPlotGrobCounter,
+  isBaseSubPlot,
+  isNewPlot,
+  isReplot,
+  zMat,
+  wipe,
+  xyAxes,
+  legendText,
+  vps,
+  nonPlotArgs,
+  arr
+)
+
+## S4 method for signature '.quickPlotGrob'
+.Plot(
+  sGrob,
+  grobToPlot,
+  subPlots,
+  quickSubPlots,
+  quickPlotGrobCounter,
+  isBaseSubPlot,
+  isNewPlot,
+  isReplot,
+  zMat,
+  wipe,
+  xyAxes,
+  legendText,
+  vps,
+  nonPlotArgs,
+  arr
+)
+
+.refreshGrob(
+  sGrob,
+  subPlots,
+  legendRange,
+  grobToPlot,
+  plotArgs,
+  nColumns,
+  nRows,
+  whPlotObj,
+  whExistingObj
+)
+
+## S4 method for signature '.quickPlotGrob'
+.refreshGrob(
+  sGrob,
+  subPlots,
+  legendRange,
+  grobToPlot,
+  plotArgs,
+  nColumns,
+  nRows,
+  whPlotObj,
+  whExistingObj
+)
+
+.updateGrobGPTextAxis(sGrob, arr, newArr)
+
+## S4 method for signature '.quickPlotGrob'
+.updateGrobGPTextAxis(sGrob, arr, newArr)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>grobToPlot</code></td>
+<td>
+<p>Graphical object to plot</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sGrob</code></td>
+<td>
+<p><code>quickPlotGrob</code> object</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>takeFromPlotObj</code></td>
+<td>
+<p>Logical indicating whether data for <code>grobToPlot</code> should be found in
+current call to Plot or from disk</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>arr</code></td>
+<td>
+<p>An arragement object.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>newArr</code></td>
+<td>
+<p>Logical, whether there is a new arrangement happening</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>quickPlotGrobCounter</code></td>
+<td>
+<p>Numeric. A counter. No meaning outside <code>Plot</code> function.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>subPlots</code></td>
+<td>
+<p>Character. Name of plot area.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cols</code></td>
+<td>
+<p>Colour vector.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>whPlotFrame</code></td>
+<td>
+<p>Numeric. Which plot within the <code>quickPlotGrobPlots</code> object.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>quickSubPlots</code></td>
+<td>
+<p>List of many <code>quickPlotGrobs</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>isBaseSubPlot</code></td>
+<td>
+<p>Logical. Is the currently being plotted object a base layer</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>isNewPlot</code></td>
+<td>
+<p>Logical. Is the currently being plotted object a new, additional plot</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>isReplot</code></td>
+<td>
+<p>Logical. Is the currently being plotted object a replot due to something
+like a rearrangement</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>zMat</code></td>
+<td>
+<p>List resulting from <code>.preparePlotGrob</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>wipe</code></td>
+<td>
+<p>Logical. Is the currently being plotted object require a white rectangle to
+be plotted first, and subsequent other changes.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xyAxes</code></td>
+<td>
+<p>List of length 2, resulting from <code>.xyAxes</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>legendText</code></td>
+<td>
+<p>Character vector of legend value labels.
+Defaults to <code>NULL</code>, which results in a pretty numeric
+representation.
+If <code style="white-space: pre;">⁠Raster*⁠</code> has a Raster Attribute Table (<code>rat</code>;
+see <span class="pkg">raster</span> package), this will be used by default.
+Currently, only a single vector is accepted.
+The length of this must match the length of the legend, so
+this is mostly useful for discrete-valued rasters.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vps</code></td>
+<td>
+<p>A viewport tree resulting from <code>.makeViewports</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nonPlotArgs</code></td>
+<td>
+<p>Arguments passed to <code>Plot</code> that are not <code>.quickPlottables</code>,
+but are passed along with <code>.quickPlottables</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>legendRange</code></td>
+<td>
+<p>Numeric vector giving values that, representing the lower
+and upper bounds of a legend (i.e., <code>1:10</code> or
+<code>c(1,10)</code> will give same result) that will override
+the data bounds contained within the <code>grobToPlot</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>plotArgs</code></td>
+<td>
+<p>list. Any arguments that the the grid package can accept for
+the specific grob types, e.g., <code>rasterGrob</code>, <code>polygonGrob</code>, etc.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nColumns</code></td>
+<td>
+<p>Numeric, length 1, indicating how many columns are in the device arrangement</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nRows</code></td>
+<td>
+<p>Numeric, length 1, indicating how many rows are in the device arrangement</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>whPlotObj</code></td>
+<td>
+<p>Numeric. Length 1, indicating which of the currently objects passed into
+<code>Plot</code> is currently being plotted, i.e., a counter of sorts.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>whExistingObj</code></td>
+<td>
+<p>Numeric. Like <code>whPlotObj</code>, but for whole existing plot, not just supplied in
+current call.</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Eliot McIntire
+</p>
+
+
+</div>

@@ -1,0 +1,116 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>logLik.gcrq</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Log Likelihood, AIC and BIC for gcrq objects
+</h2>
+
+<h3>Description</h3>
+
+<p>The function returns the log-likelihood value(s) evaluated at the estimated coefficients
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'gcrq'
+logLik(object, summ=TRUE, ...)
+## S3 method for class 'gcrq'
+AIC(object, ..., k=2, bondell=FALSE)
+
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+
+<p>A <code>gcrq</code> fit returned by <code>gcrq()</code>
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>summ</code></td>
+<td>
+
+<p>If <code>TRUE</code>, the log likelihood values (and relevant edf) are summed over the different taus to provide a unique value accounting for the different quantile curves. If <code>FALSE</code>, tau-specific values are returned.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>k</code></td>
+<td>
+
+<p>Optional numeric specifying the penalty of the edf in the AIC formula. <code>k &lt; 0</code> means <code>k=log(n)</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bondell</code></td>
+<td>
+
+<p>Logical. If <code>TRUE</code>, the <em>SIC</em> according to formula (7) in Bondell et al. (2010) is computed. 
+
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+
+<p>optional  arguments (nothing in <code>logLik.gcrq</code>). For <code>AIC.gcrq</code>, <code>summ=TRUE</code> or <code>FALSE</code> can be set. 
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The 'logLikelihood' is computed by assuming an asymmetric Laplace distribution for the response as in <code>logLik.rq</code>, namely <code class="reqn">n (\log(\tau(1-\tau))-1-\log(\rho_\tau/n))</code>, where <code class="reqn">\rho_\tau</code> is the minimized objective function. When there are multiple quantile curves <code class="reqn">j=1,2,...,J</code> (and <code>summ=TRUE</code>) the formula is
+</p>
+<p><code class="reqn">n (\sum_j\log(\tau_j(1-\tau_j))-J-\log(\sum_j\rho_{\tau_j}/(n J)))</code>
+</p>
+<p><code>AIC.gcrq</code> simply returns <code>-2*logLik + k*edf</code> where <code>k</code> is 2 or <code>log(n)</code>.  
+</p>
+
+
+<h3>Value</h3>
+
+<p>The log likelihood(s) of the model fit <code>object</code>
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Vito Muggeo
+</p>
+
+
+<h3>References</h3>
+
+<p>Bondell HD, Reich BJ, Wang H (2010) Non-crossing quantile regression curve estimation, Biometrika, 97: 825-838.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>logLik.rq</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">   
+## logLik(o) #a unique value (o is the fit object  from gcrq)
+## logLik(o, summ=FALSE) #vector of the log likelihood values
+## AIC(o, k=-1) #BIC
+   
+</code></pre>
+
+
+</div>

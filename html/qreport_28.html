@@ -1,0 +1,79 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>runDeriveExpr</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>runDeriveExpr</h2>
+
+<h3>Description</h3>
+
+<p>Apply Derived Variable Specifications
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">runDeriveExpr(d, derv, pr = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>d</code></td>
+<td>
+<p>a data table</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>derv</code></td>
+<td>
+<p>a <code>list</code> of expressions to evaluate</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pr</code></td>
+<td>
+<p>set <code>pr=FALSE</code> to suppress information messages</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Function to apply derived variable specifications derv to a data table <code>d</code>.   Actions on <code>d</code> are done in place, so call the function using <code style="white-space: pre;">⁠runDeriveExpr(d, derv object)⁠</code> and not by running <code style="white-space: pre;">⁠d &lt;- runDeriveExpr(d, derv object)⁠</code>.
+See <a href="https://hbiostat.org/rflow/manip.html#sec-manip-recexp/">this</a> for an example.
+</p>
+
+
+<h3>Value</h3>
+
+<p>nothing; used to print information and add variables to data table
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Frank Harrell
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">require(data.table)
+d &lt;- data.table(ht=c(68,  60), wt=c(280, 135), chol=c(120, 150))
+derived &lt;- list(
+  list(bmi = expression(703 * wt / ht ^ 2),
+       label='Body Mass Index',
+       units='Kg/m^2'),
+  list(bsa=expression(0.007184 * (0.4536 * wt) ^ 0.425 * (2.54 * ht) ^ 0.725),
+       label='Body Surface Area',
+       units='m^2', drop=.q(wt, ht) )   )
+runDeriveExpr(d, derived)
+print(d)
+contents(d)
+</code></pre>
+
+
+</div>

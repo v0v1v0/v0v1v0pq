@@ -1,0 +1,108 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>Generalized Eigenvalues</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2> Generalized Eigen Values </h2>
+
+<h3>Description</h3>
+
+<p>This function obtains generalized eigen values on input paired
+matrices (A,B) or a single matrix A.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">  geigen(A, B = NULL, only.values = FALSE, ...)
+
+  qz.geigen(A, B = NULL, only.values = FALSE, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>A</code></td>
+<td>
+<p>a 'complex/real' matrix, dim = c(N, N).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>B</code></td>
+<td>
+<p>a 'complex/real' matrix, dim = c(N, N).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>only.values</code></td>
+<td>
+<p>if 'TRUE', only the eigenvalues are computed and returned,
+otherwise both eigenvalues and eigenvectors are returned.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>options to <code>qz.*</code> functions.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Call one of <code>qz.zggev</code>, <code>qz.dggev</code>,
+<code>qz.zgeev</code>, or <code>qz.dgeev</code> depending on the
+input arguments and types.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns a list from the call.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Wei-Chen Chen <a href="mailto:wccsnow@gmail.com">wccsnow@gmail.com</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Anderson, E., et al. (1999) <em>LAPACK User's Guide,</em>
+3rd edition, SIAM, Philadelphia.
+</p>
+<p><a href="https://en.wikipedia.org/wiki/Schur_decomposition">https://en.wikipedia.org/wiki/Schur_decomposition</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>qz</code>, <code>ordqz</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+library(QZ, quiet = TRUE)
+
+### https://www.nag.com/lapack-ex/node122.html
+(ret &lt;- qz.geigen(exAB1$A, exAB1$B))
+
+### https://www.nag.com/lapack-ex/node117.html
+(ret &lt;- qz.geigen(exAB2$A, exAB2$B))
+
+### https://www.nag.com/lapack-ex/node92.html
+(ret &lt;- qz.geigen(exA1$A))
+
+### https://www.nag.com/lapack-ex/node87.html
+(ret &lt;- qz.geigen(exA2$A))
+
+</code></pre>
+
+
+</div>

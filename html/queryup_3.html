@@ -1,0 +1,87 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>get_uniprot_data</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Retrieve data from UniProt using UniProt's REST API</h2>
+
+<h3>Description</h3>
+
+<p>Retrieve data from UniProt using UniProt's REST API
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">get_uniprot_data(
+  query = NULL,
+  base_url = "https://rest.uniprot.org/uniprotkb/",
+  columns = c("accession", "id", "gene_names", "organism_id", "reviewed")
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>query</code></td>
+<td>
+<p>list of keys corresponding to UniProt's query fields.
+For example :
+list("gene_exact" = c("Pik3r1", "Pik3r2") ,
+"organism" = c("10090", "9606"), "reviewed" = "yes").
+See 'query_fields' for available query fields.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>base_url</code></td>
+<td>
+<p>The base url for the UniProt REST API</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>columns</code></td>
+<td>
+<p>names of UniProt data columns to retrieve.
+Examples include "accession", "id", "gene_names", "keyword", "sequence".
+See 'return_fields' for available return fields.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>a list with the following items :
+</p>
+
+<dl>
+<dt>url</dt>
+<dd>
+<p>the query url</p>
+</dd>
+<dt>status</dt>
+<dd>
+<p>the http status code for the request</p>
+</dd>
+<dt>messages</dt>
+<dd>
+<p>messages returned by the REST API</p>
+</dd>
+<dt>content</dt>
+<dd>
+<p>a data.frame containing the query results</p>
+</dd>
+</dl>
+<h3>Examples</h3>
+
+<pre><code class="language-R">#Getting gene names, keywords and protein sequences for a set of UniProt IDs.
+ids &lt;- c("P22682", "P47941")
+cols &lt;- c("accession", "id", "gene_names", "keyword", "sequence")
+query = list("accession_id" = ids)
+df &lt;- get_uniprot_data(query = query, columns = cols)$content
+df
+</code></pre>
+
+
+</div>

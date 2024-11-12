@@ -1,0 +1,65 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>mutualInformation</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Computes the mutual information between nodes
+</h2>
+
+<h3>Description</h3>
+
+<p>Computes the mutual information from one node to all other nodes, or between sets of nodes.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">mutualInformation(ggm, from, to = "all", covMat)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>ggm</code></td>
+<td>
+
+<p>Partial correlation network. Can be missing if 'covMat' is supplied.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>from</code></td>
+<td>
+
+<p>Integer vector corresponding to one set of nodes. Defaults to all nodes.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>to</code></td>
+<td>
+
+<p>Integer vector corresponding to another set of nodes, or <code>'all'</code> to compute the mutual information of each node to all other nodes.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>covMat</code></td>
+<td>
+
+<p>Variance-covariance matrix. Can be missing if 'ggm' is supplied.
+</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Sacha Epskamp
+</p>
+
+
+</div>

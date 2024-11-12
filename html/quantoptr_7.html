@@ -1,0 +1,223 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>IPWE_Mopt</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Estimate the Mean-optimal Treatment Regime</h2>
+
+<h3>Description</h3>
+
+<p><code>IPWE_Mopt</code> aims at estimating the treatment regime which
+maximizes the marginal mean of the potential outcomes.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">IPWE_Mopt(data, regimeClass, moPropen = "BinaryRandom", max = TRUE,
+  s.tol = 1e-04, cl.setup = 1, p_level = 1, it.num = 10,
+  hard_limit = FALSE, pop.size = 3000)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>a data frame, containing variables in the <code>moPropen</code> and <code>RegimeClass</code> and 
+a component <code>y</code> as the response.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>regimeClass</code></td>
+<td>
+<p>a formula specifying the class of treatment regimes to search,
+e.g. if <code>regimeClass = a~x1+x2</code>, and then this function will search the class of treatment regimes
+of the form 
+</p>
+<p style="text-align: center;"><code class="reqn">d(x)=I\left(\beta_0 +\beta_1  x_1 + \beta_2  x_2 &gt; 0\right).
+       </code>
+</p>
+
+<p>Polynomial arguments are also supported.
+See also 'Details'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>moPropen</code></td>
+<td>
+<p>The propensity score model for the probability of receiving 
+treatment level 1.
+When <code>moPropen</code> equals the string "BinaryRandom",  the proportion of observations
+receiving treatment level 1 in the sample will be employed
+as a good estimate of the probability for each observation.
+Otherwise, this argument should be a formula/string, based on which this function
+will fit a logistic regression on the treatment level.  e.g. <code>a1~x1</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>max</code></td>
+<td>
+<p>logical. If <code>max=TRUE</code>, it indicates we wish to maximize the marginal
+mean; If <code>max=FALSE</code>, we wish to minimize the marginal mean. The default is <code>TRUE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>s.tol</code></td>
+<td>
+<p>This is the tolerance level used by <code>genoud</code>. 
+Default is <code class="reqn">10^{-5}</code> times the difference between
+the largest and the smallest value in the observed responses.
+This is particularly important when it comes to evaluating <code>it.num</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cl.setup</code></td>
+<td>
+<p>the number of nodes. &gt;1 indicates choosing parallel computing option in 
+<code>rgenoud::genoud</code>. Default is 1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p_level</code></td>
+<td>
+<p>choose between 0,1,2,3 to indicate different levels of output
+from the genetic function. Specifically, 0 (minimal printing),
+1 (normal), 2 (detailed), and 3 (debug.)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>it.num</code></td>
+<td>
+<p>integer &gt; 1. This argument will be used in <code>rgeound::geound</code> function.
+If there is no improvement in the objective function in this number of generations,
+<code>rgenoud::genoud</code> will think that it has found the optimum.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>hard_limit</code></td>
+<td>
+<p>logical. When it is true the maximum number of generations
+in  <code>rgeound::geound</code> cannot exceed 100. Otherwise, in this function, only
+<code>it.num</code> softly controls when <code>genoud</code> stops. Default is <code>FALSE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pop.size</code></td>
+<td>
+<p>an integer with the default set to be 3000. This is the population number for the first generation
+in the genetic algorithm (<code>rgenoud::genoud</code>).</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Note that all estimation functions in this package use the same type
+of standardization on covariates. Doing so would allow us to provide a bounded 
+domain of parameters for searching in the genetic algorithm.
+</p>
+<p>This functions returns the estimated parameters indexing the 
+mean-optimal treatment regime under two scales. 
+</p>
+<p>The returned <code>coefficients</code> is the set of parameters when covariates are 
+all standardized to be in the interval [0, 1] by subtracting the smallest observed
+value and divided by the difference between the largest and the smallest value. 
+</p>
+<p>While the returned <code>coef.orgn.scale</code> corresponds to the original covariates,
+so the associated decision rule can be applied directly to novel observations. 
+In other words, let <code class="reqn">\beta</code> denote the estimated parameter in the original 
+scale, then the estimated treatment regime is:  
+</p>
+<p style="text-align: center;"><code class="reqn"> d(x)= I\{\hat{\beta}_0 + \hat{\beta}_1 x_1 + ... + \hat{\beta}_k x_k &gt; 0\}.</code>
+</p>
+
+<p>The estimated <code class="reqn">\bm{\hat{\beta}}</code> is returned as <code>coef.orgn.scale</code>.
+</p>
+<p>If, for every input covariate, the smallest observed value is exactly 0 and the range 
+(i.e. the largest number minus the smallest number) is exactly 1, then the estimated 
+<code>coefficients</code> and <code>coef.orgn.scale</code> will render identical.
+</p>
+
+
+<h3>Value</h3>
+
+<p>This function returns an object with 6 objects. Both <code>coefficients</code>
+and <code>coef.orgn.scale</code>  were normalized to have unit euclidean norm.
+</p>
+
+<dl>
+<dt><code>coefficients</code></dt>
+<dd>
+<p>the parameters indexing the estimated 
+mean-optimal treatment regime for 
+standardized covariates.</p>
+</dd>
+<dt><code>coef.orgn.scale</code></dt>
+<dd>
+<p>the parameter indexing the estimated 
+mean-optimal treatment regime for the original input covariates.</p>
+</dd>
+<dt><code>hatM</code></dt>
+<dd>
+<p>the estimated marginal mean  when a treatment regime indexed by
+<code>coef.orgn.scale</code> is applied on everyone. See the 'details' for
+connection between <code>coef.orgn.scale</code> and
+<code>coefficient</code>.</p>
+</dd>
+<dt><code>call</code></dt>
+<dd>
+<p>the user's call.</p>
+</dd>
+<dt><code>moPropen</code></dt>
+<dd>
+<p>the user specified propensity score model</p>
+</dd>
+<dt><code>regimeClass</code></dt>
+<dd>
+<p>the user specified class of treatment regimes</p>
+</dd>
+</dl>
+<h3>Author(s)</h3>
+
+<p>Yu Zhou, <a href="mailto:zhou0269@umn.edu">zhou0269@umn.edu</a>, with substantial contribution from Ben Sherwood.
+</p>
+
+
+<h3>References</h3>
+
+<p>Zhang B, Tsiatis AA, Laber EB and Davidian M (2012).
+“A robust method for estimating optimal treatment regimes.”
+<em>Biometrics</em>, <b>68</b>(4), pp. 1010–1018.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">GenerateData.test.IPWE_Mopt &lt;- function(n)
+{
+  x1 &lt;- runif(n)
+  x2 &lt;- runif(n)
+  tp &lt;- exp(-1+1*(x1+x2))/(1+exp(-1+1*(x1+x2)))
+  error &lt;- rnorm(length(x1), sd=0.5)
+  a &lt;- rbinom(n = n, size = 1, prob=tp)
+  y &lt;- 1+x1+x2 +  a*(3 - 2.5*x1 - 2.5*x2) + 
+        (0.5 + a*(1+x1+x2)) * error
+  return(data.frame(x1=x1,x2=x2,a=a,y=y))
+}
+
+n &lt;- 500
+testData &lt;- GenerateData.test.IPWE_Mopt(n)
+fit &lt;- IPWE_Mopt(data=testData, regimeClass = a~x1+x2, 
+                 moPropen=a~x1+x2, 
+                 pop.size=1000)
+fit
+
+
+
+</code></pre>
+
+
+</div>

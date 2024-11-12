@@ -1,0 +1,102 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>zeta1</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Multivariate dependence measure</h2>
+
+<h3>Description</h3>
+
+<p>Function for estimating the non-parametric copula-based multivariate measure of dependence <code class="reqn">\zeta</code>1.
+This measure quantifies the extent of dependence between a d-dimensional random vector X and a uni-variate random variable y (i.e.,
+it measures the influence of d explanatory variables X1,...,Xd on a univariate variable y).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">zeta1(X, y, ties.correction = FALSE, bin.size = "fixed", resolution = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>X</code></td>
+<td>
+<p>a numeric matrix or data.frame of dimension d containing the explanatory variables</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>a numeric vector containing the uni-variate response variable</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ties.correction</code></td>
+<td>
+<p>logical indicating if the measure of dependence should be calculated with ties-correction (experimental version). Default = FALSE.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bin.size</code></td>
+<td>
+<p>either "fixed", "adaptive" or "sparse.adaptive", indicating whether the checkerboard copula may vary its bin sizes (defaults to "fixed"). Setting this to "adaptive" might affect the results but will be faster if the sample has many ties.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>resolution</code></td>
+<td>
+<p>an integer indicating the resolution N of the checkerboard aggregation. We recommend to use the default configuration (resolution = NULL), which uses the resolution N(n) = floor(n^(1/(d+1))), where d denotes the number of explanatory variables.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>see function qmd(...).
+</p>
+
+
+<h3>Value</h3>
+
+<p>A numeric value indicating the extent of dependence between the vector X and the variable y (or, equivalently, the influence of X on y).
+</p>
+
+
+<h3>References</h3>
+
+<p>Griessenberger, F., Junker, R.R. and Trutschnig, W. (2022). On a multivariate copula-based dependence measure and its estimation, Electronic Journal of Statistics, 16, 2206-2251.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">#(complete dependence for dimension 4)
+n &lt;- 300
+x1 &lt;- runif(n)
+x2 &lt;- runif(n)
+x3 &lt;- x1 + x2 + rnorm(n)
+y &lt;- x1 + x2 + x3
+zeta1(X = cbind(x1,x2,x3), y = y)
+
+#(independence for dimension 4)
+n &lt;- 500
+x1 &lt;- runif(n)
+x2 &lt;- runif(n)
+x3 &lt;- x1 + x2 + rnorm(n)
+y &lt;- runif(n)
+zeta1(X = cbind(x1,x2,x3), y = y)
+
+#(binary output for dimension 3)
+n &lt;- 500
+x1 &lt;- runif(n)
+x2 &lt;- runif(n)
+y &lt;- ifelse(x1 + x2 &lt; 1, 0, 1)
+zeta1(X = cbind(x1,x2), y = y)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,80 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>colNA</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Frequency of Missing Values by Column</h2>
+
+<h3>Description</h3>
+
+<p><code>rowNA</code> compute the frequency of missing values in a matrix by column.
+This function essentially does <code>apply(X = x, MARGIN = 2, FUN = vecNA)</code>.
+It is also used by other functions in the quest package related to missing
+values (e.g., <code>colMeans_if</code>).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">colNA(x, prop = FALSE, ov = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>matrix with any typeof. If not a matrix, it will be coerced to a
+matrix via <code>as.matrix</code>. The function allows for colnames to carry over
+for non-matrix objects (e.g., data.frames).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>prop</code></td>
+<td>
+<p>logical vector of length 1 specifying whether the frequency of
+missing values should be returned as a proportion (TRUE) or a count
+(FALSE).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ov</code></td>
+<td>
+<p>logical vector of length 1 specifying whether the frequency of
+observed values (TRUE) should be returned rather than the frequency of
+missing values (FALSE).</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>numeric vector of length = <code>ncol(x)</code>, and names =
+<code>colnames(x)</code> providing the frequency of missing values (or observed
+values if <code>ov</code> = TRUE) per column. If <code>prop</code> = TRUE, the values
+will range from 0 to 1. If <code>prop</code> = FALSE, the values will range from
+1 to <code>nrow(x)</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>is.na</code>
+<code>vecNA</code>
+<code>rowNA</code>
+<code>rowsNA</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">colNA(as.matrix(airquality)) # count of missing values
+colNA(as.matrix(airquality), prop = TRUE) # proportion of missing values
+colNA(as.matrix(airquality), ov = TRUE) # count of observed values
+colNA(as.data.frame(airquality), prop = TRUE, ov = TRUE) # proportion of observed values
+</code></pre>
+
+
+</div>

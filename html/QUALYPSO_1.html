@@ -1,0 +1,104 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>fit.climate.response</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>fit.climate.response</h2>
+
+<h3>Description</h3>
+
+<p>Fit trends for each simulation chain of an ensemble of <code>nS</code> projections. Each simulation chain is a time series
+of <code>nY</code> time steps (e.g. number of years).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">fit.climate.response(Y, args.smooth.spline, Xmat, Xfut, typeChangeVariable)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>Y</code></td>
+<td>
+<p>matrix of simulation chains: <code>nS</code> x <code>nY</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>args.smooth.spline</code></td>
+<td>
+<p>list of arguments to be passed to <code>smooth.spline</code>.
+The <code>names</code> attribute of <code>args.smooth.spline</code> gives the argument
+names (see <code>do.call</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Xmat</code></td>
+<td>
+<p>matrix of predictors corresponding to the projections, e.g. time or global temperature.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Xfut</code></td>
+<td>
+<p>values of the predictor over which the ANOVA will be applied.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>typeChangeVariable</code></td>
+<td>
+<p>type of change variable: "abs" (absolute, value by default) or "rel" (relative)</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>See <code>QUALYPSO</code> for further information on arguments <code>indexReferenceYear</code> and <code>typeChangeVariable</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>list with the following fields for each simulation chain:
+</p>
+
+<ul>
+<li> <p><strong>YStar</strong>: <code>nS x nY</code>, change variable
+</p>
+</li>
+<li> <p><strong>phiStar</strong>: <code>nS x nF</code>, climate change responses
+</p>
+</li>
+<li> <p><strong>etaStar</strong>: <code>nS x nY</code>, deviation from the climate change response
+due to the internal variability, for <code>Xmat</code>
+</p>
+</li>
+<li> <p><strong>phi</strong>: <code>nS x nF</code>, raw trends obtained using smooth.spline
+</p>
+</li>
+<li> <p><strong>climateResponse</strong>: output from smooth.spline
+</p>
+</li>
+<li> <p><strong>varInterVariability</strong>: scalar, internal variability component of the MME
+</p>
+</li>
+</ul>
+<h3>Author(s)</h3>
+
+<p>Guillaume Evin
+</p>
+
+
+<h3>References</h3>
+
+<p>Evin, G., B. Hingray, J. Blanchet, N. Eckert, S. Morin, and D. Verfaillie (2020)
+Partitioning Uncertainty Components of an Incomplete Ensemble of Climate Projections Using Data Augmentation.
+Journal of Climate. J. Climate, 32, 2423–2440. &lt;doi:10.1175/JCLI-D-18-0606.1&gt;.
+</p>
+
+
+</div>

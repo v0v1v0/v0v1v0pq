@@ -1,0 +1,441 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qfmrm</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Moment of multiple ratio of quadratic forms in normal variables</h2>
+
+<h3>Description</h3>
+
+<p><code>qfmrm()</code> is a front-end function to obtain the (compound) moment
+of a multiple ratio of quadratic forms in normal variables in the following
+special form:
+<code class="reqn"> \mathrm{E} \left(
+  \frac{(\mathbf{x^\mathit{T} A x})^p }
+       {(\mathbf{x^\mathit{T} B x})^q (\mathbf{x^\mathit{T} D x})^r}
+  \right) </code>, where
+<code class="reqn">\mathbf{x} \sim N_n(\bm{\mu}, \mathbf{\Sigma})</code>.  Like <code>qfrm()</code>, this function calls one of
+the following “internal” functions for actual calculation,
+as appropriate.
+</p>
+<p><code>qfmrm_ApBIqr_int()</code>: For <code class="reqn">\mathbf{D} = \mathbf{I}_n</code> and
+positive-integral <code class="reqn">p</code>
+</p>
+<p><code>qfmrm_ApBIqr_npi()</code>: For <code class="reqn">\mathbf{D} = \mathbf{I}_n</code> and
+non-integral <code class="reqn">p</code>
+</p>
+<p><code>qfmrm_IpBDqr_gen()</code>: For <code class="reqn">\mathbf{A} = \mathbf{I}_n</code>
+</p>
+<p><code>qfmrm_ApBDqr_int()</code>: For general <code class="reqn">\mathbf{A}</code>,
+<code class="reqn">\mathbf{B}</code>, and <code class="reqn">\mathbf{D}</code>, and positive-integral <code class="reqn">p</code>
+</p>
+<p><code>qfmrm_ApBDqr_npi()</code>: For general <code class="reqn">\mathbf{A}</code>, <code class="reqn">\mathbf{B}</code>,
+and <code class="reqn">\mathbf{D}</code>, and non-integral <code class="reqn">p</code>
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qfmrm(
+  A,
+  B,
+  D,
+  p = 1,
+  q = p/2,
+  r = q,
+  m = 100L,
+  mu = rep.int(0, n),
+  Sigma = diag(n),
+  tol_zero = .Machine$double.eps * 100,
+  tol_sing = tol_zero,
+  ...
+)
+
+qfmrm_ApBIqr_int(
+  A,
+  B,
+  p = 1,
+  q = 1,
+  r = 1,
+  m = 100L,
+  mu = rep.int(0, n),
+  error_bound = TRUE,
+  check_convergence = c("relative", "strict_relative", "absolute", "none"),
+  use_cpp = TRUE,
+  cpp_method = c("double", "long_double", "coef_wise"),
+  nthreads = 0,
+  alphaB = 1,
+  tol_conv = .Machine$double.eps^(1/4),
+  tol_zero = .Machine$double.eps * 100,
+  tol_sing = tol_zero,
+  thr_margin = 100
+)
+
+qfmrm_ApBIqr_npi(
+  A,
+  B,
+  p = 1,
+  q = 1,
+  r = 1,
+  m = 100L,
+  mu = rep.int(0, n),
+  check_convergence = c("relative", "strict_relative", "absolute", "none"),
+  use_cpp = TRUE,
+  cpp_method = c("double", "long_double", "coef_wise"),
+  nthreads = 0,
+  alphaA = 1,
+  alphaB = 1,
+  tol_conv = .Machine$double.eps^(1/4),
+  tol_zero = .Machine$double.eps * 100,
+  tol_sing = tol_zero,
+  thr_margin = 100
+)
+
+qfmrm_IpBDqr_gen(
+  B,
+  D,
+  p = 1,
+  q = 1,
+  r = 1,
+  mu = rep.int(0, n),
+  m = 100L,
+  check_convergence = c("relative", "strict_relative", "absolute", "none"),
+  use_cpp = TRUE,
+  cpp_method = c("double", "long_double", "coef_wise"),
+  nthreads = 0,
+  alphaB = 1,
+  alphaD = 1,
+  tol_conv = .Machine$double.eps^(1/4),
+  tol_zero = .Machine$double.eps * 100,
+  tol_sing = tol_zero,
+  thr_margin = 100
+)
+
+qfmrm_ApBDqr_int(
+  A,
+  B,
+  D,
+  p = 1,
+  q = 1,
+  r = 1,
+  m = 100L,
+  mu = rep.int(0, n),
+  check_convergence = c("relative", "strict_relative", "absolute", "none"),
+  use_cpp = TRUE,
+  cpp_method = c("double", "long_double", "coef_wise"),
+  nthreads = 0,
+  alphaB = 1,
+  alphaD = 1,
+  tol_conv = .Machine$double.eps^(1/4),
+  tol_zero = .Machine$double.eps * 100,
+  tol_sing = tol_zero,
+  thr_margin = 100
+)
+
+qfmrm_ApBDqr_npi(
+  A,
+  B,
+  D,
+  p = 1,
+  q = 1,
+  r = 1,
+  m = 100L,
+  mu = rep.int(0, n),
+  check_convergence = c("relative", "strict_relative", "absolute", "none"),
+  use_cpp = TRUE,
+  cpp_method = c("double", "long_double", "coef_wise"),
+  nthreads = 0,
+  alphaA = 1,
+  alphaB = 1,
+  alphaD = 1,
+  tol_conv = .Machine$double.eps^(1/4),
+  tol_zero = .Machine$double.eps * 100,
+  tol_sing = tol_zero,
+  thr_margin = 100
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>A, B, D</code></td>
+<td>
+<p>Argument matrices.  Should be square.  Will be automatically symmetrized.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p, q, r</code></td>
+<td>
+<p>Exponents for <code class="reqn">\mathbf{A}</code>, <code class="reqn">\mathbf{B}</code>, and
+<code class="reqn">\mathbf{D}</code>, respectively.  By default, <code>q</code> equals <code>p/2</code>
+and <code>r</code> equals <code>q</code>.  If unsure, specify all explicitly.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>m</code></td>
+<td>
+<p>Order of polynomials at which the series expression is truncated.  <code class="reqn">M</code>
+in Hillier et al. (2009, 2014).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mu</code></td>
+<td>
+<p>Mean vector <code class="reqn">\bm{\mu}</code> for <code class="reqn">\mathbf{x}</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Sigma</code></td>
+<td>
+<p>Covariance matrix <code class="reqn">\mathbf{\Sigma}</code> for
+<code class="reqn">\mathbf{x}</code>.  Accommodated only by the front-end
+<code>qfmrm()</code>.  See “Details” in <code>qfrm</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tol_zero</code></td>
+<td>
+<p>Tolerance against which numerical zero is determined.  Used to determine,
+e.g., whether <code>mu</code> is a zero vector, <code>A</code> or <code>B</code> equals
+the identity matrix, etc.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tol_sing</code></td>
+<td>
+<p>Tolerance against which matrix singularity and rank are determined.  The
+eigenvalues smaller than this are considered zero.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Additional arguments in the front-end <code>qfmrm()</code> will be passed to
+the appropriate “internal” function.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>error_bound</code></td>
+<td>
+<p>Logical to specify whether an error bound is returned (if available).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>check_convergence</code></td>
+<td>
+<p>Specifies how numerical convergence is checked (see “Details”).
+Options:
+</p>
+
+<dl>
+<dt><code>"relative"</code></dt>
+<dd>
+<p>default; magnitude of the last term of
+the series relative to the sum is compared with <code>tol_conv</code></p>
+</dd>
+<dt>
+<code>"strict_relative"</code> or <code>TRUE</code>
+</dt>
+<dd>
+<p>same, but stricter than
+default by setting <code>tol_conv = .Machine$double.eps</code>
+(unless a smaller value is specified by the user)</p>
+</dd>
+<dt><code>"absolute"</code></dt>
+<dd>
+<p>absolute magnitude of the last term is
+compared with <code>tol_conv</code></p>
+</dd>
+<dt>
+<code>"none"</code> or <code>FALSE</code>
+</dt>
+<dd>
+<p>skips convergence check</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>use_cpp</code></td>
+<td>
+<p>Logical to specify whether the calculation is done with C++
+functions via <code>Rcpp</code>.  <code>TRUE</code> by default.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cpp_method</code></td>
+<td>
+<p>Method used in C++ calculations to avoid numerical
+overflow/underflow (see “Details”).  Options:
+</p>
+
+<dl>
+<dt><code>"double"</code></dt>
+<dd>
+<p>default; fastest but prone to underflow in
+some conditions</p>
+</dd>
+<dt><code>"long_double"</code></dt>
+<dd>
+<p>same algorithm but using the
+<code>long double</code> variable type; robust but slow and
+memory-inefficient</p>
+</dd>
+<dt><code>"coef_wise"</code></dt>
+<dd>
+<p>coefficient-wise scaling algorithm;
+most robust but variably slow</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nthreads</code></td>
+<td>
+<p>Number of threads used in OpenMP-enabled C++ functions.  See
+“Multithreading” in <code>qfrm</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tol_conv</code></td>
+<td>
+<p>Tolerance against which numerical convergence of series is checked.  Used
+with <code>check_convergence</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>thr_margin</code></td>
+<td>
+<p>Optional argument to adjust the threshold for scaling (see “Scaling”
+in <code>d1_i</code>).  Passed to internal functions (<code>d1_i</code>,
+<code>d2_ij</code>, <code>d3_ijk</code>) or their C++ equivalents.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>alphaA, alphaB, alphaD</code></td>
+<td>
+<p>Factors for the scaling constants for <code class="reqn">\mathbf{A}</code>,
+<code class="reqn">\mathbf{B}</code>, and <code class="reqn">\mathbf{D}</code>, respectively.  See
+“Details” in <code>qfrm</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The usage of these functions is similar to <code>qfrm</code>, to which
+the user is referred for documentation.  It is assumed that
+<code class="reqn">\mathbf{B} \neq \mathbf{D}</code>
+(otherwise, the problem reduces to a simple ratio).
+</p>
+<p>When <code>B</code> is identity or missing, this and its exponent <code>q</code> will
+be swapped with <code>D</code> and <code>r</code>, respectively, before
+<code>qfmrm_ApBIqr_***()</code> is called.
+</p>
+<p>The existence conditions for the moments of this multiple ratio can be
+reduced to those for a simple ratio, provided that one of the null spaces
+of <code class="reqn">\mathbf{B}</code> and <code class="reqn">\mathbf{D}</code> is a subspace of the other
+(including the case they are null).  The conditions of Bao and Kan
+(2013: proposition 1) can then be
+applied by replacing <code class="reqn">q</code> and <code class="reqn">m</code> there by <code class="reqn">q + r</code> and
+<code class="reqn">\min{( \mathrm{rank}(\mathbf{B}), \mathrm{rank}(\mathbf{D}) )}
+     </code>,
+respectively (see also Smith 1989: p. 258 for
+nonsingular <code class="reqn">\mathbf{B}</code>, <code class="reqn">\mathbf{D}</code>).  An error is
+thrown if these conditions are not met in this case.  Otherwise
+(i.e., <code class="reqn">\mathbf{B}</code> and <code class="reqn">\mathbf{D}</code> are both
+singular and neither of their null spaces is a subspace of the other), it
+seems difficult to define general moment existence conditions.  A sufficient
+condition can be obtained by applying the same proposition with a new
+denominator matrix whose null space is union of those of <code class="reqn">\mathbf{B}</code>
+and <code class="reqn">\mathbf{D}</code> (Watanabe, 2023).  A warning is thrown if that
+condition is not met in this case.
+</p>
+<p>Most of these functions, excepting <code>qfmrm_ApBIqr_int()</code> with zero
+<code>mu</code>, involve evaluation of multiple series, which can suffer
+from numerical overflow and underflow (see “Scaling” in
+<code>d1_i</code> and “Details” in <code>qfrm</code>).  To avoid
+this, <code>cpp_method = "long_double"</code> or <code>"coef_wise"</code> options can be
+used (see “Details” in <code>qfrm</code>).
+</p>
+
+
+<h3>Value</h3>
+
+<p>A <code>qfrm</code> object, as in <code>qfrm()</code> functions.
+</p>
+
+
+<h3>References</h3>
+
+<p>Bao, Y. and Kan, R. (2013) On the moments of ratios of quadratic forms in
+normal random variables. <em>Journal of Multivariate Analysis</em>, <strong>117</strong>,
+229–245.
+<a href="https://doi.org/10.1016/j.jmva.2013.03.002">doi:10.1016/j.jmva.2013.03.002</a>.
+</p>
+<p>Smith, M. D. (1989). On the expectation of a ratio of quadratic forms
+in normal variables. <em>Journal of Multivariate Analysis</em>, <strong>31</strong>, 244–257.
+<a href="https://doi.org/10.1016/0047-259X%2889%2990065-1">doi:10.1016/0047-259X(89)90065-1</a>.
+</p>
+<p>Watanabe, J. (2023) Exact expressions and numerical evaluation of average
+evolvability measures for characterizing and comparing <strong>G</strong> matrices.
+<em>Journal of Mathematical Biology</em>, <strong>86</strong>, 95.
+<a href="https://doi.org/10.1007/s00285-023-01930-8">doi:10.1007/s00285-023-01930-8</a>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>qfrm</code> for simple ratio
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Some symmetric matrices and parameters
+nv &lt;- 4
+A &lt;- diag(nv:1)
+B &lt;- diag(sqrt(1:nv))
+D &lt;- diag((1:nv)^2 / nv)
+mu &lt;- nv:1 / nv
+Sigma &lt;- matrix(0.5, nv, nv)
+diag(Sigma) &lt;- 1
+
+## Expectation of (x^T A x)^2 / (x^T B x) (x^T x) where x ~ N(0, I)
+(res1 &lt;- qfmrm(A, B, p = 2, q = 1, r = 1))
+plot(res1)
+
+# The above internally calls the following:
+qfmrm_ApBIqr_int(A, B, p = 2, q = 1, r = 1) ## The same
+
+# Similar result with different expression
+# This is a suboptimal option and throws a warning
+qfmrm_ApBIqr_npi(A, B, p = 2, q = 1, r = 1)
+
+## Expectation of (x^T A x) / (x^T B x)^(1/2) (x^T D x)^(1/2) where x ~ N(0, I)
+(res2 &lt;- qfmrm(A, B, D, p = 1, q = 1/2, r = 1/2))
+plot(res2)
+
+# The above internally calls the following:
+qfmrm_ApBDqr_int(A, B, D, p = 1, q = 1/2, r = 1/2) ## The same
+
+## Average response correlation between A and B
+(res3 &lt;- qfmrm(crossprod(A, B), crossprod(A), crossprod(B),
+               p = 1, q = 1/2, r = 1/2))
+plot(res3)
+
+## Same, but with x ~ N(mu, Sigma)
+(res4 &lt;- qfmrm(crossprod(A, B), crossprod(A), crossprod(B),
+               p = 1, q = 1/2, r = 1/2, mu = mu, Sigma = Sigma))
+plot(res4)
+
+## Average autonomy of D
+(res5 &lt;- qfmrm(B = D, D = solve(D), p = 2, q = 1, r = 1))
+plot(res5)
+
+</code></pre>
+
+
+</div>

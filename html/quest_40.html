@@ -1,0 +1,105 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>cor_ml</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Multilevel Correlation Matrices</h2>
+
+<h3>Description</h3>
+
+<p><code>cor_ml</code> decomposes correlations from multilevel data into within-group
+and between-group correlations. The workhorse of the function is
+<code>statsBy</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">cor_ml(data, vrb.nm, grp.nm, use = "pairwise.complete.obs", method = "pearson")
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>data.frame of data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vrb.nm</code></td>
+<td>
+<p>character vector of colnames from <code>data</code> specifying the
+variable columns.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>grp.nm</code></td>
+<td>
+<p>character vector of length 1 of a colname from <code>data</code>
+specifying the grouping column.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>use</code></td>
+<td>
+<p>character vector of length 1 specifying how to handle missing
+values when computing the correlations. The options are: 1.
+"pairwise.complete.obs" which uses pairwise deletion, 2. "complete.obs"
+which uses listwise deletion, and 3. "everything" which uses all cases and
+returns NA for any correlations from columns in <code>data[vrb.nm]</code> with
+missing values.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+<p>character vector of length 1 specifying which type of
+correlations to compute. The options are: 1. "pearson" for traditional
+Pearson product-moment correlations, 2. "kendall" for Kendall rank
+correlations, and 3. "spearman" for Spearman rank correlations.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>list with two elements named "within" and "between" each containing a
+numeric matrix. The first "within" matrix is the within-group correlation
+matrix and the second "between" matrix is the between-group correlation
+matrix. The rownames and colnames of each numeric matrix are <code>vrb.nm</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>corp_ml</code> for multilevel correlations with significance symbols,
+<code>cor_by</code> for correlation matrices by group,
+<code>cor</code> for traditional, single-level correlation matrices,
+<code>statsBy</code> the workhorse for the <code>cor_ml</code> function,
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+# traditional use
+tmp &lt;- c("outcome","case","session","trt_time") # roxygen2 does not like c() inside []
+dat &lt;- as.data.frame(lmeInfo::Bryant2016)[tmp]
+stats_by &lt;- psych::statsBy(dat, group = "case") # requires you to include "case" column in dat
+cor_ml(data = dat, vrb.nm = c("outcome","session","trt_time"), grp.nm = "case")
+
+# varying the \code{use} and \code{method} arguments
+cor_ml(data = airquality, vrb.nm = c("Ozone","Solar.R","Wind","Temp"), grp.nm = "Month",
+   use = "pairwise", method = "pearson")
+cor_ml(data = airquality, vrb.nm = c("Ozone","Solar.R","Wind","Temp"), grp.nm = "Month",
+   use = "complete", method = "kendall")
+cor_ml(data = airquality, vrb.nm = c("Ozone","Solar.R","Wind","Temp"), grp.nm = "Month",
+   use = "everything", method = "spearman")
+
+</code></pre>
+
+
+</div>

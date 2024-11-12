@@ -1,0 +1,253 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>niqr</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Nonlinear Quantile Regression Coefficients Modeling
+</h2>
+
+<h3>Description</h3>
+
+<p>This package implements a nonlinear Frumento and Bottai's (2015) method for quantile regression
+coefficient modeling (qrcm), in which quantile regression coefficients are described
+by (flexible) parametric functions of the order of the quantile.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">niqr(fun, fun2, x0, X, y, control=list())
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>fun</code></td>
+<td>
+
+<p>a function of theta and p describing the beta functions.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fun2</code></td>
+<td>
+
+<p>a function of beta and X describing the whole quantile process.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x0</code></td>
+<td>
+
+<p>starting values to search minimum.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>X</code></td>
+<td>
+
+<p>a design matrix containing the intercept.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+
+<p>the response variable.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>control</code></td>
+<td>
+
+<p>a list of control parameters. See 'Details'.
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Quantile regression permits modeling conditional quantiles of a response variabile,
+given a set of covariates.
+</p>
+<p>Assume that each coefficient can be expressed as a parametric function of <code class="reqn">\theta, p</code> of the form:
+</p>
+<p style="text-align: center;"><code class="reqn">\beta(\theta, p) = b_0(\theta_0, p) + b_1(\theta_1, p) + b_2(\theta_2 , p) + \ldots.</code>
+</p>
+
+<p>Users are required to specify a function of <code class="reqn">\theta</code> and p and to provide starting points for the minimization,
+the design matrix (with intercept) and the response variable. Some control paramters such as, tol=1e-6,
+<code class="reqn">\alpha=.1</code>, <code class="reqn">\beta=.5</code>, maxit=200, maxitstart=20, cluster=NULL, display=FALSE, <code class="reqn">\epsilon=1e-12</code>,
+a1=.001, h1=1e-4, meth="2", lowp=.01, upp=.99, np=100 could be modified from their default.
+<code class="reqn">\alpha</code> and <code class="reqn">\beta</code> are parameters for line search, tol, epsilon, maxit, and a1 are parameters for quasi Newthod
+approach, maxit start is the maximum number of iteration for guessing the best start values, h1 and meth (method)
+are parameters for the gradient (method="2" is centered formula, it is possible to select "1" for right and "3"
+for five points stencil), lowp, upp and np are parameters used in the integral formula, and cluster if not NULL is a
+vector of ID to compute standard errors in longitudinal data. fun_prime_theta and fun_prime_beta are the gradient functions of the quantile function with respect to <code class="reqn">\theta</code> and <code class="reqn">\beta</code>
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class “<code>niqr</code>”, a list containing the following items:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>call</code></td>
+<td>
+<p>the matched call.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>the optimal <code class="reqn">\theta</code> values.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>se</code></td>
+<td>
+<p>standard errors for <code class="reqn">\theta</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fx</code></td>
+<td>
+<p>the value of the minimized integrated loss function.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gx</code></td>
+<td>
+<p>the gradient calculated in the optimal points.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Hx</code></td>
+<td>
+<p>the hessian of quasi newthon method</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>omega</code></td>
+<td>
+<p>gradient matrix used in the sandwich formaula to compute standard errors.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>covar</code></td>
+<td>
+<p>variance covariance matrix <code class="reqn">H^(-1)\Omega H^(-1).</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p.star.y</code></td>
+<td>
+<p>the CDF calculated in the optimal x values.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>code</code></td>
+<td>
+<p>the convergence code, 0 for convergence, 1 for maxit reached, 2 no more step in the gradient.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>internal</code></td>
+<td>
+<p>a list containing some initial and control object.</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Gianluca Sottile <a href="mailto:gianluca.sottile@unipa.it">gianluca.sottile@unipa.it</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Frumento, P., and Bottai, M. (2015). <em>Parametric modeling of quantile regression coefficient functions</em>.
+Biometrics, doi: 10.1111/biom.12410.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>summary.niqr</code>, <code>plot.niqr</code>, <code>predict.niqr</code>,
+for summary, plotting, and prediction.
+<code>testfit.niqr</code> for goodness of fit.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+set.seed(1234)
+n &lt;- 300
+x &lt;- runif(n)
+fun &lt;- function(theta, p){
+  beta0 &lt;- theta[1] + exp(theta[2]*p)
+  beta1 &lt;- theta[3] + theta[4]*p
+  cbind(beta0, beta1)}
+beta &lt;- fun(c(1,1,1,1), runif(n))
+y &lt;- beta[, 1] + beta[, 2]*x
+model &lt;- niqr(fun=fun, x0=rep(.5, 4), X=cbind(1,x), y=y)
+
+## Not run: 
+# NOT RUN---qgamma function
+set.seed(1234)
+n &lt;- 1000
+x &lt;- runif(n)
+fun2 &lt;- function(theta, p){
+  beta0 &lt;- theta[1] + qgamma(p, exp(theta[2]), exp(theta[3]))
+  beta1 &lt;- theta[4] + theta[5]*p
+  cbind(beta0, beta1)
+}
+beta &lt;- fun2(c(1,2,2,1,1), runif(n))
+y &lt;- beta[, 1] + beta[, 2]*x
+model &lt;- niqr(fun=fun2, x0=rep(.5, 5), X=cbind(1,x), y=y)
+
+# NOT RUN---qbeta function
+set.seed(1234)
+n &lt;- 1000
+x &lt;- runif(n)
+fun3 &lt;- function(theta, p){
+  beta0 &lt;- theta[1] + theta[2]*qbeta(p, exp(theta[3]), exp(theta[4]))
+  beta1 &lt;- theta[5] + theta[6]*p
+  cbind(beta0, beta1)
+}
+beta &lt;- fun3(c(1,1.5,.5,.2,1,1), runif(n))
+y &lt;- beta[, 1] + beta[, 2]*x
+model &lt;- niqr(fun=fun3, x0=rep(.5, 6), X=cbind(1,x), y=y)
+
+# NOT RUN---qt function
+set.seed(1234)
+n &lt;- 1000
+x &lt;- runif(n)
+fun4 &lt;- function(theta, p){
+  beta0 &lt;- theta[1] + exp(theta[2])*qt(p, 1+exp(theta[3]), exp(theta[4]))
+  beta1 &lt;- theta[5] + theta[6]*p
+  cbind(beta0, beta1)
+}
+beta &lt;- fun4(c(1,.5,.3,.2,1,1), runif(n))
+y &lt;- beta[, 1] + beta[, 2]*x
+model &lt;- niqr(fun=fun4, x0=rep(.5, 6), X=cbind(1,x), y=y)
+
+## End(Not run)
+
+# see the documentation for 'summary.piqr', and 'plot.piqr'
+
+</code></pre>
+
+
+</div>

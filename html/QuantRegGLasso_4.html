@@ -1,0 +1,101 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>orthogonize_bspline</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Orthogonalized B-splines</h2>
+
+<h3>Description</h3>
+
+<p>Generate a set of orthogonalized B-splines using the Gram-Schmidt algorithm applied to the built-in function <code>splines::bs()</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">orthogonize_bspline(
+  knots,
+  boundary_knots,
+  degree,
+  predictors = NULL,
+  is_approx = FALSE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>knots</code></td>
+<td>
+<p>Array. The knots that define the spline.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>boundary_knots</code></td>
+<td>
+<p>Array. The breakpoints that define the spline.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>degree</code></td>
+<td>
+<p>Integer. The degree of the piecewise polynomial.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>predictors</code></td>
+<td>
+<p>Array. The predictor variables with size p.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>is_approx</code></td>
+<td>
+<p>Boolean. The default is <code>FALSE</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list containing:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>bsplines</code></td>
+<td>
+<p>Matrix of orthogonalized B-splines with dimensions <code class="reqn">(p, \text{length}(knots) + \text{degree} + 1)</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>z</code></td>
+<td>
+<p>Predictors used in generation</p>
+</td>
+</tr>
+</table>
+<h3>Examples</h3>
+
+<pre><code class="language-R"># Example: Generate and plot the first 5 orthogonalized B-splines
+p &lt;- 30
+total_knots &lt;- 10
+degree &lt;- 3
+boundaries &lt;- c(0, 1)
+x &lt;- seq(from = 0, to = 1, length.out = total_knots)
+knots &lt;- x[2:(total_knots - 1)]
+predictors &lt;- runif(p, min = 0, max = 1)
+bsplines &lt;- orthogonize_bspline(knots, boundaries, degree, predictors)
+
+# Plot the first 5 B-splines
+index &lt;- order(bsplines$z)
+original_par &lt;- par(no.readonly = TRUE)
+par(mfrow = c(1, 5))
+for (i in 1:5)
+  plot(bsplines$z[index], bsplines$bsplines[index, i], main = i, type = "l")
+par(original_par)
+</code></pre>
+
+
+</div>

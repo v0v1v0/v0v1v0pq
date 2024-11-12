@@ -1,0 +1,121 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>fhs</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Filtered historical simulation</h2>
+
+<h3>Description</h3>
+
+<p>Calculates univariate Value at Risk and Expected Shortfall (Conditional
+Value at Risk) by means of filtered historical simulation.
+Volatility can be estimated with an exponentially weighted moving
+average or a GARCH-type model.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">fhs(x, p = 0.975, model = c("EWMA", "GARCH"), lambda = 0.94, nboot = NULL, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a numeric vector of asset returns</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p</code></td>
+<td>
+<p>confidence level for VaR calculation; default is <code>0.975</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>model</code></td>
+<td>
+<p>model for estimating conditional volatility; options are <code>'EWMA'</code>
+and <code>'GARCH'</code>; if <code>model = 'GARCH'</code>, additional arguments can be adjusted
+via <code>...</code>; default is <code>'EWMA'</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lambda</code></td>
+<td>
+<p>decay factor for the calculation of weights; default is <code>0.94</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nboot</code></td>
+<td>
+<p>size of bootstrap sample; must be a single non-NA integer value
+with <code>nboot &gt; 0</code>; default is <code>NULL</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>additional arguments of the <code>ugarchspec</code> function from the
+<code>rugarch</code>-package; only applied if <code>model = 'GARCH'</code>; default
+settings for the arguments <code>variance.model</code> and <code>mean.model</code> are:
+</p>
+
+<dl>
+<dt>
+<code>variance.model</code> = <code>list(model = 'sGARCH', garchOrder = c(1, 1))</code>
+</dt>
+<dd></dd>
+<dt>
+<code>mean.model</code> = <code>list(armaOrder = c(0, 0))</code>
+</dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Returns a list with the following elements:
+</p>
+
+<dl>
+<dt>VaR</dt>
+<dd>
+<p>Calculated Value at Risk</p>
+</dd>
+<dt>ES</dt>
+<dd>
+<p>Calculated Expected Shortfall (Conditional Value at Risk)</p>
+</dd>
+<dt>p</dt>
+<dd>
+<p>Confidence level for VaR calculation</p>
+</dd>
+<dt>garchmod</dt>
+<dd>
+<p>The model fit. Is the respective GARCH fit for
+<code>model = "GARCH"</code> (see <code>rugarch</code> documentation) and  <code>'EWMA'</code> for
+<code>model = "EWMA"</code></p>
+</dd>
+</dl>
+<h3>Examples</h3>
+
+<pre><code class="language-R">prices &lt;- DAX$price_close
+returns &lt;- diff(log(prices))
+# volatility weighting via EWMA
+ewma &lt;- fhs(x = returns, p = 0.975, model = "EWMA", lambda = 0.94,
+            nboot = 10000)
+ewma
+# volatility weighting via GARCH
+garch &lt;- fhs(x = returns, p = 0.975, model = "GARCH", variance.model =
+list(model = "sGARCH"), nboot = 10000)
+garch
+</code></pre>
+
+
+</div>

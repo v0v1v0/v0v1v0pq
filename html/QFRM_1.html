@@ -1,0 +1,61 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>as.OptPos</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Coerce an argument to <code>OptPos</code> class.</h2>
+
+<h3>Description</h3>
+
+<p>Coerce an argument to <code>OptPos</code> class.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">as.OptPos(o = Opt(), Pos = c("Long", "Short"), Prem = 0)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>o</code></td>
+<td>
+<p>A <code>Opt</code> or <code>OptPx</code> object</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Pos</code></td>
+<td>
+<p>Specify position direction in your portfolio. <code>Long</code> indicates that you own security (it's an asset). <code>Short</code> that you shorted (short sold) security (it's a liability).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Prem</code></td>
+<td>
+<p>Option premium, i.e. cost of an option purchased or to be purchased.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>An object of class <code>OptPos</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Oleg Melnikov
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">as.OptPos(Opt())
+</code></pre>
+
+
+</div>

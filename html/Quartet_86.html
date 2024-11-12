@@ -1,0 +1,138 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>VisualizeQuartets</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Visualize quartet difference on trees, by split</h2>
+
+<h3>Description</h3>
+
+<p>Visualize quartet difference on trees, by split
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">VisualizeQuartets(
+  tree1,
+  tree2,
+  style = "pie",
+  setPar = TRUE,
+  precision = 3L,
+  Plot = plot.phylo,
+  scale = 1L,
+  spectrum = viridisLite::viridis(101),
+  legend = TRUE,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>tree1, tree2</code></td>
+<td>
+<p>Trees of class <code>phylo</code>, with identical leaf labels.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>style</code></td>
+<td>
+<p>Character string specifying split labels with an unambiguous
+abbreviation of:
+</p>
+
+<ul>
+<li> <p><code>label</code>: Label stating proportion of resolved quartets in agreement,
+coloured accordingly;
+</p>
+</li>
+<li> <p><code>pie</code>: Pie chart showing proportion of quartets in agreement, sized
+according to number of quartets influenced by each split;
+</p>
+</li>
+<li> <p><code>bar</code>: Bar showing proportion of quartets in agreement, labelled;
+</p>
+</li>
+<li> <p><code>size</code>: Circle coloured according to proportion of quartets in agreement,
+with area corresponding to number of quartet statements associated with
+split.
+</p>
+</li>
+</ul>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>setPar</code></td>
+<td>
+<p>Logical specifying whether graphical parameters should be set
+to display trees side by side.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>precision</code></td>
+<td>
+<p>Integer specifying number of significant figures to display
+when reporting matching scores.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Plot</code></td>
+<td>
+<p>Function to use to plot trees.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>scale</code></td>
+<td>
+<p>Numeric, enlargement factor for split labels.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>spectrum</code></td>
+<td>
+<p>101-element vector specifying a range of colours by which
+to colour matches.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>legend</code></td>
+<td>
+<p>Logical specifying whether to display simple legend.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Additional parameters to send to <code>Plot()</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p><a href="https://orcid.org/0000-0001-5660-1727">Martin R. Smith</a>
+(<a href="mailto:martin.smith@durham.ac.uk">martin.smith@durham.ac.uk</a>)
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library("TreeTools", quietly = TRUE, warn.conflicts = FALSE)
+VisualizeQuartets(BalancedTree(10), CollapseNode(PectinateTree(10), 19),
+                  style = "label")
+# Keep original plotting parameters:
+origPar &lt;- par(mfrow = c(2, 2))
+VisualizeQuartets(BalancedTree(10), CollapseNode(PectinateTree(10), 19),
+                  setPar = FALSE)
+VisualizeQuartets(BalancedTree(10), CollapseNode(PectinateTree(10), 19),
+                  style = "bar", legend = FALSE, setPar = FALSE)
+par(origPar)
+VisualizeQuartets(BalancedTree(20), CollapseNode(PectinateTree(20), 29:33),
+                  style = "size", scale = 2)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,140 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>prep_fa</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Prepare fatty acid information analysis</h2>
+
+<h3>Description</h3>
+
+<p>The function <code>prep_fa</code> processes the information in a fatty acid
+suites data frame and prepares that information for application to fatty
+acid signatures.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">prep_fa(df_fa)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>df_fa</code></td>
+<td>
+<p>A data frame containing fatty acid names, calibration
+coefficients, and 0/1 definitions of fatty acid suites.  <code>qfasar</code> has
+strict formatting requirements for <code>df_fa</code>; please see Details and/or
+the vignette.</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>A list containing the following elements: </p>
+
+<dl>
+<dt>cc</dt>
+<dd>
+<p>A numeric vector of calibration coefficients.</p>
+</dd>
+<dt>use</dt>
+<dd>
+<p>A logical vector defining a fatty acid suite.</p>
+</dd>
+<dt>fa_names</dt>
+<dd>
+<p>A character vector of fatty acid names.</p>
+</dd>
+<dt>err_code</dt>
+<dd>
+<p>An integer error code (0 if no error is detected).</p>
+</dd>
+<dt>err_message</dt>
+<dd>
+<p>A string contains a brief summary of the execution.</p>
+</dd>
+</dl>
+<h3>Details</h3>
+
+<p>This function is designed to be called by the user after the fatty acid data
+frame has been read.  The data frame should contain a complete list of all
+fatty acids in the prey and predator signature data, one or more sets of
+calibration coefficients with an indicator of which set to use, one or more
+fatty acid suite definitions with an indicator of which suite to use, and
+optional comments.  Please refer to the vignette for additional information.
+</p>
+<p>The fatty acid data frame must strictly meet the following formatting
+requirements.
+</p>
+
+<ul>
+<li>
+<p> The first row must contain a header for each column.
+</p>
+</li>
+<li>
+<p> The second row must list "use_me" in the first column, a 1 in the
+column for the set of calibration coefficients to be used, a 1 in the
+column for the fatty acid suite to be used, and a 0 in all other columns.
+</p>
+</li>
+<li>
+<p> Starting with row three, the first column must contain fatty acid
+names, which must exactly match the corresponding components of the
+headers in any prey and predator signature data frames.
+</p>
+</li>
+<li>
+<p> Starting with row three, Columns 2 to k must contain calibration
+coefficients for each fatty acid.  Multiple sets of calibration
+coefficients can be in the data frame.  The set to be used must contain
+a 1 in Row 1 and the others must contain a 0 in Row 1.
+</p>
+</li>
+<li>
+<p> Columns k+1 to m must contain one or more definitions of fatty acid
+suites. Membership in a suite is defined by 0/1 indicators, with a 1
+indicating membership.  Definitions for multiple suites can be in the
+data frame.  For example, two columns could contain indicators defining
+membership in the dietary and extended-dietary suites of fatty acids
+(Iverson et al. 2004).  The suite to be used must contain a 1 in Row 1
+and the others must contain a 0 in Row 1.
+</p>
+</li>
+<li>
+<p> An optional last column can contain comments.
+</p>
+</li>
+<li>
+<p> Please see the vignette for examples of how to format this data
+frame.
+</p>
+</li>
+</ul>
+<h3>References</h3>
+
+<p>Iverson, S.J., C. Field, W.D. Bowen, and W. Blanchard. 2004.
+Quantitative fatty acid signature analysis: A new method of
+estimating predator diets. <em>Ecological Monographs</em> 74:211-235.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">prep_fa(data.frame(fa = c("use_me", "fa_1", "fa_2", "fa_3"),
+                   cc = c(1, 0.75, 1.25, 1.0),
+                   use = c(1, 1, 1, 1)))
+
+prep_fa(data.frame(fa = c("use_me", "fa_1", "fa_2", "fa_3"),
+                   cc1 = c(0, 0.75, 1.25, 1.00),
+                   cc2 = c(1, 1.2, 0.8, 0.9),
+                   use_1 = c(0, 1, 1, 0),
+                   use_2 = c(1, 1, 1, 0)))
+
+</code></pre>
+
+
+</div>

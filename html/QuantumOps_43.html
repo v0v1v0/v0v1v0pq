@@ -1,0 +1,67 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>PauliNoise</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>PauliNoise</h2>
+
+<h3>Description</h3>
+
+<p>Applies stochastic Pauli noise to an input quantum state. If only e is set, it is equally distributed to X, Y, and Z error which is an isotropic Pauli noise model. Otherwise, levels can be set seperately for each.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">PauliNoise(p,e=ex+ey+ez,ex=e/3,ey=e/3,ez=e/3)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code> p </code></td>
+<td>
+<p> Input quantum state, in density matrix format </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code> e </code></td>
+<td>
+<p> Total amount of noise to apply the state, is the sum of ex, ey, and ez </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code> ex </code></td>
+<td>
+<p> Amount of X noise to apply to the state </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code> ey </code></td>
+<td>
+<p> Amount of Y noise to apply to the state </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code> ez </code></td>
+<td>
+<p> Amount of Z noise to apply to the state </p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>The quantum state in density matrix format, after Pauli noise has been applied to it
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"> PauliNoise( p=convert_ket2DM(ket(1,0)) , e=0.01  )
+</code></pre>
+
+
+</div>

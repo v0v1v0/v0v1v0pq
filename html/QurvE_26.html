@@ -1,0 +1,435 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>growth.workflow</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Run a complete growth curve analysis and dose-reponse analysis workflow.</h2>
+
+<h3>Description</h3>
+
+<p><code>growth.workflow</code> runs <code>growth.control</code> to create a <code>grofit.control</code> object and then performs all computational fitting operations based on the user input. Finally, if desired, a final report is created in PDF or HTML format that summarizes all results obtained.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">growth.workflow(
+  grodata = NULL,
+  time = NULL,
+  data = NULL,
+  ec50 = TRUE,
+  mean.grp = NA,
+  mean.conc = NA,
+  neg.nan.act = FALSE,
+  clean.bootstrap = TRUE,
+  suppress.messages = FALSE,
+  fit.opt = c("a"),
+  t0 = 0,
+  tmax = NA,
+  min.growth = NA,
+  max.growth = NA,
+  log.x.gc = FALSE,
+  log.y.lin = TRUE,
+  log.y.spline = TRUE,
+  log.y.model = TRUE,
+  biphasic = FALSE,
+  lin.h = NULL,
+  lin.R2 = 0.97,
+  lin.RSD = 0.1,
+  lin.dY = 0.05,
+  interactive = FALSE,
+  nboot.gc = 0,
+  smooth.gc = 0.55,
+  model.type = c("logistic", "richards", "gompertz", "gompertz.exp", "huang", "baranyi"),
+  dr.method = c("model", "spline"),
+  dr.model = c("gammadr", "multi2", "LL.2", "LL.3", "LL.4", "LL.5", "W1.2", "W1.3",
+    "W1.4", "W2.2", "W2.3", "W2.4", "LL.3u", "LL2.2", "LL2.3", "LL2.3u", "LL2.4",
+    "LL2.5", "AR.2", "AR.3", "MM.2"),
+  growth.thresh = 1.5,
+  dr.have.atleast = 6,
+  dr.parameter = c("mu.linfit", "lambda.linfit", "dY.linfit", "A.linfit", "mu.spline",
+    "lambda.spline", "dY.spline", "A.spline", "mu.model", "lambda.model",
+    "dY.orig.model", "A.orig.model"),
+  smooth.dr = 0.1,
+  log.x.dr = FALSE,
+  log.y.dr = FALSE,
+  nboot.dr = 0,
+  report = NULL,
+  out.dir = NULL,
+  out.nm = NULL,
+  export.fig = FALSE,
+  export.res = FALSE,
+  parallelize = TRUE,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>grodata</code></td>
+<td>
+<p>A <code>grodata</code> object created with <code>read_data</code> or <code>parse_data</code>, or a list containing a <code>'time'</code> matrix as well as a <code>'growth'</code> dataframe.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>time</code></td>
+<td>
+<p>(optional) A matrix containing time values for each sample.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>(optional) A dataframe containing growth data (if a <code>time</code> matrix is provided as separate argument).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ec50</code></td>
+<td>
+<p>(Logical) Perform dose-response analysis (<code>TRUE</code>) or not (<code>FALSE</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mean.grp</code></td>
+<td>
+<p>(<code>'all'</code>, a string vector, or a list of string vectors) Define groups to combine into common plots in the final report based on sample identifiers (if <code>report == TRUE</code>). Partial matches with sample/group names are accepted. Note: The maximum number of sample groups (with unique condition/concentration indicators) is 50. If you have more than 50 groups, option <code>'all'</code> will produce the error <code>! Insufficient values in manual scale. [Number] needed but only 50 provided</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mean.conc</code></td>
+<td>
+<p>(A numeric vector, or a list of numeric vectors) Define concentrations to combine into common plots in the final report (if <code>report == TRUE</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>neg.nan.act</code></td>
+<td>
+<p>(Logical) Indicates whether the program should stop when negative growth values or NA values appear (<code>TRUE</code>). Otherwise, the program removes these values silently (<code>FALSE</code>). Improper values may be caused by incorrect data or input errors. Default: <code>FALSE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>clean.bootstrap</code></td>
+<td>
+<p>(Logical) Determines if negative values which occur during bootstrap should be removed (TRUE) or kept (FALSE). Note: Infinite values are always removed. Default: TRUE.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>suppress.messages</code></td>
+<td>
+<p>(Logical) Indicates whether grofit messages (information about current growth curve, EC50 values etc.) should be displayed (<code>FALSE</code>) or not (<code>TRUE</code>). This option is meant to speed up the high-throughput processing data. Note: warnings are still displayed. Default: <code>FALSE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fit.opt</code></td>
+<td>
+<p>(Character or character vector) Indicates whether the program should perform a linear regression (<code>'l'</code>), model fit (<code>'m'</code>), spline fit (<code>'s'</code>), or all (<code>'a'</code>). Combinations can be freely chosen by providing a character vector, e.g. <code>fit.opt = c('l', 's')</code> Default:  <code>fit.opt = c('l', 's')</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>t0</code></td>
+<td>
+<p>(Numeric) Minimum time value considered for linear and spline fits.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tmax</code></td>
+<td>
+<p>(Numeric) Maximum time value considered for linear and spline fits.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>min.growth</code></td>
+<td>
+<p>(Numeric) Indicate whether only growth values above a certain threshold should be considered for linear regressions or spline fits.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>max.growth</code></td>
+<td>
+<p>(Numeric) Indicate whether only growth values below a certain threshold should be considered for linear regressions or spline fits.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>log.x.gc</code></td>
+<td>
+<p>(Logical) Indicates whether <em>ln(x+1)</em> should be applied to the time data for <em>linear</em> and <em>spline</em> fits. Default: <code>FALSE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>log.y.lin</code></td>
+<td>
+<p>(Logical) Indicates whether <em>ln(y/y0)</em> should be applied to the growth data for <em>linear</em> fits. Default: <code>TRUE</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>log.y.spline</code></td>
+<td>
+<p>(Logical) Indicates whether <em>ln(y/y0)</em> should be applied to the growth data for <em>spline</em> fits. Default: <code>TRUE</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>log.y.model</code></td>
+<td>
+<p>(Logical) Indicates whether <em>ln(y/y0)</em> should be applied to the growth data for <em>model</em> fits. Default: <code>TRUE</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>biphasic</code></td>
+<td>
+<p>(Logical) Shall <code>growth.gcFitLinear</code> and <code>growth.gcFitSpline</code> try to extract growth parameters for two different growth phases (as observed with, e.g., diauxic shifts) (<code>TRUE</code>) or not (<code>FALSE</code>)?</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lin.h</code></td>
+<td>
+<p>(Numeric) Manually define the size of the sliding window used in <code>growth.gcFitLinear</code> If <code>NULL</code>, h is calculated for each samples based on the number of measurements in the growth phase of the plot.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lin.R2</code></td>
+<td>
+<p>(Numeric) R<sup>2</sup> threshold for <code>growth.gcFitLinear</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lin.RSD</code></td>
+<td>
+<p>(Numeric) Relative standard deviation (RSD) threshold for calculated slope in <code>growth.gcFitLinear</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lin.dY</code></td>
+<td>
+<p>(Numeric) Threshold for the minimum fraction of growth increase a linear regression window should cover. Default: 0.05 (5%).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>interactive</code></td>
+<td>
+<p>(Logical) Controls whether the fit of each growth curve and method is controlled manually by the user. If <code>TRUE</code>, each fit is visualized in the <em>Plots</em> pane and the user can adjust fitting parameters and confirm the reliability of each fit per sample. Default: <code>TRUE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nboot.gc</code></td>
+<td>
+<p>(Numeric) Number of bootstrap samples used for nonparametric growth curve fitting with <code>growth.gcBootSpline</code>. Use <code>nboot.gc = 0</code> to disable the bootstrap. Default: <code>0</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>smooth.gc</code></td>
+<td>
+<p>(Numeric) Parameter describing the smoothness of the spline fit; usually (not necessary) within (0;1]. <code>smooth.gc=NULL</code> causes the program to query an optimal value via cross validation techniques. Especially for datasets with few data points the option NULL might cause a too small smoothing parameter. This can result a too tight fit that is susceptible to measurement errors (thus overestimating growth rates) or produce an error in <code>smooth.spline</code> or lead to an overestimation. The usage of a fixed value is recommended for reproducible results across samples. See <code>?smooth.spline</code> for further details. Default: <code>0.55</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>model.type</code></td>
+<td>
+<p>(Character) Vector providing the names of the parametric models which should be fitted to the data. Default: <code>c('logistic', 'richards', 'gompertz', 'gompertz.exp', 'huang', 'baranyi')</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dr.method</code></td>
+<td>
+<p>(Character) Define the method used to perform a dose-responde analysis: smooth spline fit (<code>'spline'</code>) or model fitting (<code>'model'</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dr.model</code></td>
+<td>
+<p>(Character) Provide a list of models from the R package 'drc' to include in the dose-response analysis (if <code>dr.method = 'model'</code>). If more than one model is provided, the best-fitting model will be chosen based on the Akaike Information Criterion.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>growth.thresh</code></td>
+<td>
+<p>(Numeric) Define a threshold for growth. Only if any growth value in a sample is greater than <code>growth.thresh</code> (default: 1.5) times the start growth, further computations are performed. Else, a message is returned.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dr.have.atleast</code></td>
+<td>
+<p>(Numeric) Minimum number of different values for the response parameter one should have for estimating a dose response curve. Note: All fit procedures require at least six unique values. Default: <code>6</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dr.parameter</code></td>
+<td>
+<p>(Character or numeric) The response parameter in the output table to be used for creating a dose response curve. See <code>growth.drFit</code> for further details. Default: <code>'mu.linfit'</code>, which represents the maximum slope of the linear regression. Typical options include: <code>'mu.linfit'</code>, <code>'lambda.linfit'</code>, <code>'dY.linfit'</code>, <code>'mu.spline'</code>, <code>'dY.spline'</code>, <code>'mu.model'</code>, and <code>'A.model'</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>smooth.dr</code></td>
+<td>
+<p>(Numeric) Smoothing parameter used in the spline fit by smooth.spline during dose response curve estimation. Usually (not necessesary) in (0; 1]. See documentation of smooth.spline for further details. Default: <code>NULL</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>log.x.dr</code></td>
+<td>
+<p>(Logical) Indicates whether <code>ln(x+1)</code> should be applied to the concentration data of the dose response curves. Default: <code>FALSE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>log.y.dr</code></td>
+<td>
+<p>(Logical) Indicates whether <code>ln(y+1)</code> should be applied to the response data of the dose response curves. Default: <code>FALSE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nboot.dr</code></td>
+<td>
+<p>(Numeric) Defines the number of bootstrap samples for EC50 estimation. Use <code>nboot.dr = 0</code> to disable bootstrapping. Default: <code>0</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>report</code></td>
+<td>
+<p>(Character or NULL) Create a PDF (<code>'pdf'</code>) and/or HTML (<code>'html'</code>) report after running all computations. Define <code>NULL</code> if no report should be created. Default: (<code>c('pdf', 'html')</code>)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>out.dir</code></td>
+<td>
+<p>Character or <code>NULL</code> Define the name of a folder in which all result files are stored. If <code>NULL</code>, the folder will be named with a combination of 'GrowthResults_' and the current date and time.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>out.nm</code></td>
+<td>
+<p>Character or <code>NULL</code> Define the name of the report files. If <code>NULL</code>, the files will be named with a combination of 'GrowthReport_' and the current date and time.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>export.fig</code></td>
+<td>
+<p>(Logical) Export all figures created in the report as separate PNG and PDF files (<code>TRUE</code>) or not (<code>FALSE</code>). Only effective if <code>report != NULL</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>export.res</code></td>
+<td>
+<p>(Logical) Create tab-separated TXT files containing calculated growth parameters and dose-response analysis results as well as an .RData file for the resulting <code>grofit</code> object.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>parallelize</code></td>
+<td>
+<p>Run linear fits and bootstrapping operations in parallel using all but one available processor cores</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Further arguments passed to the shiny app.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Common response parameters used in dose-response analysis:<br><br><b>Linear fit:</b><br>- mu.linfit: Growth rate<br>- lambda.linfit: Lag time<br>- dY.linfit: Density increase<br>- A.linfit: Maximum measurement<br><br><b>Spline fit:</b><br>- mu.spline: Growth rate<br>- lambda.spline: Lag time<br>- A.spline: Maximum measurement<br>- dY.spline: Density increase<br>- integral.spline: Integral<br><br><b>Parametric fit:</b><br>- mu.model: Growth rate<br>- lambda.model: Lag time<br>- A.model: Maximum measurement<br>- integral.model: Integral'
+</p>
+
+
+<h3>Value</h3>
+
+<p>A <code>grofit</code> object that contains all computation results, compatible with various plotting functions of the QurvE package and with <code>growth.report</code>.
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>time</code></td>
+<td>
+<p>Raw time matrix passed to the function as <code>time</code> (if no <code>grofit</code> object is provided).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>Raw growth dataframe passed to the function as <code>data</code> (if no <code>grofit</code> object is provided).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gcFit</code></td>
+<td>
+<p><code>gcFit</code> object created with the call of <code>growth.gcFit</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>drFit</code></td>
+<td>
+<p><code>drFit</code> object created with the call of <code>growth.drFit</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>expdesign</code></td>
+<td>
+<p>Experimental design table inherited from <code>grodata</code> or created from the identifier columns (columns 1-3) in <code>data</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>control</code></td>
+<td>
+<p>Object of class <code>grofit.control</code> created with the call of <code>growth.control</code>.</p>
+</td>
+</tr>
+</table>
+<h3>See Also</h3>
+
+<p>Other workflows: 
+<code>flFit()</code>,
+<code>growth.gcFit()</code>
+</p>
+<p>Other growth fitting functions: 
+<code>growth.drFit()</code>,
+<code>growth.gcBootSpline()</code>,
+<code>growth.gcFitLinear()</code>,
+<code>growth.gcFitModel()</code>,
+<code>growth.gcFitSpline()</code>,
+<code>growth.gcFit()</code>
+</p>
+<p>Other dose-response analysis functions: 
+<code>flFit()</code>,
+<code>growth.drBootSpline()</code>,
+<code>growth.drFitSpline()</code>,
+<code>growth.gcFit()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># Create random growth data set
+  rnd.data1 &lt;- rdm.data(d = 35, mu = 0.8, A = 5, label = 'Test1')
+  rnd.data2 &lt;- rdm.data(d = 35, mu = 0.6, A = 4.5, label = 'Test2')
+
+  rnd.data &lt;- list()
+  rnd.data[['time']] &lt;- rbind(rnd.data1$time, rnd.data2$time)
+  rnd.data[['data']] &lt;- rbind(rnd.data1$data, rnd.data2$data)
+
+  # Run growth curve analysis workflow
+  res &lt;- growth.workflow(time = rnd.data$time,
+                         data = rnd.data$data,
+                         fit.opt = 's',
+                         ec50 = FALSE,
+                         export.res = FALSE,
+                         suppress.messages = TRUE,
+                         parallelize = FALSE)
+
+# Load custom dataset
+  input &lt;- read_data(data.growth = system.file('2-FMA_toxicity.csv', package = 'QurvE'))
+
+  res &lt;- growth.workflow(grodata = input,
+                         fit.opt = 's',
+                         ec50 = TRUE,
+                         export.res = FALSE,
+                         suppress.messages = TRUE,
+                         parallelize = FALSE)
+
+  plot(res)
+
+</code></pre>
+
+
+</div>

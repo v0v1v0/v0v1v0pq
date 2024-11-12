@@ -1,0 +1,168 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qrmix</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Quantile Regression Classification
+</h2>
+
+<h3>Description</h3>
+
+<p><code>qrmix</code> estimates the components of a finite mixture model by using quantile regression  to select a group of quantiles that satisfy an optimality criteria chosen by the user.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qrmix(formula, data, k, Ntau=50, alpha=0.03, lossFn="Squared", fitMethod="lm",
+xy=TRUE, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>formula</code></td>
+<td>
+<p>an object of class <code>"formula"</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>an optional data frame that contains the variables in <code>formula</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>k</code></td>
+<td>
+<p>number of clusters.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Ntau</code></td>
+<td>
+<p>an optional value that indicates the number of quantiles that will be considered for quantile regression comparison. <code>Ntau</code> should be greater or equal than <code class="reqn">2k</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>alpha</code></td>
+<td>
+<p>an optional value that will determine the minimum separation between the k quantiles that represent each of the k clusters. <code>alpha</code> should be smaller than <code class="reqn">\frac{1}{2k}</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lossFn</code></td>
+<td>
+<p>the loss function to be used to select the best combination of k quantiles. The available functions are <code>"Squared"</code>, <code>"Absolute"</code>, <code>"Bisquare"</code>, and <code>"Huber"</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fitMethod</code></td>
+<td>
+<p>the method to be used for the final fitting. Use <code>"lm"</code> for OLS (default), <code>"rlm"</code> for robust regression, and <code>"rq"</code> to use fit from quantile regression.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xy</code></td>
+<td>
+<p>logical. If <code>TRUE</code> (the default), the data will be saved in the qrmix object.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>additional arguments to be passed to the function determined in <code>fitMethod</code>.
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The optimality criteria is determined by the <code>lossFn</code> parameter. If, for example, the default value is used (<code>lossFn = "Squared"</code>), the <code>k</code> quantiles selected will minimize the sum of squared residuals. Use <code>"Bisquare"</code> or <code>"Huber"</code> to make the method less sensitive to outliers.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>qrmix</code> returns an object of class "qrmix"
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>coefficients</code></td>
+<td>
+<p>a matrix with k columns that represent the coefficients for each cluster.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>clusters</code></td>
+<td>
+<p>cluster assignment for each observation.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>quantiles</code></td>
+<td>
+<p>the set of k quantiles that minimize the mean loss.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>residuals</code></td>
+<td>
+<p>the residuals, response minus fitted values.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fitted.values</code></td>
+<td>
+<p>the fitted values.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>call</code></td>
+<td>
+<p>the matched call.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xy</code></td>
+<td>
+<p>the data used if xy is set to <code>TRUE</code>.</p>
+</td>
+</tr>
+</table>
+<h3>References</h3>
+
+<p>Emir, B., Willke, R. J., Yu, C. R., Zou, K. H., Resa, M. A., and Cabrera, J. (2017), "A Comparison and Integration of Quantile Regression and Finite Mixture Modeling" (submitted).
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(blood.pressure)
+
+#qrmix model using default function values:
+mod1 = qrmix(bmi ~ ., data = blood.pressure, k = 3)
+summary(mod1)
+
+#qrmix model using Bisquare loss function and refitted with robust regression:
+mod2 = qrmix(bmi ~ age + systolic + diastolic + gender, data = blood.pressure, k = 3,
+Ntau = 25, alpha = 0.1, lossFn = "Bisquare", fitMethod = "rlm")
+summary(mod2)
+
+
+
+</code></pre>
+
+
+</div>

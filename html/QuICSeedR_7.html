@@ -1,0 +1,168 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>GetCalculation</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Perform Calculations</h2>
+
+<h3>Description</h3>
+
+<p>This function takes cleaned raw data and performs various analyses,
+including calculating the time to threshold, Rate of Amyloid Formation (RAF), Max Point Ratio (MPR),
+Max Slope (MS), and whether the reaction crosses the threshold (XTH).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">GetCalculation(
+  raw,
+  meta,
+  norm = FALSE,
+  norm_ct,
+  threshold_method = "stdv",
+  time_skip = 5,
+  sd_fold = 3,
+  bg_fold = 3,
+  rfu = 5000,
+  cycle_background = 4,
+  binw = 6
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>raw</code></td>
+<td>
+<p>Cleaned raw data matrix. Output from <code>CleanRaw()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>meta</code></td>
+<td>
+<p>Cleaned meta data. Output from <code>CleanMeta()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>norm</code></td>
+<td>
+<p>Logical. If TRUE, normalization will be performed. Default is FALSE.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>norm_ct</code></td>
+<td>
+<p>Sample name used to normalize calculation.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>threshold_method</code></td>
+<td>
+<p>Method for calculating threshold ('stdv', 'rfu_val', or 'bg_ratio').</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>time_skip</code></td>
+<td>
+<p>Number of initial time points to skip when checking for threshold crossing.
+This helps ignore early crossings that may be due to reasons unrelated to seeding activity.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sd_fold</code></td>
+<td>
+<p>Fold of standard deviation to calculate the threshold for RAF (for 'stdv' method).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bg_fold</code></td>
+<td>
+<p>Background fold for threshold calculation (for 'bg_ratio' method).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rfu</code></td>
+<td>
+<p>Relative fluorescence unit values used for threshold (for 'rfu_val' method).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cycle_background</code></td>
+<td>
+<p>The cycle number chosen as the background for RAF and MPR calculations.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>binw</code></td>
+<td>
+<p>Bin width for the MS calculation.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A data frame containing the results of the calculation.
+</p>
+
+
+<h3>References</h3>
+
+<p>Henderson DM, Davenport KA, Haley NJ, Denkers ND, Mathiason CK, Hoover EA.
+Quantitative assessment of prion infectivity in tissues and body fluids by real-time quaking-induced conversion.
+J Gen Virol. 2015;96(Pt 1):210-219. doi:10.1099/vir.0.069906-0
+</p>
+<p>Li M, Schwabenlander MD, Rowden GR, Schefers JM, Jennelle CS, Carstensen M, Seelig D, Larsen PA. RT-QuIC detection
+of CWD prion seeding activity in white-tailed deer muscle tissues. Sci Rep. 2021;11(1):16759.
+doi: 10.1038/s41598-021-96127-8. PMID: 34408204; PMCID: PMC8373970.
+</p>
+<p>Rowden GR, Picasso-Risso C, Li M, Schwabenlander MD, Wolf TM, Larsen PA.
+Standardization of Data Analysis for RT-QuIC-Based Detection of Chronic Wasting Disease. Pathogens.
+2023;12(2):309. doi:10.3390/pathogens12020309
+</p>
+<p>Haley NJ, Van de Motter A, Carver S, et al. Prion-seeding activity in cerebrospinal fluid of deer with chronic
+wasting disease. PLoS One. 2013;8(11):e81488. doi:10.1371/journal.pone.0081488
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># Define the path to the plate data file
+plate_path &lt;- system.file("extdata/20240716_p3", 
+                          file = '20240716_p3_plate.xlsx', 
+                          package = "QuICSeedR")
+  
+# Read the plate data
+plate &lt;- readxl::read_xlsx(plate_path)
+
+# Define the path to the raw data file
+raw_path &lt;- system.file("extdata/20240716_p3", 
+                        file = '20240716_p3_raw.xlsx', 
+                        package = "QuICSeedR")
+# Read the raw data
+raw &lt;- readxl::read_xlsx(raw_path)
+
+# Get replicate data
+replicate &lt;- GetReplicate(plate)
+
+# Ensure time displayed as decimal hours
+plate_time = ConvertTime(raw)
+
+#Get metadata and display the few rows 
+meta = CleanMeta(raw, plate, replicate)
+
+#Clean data 
+cleanraw &lt;- CleanRaw(meta, raw, plate_time)
+
+#Get calculations using positive controls to normalize values. 
+calculation = GetCalculation(raw = cleanraw, meta, norm = TRUE, norm_ct = 'Pos')
+
+head(calculation)
+
+</code></pre>
+
+
+</div>

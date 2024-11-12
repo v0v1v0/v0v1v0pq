@@ -1,0 +1,115 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>usable_obs</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Extract usable observations</h2>
+
+<h3>Description</h3>
+
+<p>Sum columns containing unusable observations and remove
+rows that contain more than the specified cutoff number of unusable points.
+Helpful if there are annotations that were unidentifiable and you want to
+remove them from the total usable observations, and you can remove quadrats
+with too many unusable observations.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">usable_obs(
+  data,
+  unusable,
+  max = FALSE,
+  cutoff,
+  above_cutoff = FALSE,
+  rm_unusable = TRUE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>A data frame with each row representing a sampling unit (ex. a
+quadrat or photo).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>unusable</code></td>
+<td>
+<p>A vector of column names containing unusable observations.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>max</code></td>
+<td>
+<p>If <code>max = FALSE</code>, no threshold will be examined. If <code>max = TRUE</code>, a
+threshold cutoff needs to be provided where rows containing more than the
+<code>cutoff</code> will be removed from the data frame.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cutoff</code></td>
+<td>
+<p>The threshold number where rows containing more unusable observations
+than the <code>cutoff</code> will be removed from the data frame.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>above_cutoff</code></td>
+<td>
+<p>If <code>above_cutoff = TRUE</code>, the data frame returned will be the
+rows containing more unusable observations than the cutoff. If <code>above_cutoff = FALSE</code>
+the data frame returned will be the rows containing equal to or less unusable
+observations than the cutoff.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rm_unusable</code></td>
+<td>
+<p>If <code>rm_unusable = TRUE</code>, the columns named in the unusable
+vector will be removed from the data frame. These columns will not be
+removed if <code>rm_unusable = FALSE</code>, though duplicate data will remain.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A data frame containing summed unusable points.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">#create data set for example
+Sites &lt;- as.factor(c("One", "One", "Two", "Two", "Three", "Three"))
+Transect &lt;- as.factor(c("1-Shallow", "2-Shallow", "1-Shallow", "2-Shallow",
+    "1-Shallow", "2-Shallow"))
+Acropora.sp &lt;- c(1, 2, 3, 4, 5, 6)
+Gardineroseris.sp &lt;- c(6, 1, 2, 3, 4, 5)
+Psammocora.sp &lt;- c(5, 6, 1, 2, 3, 4)
+Leptastrea.sp &lt;- c(4, 5, 6, 1, 2, 3)
+Blurry &lt;- c(3, 4, 5, 6, 1, 2)
+Unk &lt;- c(2, 3, 4, 5, 6, 1)
+coral_cover &lt;- data.frame(Sites, Transect, Acropora.sp, Gardineroseris.sp,
+                          Psammocora.sp, Leptastrea.sp, Blurry, Unk)
+
+
+usable_obs(coral_cover, c("Blurry", "Unk"))
+
+usable_obs(coral_cover, c("Blurry", "Unk"), above_cutoff = TRUE)
+
+usable_obs(coral_cover, c("Blurry", "Unk"), rm_unusable = FALSE)
+
+usable_obs(coral_cover, c("Blurry", "Unk"), max = TRUE, cutoff = 8)
+
+usable_obs(coral_cover, c("Blurry", "Unk"), max = TRUE, cutoff = 8, above_cutoff = TRUE)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,102 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>mqmplot.cofactors</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Plot cofactors on the genetic map</h2>
+
+<h3>Description</h3>
+
+<p>Plots cofactors as created by <code>mqmsetcofactors</code>
+or <code>mqmautocofactors</code> on the genetic map.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">mqmplot.cofactors(cross,cofactors, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>cross</code></td>
+<td>
+
+<p>An object of class <code>cross</code>. See <code>read.cross</code> for details. 
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cofactors</code></td>
+<td>
+
+<p>List of cofactors to be analysed in the QTL model. To set cofactors use <code>mqmautocofactors</code> or <code>mqmsetcofactors</code></p>
+</td>
+</tr>
+</table>
+<p>. 
+</p>
+<table><tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Passed to <code>plot.qtl</code></p>
+</td>
+</tr></table>
+<h3>Author(s)</h3>
+
+<p>Danny Arends <a href="mailto:danny.arends@gmail.com">danny.arends@gmail.com</a> 
+</p>
+
+
+<h3>See Also</h3>
+
+
+
+<ul>
+<li>
+<p> The MQM tutorial: <a href="https://rqtl.org/tutorials/MQM-tour.pdf">https://rqtl.org/tutorials/MQM-tour.pdf</a>
+</p>
+</li>
+<li> <p><code>MQM</code> - MQM description and references
+</p>
+</li>
+<li> <p><code>mqmscan</code> - Main MQM single trait analysis
+</p>
+</li>
+<li> <p><code>mqmscanall</code> - Parallellized traits analysis
+</p>
+</li>
+<li> <p><code>mqmaugment</code> - Augmentation routine for estimating missing data
+</p>
+</li>
+<li> <p><code>mqmautocofactors</code> - Set cofactors using marker density
+</p>
+</li>
+<li> <p><code>mqmsetcofactors</code> - Set cofactors at fixed locations
+</p>
+</li>
+<li> <p><code>mqmpermutation</code> - Estimate significance levels
+</p>
+</li>
+<li> <p><code>scanone</code> - Single QTL scanning
+
+</p>
+</li>
+</ul>
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(multitrait)
+cof1 &lt;- mqmsetcofactors(multitrait,20)
+cof2 &lt;- mqmsetcofactors(multitrait,10)
+op &lt;- par(mfrow=c(2,1))
+mqmplot.cofactors(multitrait,cof1,col="blue")
+mqmplot.cofactors(multitrait,cof2,col="blue")
+op &lt;- par(mfrow=c(1,1))
+</code></pre>
+
+
+</div>

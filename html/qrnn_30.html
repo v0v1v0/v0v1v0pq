@@ -1,0 +1,59 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qrnn.initialize</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Initialize a QRNN weight vector
+</h2>
+
+<h3>Description</h3>
+
+<p>Random initialization of the weight vector used during fitting of a QRNN model.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qrnn.initialize(x, y, n.hidden, init.range=c(-0.5, 0.5, -0.5, 0.5))
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+
+<p>covariate matrix with number of rows equal to the number of samples and number of columns equal to the number of variables.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+
+<p>response column matrix with number of rows equal to the number of samples.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n.hidden</code></td>
+<td>
+
+<p>number of hidden nodes in the QRNN model.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>init.range</code></td>
+<td>
+
+<p>initial weight range for input-hidden and hidden-output weight matrices.
+</p>
+</td>
+</tr>
+</table>
+</div>

@@ -1,0 +1,127 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>npqcs.r</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Function to plot the r chart</h2>
+
+<h3>Description</h3>
+
+<p>This function is used to compute statistics required by the r chart.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">npqcs.r(x, ...)
+
+## Default S3 method:
+npqcs.r(
+  x,
+  G,
+  data.name = NULL,
+  limits = NULL,
+  method = c("Tukey", "Liu", "Mahalanobis", "RP", "LD"),
+  alpha = 0.01,
+  plot = FALSE,
+  ...
+)
+
+## S3 method for class 'npqcd'
+npqcs.r(
+  x,
+  data.name,
+  limits = NULL,
+  method = c("Tukey", "Liu", "Mahalanobis", "RP", "LD"),
+  alpha = 0.01,
+  plot = FALSE,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>An object npqcd (Non parametric Quality Control Data)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>arguments passed to or from methods.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>G</code></td>
+<td>
+<p>The x as a matrix, data frame or list. If it is a matrix or data frame, then each row is viewed as one multivariate observation.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data.name</code></td>
+<td>
+<p>a string that specifies the title displayed on the plots. 
+If not provided it is taken from the name of the object x.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>limits</code></td>
+<td>
+<p>a two-value vector specifying the control limits lower and central.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+<p>Character string which determines the depth function used. 
+method can be "Tukey" (the default), "Liu", "Mahalanobis", "RP" Random Project or "LD" Likelihood depth.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>alpha</code></td>
+<td>
+<p>it is the the significance level (0.01 for default)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>plot</code></td>
+<td>
+<p>a logical value indicating it should be plotted.</p>
+</td>
+</tr>
+</table>
+<h3>References</h3>
+
+<p>Regina Liu (1995)
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+library(qcr)
+set.seed(356)
+mu&lt;-c(0,0)
+Sigma&lt;- matrix(c(1,0,0,1),nrow = 2,ncol = 2)
+u &lt;- c(2,2)
+S &lt;- matrix(c(4,0,0,4),nrow = 2,ncol = 2)
+G &lt;- rmvnorm(540, mean = mu, sigma = Sigma)
+x&lt;- rmvnorm(40,mean=u,sigma = S)
+x &lt;- rbind(G[501:540,],x)
+M &lt;- G[1:500,]
+data.npqcd &lt;- npqcd(x,M)
+str(data.npqcd)
+res.npqcs &lt;- npqcs.r(data.npqcd,method = "Liu", alpha=0.025)
+str(res.npqcs)
+summary(res.npqcs)
+plot(res.npqcs,title =" r Control Chart")  
+## End(Not run)
+</code></pre>
+
+
+</div>

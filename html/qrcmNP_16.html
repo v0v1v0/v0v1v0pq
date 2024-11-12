@@ -1,0 +1,164 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>gof.piqr</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Goodness of Fit of Penalized Quantile Regression Coefficients Modeling
+</h2>
+
+<h3>Description</h3>
+
+<p>Goodness of Fit of an object of class “<code>piqr</code>”, usefull to select the best tuning parameter.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">gof.piqr(object, method=c("BIC","AIC"), Cn="1", plot=TRUE, df.new=TRUE, logi=TRUE, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+
+<p>an object of class “<code>piqr</code>”, the result of a call to <code>piqr</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+
+<p>a method to evaluate the goodness of fit and select the best value of the tuning parameter.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Cn</code></td>
+<td>
+
+<p>It is some positive constant that diverges to infinity as n increase. It is used by the BIC criterion and if Cn = 1 the classical BIC is used.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>df.new</code></td>
+<td>
+
+<p>if TRUE degrees of freedom are evaluated as the number of </p>
+<p style="text-align: center;"><code class="reqn">\beta_j(p | \theta) != 0,  j = 1,\ldots, q</code>
+</p>
+<p>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>logi</code></td>
+<td>
+
+<p>if TRUE the loss function is log-transformed.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>plot</code></td>
+<td>
+
+<p>if TRUE the chosen method is plotted - default is TRUE.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+
+<p>additional arguments.
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The best value of lambda is chosen minimizing the criterion, i.e., AIC and BIC.
+</p>
+
+
+<h3>Value</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>minLambda</code></td>
+<td>
+<p>the best value of lambda.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dfMinLambda</code></td>
+<td>
+<p>the number of nonzero parameters associated to the best lambda.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>betaMin</code></td>
+<td>
+<p>the parameters associated to the best lambda.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>posMinLambda</code></td>
+<td>
+<p>the position of the best lambda along the sequence of lambda.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>call</code></td>
+<td>
+<p>the matched call.</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Gianluca Sottile <a href="mailto:gianluca.sottile@unipa.it">gianluca.sottile@unipa.it</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>piqr</code>, for model fitting; <code>summary.piqr</code> and <code>plot.piqr</code>, for summarizing and plotting <code>piqr</code> objects.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+# using simulated data
+
+set.seed(1234)
+n &lt;- 300
+x1 &lt;- rexp(n)
+x2 &lt;- runif(n, 0, 5)
+x &lt;- cbind(x1,x2)
+
+b &lt;- function(p){matrix(cbind(1, qnorm(p), slp(p, 2)), nrow=4, byrow=TRUE)}
+theta &lt;- matrix(0, nrow=3, ncol=4); theta[, 1] &lt;- 1; theta[1,2] &lt;- 1; theta[2:3,3] &lt;- 2
+qy &lt;- function(p, theta, b, x){rowSums(x * t(theta %*% b(p)))}
+
+y &lt;- qy(runif(n), theta, b, cbind(1, x))
+
+s &lt;- matrix(1, nrow=3, ncol=4); s[1,3:4] &lt;- 0
+obj &lt;- piqr(y ~ x1 + x2, formula.p = ~ I(qnorm(p)) + slp(p, 2), s=s, nlambda=50)
+
+par(mfrow=c(1,2))
+best &lt;- gof.piqr(obj, method="AIC", plot=TRUE)
+best2 &lt;- gof.piqr(obj, method="BIC", plot=TRUE)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,67 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>fpower</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Folded Power Transformation</h2>
+
+<h3>Description</h3>
+
+<p>The name “folded Power Transformation” is used because
+this does for power transformations what Tukey's folded logarithm
+does for the logarithmic tranformation.  The function calculates
+</p>
+<p style="text-align: center;"><code class="reqn">f(p, \lambda, \epsilon) = \frac{p+\epsilon}{1-p+\epsilon}^\lambda</code>
+</p>
+
+<p>where <code class="reqn">\lambda</code> is the power and <code class="reqn">\epsilon</code> is a positive
+offset that ensures that <code class="reqn">\frac{p+\epsilon}{1-p+\epsilon}</code> is
+greater than 0 and finite.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">fpower(p, lambda, eps)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>p</code></td>
+<td>
+<p>Mortality proportion</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lambda</code></td>
+<td>
+<p>Power <code>lambda</code> for the power transformation</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>eps</code></td>
+<td>
+<p>If <code>eps&gt;0</code> <code>phat</code> is replaced by
+<code class="reqn">\frac{p+\epsilon}{1+\epsilon}</code> before applying
+the power transformation.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>The transformed values of <code>fpower(p)</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">p &lt;- (0:10)/10
+ytrans &lt;- fpower(p, lambda=0.25, eps=1/450)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,73 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>summary.drFitfl</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Generic summary function for drFitfl objects</h2>
+
+<h3>Description</h3>
+
+<p>Generic summary function for drFitfl objects
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'drFitfl'
+summary(object, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>object of class <code>drFitfl</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Additional arguments. This has currently no effect and is only meant to fulfill the requirements of a generic function.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A dataframe with parameters for all samples extracted from a dose-response analysis.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># load example dataset
+input &lt;- read_data(data.growth = system.file("lac_promoters_growth.txt", package = "QurvE"),
+                   data.fl = system.file("lac_promoters_fluorescence.txt", package = "QurvE"),
+                   csvsep = "\t",
+                   csvsep.fl = "\t")
+
+# Define fit controls
+control &lt;- fl.control(fit.opt = 's',
+             x_type = 'time', norm_fl = TRUE,
+             dr.parameter = 'max_slope.spline',
+             dr.method = 'model',
+             suppress.messages = TRUE)
+
+# Run curve fitting workflow
+res &lt;- flFit(fl_data = input$norm.fluorescence,
+             time = input$time,
+             parallelize = FALSE,
+             control = control)
+
+# Perform dose-response analysis with biosensor model
+drFitfl &lt;- fl.drFit(flTable = res$flTable, control = control)
+
+summary(drFitfl)
+
+</code></pre>
+
+
+</div>

@@ -1,0 +1,264 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>simul_shapetest</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Testing the shape of a functional coefficient in the median and/or the variabilty function
+</h2>
+
+<h3>Description</h3>
+
+<p>Testing a functional coefficient of a covariate in the median and/or the variability function, considering the general hetersocedastic varying-coefficient model in Gijbels etal (2017a).
+</p>
+<p style="text-align: center;"><code class="reqn">Y(t)=\sum_{k=0}^{p}\beta_{k}(t)X^{(k)}(t)+\gamma(t)\exp(\sum_{k=1}^{p}\theta_{k}(t)X^{(k)}(t))\epsilon(t).</code>
+</p>
+
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">simul_shapetest(times, subj, X, y, d, kn, degree, lambda, gam, v,
+                       nr.bootstrap.samples, seed, test,omega)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>times</code></td>
+<td>
+
+<p>The vector of time variable.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>subj</code></td>
+<td>
+
+<p>The vector of subject indicator.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>X</code></td>
+<td>
+
+<p>The covariates, containing 1 as its first component
+(including intercept in the model).
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+
+<p>The response vector.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>d</code></td>
+<td>
+
+<p>The order of differencing operator for each covariate.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>kn</code></td>
+<td>
+
+<p>The number of knot intervals for each covariate.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>degree</code></td>
+<td>
+
+<p>The degree of B-spline basis for each covariate.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lambda</code></td>
+<td>
+
+<p>The grid of smoothing parameter to control the trade between
+fidelity and penalty term (use a fine grid of lambda).
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gam</code></td>
+<td>
+
+<p>The power used in estimating the smooting parameter for each
+covariate (e.g. gam=1 or gam=0.5).
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>v</code></td>
+<td>
+
+<p>The covariate indicator for which the shape test is interested.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nr.bootstrap.samples</code></td>
+<td>
+
+<p>The number of bootstrap samples used.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>seed</code></td>
+<td>
+
+<p>The seed for the random generator in the bootstrap resampling.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>test</code></td>
+<td>
+
+<p>The requested type of testing, it consists two arguments:
+the first argument for median and the second for the variability function.
+"c" stands for constancy, "m" stands for monotonicity, and "conv" stands for convexity.
+insert NA to the other argument when only for median/ variability function is needed..
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>omega</code></td>
+<td>
+
+<p>A user defined constraint parameter for monotonicity or convexity (in Equation (7) of
+Gijbels etal (2017a)), chosen as large as possible.
+</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>result</code></td>
+<td>
+<p>The testing procedures.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>P</code></td>
+<td>
+<p>The p-values.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>GR</code></td>
+<td>
+<p>The test statistics for the given data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Gb</code></td>
+<td>
+<p>The bootstrap test statistics.</p>
+</td>
+</tr>
+</table>
+<h3>Note</h3>
+
+<p>Some warning messages are related to the function <code>rq.fit.sfn</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Mohammed Abdulkerim Ibrahim
+</p>
+
+
+<h3>References</h3>
+
+
+<p>Andriyana, Y. and Gijbels, I. &amp; Verhasselt, A. (2014). P-splines quantile regression estimation in varying coefficient models. <em>Test</em>, 23, 153-194.
+</p>
+<p>Andriyana, Y., Gijbels, I. and Verhasselt, A. (2017). Quantile regression in varying-coefficient models: non-crossing quantile curves and heteroscedasticity. <em>Statistical Papers,</em> DOI:10.1007/s00362-016-0847-7
+</p>
+<p>Gijbels, I., Ibrahim, M. A., and Verhasselt, A. (2017a). Shape testing in quantile varying coefficient models with heteroscedastic error. <em>Journal of Nonparametric Statistics, 29(2):391-406.</em>
+</p>
+<p>Gijbels, I., Ibrahim, M. A., and Verhasselt, A. (2017b). Testing the heteroscedastic error structure in quantile varying coefficient models. <em>The Canadian Journal of Statistics,</em> DOI:10.1002/cjs.11346.
+</p>
+<p>He, X. (1997). Quantile curves without crossing. <em>The American Statistician</em>, 51, 186-192.
+</p>
+
+
+<h3>See Also</h3>
+
+
+<p><code>rq.fit.sfn</code>
+<code>as.matrix.csr</code>
+<code>truncSP</code>
+
+
+
+
+
+
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(wages)
+y = wages$resp ## the hourly wage
+times = wages$exper ## the duration of work experience in years
+subj = wages$id ## subject indicator (individual)
+dim=length(y) ## number of rows in the data = 6402
+x0 = rep(1,dim) ## for intercept
+### the covariates
+## creating 2 dummy variables for the race covariate
+wages$r1[wages$race=="black"]=1
+wages$r1[wages$race!="black"]=0
+wages$r2[wages$race=="hisp"]=1
+wages$r2[wages$race!="hisp"]=0
+x1 = wages$r1 # stands for black
+x2 = wages$r2 # stands for hispanic
+x3 = wages$hgc ## the highest grade completed by the indiviadual
+X = cbind(x0, x1, x2, x3) ## the covariate matrix
+px=ncol(X)
+
+##########################
+### Input parameters ####
+#########################
+lambda = 1 # we used 10^seq(-2, 1, 0.1) in Gijbels etal (2017a)
+kn = rep(1,px) # used rep(5,px) in Gijbels etal (2017a)
+degree = rep(2,px) # the degree of splines
+d = rep(1,px)
+gam=0.25
+nr.bootstrap.samples=2 # used 200 in Gijbels etal (2017a)
+seed=110
+#########################
+test1=simul_shapetest(times=times, subj=subj, X=X, y=y, d=d, kn=kn,
+                     degree=degree, lambda=lambda, gam=gam, v=1,
+                     nr.bootstrap.samples=nr.bootstrap.samples,seed=seed,
+                     test=c("c",NA),omega=10^3)
+#### Testing results
+test1$result  #the testing procedures
+test1$P  ## p-values
+test1$R ## test statistics
+
+
+</code></pre>
+
+
+</div>

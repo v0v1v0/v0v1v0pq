@@ -1,0 +1,76 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>brapi_get_call</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Internal Function for Core BrAPI GET Calls</h2>
+
+<h3>Description</h3>
+
+<p>Fetches data from an API endpoint, handles pagination by retrieving all pages, and consolidates the results into a single data frame.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">brapi_get_call(call_url, nested = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>call_url</code></td>
+<td>
+<p>Character string specifying the base URL of the API endpoint to request.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nested</code></td>
+<td>
+<p>Logical value indicating whether to flatten nested lists in the JSON responses. Defaults to <code>TRUE</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>This function performs the following steps:
+</p>
+
+<ol>
+<li>
+<p> Fetches the first page synchronously to determine the total number of pages.
+</p>
+</li>
+<li>
+<p> If multiple pages exist, it asynchronously fetches the remaining pages using <code>get_async_pages()</code>.
+</p>
+</li>
+<li>
+<p> Consolidates the data from all pages into a single data frame.
+</p>
+</li>
+<li>
+<p> Updates global state variables with pagination information.
+</p>
+</li>
+</ol>
+<p>It relies on global variables from <code>qbms_globals</code> to manage state and configuration.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list containing the consolidated data and associated metadata from the API response.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Khaled Al-Shamaa, <a href="mailto:k.el-shamaa@cgiar.org">k.el-shamaa@cgiar.org</a>
+</p>
+
+
+</div>

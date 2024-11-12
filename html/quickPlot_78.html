@@ -1,0 +1,102 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>.makeColorMatrix</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Convert Raster to colour matrix usable by raster function for plotting</h2>
+
+<h3>Description</h3>
+
+<p>Internal function.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">.makeColorMatrix(
+  grobToPlot,
+  zoomExtent,
+  maxpixels,
+  legendRange,
+  cols = NULL,
+  prevMinMax,
+  na.color = "#FFFFFF00",
+  zero.color = NULL,
+  skipSample = TRUE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>grobToPlot</code></td>
+<td>
+<p>A <code>SpatialObject</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>zoomExtent</code></td>
+<td>
+<p>An <code>Extent</code> object for zooming to.
+Defaults to whole extent of <code>grobToPlot</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>maxpixels</code></td>
+<td>
+<p>Numeric. Number of cells to subsample the complete
+<code>grobToPlot</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>legendRange</code></td>
+<td>
+<p>Numeric vector giving values that, representing the lower
+and upper bounds of a legend (i.e., <code>1:10</code> or
+<code>c(1,10)</code> will give same result) that will override
+the data bounds contained within the <code>grobToPlot</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cols</code></td>
+<td>
+<p>Colours specified in a way that can be understood directly
+or by <code>colorRampPalette()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>na.color</code></td>
+<td>
+<p>Character string indicating the colour for <code>NA</code> values.
+Default transparent.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>zero.color</code></td>
+<td>
+<p>Character string indicating the colour for zero values,
+when zero is the minimum value.
+Otherwise, it is treated as any other colour.
+Default transparent.
+Use <code>NULL</code> if zero should be the value given to it
+by the <code>colortable</code> associated with the raster.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>skipSample</code></td>
+<td>
+<p>Logical. If no downsampling is necessary, skip.
+Default <code>TRUE</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Eliot McIntire
+</p>
+
+
+</div>

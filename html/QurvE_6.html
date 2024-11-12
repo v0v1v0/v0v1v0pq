@@ -1,0 +1,260 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>fl.control</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Create a <code>fl.control</code> object.</h2>
+
+<h3>Description</h3>
+
+<p>A <code>fl.control</code> object is required to perform various computations on fluorescence data stored within <code>grodata</code> objects (created with <code>read_data</code> or <code>parse_data</code>). A <code>fl.control</code> object is created automatically as part of <code>fl.workflow</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">fl.control(
+  fit.opt = c("l", "s"),
+  x_type = c("growth", "time"),
+  norm_fl = TRUE,
+  t0 = 0,
+  tmax = NA,
+  min.growth = NA,
+  max.growth = NA,
+  log.x.lin = FALSE,
+  log.x.spline = FALSE,
+  log.y.lin = FALSE,
+  log.y.spline = FALSE,
+  lin.h = NULL,
+  lin.R2 = 0.97,
+  lin.RSD = 0.05,
+  lin.dY = 0.05,
+  dr.parameter = "max_slope.spline",
+  dr.method = c("model", "spline"),
+  dr.have.atleast = 5,
+  smooth.dr = NULL,
+  log.x.dr = FALSE,
+  log.y.dr = FALSE,
+  nboot.dr = 0,
+  biphasic = FALSE,
+  interactive = FALSE,
+  nboot.fl = 0,
+  smooth.fl = 0.75,
+  growth.thresh = 1.5,
+  suppress.messages = FALSE,
+  neg.nan.act = FALSE,
+  clean.bootstrap = TRUE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>fit.opt</code></td>
+<td>
+<p>(Character or vector of strings) Indicates whether the program should perform a linear regression (<code>'l'</code>) and/or spline fit (<code>'s'</code>). Default:  <code>fit.opt = c('l', 's')</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x_type</code></td>
+<td>
+<p>(Character) Which data type shall be used as independent variable? Options are <code>'growth'</code> and <code>'time'</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>norm_fl</code></td>
+<td>
+<p>(Logical) use normalized (to growth) fluorescence data in fits. Has an effect only when <code>x_type = 'time'</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>t0</code></td>
+<td>
+<p>(Numeric) Minimum time value considered for linear and spline fits (if <code>x_type = 'time'</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tmax</code></td>
+<td>
+<p>(Numeric) Maximum time value considered for linear and spline fits (if <code>x_type = 'time'</code>)..</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>min.growth</code></td>
+<td>
+<p>(Numeric) Indicate whether only values above a certain threshold should be considered for linear regressions or spline fits (if <code>x_type = 'growth'</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>max.growth</code></td>
+<td>
+<p>(Numeric) Indicate whether only growth values below a certain threshold should be considered for linear regressions or spline fits (if <code>x_type = 'growth'</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>log.x.lin</code></td>
+<td>
+<p>(Logical) Indicates whether <em>ln(x+1)</em> should be applied to the independent variable for <em>linear</em> fits. Default: <code>FALSE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>log.x.spline</code></td>
+<td>
+<p>(Logical) Indicates whether <em>ln(x+1)</em> should be applied to the independent variable for <em>spline</em> fits. Default: <code>FALSE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>log.y.lin</code></td>
+<td>
+<p>(Logical) Indicates whether <em>ln(y/y0)</em> should be applied to the fluorescence data for <em>linear</em> fits. Default: <code>FALSE</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>log.y.spline</code></td>
+<td>
+<p>(Logical) Indicates whether <em>ln(y/y0)</em> should be applied to the fluorescence data for <em>spline</em> fits. Default: <code>FALSE</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lin.h</code></td>
+<td>
+<p>(Numeric) Manually define the size of the sliding window used in <code>flFitLinear</code>. If <code>NULL</code>, h is calculated for each samples based on the number of measurements in the fluorescence increase phase of the plot.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lin.R2</code></td>
+<td>
+<p>(Numeric) R<sup>2</sup> threshold for <code>flFitLinear</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lin.RSD</code></td>
+<td>
+<p>(Numeric) Relative standard deviation (RSD) threshold for the calculated slope in <code>flFitLinear</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lin.dY</code></td>
+<td>
+<p>(Numeric) Threshold for the minimum fraction of growth increase a linear regression window should cover. Default: 0.05 (5%).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dr.parameter</code></td>
+<td>
+<p>(Character or numeric) The response parameter in the output table to be used for creating a dose response curve. See <code>fl.drFit</code> for further details. Default: <code>'max_slope.spline'</code>, which represents the maximum slope of the spline fit Typical options include: <code>'max_slope.linfit'</code>, <code>'dY.linfit'</code>, <code>'max_slope.spline'</code>, and <code>'dY.spline'</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dr.method</code></td>
+<td>
+<p>(Character) Perform either a smooth spline fit on response parameter vs. concentration data (<code>'spline'</code>) or fit a biosensor response model with <code>'model'</code> (proposed by Meyer et al., 2019).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dr.have.atleast</code></td>
+<td>
+<p>(Numeric) Minimum number of different values for the response parameter one should have for estimating a dose response curve. Note: All fit procedures require at least six unique values. Default: <code>6</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>smooth.dr</code></td>
+<td>
+<p>(Numeric) Smoothing parameter used in the spline fit by smooth.spline during dose response curve estimation. Usually (not necessesary) in (0; 1]. See <code>smooth.spline</code> for further details. Default: <code>NULL</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>log.x.dr</code></td>
+<td>
+<p>(Logical) Indicates whether <code>ln(x+1)</code> should be applied to the concentration data of the dose response curves. Default: <code>FALSE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>log.y.dr</code></td>
+<td>
+<p>(Logical) Indicates whether <code>ln(y+1)</code> should be applied to the response data of the dose response curves. Default: <code>FALSE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nboot.dr</code></td>
+<td>
+<p>(Numeric) Defines the number of bootstrap samples for EC50 estimation. Use <code>nboot.dr = 0</code> to disable bootstrapping. Default: <code>0</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>biphasic</code></td>
+<td>
+<p>(Logical) Shall <code>flFitLinear</code> and <code>flFitSpline</code> try to extract fluorescence parameters for two different phases (as observed with, e.g., regulator-promoter systems with varying response in different growth stages) (<code>TRUE</code>) or not (<code>FALSE</code>)?</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>interactive</code></td>
+<td>
+<p>(Logical) Controls whether the fit for each sample and method is controlled manually by the user. If <code>TRUE</code>, each fit is visualized in the <em>Plots</em> pane and the user can adjust fitting parameters and confirm the reliability of each fit per sample. Default: <code>TRUE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nboot.fl</code></td>
+<td>
+<p>(Numeric) Number of bootstrap samples used for nonparametric curve fitting with <code>flBootSpline</code>. Use <code>nboot.fl = 0</code> to disable the bootstrap. Default: <code>0</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>smooth.fl</code></td>
+<td>
+<p>(Numeric) Parameter describing the smoothness of the spline fit; usually (not necessary) within (0;1]. <code>smooth.gc=NULL</code> causes the program to query an optimal value via cross validation techniques. Especially for datasets with few data points the option <code>NULL</code> might cause a too small smoothing parameter. This can result a too tight fit that is susceptible to measurement errors (thus overestimating slopes) or produce an error in <code>smooth.spline</code> or lead to overfitting. The usage of a fixed value is recommended for reproducible results across samples. See <code>smooth.spline</code> for further details. Default: <code>0.55</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>growth.thresh</code></td>
+<td>
+<p>(Numeric) Define a threshold for growth. Only if any growth value in a sample is greater than <code>growth.thresh</code> (default: 1.5) times the start growth, further computations are performed. Else, a message is returned.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>suppress.messages</code></td>
+<td>
+<p>(Logical) Indicates whether messages (information about current fluorescence curve, EC50 values etc.) should be displayed (<code>FALSE</code>) or not (<code>TRUE</code>). This option is meant to speed up the high-throughput processing data. Note: warnings are still displayed. Default: <code>FALSE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>neg.nan.act</code></td>
+<td>
+<p>(Logical) Indicates whether the program should stop when negative fluorescence values or NA values appear (<code>TRUE</code>). Otherwise, the program removes these values silently (<code>FALSE</code>). Improper values may be caused by incorrect data or input errors. Default: <code>FALSE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>clean.bootstrap</code></td>
+<td>
+<p>(Logical) Determines if negative values which occur during bootstrap should be removed (<code>TRUE</code>) or kept (<code>FALSE</code>). Note: Infinite values are always removed. Default: <code>TRUE</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Generates a list with all arguments described above as entries.
+</p>
+
+
+<h3>References</h3>
+
+<p>Meyer, A.J., Segall-Shapiro, T.H., Glassey, E. et al. <em>Escherichia coli “Marionette” strains with 12 highly optimized small-molecule sensors.</em> Nat Chem Biol 15, 196–204 (2019). DOI: 10.1038/s41589-018-0168-3
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># default option
+control_default &lt;- fl.control()
+# user defined
+control_manual &lt;- fl.control(fit.opt = c('s'),
+                             smooth.fl = 0.6,
+                             x_type = 'time',
+                             t0 = 2)
+</code></pre>
+
+
+</div>

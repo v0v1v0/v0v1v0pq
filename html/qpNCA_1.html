@@ -1,0 +1,73 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>calc.ctmax</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Calculate Cmax and Tmax</h2>
+
+<h3>Description</h3>
+
+<p>Calculates Cmax and Tmax from raw data for each PK curve defined using <code>by</code>. <br></p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">calc.ctmax(x, by = character(0), timevar = "time", depvar = "dv")
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>data.frame</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>by</code></td>
+<td>
+<p>column names in x indicating grouping variables</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>timevar</code></td>
+<td>
+<p>variable name containing the actual sampling time after dose</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>depvar</code></td>
+<td>
+<p>variable name containing the dependent variable (e.g., concentration)</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Input dataset can contain all uncorrected data, including LOQ;
+estimate first occurence of maximum concentration for each PK curve;
+if all concentrations are NA, sets Cmax and Tmax also to NA.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A dataset with estimates for the Cmax (maximum concentration)
+and Tmax (time of first occurence of cmax) parameters: one observation per subject
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+example(est.thalf)
+ctmax &lt;- x %&gt;% calc.ctmax(by = 'subject')
+ctmax %&gt;% head
+
+</code></pre>
+
+
+</div>

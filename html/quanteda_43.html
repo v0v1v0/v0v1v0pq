@@ -1,0 +1,163 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>object-builders</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Object builders</h2>
+
+<h3>Description</h3>
+
+<p>Functions to build or re-build core objects, or to upgrade earlier versions
+of these objects to the current format.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">build_dfm(
+  x,
+  features,
+  docvars = data.frame(),
+  meta = list(),
+  class = NULL,
+  ...
+)
+
+rebuild_dfm(x, attrs)
+
+upgrade_dfm(x)
+
+build_tokens(
+  x,
+  types,
+  padding = TRUE,
+  docvars = data.frame(),
+  meta = list(),
+  class = NULL,
+  ...
+)
+
+rebuild_tokens(x, attrs)
+
+upgrade_tokens(x)
+
+build_corpus(x, docvars = data.frame(), meta = list(), class = NULL, ...)
+
+rebuild_corpus(x, attrs)
+
+upgrade_corpus(x)
+
+build_dictionary2(x, meta = list(), class = "dictionary2", ...)
+
+rebuild_dictionary2(x, attrs)
+
+upgrade_dictionary2(x)
+
+build_fcm(
+  x,
+  features1,
+  features2 = features1,
+  meta = list(),
+  class = "fcm",
+  ...
+)
+
+rebuild_fcm(x, attrs)
+
+upgrade_fcm(x)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>an input corpus, tokens, dfm, fcm or dictionary object.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>features</code></td>
+<td>
+<p>character for feature of resulting <code>dfm</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>docvars</code></td>
+<td>
+<p>data.frame for document level variables created by
+<code>make_docvars()</code>. Names of documents are extracted from the
+<code>docname_</code> column.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>meta</code></td>
+<td>
+<p>list for meta fields</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>class</code></td>
+<td>
+<p>class labels to be attached to the object.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>values saved in the object meta fields. They overwrite values
+passed via <code>meta</code>. If not specified, default values in
+<code>make_meta()</code> will be used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>attrs</code></td>
+<td>
+<p>a list of attributes to be reassigned</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>types</code></td>
+<td>
+<p>character for types of resulting the <code>tokens</code> object.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>padding</code></td>
+<td>
+<p>logical indicating if the <code>tokens</code> object contains paddings.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>features1</code></td>
+<td>
+<p>character for row feature of resulting <code>fcm</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>features2</code></td>
+<td>
+<p>character for column feature of resulting <code>fcm</code> iff.
+different from <code>feature1</code></p>
+</td>
+</tr>
+</table>
+<h3>Examples</h3>
+
+<pre><code class="language-R">quanteda:::build_tokens(
+    list(c(1, 2, 3), c(4, 5, 6)),
+    docvars = quanteda:::make_docvars(n = 2L),
+    types = c("a", "b", "c", "d", "e", "f"),
+    padding = FALSE
+)
+quanteda:::build_corpus(
+    c("a b c", "d e f"),
+    docvars = quanteda:::make_docvars(n = 2L),
+    unit = "sentence"
+)
+</code></pre>
+
+
+</div>

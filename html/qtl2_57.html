@@ -1,0 +1,93 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>find_marker</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Find markers by chromosome position</h2>
+
+<h3>Description</h3>
+
+<p>Find markers closest to specified set of positions, or within a specified interval.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">find_marker(map, chr, pos = NULL, interval = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>map</code></td>
+<td>
+<p>A map object: a list (corresponding to chromosomes) of
+vectors of marker positions. Can also be a snpinfo object (data
+frame with columns <code>chr</code> and <code>pos</code>; marker names taken from
+column <code>snp</code> or if that doesn't exist from the row names)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>chr</code></td>
+<td>
+<p>A vector of chromosomes</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pos</code></td>
+<td>
+<p>A vector of positions</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>interval</code></td>
+<td>
+<p>A pair of positions (provide either <code>pos</code> or <code>interval</code> but not both)</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>If <code>pos</code> is provided, <code>interval</code> should not be, and vice versa.
+</p>
+<p>If <code>pos</code> is provided, then <code>chr</code> and <code>pos</code> should
+either be the same length, or one of them should have length 1 (to
+be expanded to the length of the other).
+</p>
+<p>If <code>interval</code> is provided, then <code>chr</code> should have length 1.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A vector of marker names, either closest to the positions
+specified by <code>pos</code>, or within the interval defined by
+<code>interval</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>find_markerpos()</code>, <code>find_index_snp()</code>, <code>pull_genoprobpos()</code>, <code>pull_genoprobint()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">iron &lt;- read_cross2(system.file("extdata", "iron.zip", package="qtl2"))
+
+# find markers by their genetic map positions
+find_marker(iron$gmap, c(8, 11), c(37.7, 56.9))
+
+# find markers by their physical map positions (two markers on chr 7)
+find_marker(iron$pmap, 7, c(44.2, 108.9))
+
+# find markers in an interval
+find_marker(iron$pmap, 16, interval=c(35, 80))
+</code></pre>
+
+
+</div>

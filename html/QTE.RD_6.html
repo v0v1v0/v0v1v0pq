@@ -1,0 +1,115 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>plot.qte</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>QTE plots</h2>
+
+<h3>Description</h3>
+
+<p><code>plot.qte</code> generates plots summarizing the QTE estimates and their uniform confidence bands, helping users visualize the results.
+It also makes plots for conditional quantile processes for each side of the cutoff.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'qte'
+plot(x, ptype = 1, ytext = NULL, mtext = NULL, subtext = NULL, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>an object of class "qte" or "summary.qte" produce by <code>rd.qte</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ptype</code></td>
+<td>
+<p>either 1 or 2. Set <em>ptype=1</em> for the QTE plots, and
+<em>ptype=2</em> for the conditional quantile plots. The default value is 1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ytext</code></td>
+<td>
+<p>the y-axis label.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mtext</code></td>
+<td>
+<p>the title of the plot.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>subtext</code></td>
+<td>
+<p>the subtitles (used for the conditional quantile plots only).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>optional arguments to plot</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>plot(s) of the QTE estimates and uniform confidence bands.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># Without covariate
+n = 500
+x = runif(n,min=-4,max=4)
+d = (x &gt; 0)
+y = x + 0.3*(x^2) - 0.1*(x^3) + 1.5*d + rnorm(n)
+tlevel = seq(0.1,0.9,by=0.1)
+A &lt;- rd.qte(y=y,x=x,d=d,x0=0,z0=NULL,tau=tlevel,bdw=2,cov=0,bias=1)
+plot(A)
+
+y.text = "test scores"
+m.text = "QTE and Uniform band"
+plot(A,ytext=y.text,mtext=m.text)
+
+A2 &lt;- summary(A,alpha=0.1)
+plot(A2)
+
+z = sample(c(0,1),n,replace=TRUE)
+y = x + 0.3*(x^2) - 0.1*(x^3) + 1.5*d + d*z + rnorm(n)
+A &lt;- rd.qte(y=y,x=cbind(x,z),d=d,x0=0,z0=c(0,1),tau=tlevel,bdw=2,cov=1,bias=1)
+A2 &lt;- summary(A,alpha=0.1)
+
+y.text = "test scores"
+m.text = c("D=0","D=1")
+plot(A2,ytext=y.text,mtext=m.text)
+
+# conditional quantile plots
+n = 500
+x = runif(n,min=-4,max=4)
+d = (x &gt; 0)
+y = x + 0.3*(x^2) - 0.1*(x^3) + 1.5*d + rnorm(n)
+tlevel = seq(0.1,0.9,by=0.1)
+A &lt;- rd.qte(y=y,x=x,d=d,x0=0,z0=NULL,tau=tlevel,bdw=2,cov=0,bias=1)
+A2 &lt;- summary(A,alpha=0.1)
+
+y.text = "test scores"
+m.text = "Conditional quantile functions"
+sub.text = c("D=0 group","D=1 group")
+plot(A2,ptype=2,ytext=y.text,mtext=m.text,subtext=sub.text)
+
+
+</code></pre>
+
+
+</div>

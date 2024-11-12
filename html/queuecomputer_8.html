@@ -1,0 +1,49 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>ql_summary</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Summarise queue lengths</h2>
+
+<h3>Description</h3>
+
+<p>Summarise queue lengths
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">ql_summary(times, queuelength)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>times</code></td>
+<td>
+<p>numeric vector of times</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>queuelength</code></td>
+<td>
+<p>numeric vector of queue lengths</p>
+</td>
+</tr>
+</table>
+<h3>Examples</h3>
+
+<pre><code class="language-R">n &lt;- 1e3
+arrivals &lt;- cumsum(rexp(n))
+service &lt;- rexp(n)
+departures &lt;- queue(arrivals, service, 1)
+
+queuedata &lt;- queue_lengths(arrivals, service, departures)
+ql_summary(queuedata$times, queuedata$queuelength)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,210 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>scan1blup</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Calculate BLUPs of QTL effects in scan along one chromosome</h2>
+
+<h3>Description</h3>
+
+<p>Calculate BLUPs of QTL effects in scan along one chromosome, with a
+single-QTL model treating the QTL effects as random, with possible
+allowance for covariates and for a residual polygenic effect.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">scan1blup(
+  genoprobs,
+  pheno,
+  kinship = NULL,
+  addcovar = NULL,
+  nullcovar = NULL,
+  contrasts = NULL,
+  se = FALSE,
+  reml = TRUE,
+  tol = 0.000000000001,
+  cores = 1,
+  quiet = TRUE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>genoprobs</code></td>
+<td>
+<p>Genotype probabilities as calculated by
+<code>calc_genoprob()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pheno</code></td>
+<td>
+<p>A numeric vector of phenotype values (just one phenotype, not a matrix of them)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>kinship</code></td>
+<td>
+<p>Optional kinship matrix, or a list of kinship matrices (one
+per chromosome), in order to use the LOCO (leave one chromosome
+out) method.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>addcovar</code></td>
+<td>
+<p>An optional numeric matrix of additive covariates.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nullcovar</code></td>
+<td>
+<p>An optional numeric matrix of additional additive
+covariates that are used under the null hypothesis (of no QTL) but
+not under the alternative (with a QTL). This is needed for the X
+chromosome, where we might need sex as a additive covariate under
+the null hypothesis, but we wouldn't want to include it under the
+alternative as it would be collinear with the QTL effects. Only
+used if <code>kinship</code> is provided but <code>hsq</code> is not, to get
+estimate of residual heritability.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>contrasts</code></td>
+<td>
+<p>An optional numeric matrix of genotype contrasts, size
+genotypes x genotypes. For an intercross, you might use
+<code>cbind(mu=c(1,0,0), a=c(-1, 0, 1), d=c(0, 1, 0))</code> to get
+mean, additive effect, and dominance effect. The default is the
+identity matrix.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>se</code></td>
+<td>
+<p>If TRUE, also calculate the standard errors.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>reml</code></td>
+<td>
+<p>If <code>reml=TRUE</code>, use
+REML to estimate variance components; otherwise maximum likelihood.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tol</code></td>
+<td>
+<p>Tolerance value for convergence of linear mixed model fit.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cores</code></td>
+<td>
+<p>Number of CPU cores to use, for parallel calculations.
+(If <code>0</code>, use <code>parallel::detectCores()</code>.)
+Alternatively, this can be links to a set of cluster sockets, as
+produced by <code>parallel::makeCluster()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>quiet</code></td>
+<td>
+<p>If FALSE, print message about number of cores used when multi-core.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>For each of the inputs, the row names are used as
+individual identifiers, to align individuals.
+</p>
+<p>If <code>kinship</code> is provided, the linear mixed model accounts for
+a residual polygenic effect, with a the polygenic variance
+estimated under the null hypothesis of no (major) QTL, and then
+taken as fixed as known in the scan to estimate QTL effects.
+</p>
+<p>If <code>contrasts</code> is provided, the genotype probability matrix,
+<code class="reqn">P</code>, is post-multiplied by the contrasts matrix, <code class="reqn">A</code>, prior
+to fitting the model. So we use <code class="reqn">P \cdot A</code> as the <code class="reqn">X</code>
+matrix in the model. One might view the rows of
+<em>A</em><sup>-1</sup>
+as the set of contrasts, as the estimated effects are the estimated
+genotype effects pre-multiplied by
+<em>A</em><sup>-1</sup>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>"scan1coef"</code>: a matrix of estimated regression coefficients, of dimension
+positions x number of effects. The number of effects is
+<code>n_genotypes + n_addcovar</code>.
+May also contain the following attributes:
+</p>
+
+<ul>
+<li> <p><code>SE</code> - Present if <code>se=TRUE</code>: a matrix of estimated
+standard errors, of same dimension as <code>coef</code>.
+</p>
+</li>
+<li> <p><code>sample_size</code> - Vector of sample sizes used for each
+phenotype
+</p>
+</li>
+</ul>
+<h3>References</h3>
+
+<p>Haley CS, Knott SA (1992) A simple
+regression method for mapping quantitative trait loci in line
+crosses using flanking markers.  Heredity 69:315–324.
+</p>
+<p>Kang HM, Zaitlen NA, Wade CM, Kirby A, Heckerman D, Daly MJ, Eskin
+E (2008) Efficient control of population structure in model
+organism association mapping. Genetics 178:1709–1723.
+</p>
+<p>Robinson GK (1991) That BLUP is a good thing: The estimation of
+random effects. Statist Sci 6:15–32.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># read data
+iron &lt;- read_cross2(system.file("extdata", "iron.zip", package="qtl2"))
+
+
+# insert pseudomarkers into map
+map &lt;- insert_pseudomarkers(iron$gmap, step=1)
+
+# calculate genotype probabilities
+probs &lt;- calc_genoprob(iron, map, error_prob=0.002)
+
+
+# convert to allele probabilities
+aprobs &lt;- genoprob_to_alleleprob(probs)
+
+# grab phenotypes and covariates; ensure that covariates have names attribute
+pheno &lt;- iron$pheno[,1]
+covar &lt;- match(iron$covar$sex, c("f", "m")) # make numeric
+names(covar) &lt;- rownames(iron$covar)
+
+# calculate BLUPs of coefficients for chromosome 7
+blup &lt;- scan1blup(aprobs[,"7"], pheno, addcovar=covar)
+
+# leave-one-chromosome-out kinship matrix for chr 7
+kinship7 &lt;- calc_kinship(probs, "loco")[["7"]]
+
+# calculate BLUPs of coefficients for chromosome 7, adjusting for residual polygenic effect
+blup_pg &lt;- scan1blup(aprobs[,"7"], pheno, kinship7, addcovar=covar)
+
+</code></pre>
+
+
+</div>

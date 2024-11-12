@@ -1,0 +1,128 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>addloctocross</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Add phenotype location into a cross object</h2>
+
+<h3>Description</h3>
+
+<p>Add phenotype location(s) into a cross object
+(with eQTL/pQTL studies)
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">    addloctocross(cross, locations=NULL, locfile="locations.txt", verbose=FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>cross</code></td>
+<td>
+
+<p>An object of class <code>cross</code>. See <code>read.cross</code> for details. 
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>locations</code></td>
+<td>
+<p>R variable holding location information</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>locfile</code></td>
+<td>
+<p> load from a file, see the details section for the layout of the file.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p>If TRUE, give verbose output</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>inputfile layout:
+Num	Name	Chr	cM
+1	X3.Hydroxypropyl	4	50.0
+Num is the number of the phenotype in the cross object
+Name is the name of the phenotype (will be checked against the name already in the cross object at position num
+Chr Chromosome
+cM	position from start of chromosome in cM
+</p>
+
+
+<h3>Value</h3>
+
+<p>The input cross object, with the locations added as an additional component <code>locations</code>
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Ritsert C Jansen; Danny Arends; Pjotr Prins; Karl W Broman <a href="mailto:broman@wisc.edu">broman@wisc.edu</a> 
+</p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li> <p><code>mqmplot.cistrans</code> - Cis/trans plot
+
+</p>
+</li>
+<li>
+<p> The MQM tutorial: <a href="https://rqtl.org/tutorials/MQM-tour.pdf">https://rqtl.org/tutorials/MQM-tour.pdf</a>
+</p>
+</li>
+<li> <p><code>MQM</code> - MQM description and references
+</p>
+</li>
+<li> <p><code>mqmscan</code> - Main MQM single trait analysis
+</p>
+</li>
+<li> <p><code>mqmscanall</code> - Parallellized traits analysis
+</p>
+</li>
+<li> <p><code>mqmaugment</code> - Augmentation routine for estimating missing data
+</p>
+</li>
+<li> <p><code>mqmautocofactors</code> - Set cofactors using marker density
+</p>
+</li>
+<li> <p><code>mqmsetcofactors</code> - Set cofactors at fixed locations
+</p>
+</li>
+<li> <p><code>mqmpermutation</code> - Estimate significance levels
+</p>
+</li>
+<li> <p><code>scanone</code> - Single QTL scanning
+
+</p>
+</li>
+</ul>
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+## Not run: 
+    data(multitrait)
+    data(locations)
+    multiloc &lt;- addloctocross(multitrait,locations)
+    results &lt;- scanall(multiloc)
+    mqmplot.cistrans(results, multiloc, 5, FALSE, TRUE)
+  
+## End(Not run)
+</code></pre>
+
+
+</div>

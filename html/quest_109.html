@@ -1,0 +1,91 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>rowsNA</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Frequency of Multiple Sets of Missing Values by Row</h2>
+
+<h3>Description</h3>
+
+<p><code>rowsNA</code> computes the frequency of missing values for multiple sets of
+columns from a data.frame. The arguments <code>prop</code> and <code>ov</code> allow the
+user to specify if they want to sum or mean the missing values as well as
+compute the frequency of observed values rather than missing values. This
+function is essentially a vectorized version of <code>rowNA</code> that inputs and
+outputs a data.frame.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">rowsNA(data, vrb.nm.list, prop = FALSE, ov = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>data.frame of data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vrb.nm.list</code></td>
+<td>
+<p>list where each element is a character vector of colnames
+in <code>data</code> specifying the variables for that set of columns. The names
+of <code>vrb.nm.list</code> will be the colnames of the return object.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>prop</code></td>
+<td>
+<p>logical vector of length 1 specifying whether the frequency of
+missing values should be returned as a proportion (TRUE) or a count
+(FALSE).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ov</code></td>
+<td>
+<p>logical vector of length 1 specifying whether the frequency of
+observed values (TRUE) should be returned rather than the frequency of
+missing values (FALSE).</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>data.frame with the frequency of missing values (or observed values
+if <code>ov</code> = TRUE) for each set of variables. The names are specified by
+<code>names(vrb.nm.list)</code>; if <code>vrb.nm.list</code> does not have any names,
+then the first element from <code>vrb.nm.list[[i]]</code> is used.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>rowNA</code>
+<code>colNA</code>
+<code>vecNA</code>
+<code>is.na</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">vrb_list &lt;- lapply(X = c("O","C","E","A","N"), FUN = function(chr) {
+   tmp &lt;- grepl(pattern = chr, x = names(psych::bfi))
+   names(psych::bfi)[tmp]
+})
+rowsNA(data = psych::bfi,
+   vrb.nm.list = vrb_list) # names set to first elements in `vrb.nm.list`[[i]]
+names(vrb_list) &lt;- paste0(c("O","C","E","A","N"), "_m")
+rowsNA(data = psych::bfi, vrb.nm.list = vrb_list) # names set to names(`vrb.nm.list`)
+</code></pre>
+
+
+</div>

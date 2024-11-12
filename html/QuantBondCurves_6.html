@@ -1,0 +1,235 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>coupons</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Coupon payment calculation</h2>
+
+<h3>Description</h3>
+
+<p>Function that returns coupon values according to specified payment dates and
+a day count convention. Yields the values of cash flows for the remaining
+duration of assets, following a date payment structure, face value -or
+principal- and a specified coupon rate.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">coupons(
+  dates = NULL,
+  coupon.rate,
+  principal = 1,
+  asset.type = "TES",
+  freq = NULL,
+  daycount = "ACT/360",
+  loc = "BOG",
+  maturity = NULL,
+  analysis.date = Sys.Date(),
+  trade.date = NULL,
+  coupon.schedule = "SF"
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>dates</code></td>
+<td>
+<p>Coupon payment dates.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>coupon.rate</code></td>
+<td>
+<p>Coupon rate of the asset. Can be an unique numeric
+value or a vector corresponding to each coupon payment date.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>principal</code></td>
+<td>
+<p>Notional amount for the asset.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>asset.type</code></td>
+<td>
+<p>String that determines the asset type to value. See also
+'Details'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>freq</code></td>
+<td>
+<p>Frequency of payments of a given asset in a year. For LIBOR and
+IBR the default frequency is four (quarterly payments). TES has a default
+frequency of one (annual payments).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>daycount</code></td>
+<td>
+<p>Day count convention. See also 'Details'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>loc</code></td>
+<td>
+<p>String related to the location of the asset. It is used to
+calculate the effective dates, taking into account the business days
+of the given location. See also 'Details'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>maturity</code></td>
+<td>
+<p>Only necessary in cases where coupon payment dates are not provided in the <code>dates</code> parameter.
+Last day of the contract. Can be a numeric value that represents the duration of the contract in years.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>analysis.date</code></td>
+<td>
+<p>Date in which the asset is valued. By default, the
+current date.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>trade.date</code></td>
+<td>
+<p>The date on which the transaction occurs. It is used to calculate
+maturity as a date, when given in years. Also required for non-trivial cases such as
+bonds with long first coupon.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>coupon.schedule</code></td>
+<td>
+<p>String that establishes if a bond first coupon period is a long
+first coupon or a short first coupon. On the contrary, establishes if last coupon period
+is long last coupon or a short last coupon. See also 'Details'.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p><code>asset.type</code> makes reference to the following type of assets:
+</p>
+
+<ul>
+<li>
+<p> "TES" for Colombian Treasury Bonds (default).
+</p>
+</li>
+<li>
+<p> "FixedIncome" for assets that are indexed to a fixed income with
+different frequency of payments.
+</p>
+</li>
+<li>
+<p> "IBR" for bonds and assets indexed to 3M IBR rate.
+</p>
+</li>
+<li>
+<p> "IBRSwaps" for swaps indexed to IBR rate.
+</p>
+</li>
+<li>
+<p> "LIBOR" for bonds and assets indexed to 3M LIBOR.
+</p>
+</li>
+<li>
+<p> "UVRSwaps" for cross-currency swaps indexed to UVR-IBR rate.
+</p>
+</li>
+<li>
+<p> "LIBORSwaps" for Interest Rate Swaps (IRS) indexed to 3M LIBOR.
+</p>
+</li>
+</ul>
+<p><code>daycount</code> convention accepts the following values:
+</p>
+
+<ul>
+<li>
+<p> 30/360.
+</p>
+</li>
+<li>
+<p> ACT/365.
+</p>
+</li>
+<li>
+<p> ACT/360 (Default).
+</p>
+</li>
+<li>
+<p> ACT/365L.
+</p>
+</li>
+<li>
+<p> NL/365.
+</p>
+</li>
+<li>
+<p> ACT/ACT-ISDA
+</p>
+</li>
+<li>
+<p> ACT/ACT-AFB
+</p>
+</li>
+</ul>
+<p><code>coupon.schedule</code> makes reference to the following type of coupon payment schedule
+of a bond:
+</p>
+
+<ul>
+<li>
+<p> "LF" for Long First coupon payment.
+</p>
+</li>
+<li>
+<p> "LL" for Long Last coupon payment.
+</p>
+</li>
+<li>
+<p> "SF" for Short First coupon payment.
+</p>
+</li>
+<li>
+<p> "SL" for Short Last coupon payment.
+</p>
+</li>
+</ul>
+<h3>Value</h3>
+
+<p>$Coupons or $Cash flows of the asset in analysis.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">coupons(dates = c("2020-09-10", "2020-12-10", "2021-03-10"),
+        coupon.rate = 0.06)
+coupons(dates = c("2020-09-10", "2020-12-10", "2021-03-10"),
+        coupon.rate = 0.08, principal = 1000,
+        asset.type = "LIBOR", daycount = "ACT/365")
+coupons(dates = c("2020-09-10","2020-12-10", "2021-03-10"),
+        coupon.rate = 0.07, asset.type = "FixedIncome",
+        freq = 4, daycount = "NL/365")
+coupons(coupon.rate = c(0.04,0.04,0.42,0.045,0.05),
+        maturity = "2024-01-05", analysis.date = "2023-01-03",
+        asset.type = "IBR")
+coupons(coupon.rate = 0.03, maturity = 1.08,
+        analysis.date = "2020-02-29", trade.date = "2020-02-29",
+        asset.type = "IBR", coupon.schedule = "LF")
+
+</code></pre>
+
+
+</div>

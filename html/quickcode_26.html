@@ -1,0 +1,106 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>duplicate</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Duplicate a file with global text replacement</h2>
+
+<h3>Description</h3>
+
+<p>Shorthand to return a re-sample number of rows in a data frame by unique column
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">duplicate(file, new.name, pattern = NULL, replacement = NULL, open = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>file</code></td>
+<td>
+<p>data frame to re-sample</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>new.name</code></td>
+<td>
+<p>column to uniquely re-sample</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pattern</code></td>
+<td>
+<p>number of rows to return</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>replacement</code></td>
+<td>
+<p>unique numeric value for reproducibility</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>open</code></td>
+<td>
+<p>description</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>data frame containing re-sampled rows from an original data frame
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+if(interactive()){
+# example to duplicate a file, and replace text1 within it
+# NOTE that, by default, this function will also open the file within RStudio
+
+#create sample file
+file1s &lt;- paste0(tempfile(),".R")
+writeLines("message(
+'Sample items: eggs, coke, fanta, book'
+)", file1s)
+
+file2s &lt;- paste0(tempfile(),".R")
+file3s &lt;- paste0(tempfile(),".R")
+
+duplicate(
+  file = file1s,
+  new.name = file2s,
+  pattern = 'text1',
+  replacement = 'replacement1'
+ )
+
+# duplicate the file, with multiple replacements
+# replace 'book' with 'egg' and 'coke' with 'fanta'
+duplicate(
+  file1s, file2s,
+  pattern = c('book','coke'),
+  replacement = c('egg','fanta')
+)
+
+
+
+# duplicate the file with no replacement
+duplicate(file1s,file3s) # this simply performs file.copy, and opens the new file
+
+
+
+# duplicate the file but do not open for editing
+duplicate(file1s,file3s, open = FALSE) # this does not open file after duplication
+}
+
+</code></pre>
+
+
+</div>

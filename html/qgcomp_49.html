@@ -1,0 +1,40 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>zimsm_fit.control</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Control of fitting parameters for zero inflated MSMs</h2>
+
+<h3>Description</h3>
+
+<p>this is an internal function called by
+<code>qgcomp.zi.boot</code>, but is documented here for clarity.
+Generally, users will not need to call this function directly.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">zimsm_fit.control(predmethod = c("components", "catprobs"))
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>predmethod</code></td>
+<td>
+<p>character in c("components", "catprobs"). "components" simulates from the
+model parameters directly while "catprobs" simulates outcomes from the category specific
+probabilities, which is output from predict.zeroinfl. The former is slightly
+more flexible and stable, but the latter is preferred in zero inflated negative bionomial models.</p>
+</td>
+</tr></table>
+<h3>Details</h3>
+
+<p>Provides fine control over zero inflated MSM fitting
+</p>
+
+
+</div>

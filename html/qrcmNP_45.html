@@ -1,0 +1,88 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>summary.niqr</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Summary After Nonlinear Quantile Regression Coefficients Modeling
+</h2>
+
+<h3>Description</h3>
+
+<p>Summary of an object of class “<code>niqr</code>”.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'niqr'
+summary(object, p, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+
+<p>an object of class “<code>niqr</code>”, the result of a call to <code>niqr</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p</code></td>
+<td>
+
+<p>an optional vector of quantiles.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+
+<p>for future methods.
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>A summary of the model is printed.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Gianluca Sottile <a href="mailto:gianluca.sottile@unipa.it">gianluca.sottile@unipa.it</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>niqr</code>, for model fitting; <code>testfit.niqr</code>, for goodness of fit test; <code>predict.niqr</code> and <code>plot.niqr</code>, for predicting and plotting objects of class “<code>niqr</code>”.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+n &lt;- 300
+x &lt;- runif(n)
+fun &lt;- function(theta, p){
+  beta0 &lt;- theta[1] + exp(theta[2]*p)
+  beta1 &lt;- theta[3] + theta[4]*p
+  cbind(beta0, beta1)}
+beta &lt;- fun(c(1,1,1,1), runif(n))
+y &lt;- beta[, 1] + beta[, 2]*x
+model &lt;- niqr(fun=fun, x0=rep(0, 4), X=cbind(1,x), y=y)
+
+summary(model)
+summary(model, p=c(.01,.05))
+</code></pre>
+
+
+</div>

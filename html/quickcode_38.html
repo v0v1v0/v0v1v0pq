@@ -1,0 +1,74 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>getGitRepoStart</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Fetch GitHub Repository Creation &amp; Last Updated Date</h2>
+
+<h3>Description</h3>
+
+<p>The GitHub REST API is a powerful tool that allows developers
+to interact with GitHub programmatically. It provides a set of
+endpoints that allows a user to create integration, retrieve data,
+and automate workflows related to GitHub repositories. It is a means
+by which users can interact with GitHub without directly using a web interface.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">getGitRepoStart(repo_name, out.format = "%Y-%m-%d")
+
+getGitRepoChange(repo_name, out.format = "%Y-%m-%d")
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>repo_name</code></td>
+<td>
+<p>name of the repository</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>out.format</code></td>
+<td>
+<p>date output format</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The two functions utilize the GitHub REST API to extract important temporal information about a GitHub repository. <br><br>
+- the getGitRepoStart function is used to retrieve the date a GitHub repository was first created.<br><br>
+- the getGitRepoChange function retrieves the date a GitHub repository was last updated.
+</p>
+
+
+<h3>Value</h3>
+
+<p>date of creation of repository as a character
+</p>
+<p>date of the last update of repository as a character
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># Use default date format
+getGitRepoStart(repo_name = "oobianom/quickcode")
+
+# Specify date format
+getGitRepoStart(repo_name = "oobianom/quickcode", out.format = "%j|%Y")
+getGitRepoStart(repo_name = "oobianom/quickcode", out.format = "%D|%j")
+
+getGitRepoChange(repo_name = "oobianom/shinyStorePlus", out.format = "%d-%b-%Y")
+getGitRepoChange(repo_name = "oobianom/r2social", out.format = "%Y/%m/%d")
+
+</code></pre>
+
+
+</div>

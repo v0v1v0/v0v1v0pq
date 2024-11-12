@@ -1,0 +1,77 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>glxnet</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Generate and graph Glx network</h2>
+
+<h3>Description</h3>
+
+<p>This is the Glx network reported in Chaibub Neto et al 2008 and in Ferrara et
+al 2008. Age was used as an additive covariate and we allowed for sex by 
+genotype interaction. The network differs slightly from the published network 
+due to improved code.
+</p>
+
+
+<h3>References</h3>
+
+<p>Chaibub Neto et al. 2008 Inferring causal phenotype networks 
+from segregating populations. Genetics 179: 1089-1100.
+</p>
+<p>Ferrara et al. 2008 Genetic networks of liver metabolism revealed by 
+integration of metabolomic and transcriptomic profiling. PLoS Genetics 4:
+e1000034. 
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>qdg</code></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(glxnet)
+glxnet.cross &lt;- calc.genoprob(glxnet.cross)
+set.seed(1234)
+glxnet.cross &lt;- sim.geno(glxnet.cross)
+
+n.node &lt;- nphe(glxnet.cross) - 2 ## Last two are age and sex.
+markers &lt;- glxnet.qtl &lt;- vector("list", n.node)
+for(i in 1:n.node) {
+    ac &lt;- model.matrix(~ age + sex, glxnet.cross$pheno)[, -1]
+    ss &lt;- summary(scanone(glxnet.cross, pheno.col = i,
+                          addcovar = ac, intcovar = ac[,2]),
+                  threshold = 2.999)
+    glxnet.qtl[[i]] &lt;- makeqtl(glxnet.cross, chr = ss$chr, pos = ss$pos)
+    markers[[i]] &lt;- find.marker(glxnet.cross, chr = ss$chr, pos = ss$pos)
+}
+names(glxnet.qtl) &lt;- names(markers) &lt;- names(glxnet.cross$pheno)[seq(n.node)]
+
+glxnet.qdg &lt;- qdg(cross=glxnet.cross, 
+		phenotype.names = names(glxnet.cross$pheno[,seq(n.node)]), 
+		marker.names = markers, 
+		QTL = glxnet.qtl, 
+		alpha = 0.05, 
+		n.qdg.random.starts=10, 
+		addcov="age", 
+		intcov="sex", 
+		skel.method="udgskel",
+		udg.order=6)
+glxnet.qdg
+
+## Not run: 
+gr &lt;- graph.qdg(glxnet.qdg)
+plot(gr)
+
+## Or use tkplot().
+glxnet.cross &lt;- clean(glxnet.cross)
+save(glxnet.cross, glxnet.qdg, glxnet.qtl, file = "glxnet.RData", compress = TRUE)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

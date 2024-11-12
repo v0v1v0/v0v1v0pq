@@ -1,0 +1,75 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qrnn.predict</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Evaluate quantiles from trained QRNN model
+</h2>
+
+<h3>Description</h3>
+
+<p>Evaluate a fitted QRNN model or ensemble of models, resulting in a list
+containing the predicted quantiles.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qrnn.predict(x, parms)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+
+<p>covariate matrix with number of rows equal to the number of samples and number of columns equal to the number of variables.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>parms</code></td>
+<td>
+
+<p>list containing QRNN input-hidden and hidden-output layer weight matrices and other parameters from <code>qrnn.fit</code>.
+</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>a list with number of elements equal to that of <code>parms</code>, each containing a column matrix of predicted quantiles.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>qrnn.fit</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">x &lt;- as.matrix(iris[,"Petal.Length",drop=FALSE])
+y &lt;- as.matrix(iris[,"Petal.Width",drop=FALSE])
+
+cases &lt;- order(x)
+x &lt;- x[cases,,drop=FALSE]
+y &lt;- y[cases,,drop=FALSE]
+y[y &lt; 0.5] &lt;- 0.5
+
+set.seed(1)
+parms &lt;- qrnn.fit(x=x, y=y, n.hidden=3, tau=0.5, lower=0.5,
+                  iter.max=500, n.trials=1)
+p &lt;- qrnn.predict(x=x, parms=parms)
+
+matplot(x, cbind(y, p), type=c("p", "l"), pch=1, lwd=1)
+</code></pre>
+
+
+</div>

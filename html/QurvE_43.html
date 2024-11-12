@@ -1,0 +1,189 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>plot.flBootSpline</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Generic plot function for <code>flBootSpline</code> objects.</h2>
+
+<h3>Description</h3>
+
+<p>Generic plot function for <code>flBootSpline</code> objects.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'flBootSpline'
+plot(
+  x,
+  pch = 1,
+  colData = 1,
+  deriv = TRUE,
+  colSpline = "dodgerblue3",
+  cex.point = 1,
+  cex.lab = 1.5,
+  cex.axis = 1.3,
+  lwd = 2,
+  y.lim = NULL,
+  x.lim = NULL,
+  y.lim.deriv = NULL,
+  plot = TRUE,
+  export = FALSE,
+  height = 7,
+  width = 9,
+  out.dir = NULL,
+  combine = FALSE,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>Object of class <code>flBootSpline</code>, created with <code>flBootSpline</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pch</code></td>
+<td>
+<p>(Numeric) Size of the raw data circles.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>colData</code></td>
+<td>
+<p>(Numeric or Character) Color used to plot the raw data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>deriv</code></td>
+<td>
+<p>(Logical) Show the derivatives (i.e., slope) over time in a secondary plot (<code>TRUE</code>) or not (<code>FALSE</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>colSpline</code></td>
+<td>
+<p>(Numeric or Character) Color used to plot the splines.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cex.point</code></td>
+<td>
+<p>(Numeric) Size of the raw data points.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cex.lab</code></td>
+<td>
+<p>(Numeric) Font size of axis titles.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cex.axis</code></td>
+<td>
+<p>(Numeric) Font size of axis annotations.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lwd</code></td>
+<td>
+<p>(Numeric) Spline line width.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y.lim</code></td>
+<td>
+<p>(Numeric vector with two elements) Optional: Provide the lower (<code>l</code>) and upper (<code>u</code>) bounds on y-axis of the fluorescence curve plot as a vector in the form <code>c(l, u)</code>. If only the lower or upper bound should be fixed, provide <code>c(l, NA)</code> or <code>c(NA, u)</code>, respectively.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x.lim</code></td>
+<td>
+<p>(Numeric vector with two elements) Optional: Provide the lower (<code>l</code>) and upper (<code>u</code>) bounds on the x-axis of both fluorescence curve and derivative plots as a vector in the form <code>c(l, u)</code>. If only the lower or upper bound should be fixed, provide <code>c(l, NA)</code> or <code>c(NA, u)</code>, respectively.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y.lim.deriv</code></td>
+<td>
+<p>(Numeric vector with two elements) Optional: Provide the lower (<code>l</code>) and upper (<code>u</code>) bounds on the y-axis of the derivative plot as a vector in the form <code>c(l, u)</code>. If only the lower or upper bound should be fixed, provide <code>c(l, NA)</code> or <code>c(NA, u)</code>, respectively.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>plot</code></td>
+<td>
+<p>(Logical) Show the generated plot in the <code>Plots</code> pane (<code>TRUE</code>) or not (<code>FALSE</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>export</code></td>
+<td>
+<p>(Logical) Export the generated plot as PDF and PNG files (<code>TRUE</code>) or not (<code>FALSE</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>height</code></td>
+<td>
+<p>(Numeric) Height of the exported image in inches.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>width</code></td>
+<td>
+<p>(Numeric) Width of the exported image in inches.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>out.dir</code></td>
+<td>
+<p>(Character) Name or path to a folder in which the exported files are stored. If <code>NULL</code>, a "Plots" folder is created in the current working directory to store the files in.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>combine</code></td>
+<td>
+<p>(Logical) Indicate whether both growth curves and parameter plots shall be shown within the same window.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Additional arguments. This has currently no effect and is only meant to fulfill the requirements of a generic function.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A single plot with the all spline fits from the bootstrapping operation and statistical distribution of parameters if <code>combine = TRUE</code> or separate plots for fits and parameter distributions (if <code>combine = FALSE</code>).
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># load example dataset
+input &lt;- read_data(data.growth = system.file("lac_promoters_growth.txt", package = "QurvE"),
+                   data.fl = system.file("lac_promoters_fluorescence.txt", package = "QurvE"),
+                   csvsep = "\t",
+                   csvsep.fl = "\t")
+
+# Extract time and normalized fluorescence data for single sample
+time &lt;- input$time[4,]
+data &lt;- input$norm.fluorescence[4,-(1:3)] # Remove identifier columns
+
+# Perform linear fit
+TestFit &lt;- flBootSpline(time = time,
+                       fl_data = data,
+                       ID = "TestFit",
+                       control = fl.control(fit.opt = "s", x_type = "time",
+                       nboot.fl = 50))
+
+plot(TestFit, combine = TRUE, lwd = 0.5)
+</code></pre>
+
+
+</div>

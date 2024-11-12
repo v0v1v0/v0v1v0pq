@@ -1,0 +1,113 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>get.priority</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Priority of Attribute</h2>
+
+<h3>Description</h3>
+
+<p>This function will provide the priorities of attributes for all items.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">get.priority(Y = NULL, Q = NULL, CDM.obj = NULL, model = "GDINA")
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>Y</code></td>
+<td>
+<p>A required <code>N</code> × <code>I</code> matrix or data.frame consisting of the responses of <code>N</code> individuals
+to <code>I</code> items. Missing values need to be coded as <code>NA</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Q</code></td>
+<td>
+<p>A required binary <code>I</code> × <code>K</code> containing the attributes not required or required, 0 or 1,
+to master the items. The <code>i</code>th row of the matrix is a binary indicator vector indicating which
+attributes are not required (coded by 0) and which attributes are required (coded by 1) to
+master item <code>i</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>CDM.obj</code></td>
+<td>
+<p>An object of class <code>CDM.obj</code>. When it is not NULL, it enables rapid verification
+of the Q-matrix without the need for parameter estimation. @seealso <code>CDM</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>model</code></td>
+<td>
+<p>Type of model to fit; can be <code>"GDINA"</code>, <code>"LCDM"</code>, <code>"DINA"</code>, <code>"DINO"</code>
+, <code>"ACDM"</code>, <code>"LLM"</code>, or <code>"rRUM"</code>. Default = <code>"GDINA"</code>.
+@seealso <code>CDM</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The calculation of priorities is straightforward: the priority of an attribute is the 
+regression coefficient obtained from a LASSO multinomial logistic regression, with the attribute 
+as the independent variable and the response data from the subjects as the dependent variable.  
+The formula is as follows:
+</p>
+<p style="text-align: center;"><code class="reqn">
+ \log[\frac{P(X_{\pi} = 1 | \mathbf{\Lambda}_{p})}{P(X_{\pi} = 0 | \mathbf{\Lambda}_{p})}] = 
+ logit[P(X_{\pi} = 1 | \mathbf{\Lambda}_{p})] = 
+ \beta_{i0} + \beta_{i1} \Lambda_{p1} + \ldots + \beta_{ik} \Lambda_{pk} + \ldots + \beta_{iK} \Lambda_{pK}
+</code>
+</p>
+
+<p>The LASSO loss function can be expressed as:
+</p>
+<p style="text-align: center;"><code class="reqn">l_{lasso}(\mathbf{X}_i | \mathbf{\Lambda}) = l(\mathbf{X}_i | \mathbf{\Lambda}) - \lambda |\mathbf{\beta}_i|</code>
+</p>
+
+<p>The priority for attribute <code class="reqn">i</code> is defined as: <code class="reqn">\mathbf{priority}_i = [\beta_{i1}, \ldots, \beta_{ik}, \ldots, \beta_{iK}]</code>
+</p>
+
+
+<h3>Value</h3>
+
+<p>A matrix containing all attribute priorities.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">set.seed(123)
+library(Qval)
+
+## generate Q-matrix and data
+K &lt;- 5
+I &lt;- 20
+IQ &lt;- list(
+  P0 = runif(I, 0.1, 0.3),
+  P1 = runif(I, 0.7, 0.9)
+)
+
+
+Q &lt;- sim.Q(K, I)
+data &lt;- sim.data(Q = Q, N = 500, IQ = IQ, model = "GDINA", distribute = "horder")
+MQ &lt;- sim.MQ(Q, 0.1)
+
+CDM.obj &lt;- CDM(data$dat, MQ)
+
+priority &lt;- get.priority(data$dat, Q, CDM.obj)
+head(priority)
+
+
+
+</code></pre>
+
+
+</div>

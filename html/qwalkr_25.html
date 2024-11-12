@@ -1,0 +1,92 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>unitary_matrix.ctqwalk</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>The Unitary Time Evolution Operator of a Continuous-Time Quantum Walk</h2>
+
+<h3>Description</h3>
+
+<p>The Unitary Time Evolution Operator of a Continuous-Time Quantum Walk
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'ctqwalk'
+unitary_matrix(object, t, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>an instance of class <code>ctqwalk</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>t</code></td>
+<td>
+<p>it will be returned the evolution operator at time <code>t</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>further arguments passed to or from other methods.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>If <code class="reqn">|\psi(t) \rangle</code> is the quantum state of the system at time <code class="reqn">t</code>, and
+<code class="reqn">H</code> the Hamiltonian operator, then the evolution is governed by
+the Schrodinger equation
+</p>
+<p style="text-align: center;"><code class="reqn">\frac{\partial}{\partial t}|\psi(t) \rangle = iH|\psi(t) \rangle</code>
+</p>
+
+<p>and if <code class="reqn">H</code> is time-independent its solution is given by
+</p>
+<p style="text-align: center;"><code class="reqn">|\psi(t) \rangle = U(t)|\psi(0) \rangle = e^{iHt}|\psi(0) \rangle</code>
+</p>
+
+<p>The evolution operator is the result of the complex matrix exponential
+and it can be calculated as
+</p>
+<p style="text-align: center;"><code class="reqn">U(t) = e^{iHt} = \sum_r e^{i t \lambda_r}E_r</code>
+</p>
+
+<p>in which <code class="reqn">H = \sum_r \lambda_r E_r</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>unitary_matrix()</code> returns the unitary time evolution operator of the
+CTQW evaluated at time <code>t</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>ctqwalk()</code>, <code>unitary_matrix()</code>,
+<code>act_eigfun()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">walk &lt;- ctqwalk(matrix(c(0,1,0,1,0,1,0,1,0), nrow=3))
+
+# Returns the operator at time t = 2*pi, U(2pi)
+unitary_matrix(walk, t = 2*pi)
+
+</code></pre>
+
+
+</div>

@@ -1,0 +1,56 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>scan_brapi_endpoints</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Scan BrAPI Endpoints</h2>
+
+<h3>Description</h3>
+
+<p>Scans the available BrAPI endpoints on the configured source server and checks their accessibility. 
+This function allows users to verify which BrAPI endpoints are available based on the provided IDs.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">scan_brapi_endpoints(programDbId = 0, trialDbId = 0, studyDbId = 0)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>programDbId</code></td>
+<td>
+<p>(numeric) The programDbId to scan specific program-related endpoints (default is 0).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>trialDbId</code></td>
+<td>
+<p>(numeric) The trialDbId to scan specific trial-related endpoints (default is 0).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>studyDbId</code></td>
+<td>
+<p>(numeric) The studyDbId to scan specific study-related endpoints (default is 0).</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A data frame listing the QBMS function, BrAPI endpoint URL, and availability status for each endpoint.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Khaled Al-Shamaa, <a href="mailto:k.el-shamaa@cgiar.org">k.el-shamaa@cgiar.org</a>
+</p>
+
+
+</div>

@@ -1,0 +1,105 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>plot.qlss</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Quantile-based Summary Statistics for Location, Scale and Shape
+</h2>
+
+<h3>Description</h3>
+
+<p>This function plots location, scale and shape of a conditional distribution.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'qlss'
+plot(x, z, whichp = NULL, interval = FALSE, type = "l", ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+
+<p>an object of class <code>qlss</code> as returned by <code>qlss.formula</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>z</code></td>
+<td>
+
+<p>numeric vector of values against which LSS measures are plotted. This argument is required.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>whichp</code></td>
+<td>
+
+<p>when <code>probs</code> in <code>qlss</code> is a vector, the argument <code>whichp</code> specifies one of the probabilities (and one only) in <code>probs</code> that should be used for plotting. If <code>whichp = NULL</code> (default), the first value in <code>probs</code> is used.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>interval</code></td>
+<td>
+
+<p>logical flag. If <code>TRUE</code>, confidence intervals for the predictions are plotted.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>type</code></td>
+<td>
+
+<p>1-character string giving the type of plot desired. See <code>plot.default</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+
+<p>other arguments for <code>plot.default</code>.
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>This function plots a <code>qlss</code> object from <code>qlss</code> or <code>predict.qlss</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Marco Geraci
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>qlss</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+trees2 &lt;- trees[order(trees$Height),]
+fit &lt;- qlss(Volume ~ Height, data = trees2, probs = c(.05, .1))
+# Plot the results for probs = 0.1
+plot(fit, z = trees2$Height, whichp = 0.1, xlab = "height")
+
+</code></pre>
+
+
+</div>

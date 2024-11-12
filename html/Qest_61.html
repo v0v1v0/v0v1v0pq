@@ -1,0 +1,229 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>Qcoxph</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Q-Estimation of Proportional Hazards Regression Models
+</h2>
+
+<h3>Description</h3>
+
+<p>Fit proportional hazards regression models using Q-estimation.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">Qcoxph(formula, weights, start, data, knots, wtau = NULL,
+    control = Qcoxph.control(), ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>formula</code></td>
+<td>
+
+<p>an object of class “formula” (or one that can be coerced to that class): a symbolic description of the model to be fitted. Use <code>Surv(time, event) ~ x</code>, if the data are right-censored, and <code>Surv(time, time2, event)  ~ x</code>, if the data are right-censored and left-truncated (<code>time &lt; time2</code>, <code>time</code> can be <code>-Inf</code>).
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>weights</code></td>
+<td>
+
+<p>an optional vector of weights to be used in the fitting process. The weights will always be normalized to sum to the sample size. This implies that, for example, using double weights will <em>not</em> halve the standard errors.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>start</code></td>
+<td>
+
+<p>optional starting values for the coefficients of the linear predictor.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+
+<p>an optional data frame, list or environment (or object coercible by <code>as.data.frame</code> to a data frame) containing the variables in the model. If not found in data, the variables are taken from <code>environment(formula)</code>, typically the environment from which <code>Qcoxph</code> is called.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>knots</code></td>
+<td>
+
+<p>knots to create the basis of a piecewise linear function. If <code>knots</code> is a vector of at least two elements, it is used to identify the exact position of <em>all</em> knots, including boundaries. If <code>knots</code> is a scalar, its value is used to determine the number of internal knots (<code>knots = 0</code> is allowed, and fits an Exponential model). If <code>knots</code> is missing, by default <code>max(1, min(floor(n.events/30), 3))</code> internal knots are used. Unless a vector of <code>knots</code> is provided by the user, the “optimal” position of the knots will be identified using the method described in Muggeo (2008). If this fails, the knots are positioned at the empirical quantiles of the observed events.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>wtau</code></td>
+<td>
+
+<p>an optional function that assigns a different weight to each quantile. By default, all quantiles in (0,1) have the same weight. Please check the documentation of <code>wtrunc</code> for built-in weighting functions.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>control</code></td>
+<td>
+
+<p>a list of operational parameters. This is usually passed through <code>Qcoxph.control</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+
+<p>additional arguments for <code>wtau</code>.
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>This function estimates a proportional hazards model, allowing for right-censored and left-truncated data. The syntax and output of <code>Qcoxph</code> are almost identical to those of <code>coxph</code>, but the parameters are estimated using Q-estimation (Sottile and Frumento, 2020). This method can be used to obtain outlier-robust estimators of the regression coefficients.
+</p>
+<p>The quantile function of a proportional hazards model is given by
+</p>
+<p style="text-align: center;"><code class="reqn">Q(\tau | x) = H0^{-1}(-exp{-x'\beta} log(1 - \tau))</code>
+</p>
+
+<p>where <code class="reqn">H0</code> is the baseline cumulative hazard function. In <code>Qcoxph</code>, <code class="reqn">H0</code> is parametrized by a piecewise linear function identified by the provided <code>knots</code>. As the number of knots increases, the baseline hazard becomes arbitrarily flexible.
+</p>
+<p>Estimation is carried out by finding the zeroes of a set of integrals equation. The optional argument <code>wtau</code> permits assigning a different weight to each quantile in (0,1). It is possible to choose <code>wtau</code> to be a discontinuous function (e.g., <code>wtau = function(tau){tau &lt; 0.95}</code>). However, this may occasionally result in poorly estimated of the standard errors.
+</p>
+<p>The estimation algorithm is briefly described in the documentation of <code>Qcoxph.control</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>an object of classes “Qcoxph”, “coxph”, and “Qest”. See <code>coxph.object</code> for details. All the S3 methods that are available for “coxph” objects will also work with a “Qcoxph” object.
+</p>
+<p>An object of class “Qcoxph” is a list containing at least the following components:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>coefficients</code></td>
+<td>
+<p>a named vector of coefficients.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>var</code></td>
+<td>
+<p>the covariance matrix of the coefficients.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>iter</code></td>
+<td>
+<p>number of iterations used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>linear.predictors</code></td>
+<td>
+<p>the vector of linear predictors, one per subject. Note that this vector has not been centered, see <code>predict.coxph</code> for details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>residuals</code></td>
+<td>
+<p>the martingale residuals.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>means</code></td>
+<td>
+<p>vector of column means of the X matrix. Subsequent survival curves are adjusted to this value.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p>the number of observations used in the fit.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nevent</code></td>
+<td>
+<p>the number of events used in the fit.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>concordance</code></td>
+<td>
+<p>a vector of length 6, containing the number of pairs that are concordant, discordant, tied on x, tied on y, and tied on both, followed by the standard error of the concordance statistic.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>terms, assign, formula, call, y</code></td>
+<td>
+<p>other objects used for prediction.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>obj.function</code></td>
+<td>
+<p>the objective function of the model. Please, interpret with care: read the note in the documentation of <code>Qest</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>internal</code></td>
+<td>
+<p>internal objects.</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Paolo Frumento &lt;paolo.frumento@unipi.it&gt;, Gianluca Sottile &lt;gianluca.sottile@unipa.it&gt;
+</p>
+
+
+<h3>References</h3>
+
+<p>Sottile G, and Frumento P (2022). <em>Robust estimation and regression with parametric quantile functions.</em> Computational Statistics and Data Analysis. &lt;doi:10.1016/j.csda.2022.107471&gt;
+</p>
+<p>Muggeo VMR (2008). <em>Segmented: an R package to fit regression models with broken-line relationships.</em> R News 8/1, 20–25.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>Qest</code>, for general Q-estimation, and <code>Qlm</code>, for Q-estimation of linear models.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+# A proportional-hazards Weibull model
+
+n &lt;- 100
+x &lt;- runif(n,0,3)
+shape &lt;- 2
+t &lt;- rweibull(n, shape = shape, scale = (1/exp(2 + 2*x))^(1/shape)) # time-to-event
+c &lt;- runif(n,0,1) # censoring variable
+y &lt;- pmin(t,c) # observed response
+d &lt;- (t &lt;= c) # event indicator
+
+require(survival)
+m1 &lt;- coxph(Surv(y,d) ~ x) # standard Cox model
+m2 &lt;- Qcoxph(Surv(y,d) ~ x) # Q-estimator
+
+</code></pre>
+
+
+</div>

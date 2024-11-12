@@ -1,0 +1,151 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>rd.qte</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>QTE and its uniform confidence band.</h2>
+
+<h3>Description</h3>
+
+<p><code>rd.qte</code> is the main function of the QTE.RD package. If <em>cov=1</em>, it estimates QTE for each subgroup defined by covariates.
+If <em>cov=0</em>, it estimate QTE without covariates. If <em>bias=1</em>, it corrects the bias in QTE estimates and obtains the robust
+confidence band and if <em>bias=0</em>, no bias correction is implemented.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">rd.qte(y, x, d, x0, z0=NULL, tau, bdw, cov, bias)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>a numeric vector, the outcome variable.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a vector (or a matrix) of covariates, the first column is the running variable.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>d</code></td>
+<td>
+<p>a numeric vector, the treatment status.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x0</code></td>
+<td>
+<p>the cutoff point.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>z0</code></td>
+<td>
+<p>the value of the covariates at which to evaluate the effects.
+For example, if a female dummy z is included, z0 = 1 may indicate the female subgroup.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tau</code></td>
+<td>
+<p>a vector of quantiles of interest.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bdw</code></td>
+<td>
+<p>the bandwidth value(s). If 'bdw' is a scalar, it is interpreted as the
+bandwidth for the median. See the function <code>rdq.bandwidth</code> for how to select this bandwidth.
+The bandwidths for the rest of the quantiles are computed automatically using the formula of Yu and Jones (1998).
+If it is a vector with the same dimension as 'tau',
+the function will use these values for the respective quantiles accordingly.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cov</code></td>
+<td>
+<p>either 0 or 1. Set cov=1 when covariates are present in the model;
+otherwise set cov=0.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bias</code></td>
+<td>
+<p>either 0 or 1. If bias=1, the QTE estimate is bias corrected and
+the robust confidence band in Qu, Yoon, and Perron (2024) is produced.
+If bias=0, no bias correction is implemented.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list with elements:
+</p>
+
+<dl>
+<dt>qte</dt>
+<dd>
+<p>QTE estimates.</p>
+</dd>
+<dt>uband</dt>
+<dd>
+<p>uniform confidence band for QTE. If <em>bias=1</em>, the band is robust
+capturing the effect of the bias correction. If <em>bias=0</em>, no bias correction is implemented.</p>
+</dd>
+<dt>sigma</dt>
+<dd>
+<p>standard errors for each quantile level. If <em>bias=1</em>, its value
+captures the effect of the bias correction. If <em>bias=0</em>, no bias correction is implemented.</p>
+</dd>
+<dt>qp.est</dt>
+<dd>
+<p>conditional quantile estimates on the right side of <code class="reqn">x_{0}</code> (or for the <code class="reqn">D=1</code> group).</p>
+</dd>
+<dt>qm.est</dt>
+<dd>
+<p>conditional quantile estimates on the left side of <code class="reqn">x_{0}</code> (or for the <code class="reqn">D=0</code> group).</p>
+</dd>
+</dl>
+<h3>References</h3>
+
+<p>Zhongjun Qu, Jungmo Yoon, Pierre Perron (2024), "Inference on Conditional Quantile
+Processes in Partially Linear Models with Applications to the Impact of Unemployment Benefits,"
+The Review of Economics and Statistics; https://doi.org/10.1162/rest_a_01168
+</p>
+<p>Zhongjun Qu and Jungmo Yoon (2019), "Uniform Inference on Quantile Effects
+under Sharp Regression Discontinuity Designs," Journal of Business and Economic Statistics,
+37(4), 625–647; https://doi.org/10.1080/07350015.2017.1407323
+</p>
+<p>Keming Yu and M. C. Jones (1998), “Local Linear Quantile Regression,”
+Journal of the American Statistical Association, 93(441), 228–237; https://doi.org/10.2307/2669619
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># Without covariate
+n &lt;- 500
+x &lt;- runif(n,min=-4,max=4)
+d &lt;- (x &gt; 0)
+y &lt;- x + 0.3*(x^2) - 0.1*(x^3) + 1.5*d + rnorm(n)
+tlevel &lt;- seq(0.1,0.9,by=0.1)
+A &lt;- rd.qte(y=y,x=x,d=d,x0=0,z0=NULL,tau=tlevel,bdw=2,cov=0,bias=1)
+
+# (continued) With covariates
+z &lt;- sample(c(0,1),n,replace=TRUE)
+y &lt;- x + 0.3*(x^2) - 0.1*(x^3) + 1.5*d + d*z + rnorm(n)
+A &lt;- rd.qte(y=y,x=cbind(x,z),d=d,x0=0,z0=c(0,1),tau=tlevel,bdw=2,cov=1,bias=1)
+
+</code></pre>
+
+
+</div>

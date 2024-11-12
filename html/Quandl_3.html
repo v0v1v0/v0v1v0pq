@@ -1,0 +1,82 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>quandl.api</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Executes Quandl API calls</h2>
+
+<h3>Description</h3>
+
+<p>Executes Quandl API calls
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">quandl.api(
+  path,
+  http = c("GET", "PUT", "POST", "DELETE"),
+  postdata = NULL,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>path</code></td>
+<td>
+<p>Path to api resource.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>http</code></td>
+<td>
+<p>Type of http request sent.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>postdata</code></td>
+<td>
+<p>A character or raw vector that is sent in a body.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Named values that are interpretted as Quandl API parameters. Please see <a href="https://docs.quandl.com">https://docs.quandl.com</a>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Set your <code>api_key</code> with <code>Quandl.api_key</code> function. For instructions on finding your api key go to <a href="https://www.quandl.com/account/profile">https://www.quandl.com/account/profile</a>
+</p>
+
+
+<h3>Value</h3>
+
+<p>Quandl API response.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>Quandl.api_key</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+quandldata = quandl.api(path="datasets/NSE/OIL", http="GET")
+plot(quandldata[,1])
+
+## End(Not run)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,184 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>model.qbld</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>QBLD Sampler</h2>
+
+<h3>Description</h3>
+
+<p>Runs the QBLD sampler as in Rahman and Vossmeyer(2019) and outputs a ‘qbld’ class object which 
+consists of Markov chains for Beta(the fixed effects estimate), Alpha(the random effects estimate),
+and Varphi2 (as per the model), of which Beta and Varphi2 are of interest.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">model.qbld(fixed_formula, data, id = "id", random_formula = ~1, p = 0.25, 
+                  b0 = 0, B0 = 1, c1 = 9, d1 = 10, method = c("block","unblock"), 
+                  nsim, burn = 0, summarize = FALSE, verbose = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>fixed_formula</code></td>
+<td>
+<p>: a description of the model to be fitted of the form 
+response~fixed effects predictors i.e <code class="reqn">Xi</code> in the model. See vignette for more information.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>: data frame, NAs not allowed and should throw errors, factor variables are auto-converted, 
+find airpollution.rda and locust.rda built into the package.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>id</code></td>
+<td>
+<p>: variable name in the dataset that specifies individual profile. By default, <code>id="id"</code> and
+data is expected to contain an id variable. This is omitted while modelling.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>random_formula</code></td>
+<td>
+<p>: a description of the model to be fitted of the form 
+response~random effects predictors i.e <code class="reqn">Si</code> in the model. This defaults to <code class="reqn">Si</code> being only an intercept.
+See vignette for more information.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p</code></td>
+<td>
+<p>: quantile for the AL distribution on the error term, <code class="reqn">p=0.25</code> by default. For very low <code class="reqn">(&lt;=0.025)</code> or
+very high <code class="reqn">(&gt;=0.970)</code> values of p, sampler forces to unblock version to avoid errors.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>b0, B0</code></td>
+<td>
+<p>: Prior model parameters for Beta. These are defaulted to 0 vector, and Identity matrix.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>c1, d1</code></td>
+<td>
+<p>: Prior model parameters for Varphi2. These are defaulted to 9,10 (arbitrary) respectively.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+<p>: Choose between the "Block" vs "Unblock" sampler, Block is slower but produces lower correlation.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nsim</code></td>
+<td>
+<p>: number of simultions to run the sampler.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>burn</code></td>
+<td>
+<p>: Burn in percentage, number between (0,1). Burn-in values are discarded and not used for summary calculations.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>summarize</code></td>
+<td>
+<p>: Outputs a summary table (same as <code>summary(output)</code>), in addition also prints Model fit
+AIC/BIC/Log-likelihood values. False by default.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p>: False by default. Spits out progress reports while the sampler is running.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>For a detailed information on the sampler, please check the vignette.
+Data are contained in a data.frame. Each element of the data argument must be identifiable by
+a name. The simplest situation occurs when all subjects are observed at the same time points. The
+id variable represent the individual profiles of each subject, it is expected a variable in the
+data.frame that identifies the correspondence of each component of the response variable to the
+subject that it belongs, by default is named id variable. Hence NA values are not valid.
+For very low <code class="reqn">(&lt;=0.025)</code> or very high <code class="reqn">(&gt;=0.970)</code> values of <code class="reqn">p</code>, sampler forces to unblock version to avoid errors.
+Block version in this case may lead to machine tolerance issues.
+</p>
+<p>‘qbld’ object contains markov chains and sampler run information as attributes , and is compatible 
+with S3 methods like summary,plot. make.qbld function can be used to convert a similar
+type-object to ‘qbld’ class.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns ‘qbld’ class object. ‘qbld’ class contains the following :
+</p>
+
+<ul>
+<li> <p><code>Beta:</code>  Matrix of MCMC samples of fixed-effects parameters.
+</p>
+</li>
+<li> <p><code>Alpha:</code>  3-dimensional matrix of MCMC samples of random-effects parameters.
+</p>
+</li>
+<li> <p><code>Varphi2:</code>  Matrix of MCMC samples for varphi2.
+</p>
+</li>
+<li> <p><code>nsim:</code>  Attribute; No. of simulations of chain run.
+</p>
+</li>
+<li> <p><code>burn:</code>  Attribute; Whether or not burn-in used.
+</p>
+</li>
+<li> <p><code>which:</code> Attribute; "block" or "unblock" sampler used
+</p>
+</li>
+</ul>
+<h3>References</h3>
+
+<p>Rahman, Mohammad Arshad and Angela Vossmeyer, “Estimation and Applications of 
+Quantile Regression for Binary Longitudinal Data,” 
+Advances in Econometrics, 40B, 157-191, 2019.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>A qbld object may be summarized by the summary function and visualized with the plot function.  
+</p>
+<p><code>summary.qbld</code>, <code>plot.qbld</code>  
+</p>
+<p>Datasets : <code>airpollution</code>, <code>locust</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+data(airpollution)
+
+output &lt;- model.qbld(fixed_formula = wheeze~smoking+I(age^2), data = airpollution, id="id", 
+                     random_formula = ~1, p=0.25, nsim=1000, method="block", burn=0, 
+                     summarize=TRUE, verbose=FALSE)
+           
+plot(output)
+
+
+
+</code></pre>
+
+
+</div>

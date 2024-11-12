@@ -1,0 +1,412 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>EWAS_QC</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Automated Quality Control of EWAS results files</h2>
+
+<h3>Description</h3>
+
+<p>The main function of the QCEWAS package.
+<code>EWAS_QC</code> accepts a single EWAS results file and runs a
+thorough quality check (QC),
+optionally applies various filters and generates QQ, Volcano
+and Manhattan plots. The function <code>EWAS_series</code>
+can be used to process multiple results files sequentially.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">  EWAS_QC(data,
+          map,
+          outputname,
+          header_translations,
+          threshold_outliers = c(NA, NA),
+          markers_to_exclude,
+          exclude_outliers = FALSE,
+          exclude_X = FALSE, exclude_Y = FALSE,
+          save_final_dataset = TRUE, gzip_final_dataset = TRUE,
+          header_final_dataset = "standard",
+          high_quality_plots = FALSE,
+          return_beta = FALSE, N_return_beta = 500000L,
+          ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+
+<p>a data frame with EWAS results, or the name of a file
+containing the same. The table must include the columns
+<code>PROBEID</code>, <code>BETA</code>, <code>SE</code>, and <code>P_VAL</code>.
+Other columns may be included but will be ignored. If the
+column names differ from the above, the argument
+<code>header_translations</code> can be used to translate them.
+If a filename is entered in this argument, it
+will be imported via the <code>read.table</code> function.
+<code>read.table</code> can handle a variety of formats,
+including files compressed in the .gz format. <code>EWAS_QC</code>
+will pass any named, unknown arguments to
+<code>read.table</code>, so you can specify the column
+separator and NA string with the usual
+<code>read.table</code> arguments. (Note that this only
+applied to importing the EWAS results, and not the map or
+translation files.)
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>map</code></td>
+<td>
+
+<p>a data frame with chromosome and position values of the
+probes, or the name of a file containing the same. This
+argument is optional: if no map is specified,
+<code>EWAS_QC</code> will skip the Manhattan plot and chromosome
+filters. <code>map</code>	must include the columns <code>TARGETID</code>,
+<code>CHR</code> (chromosome), and <code>MAPINFO</code> (position), using
+those exact names. Other columns may be included but will be
+ignored. If a filename is entered in this argument, it
+will be imported via the <code>read.table</code> function.
+<code>read.table</code> can handle a variety of formats,
+including files compressed in the .gz format.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>outputname</code></td>
+<td>
+
+<p>a character string specifying the intended filename for the
+output. This includes not only the cleaned results file and
+the log, but also any graphs created. Do not include an
+extension; <code>EWAS_QC</code> adds these automatically.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>header_translations</code></td>
+<td>
+
+<p>a translation table for the column names of the input file,
+or the name of a file containing the same. This argument is
+optional: if not specified, <code>EWAS_QC</code> assumes the
+default column names are used. See
+<code>translate_header</code> for information on the
+format.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>threshold_outliers</code></td>
+<td>
+
+<p>a numeric string of length two. This defines which effect
+sizes will be treated as outliers. The first value specifies
+the lower limit (i.e. markers with effect sizes below this
+value are considered outliers), the second the upper limit.
+The check for low or high outliers is skipped if the
+respective value is set to <code>NA</code>. To skip the check
+entirely, set this argument to <code>c(NA, NA)</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>markers_to_exclude</code></td>
+<td>
+
+<p>Either a vector or data frame containing a list of CpG IDs
+that need to be excluded before starting the QC (in case of
+a data frame only the first column will be processed), or
+the name of a file containing the same. This argument is
+optional: if not specified, no exclusions are made. Note
+that when a single value (a vector of length 1) is
+passed to this argument, <code>EWAS_QC</code> will treat it as a
+filename even when no such file can be found. If you want
+to remove a single CpG, either pass it to this argument
+via a file, or add a dummy value to the vector to give it
+length 2 (e.g. <code>c("cg02198983", "dummy")</code> ).
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>exclude_outliers</code></td>
+<td>
+
+<p>a logical value determining how outliers are treated. If
+<code>TRUE</code>, they are excluded from the final dataset. If
+<code>FALSE</code>, they are merely counted.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>exclude_X, exclude_Y</code></td>
+<td>
+
+<p>logical values determining whether markers at the X and Y
+chromosome respectively are excluded from the final dataset.
+This requires providing a map to <code>EWAS_QC</code> via the
+<code>map</code> argument.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>save_final_dataset</code></td>
+<td>
+
+<p>logical determining whether the cleaned dataset will be
+saved.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gzip_final_dataset</code></td>
+<td>
+
+<p>logical determining whether the saved dataset will be
+compressed in the .gz format.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>header_final_dataset</code></td>
+<td>
+
+<p>either a character vector or a table determining the header
+names used in the final dataset, or the name of a file
+containing the same. If <code>"original"</code>, the
+final dataset will use the same column names as the original
+input file. If <code>"standard"</code>, it will use the default
+<code>EWAS_QC</code> column names. If a table, it will be passed
+to <code>translate_header</code> to convert the column
+names. If a table, the default column names (<code>PROBEID</code>,
+<code>BETA</code>, <code>SE</code>, and <code>P_VAL</code>) must be in the
+second column, and the desired column names in the first.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>high_quality_plots</code></td>
+<td>
+
+<p>logical. Setting this to TRUE will save the graphs as 
+high-resolution tiff images.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>return_beta, N_return_beta</code></td>
+<td>
+
+<p>arguments used by <code>EWAS_series</code>. These are not
+important for users and can be ignored. For the sake of
+completeness: <code>return_beta</code> is a logical value; if
+<code>TRUE</code>, the function return value includes a vector of
+effect sizes. <code>N_return_beta</code> defines the length of the
+vector.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+
+<p>arguments passed to <code>read.table</code> for importing
+the EWAS results file.
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p><code>QCEWAS</code> includes a Quick-Start guide in the doc
+folder of the library. This guide will explain how to
+run a QC and how to interpret the results.
+The start-up message when loading
+<code>QCEWAS</code> will indicate where it can be found on your
+computer. In brief, the QC consists of the following 5 stages:
+</p>
+
+<ul>
+<li>
+<p> Checking data integrity:
+</p>
+<p>The values inside the EWAS results are tested for validity.
+If impossible p-values, effect-sizes, etc. are encountered,
+<code>EWAS_QC</code> generates a warning in the R console and sets
+them to <code>NA</code>.
+</p>
+</li>
+<li>
+<p> Filter for outliers and sex-chromosomes (optional)
+</p>
+<p>Counts the number of outlying markers, as well as chromosome
+X and Y markers, and deletes them if specified. The markers
+named in <code>markers_to_exclude</code> are removed here as well.
+</p>
+</li>
+<li>
+<p> Generating QC plots
+</p>
+<p>A histogram of beta and standard error distribution is
+plotted.
+</p>
+<p>The p-values are checked by correlating and plotting them
+against p-values calculated from the effect size and
+standard error.
+</p>
+<p>A QQ plot is generated to test for over/undersignificance.
+</p>
+<p>A Manhattan plot is generated to see where the signals (if
+any) are located.
+</p>
+<p>A Volcano plot is generated to check the distribution of
+effect sizes vs. p values.
+</p>
+</li>
+<li>
+<p> Creating a QC log
+</p>
+<p>The log contains notes about any problems encountered during
+the QC, as well as several tables describing the data.
+</p>
+</li>
+<li>
+<p> Saving the cleaned dataset (optional)
+</p>
+</li>
+</ul>
+<h3>Value</h3>
+
+<p>The main output of <code>EWAS_QC</code> are the cleaned results
+file, log file and QC graphs. However, the function also
+returns a list with 9 elements:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>data_input</code></td>
+<td>
+<p>the file name of the input file, if loaded
+from a file. If not, this will be an empty character string.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>file</code></td>
+<td>
+<p>the filename of the cleaned results file.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>QC_success</code></td>
+<td>
+<p>logical, indicates whether <code>EWAS_QC</code> 
+was able to run a full QC on the file. Note that a <code>TRUE</code>
+value does not mean that no problems where encountered,
+merely that the full QC was executed.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lambda</code></td>
+<td>
+<p>the lambda value of reported p-values in the
+cleaned dataset.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p_cor</code></td>
+<td>
+<p>the correlation between reported and expected
+(based on effect size and standard error) p values.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>N</code></td>
+<td>
+<p>a named integer vector reporting how many markers
+were in the original dataset, how many had missing values,
+how many were on chromosomes X and Y, how many were outliers,
+how many were removed and how many are in the final, cleaned
+dataset. Has no relation to the <code>N</code> argument of
+<code>EWAS_series</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>SE_median</code></td>
+<td>
+<p>a numeric value: the median of the standard
+errors in the cleaned dataset.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mean_methylation</code></td>
+<td>
+<p>a <code>NULL</code>: this functionality
+has not been implemented yet.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>effect_size</code></td>
+<td>
+<p>if <code>return_beta</code> is <code>TRUE</code>, this
+is a numeric vector of length <code>N_return_beta</code>,
+containing a random selection of effect sizes from the
+filtered dataset. If <code>FALSE</code>, this will be <code>NULL</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Note</h3>
+
+<p>The function will return a warning if it encounters p-values
+&lt; 1e-300, as this is close to the smallest number that R can
+process correctly. Various functions in the <code>QCEWAS</code>
+package will set these values to 1e-300 to ensure proper
+handling.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>See <code>EWAS_series</code> for running a QC over multiple
+files.
+</p>
+<p>See <code>EWAS_plots</code> and <code>P_correlation</code>
+for carrying out specific steps of the QC.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># For use in this example, the 2 sample files in the
+# extdata folder of the QCEWAS library will be copied
+# to your current R working directory. Running the QC
+# generates 7 new files in your working directory:
+# a cleaned, post-QC dataset, a log file, and 5 graphs.
+# Consult the Quick-Start guide for more information on
+# how to interpret these.
+## Not run: 
+file.copy(from = file.path(system.file("extdata", package = "QCEWAS"),
+                           "sample_map.txt.gz"),
+          to = getwd(), overwrite = FALSE, recursive = FALSE)
+file.copy(from = file.path(system.file("extdata", package = "QCEWAS"),
+                           "sample1.txt.gz"),
+          to = getwd(), overwrite = FALSE, recursive = FALSE)
+
+QC_results &lt;- EWAS_QC(data = "sample1.txt.gz",
+                      map = "sample_map.txt.gz",
+                      outputname = "sample_output",
+                      threshold_outliers = c(-20, 20),
+                      exclude_outliers = FALSE,
+                      exclude_X = TRUE, exclude_Y = FALSE,
+                      save_final_dataset = TRUE, gzip_final_dataset = FALSE)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

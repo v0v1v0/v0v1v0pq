@@ -1,0 +1,147 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>LP.XY</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+A function to compute LP comoments, LP coefficients, LPINFOR test statistic, and a p-value of distribution equality
+</h2>
+
+<h3>Description</h3>
+
+<p>This function computes LP comoments, LP coefficients, LPINFOR test statistic, and the corresponding p-value of for testing equality of two distributions.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">LP.XY(x,y,m=6,smooth="TRUE",method="BIC")
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+
+<p>Indicator variable denoting group membership
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+
+<p>Response variable with measured values
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>m</code></td>
+<td>
+
+<p>Number of LP comoments and LP coefficients to be calculated, default: 6
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>smooth</code></td>
+<td>
+
+<p>If smoothing should be applied, default: TRUE
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+
+<p>Smoothing method, default: BIC
+</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list containing:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>LP.comoment.0 </code></td>
+<td>
+
+<p>LP comoments, conditioned on X=0
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>LP.coef.0</code></td>
+<td>
+
+<p>LP coefficients, conditioned on X=0
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>LP.comoment.1</code></td>
+<td>
+
+<p>LP comoments, conditioned on X=1
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>LP.coef.1</code></td>
+<td>
+
+<p>LP coefficients, conditioned on X=1
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>LPINFOR</code></td>
+<td>
+
+<p>Test statistics value
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pval</code></td>
+<td>
+
+<p>The p-value for testing equality of two distributions F0=F1
+</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Subhadeep Mukhopadhyay
+</p>
+<p>David Jungreis
+</p>
+
+
+<h3>References</h3>
+
+ 
+<p>Jungreis, D., (2019) "Unification of Continuous, Discrete, and Mixed Distribution Two-Sample Testing with Inferences in the Quantile Domain"
+</p>
+<p>Mukhopadhyay, S. and Parzen, E. (2014), "LP Approach to Statistical Modeling", arXiv:1405.2601.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">x &lt;- c(rep(0,200),rep(1,200))
+y &lt;- c(rnorm(200,0,1),rnorm(200,1,1))
+L &lt;- LP.XY(x,y)
+L$pval
+</code></pre>
+
+
+</div>

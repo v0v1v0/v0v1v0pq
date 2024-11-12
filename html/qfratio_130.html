@@ -1,0 +1,546 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qfrm</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Moment of ratio of quadratic forms in normal variables</h2>
+
+<h3>Description</h3>
+
+<p><code>qfrm()</code> is a front-end function to obtain the (compound) moment
+of a ratio of quadratic forms in normal variables, i.e.,
+<code class="reqn"> \mathrm{E} \left(
+  \frac{(\mathbf{x^\mathit{T} A x})^p }{(\mathbf{x^\mathit{T} B x})^q}
+  \right) </code>, where
+<code class="reqn">\mathbf{x} \sim N_n(\bm{\mu}, \mathbf{\Sigma})</code>.  Internally, <code>qfrm()</code> calls one of
+the following functions which does the actual calculation, depending on
+<code class="reqn">\mathbf{A}</code>, <code class="reqn">\mathbf{B}</code>, and <code class="reqn">p</code>.  Usually
+the best one is automatically selected.
+</p>
+<p><code>qfrm_ApIq_int()</code>: For <code class="reqn">\mathbf{B} = \mathbf{I}_n</code> and
+positive-integral <code class="reqn">p</code>.
+</p>
+<p><code>qfrm_ApIq_npi()</code>: For <code class="reqn">\mathbf{B} = \mathbf{I}_n</code> and
+non-positive-integral <code class="reqn">p</code> (fraction or negative).
+</p>
+<p><code>qfrm_ApBq_int()</code>: For general <code class="reqn">\mathbf{B}</code> and
+positive-integral <code class="reqn">p</code>.
+</p>
+<p><code>qfrm_ApBq_npi()</code>: For general <code class="reqn">\mathbf{B}</code> and
+non-integral <code class="reqn">p</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qfrm(
+  A,
+  B,
+  p = 1,
+  q = p,
+  m = 100L,
+  mu = rep.int(0, n),
+  Sigma = diag(n),
+  tol_zero = .Machine$double.eps * 100,
+  tol_sing = tol_zero,
+  ...
+)
+
+qfrm_ApIq_int(
+  A,
+  p = 1,
+  q = p,
+  m = 100L,
+  mu = rep.int(0, n),
+  use_cpp = TRUE,
+  exact_method = TRUE,
+  cpp_method = "double",
+  nthreads = 1,
+  tol_zero = .Machine$double.eps * 100,
+  thr_margin = 100
+)
+
+qfrm_ApIq_npi(
+  A,
+  p = 1,
+  q = p,
+  m = 100L,
+  mu = rep.int(0, n),
+  error_bound = TRUE,
+  check_convergence = c("relative", "strict_relative", "absolute", "none"),
+  use_cpp = TRUE,
+  cpp_method = c("double", "long_double", "coef_wise"),
+  nthreads = 1,
+  alphaA = 1,
+  tol_conv = .Machine$double.eps^(1/4),
+  tol_zero = .Machine$double.eps * 100,
+  tol_sing = tol_zero,
+  thr_margin = 100
+)
+
+qfrm_ApBq_int(
+  A,
+  B,
+  p = 1,
+  q = p,
+  m = 100L,
+  mu = rep.int(0, n),
+  error_bound = TRUE,
+  check_convergence = c("relative", "strict_relative", "absolute", "none"),
+  use_cpp = TRUE,
+  cpp_method = "double",
+  nthreads = 1,
+  alphaB = 1,
+  tol_conv = .Machine$double.eps^(1/4),
+  tol_zero = .Machine$double.eps * 100,
+  tol_sing = tol_zero,
+  thr_margin = 100
+)
+
+qfrm_ApBq_npi(
+  A,
+  B,
+  p = 1,
+  q = p,
+  m = 100L,
+  mu = rep.int(0, n),
+  check_convergence = c("relative", "strict_relative", "absolute", "none"),
+  use_cpp = TRUE,
+  cpp_method = c("double", "long_double", "coef_wise"),
+  nthreads = 0,
+  alphaA = 1,
+  alphaB = 1,
+  tol_conv = .Machine$double.eps^(1/4),
+  tol_zero = .Machine$double.eps * 100,
+  tol_sing = tol_zero,
+  thr_margin = 100
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>A, B</code></td>
+<td>
+<p>Argument matrices.  Should be square.  Will be automatically symmetrized.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p, q</code></td>
+<td>
+<p>Exponents corresponding to <code class="reqn">\mathbf{A}</code> and <code class="reqn">\mathbf{B}</code>,
+respectively.  When only one is provided, the other is set to the same
+value.  Should be length-one numeric (see “Details” for further
+conditions).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>m</code></td>
+<td>
+<p>Order of polynomials at which the series expression is truncated.  <code class="reqn">M</code>
+in Hillier et al. (2009, 2014).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mu</code></td>
+<td>
+<p>Mean vector <code class="reqn">\bm{\mu}</code> for <code class="reqn">\mathbf{x}</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Sigma</code></td>
+<td>
+<p>Covariance matrix <code class="reqn">\mathbf{\Sigma}</code> for
+<code class="reqn">\mathbf{x}</code>.  Accommodated only by the front-end
+<code>qfrm()</code>.  See “Details”.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tol_zero</code></td>
+<td>
+<p>Tolerance against which numerical zero is determined.  Used to determine,
+e.g., whether <code>mu</code> is a zero vector, <code>A</code> or <code>B</code> equals
+the identity matrix, etc.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tol_sing</code></td>
+<td>
+<p>Tolerance against which matrix singularity and rank are determined.  The
+eigenvalues smaller than this are considered zero.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Additional arguments in the front-end <code>qfrm()</code> will be passed to
+the appropriate “internal” function.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>use_cpp</code></td>
+<td>
+<p>Logical to specify whether the calculation is done with C++
+functions via <code>Rcpp</code>.  <code>TRUE</code> by default.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>exact_method</code></td>
+<td>
+<p>Logical to specify whether the exact method is used in
+<code>qfrm_ApIq_int()</code> (see “Details”).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cpp_method</code></td>
+<td>
+<p>Method used in C++ calculations to avoid numerical
+overflow/underflow (see “Details”).  Options:
+</p>
+
+<dl>
+<dt><code>"double"</code></dt>
+<dd>
+<p>default; fastest but prone to underflow in
+some conditions</p>
+</dd>
+<dt><code>"long_double"</code></dt>
+<dd>
+<p>same algorithm but using the
+<code>long double</code> variable type; robust but slow and
+memory-inefficient</p>
+</dd>
+<dt><code>"coef_wise"</code></dt>
+<dd>
+<p>coefficient-wise scaling algorithm;
+most robust but variably slow</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nthreads</code></td>
+<td>
+<p>Number of threads used in OpenMP-enabled C++
+functions.  <code>0</code> or any negative value is special and means one-half of
+the number of processors detected.  See “Multithreading” in
+“Details”.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>thr_margin</code></td>
+<td>
+<p>Optional argument to adjust the threshold for scaling (see “Scaling”
+in <code>d1_i</code>).  Passed to internal functions (<code>d1_i</code>,
+<code>d2_ij</code>, <code>d3_ijk</code>) or their C++ equivalents.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>error_bound</code></td>
+<td>
+<p>Logical to specify whether an error bound is returned (if available).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>check_convergence</code></td>
+<td>
+<p>Specifies how numerical convergence is checked (see “Details”).
+Options:
+</p>
+
+<dl>
+<dt><code>"relative"</code></dt>
+<dd>
+<p>default; magnitude of the last term of
+the series relative to the sum is compared with <code>tol_conv</code></p>
+</dd>
+<dt>
+<code>"strict_relative"</code> or <code>TRUE</code>
+</dt>
+<dd>
+<p>same, but stricter than
+default by setting <code>tol_conv = .Machine$double.eps</code>
+(unless a smaller value is specified by the user)</p>
+</dd>
+<dt><code>"absolute"</code></dt>
+<dd>
+<p>absolute magnitude of the last term is
+compared with <code>tol_conv</code></p>
+</dd>
+<dt>
+<code>"none"</code> or <code>FALSE</code>
+</dt>
+<dd>
+<p>skips convergence check</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>alphaA, alphaB</code></td>
+<td>
+<p>Factors for the scaling constants for <code class="reqn">\mathbf{A}</code> and
+<code class="reqn">\mathbf{B}</code>, respectively.  See “Details”.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tol_conv</code></td>
+<td>
+<p>Tolerance against which numerical convergence of series is checked.  Used
+with <code>check_convergence</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>These functions use infinite series expressions based on the joint
+moment-generating function (with the top-order zonal/invariant polynomials)
+(see Smith 1989, Hillier et al. 2009, 2014; Bao and Kan 2013), and the
+results are typically partial (truncated) sums from these infinite series,
+which necessarily involve truncation errors.  (An exception is when
+<code class="reqn">\mathbf{B} = \mathbf{I}_n</code> and <code class="reqn">p</code> is
+a positive integer, the case handled by <code>qfrm_ApIq_int()</code>.)
+</p>
+<p>The returned value is a list consisting of the truncated sequence
+up to the order specified by <code>m</code>, its sum,
+and error bounds corresponding to these (see “Values”).  The
+<code>print</code> method only displays the terminal partial sum and its
+error bound (when available).  Use <code>plot()</code> for visual inspection,
+or the ordinary list element access as required.
+</p>
+<p>In most cases, <code>p</code> and <code>q</code> must be nonnegative
+(in addition, <code>p</code> must be an integer in
+<code>qfrm_ApIq_int()</code> and <code>qfrm_ApBq_int()</code> when used directly),
+and an error is thrown otherwise.  The only exception is
+<code>qfrm_ApIq_npi()</code> which accepts negative exponents to accommodate
+<code class="reqn">\frac{(\mathbf{x^\mathit{T} x})^q }{(\mathbf{x^\mathit{T} A x})^p}
+     </code>.  Even in the latter case,
+the exponents must have the same sign.  (Technically, not all of
+these conditions are necessary for the mathematical
+results to hold, but they are enforced for simplicity).
+</p>
+<p>When <code>error_bound = TRUE</code> (default), <code>qfrm_ApBq_int()</code> evaluates
+a truncation error bound following Hillier et al. (2009: theorem 6) or
+Hillier et al. (2014: theorem 7) (for zero and nonzero means,
+respectively).  <code>qfrm_ApIq_npi()</code> implements similar error bounds.  No
+error bound is known for <code>qfrm_ApBq_npi()</code> to the
+author's knowledge.
+</p>
+<p>For situations when the error bound is unavailable, a <em>very rough</em> check of
+numerical convergence is also conducted; a warning is thrown if
+the magnitude of the last term does not look small enough.  By default,
+its relative magnitude to the sum is compared with
+the tolerance controlled by <code>tol_conv</code>, whose default is
+<code>.Machine$double.eps^(1/4)</code> (= ~<code>1.2e-04</code>)
+(see <code>check_convergence</code>).
+</p>
+<p>When <code>Sigma</code> is provided, the quadratic forms are transformed into
+a canonical form; that is, using the decomposition
+<code class="reqn">\mathbf{\Sigma} = \mathbf{K} \mathbf{K}^T</code>, where the
+number of columns <code class="reqn">m</code> of <code class="reqn">\mathbf{K}</code> equals the rank of
+<code class="reqn">\mathbf{\Sigma}</code>,
+<code class="reqn">\mathbf{A}_\mathrm{new} = \mathbf{K^\mathit{T} A K}</code>,
+<code class="reqn">\mathbf{B}_\mathrm{new} = \mathbf{K^\mathit{T} B K}</code>,
+and <code class="reqn">\mathbf{x}_\mathrm{new} = \mathbf{K}^{-} \mathbf{x}
+         \sim N_m(\mathbf{K}^{-} \bm{\mu}, \mathbf{I}_m)
+         </code>.  <code>qfrm()</code> handles this
+by transforming <code>A</code>, <code>B</code>, and <code>mu</code> and calling itself
+recursively with these new arguments.  Note that the “internal”
+functions do not accommodate <code>Sigma</code> (the error for unused arguments
+will happen).  For singular <code class="reqn">\mathbf{\Sigma}</code>, one of the
+following conditions must be met for the above transformation to be valid:
+<strong>1</strong>) <code class="reqn">\bm{\mu}</code> is in the range of <code class="reqn">\mathbf{\Sigma}</code>;
+<strong>2</strong>) <code class="reqn">\mathbf{A}</code> and <code class="reqn">\mathbf{B}</code> are in the range of
+<code class="reqn">\mathbf{\Sigma}</code>; or
+<strong>3</strong>) <code class="reqn">\mathbf{A} \bm{\mu} = \mathbf{B} \bm{\mu} = \mathbf{0}_n
+            </code>.  An error is thrown
+if none is met with a singular <code>Sigma</code>.
+</p>
+<p>The existence of the moment is assessed by the eigenstructures of
+<code class="reqn">\mathbf{A}</code> and <code class="reqn">\mathbf{B}</code>, <code class="reqn">p</code>, and <code class="reqn">q</code>, according
+to Bao and Kan (2013: proposition 1).  An error will result if the conditions
+are not met.
+</p>
+<p>Straightforward implementation of the original recursive algorithms can
+suffer from numerical overflow when the problem is large.  Internal
+functions (<code>d1_i</code>, <code>d2_ij</code>, <code>d3_ijk</code>)
+are designed to avoid overflow by order-wise scaling.  However,
+when evaluation of multiple series is required
+(<code>qfrm_ApIq_npi()</code> with nonzero <code>mu</code> and <code>qfrm_ApBq_npi()</code>),
+the scaling occasionally yields underflow/diminishing of some terms to
+numerical <code>0</code>, causing inaccuracy.  A warning is
+thrown in this case.  (See also “Scaling” in <code>d1_i</code>.)
+To avoid this problem, the C++ versions of these functions have two
+workarounds, as controlled by <code>cpp_method</code>.  <strong>1</strong>)
+The <code>"long_double"</code> option uses the <code>long double</code> variable
+type instead of the regular <code>double</code>.  This is generally slow and
+most memory-inefficient.  <strong>2</strong>) The <code>"coef_wise"</code> option uses
+a coefficient-wise scaling algorithm with the <code>double</code>
+variable type.  This is generally robust against
+underflow issues.  Computational time varies a lot with conditions;
+generally only modestly slower than the <code>"double"</code> option, but can be
+the slowest in some extreme conditions.
+</p>
+<p>For the sake of completeness (only), the scaling parameters <code class="reqn">\beta</code>
+(see the package vignette) can be modified via
+the arguments <code>alphaA</code> and <code>alphaB</code>.  These are the factors for
+the inverses of the largest eigenvalues of <code class="reqn">\mathbf{A}</code> and
+<code class="reqn">\mathbf{B}</code>, respectively, and must be between 0 and 2.  The
+default is 1, which should suffice for most purposes.  Values larger than 1
+often yield faster convergence, but are <em>not</em>
+recommended as the error bound will not strictly hold
+(see Hillier et al. 2009, 2014).
+</p>
+
+
+<h4>Multithreading</h4>
+
+<p>All these functions use C++ versions to speed up computation
+by default.  Furthermore, some of the C++ functions, in particular
+those using more than one matrix arguments, are parallelized with
+OpenMP (when available).  Use the argument <code>nthreads</code> to
+control the number of OpenMP threads.  By default
+(<code>nthreads = 0</code>), one-half of the processors detected with
+<code>omp_get_num_procs()</code> are used.  This is except when all the
+argument matrices share the same eigenvectors and hence the calculation
+only involves element-wise operations of eigenvalues.  In that case,
+the calculation is typically fast without
+parallelization, so <code>nthreads</code> is automatically set to <code>1</code>
+unless explicitly specified otherwise; the user can still specify
+a larger value or <code>0</code> for (typically marginal) speed gains in large
+problems.
+</p>
+
+
+
+<h4>Exact method for <code>qfrm_ApIq_int()</code>
+</h4>
+
+<p>An exact expression of the moment is available when
+<code class="reqn">p</code> is integer and <code class="reqn">\mathbf{B} = \mathbf{I}_n</code>
+(handled by <code>qfrm_ApIq_int()</code>), whose expression involves
+a confluent hypergeometric function when <code class="reqn">\bm{\mu}</code> is nonzero
+(Hillier et al. 2014: theorem 4).  There is an option
+(<code>exact_method = FALSE</code>) to use the ordinary infinite series expression
+(Hillier et al. 2009), which is less accurate and slow.
+</p>
+
+
+
+<h3>Value</h3>
+
+<p>A <code>qfrm</code> object consisting of the following:
+</p>
+
+<dl>
+<dt><code>$statistic</code></dt>
+<dd>
+<p>evaluation result (<code>sum(terms)</code>)</p>
+</dd>
+<dt><code>$terms</code></dt>
+<dd>
+<p>vector of <code class="reqn">0</code>th to <code class="reqn">m</code>th order terms</p>
+</dd>
+<dt><code>$error_bound</code></dt>
+<dd>
+<p>error bound of <code>statistic</code></p>
+</dd>
+<dt><code>$seq_error</code></dt>
+<dd>
+<p>vector of error bounds corresponding to
+partial sums (<code>cumsum(terms)</code>)</p>
+</dd>
+</dl>
+<h3>References</h3>
+
+<p>Bao, Y. and Kan, R. (2013) On the moments of ratios of quadratic forms in
+normal random variables. <em>Journal of Multivariate Analysis</em>, <strong>117</strong>,
+229–245.
+<a href="https://doi.org/10.1016/j.jmva.2013.03.002">doi:10.1016/j.jmva.2013.03.002</a>.
+</p>
+<p>Hillier, G., Kan, R. and Wang, X. (2009) Computationally efficient recursions
+for top-order invariant polynomials with applications.
+<em>Econometric Theory</em>, <strong>25</strong>, 211–242.
+<a href="https://doi.org/10.1017/S0266466608090075">doi:10.1017/S0266466608090075</a>.
+</p>
+<p>Hillier, G., Kan, R. and Wang, X. (2014) Generating functions and
+short recursions, with applications to the moments of quadratic forms
+in noncentral normal vectors. <em>Econometric Theory</em>, <strong>30</strong>, 436–473.
+<a href="https://doi.org/10.1017/S0266466613000364">doi:10.1017/S0266466613000364</a>.
+</p>
+<p>Smith, M. D. (1989) On the expectation of a ratio of quadratic forms
+in normal variables. <em>Journal of Multivariate Analysis</em>, <strong>31</strong>, 244–257.
+<a href="https://doi.org/10.1016/0047-259X%2889%2990065-1">doi:10.1016/0047-259X(89)90065-1</a>.
+</p>
+<p>Smith, M. D. (1993) Expectations of ratios of quadratic forms in normal
+variables: evaluating some top-order invariant polynomials.
+<em>Australian Journal of Statistics</em>, <strong>35</strong>, 271–282.
+<a href="https://doi.org/10.1111/j.1467-842X.1993.tb01335.x">doi:10.1111/j.1467-842X.1993.tb01335.x</a>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>qfmrm</code> for multiple ratio
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Some symmetric matrices and parameters
+nv &lt;- 4
+A &lt;- diag(nv:1)
+B &lt;- diag(sqrt(1:nv))
+mu &lt;- nv:1 / nv
+Sigma &lt;- matrix(0.5, nv, nv)
+diag(Sigma) &lt;- 1
+
+## Expectation of (x^T A x)^2 / (x^T x)^2 where x ~ N(0, I)
+## An exact expression is available
+(res1 &lt;- qfrm(A, p = 2))
+
+# The above internally calls the following:
+qfrm_ApIq_int(A, p = 2) ## The same
+
+# Similar result with different expression
+# This is a suboptimal option and throws a warning
+qfrm_ApIq_npi(A, p = 2)
+
+## Expectation of (x^T A x)^1/2 / (x^T x)^1/2 where x ~ N(0, I)
+## Note how quickly the series converges in this case
+(res2 &lt;- qfrm(A, p = 1/2))
+plot(res2)
+
+# The above calls:
+qfrm_ApIq_npi(A, p = 0.5)
+
+# This is not allowed (throws an error):
+try(qfrm_ApIq_int(A, p = 0.5))
+
+## (x^T A x)^2 / (x^T B x)^3 where x ~ N(0, I)
+(res3 &lt;- qfrm(A, B, 2, 3))
+plot(res3)
+
+## (x^T A x)^2 / (x^T B x)^2 where x ~ N(mu, I)
+## Note the two-sided error bound
+(res4 &lt;- qfrm(A, B, 2, 2, mu = mu))
+plot(res4)
+
+## (x^T A x)^2 / (x^T B x)^2 where x ~ N(mu, Sigma)
+(res5 &lt;- qfrm(A, B, p = 2, q = 2, mu = mu, Sigma = Sigma))
+plot(res5)
+
+# Sigma is not allowed in the "internal" functions:
+try(qfrm_ApBq_int(A, B, p = 2, q = 2, Sigma = Sigma))
+
+# In res5 above, the error bound didn't converge
+# Use larger m to evaluate higher-order terms
+plot(print(qfrm(A, B, p = 2, q = 2, mu = mu, Sigma = Sigma, m = 300)))
+
+</code></pre>
+
+
+</div>

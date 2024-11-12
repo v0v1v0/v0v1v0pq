@@ -1,0 +1,141 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>mean_excess</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Mean Excess</h2>
+
+<h3>Description</h3>
+
+<p>Sample mean excess function, mean excess function of a GPD
+and sample mean excess plot.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">mean_excess_np(x, omit = 3)
+mean_excess_plot(x, omit = 3,
+                 xlab = "Threshold", ylab = "Mean excess over threshold", ...)
+mean_excess_GPD(x, shape, scale)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+
+
+<dl>
+<dt>
+<code>mean_excess_GPD()</code>:</dt>
+<dd>
+<p><code>numeric</code> vector of
+evaluation points of the mean excess function of the GPD.</p>
+</dd>
+<dt>otherwise:</dt>
+<dd>
+<p><code>numeric</code> vector of data.</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>omit</code></td>
+<td>
+<p>number <code class="reqn">\ge 1</code> of unique 
+last observations to be omitted from the sorted data (as mean excess plot
+becomes unreliable for these observations as thresholds).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xlab</code></td>
+<td>
+<p>x-axis label.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ylab</code></td>
+<td>
+<p>y-axis label.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>additional arguments passed to the underlying
+<code>plot()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>shape</code></td>
+<td>
+<p>GPD shape parameter <code class="reqn">\xi</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>scale</code></td>
+<td>
+<p>GPD scale parameter <code class="reqn">\beta</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Mean excess plots can be used in the peaks-over-threshold method for
+choosing a threshold. To this end, one chooses the smallest threshold
+above which the mean excess plot is roughly linear.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>mean_excess_np()</code> returns a two-column matrix giving
+the sorted data without the <code>omit</code>-largest unique values
+(first column) and the corresponding values of the sample mean excess
+function (second column). It is mainly used in <code>mean_excess_plot()</code>.
+</p>
+<p><code>mean_excess_plot()</code> returns <code>invisible()</code>.
+</p>
+<p><code>mean_excess_GPD()</code> returns the mean excess function of a
+generalized Pareto distribution evaluated at <code>x</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Marius Hofert</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Generate losses to work with
+set.seed(271)
+X &lt;- rt(1000, df = 3.5) # in MDA(H_{1/df}); see MFE (2015, Section 16.1.1)
+
+## (Sample) mean excess plot and threshold choice
+mean_excess_plot(X[X &gt; 0]) # we only use positive values here to see 'more'
+## =&gt; Any value in [0.8, 2] seems reasonable as threshold at first sight
+##    but 0.8 to 1 turns out to be too small for the degrees of
+##    freedom implied by the GPD estimator to be close to the true value 3.5.
+## =&gt; We go with threshold 1.5 here.
+u &lt;- 1.5 # thresholds
+
+## An alternative way
+ME &lt;- mean_excess_np(X[X &gt; 0])
+plot(ME, xlab = "Threshold", ylab = "Mean excess over threshold")
+
+## Mean excess plot with mean excess function of the fitted GPD
+fit &lt;- fit_GPD_MLE(X[X &gt; u] - u)
+q &lt;- seq(u, ME[nrow(ME),"x"], length.out = 129)
+MEF.GPD &lt;- mean_excess_GPD(q-u, shape = fit$par[["shape"]], scale = fit$par[["scale"]])
+mean_excess_plot(X[X &gt; 0]) # mean excess plot for positive losses...
+lines(q, MEF.GPD, col = "royalblue", lwd = 1.4) # ... with mean excess function of the fitted GPD
+</code></pre>
+
+
+</div>

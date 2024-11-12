@@ -1,0 +1,59 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>icut</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Interactive conversion from numeric to factor</h2>
+
+<h3>Description</h3>
+
+<p>This function launches a shiny app in a web browser in order to do
+interactive conversion of a numeric variable into a categorical one.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">icut(obj = NULL, var_name = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>obj</code></td>
+<td>
+<p>vector to recode or data frame to operate on</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>var_name</code></td>
+<td>
+<p>if obj is a data frame, name of the column to be recoded, as a 
+character string (possibly without quotes)</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>The function launches a shiny app in the system web browser. The recoding code is 
+returned in the console
+when the app is closed with the "Done" button.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+data(hdv2003)
+icut(hdv2003, "age")
+irec(hdv2003, heures.tv)
+
+## End(Not run)
+
+</code></pre>
+
+
+</div>

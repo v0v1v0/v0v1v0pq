@@ -1,0 +1,52 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>BootPos-class</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Class for Generation of Bootstrapped Replications of a Time Series.</h2>
+
+<h3>Description</h3>
+
+<p><code>BootPos</code> is an S4 class that provides a common interface
+to different algorithms that can be used for implementation of a block
+bootstrap procedure in the time domain.
+</p>
+
+
+<h3>Details</h3>
+
+<p>After initialization the bootstrapping can be performed by applying
+<code>getPositions</code> to the object.
+</p>
+<p>Different block bootstraps are implemented by creating a subclass together
+with a <code>getPositions</code> method that contains the implementation of the
+block resampling procedure.
+</p>
+<p>Currently the following implementations are available:
+</p>
+
+<ul><li> <p><code>MovingBlocks</code> and <code>getPositions-MovingBlocks</code>.
+</p>
+</li></ul>
+<h3>Slots</h3>
+
+
+<dl>
+<dt><code>l</code></dt>
+<dd>
+<p>the (expected) block length for the block bootstrap methods</p>
+</dd>
+<dt><code>N</code></dt>
+<dd>
+<p>number of available observations to bootstrap from</p>
+</dd>
+</dl>
+<h3>References</h3>
+
+<p>Lahiri, S. N. (1999). Theoretical Comparisons of Block Bootstrap Methods.
+<em>The Annals of Statistics</em>, <b>27</b>(1), 386–404.
+</p>
+
+
+</div>

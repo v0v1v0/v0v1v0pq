@@ -1,0 +1,98 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>predict.quint</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Predictions for new data with a QUINT object</h2>
+
+<h3>Description</h3>
+
+<p>Predicts for (new) subjects the treatment subgroups (P1, P2 or P3) based on a fitted
+<code>quint</code> object. The meaning of the subgroups are based on the two treatment categories
+used to fit the <code>quint</code> object.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'quint'
+predict(object, newdata, type = "class", ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>an object of the class “quint”.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>newdata</code></td>
+<td>
+<p>a data frame with data on new subjects for whom predictions should be made.
+The data frame should contain at least the variables used in the splits of the fitted tree.
+It is not necessary to include the treatment variable.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>type</code></td>
+<td>
+<p>character string denoting the type of predicted object to be returned. The default is
+set to <code>type="class"</code>: a vector with predicted treatment subgroup classes per subject
+is returned. If set to <code>"matrix"</code>, a matrix is returned with the leaf and
+corresponding node of the tree to which a subject is assigned.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>optional additional arguments.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>One of the following objects is returned depending on output type specified
+in the function:
+</p>
+<p>If <code>type="class"</code>:
+vector of predicted treatment classes for every individual in the data set. Returns NA
+for subjects with missing values on one or more of the splitting variables.
+</p>
+<p>If <code>type="matrix"</code>:
+a matrix with predicted locations of subjects within the fitted tree. The leaf numbers are
+in the first column and the corresponding node numbers in the second column. Returns NA
+for subjects with missing values on one or more of the splitting variables.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>quint</code>, <code>prune.quint</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(bcrp)
+formula1&lt;- I(cesdt1-cesdt3)~cond | nationality+marital+wcht1+age+
+  trext+comorbid+disopt1+uncomt1+negsoct1
+
+set.seed(10)
+control1&lt;-quint.control(maxl=5,B=2)
+quint1&lt;-quint(formula1, data= subset(bcrp,cond&lt;3),control=control1) #Grow a QUINT tree
+
+prquint1&lt;-prune(quint1) #Prune QUINT tree to optimal size
+
+#Predict for the same data set the treatment classes for patients individually:
+predquint1&lt;-predict(prquint1, newdata=subset(bcrp,cond&lt;3), type='class')
+predquint1
+
+</code></pre>
+
+
+</div>

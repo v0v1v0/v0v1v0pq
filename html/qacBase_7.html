@@ -1,0 +1,162 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>crosstab</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Two-way frequency table</h2>
+
+<h3>Description</h3>
+
+<p>This function creates a two way frequency table.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">crosstab(
+  data,
+  rowvar,
+  colvar,
+  type = c("freq", "percent", "rowpercent", "colpercent"),
+  total = TRUE,
+  na.rm = TRUE,
+  digits = 2,
+  chisquare = FALSE,
+  plot = FALSE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>data frame</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rowvar</code></td>
+<td>
+<p>row factor (unquoted)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>colvar</code></td>
+<td>
+<p>column factor (unquoted)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>type</code></td>
+<td>
+<p>statistics to print. Options are <code>"freq"</code>,
+<code>"percent"</code>, <code>"rowpercent"</code>, or <code>"colpercent"</code>
+for frequencies, cell percents, row percents, or column percents).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>total</code></td>
+<td>
+<p>logical. if TRUE, includes total percents.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>na.rm</code></td>
+<td>
+<p>logical. if TRUE, deletes cases with missing values.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>digits</code></td>
+<td>
+<p>number of decimal digits to report for percents.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>chisquare</code></td>
+<td>
+<p>logical. If <code>TRUE</code> perform a chi-square test
+of independence</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>plot</code></td>
+<td>
+<p>logical. If <code>TRUE</code> generate stacked bar chart.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Given a data frame, a row factor, a column factor, and a
+type (frequencies, cell percents, row percents, or column percents)
+the function provides the requested cross-tabulation.
+</p>
+<p>If <code>na.rm = FALSE</code>, a level labeled <code>&lt;NA&gt;</code> added. If
+<code>total = TRUE</code>, a level labeled <code>Total</code> is added. If
+<code>chisquare = TRUE</code>, a chi-square test of independence is
+performed.
+</p>
+
+
+<h3>Value</h3>
+
+<p>If <code>plot=TRUE</code>, return a ggplot2 graph.
+Otherwise the function return a list with 6 components:
+</p>
+
+<ul>
+<li>
+<p><code>table</code> (table). Table of frequencies or percents
+</p>
+</li>
+<li>
+<p><code>type</code> (character). Type of table to print
+</p>
+</li>
+<li>
+<p><code>total</code> (logical). If <code>TRUE</code>, print row and or column totals
+</p>
+</li>
+<li>
+<p><code>digits</code> (numeric). number of digits to print
+</p>
+</li>
+<li>
+<p><code>rowname</code> (character). Row variable name
+</p>
+</li>
+<li>
+<p><code>colname</code> (character). Column variable name
+</p>
+</li>
+<li>
+<p><code>chisquare</code> (character). If <code>chisquare=TRUE</code>, contains
+the results of the Chi-square test. <code>NULL</code> otherwise.
+</p>
+</li>
+</ul>
+<h3>See Also</h3>
+
+<p>print.crosstab, plot.crosstab
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># print frequencies
+crosstab(mtcars, cyl, gear)
+
+# print cell percents
+crosstab(cardata, vehicle_size, driven_wheels)
+crosstab(cardata, vehicle_size, driven_wheels,
+plot=TRUE)
+crosstab(cardata, driven_wheels, vehicle_size,
+type="colpercent", plot=TRUE, chisquare=TRUE)
+</code></pre>
+
+
+</div>

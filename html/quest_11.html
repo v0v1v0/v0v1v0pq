@@ -1,0 +1,89 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>amd_bi</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Amount of Missing Data - Bivariate (Pairwise Deletion)</h2>
+
+<h3>Description</h3>
+
+<p><code>amd_bi</code> by default computes the proportion of missing data for pairs of
+variables in a data.frame, with arguments to allow for counts instead of
+proportions (i.e., <code>prop</code>) or observed data rather than missing data
+(i.e., <code>ov</code>). It is bivariate in that each pair of variables is treated
+in isolation.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">amd_bi(data, vrb.nm, prop = TRUE, ov = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>data.frame of data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vrb.nm</code></td>
+<td>
+<p>character vector of the colnames from <code>data</code> specifying
+the variables.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>prop</code></td>
+<td>
+<p>logical vector of length 1 specifying whether the frequency of
+missing values should be returned as a proportion (TRUE) or a count
+(FALSE).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ov</code></td>
+<td>
+<p>logical vector of length 1 specifying whether the frequency of
+observed values (TRUE) should be returned rather than the frequency of
+missing values (FALSE).</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>data.frame of nrow = ncol = <code>length(vrb.nm)</code> and rowames =
+colnames = <code>vrb.nm</code> providing the frequency of missing (or observed if
+<code>ov</code> = TRUE) values per pair of variables. If <code>prop</code> = TRUE, the
+values will range from 0 to 1. If <code>prop</code> = FALSE, the values will
+range from 0 to <code>nrow(data)</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>amd_bi</code>
+<code>amd_multi</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+amd_bi(data = airquality, vrb.nm = names(airquality)) # proportion of missing data
+amd_bi(data = airquality, vrb.nm = names(airquality),
+   ov = TRUE) # proportion of observed data
+amd_bi(data = airquality, vrb.nm = names(airquality),
+   prop = FALSE) # count of missing data
+amd_bi(data = airquality, vrb.nm = names(airquality),
+   prop = FALSE, ov = TRUE) # count of observed data
+
+</code></pre>
+
+
+</div>

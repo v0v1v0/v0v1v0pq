@@ -1,0 +1,60 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>plotqcv</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Plot for Quantifying Construct Validity</h2>
+
+<h3>Description</h3>
+
+<p>Produces a plot of actual and predicted correlations
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">plotqcv(actr, predr, labels)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>actr</code></td>
+<td>
+<p>vector of actual validity correlations</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>predr</code></td>
+<td>
+<p>vector of predicted validity correlations (in same order as actr)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>labels</code></td>
+<td>
+<p>vector of text values that are the labels of the QCV criterion variables (in order of actr and predr)</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Important: When entering values for the three arguments, order them identically. For example, if
+the "actr" values are ordered in terms of c(criterion A, criterion B, criterion C), then the values in "predr" and the labels in "labels"
+should be placed in that same order.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">actrIM  &lt;- c(.46, .13, -.24, -.03, .12, .03, .39, .06, .51, .08, .24, .66)
+predrIM &lt;- c(.58, .24, -.04, .06, -.04, .18, .36, .08, .64, .56, .36, .56)
+labelsIM &lt;- c("Dep","Mach","Dis","Res","SE","Ext","Agr","Comp","PSC","SM","Anx","NTB")
+plotqcv(actr=actrIM, predr=predrIM, labels=labelsIM)
+</code></pre>
+
+
+</div>

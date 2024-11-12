@@ -1,0 +1,65 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>.assignQuickPlot</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Assign to the internal <code>quickPlot</code> environment.</h2>
+
+<h3>Description</h3>
+
+<p>Internal function. Simple wrapper for <code>assign()</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">.assignQuickPlot(x, value, ...)
+
+## S4 method for signature 'character,ANY'
+.assignQuickPlot(x, value, ...)
+
+## S4 method for signature 'character,missing'
+.assignQuickPlot(x, value, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a variable name, given as a character string.
+No coercion is done, and the first element of a character vector
+of length greater than one will be used, with a warning.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>value</code></td>
+<td>
+<p>The object to assign. If this is missing, values will be found
+with <code>get(x)</code> in the same environment as the calling
+environment.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Additional arguments to pass to <code>assign</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Only used for its side effect, namely the object assigned to the <code>.quickPlotEnv</code>
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Alex Chubaty
+</p>
+
+
+</div>

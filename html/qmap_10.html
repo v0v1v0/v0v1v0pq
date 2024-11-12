@@ -1,0 +1,198 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>fitQmap</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Quantile mapping
+</h2>
+
+<h3>Description</h3>
+
+<p><code>fitQmap</code> identifyes the parameters of different quantile mapping
+methods. <code>doQmap</code> performs quantile  mapping using previously
+identified parameters.  
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">fitQmap(obs,mod,method=c("PTF","DIST","RQUANT","QUANT","SSPLIN"),...)
+doQmap(x, fobj, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>obs</code></td>
+<td>
+
+<p><code>numeric</code> vector, column <code>matrix</code> or <code>data.frame</code> with
+observed time series. 
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mod</code></td>
+<td>
+
+<p><code>numeric</code> vector, column <code>matrix</code> or <code>data.frame</code> with
+modelled time series corresponding to <code>obs</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+
+<p>A character string indicating the method to be used. See Details.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+
+<p><code>numeric</code> vector or a column <code>matrix</code> of modelled time
+series. Should have the same number of columns as <code>obs</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fobj</code></td>
+<td>
+
+<p>output from <code>fitQmap</code> (or of method defined via
+<code>method</code>).
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+
+<p>arguments passed to the method specified by <code>method</code>. 
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The <code>method</code> argument decides upon which method for quantile
+mapping is used:
+</p>
+<p><code>"PTF"</code> selects <code>fitQmapPTF</code>.
+</p>
+<p><code>"DIST"</code> selects <code>fitQmapDIST</code>
+</p>
+<p><code>"RQUANT"</code> selects <code>fitQmapRQUANT</code>
+</p>
+<p><code>"QUANT"</code> selects <code>fitQmapQUANT</code>
+</p>
+<p><code>"SSPLIN"</code> selects <code>fitQmapSSPLIN</code>  
+</p>
+<p><code>doQmap</code> investigates the class of <code>fobj</code> and chooses the
+appropriate method for quantile mapping.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>fitQmap</code> returns an object which class and structure depends on
+the selected <code>method</code> (see Details). 
+</p>
+<p><code>doQmap</code> returns a <code>numeric</code> vector, <code>matrix</code> or
+<code>data.frame</code> depending on the format of <code>x</code>. 
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Lukas Gudmundsson
+</p>
+
+
+<h3>References</h3>
+
+<p>Gudmundsson, L.; Bremnes, J. B.; Haugen, J. E. &amp; Engen-Skaugen,
+T. Technical Note: Downscaling RCM precipitation to the station scale
+using statistical transformations - a comparison of methods, Hydrology
+and Earth System Sciences, 2012, 16, 3383-3390,
+doi:10.5194/hess-16-3383-2012.  
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>fitQmapDIST</code>, <code>fitQmapPTF</code>,
+<code>fitQmapRQUANT</code>, <code>fitQmapQUANT</code>,
+<code>fitQmapSSPLIN</code> 
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(obsprecip)
+data(modprecip)
+
+## call to fitQmapPTF and doQmapPTF
+qm1.fit &lt;- fitQmap(obsprecip,modprecip,
+              method="PTF",
+              transfun="expasympt",
+              cost="RSS",wett.day=TRUE)
+qm1 &lt;- doQmap(modprecip,qm1.fit)
+
+## call to fitQmapDIST and doQmapDIST
+qm2.fit &lt;- fitQmap(sqrt(obsprecip),sqrt(modprecip),
+              method="DIST",qstep=0.001,
+              transfun="berngamma")
+qm2 &lt;- doQmap(sqrt(modprecip),qm2.fit)^2
+
+## call to fitQmapRQUANT and doQmapRQUANT
+qm3.fit &lt;- fitQmap(obsprecip,modprecip,
+              method="RQUANT",qstep=0.01)
+qm3 &lt;- doQmap(modprecip,qm3.fit,type="linear")
+
+
+## call to fitQmapRQUANT and doQmapRQUANT
+qm4.fit &lt;- fitQmap(obsprecip,modprecip,
+              method="QUANT",qstep=0.01)
+qm4 &lt;- doQmap(modprecip,qm4.fit,type="tricub")
+
+## call to fitQmapSSPLIN and doQmapSSPLIN
+qm5.fit &lt;- fitQmap(obsprecip,modprecip,qstep=0.01,
+                   method="SSPLIN")
+qm5 &lt;- doQmap(modprecip,qm5.fit)
+
+sqrtquant &lt;- function(x,qstep=0.001){
+  qq &lt;- quantile(x,prob=seq(0,1,by=qstep))
+  sqrt(qq)
+}
+
+op &lt;- par(mfrow=c(1,3))
+for(i in 1:3){
+  plot(sqrtquant(modprecip[,i]),
+       sqrtquant(obsprecip[,i]),pch=19,col="gray",
+       main=names(obsprecip)[i])
+  lines(sqrtquant(modprecip[,i]),
+        sqrtquant(qm1[,i]),col=1)
+  lines(sqrtquant(modprecip[,i]),
+        sqrtquant(qm2[,i]),col=2)
+  lines(sqrtquant(modprecip[,i]),
+        sqrtquant(qm3[,i]),col=3)
+  lines(sqrtquant(modprecip[,i]),
+        sqrtquant(qm4[,i]),col=4)
+  lines(sqrtquant(modprecip[,i]),
+        sqrtquant(qm5[,i]),col=5)
+}
+legend("topleft",
+       legend=c("PTF","DIST","RQUANT","QUANT","SSPLIN"),
+       lty=1, col=1:5)
+par(op)
+</code></pre>
+
+
+</div>

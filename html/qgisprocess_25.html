@@ -1,0 +1,105 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qgis_configure</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Configure qgisprocess</h2>
+
+<h3>Description</h3>
+
+<p>Run <code>qgis_configure()</code> to bring the package configuration in line with
+QGIS and to save this configuration to a persistent cache.
+See the <em>Details</em> section for more information about setting the path of
+the 'qgis_process' command line tool.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qgis_configure(quiet = FALSE, use_cached_data = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>quiet</code></td>
+<td>
+<p>Use <code>FALSE</code> to display more information,
+possibly useful for debugging.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>use_cached_data</code></td>
+<td>
+<p>Use the cached algorithm list and <code>path</code> found when
+configuring qgisprocess during the last session. This saves some time
+loading the package.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The qgisprocess package is a wrapper around the 'qgis_process' command line
+tool distributed with QGIS (&gt;=3.14). Several functions use heuristics to
+detect the location of the 'qgis_process' executable.
+</p>
+<p>When loading the package, the configuration is automatically read from the
+cache with <code>qgis_configure(use_cached_data = TRUE, quiet = TRUE)</code> in order
+to save time.
+Run <code>qgis_configure(use_cached_data = TRUE)</code> manually to get more details.
+</p>
+<p>Use <code>qgis_algorithms()</code>, <code>qgis_providers()</code>, <code>qgis_plugins()</code>,
+<code>qgis_using_json_output()</code>, <code>qgis_path()</code> and <code>qgis_version()</code> to inspect cache
+contents.
+</p>
+<p>If the configuration
+fails or you have more than one QGIS installation, you can set
+<code>options(qgisprocess.path = "path/to/qgis_process")</code> or the
+<code>R_QGISPROCESS_PATH</code> environment variable (useful on CI). On Linux the
+'qgis_process' executable is generally available on the user's PATH,
+on MacOS the executable is within the QGIS*.app/Contents/MacOS/bin folder,
+and on Windows the executable is named qgis_process-qgis.bat or
+qgis_process-qgis-dev.bat and is located in Program Files/QGIS*/bin or
+OSGeo4W(64)/bin.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The result of <code>processx::run()</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>qgis_unconfigure()</code>
+</p>
+<p><code>qgis_path()</code>, <code>qgis_version()</code>
+</p>
+<p>Other topics about configuring QGIS and qgisprocess: 
+<code>qgis_enable_plugins()</code>,
+<code>qgis_run()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+# not running in R CMD check to save time
+qgis_configure(use_cached_data = TRUE)
+
+
+## Not run: 
+# package reconfiguration
+# (not run in example() as it rewrites the package cache file)
+qgis_configure()
+
+## End(Not run)
+
+</code></pre>
+
+
+</div>

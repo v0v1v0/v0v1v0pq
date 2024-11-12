@@ -1,0 +1,48 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>traprule</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Trapezoid Rule Numeric Integration</h2>
+
+<h3>Description</h3>
+
+<p>Compute the integral of y with respect to x via trapezoid rule.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">traprule(x, y)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>x, y</code></td>
+<td>
+<p>numeric vectors of equal length</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>a numeric value, the estimated integral
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">xvec &lt;- seq(-2 * pi, 3 * pi, length = 560)
+foo  &lt;- function(x) { sin(x) + x * cos(x) + 12 }
+yvec &lt;- foo(xvec)
+plot(xvec, yvec, type = "l")
+
+integrate(f = foo, lower = -2 * pi, upper = 3 * pi)
+traprule(xvec, yvec)
+
+</code></pre>
+
+
+</div>

@@ -1,0 +1,150 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>QGpred</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Predict the evolutionary response to selection on the observed scale</h2>
+
+<h3>Description</h3>
+
+<p>This function uses an assumed or measured fitness function to compute evolutionary response to selection on the observed scale. To do so a latent fitness function must be provided to the function. This fitness function is used to compute the evolutionary response on the latent scale.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">    QGpred(mu = NULL, var.a, var.p, fit.func, d.fit.func, width = 10, 
+           predict = NULL, verbose = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>mu</code></td>
+<td>
+<p>Latent intercept estimated from a GLMM (set to 0 if <code>predict</code> is not <code>NULL</code>). (numeric of length 1)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>var.a</code></td>
+<td>
+<p>Latent additive genetic variance estimated from a GLMM. (numeric of length 1)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>var.p</code></td>
+<td>
+<p>Latent total phenotypic variance estimated from a GLMM. Usually, the sum of the estimated variances of the random effects, plus the "residual" variance. (numeric of length 1)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fit.func</code></td>
+<td>
+<p>Function giving the expected fitness on the observed scale for a given latent trait (see Example). (function)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>d.fit.func</code></td>
+<td>
+<p>Derivative of the expected fitness to the latent trait (see Example). (function)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>width</code></td>
+<td>
+<p>Parameter for the integral computation. The integral is evaluated from <code>mu</code> - <code>width * sqrt(var.p)</code> to <code>mu</code> + <code>width * sqrt(var.p)</code>. The default value is 10, which should be sensible for most models. (numeric)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>predict</code></td>
+<td>
+<p>Optional vector of predicted values on the latent scale (i.e. matrix product <b>Xb</b>). The latent predicted values must be computed while only accounting for the fixed effects (marginal to the random effects). (numeric)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p>Should the function be verbose? (boolean)</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The function uses the latent fitness function (<code>fit.func</code>) and latent quantitative genetics parameters to compute the expected selection differential and response on the latent scale.
+</p>
+<p>There is no argument to describe the model used as it is already and implicitely contained in the calculation of <code>fit.func</code>.
+</p>
+<p>If fixed effects were included during the estimation of the quantitative genetics parameters,  they can be included as marginal predicted values, i.e. predicted values excluding the random effects, which can be calculated as the matrix product <strong>Xb</strong> where <strong>X</strong> is the design matrix and <strong>b</strong> is the vector of fixed effects estimates. To do so, provide the vector of marginal predicted values using the argument <code>predict</code>. Note this will considerably slow down the algorithm.
+</p>
+<p>The predictions can be transposed on the observed scale by using the <code>QGmean</code> function (see Example below).
+</p>
+
+
+<h3>Value</h3>
+
+<p>The function yields a data.frame containing:
+</p>
+
+<ul>
+<li>
+<p><code>mean.lat.fitness</code>Average latent fitness. (numeric)
+</p>
+</li>
+<li>
+<p><code>lat.grad</code>Latent selection gradient. (numeric)
+</p>
+</li>
+<li>
+<p><code>lat.sel</code>Latent selection differential. (numeric)
+</p>
+</li>
+<li>
+<p><code>lat.resp</code>Latent evolutionary response to selection. (numeric)
+</p>
+</li>
+</ul>
+<h3>Author(s)</h3>
+
+<p>Pierre de Villemereuil &amp; Michael B. Morrissey
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>QGparams</code>, <code>QGlink.funcs</code>, <code>QGmean</code>, <code>QGvar.dist</code>, <code>QGvar.exp</code>, <code>QGpsi</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Example with binary traits and a fitness measurement
+# Let's assume we dispose of a binary trait measurement 
+# and associated fitness of trait 0 (say 1) and trait 1 (say 1.86)
+# We further assume a GLMM with Binomial distribution and probit link with:
+mu &lt;- -0.1
+va &lt;- 2
+vp &lt;- 2.5  # note that the latent heritability is very high
+
+# Creating the latent fitness function
+# i.e. expected fitness given a latent trait l
+# We have a trait 1 with probability pnorm(l) with fitness 1.86
+# We have a trait 0 with probability (1 - pnorm(l)) with fitness 1
+lat.fit&lt;- function(l){(1 - pnorm(l)) * 1 + pnorm(l) * 1.86}
+# Derivate of the fitnes function
+d.lat.fit&lt;- function(l){- dnorm(l) * 1 + dnorm(l) * 1.86}
+
+# Predicting the latent evolutionary response
+pred &lt;- QGpred(mu = mu, var.p = vp, var.a = va, fit.func = lat.fit, d.fit.func = d.lat.fit)
+
+# Predicting the observed evolutionary response
+# Current observed phenotypic mean
+QGmean(mu = mu, var = vp, link.inv = QGlink.funcs("binom1.probit")$inv.link)
+# Predicted observed phenotypic mean after selection
+QGmean(mu = mu + pred$lat.resp, var = vp, link.inv = QGlink.funcs("binom1.probit")$inv.link)
+</code></pre>
+
+
+</div>

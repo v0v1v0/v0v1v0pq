@@ -1,0 +1,121 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>textmodel_wordscores</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Wordscores text model</h2>
+
+<h3>Description</h3>
+
+<p><code>textmodel_wordscores</code> implements Laver, Benoit and Garry's (2003)
+"Wordscores" method for scaling texts on a single dimension, given a set of
+anchoring or <em>reference</em> texts whose values are set through reference
+scores. This scale can be fitted in the linear space (as per LBG 2003) or in
+the logit space (as per Beauchamp 2012).  Estimates of <em>virgin</em> or
+unknown texts are obtained using the <code>predict()</code> method to score
+documents from a fitted <code>textmodel_wordscores</code> object.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">textmodel_wordscores(x, y, scale = c("linear", "logit"), smooth = 0)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>the dfm on which the model will be trained</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>vector of training scores associated with each document
+in <code>x</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>scale</code></td>
+<td>
+<p>scale on which to score the words; <code>"linear"</code> for classic
+LBG linear posterior weighted word class differences, or <code>"logit"</code>
+for log posterior differences</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>smooth</code></td>
+<td>
+<p>a smoothing parameter for word counts; defaults to zero to
+match the LBG (2003) method. See Value below for additional information on
+the behaviour of this argument.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The <code>textmodel_wordscores()</code> function and the associated
+<code>predict()</code> method are designed
+to function in the same manner as <code>stats::predict.lm()</code>.
+<code>coef()</code> can also be used to extract the word coefficients from the
+fitted <code>textmodel_wordscores</code> object, and <code>summary()</code> will print
+a nice summary of the fitted object.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A fitted <code>textmodel_wordscores</code> object.  This object will
+contain a copy of the input data, but in its original form without any
+smoothing applied. Calling <code>predict.textmodel_wordscores()</code> on
+this object without specifying a value for <code>newdata</code>, for instance,
+will predict on the unsmoothed object.  This behaviour differs from
+versions of <span class="pkg">quanteda</span> &lt;= 1.2.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Kenneth Benoit
+</p>
+
+
+<h3>References</h3>
+
+<p>Laver, M., Benoit, K.R., &amp; Garry, J. (2003). <a href="https://kenbenoit.net/pdfs/WORDSCORESAPSR.pdf">Estimating Policy Positions from Political Text using Words as Data</a>. <em>American Political
+Science Review</em>, 97(2), 311–331.
+</p>
+<p>Beauchamp, N. (2012). <a href="https://nickbeauchamp.com/work/Beauchamp_scaling_current.pdf">Using Text to Scale Legislatures with Uninformative Voting</a>. New
+York University Mimeo.
+</p>
+<p>Martin, L.W. &amp; Vanberg, G. (2007). A Robust Transformation Procedure for
+Interpreting Political Text.  <em>Political Analysis</em> 16(1), 93–100.
+<a href="https://doi.org/10.1093/pan/mpm010">doi:10.1093/pan/mpm010</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>predict.textmodel_wordscores()</code> for methods of applying a
+fitted textmodel_wordscores model object to predict quantities from
+(other) documents.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">(tmod &lt;- textmodel_wordscores(quanteda::data_dfm_lbgexample, y = c(seq(-1.5, 1.5, .75), NA)))
+summary(tmod)
+coef(tmod)
+predict(tmod)
+predict(tmod, rescaling = "lbg")
+predict(tmod, se.fit = TRUE, interval = "confidence", rescaling = "mv")
+</code></pre>
+
+
+</div>

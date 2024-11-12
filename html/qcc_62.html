@@ -1,0 +1,137 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>stats.xbar.one</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Statistics used in computing and drawing a Shewhart xbar chart for one-at-time data</h2>
+
+<h3>Description</h3>
+
+<p>These functions are used to compute statistics required by the xbar chart for one-at-time data.</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">stats.xbar.one(data, sizes)
+sd.xbar.one(data, sizes, std.dev = c("MR", "SD"), k=2)
+limits.xbar.one(center, std.dev, sizes, conf)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>the observed data values</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>center</code></td>
+<td>
+<p>sample/group center statistic.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sizes</code></td>
+<td>
+<p>samples sizes. Not needed, size=1 is used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>k</code></td>
+<td>
+<p>number of successive pairs of observations for computing the standard deviation based on moving ranges of k points.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>std.dev</code></td>
+<td>
+<p>within group standard deviation. Optional for <code>sd.xbar.one</code> function, required for <code>limits.xbar.one</code>. See details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>conf</code></td>
+<td>
+<p>a numeric value used to compute control limits, specifying the number of standard deviations (if <code>conf</code> &gt; 1) or the confidence level (if 0 &lt; <code>conf</code> &lt; 1).</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Methods  available for estimating the process standard deviation:
+</p>
+
+<table>
+<tr>
+<td style="text-align: left;">
+Method </td>
+<td style="text-align: left;"> Description </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+<code>"MR"</code> </td>
+<td style="text-align: left;"> moving range: this is estimate is based on the scaled mean of moving ranges </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+<code>"SD"</code> </td>
+<td style="text-align: left;"> sample standard deviation: this estimate is defined as as(x)/cd(n), where n = number of observations x.
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>The function <code>stats.xbar.one</code> returns a list with components <code>statistics</code> and <code>center</code>.
+</p>
+<p>The function <code>sd.xbar.one</code> returns <code>std.dev</code> the standard deviation of the statistic charted.
+</p>
+<p>The function <code>limits.xbar.one</code> returns a matrix with lower and upper control limits. 
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Luca Scrucca</p>
+
+
+<h3>References</h3>
+
+<p>Montgomery, D.C. (2005) <em>Introduction to Statistical Quality Control</em>, 5th ed. New York: John Wiley &amp; Sons. <br>
+Ryan T.P. (2000) <em>Statistical Methods for Quality Improvement</em>, New York: John Wiley &amp; Sons. <br>
+Wetherill, G.B. and Brown, D.W. (1991) <em>Statistical Process Control</em>. New York: Chapman &amp; Hall.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>qcc</code> </p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># Water content of antifreeze data (Wetherill and Brown, 1991, p. 120)
+x &lt;- c(2.23, 2.53, 2.62, 2.63, 2.58, 2.44, 2.49, 2.34, 2.95, 2.54, 2.60, 2.45,
+       2.17, 2.58, 2.57, 2.44, 2.38, 2.23, 2.23, 2.54, 2.66, 2.84, 2.81, 2.39,
+       2.56, 2.70, 3.00, 2.81, 2.77, 2.89, 2.54, 2.98, 2.35, 2.53)
+# the Shewhart control chart for one-at-time data
+# 1) using MR (default)
+qcc(x, type="xbar.one", data.name="Water content (in ppm) of batches of antifreeze")
+# 2) using SD
+qcc(x, type="xbar.one", std.dev = "SD", data.name="Water content (in ppm) of batches of antifreeze")
+
+# "as the size increases further, we would expect sigma-hat to settle down
+#  at a value close to the overall sigma-hat" (Wetherill and Brown, 1991,
+# p. 121)
+sigma &lt;- NA
+k &lt;- 2:24
+for (j in k)
+    sigma[j] &lt;- sd.xbar.one(x, k=j)
+plot(k, sigma[k], type="b")     # plot estimates of sigma for 
+abline(h=sd(x), col=2, lty=2)   # different values of k
+</code></pre>
+
+
+</div>

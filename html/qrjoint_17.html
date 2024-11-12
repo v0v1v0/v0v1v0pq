@@ -1,0 +1,108 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>predict.qde</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Posterior predictive summary for quantile-based density estimation</h2>
+
+<h3>Description</h3>
+
+<p>Extract posterior predictive density estimate for <code>qde</code></p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R"> 
+## S3 method for class 'qde'
+predict(object, burn.perc = 0.5, nmc = 200, yRange = range(object$y), yLength = 401, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>a fitted model of the class 'qde'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>burn.perc</code></td>
+<td>
+<p>a positive fraction indicating what fraction of the saved draws are to be discarded as burn-in</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nmc</code></td>
+<td>
+<p>integer giving the number of samples, post burn-in, to be used in Monte Carlo averaging</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>yRange</code></td>
+<td>
+<p>range of values over which posterior predictive density is to be evaluated</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>yLength</code></td>
+<td>
+<p>number of grid points spanning yRange for posterior predictive density evaluation</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>currently no additional arguments are allowed</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Returns a list with three items:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>vector giving the grid over which the posterior predictive density is evaluated.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fsamp</code></td>
+<td>
+<p>a matrix with <code>yLength</code> many rows and <code>nmc</code> many columns. Each column corresponds to a draw of the response density from the posterior predictive.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fest</code></td>
+<td>
+<p>summary of the posterior predictive density given by point-wise median, 2.5th and 97.5th percentiles.</p>
+</td>
+</tr>
+</table>
+<h3>See Also</h3>
+
+<p><code>qde</code> and <code>summary.qde</code>.</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"> 
+# Plasma data analysis
+
+data(plasma)
+Y &lt;- plasma$BetaPlasma
+Y &lt;- Y + 0.1 * rnorm(length(Y)) ## remove atomicity
+
+# model fitting with 50 posterior samples from 100 iterations (thin = 2)
+fit.qde &lt;- qde(Y, 50, 2)
+pred &lt;- predict(fit.qde)
+hist(Y, freq = FALSE, col = "gray", border = "white", ylim = c(0, max(pred$fest)))
+matplot(pred$y, pred$fest, type="l", col=1, lty=c(2,1,2), ylab="Density", xlab="y")
+</code></pre>
+
+
+</div>

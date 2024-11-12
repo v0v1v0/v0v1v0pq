@@ -1,0 +1,139 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>pareto.chart</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Pareto chart</h2>
+
+<h3>Description</h3>
+
+<p>Computes a table of statistics and plot a Pareto chart.</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">pareto.chart(data, plot = TRUE, ...)
+
+## S3 method for class 'pareto.chart'
+plot(x, xlab = NULL, ylab = "Frequency", 
+     ylab2 = "Cumulative Percentage", 
+     cumperc = seq(0, 100, by = 25), 
+     ylim = NULL, main = NULL,
+     col = blues.colors(nlevels), 
+     ...) 
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>a vector of values. <code>names(data)</code> are used for labelling the bars.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>plot</code></td>
+<td>
+<p>a logical specifying if the chart should be provided (<code>TRUE</code>, default).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>the object of class 'pareto.chart' returned by a call to <code>pareto.chart</code> function.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xlab</code></td>
+<td>
+<p>a string specifying the label for the x-axis.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ylab</code></td>
+<td>
+<p>a string specifying the label for the y-axis.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ylab2</code></td>
+<td>
+<p>a string specifying the label for the second y-axis on the right side.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cumperc</code></td>
+<td>
+<p>a vector of percentage values to be used as tickmarks for the second y-axis on the right side.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ylim</code></td>
+<td>
+<p>a numeric vector specifying the limits for the y-axis.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>main</code></td>
+<td>
+<p>a string specifying the main title to appear on the plot.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>col</code></td>
+<td>
+<p>a value for the color, a vector of colors, or a palette for the bars. See the help for <code>colors</code> and <code>palette</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>other graphical arguments to be passed to the corresponding <code>plot</code> method, and eventually to the <code>barplot</code> function.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>A Pareto chart is a barplot where the categories are ordered in non increasing order, and a line is also added to show the cumulative sum.</p>
+
+
+<h3>Value</h3>
+
+<p>Returns an object of class 'pareto.chart' containing the descriptive statistics used to draw the Pareto chart. This object has associated a <code>print</code> and <code>plot</code> mehod.</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Luca Scrucca</p>
+
+
+<h3>References</h3>
+
+<p>Mason, R.L. and Young, J.C. (2002) <em>Multivariate Statistical Process Control with Industrial Applications</em>, SIAM. <br>
+Montgomery, D.C. (2005) <em>Introduction to Statistical Quality Control</em>, 5th ed. New York: John Wiley &amp; Sons. <br>
+Ryan, T. P. (2000), <em>Statistical Methods for Quality Improvement</em>, 2nd ed. New York: John Wiley &amp; Sons, Inc. <br>
+Scrucca, L. (2004). qcc: an R package for quality control charting and statistical process control. <em>R News</em> 4/1, 11-17. <br>
+Wetherill, G.B. and Brown, D.W. (1991) <em>Statistical Process Control</em>. New York: Chapman &amp; Hall.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>barplot</code></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">defect &lt;- c(80, 27, 66, 94, 33)
+names(defect) &lt;- c("price code", "schedule date", "supplier code", "contact num.", "part num.")
+pareto.chart(defect, ylab = "Error frequency")
+pareto.chart(defect, ylab = "Error frequency", xlab = "Error causes", las=1)
+pareto.chart(defect, ylab = "Error frequency", col=rainbow(length(defect)))
+pareto.chart(defect, cumperc = seq(0, 100, by = 5), ylab2 = "A finer tickmarks grid")
+</code></pre>
+
+
+</div>

@@ -1,0 +1,301 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>confusion_matrix</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Confusion Matrices (Contingency Tables)</h2>
+
+<h3>Description</h3>
+
+<p>Construction of confusion matrices, accuracy, sensitivity,
+specificity, confidence intervals (Wilson's method and (optional
+bootstrapping)).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">confusion_matrix(
+  ...,
+  thresholds = NULL,
+  confint_method = "logit",
+  alpha = getOption("qwraps2_alpha", 0.05)
+)
+
+## Default S3 method:
+confusion_matrix(
+  truth,
+  predicted,
+  ...,
+  thresholds = NULL,
+  confint_method = "logit",
+  alpha = getOption("qwraps2_alpha", 0.05)
+)
+
+## S3 method for class 'formula'
+confusion_matrix(
+  formula,
+  data = parent.frame(),
+  ...,
+  thresholds = NULL,
+  confint_method = "logit",
+  alpha = getOption("qwraps2_alpha", 0.05)
+)
+
+## S3 method for class 'glm'
+confusion_matrix(
+  x,
+  ...,
+  thresholds = NULL,
+  confint_method = "logit",
+  alpha = getOption("qwraps2_alpha", 0.05)
+)
+
+## S3 method for class 'qwraps2_confusion_matrix'
+print(x, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>pass through</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>thresholds</code></td>
+<td>
+<p>a numeric vector of thresholds to be used to define the
+confusion matrix (one threshold) or matrices (two or more thresholds).  If
+<code>NULL</code> the unique values of <code>predicted</code> will be used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>confint_method</code></td>
+<td>
+<p>character string denoting if the logit (default),
+binomial, or Wilson Score method for deriving confidence intervals</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>alpha</code></td>
+<td>
+<p>alpha level for 100 * (1 - alpha)% confidence intervals</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>truth</code></td>
+<td>
+<p>a integer vector with the values <code>0</code> and <code>1</code>, or a logical vector.
+A value of <code>0</code> or <code>FALSE</code> is an indication of condition negative;
+<code>1</code> or <code>TRUE</code> is an indication of condition positive.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>predicted</code></td>
+<td>
+<p>a numeric vector.  See Details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>formula</code></td>
+<td>
+<p>column (known) ~ row (test) for building the confusion matrix</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>environment containing the variables listed in the formula</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a <code>glm</code> object</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The confusion matrix:
+</p>
+
+<table>
+<tr>
+<td style="text-align: left;">
+                    </td>
+<td style="text-align: center;">      </td>
+<td style="text-align: center;"> True </td>
+<td style="text-align: center;"> Condition </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+                    </td>
+<td style="text-align: center;">      </td>
+<td style="text-align: center;"> +    </td>
+<td style="text-align: center;"> -         </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+Predicted Condition </td>
+<td style="text-align: center;"> +    </td>
+<td style="text-align: center;"> TP   </td>
+<td style="text-align: center;"> FP        </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+Predicted Condition </td>
+<td style="text-align: center;"> -    </td>
+<td style="text-align: center;"> FN   </td>
+<td style="text-align: center;"> TN        </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+</td>
+</tr>
+</table>
+<p>where
+</p>
+
+<ul>
+<li>
+<p> FN: False Negative = truth = 1 &amp; prediction &lt; threshold,
+</p>
+</li>
+<li>
+<p> FP: False Positive = truth = 0 &amp; prediction &gt;= threshold,
+</p>
+</li>
+<li>
+<p> TN: True Negative  = truth = 0 &amp; prediction &lt; threshold, and
+</p>
+</li>
+<li>
+<p> TP: True Positive  = truth = 1 &amp; prediction &gt;= threshold.
+</p>
+</li>
+</ul>
+<p>The statistics returned in the <code>stats</code> element are:
+</p>
+
+<ul>
+<li>
+<p> accuracy    = (TP + TN) / (TP + TN + FP + FN)
+</p>
+</li>
+<li>
+<p> sensitivity, aka true positive rate = TP / (TP + FN)
+</p>
+</li>
+<li>
+<p> specificity, aka true negative rate = TN / (TN + FP)
+</p>
+</li>
+<li>
+<p> positive predictive value (PPV), aka precision = TP / (TP + FP)
+</p>
+</li>
+<li>
+<p> negative predictive value (NPV) = TN / (TN + FN)
+</p>
+</li>
+<li>
+<p> false negative rate (FNR) = 1 - Sensitivity
+</p>
+</li>
+<li>
+<p> false positive rate (FPR) = 1 - Specificity
+</p>
+</li>
+<li>
+<p> false discovery rate (FDR) = 1 - PPV
+</p>
+</li>
+<li>
+<p> false omission rate (FOR) = 1 - NPV
+</p>
+</li>
+<li>
+<p> F1 score
+</p>
+</li>
+<li>
+<p> Matthews Correlation Coefficient (MCC) =
+((TP * TN) - (FP * FN)) / sqrt((TP + FP) (TP+FN) (TN+FP) (TN+FN))
+</p>
+</li>
+</ul>
+<p>Synonyms for the statistics:
+</p>
+
+<ul>
+<li>
+<p> Sensitivity: true positive rate (TPR), recall, hit rate
+</p>
+</li>
+<li>
+<p> Specificity: true negative rate (TNR), selectivity
+</p>
+</li>
+<li>
+<p> PPV: precision
+</p>
+</li>
+<li>
+<p> FNR: miss rate
+</p>
+</li>
+</ul>
+<p>Sensitivity and PPV could, in some cases, be indeterminate due to division by
+zero.  To address this we will use the following rule based on the DICE group
+<a href="https://github.com/dice-group/gerbil/wiki/Precision,-Recall-and-F1-measure">https://github.com/dice-group/gerbil/wiki/Precision,-Recall-and-F1-measure</a>:
+If TP, FP, and FN are all 0, then PPV, sensitivity, and F1 will be defined to
+be 1.  If TP are 0 and FP + FN &gt; 0, then PPV, sensitivity, and F1 are all
+defined to be 0.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>confusion_matrix</code> returns a data.frame with columns
+</p>
+
+<ul>
+<li>
+</li>
+<li>
+</li>
+<li>
+</li>
+</ul>
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+# Example 1: known truth and prediction status
+df &lt;-
+  data.frame(
+      truth = c(1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0)
+    , pred  = c(1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0)
+  )
+
+confusion_matrix(df$truth, df$pred, thresholds = 1)
+
+# Example 2: Use with a logistic regression model
+mod &lt;- glm(
+  formula = spam ~ word_freq_our + word_freq_over + capital_run_length_total
+, data = spambase
+, family = binomial()
+)
+
+confusion_matrix(mod)
+confusion_matrix(mod, thresholds = 0.5)
+
+</code></pre>
+
+
+</div>

@@ -1,0 +1,143 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>SplitStatus</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Matching partitions</h2>
+
+<h3>Description</h3>
+
+<p>Calculates how many of the partitions present in tree 1 are also present in
+tree 2 (<code>s</code>),
+how many of the partitions in tree 1 are absent in tree 2 (<code>d1</code>),
+and how many of the partitions in tree 2 are absent in tree 1 (<code>d2</code>).
+The Robinson-Foulds (symmetric partition) distance is the sum of the
+latter two quantities, i.e. <code>d1</code> + <code>d2</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">SplitStatus(trees, cf = trees[[1]])
+
+SharedSplitStatus(trees, cf)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>trees</code></td>
+<td>
+<p>A list of trees of class <code>phylo</code>,
+with identically labelled tips.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cf</code></td>
+<td>
+<p>Comparison tree of class <code>phylo</code>.  If unspecified,
+each tree is compared to the first tree in <code>trees</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Returns a two dimensional array.
+Rows correspond to the input trees, and are named if names were present.
+Columns report:
+</p>
+<p><strong>N</strong>: The total number of partitions present in the two trees,
+i.e. <em>P1</em> + <em>P2</em>.
+</p>
+<p><strong>P1</strong>: The number of partitions present in tree 1.
+</p>
+<p><strong>P2</strong>: The number of partitions present in tree 2.
+</p>
+<p><strong>s</strong>: The number of partitions present in both trees.
+</p>
+<p><strong>d1</strong>: The number of partitions present in tree 1,
+but contradicted by tree 2.
+</p>
+<p><strong>d2</strong>: The number of partitions present in tree 2,
+but contradicted by tree 1.
+</p>
+<p><strong>r1</strong>: The number of partitions present in tree 1, and neither
+present nor contradicted in tree 2.
+</p>
+<p><strong>r2</strong>: The number of partitions present in tree 2, and neither
+present nor contradicted in tree 1.
+</p>
+
+
+<h3>Functions</h3>
+
+
+<ul><li> <p><code>SharedSplitStatus()</code>: Reports split statistics obtained after removing all
+tips that do not occur in both trees being compared.
+</p>
+</li></ul>
+<h3>Author(s)</h3>
+
+<p><a href="https://orcid.org/0000-0001-5660-1727">Martin R. Smith</a>
+(<a href="mailto:martin.smith@durham.ac.uk">martin.smith@durham.ac.uk</a>)
+</p>
+
+
+<h3>References</h3>
+
+
+<ul>
+<li> <p>Robinson DF, Foulds LR (1981).
+“Comparison of phylogenetic trees.”
+<em>Mathematical Biosciences</em>, <b>53</b>(1-2), 131–147.
+<a href="https://doi.org/10.1016/0025-5564%2881%2990043-2">doi:10.1016/0025-5564(81)90043-2</a>.
+</p>
+</li>
+<li> <p>Penny D, Hendy MD (1985).
+“The use of tree comparison metrics.”
+<em>Systematic Zoology</em>, <b>34</b>(1), 75–82.
+<a href="https://doi.org/10.2307/2413347">doi:10.2307/2413347</a>.
+</p>
+</li>
+</ul>
+<h3>See Also</h3>
+
+<p>Other element-by-element comparisons: 
+<code>CompareQuartetsMulti()</code>,
+<code>CompareQuartets()</code>,
+<code>CompareSplits()</code>,
+<code>PairSharedQuartetStatus()</code>,
+<code>QuartetState()</code>,
+<code>SharedQuartetStatus()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data("sq_trees")
+
+# Calculate the status of each quartet
+splitStatuses &lt;- SplitStatus(sq_trees)
+
+# Calculate the raw symmetric difference (i.e. Robinson–Foulds distance)
+RawSymmetricDifference(splitStatuses)
+
+# Normalize the Robinson Foulds distance by dividing by the number of 
+# splits present in the two trees:
+RawSymmetricDifference(splitStatuses) / splitStatuses[, "N"]
+
+# Normalize the Robinson Foulds distance by dividing by the total number of 
+# splits that it is possible to resolve for `n` tips:
+nTip &lt;- length(sq_trees[[1]]$tip.label)
+nPartitions &lt;- 2 * (nTip - 3L) # Does not include the nTip partitions that 
+                               # comprise but a single tip
+RawSymmetricDifference(splitStatuses) / nPartitions
+
+
+</code></pre>
+
+
+</div>

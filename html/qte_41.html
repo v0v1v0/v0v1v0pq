@@ -1,0 +1,179 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>QTEparams</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>QTEparams</h2>
+
+<h3>Description</h3>
+
+<p><code>QTEparams</code> is an object that contains all the
+parameters passed to QTE methods
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">QTEparams(
+  formla,
+  xformla = NULL,
+  t = NULL,
+  tmin1 = NULL,
+  tmin2 = NULL,
+  tname = NULL,
+  data,
+  panel = FALSE,
+  w = NULL,
+  idname = NULL,
+  probs,
+  alp = NULL,
+  method = NULL,
+  plot = NULL,
+  se = NULL,
+  iters = NULL,
+  retEachIter = NULL,
+  bootstrapiter = NULL,
+  seedvec = NULL,
+  pl = NULL,
+  cores = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>formla</code></td>
+<td>
+<p>Should be some y on treatment variable</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xformla</code></td>
+<td>
+<p>a formula for the other covariates such as ~ x1 + x2</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>t</code></td>
+<td>
+<p>The last period (not always used)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tmin1</code></td>
+<td>
+<p>The last pre-treatment period (not always used)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tmin2</code></td>
+<td>
+<p>The 2nd to last pre-treatment period (not always used)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tname</code></td>
+<td>
+<p>The name of the column containing time periods (not always used)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>The name of the data frame</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>panel</code></td>
+<td>
+<p>Whether or not the data is panel</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>w</code></td>
+<td>
+<p>Additional (usually sampling) weights</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>idname</code></td>
+<td>
+<p>The name of the id column used with panel data (not always used)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>probs</code></td>
+<td>
+<p>Which quantiles to produce quantile treatment effects for</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>alp</code></td>
+<td>
+<p>The significance level</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+<p>The method to compute the propensity score</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>plot</code></td>
+<td>
+<p>boolean for whether or not to plot qtes</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>se</code></td>
+<td>
+<p>boolean whether or not to compute standard errors</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>iters</code></td>
+<td>
+<p>The number of bootstrap iterations to use to compute standard errors</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>retEachIter</code></td>
+<td>
+<p>boolean whether or not to return the full results from
+each bootstrap iteration</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bootstrapiter</code></td>
+<td>
+<p>Used internally for determining whether or not
+a call is part of computing standard errors via the bootstrap</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>seedvec</code></td>
+<td>
+<p>A seed to compute the same bootstrap standard errors each
+time the method is called (not always used)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pl</code></td>
+<td>
+<p>Boolean for whether or not computing bootstrap standard errrors
+in parallel</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cores</code></td>
+<td>
+<p>The number of cores to use if computing standard errors in
+in parallel</p>
+</td>
+</tr>
+</table>
+</div>

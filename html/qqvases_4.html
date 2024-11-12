@@ -1,0 +1,63 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qq_plot</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Interactive QQ Plot</h2>
+
+<h3>Description</h3>
+
+<p>This function uses Shiny to open the default web browser. Graphical controls
+manipulate the construction of an interactive normal QQ plot.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qq_plot(data, step = 0.05, breaks = "FD")
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>Numerical data vector.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>step</code></td>
+<td>
+<p>Stepsize used for Shiny slider (use larger values if animating with play button)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>breaks</code></td>
+<td>
+<p>Passed to histogram for empirical distribution (default = "FD")</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>None
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+qq_plot(rnorm(50))
+
+qq_plot(rnorm(50), step=0.05, breaks="Sturges")
+
+if(require("MASS", quietly=TRUE)){ qq_plot(geyser$waiting) }
+
+## End(Not run)
+</code></pre>
+
+
+</div>

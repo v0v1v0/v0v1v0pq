@@ -1,0 +1,81 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>kabl</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>kabl</h2>
+
+<h3>Description</h3>
+
+<p>Front-end to <code>kable</code> and <code>kables</code>
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">kabl(..., caption = NULL, digits = 4, col.names = NA, row.names = NA)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>one or more objects to pass to <code>kable</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>caption</code></td>
+<td>
+<p>overall single caption</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>digits</code></td>
+<td>
+<p>passed to <code>kable</code> and applies to all tables</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>col.names</code></td>
+<td>
+<p>passed to <code>kable</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>row.names</code></td>
+<td>
+<p>passed to <code>kable</code></p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Calls <code>kable()</code> if only one table is to be printed.
+Calls <code>kable()</code> for each table and passes it to <code>kables</code> if more than one.
+Accounts for results of <code>tapply</code> not being a vector (is an array)
+</p>
+
+
+<h3>Value</h3>
+
+<p>result of <code>kable</code> or <code>kables</code>
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Frank Harrell
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">kabl(data.frame(a=1:2, b=3:4), data.frame(x=11:13, y=21:23))
+</code></pre>
+
+
+</div>

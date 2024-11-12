@@ -1,0 +1,192 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>plot_coef</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Plot QTL effects along chromosome</h2>
+
+<h3>Description</h3>
+
+<p>Plot estimated QTL effects along a chromosomes.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">plot_coef(
+  x,
+  map,
+  columns = NULL,
+  col = NULL,
+  scan1_output = NULL,
+  add = FALSE,
+  gap = NULL,
+  top_panel_prop = 0.65,
+  legend = NULL,
+  ...
+)
+
+plot_coefCC(
+  x,
+  map,
+  columns = 1:8,
+  col = qtl2::CCcolors,
+  scan1_output = NULL,
+  add = FALSE,
+  gap = NULL,
+  top_panel_prop = 0.65,
+  legend = NULL,
+  ...
+)
+
+## S3 method for class 'scan1coef'
+plot(
+  x,
+  map,
+  columns = 1,
+  col = NULL,
+  scan1_output = NULL,
+  add = FALSE,
+  gap = NULL,
+  top_panel_prop = 0.65,
+  legend = NULL,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>Estimated QTL effects ("coefficients") as obtained from
+<code>scan1coef()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>map</code></td>
+<td>
+<p>A list of vectors of marker positions, as produced by
+<code>insert_pseudomarkers()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>columns</code></td>
+<td>
+<p>Vector of columns to plot</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>col</code></td>
+<td>
+<p>Vector of colors, same length as <code>columns</code>. If
+NULL, some default choices are made.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>scan1_output</code></td>
+<td>
+<p>If provided, we make a two-panel plot with
+coefficients on top and LOD scores below. Should have just one LOD
+score column; if multiple, only the first is used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>add</code></td>
+<td>
+<p>If TRUE, add to current plot (must have same map and
+chromosomes).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gap</code></td>
+<td>
+<p>Gap between chromosomes. The default is 1% of the total genome length.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>top_panel_prop</code></td>
+<td>
+<p>If <code>scan1_output</code> provided, this gives the
+proportion of the plot that is devoted to the top panel.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>legend</code></td>
+<td>
+<p>Location of legend, such as <code>"bottomleft"</code> or <code>"topright"</code> (NULL for no legend)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Additional graphics parameters.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p><code>plot_coefCC()</code> is the same as <code>plot_coef()</code>, but forcing
+<code>columns=1:8</code> and using the Collaborative Cross colors,
+CCcolors.
+</p>
+
+
+<h3>Value</h3>
+
+<p>None.
+</p>
+
+
+<h3>Hidden graphics parameters</h3>
+
+<p>A number of graphics parameters can be passed via <code>...</code>. For
+example, <code>bgcolor</code> to control the background color, and things
+like <code>ylab</code> and <code>ylim</code>. These are not included as formal
+parameters in order to avoid cluttering the function definition.
+</p>
+<p>In the case that <code>scan1_output</code> is provided, <code>col</code>,
+<code>ylab</code>, and <code>ylim</code> all control the panel with estimated
+QTL effects, while <code>col_lod</code>, <code>ylab_lod</code>, and
+<code>ylim_lod</code> control the LOD curve panel.
+</p>
+<p>If <code>legend</code> is indicated so that a legend is shown, <code>legend_lab</code>
+controls the labels in the legend, and <code>legend_ncol</code> indicates the
+number of columns in the legend.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>CCcolors, <code>plot_scan1()</code>, <code>plot_snpasso()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># read data
+iron &lt;- read_cross2(system.file("extdata", "iron.zip", package="qtl2"))
+
+# insert pseudomarkers into map
+map &lt;- insert_pseudomarkers(iron$gmap, step=1)
+
+# calculate genotype probabilities
+probs &lt;- calc_genoprob(iron, map, error_prob=0.002)
+
+# grab phenotypes and covariates; ensure that covariates have names attribute
+pheno &lt;- iron$pheno[,1]
+covar &lt;- match(iron$covar$sex, c("f", "m")) # make numeric
+names(covar) &lt;- rownames(iron$covar)
+
+# calculate coefficients for chromosome 7
+coef &lt;- scan1coef(probs[,7], pheno, addcovar=covar)
+
+# plot QTL effects (note the need to subset the map object, for chromosome 7)
+plot(coef, map[7], columns=1:3, col=c("slateblue", "violetred", "green3"))
+</code></pre>
+
+
+</div>

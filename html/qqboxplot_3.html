@@ -1,0 +1,218 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>geom_qqboxplot</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>A modification of the boxplot with information about the tails</h2>
+
+<h3>Description</h3>
+
+<p>A modification of the boxplot with information about the tails
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">geom_qqboxplot(
+  mapping = NULL,
+  data = NULL,
+  stat = "qqboxplot",
+  position = "dodge2",
+  ...,
+  outlier.colour = NULL,
+  outlier.color = NULL,
+  outlier.fill = NULL,
+  outlier.shape = 19,
+  outlier.size = 1.5,
+  outlier.stroke = 0.5,
+  outlier.alpha = NULL,
+  notch = FALSE,
+  notchwidth = 0.5,
+  varwidth = FALSE,
+  na.rm = FALSE,
+  show.legend = NA,
+  inherit.aes = TRUE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>mapping</code></td>
+<td>
+<p>Set of aesthetic mappings created by <code>aes()</code> or
+<code>aes_()</code>. If specified and <code>inherit.aes = TRUE</code> (the
+default), it is combined with the default mapping at the top level of the
+plot. You must supply <code>mapping</code> if there is no plot mapping.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>The data to be displayed in this layer. There are three
+options:
+</p>
+<p>If <code>NULL</code>, the default, the data is inherited from the plot
+data as specified in the call to <code>ggplot()</code>.
+</p>
+<p>A <code>data.frame</code>, or other object, will override the plot
+data. All objects will be fortified to produce a data frame. See
+<code>fortify()</code> for which variables will be created.
+</p>
+<p>A <code>function</code> will be called with a single argument,
+the plot data. The return value must be a <code>data.frame</code>, and
+will be used as the layer data. A <code>function</code> can be created
+from a <code>formula</code> (e.g. <code>~ head(.x, 10)</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>stat</code></td>
+<td>
+<p>specifies the stat function to use</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>position</code></td>
+<td>
+<p>Position adjustment, either as a string, or the result of
+a call to a position adjustment function.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Other arguments passed on to <code>layer()</code>. These are
+often aesthetics, used to set an aesthetic to a fixed value, like
+<code>colour = "red"</code> or <code>size = 3</code>. They may also be parameters
+to the paired geom/stat.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>outlier.colour, outlier.color, outlier.fill, outlier.shape, outlier.size, outlier.stroke, outlier.alpha</code></td>
+<td>
+<p>Default aesthetics for outliers. Set to <code>NULL</code> to inherit from the
+aesthetics used for the box.
+</p>
+<p>In the unlikely event you specify both US and UK spellings of colour, the
+US spelling will take precedence.
+</p>
+<p>Sometimes it can be useful to hide the outliers, for example when overlaying
+the raw data points on top of the boxplot. Hiding the outliers can be achieved
+by setting <code>outlier.shape = NA</code>. Importantly, this does not remove the outliers,
+it only hides them, so the range calculated for the y-axis will be the
+same with outliers shown and outliers hidden.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>notch</code></td>
+<td>
+<p>If <code>FALSE</code> (default) make a standard box plot. If
+<code>TRUE</code>, make a notched box plot. Notches are used to compare groups;
+if the notches of two boxes do not overlap, this suggests that the medians
+are significantly different.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>notchwidth</code></td>
+<td>
+<p>For a notched box plot, width of the notch relative to
+the body (defaults to <code>notchwidth = 0.5</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>varwidth</code></td>
+<td>
+<p>If <code>FALSE</code> (default) make a standard box plot. If
+<code>TRUE</code>, boxes are drawn with widths proportional to the
+square-roots of the number of observations in the groups (possibly
+weighted, using the <code>weight</code> aesthetic).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>na.rm</code></td>
+<td>
+<p>If <code>FALSE</code>, the default, missing values are removed with
+a warning. If <code>TRUE</code>, missing values are silently removed.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>show.legend</code></td>
+<td>
+<p>logical. Should this layer be included in the legends?
+<code>NA</code>, the default, includes if any aesthetics are mapped.
+<code>FALSE</code> never includes, and <code>TRUE</code> always includes.
+It can also be a named logical vector to finely select the aesthetics to
+display.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>inherit.aes</code></td>
+<td>
+<p>If <code>FALSE</code>, overrides the default aesthetics,
+rather than combining with them. This is most useful for helper functions
+that define both data and aesthetics and shouldn't inherit behaviour from
+the default plot specification, e.g. <code>borders()</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Returns an object of class <code>GeomQqboxplot</code>, (inherits from <code>Geom</code>, <code>ggproto</code>),
+that renders the data for the Q-Q boxplot.
+</p>
+
+
+<h3>Description</h3>
+
+<p>The Q-Q boxplot inherits its summary statistics from the boxplot.  See
+<code>geom_boxplot()</code> for details.  The Q-Q boxplot differs from the boxplot
+by using more informative whiskers than the regular boxplot.
+</p>
+<p>The vertical position of the whiskers can be interpreted as it is in the
+boxplot, and the maximal vertical value is chosen as it is done in the
+regular boxplot.  The horizontal positioning of the whiskers indicates the
+deviation of the data set of interest from some reference data set
+(specified as either a theoretical distribution or an actual data set).
+Taking the central vertical axis of the boxplot as being zero, deviations
+to the right indicate that those values are larger than the
+corresponding data points in the reference data set, where two data points
+correspond if their quantiles match.  Deviations to the left indicate that
+the values are smaller than their corresponding data points.  Consider a
+situation where your data set has fatter tails than the normal distribution.
+When the reference distribution is the normal distribution, then the whiskers
+below the box will be left of the central axis (the left tail values are
+smaller than they ought to be) and the whiskers above the box will be right
+of the central axis (the right tail values are larger than the ought to be).
+</p>
+<p>In order to compare the data set of interest to the reference data set, they
+must be on the same scale.  The Q-Q boxplot uses Tukey's g-h distribution
+to determine the appropriate scaling factor.
+</p>
+<p>Much of the code here is a modification of the geom_boxplot() code.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">p &lt;- ggplot2::ggplot(simulated_data, ggplot2::aes(factor(group,
+levels=c("normal, mean=2", "t distribution, df=32", "t distribution, df=16",
+"t distribution, df=8", "t distribution, df=4")), y=y))
+p + geom_qqboxplot()
+p + geom_qqboxplot(reference_dist = "norm")
+
+
+p + geom_qqboxplot(compdata = comparison_dataset)
+
+
+# geom_qqboxplot inherits all arguments from geom_boxplot, e.g.:
+p + geom_qqboxplot(notch = TRUE)
+p + geom_qqboxplot(varwidth=TRUE)
+p + geom_qqboxplot(ggplot2::aes(color = group)) + ggplot2::guides(color=FALSE)
+
+</code></pre>
+
+
+</div>

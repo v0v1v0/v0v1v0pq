@@ -1,0 +1,106 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>dr_quant_est</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>The Doubly Robust Quantile Estimator for a Given Treatment Regime</h2>
+
+<h3>Description</h3>
+
+<p>Given a fixed treatment regime, this doubly robust estimator
+estimates the marginal quantile of responses when it is followed by
+every unit in the target population. It took advantages of conditional
+quantile functions for different treatment levels when they are available.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">dr_quant_est(beta, x, y, a, prob, tau, y.a.0, y.a.1, num_min = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>beta</code></td>
+<td>
+<p>a vector indexing the treatment regime.
+It indexes a linear treatment regime:  
+</p>
+<p style="text-align: center;"><code class="reqn"> d(x)= I\{\beta_0 + \beta_1 x_1 + ... + \beta_k x_k &gt; 0\}.
+</code>
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a matrix of observed covariates from the sample. 
+Notice that we assumed the class of treatment regimes is linear.
+This is important that columns in <code>x</code> matches with <code>beta</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>a vector, the observed responses from a sample</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>a</code></td>
+<td>
+<p>a vector of 0s and 1s, the observed treatments from a sample</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>prob</code></td>
+<td>
+<p>a vector, the propensity scores of getting treatment 1 in the samples</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tau</code></td>
+<td>
+<p>The quantile of interest</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y.a.0</code></td>
+<td>
+<p>Estimated conditional potential outcome given that treatment = 0,
+which can be calculated by the function <code>augX</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y.a.1</code></td>
+<td>
+<p>Estimated conditional potential outcome given that treatment = 1,
+which can be calculated by the function <code>augX</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>num_min</code></td>
+<td>
+<p>logical. If <code>TRUE</code>, the number of global minimizers for the 
+objective function is returned.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The double robustness property means that it can consistently estimate
+the marginal quantile when either the propensity score model is correctly
+specified, or the conditional quantile function is correctly specified.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>augX</code>
+</p>
+
+
+</div>

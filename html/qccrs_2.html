@@ -1,0 +1,131 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>npcrs1</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>NP Control Charts under Repetitive Sampling with single positive integer.</h2>
+
+<h3>Description</h3>
+
+<p>Calculates Average Sample Numbers (ASN), Average Run Length (ARL1) and value of k for NP control charts under repetitive sampling as given in Aslam et al.(2014)
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## Default S3 method:
+npcrs1(.n, .p0, .f, .ssize = NULL, .k = NULL,
+  .kr = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>.n</code></td>
+<td>
+<p>Sample Size</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>.p0</code></td>
+<td>
+<p>probability that process is in control</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>.f</code></td>
+<td>
+<p>Size of the Shift</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>.ssize</code></td>
+<td>
+<p>Number of samples with replacement at each iteration</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>.k</code></td>
+<td>
+<p>Positive Constant</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>.kr</code></td>
+<td>
+<p>Random Positive Constant</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>ARL0, ARL1 and K
+</p>
+
+
+<h3>Author(s)</h3>
+
+
+<ol>
+<li>
+<p> Muhammad Yaseen (<a href="mailto:myaseen208@gmail.com">myaseen208@gmail.com</a>)
+</p>
+</li>
+<li>
+<p> Muhammad Aslam  (<a href="mailto:aslam_ravian@hotmail.com">aslam_ravian@hotmail.com</a>)
+</p>
+</li>
+<li>
+<p> Sami Ullah      (<a href="mailto:samiullahuos@gmail.com">samiullahuos@gmail.com</a>)
+</p>
+</li>
+<li>
+<p> Muhammad Azam   (<a href="mailto:mazam@uvas.edu.pk">mazam@uvas.edu.pk</a>)
+</p>
+</li>
+<li>
+<p> Chi-Hyuck Jun   (<a href="mailto:chjun@postech.ac.kr">chjun@postech.ac.kr</a>)
+</p>
+</li>
+<li>
+<p> Muhammad Kashif (<a href="mailto:mkashif@uaf.edu.pk">mkashif@uaf.edu.pk</a>)
+</p>
+</li>
+</ol>
+<h3>References</h3>
+
+<p>Aslam, M., Azam, M. and Jun, C. (2014).
+New Attributes and Variables Control Charts under Repetitive Sampling.
+<em>Industrial Engineering &amp; Management Systems</em>.
+<strong>13</strong>(1):101-106.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+library(magrittr)
+npcrs1(
+  .n     = 60
+, .p0    = 0.10
+, .f     = 0.10
+, .k     = 2.6432
+)
+
+
+npcrs1(
+  .n     = 60
+, .p0    = 0.10
+, .f     = 0.10
+, .ssize = 1000
+, .kr    = 4
+)
+
+
+</code></pre>
+
+
+</div>

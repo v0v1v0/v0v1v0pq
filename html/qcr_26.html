@@ -1,0 +1,59 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>npqcd</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>It creates a data object for Non Parametric Quality Control</h2>
+
+<h3>Description</h3>
+
+<p>It creates an object of class 'npqcd' to perform statistical quality control.
+This object is used to plot Non Parametric Multivariate Control Charts.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">npqcd(x, G = NULL, data.name = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a matrix or data-frame or array which it should contain data. Dimension has to be the same as that of the observations.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>G</code></td>
+<td>
+<p>The x as a matrix, data frame or list. If it is a matrix or data frame, then each row is viewed as one multivariate observation.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data.name</code></td>
+<td>
+<p>a string that specifies the title displayed on the plots. 
+If not provided it is taken from the name of the object x.</p>
+</td>
+</tr>
+</table>
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+library(qcr)
+
+set.seed(356)
+data &lt;- matrix(rnorm(999), nc = 3)
+x &lt;-rexp(999,0.5) 
+x &lt;-matrix(x,ncol=3) 
+data.npqcd &lt;- npqcd(data,x)
+str(data.npqcd)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,71 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>rq.fit</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Function to choose method for Quantile Regression  </h2>
+
+<h3>Description</h3>
+
+<p>Function to choose method for quantile regression</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">rq.fit(x, y, tau=0.5, method="br", ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+
+<p>the design matrix
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+
+<p>the response variable
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tau</code></td>
+<td>
+
+<p>the quantile desired, if tau lies outside (0,1) the whole process
+is estimated.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+
+<p>method of computation:  "br" is Barrodale and Roberts exterior point
+"fn" is the Frisch-Newton interior point method.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+
+<p>Optional arguments passed to fitting routine.
+</p>
+</td>
+</tr>
+</table>
+<h3>See Also</h3>
+
+  <p><code>rq</code> <code>rq.fit.br</code> <code>rq.fit.fnb</code></p>
+
+
+</div>

@@ -1,0 +1,85 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>bootstrap_dfm</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Bootstrap a dfm</h2>
+
+<h3>Description</h3>
+
+<p>Create an array of resampled dfms.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">bootstrap_dfm(x, n = 10, ..., verbose = quanteda_options("verbose"))
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a dfm object</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p>number of resamples</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>additional arguments passed to <code>dfm()</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p>if <code>TRUE</code> print status messages</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Function produces multiple, resampled dfm objects, based on
+resampling sentences (with replacement) from each document, recombining
+these into new "documents" and computing a dfm for each. Resampling of
+sentences is done strictly within document, so that every resampled
+document will contain at least some of its original tokens.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A named list of dfm objects, where the first, <code>dfm_0</code>, is
+the dfm from the original texts, and subsequent elements are the
+sentence-resampled dfms.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Kenneth Benoit
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># bootstrapping from the original text
+set.seed(10)
+txt &lt;- c(textone = "This is a sentence.  Another sentence.  Yet another.",
+         texttwo = "Premiere phrase.  Deuxieme phrase.")
+dfmat &lt;- dfm(tokens(txt))
+bootstrap_dfm(dfmat, n = 3, verbose = TRUE)
+
+</code></pre>
+
+
+</div>

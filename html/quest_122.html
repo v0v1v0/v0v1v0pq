@@ -1,0 +1,74 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>valid_test</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Test for Invalid Elements in a Vector</h2>
+
+<h3>Description</h3>
+
+<p><code>valid_test</code> tests whether a vector has any invalid elements. Valid
+values are specified by <code>valid</code>. If the vector <code>x</code> has any values
+other than <code>valid</code>, then FALSE is returned; If the vector <code>x</code> only
+has values in <code>valid</code>, then TRUE is returned. This function can be
+useful for checking data after manual human entry.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">valid_test(x, valid, na.rm = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>atomic vector or list vector.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>valid</code></td>
+<td>
+<p>atomic vector or list vector of valid values.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>na.rm</code></td>
+<td>
+<p>logical vector of length 1 specifying whether NA should be
+ignored from the validity test. If TRUE (default), then any NAs are treated
+as valid.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>logical vector of length 1 specifying whether all elements in
+<code>x</code> are valid values. If FALSE, then (at least one) invalid values are
+present.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>valids_test</code>
+<code>revalid</code>
+<code>revalids</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">valid_test(x = psych::bfi[[1]], valid = 1:6) # return TRUE
+valid_test(x = psych::bfi[[1]], valid = 0:5) # 6 is not present in `valid`
+valid_test(x = psych::bfi[[1]], valid = 1:6,
+   na.rm = FALSE) # NA is not present in `valid`
+</code></pre>
+
+
+</div>

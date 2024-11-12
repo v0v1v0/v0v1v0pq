@@ -1,0 +1,64 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>varT2</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Hotelling's T^2 test statistic
+</h2>
+
+<h3>Description</h3>
+
+<p>Calculate the Hotelling's T^2 test statistic.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">varT2(x, group, equalVar=T)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+
+<p>a data matrix/frame. Columns are variables to select from.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>group</code></td>
+<td>
+
+<p>a grouping indicator of observations.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>equalVar</code></td>
+<td>
+
+<p>whether assume the same variance-covariance in two groups.
+</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Hotelling's T^2 test statistic.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(etrait)
+varT2(traits, mdat[,42])
+</code></pre>
+
+
+</div>

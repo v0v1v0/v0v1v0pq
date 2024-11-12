@@ -1,0 +1,131 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>plot_genes</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Plot gene locations for a genomic interval</h2>
+
+<h3>Description</h3>
+
+<p>Plot gene locations for a genomic interval, as rectangles with gene
+symbol (and arrow indicating strand/direction) below.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">plot_genes(
+  genes,
+  minrow = 4,
+  padding = 0.2,
+  colors = c("black", "red3", "green4", "blue3", "orange"),
+  scale_pos = 1,
+  start_field = "start",
+  stop_field = "stop",
+  strand_field = "strand",
+  name_field = "Name",
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>genes</code></td>
+<td>
+<p>Data frame containing <code>start</code> and <code>stop</code> in
+Mbp, <code>strand</code> (as <code>"-"</code>, <code>"+"</code>, or <code>NA</code>), and
+<code>Name</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>minrow</code></td>
+<td>
+<p>Minimum number of rows of genes in the plot</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>padding</code></td>
+<td>
+<p>Proportion to pad with white space around the genes</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>colors</code></td>
+<td>
+<p>Vectors of colors, used sequentially and then re-used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>scale_pos</code></td>
+<td>
+<p>Factor by which to scale position (for example, to convert basepairs to Mbp)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>start_field</code></td>
+<td>
+<p>Character string with name of column containing the genes' start positions.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>stop_field</code></td>
+<td>
+<p>Character string with name of column containing the genes' stop positions.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>strand_field</code></td>
+<td>
+<p>Character string with name of column containing the genes' strands.
+(The values of the corresponding field can be character strings <code>"+"</code> or <code>"-"</code>, or numeric +1 or -1.)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>name_field</code></td>
+<td>
+<p>Character string with name of column containing the genes' names.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Optional arguments passed to <code>plot()</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>None.
+</p>
+
+
+<h3>Hidden graphics parameters</h3>
+
+<p>Graphics parameters can be passed via <code>...</code>. For
+example, <code>xlim</code> to control the x-axis limits.
+These are not included as formal
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">genes &lt;- data.frame(chr = c("6", "6", "6", "6", "6", "6", "6", "6"),
+                    start = c(139988753, 140680185, 141708118, 142234227, 142587862,
+                              143232344, 144398099, 144993835),
+                    stop  = c(140041457, 140826797, 141773810, 142322981, 142702315,
+                              143260627, 144399821, 145076184),
+                    strand = c("-", "+", "-", "-", "-", NA, "+", "-"),
+                    Name = c("Plcz1", "Gm30215", "Gm5724", "Slco1a5", "Abcc9",
+                             "4930407I02Rik", "Gm31777", "Bcat1"),
+                    stringsAsFactors=FALSE)
+
+# use scale_pos=1e-6 because data in bp but we want the plot in Mbp
+plot_genes(genes, xlim=c(140, 146), scale_pos=1e-6)
+</code></pre>
+
+
+</div>

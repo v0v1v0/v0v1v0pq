@@ -1,0 +1,82 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>makeLines</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Make <code>SpatialLines</code> object from two <code>SpatialPoints</code> objects</h2>
+
+<h3>Description</h3>
+
+<p>The primary conceived usage of this is to draw arrows following the
+trajectories of agents.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">makeLines(from, to)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>from</code></td>
+<td>
+<p>Starting spatial coordinates (<code>SpatialPointsDataFrame</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>to</code></td>
+<td>
+<p>Ending spatial coordinates (<code>SpatialPointsDataFrame</code>).</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A <code>SpatialLines</code> object. When this object is used within a
+<code>Plot</code> call and the <code>length</code> argument is specified, then
+arrow heads will be drawn. See examples.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Eliot McIntire
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(terra)
+# Make 2 objects
+caribou1 &lt;- terra::vect(cbind(x = stats::runif(10, -50, 50),
+                              y = stats::runif(10, -50, 50)))
+caribou2 &lt;- terra::vect(cbind(x = stats::runif(10, -50, 50),
+                              y = stats::runif(10, -50, 50)))
+
+caribouTraj &lt;- makeLines(caribou1, caribou2)
+
+if (interactive())
+  Plot(caribouTraj, length = 0.1) # shows arrows
+
+# or  to a previous Plot
+files &lt;- dir(system.file("maps", package = "quickPlot"), full.names = TRUE, pattern = "tif")
+maps &lt;- lapply(files, terra::rast)
+names(maps) &lt;- lapply(maps, names)
+
+caribouTraj &lt;- makeLines(caribou1, caribou2)
+
+if (interactive()) {
+  clearPlot()
+  Plot(maps$DEM)
+  Plot(caribouTraj, addTo = "maps$DEM", length = 0.1)
+}
+
+</code></pre>
+
+
+</div>

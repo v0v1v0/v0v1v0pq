@@ -1,0 +1,73 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>pull.geno</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Pull out the genotype data from a cross</h2>
+
+<h3>Description</h3>
+
+<p>Pull out the genotype data from a cross object, as a single big matrix.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">pull.geno(cross, chr)</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>cross</code></td>
+<td>
+<p>An object of class <code>cross</code>.  See
+<code>read.cross</code> for details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>chr</code></td>
+<td>
+<p>Optional vector indicating the chromosomes to consider.
+This should be a vector of character strings referring to chromosomes
+by name; numeric values are converted to strings.  Refer to
+chromosomes with a preceding <code>-</code> to have all chromosomes but
+those considered.  A logical (TRUE/FALSE) vector may also be used.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A matrix of size n.ind x tot.mar.  The raw genotype data in the input
+cross object, with the chromosomes pasted together.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Karl W Broman, <a href="mailto:broman@wisc.edu">broman@wisc.edu</a> </p>
+
+
+<h3>See Also</h3>
+
+ <p><code>pull.pheno</code>, <code>pull.map</code>
+<code>pull.draws</code>, <code>pull.genoprob</code>,
+<code>pull.argmaxgeno</code> </p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(listeria)
+dat &lt;- pull.geno(listeria)
+
+# image of the genotype data
+image(1:ncol(dat),1:nrow(dat),t(dat),ylab="Individuals",xlab="Markers",
+      col=c("red","yellow","blue","green","violet"))
+abline(v=cumsum(c(0,nmar(listeria)))+0.5)
+abline(h=nrow(dat)+0.5)
+</code></pre>
+
+
+</div>

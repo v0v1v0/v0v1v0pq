@@ -1,0 +1,91 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>cyclica</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Cyclic graph (a) example</h2>
+
+<h3>Description</h3>
+
+<p>We use a Gibbs sampling scheme to generate a data-set with
+200 individuals (according with cyclic graph (a)). Each phenotype is
+affected by 3 QTLs. We fixed the regression coefficients at 0.5, 
+error variances at 0.025 and the QTL effects at 0.2, 0.3 
+and 0.4 for the three F2 genotypes. We used 
+a burn-in of 2000 for the Gibbs sampler.</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">data(cyclica)</code></pre>
+
+
+<h3>Details</h3>
+
+<p>For cyclic graphs, the output of the qdg function
+computes the log-likelihood up to the normalization constant
+(un-normalized log-likelihood). We can use the un-normalized
+log-likelihood to compare cyclic graphs with reversed
+directions (they have the same normalization constant). However 
+we cannot compare cyclic and acyclic graphs.</p>
+
+
+<h3>References</h3>
+
+<p>Chaibub Neto et al. (2008) Inferring causal phenotype networks from 
+segregating populations. Genetics 179: 1089-1100.</p>
+
+
+<h3>See Also</h3>
+
+<p><code>sim.cross</code>, 
+<code>sim.geno</code>,
+<code>sim.map</code>, 
+<code>skeleton</code>,
+<code>qdg</code>,
+<code>graph.qdg</code>,
+<code>generate.qtl.pheno</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+bp &lt;- matrix(0, 6, 6)
+bp[2,1] &lt;- bp[4,2] &lt;- bp[4,3] &lt;- bp[5,4] &lt;- bp[2,5] &lt;- bp[6,5] &lt;- 0.5
+stdev &lt;- rep(0.025, 6)
+
+## Use R/qtl routines to simulate.
+set.seed(3456789)
+mymap &lt;- sim.map(len = rep(100,20), n.mar = 10, eq.spacing = FALSE,
+  include.x = FALSE)
+mycross &lt;- sim.cross(map = mymap, n.ind = 200, type = "f2")
+mycross &lt;- sim.geno(mycross, n.draws = 1)
+
+cyclica.qtl &lt;- generate.qtl.markers(cross = mycross, n.phe = 6)
+mygeno &lt;- pull.geno(mycross)[, unlist(cyclica.qtl$markers)]
+
+cyclica.data &lt;- generate.qtl.pheno("cyclica", cross = mycross, burnin = 2000,
+  bq = c(0.2,0.3,0.4), bp = bp, stdev = stdev, geno = mygeno)
+save(cyclica.qtl, cyclica.data, file = "cyclica.RData", compress = TRUE)
+
+data(cyclica)
+out &lt;- qdg(cross=cyclica.data, 
+		phenotype.names=paste("y",1:6,sep=""),
+		marker.names=cyclica.qtl$markers, 
+		QTL=cyclica.qtl$allqtl, 
+		alpha=0.005, 
+		n.qdg.random.starts=10,
+		skel.method="pcskel")
+
+
+gr &lt;- graph.qdg(out)
+gr
+plot(gr)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

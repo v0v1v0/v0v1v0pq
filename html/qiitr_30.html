@@ -1,0 +1,89 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qiita_comment</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Qiita Comments API</h2>
+
+<h3>Description</h3>
+
+<p>Get, write, update or delete comments via Qiita API.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qiita_get_comments(
+  comment_id = NULL,
+  item_id = NULL,
+  per_page = 100L,
+  page_offset = 0L,
+  page_limit = 1L
+)
+
+qiita_delete_comment(comment_id)
+
+qiita_update_comment(comment_id, body)
+
+qiita_post_comment(item_id, body)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>comment_id</code></td>
+<td>
+<p>Comment ID.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>item_id</code></td>
+<td>
+<p>Item (article) ID.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>per_page</code></td>
+<td>
+<p>Number of items per one page.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>page_offset</code></td>
+<td>
+<p>Number of offset pages.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>page_limit</code></td>
+<td>
+<p>Max number of pages to retrieve.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>body</code></td>
+<td>
+<p>body of the item</p>
+</td>
+</tr>
+</table>
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+# get a comment by id
+qiita_get_comments(comment_id = "1fdbb164e19d79e10203")
+
+# get comments by item id
+qiita_get_comments(item_id = "b4130186e1e095719dcb")
+
+# post a comment to some item
+qiita_post_comment(item_id = "123456789", body = "Thank you!!!")
+
+## End(Not run)
+</code></pre>
+
+
+</div>

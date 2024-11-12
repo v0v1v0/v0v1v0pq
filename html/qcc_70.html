@@ -1,0 +1,132 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>stats.T2</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Statistics used in computing and drawing the Hotelling T^2 chart for subgrouped data</h2>
+
+<h3>Description</h3>
+
+<p>These functions are used to compute statistics required by the <code class="reqn">T^2</code> chart.</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">stats.T2(data, center = NULL, cov = NULL)
+
+limits.T2(ngroups, size, nvars, conf) 
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>the observed data values</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>center</code></td>
+<td>
+<p>a vector of values to use for center of input variables.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cov</code></td>
+<td>
+<p>a matrix of values to use for the covariance matrix of input variables.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ngroups</code></td>
+<td>
+<p>number of groups</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>size</code></td>
+<td>
+<p>sample size</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nvars</code></td>
+<td>
+<p>number of variables</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>conf</code></td>
+<td>
+<p>confidence level (0 &lt; <code>conf</code> &lt; 1)</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>The function <code>stats.T2</code> returns a list with components: 
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>statistics</code></td>
+<td>
+<p>a vector of values for the <code class="reqn">T^2</code> statistic</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>means</code></td>
+<td>
+<p>a matrix of within group means for each variable</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>center</code></td>
+<td>
+<p>sample/group center statistic</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>S</code></td>
+<td>
+<p>covariance matrix</p>
+</td>
+</tr>
+</table>
+<p>The function <code>limits.T2</code> returns a list with components: 
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>control</code></td>
+<td>
+<p>control limits</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>prediction</code></td>
+<td>
+<p>pred.limits</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Luca Scrucca</p>
+
+
+<h3>References</h3>
+
+<p>Mason, R.L. and Young, J.C. (2002) <em>Multivariate Statistical Process Control with Industrial Applications</em>, SIAM. <br>
+Montgomery, D.C. (2005) <em>Introduction to Statistical Quality Control</em>, 5th ed. New York: John Wiley &amp; Sons. <br>
+Ryan, T. P. (2000), <em>Statistical Methods for Quality Improvement</em>, 2nd ed. New York: John Wiley &amp; Sons, Inc.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>mqcc</code>, <code>stats.T2.single</code></p>
+
+
+</div>

@@ -1,0 +1,84 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>setqreportOption</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Set qreport Options</h2>
+
+<h3>Description</h3>
+
+<p>Set qreport options, assigning certain defaults
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">setqreportOption(..., study = " ")
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>a series of options for which non-default values are desired:
+</p>
+
+<ul>
+<li> <p><code>tx.pch</code>: symbols corresponding to treatments
+</p>
+</li>
+<li> <p><code>tx.col</code>: colors corresponding to treatments
+</p>
+</li>
+<li> <p><code>tx.linecol</code>: colors for lines in line plots
+</p>
+</li>
+<li> <p><code>nontx.col</code>: colors for categories other than treatments
+</p>
+</li>
+<li> <p><code>tx.lty</code>: line types corresponding to treatments
+</p>
+</li>
+<li> <p><code>tx.lwd</code>: line widths corresponding to treatments
+</p>
+</li>
+<li> <p><code>tx.var</code>: character string name of treatment variable
+</p>
+</li>
+<li> <p><code>er.col</code>: 2-vector with names <code>"enrolled","randomized"</code> containing colors to use for enrolled and randomized in needle displays
+</p>
+</li>
+<li> <p><code>alpha.f</code>: single numeric specifying alpha adjustment to be applied to all colors.  Default is 1 (no adjustment)
+</p>
+</li>
+<li> <p><code>denom</code>: named vector with overall sample sizes
+See https://github.com/plotly/plotly.py/blob/master/plotly/colors.py#L83-L87/
+</p>
+</li>
+</ul>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>study</code></td>
+<td>
+<p>an optional study mnemonic (character string) needed when multiple studies are being analyzed (or when one study is divided into distinct strata)</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>no returned value, used to set <code>options()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">setqreportOption(tx.var='treatment', denom=c(enrolled=1000, randomized=800, a=398, b=402))
+</code></pre>
+
+
+</div>

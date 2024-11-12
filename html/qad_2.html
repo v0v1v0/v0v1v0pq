@@ -1,0 +1,76 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>summary.qad</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Summarize a qad object</h2>
+
+<h3>Description</h3>
+
+<p>Summary and coefficients of a <code>qad</code> output. The function
+<code>summary()</code> prints the dependence measures, sample size and resolution of
+the checkerboard copula and returns a list with the mentioned values.
+The function <code>coef()</code> returns a named vector with the selected values.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'qad'
+summary(object, ...)
+
+## S3 method for class 'qad'
+coef(
+  object,
+  select = c("q(x1,x2)", "q(x2,x1)", "max.dependence", "asymmetry", "p.q(x1,x2)",
+    "p.q(x2,x1)", "p.max.dependence", "p.asymmetry"),
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>an object of class 'qad'</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>some methods for this generic require additional arguments. None are used in this method.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>select</code></td>
+<td>
+<p>a vector of strings indicating which dependence measure should be returned. Options are c('q(x1,x2)', 'q(x2,x1)', 'max.dependence', 'asymmetry')</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>an object containing the calculated values of a <code>qad</code> object.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">n &lt;- 100
+x &lt;- runif(n, 0, 1)
+y &lt;- x^2 + rnorm(n, 0, 0.1)
+sample &lt;- data.frame(x, y)
+##(Not Run)
+fit &lt;- qad(sample)
+summary(fit)
+coef(fit)
+coef(fit, select = c('q(x1,x2)','p.q(x1,x2)'))
+
+</code></pre>
+
+
+</div>

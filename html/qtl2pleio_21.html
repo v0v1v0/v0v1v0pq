@@ -1,0 +1,82 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>process_inputs</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Process inputs to scan functions</h2>
+
+<h3>Description</h3>
+
+<p>Process inputs to scan functions
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">process_inputs(
+  probs,
+  pheno,
+  addcovar,
+  kinship,
+  n_snp = dim(probs)[3],
+  start_snp = 1,
+  max_iter = 10^4,
+  max_prec = 1/10^8
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>probs</code></td>
+<td>
+<p>a three-dimensional array of founder allele probabilities</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pheno</code></td>
+<td>
+<p>a matrix of d trait values</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>addcovar</code></td>
+<td>
+<p>a matrix of covariates</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>kinship</code></td>
+<td>
+<p>a kinship matrix</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n_snp</code></td>
+<td>
+<p>number of markers</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>start_snp</code></td>
+<td>
+<p>index number of start position in the probs object.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>max_iter</code></td>
+<td>
+<p>max number of iterations for EM</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>max_prec</code></td>
+<td>
+<p>max precision for stopping EM</p>
+</td>
+</tr>
+</table>
+</div>

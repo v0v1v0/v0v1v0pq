@@ -1,0 +1,101 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>psi</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Create Discrimination Probabilities (Psi) from Data Frame</h2>
+
+<h3>Description</h3>
+
+<p>Creates matrices with discrimination probabilities, number of trials, number
+of different answers, and stimulus intensities from a data frame.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">psi(data, oa1 = "s1", oa2 = "s2", resp = "resp")
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>data frame with repeated same-different judgments.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>oa1, oa2</code></td>
+<td>
+<p>name of the variable that contains the stimulus intensities
+in the first and second observation area.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>resp</code></td>
+<td>
+<p>name of response variable for same-different judgments;
+answers have to be <code>d</code> and <code>s</code> for "different" and "same"
+response, respectively.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The data frame must include at least a column for the response and one
+column each for observation areas one and two.  The return value of
+<code>psi</code> may serve as an input to <code>qdm</code> that fits a
+quadrilateral dissimilarity model to the judgments.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>psi</code> that consists of the following components:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>prob</code></td>
+<td>
+<p>a matrix of discrimination probabilities per stimulus
+combination.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ntrials</code></td>
+<td>
+<p>a matrix of number of trials per stimulus combination.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>freq</code></td>
+<td>
+<p>a matrix of frequencies of different answers per stimulus
+combination.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x, y</code></td>
+<td>
+<p>(if possible numeric) vectors of stimulus intensities.</p>
+</td>
+</tr>
+</table>
+<h3>See Also</h3>
+
+<p><code>qdm</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(FMrate)
+psi1 &lt;- psi(FMrate[FMrate$id == "subj1",])
+</code></pre>
+
+
+</div>

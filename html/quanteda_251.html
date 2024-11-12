@@ -1,0 +1,50 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>reshape_docvars</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Internal function to subset or duplicate docvar rows</h2>
+
+<h3>Description</h3>
+
+<p>Internal function to subset or duplicate docvar rows
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">reshape_docvars(x, i = NULL, unique = FALSE, drop_docid = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>docvar data.frame</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>i</code></td>
+<td>
+<p>numeric or logical vector for subsetting/duplicating rows</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>unique</code></td>
+<td>
+<p>if <code>TRUE</code>, names must be all unique. If <code>FALSE</code>, documents with the same
+names are treated as segments from the same document and given serial number.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>drop_docid</code></td>
+<td>
+<p>if <code>TRUE</code>, drop unused names of documents.</p>
+</td>
+</tr>
+</table>
+</div>

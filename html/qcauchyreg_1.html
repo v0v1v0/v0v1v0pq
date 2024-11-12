@@ -1,0 +1,81 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>Democratization</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Estimation of Democratization Index</h2>
+
+<h3>Description</h3>
+
+<p>Democratization index from "The Quality of Government Basic Dataset” of the University of Gothenburg.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">data("Democratization")</code></pre>
+
+
+<h3>Format</h3>
+
+<p>A data frame containing 138 observations on 4 variables.
+</p>
+
+<dl>
+<dt><code>democratization</code></dt>
+<dd>
+<p>democratization index of 138 countries, which can take values in [0, 1].</p>
+</dd>
+<dt><code>gdp</code></dt>
+<dd>
+<p>real gross domestic product per capita in thousands of dollars.</p>
+</dd>
+<dt><code>schooling</code></dt>
+<dd>
+<p>average schooling (in years) of people aged 25 years or more.</p>
+</dd>
+<dt><code>press_freedom</code></dt>
+<dd>
+<p>press freedom index of 138 countries. A lower value indicating greater press freedom, while a higher value indicates limited press freedom.</p>
+</dd>
+</dl>
+<h3>Details</h3>
+
+<p>The data set was collected by "The Quality of Government Basic Dataset” of the University of Gothenburg. The data refers to 138 countries observed in 2010. The dependent variable is the democratization index (<code>democratization</code>), which takes values between 0 and 1 . The closer to 1, the greater the democratization. The explanatory variables are real gross domestic product per capita in thousands of dollars (<code>gdp</code>), average schooling (in years) of people aged 25 years or more (<code>schooling</code>) and press freedom index (<code>press_freedom</code>), a lower value indicating greater press freedom, while a higher value indicates limited press freedom.
+</p>
+
+
+<h3>Source</h3>
+
+<p><a href="https://www.gu.se/en/quality-government/qog-data/data-downloads/basic-dataset">https://www.gu.se/en/quality-government/qog-data/data-downloads/basic-dataset</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>de Oliveira, J.S.C.; Ospina, R.; Leiva, V.; Figueroa-Zuniga, J.; Castro, C. (2023).
+<em>Quasi-Cauchy Regression Modeling for Fractiles Based on Data Supported in the Unit Interval</em>. Fractal Fract. 7, 667. <a href="doi:10.3390/fractalfract7090667">doi:10.3390/fractalfract7090667</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+data("Democratization", package = "qcauchyreg")
+
+## de Oliveira, J.S.C.; Ospina, R.; Leiva, V.; Figueroa-Zuniga, J.; Castro, C. (2023)
+fit &lt;- qcreg(democratization ~ schooling + press_freedom, data = Democratization, npi=50)
+summary(fit)
+
+fit$effects
+
+plot(fit$pis, type="l")
+
+plot(fit$quantregplot)
+
+
+</code></pre>
+
+
+</div>

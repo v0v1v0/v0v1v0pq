@@ -1,0 +1,74 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qgis_detect_paths</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Detect QGIS installations with 'qgis_process' on Windows and macOS</h2>
+
+<h3>Description</h3>
+
+<p>Discovers existing 'qgis_process' executables on the system and returns their
+filepath.
+Only available for Windows and macOS systems.
+<code>qgis_detect_paths()</code> is a shortcut to <code>qgis_detect_windows_paths()</code> on
+Windows and <code>qgis_detect_macos_paths()</code> on macOS.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qgis_detect_paths(drive_letter = strsplit(R.home(), ":")[[1]][1])
+
+qgis_detect_windows_paths(drive_letter = strsplit(R.home(), ":")[[1]][1])
+
+qgis_detect_macos_paths()
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>drive_letter</code></td>
+<td>
+<p>The drive letter on which to search. By default,
+this is the same drive letter as the R executable.
+Only applicable to Windows.</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>A character vector of possible paths to the 'qgis_process'
+executable.
+</p>
+
+
+<h3>Note</h3>
+
+<p>These functions do not verify whether the discovered 'qgis_process'
+executables successfully run.
+You can run <code>qgis_path(query = TRUE, quiet = FALSE)</code> to discover and cache
+the first 'qgis_process' in the list that works.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>qgis_configure()</code>, <code>qgis_path()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">if (.Platform$OS.type == "windows") {
+  qgis_detect_paths()
+  identical(qgis_detect_windows_paths(), qgis_detect_paths())
+}
+if (Sys.info()["sysname"] == "Darwin") {
+  qgis_detect_paths()
+  identical(qgis_detect_macos_paths(), qgis_detect_paths())
+}
+</code></pre>
+
+
+</div>

@@ -1,0 +1,133 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>Q.make</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Generate Q Matrix</h2>
+
+<h3>Description</h3>
+
+<p>Generate the conditional probability matrix using the information of QTL
+and marker, along with the genotype data.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">Q.make(
+  QTL,
+  marker,
+  geno = NULL,
+  interval = FALSE,
+  type = "RI",
+  ng = 2,
+  cM = TRUE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>QTL</code></td>
+<td>
+<p>matrix. A q*2 matrix contains the QTL information, where the
+row dimension 'q' represents the number of QTLs in the chromosomes. The
+first column labels the chromosomes where the QTLs are located, and the
+second column labels the positions of QTLs (in morgan (M) or centimorgan
+(cM)).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>marker</code></td>
+<td>
+<p>matrix. A k*2 matrix contains the marker information,
+where the row dimension 'k' represents the number of markers in the
+chromosomes. The first column labels the chromosomes where the markers
+are located, and the second column labels the positions of markers (in
+morgan (M) or centimorgan (cM)). It's important to note that chromosomes
+and positions must be sorted in order.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>geno</code></td>
+<td>
+<p>matrix. A n*k matrix contains the genotypes of k markers
+for n individuals. The marker genotypes of P1 homozygote (MM),
+heterozygote (Mm), and P2 homozygote (mm) are coded as 2, 1, and 0,
+respectively, with NA indicating missing values.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>interval</code></td>
+<td>
+<p>logical. When set to interval=TRUE, if a QTL shares the
+same position as a marker, the marker will be skipped and not considered
+as a flanking marker.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>type</code></td>
+<td>
+<p>character. The population type of the dataset. Includes
+backcross (type="BC"), advanced intercross population (type="AI"), and
+recombinant inbred population (type="RI"). The default value is "RI".</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ng</code></td>
+<td>
+<p>integer. The generation number of the population type. For
+instance, in a BC1 population where type="BC", ng=1; in an AI F3
+population where type="AI", ng=3.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cM</code></td>
+<td>
+<p>logical. Specify the unit of marker position. If cM=TRUE, it
+denotes centimorgan; if cM=FALSE, it denotes morgan.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>The output contains k conditional probability matrices for the k
+flanking marker pairs (the k Q-matrices) and a conditional
+probability matrix of each QTL for all individuals (the cp-matrix)
+provided the genotype data of the testing population is input..
+</p>
+
+
+<h3>Note</h3>
+
+<p>If geno=NULL, the function can still be executed, and the output will
+contain k Q-matrices but no cp-matrix.
+</p>
+
+
+<h3>References</h3>
+
+<p>KAO, C.-H. and Z.-B. ZENG 1997 General formulas for obtaining the maximum
+likelihood estimates and the asymptotic variance-covariance matrix in QTL
+mapping when using the EM algorithm. Biometrics 53, 653-665. &lt;doi: 10.2307/2533965.&gt;
+</p>
+<p>KAO, C.-H., Z.-B. ZENG and R. D. TEASDALE 1999 Multiple interval mapping
+for Quantitative Trait Loci. Genetics 152: 1203-1216. &lt;doi: 10.1093/genetics/152.3.1203&gt;
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># load the example data
+load(system.file("extdata", "exampledata.RDATA", package = "QTLEMM"))
+
+# run and result
+result &lt;- Q.make(QTL, marker, geno)
+head(result$cp.matrix)
+</code></pre>
+
+
+</div>

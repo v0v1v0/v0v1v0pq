@@ -1,0 +1,83 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>vector_shuffle</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Shuffle a vector just like shuffle in PHP</h2>
+
+<h3>Description</h3>
+
+<p>Shorthand to shuffle a vector and save
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">vector_shuffle(., replace = FALSE, prob = NULL, seed = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>.</code></td>
+<td>
+<p>vector to shuffle</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>replace</code></td>
+<td>
+<p>replace selected value</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>prob</code></td>
+<td>
+<p>probability of occurrence</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>seed</code></td>
+<td>
+<p>apply seed if indicated for reproducibility</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>shuffled vector of items store to the vector name
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">v1&lt;-c(3,45,23,3,2,4,1)
+
+
+#demonstrate vector_shuffle
+vector_shuffle(v1)
+v1 # show outputs
+
+#demonstrate reproducibility in shuffle with seed
+v0&lt;-v1
+vector_shuffle(v0)
+v0 #first output
+
+v0&lt;-v1
+vector_shuffle(v0)
+v0 # different output from first output top
+
+v0&lt;-v1
+vector_shuffle(v0,seed = 232L)
+v0 #second output
+
+v0&lt;-v1
+vector_shuffle(v0,seed = 232L)
+v0 #the same output as second output top
+</code></pre>
+
+
+</div>

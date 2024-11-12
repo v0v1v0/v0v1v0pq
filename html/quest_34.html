@@ -1,0 +1,188 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>corp</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Bivariate Correlations with Significant Symbols</h2>
+
+<h3>Description</h3>
+
+<p><code>corp</code> computes bivariate correlations and their associated p-values.
+The function is primarily for preparing a correlation table for publication:
+the correlations are appended by significant symbols (e.g., asterixis),
+<code>corp</code> is simply <code>corr.test</code> + <code>add_sig_cor</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">corp(
+  data,
+  vrb.nm,
+  use = "pairwise.complete.obs",
+  method = "pearson",
+  digits = 3L,
+  p.10 = "",
+  p.05 = "*",
+  p.01 = "**",
+  p.001 = "***",
+  lead.zero = FALSE,
+  trail.zero = TRUE,
+  plus = FALSE,
+  diags = FALSE,
+  lower = TRUE,
+  upper = FALSE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>data.frame of data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vrb.nm</code></td>
+<td>
+<p>character vector of colnames from <code>data</code> specifying the
+variable columns.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>use</code></td>
+<td>
+<p>character vector of length 1 specifying how to handle missing data
+when computing the correlations. The options are 1)
+"pairwise.complete.obs", 2) "complete.obs", 3) "na.or.complete", 4)
+"all.obs", or 5) "everything". See details of <code>cor</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+<p>character vector of length 1 specifying the type of
+correlations to be computed. The options are 1) "pearson", 2) "kendall", or
+3) "spearman". See details of <code>cor</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>digits</code></td>
+<td>
+<p>integer vector of length 1 specifying the number of decimals to
+round to.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p.10</code></td>
+<td>
+<p>character vector of length 1 specifying which symbol to append to
+the end of any correlation significant at the p &lt; .10 level.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p.05</code></td>
+<td>
+<p>character vector of length 1 specifying which symbol to append to
+the end of any correlation significant at the p &lt; .05 level.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p.01</code></td>
+<td>
+<p>character vector of length 1 specifying which symbol to append to
+the end of any correlation significant at the p &lt; .01 level.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p.001</code></td>
+<td>
+<p>character vector of length 1 specifying which symbol to append
+to the end of any correlation significant at the p &lt; .001 level.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lead.zero</code></td>
+<td>
+<p>logical vector of length 1 specifying whether to retain a
+zero in front of the decimal place.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>trail.zero</code></td>
+<td>
+<p>logical vector of length 1 specifying whether to retain
+zeros after the decimal place (due to rounding).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>plus</code></td>
+<td>
+<p>logical vector of length 1 specifying whether to include a plus
+sign in front of positive correlations (minus signs are always in front of
+negative correlations).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>diags</code></td>
+<td>
+<p>logical vector of length 1 specifying whether to retain the
+values in the diagonal of the correlation matrix. If TRUE, then the
+diagonal will be 1s with <code>digits</code> number of zeros after the decimal
+place (and no significant symbols). If FALSE, then the diagonal will be NA.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lower</code></td>
+<td>
+<p>logical vector of length 1 specifying whether to retain the
+lower triangle of the correlation matrix. If TRUE, then the lower triangle
+correlations and their significance symbols are retained. If FAlSE, then
+the lower triangle will all be NA.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>upper</code></td>
+<td>
+<p>logical vector of length 1 specifying whether to retain the
+upper triangle of the correlation matrix. If TRUE, then the upper triangle
+correlations and their significance symbols are retained. If FAlSE, then
+the upper triangle will all be NA.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>data.frame with rownames and colnames equal to <code>vrb.nm</code>
+containing the bivariate correlations with significance symbols after the
+correlation value, specified by the arguments <code>p.10</code>, <code>p.05</code>,
+<code>p.01</code>, and <code>p.001</code> arguments. The specific elements of the
+return object are determined by the other arguments.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>add_sig_cor</code> for adding significant symbols to a correlation matrix,
+<code>add_sig</code> for adding significant symbols to any (atomic) vector, matrix, or (3D+) array,
+<code>cor</code> for computing only the correlation coefficients themselves
+<code>corr.test</code> for a function providing confidence intervals as well
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+corp(data = mtcars, vrb.nm = c("mpg","cyl","disp","hp","drat")) # no quotes b/c a data.frame
+corp(data = attitude, vrb.nm = colnames(attitude))
+corp(data = attitude, vrb.nm = colnames(attitude), p.10 = "'") # advance &amp; privileges
+corp(data = airquality, vrb.nm = colnames(airquality), plus = TRUE)
+
+</code></pre>
+
+
+</div>

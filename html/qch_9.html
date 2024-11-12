@@ -1,0 +1,71 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>FastKerFdr_unsigned</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>FastKerFdr unsigned</h2>
+
+<h3>Description</h3>
+
+<p>FastKerFdr unsigned
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">FastKerFdr_unsigned(
+  X,
+  p0 = NULL,
+  plotting = FALSE,
+  NbKnot = 1e+05,
+  tol = 1e-05
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>X</code></td>
+<td>
+<p>a vector of probit-transformed p-values (corresponding to a p-value serie)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p0</code></td>
+<td>
+<p>a priori proportion of H0 hypotheses</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>plotting</code></td>
+<td>
+<p>boolean, should some diagnostic graphs be plotted. Default is FALSE.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>NbKnot</code></td>
+<td>
+<p>The (maximum) number of knot for the kde procedure. Default is 1e5</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tol</code></td>
+<td>
+<p>a tolerance value for convergence. Default is 1e-5</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list of 3 objects.
+Object 'p0' is an estimate of the proportion of H0 hypotheses,
+Object 'tau' is the vector of H1 posteriors,
+Object 'f1' is a numeric vector, each coordinate i corresponding to the evaluation of the H1 density at point xi, where xi is the ith item in X.
+Object 'F1' is a numeric vector, each coordinate i corresponding to the evaluation of the H1 ;cdf at point xi, where xi is the ith item in X.
+</p>
+
+
+</div>

@@ -1,0 +1,66 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qm_combine</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Combine objects</h2>
+
+<h3>Description</h3>
+
+<p>A wrapper around <code>dplyr::bind_rows</code> for combining cluster objects created with
+<code>qm_create</code> into a single tibble. Input data for <code>qm_combine</code> are validated using
+<code>qm_is_cluster</code> as part of the cluster object creation process.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qm_combine(...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>A list of cluster objects to be combined.</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>A single tibble with all observations from the listed cluster objects. This tibble is
+stored with a custom class of <code>qm_cluster</code> to facilitate data validation.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>qm_create</code>, <code>qm_is_cluster</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># load and format reference data
+stl &lt;- stLouis
+stl &lt;- dplyr::mutate(stl, TRACTCE = as.numeric(TRACTCE))
+
+# create clusters
+cluster1 &lt;- qm_define(118600, 119101, 119300)
+cluster2 &lt;- qm_define(119300, 121200, 121100)
+
+# create cluster objects
+cluster_obj1 &lt;- qm_create(ref = stl, key = TRACTCE, value = cluster1,
+    rid = 1, cid = 1, category = "positive")
+cluster_obj2 &lt;- qm_create(ref = stl, key = TRACTCE, value = cluster2,
+    rid = 1, cid = 2, category = "positive")
+
+# combine cluster objects
+clusters &lt;- qm_combine(cluster_obj1, cluster_obj2)
+
+</code></pre>
+
+
+</div>

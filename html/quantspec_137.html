@@ -1,0 +1,97 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>getValues-FreqRep</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Get values from a frequency representation.</h2>
+
+<h3>Description</h3>
+
+<p>For two vectors <code>frequencies</code> and <code>levels</code> the values from an
+<code>object</code> of type <code>FreqRep</code> are returned.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S4 method for signature 'FreqRep'
+getValues(
+  object,
+  frequencies = 2 * pi * (0:(lenTS(object@Y) - 1))/lenTS(object@Y),
+  levels = object@levels,
+  d = 1:(dim(object@values)[2])
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p><code>FreqRep</code> of which to get the values</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>frequencies</code></td>
+<td>
+<p>a vector of frequencies for which to get the values</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>levels</code></td>
+<td>
+<p>a vector of levels for which to get the values</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>d</code></td>
+<td>
+<p>optional parameter that determine of which component to return the data;
+may be a vector of elements 1, ..., D</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The two parameters <code>frequencies</code> and <code>levels</code> are expected to be
+vectors of reals; an error is thrown otherwise. If any of the
+<code>frequencies</code> or <code>levels</code> requested is not available from
+<code>object</code> a warning is issued, and the values with frequencies and levels
+closest to the ones requested are returned. Note that the frequencies are
+transformed to <code class="reqn">[0,\pi]</code> using <code>frequenciesValidator</code>
+when checking if they are available in <code>object</code>.
+</p>
+<p>The returned array of <code>values</code> is of dimension <code>[J,K,B+1]</code>,
+where <code>J=length(frequencies)</code>, <code>K=length(levels)</code>, and <code>B</code>
+denotes the value stored in slot <code>B</code> of <code>object</code>. At position
+<code>(j,k,b)</code> the returned value is the one corresponding to
+<code>frequencies[j]</code> and <code>levels[k]</code> that are closest to the
+<code>frequencies</code> and <code>levels</code> available in <code>object</code>;
+<code>closest.pos</code> is used to determine what closest to means.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns data from the array <code>values</code> that's a slot of
+<code>object</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">Y        &lt;- rnorm(32)
+freq     &lt;- 2*pi*c(0:31)/32
+levels   &lt;- c(0.25,0.5,0.75)
+cFT      &lt;- clippedFT(Y, freq, levels)
+V.all    &lt;- getValues(cFT)
+V.coarse &lt;- getValues(cFT, frequencies = 2*pi*c(0:15)/16, levels = levels)
+V.fine   &lt;- getValues(cFT, frequencies = 2*pi*c(0:63)/64, levels = levels)
+V.part   &lt;- getValues(cFT, frequencies = 2*pi*c(0:16)/32, levels = c(0.25))
+</code></pre>
+
+
+</div>

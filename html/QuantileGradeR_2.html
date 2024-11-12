@@ -1,0 +1,210 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>findCutoffs</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Find Cutoff Values.</h2>
+
+<h3>Description</h3>
+
+<p><code>findCutoffs</code> applies a quantile adjustment to inspection scores within a
+jurisdiction's subunits (e.g. ZIP codes) and creates a data frame of cutoff
+values to be used for grading restaurants or other inspected entities.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">findCutoffs(X, z, gamma, resolve.ties = TRUE, restaurant.tol = 10,
+  max.iterations = 20)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>X</code></td>
+<td>
+<p>Numeric matrix of size <code>n</code> x <code>p</code>, where <code>n</code> is the
+number is restaurants to be graded and <code>p</code> is the number of inspections
+to be used in grade assignment.  Entry  <code>X[i,j]</code> represents the
+inspection score for the <code>i</code>th restaurant in the <code>j</code>th most recent
+inspection.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>z</code></td>
+<td>
+<p>Character vector of length <code>n</code> representing ZIP codes (or other
+subunits within a jurisdiction).  <code>z[i]</code> is the ZIP code corresponding
+to the restaurant with inspection scores in row <code>i</code> of <code>X</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gamma</code></td>
+<td>
+<p>Numeric vector representing absolute grade cutoffs. Entries in
+gamma should be increasing, with <code>gamma[1] &lt;= gamma[2]</code> etc (this is
+related to the "Warning" section and larger scores being associated with
+higher risk).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>resolve.ties</code></td>
+<td>
+<p>Boolean value that determines the definition of quantile
+to be used after optimal quantiles have been found with the
+<code>percentileSeek</code> function. See Modes below, as well as Appendix J of
+Ho, D.E., Ashwood, Z.C., and Elias, B. "Improving the Reliability of Food
+Safety Disclosure: A Quantile Adjusted Restaurant Grading System for
+Seattle-King County".</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>restaurant.tol</code></td>
+<td>
+<p>An integer indicating the maximum difference in the number of
+restaurants in a grading category between the unadjusted and adjusted
+grading algorithms (for the top <code>length(gamma)</code> grading categories).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>max.iterations</code></td>
+<td>
+<p>The maximum number of iterations that the iterative
+algorithm (carried out by the internal <code>percentileSeek</code> function)
+should run in order to find optimal quantiles for ZIP cutoffs. The iterative
+algorithm is described in more detail below.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>In our documentation, we use the language "ZIP code" and "restaurant",
+however, our grading algorithm and our code can be applied to grade other
+inspected entities; and quantile cutoffs can be sought in subunits of a
+jurisdiction that are not ZIP codes. For example, it may make sense to search
+for quantile cutoffs in an inspector's allocated inspection area or within a
+census tract. We chose to work with ZIP codes in our work because area
+assignments for inspectors in King County (WA) tend to be single or multiple
+ZIP codes, and we desired to assign grades based on how a restaurant's scores
+compare to other restaurants assessed by the same inspector.  We could have
+calculated quantile cutoffs in an inspector's allocated area, but inspector
+areas are not always contiguous. Because food choices are generally local, ZIP
+codes offer a transparent and meaningful basis for consumers to distinguish
+establishments. Where "ZIP code" is referenced, please read "ZIP code or other
+subunit of a jurisdiction" and "restaurant" should read "restaurant or other
+entity to be graded".
+</p>
+<p><code>findCutoffs</code> takes in a vector of cutoff scores, <code>gamma</code>, a matrix
+of restaurants' scores, <code>X</code>, and a vector corresponding to restaurants'
+ZIP codes, <code>z</code>, and outputs a data frame of cutoff scores to be used in
+the <code>gradeAllBus</code> function to assign grades to restaurants.
+<code>findCutoffs</code> first carries out "unadjusted grading" and compares
+restaurants' most recent routine inspection scores to the raw cutoff scores
+contained in <code>gamma</code> and assigns initial grades to restaurants. Grade
+proportions in this scheme are then used as initial quantiles to find quantile
+cutoffs in each ZIP code (or quantile cutoffs accommodating for the presence
+of score ties in the ZIP code, depending on the value of <code>resolve.ties</code>;
+see the Modes section). Restaurants are then graded with the ZIP code quantile
+cutoffs, and grading proportions are compared with grading proportions from
+the unadjusted system. Quantiles are iterated over one at a time (by the
+internal <code>percentileSeek</code> function, which uses a binary search root
+finding method) until grading proportions with ZIP code quantile cutoffs are
+within a certain tolerance (as determined by <code>restaurant.tol</code>) of the
+unadjusted grading proportions. This iterative step is important because of the
+discrete nature of the inspection score distribution, and the existence of
+large numbers of restaurants with the same inspection scores.
+</p>
+<p>The returned ZIP code cutoff data frame has one row for each unique ZIP code
+and has <code>(length(gamma)+1)</code> columns, corresponding to one column for the
+ZIP code name, and <code>(length(gamma))</code> cutoff scores separating the
+<code>(length(gamma)+1)</code> grading categories.  Across each ZIP code's row,
+cutoff scores increase and we assume, as in the King County (WA) case, that
+greater risk is associated with larger inspection scores. (If scores are
+decreasing in risk, users should transform inspection scores  with a simple
+function such as <code>f(score) = - score</code> before using any of the functions
+in <code>QuantileGradeR</code>.)
+</p>
+
+
+<h3>Modes</h3>
+
+<p>When <code>resolve.ties = TRUE</code>, in order to calculate
+quantile cutoffs in a ZIP code, we alter the definition of quantile from
+the usual "Nearest Rank" definition and use the "Quantile Adjustment (with
+Ties Resolution)" definition that is discussed in Appendix J of
+Ho, D.E., Ashwood, Z.C., and Elias, B. "Improving the Reliability of Food
+Safety Disclosure: A Quantile Adjusted Restaurant Grading System for
+Seattle-King County" (working paper). In particular, once we have found the
+optimal set of quantiles to be applied across ZIP codes, <code>p</code>,
+with the <code>percentileSeek</code> function, instead of returning (for B/C
+cutoffs, for example) the scores in each ZIP code that result in <em>at
+least</em> (<code>p[2]</code> x 100)% of restaurants in the ZIP code scoring
+less than or equal to these cutoffs, the mode <code>resolve.ties = TRUE</code>
+takes into account the ties that exist in ZIP codes. Returned scores for
+A/B cutoffs are those that result in the <em>closest</em> percentage of
+restaurants in the ZIP code scoring less than or equal to the A/B cutoff to
+the desired percentage, (<code>p[1]</code> x 100)%. Similarly, B/C cutoffs
+are the scores in the ZIP code that result in the <em>closest</em> percentage
+of restaurants in the ZIP code scoring less than or equal to the B/C cutoff
+and more than the A/B cutoff to the desired percentage, (<code>(p[2] -
+  p[1])</code> x 100)%.
+</p>
+<p>When <code>resolve.ties = FALSE</code>, we use the usual "Nearest
+Rank" definition of quantile when applying the optimal quantiles,
+<code>p</code>, across ZIP codes.
+</p>
+
+
+<h3>Warning</h3>
+
+<p><code>findCutoffs</code> will produce cutoff scores even for ZIP
+codes with only one restaurant: situations in which a quantile adjustment
+shouldn't be used. It is the job of the user to ensure that, if using the
+<code>findCutoffs</code> function, it makes sense to do so.  This may involve only
+performing the quantile adjustment on larger ZIP codes and providing
+absolute cutoff points for smaller ZIP codes, or may involve aggregating
+smaller ZIP codes into a larger geographical unit and then performing the
+quantile adjustment on the larger area (the latter approach is the one we
+adopted).
+</p>
+<p>As mentioned previously, <code>findCutoffs</code> was created for
+an inspection system that associates greater risk with larger inspection
+scores. If the inspection system of interest associates greater risk with
+reduced scores, it will be neccessary to perform a transformation of the
+scores matrix before utilizing the <code>findCutoffs</code> function. However a
+simple function such as <code>f(score) = - score</code> would perform the
+necessary transformation.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+## ==== Quantile-Adjusted Grading =====
+## ZIP Code Cutoffs
+# In King County, meaningful scores in the inspection system are 0 and 30:
+# more than 50% of restaurants score 0 points in a single inspection round,
+# and 30 is the highest score that a restaurant can be assigned before it is
+# subject to a return inspection, hence these values form our gamma vector.
+# The output dataframe, zipcode.cutoffs.df, has ten rows and three columns: one
+# row for every unique ZIP code in zips.kc, one column for the ZIP name, the
+# second column for the A/B cutoff (Gamma.A) and the third column for the B/C
+# cutoff (Gamma.B).
+
+ zipcode.cutoffs.df &lt;- findCutoffs(X.kc, zips.kc, gamma = c(0, 30))
+
+## ==== Traditional Grading Systems ====
+## ZIP Code Cutoffs
+# Traditional (unadjusted) restaurant grading systems use the same cutoff scores
+# for all ZIP codes. To allow comparison, an unadjusted ZIP code cutoff frame
+# for King County is generated by the internal createCutoffsDF function:
+
+ unadj.cutoffs.df &lt;- createCutoffsDF(X.kc, zips.kc, gamma = c(0, 30), type = "unadj")
+</code></pre>
+
+
+</div>

@@ -1,0 +1,79 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>SpreadCalculation</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Spread Calculation Data</h2>
+
+<h3>Description</h3>
+
+<p>This function takes a data frame containing metadata and calculation results,
+and spreads the results into a list of data frames for selected calculation term.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">SpreadCalculation(
+  calculation,
+  id_col = "content",
+  rep_col = "replicate",
+  terms = c("RAF", "MPR", "MS")
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>calculation</code></td>
+<td>
+<p>A data frame containing the metadata and results of the calculation. Output from <code>GetCalculation()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>id_col</code></td>
+<td>
+<p>The name of the column in calculation that identifies the content. Default is 'content'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rep_col</code></td>
+<td>
+<p>The name of the column in calculation that identifies the replicate. Default is 'replicate'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>terms</code></td>
+<td>
+<p>A vector of column names to spread.  Defaults to 'RAF', 'MPR', and 'MS'.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list of data frames containing the spread results of the calculation. Each data frame is compatible with
+various graphing software, particularly GraphPad Prism, which is the most commonly used graphing tool in F-SAA research.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">calculation &lt;- data.frame(
+  content = rep(c("A", "B", "C"), each = 2),
+  replicate = rep(1:2, 3),
+  time_to_threshold = rnorm(6),
+  RAF = rnorm(6),
+  MPR = rnorm(6),
+  MS = rnorm(6)
+  )
+
+calculation_spread = SpreadCalculation(calculation)
+print(calculation_spread)
+
+</code></pre>
+
+
+</div>

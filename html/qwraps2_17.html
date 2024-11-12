@@ -1,0 +1,257 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>frmt</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Format Wrappers</h2>
+
+<h3>Description</h3>
+
+<p>Functions for formatting numeric values for consistent display
+in reports.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">frmt(x, digits = getOption("qwraps2_frmt_digits", 2), append = NULL)
+
+frmtp(
+  x,
+  style = getOption("qwraps2_journal", "default"),
+  digits = getOption("qwraps2_frmtp_digits", 4),
+  markup = getOption("qwraps2_markup", "latex"),
+  case = getOption("qwraps2_frmtp_case", "upper"),
+  leading0 = getOption("qwraps2_frmtp_leading0", TRUE)
+)
+
+frmtci(
+  x,
+  est = 1,
+  lcl = 2,
+  ucl = 3,
+  format = "est (lcl, ucl)",
+  show_level = FALSE,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a vector of numbers or a numeric matrix to format.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>digits</code></td>
+<td>
+<p>number of digits, including trailing zeros, to the right of the
+decimal point.  This option is ignored if <code>is.integer(x) == TRUE)</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>append</code></td>
+<td>
+<p>a character string to append to the formatted number.  This is
+particularly useful for percentages or adding punctuation to the end of the
+formatted number.  This should be a vector of length 1, or equal to the
+length of <code>x</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>style</code></td>
+<td>
+<p>a character string indicating a specific journal requirements
+for p-value formatting.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>markup</code></td>
+<td>
+<p>a character string indicating if the output should be latex or
+markup.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>case</code></td>
+<td>
+<p>a character string indicating if the output should be upper case
+or lower case.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>leading0</code></td>
+<td>
+<p>boolean, whether or not the p-value should be reported as
+0.0123 (TRUE, default), or .0123 (FALSE).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>est</code></td>
+<td>
+<p>the numeric index of the vector element or the matrix column
+containing the point estimate.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lcl</code></td>
+<td>
+<p>the numeric index of the vector element or the matrix column
+containing the lower confidence limit.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ucl</code></td>
+<td>
+<p>the numeric index of the vector element or the matrix column
+containing the upper confidence limit.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>format</code></td>
+<td>
+<p>a string with "est" "lcl", and "ucl" to denote the location of
+the estimate, lower confidence limit, and upper confidence limit for the
+formatted string.  Defaults to "est (lcl, ucl)".</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>show_level</code></td>
+<td>
+<p>defaults to FALSE.  If TRUE and <code>format</code> is the
+default, then
+"100*(1-options()$qwraps2_alpha)
+parenthesis and the lcl.  If set to a string, then the given string will be
+placed between the left parenthesis and the lcl.  If the <code>format</code> is not
+the default, then this argument is ignored.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>args passed to frmt</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>'frmt' was originally really just a wrapper for the <code>formatC</code>.  It has
+extended functionality now as I have found common uses cases.
+</p>
+<p>'frmtp' formats P-values per journal
+requirements.  As I work on papers aimed at different journals, the
+formatting functions will be extended to match.
+</p>
+<p>Default settings are controlled through the function arguments but should be
+set via <code>options()</code>.
+</p>
+<p>Default settings report the P-value exactly if P &gt;
+<code>getOptions("qwraps2_frmtp_digits", 4)</code> and reports
+P &lt; <code>10^-(getOptions("qwraps2_frmtp_digits", 2))</code> otherwise.  By the
+leading zero is controlled via
+<code>getOptions("qwraps2_frmtp_leading0", TRUE)</code>
+and a upper or lower case P is controlled by
+<code>getOptions("qwraps2_frmtp_case", "upper")</code>.  These options are ignored
+if <code>style != "default"</code>.
+</p>
+<p>Journals with predefined P-value formatting are noted in the
+<span class="pkg">qwraps2</span> documentation.
+</p>
+<p>'frmtci' takes a <code>matrix</code>, or <code>data.frame</code>, with a point estimate
+and the lcl and ucl and formats a string for reporting.  est (lcl, ucl) is
+the default.  The confidence level can be added to the string, e.g., "est
+(95
+format.
+</p>
+<p>'frmtcip' expects four values, est, lcl, ucl, and p-value.  The resulting
+sting will be of the form "est (lcl, ucl; p-value)".
+</p>
+<p>The 'Rpkg', 'CRANpkg', and 'Githubpkg' functions are used to help make
+documenting packages stylistically consistent and with valid urls.  These
+functions were inspired by similar ones found in the BioConductor BiocStyle
+package.
+</p>
+
+
+<h3>Value</h3>
+
+<p>a character vector of the formatted numbers
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>formatC</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+### Formatting numbers
+integers &lt;- c(1234L, 9861230L)
+numbers  &lt;- c(1234,  9861230)
+frmt(integers)  # no decimal point
+frmt(numbers)   # decimal point and zeros to the right
+
+numbers &lt;- c(0.1234, 0.1, 1234.4321, 0.365, 0.375)
+frmt(numbers)
+
+# reporting a percentage
+frmt(17/19 * 100, digits = 2, append = "%")   # good for markdown
+frmt(17/19 * 100, digits = 2, append = "\\%") # good for LaTeX
+
+# append one character
+frmt(c(1, 2, 3)/19 * 100, digits = 2, append = "%")
+
+# append different characters
+frmt(c(1, 2, 3)/19 * 100, digits = 2, append = c("%;", "%!", "%."))
+
+### Formatting p-values
+ps &lt;- c(0.2, 0.001, 0.00092, 0.047, 0.034781, 0.0000872, 0.787, 0.05, 0.043)
+# LaTeX is the default markup language
+cbind("raw"      = ps,
+      "default"  = frmtp(ps),
+      "3lower"   = frmtp(ps, digits = 3, case = "lower"),
+      "PediDent" = frmtp(ps, style = "pediatric_dentistry"))
+
+### Using markdown
+cbind("raw"      = ps,
+      "default"  = frmtp(ps, markup = "markdown"),
+      "3lower"   = frmtp(ps, digits = 3, case = "lower", markup = "markdown"),
+      "PediDent" = frmtp(ps, style = "pediatric_dentistry", markup = "markdown"))
+
+# Formatting the point estimate and confidence interval
+# for a set of three values
+temp &lt;- c(a = 1.23, b = .32, CC = 1.78)
+frmtci(temp)
+
+# show level uses getOption("qwraps2_alpha", 0.05)
+frmtci(temp, show_level = TRUE)
+
+# note that the show_level will be ignored in the following
+frmtci(temp, format = "est ***lcl, ucl***", show_level = TRUE)
+
+# show_level as a character
+frmtci(temp, show_level = "confidence between: ")
+
+# For a matrix: the numbers in this example don't mean anything, but the
+# formatting should.
+temp2 &lt;- matrix(rnorm(12), nrow = 4,
+                dimnames = list(c("A", "B", "C", "D"), c("EST", "LOW", "HIGH")))
+temp2
+frmtci(temp2)
+
+# similar for a data.frame
+df2 &lt;- as.data.frame(temp2)
+frmtci(df2)
+
+</code></pre>
+
+
+</div>

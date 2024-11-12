@@ -1,0 +1,88 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>subset-performance_metrics</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Subset a performance_metrics object</h2>
+
+<h3>Description</h3>
+
+<p>You can subset performance_metrics by identifier or by position
+using the <code>`[`</code> operator.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S4 method for signature 'performance_metrics,missing,missing,missing'
+x[i, j, ..., drop = FALSE]
+
+## S4 method for signature 'performance_metrics,numeric,missing,missing'
+x[i, j, ..., drop = FALSE]
+
+## S4 method for signature 'performance_metrics,character,missing,missing'
+x[i, j, ..., drop = FALSE]
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>A performance_metrics object.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>i</code></td>
+<td>
+<p>Position of the identifier or the name of the identifier itself.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>j</code></td>
+<td>
+<p>Not used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Additional arguments not used here.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>drop</code></td>
+<td>
+<p>Not used.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A performance_metrics object.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+# Get a few performance metrics:
+my_ppm &lt;- get_performance_metrics(sprintf('PPM%06d', 38:42))
+
+#
+# Subsetting by position
+#
+my_ppm[c(1, 4)]
+
+#
+# Subsetting by performance metrics identifier (character)
+#
+my_ppm['PPM000042']
+
+</code></pre>
+
+
+</div>

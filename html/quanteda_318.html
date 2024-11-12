@@ -1,0 +1,122 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>tokens_trim</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Trim tokens using frequency threshold-based feature selection</h2>
+
+<h3>Description</h3>
+
+<p>Returns a tokens object reduced in size based on
+document and term frequency, usually in terms of a minimum frequency, but
+may also be in terms of maximum frequencies.  Setting a combination of
+minimum and maximum frequencies will select features based on a range.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">tokens_trim(
+  x,
+  min_termfreq = NULL,
+  max_termfreq = NULL,
+  termfreq_type = c("count", "prop", "rank", "quantile"),
+  min_docfreq = NULL,
+  max_docfreq = NULL,
+  docfreq_type = c("count", "prop", "rank", "quantile"),
+  padding = FALSE,
+  verbose = quanteda_options("verbose")
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a dfm object</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>min_termfreq, max_termfreq</code></td>
+<td>
+<p>minimum/maximum values of feature frequencies
+across all documents, below/above which features will
+be removed</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>termfreq_type</code></td>
+<td>
+<p>how <code>min_termfreq</code> and <code>max_termfreq</code> are
+interpreted.  <code>"count"</code> sums the frequencies; <code>"prop"</code> divides the
+term frequencies by the total sum; <code>"rank"</code> is matched against the
+inverted ranking of features in terms of overall frequency, so that 1, 2,
+... are the highest and second highest frequency features, and so on;
+<code>"quantile"</code> sets the cutoffs according to the quantiles (see
+<code>quantile()</code>) of term frequencies.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>min_docfreq, max_docfreq</code></td>
+<td>
+<p>minimum/maximum values of a feature's document
+frequency, below/above which features will be removed</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>docfreq_type</code></td>
+<td>
+<p>specify how <code>min_docfreq</code> and <code>max_docfreq</code> are
+interpreted.   <code>"count"</code> is the same as <code style="white-space: pre;">⁠[docfreq](x, scheme = "count")⁠</code>; <code>"prop"</code> divides the document frequencies by the total
+sum; <code>"rank"</code> is matched against the inverted ranking of document
+frequency, so that 1, 2, ... are the features with the highest and second
+highest document frequencies, and so on; <code>"quantile"</code> sets the cutoffs
+according to the quantiles (see <code>quantile()</code>) of document
+frequencies.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>padding</code></td>
+<td>
+<p>if <code>TRUE</code>, leave an empty string where the removed tokens
+previously existed.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p>print messages</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A tokens object with reduced size.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>dfm_trim()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">toks &lt;- tokens(data_corpus_inaugural)
+
+# keep only words occurring &gt;= 10 times and in &gt;= 2 documents
+tokens_trim(toks, min_termfreq = 10, min_docfreq = 2, padding = TRUE)
+
+# keep only words occurring &gt;= 10 times and no more than 90% of the documents
+tokens_trim(toks, min_termfreq = 10, max_docfreq = 0.9, docfreq_type = "prop",
+            padding = TRUE)
+
+</code></pre>
+
+
+</div>

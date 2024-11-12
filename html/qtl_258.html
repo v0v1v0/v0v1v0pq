@@ -1,0 +1,95 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>simulatemissingdata</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Simulates missing genotype data</h2>
+
+<h3>Description</h3>
+
+<p>Simulate missing genotype data by removing some genotype data from the cross object
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">  simulatemissingdata(cross, percentage = 5)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>cross</code></td>
+<td>
+
+<p>An object of class <code>cross</code>. See <code>read.cross</code> for details. 
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>percentage</code></td>
+<td>
+<p> How much of the genotype data do we need to randomly drop? </p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>An object of class <code>cross</code> with <code>percentage</code> 
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Danny Arends <a href="mailto:danny.arends@gmail.com">danny.arends@gmail.com</a> 
+</p>
+
+
+<h3>See Also</h3>
+
+
+
+<ul>
+<li>
+<p> The MQM tutorial: <a href="https://rqtl.org/tutorials/MQM-tour.pdf">https://rqtl.org/tutorials/MQM-tour.pdf</a>
+</p>
+</li>
+<li> <p><code>MQM</code> - MQM description and references
+</p>
+</li>
+<li> <p><code>mqmscan</code> - Main MQM single trait analysis
+</p>
+</li>
+<li> <p><code>mqmscanall</code> - Parallellized traits analysis
+</p>
+</li>
+<li> <p><code>mqmaugment</code> - Augmentation routine for estimating missing data
+</p>
+</li>
+<li> <p><code>mqmautocofactors</code> - Set cofactors using marker density
+</p>
+</li>
+<li> <p><code>mqmsetcofactors</code> - Set cofactors at fixed locations
+</p>
+</li>
+<li> <p><code>mqmpermutation</code> - Estimate significance levels
+</p>
+</li>
+<li> <p><code>scanone</code> - Single QTL scanning
+
+</p>
+</li>
+</ul>
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(multitrait)
+multitrait &lt;- fill.geno(multitrait)
+multimissing5 &lt;- simulatemissingdata(multitrait,perc=5)
+perc &lt;- (sum(nmissing(multimissing5))/sum(ntyped(multimissing5)))
+</code></pre>
+
+
+</div>

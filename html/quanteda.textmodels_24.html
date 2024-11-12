@@ -1,0 +1,96 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>influence.predict.textmodel_affinity</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Compute feature influence from a predicted textmodel_affinity object</h2>
+
+<h3>Description</h3>
+
+<p>Computes the influence of features on scaled <code>textmodel_affinity()</code>
+applications.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'predict.textmodel_affinity'
+influence(model, subset = !train, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>model</code></td>
+<td>
+<p>a predicted textmodel_affinity()
+object</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>subset</code></td>
+<td>
+<p>whether to use all data or a subset (for instance, exclude the
+training set)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>unused</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>a named list classed as influence.predict.textmodel_affinity that
+contains
+</p>
+
+<ul>
+<li> <p><code>norm</code> a document by feature class sparse matrix of normalised influence
+measures
+</p>
+</li>
+<li> <p><code>count</code> a vector of counts of each non-zero feature in the input matrix
+</p>
+</li>
+<li> <p><code>rate</code> the normalised feature count for each non-zero feature in the input
+matrix
+</p>
+</li>
+<li> <p><code>mode</code> an integer vector of 1 or 2 indicating the class which the feature
+is influencing, for each non-zero feature
+</p>
+</li>
+<li> <p><code>levels</code> a character vector of the affinity class labels
+</p>
+</li>
+<li> <p><code>subset</code> a logical vector indicating whether the document was included in
+the computation of influence; <code>FALSE</code> for documents assigned a class label
+in training the model
+</p>
+</li>
+<li> <p><code>support</code> logical vector for each feature matching the same return from
+predict.textmodel_affinity
+</p>
+</li>
+</ul>
+<h3>See Also</h3>
+
+<p><code>influence.lm()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">tmod &lt;- textmodel_affinity(quanteda::data_dfm_lbgexample, y = c("L", NA, NA, NA, "R", NA))
+pred &lt;- predict(tmod)
+influence(pred)
+</code></pre>
+
+
+</div>

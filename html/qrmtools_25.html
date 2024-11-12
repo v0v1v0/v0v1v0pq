@@ -1,0 +1,148 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>fit_ARMA_GARCH</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Fitting ARMA-GARCH Processes</h2>
+
+<h3>Description</h3>
+
+<p>Fail-safe componentwise fitting of univariate ARMA-GARCH processes.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">fit_ARMA_GARCH(x, ugarchspec.list = ugarchspec(), solver = "hybrid",
+               verbose = FALSE, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p><code>matrix</code>-like data structure, possibly an
+<code>xts</code> object.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ugarchspec.list</code></td>
+<td>
+<p>object of class <code>uGARCHspec</code> (as returned by
+<code>ugarchspec()</code>) or a list of such. In case of a list, its
+length has to be equal to the number of columns of
+<code>x</code>. <code>ugarchspec.list</code> provides the ARMA-GARCH
+specifications for each of the time series (columns of <code>x</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>solver</code></td>
+<td>
+<p>string indicating the solver used; see <code>?ugarchfit</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p><code>logical</code> indicating whether verbose
+output is given.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>additional arguments passed to the underlying
+<code>ugarchfit()</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>If <code>x</code> consists of one column only (e.g. a vector),
+<code>ARMA_GARCH()</code> returns the fitted object; otherwise it returns
+a list of such.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Marius Hofert</p>
+
+
+<h3>See Also</h3>
+
+<p><code>fit_GARCH_11()</code> for fast(er) and numerically more
+robust fitting of GARCH(1,1) processes.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(rugarch)
+library(copula)
+
+## Read the data, build -log-returns
+data(SMI.12) # Swiss Market Index data
+stocks &lt;- c("CSGN", "BAER", "UBSN", "SREN", "ZURN") # components we work with
+x &lt;- SMI.12[, stocks]
+X &lt;- -returns(x)
+n &lt;- nrow(X)
+d &lt;- ncol(X)
+
+## Fit ARMA-GARCH models to the -log-returns
+## Note: - Our choice here is purely for demonstration purposes.
+##         The models are not necessarily adequate
+##       - The sample size n is *too* small here for properly capturing GARCH effects.
+##         Again, this is only for demonstration purposes here.
+uspec &lt;- c(rep(list(ugarchspec(distribution.model = "std")), d-2), # ARMA(1,1)-GARCH(1,1)
+           list(ugarchspec(variance.model = list(model = "sGARCH", garchOrder = c(2,2)),
+                           distribution.model = "std")),
+           list(ugarchspec(variance.model = list(model = "sGARCH", garchOrder = c(2,1)),
+                           mean.model = list(armaOrder = c(1,2), include.mean = TRUE),
+                           distribution.model = "std")))
+system.time(fitAG &lt;- fit_ARMA_GARCH(X, ugarchspec.list = uspec))
+str(fitAG, max.level = 1) # list with components fit, warning, error
+## Now access the list to check
+
+## Not run: 
+## Pick out the standardized residuals, plot them and fit a t copula to them
+## Note: ugarchsim() needs the residuals to be standardized; working with
+##       standardize = FALSE still requires to simulate them from the
+##       respective standardized marginal distribution functions.
+Z &lt;- sapply(fitAG$fit, residuals, standardize = TRUE)
+U &lt;- pobs(Z)
+pairs(U, gap = 0)
+system.time(fitC &lt;- fitCopula(tCopula(dim = d, dispstr = "un"), data = U,
+                              method = "mpl"))
+
+## Simulate (standardized) Z
+set.seed(271)
+U. &lt;- rCopula(n, fitC@copula) # simulate from the fitted copula
+nu &lt;- sapply(1:d, function(j) fitAG$fit[[j]]@fit$coef["shape"]) # extract (fitted) d.o.f. nu
+Z. &lt;- sapply(1:d, function(j) sqrt((nu[j]-2)/nu[j]) * qt(U.[,j], df = nu[j])) # Z
+
+## Simulate from fitted model
+X. &lt;- sapply(1:d, function(j)
+    fitted(ugarchsim(fitAG$fit[[j]], n.sim = n, m.sim = 1, startMethod = "sample",
+                     rseed = 271, custom.dist = list(name = "sample",
+                                                     distfit = Z.[,j, drop = FALSE]))))
+
+## Plots original vs simulated -log-returns
+opar &lt;- par(no.readonly = TRUE)
+layout(matrix(1:(2*d), ncol = d)) # layout
+ran &lt;- range(X, X.)
+for(j in 1:d) {
+    plot(X[,j],  type = "l", ylim = ran, ylab = paste(stocks[j], "-log-returns"))
+    plot(X.[,j], type = "l", ylim = ran, ylab = "Simulated -log-returns")
+}
+    par(opar)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

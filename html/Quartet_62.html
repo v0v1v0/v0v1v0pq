@@ -1,0 +1,62 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>SymmetricDifferenceLineEnds</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Plot contours of equal symmetric difference on a ternary plot</h2>
+
+<h3>Description</h3>
+
+<p>Assumes that tree 1 is perfectly resolved, but that the resolution
+of tree 2 can vary.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">SymmetricDifferenceLineEnds(nsd)
+
+SymmetricDifferenceLines(nsd, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>nsd</code></td>
+<td>
+<p>Vector specifying normalized symmetric differences to plot.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Further parameters to pass to
+<code>TernaryLines()</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Returns a matrix of dim <code style="white-space: pre;">⁠(length(nsd), 6)⁠</code>, with columns named
+<code>r2a</code>, <code>da</code>, <code>sa</code>, <code>r2b</code>, <code>db</code> and <code>sb</code>.
+Lines from <code>a</code> to <code>b</code> in each row connect points of equal symmetric difference.
+</p>
+
+
+<h3>Functions</h3>
+
+
+<ul><li> <p><code>SymmetricDifferenceLines()</code>: Plot the lines onto the active ternary plot.
+</p>
+</li></ul>
+<h3>Author(s)</h3>
+
+<p><a href="https://orcid.org/0000-0001-5660-1727">Martin R. Smith</a>
+(<a href="mailto:martin.smith@durham.ac.uk">martin.smith@durham.ac.uk</a>)
+</p>
+
+
+</div>

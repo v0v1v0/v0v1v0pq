@@ -1,0 +1,501 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>nomogram.crr</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Construct a Nomogram for a Competing Risks Regression Model</h2>
+
+<h3>Description</h3>
+
+<p>Draws a partial nomogram from a <code>crr.fit</code> object that can be used to manually obtain predicted values from from a competing risks regression model.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">nomogram.crr(
+  fit,
+  failtime,
+  ci = TRUE,
+  ...,
+  adj.to,
+  lp = TRUE,
+  lp.at,
+  lplabel = "Linear Predictor",
+  fun.at,
+  fun.lp.at,
+  funlabel = "Predicted Value",
+  fun.side,
+  interact = NULL,
+  intercept = 1,
+  conf.int = FALSE,
+  col.conf = c(1, 12),
+  conf.space = c(0.08, 0.2),
+  conf.lp = c("representative", "all", "none"),
+  est.all = TRUE,
+  abbrev = FALSE,
+  minlength = 4,
+  maxscale = 100,
+  nint = 10,
+  label.every = 1,
+  force.label = FALSE,
+  xfrac = 0.35,
+  cex.axis = 0.85,
+  cex.var = 1,
+  col.grid = FALSE,
+  vnames = c("labels", "names"),
+  varname.label = TRUE,
+  varname.label.sep = "=",
+  ia.space = 0.7,
+  tck = -0.009,
+  lmgp = 0.4,
+  omit = NULL,
+  naxes,
+  points.label = "Points",
+  total.points.label = "Total Points",
+  total.sep.page = FALSE,
+  total.fun,
+  verbose = FALSE,
+  total.min,
+  total.max,
+  mikeomit = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>fit</code></td>
+<td>
+<p>A model fit by <code>crr.fit</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>failtime</code></td>
+<td>
+<p>A vector of time points to display failure probability axes for.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ci</code></td>
+<td>
+<p>Should the failure probability be displayed? Defaults to <code>TRUE</code>. If <code>FALSE</code>, the event-free probability is displayed.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Settings of variables to use in constructing axes.
+If <code>datadist</code> was in effect, the default is to use <code>pretty(total range, nint)</code>
+for continuous variables, and the class levels for discrete ones.
+For <code>legend.nomabbrev</code>, <code>...</code> specifies optional parameters to pass to the legend.
+Common ones are <code>bty = "n"</code> to suppress drawing the box. You may want to
+specify a non-proportionally spaced font (e.g., courier) number if
+abbreviations are more than one letter long. This will make the abbreviation
+definitions line up (e.g., specify font = 2, the default for courier).
+Ignored for print.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>adj.to</code></td>
+<td>
+<p>If <code>datadist</code> was not defined for all predictors, it is required to define adjustment settings for the undefined ones (e.g. <code>adj.to=list(age=50, sex="female")</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lp</code></td>
+<td>
+<p>Set to <code>FALSE</code> to suppress creation of an axis for scoring <code class="reqn">X\beta</code>. Defaults to <code>TRUE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lp.at</code></td>
+<td>
+<p>If <code>lp=TRUE</code>, specifies a vector of settings of <code class="reqn">X\beta</code>. Default is to use <code>pretty(range of linear predictors, nint)</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lplabel</code></td>
+<td>
+<p>label for linear predictor axis. Default is <code>"Linear Predictor"</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fun.at</code></td>
+<td>
+<p>Function values to label on axis. Default <code>fun</code>
+evaluated at <code>lp.at</code>. If more than one <code>fun</code> was specified,
+using a vector for <code>fun.at</code> will cause all functions to be evaluated
+at the same argument values. To use different values, specify a list of
+vectors for <code>fun.at</code>, with elements corresponding to the different
+functions (lists of vectors also applies to <code>fun.lp.at</code> and
+<code>fun.side</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fun.lp.at</code></td>
+<td>
+<p>If you want to evaluate one of the functions at a
+different set of linear predictor values than may have been used in
+constructing the linear predictor axis, specify a vector or list of
+vectors of linear predictor values at which to evaluate the function.
+This is especially useful for discrete functions. The presence of this
+attribute also does away with the need for <code>nomogram</code> to compute
+numerical approximations of the inverse of the function.  It also allows
+the user-supplied function to return <code>factor</code> objects, which is
+useful when e.g. a single tick mark position actually represents a range.
+If the <code>fun.lp.at</code> parameter is present, the <code>fun.at</code> vector
+for that function is ignored.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>funlabel</code></td>
+<td>
+<p>Label for <code>fun</code> axis. If more than one function was
+given but <code>funlabel</code> is of length one, it will be duplicated as needed. If
+<code>fun</code> is a list of functions for which you specified names (see the
+final example below), these names will be used as labels.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fun.side</code></td>
+<td>
+<p>A vector or list of vectors of <code>side</code> parameters for
+the <code>axis</code> function for labeling function values. Values may be 1 to
+position a tick mark label below the axis (the default), or 3 for above
+the axis. If for example an axis has 5 tick mark labels and the second
+and third will run into each other, specify <code>fun.side=c(1,1,3,1,1)</code>
+(assuming only one function is specified as <code>fun</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>interact</code></td>
+<td>
+<p>When a continuous variable interacts with a discrete one,
+axes are constructed so that the continuous variable moves within the
+axis, and separate axes represent levels of interacting factors. For
+interactions between two continuous variables, all but the axis variable
+must have discrete levels defined in <code>interact</code>. For discrete
+interacting factors, you may specify levels to use in constructing the
+multiple axes. For continuous interacting factors, you must do this.
+Examples: <code>interact=list(age=seq(10,70,by=10),
+  treat=c("A","B","D"))</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>intercept</code></td>
+<td>
+<p>For models such as the ordinal logistic model with
+multiple intercepts, specifies which one to use in evaluating the linear
+predictor.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>conf.int</code></td>
+<td>
+<p>Confidence levels to display for each scoring. Default is
+<code>FALSE</code> to display no confidence limits. Setting <code>conf.int</code> to
+<code>TRUE</code> is the same as setting it to <code>c(0.7, 0.9)</code>, with the
+line segment between the 0.7 and 0.9 levels shaded using gray scale.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>col.conf</code></td>
+<td>
+<p>Colors corresponding to <code>conf.int</code>. Use fractions for
+gray scale (for UNIX S-PLUS).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>conf.space</code></td>
+<td>
+<p>A 2-element vector with the vertical range within which
+to draw confidence bars, in units of 1=spacing between main bars. Four
+heights are used within this range (8 for the linear predictor if more
+than 16 unique values were evaluated), cycling them among separate
+confidence intervals to reduce overlapping.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>conf.lp</code></td>
+<td>
+<p>Default is <code>"representative"</code> to group all linear
+predictors evaluated into deciles, and to show, for the linear predictor
+confidence intervals, only the mean linear predictor within the deciles
+along with the median standard error within the deciles. Set
+<code>conf.lp="none"</code> to suppress confidence limits for the linear
+predictors, and to <code>"all"</code> to show all confidence limits.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>est.all</code></td>
+<td>
+<p>To plot axes for only the subset of variables named in
+<code>...{}</code>, set <code>est.all=FALSE</code>. Note: This option only works
+when zero has a special meaning for the variables that are omitted from
+the graph.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>abbrev</code></td>
+<td>
+<p>Set to <code>TRUE</code> to use the <code>abbreviate</code> function to
+abbreviate levels of categorical factors, both for labeling tick marks
+and for axis titles. If you only want to abbreviate certain predictor
+variables, set <code>abbrev</code> to a vector of character strings containing
+their names.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>minlength</code></td>
+<td>
+<p>Applies if <code>abbrev=TRUE</code>. Is the minimum
+abbreviation length passed to the <code>abbreviate</code> function. If you set
+<code>minlength=1</code>, the letters of the alphabet are used to label tick
+marks for categorical predictors, and all letters are drawn no matter how
+close together they are. For labeling axes (interaction settings),
+<code>minlength=1</code> causes <code>minlength=4</code> to be used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>maxscale</code></td>
+<td>
+<p>Default maximum point score is 100.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nint</code></td>
+<td>
+<p>Number of intervals to label for axes representing continuous variables. See <code>pretty</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>label.every</code></td>
+<td>
+<p>Specify <code>label.every=i</code> to label on every <code>i</code>th tick mark.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>force.label</code></td>
+<td>
+<p>Set to <code>TRUE</code> to force every tick mark intended to
+be labeled to have a label plotted (whether the labels run into each
+other or not)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xfrac</code></td>
+<td>
+<p>Fraction of horizontal plot to set aside for axis titles</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cex.axis</code></td>
+<td>
+<p>Character size for tick mark labels</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cex.var</code></td>
+<td>
+<p>Character size for axis titles (variable names)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>col.grid</code></td>
+<td>
+<p>If <code>col.grid=1</code>, no gray scale is used, but an
+ordinary line is drawn. If <code>0&lt;col.grid&lt;1</code>, a <code>col</code> (gray
+scale) of <code>col.grid</code> is used to draw vertical reference lines for
+major axis divisions and <code>col.grid/2</code> for minor divisions. The
+default is <code>col.grid=FALSE</code>, i.e., reference lines are omitted.
+Specifying <code>col.grid=TRUE</code> is the same as specifying a gray scale
+level of <code>col.grid=.2</code> (5 for Windows S-PLUS).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vnames</code></td>
+<td>
+<p>By default, variable labels are used to label axes. Set
+<code>vnames="names"</code> to instead use variable names.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>varname.label</code></td>
+<td>
+<p>In constructing axis titles for interactions, the
+default is to add <code>"(interacting.varname=level)"</code> on the right.
+Specify <code>varname.label=FALSE</code> to instead use <code>"(level)"</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>varname.label.sep</code></td>
+<td>
+<p>If <code>varname.label=TRUE</code>, you can change the
+separator to something other than <code>=</code> by specifying this parameter.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ia.space</code></td>
+<td>
+<p>When multiple axes are draw for levels of interacting
+factors, the default is to group combinations related to a main effect.
+This is done by spacing the axes for the second to last of these within a
+group only 0.7 (by default) of the way down as compared with normal space
+of 1 unit.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tck</code></td>
+<td>
+<p>See <code>tck</code> under <code>par</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lmgp</code></td>
+<td>
+<p>Spacing between numeric axis labels and axis (see <code>par</code> for <code>mgp</code>)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>omit</code></td>
+<td>
+<p>Vector of character strings containing names of variables for
+which to suppress drawing axes. Default is to show all variables.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>naxes</code></td>
+<td>
+<p>Maximum number of axes to allow on one plot. If the nomogram
+requires more than one "page", the "Points" axis will be repeated at the
+top of each page when necessary.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>points.label</code></td>
+<td>
+<p>A character string giving the axis label for the points scale</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>total.points.label</code></td>
+<td>
+<p>A character string giving the axis label for the total points scale</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>total.sep.page</code></td>
+<td>
+<p>Set to <code>TRUE</code> to force the total points and later axes to be placed on a separate page</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>total.fun</code></td>
+<td>
+<p>A user-provided function that will be executed before the
+total points axis is drawn. Default is not to execute a function. This
+is useful e.g. when <code>total.sep.page=TRUE</code> and you wish to use
+<code>locator</code> to find the coordinates for positioning an abbreviation
+legend before it's too late and a new page is started (i.e.,
+<code>total.fun=function()print(locator(1))</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p>Set to <code>TRUE</code> to get printed output detailing how tick
+marks are chosen and labeled for function axes. This is useful in seeing
+how certain linear predictor values cannot be solved for using inverse
+linear interpolation on the (requested linear predictor values, function
+values at these lp values). When this happens you will see <code>NA</code>s in
+the <code>verbose</code> output, and the corresponding tick marks will not
+appear in the nomogram.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>total.min</code></td>
+<td>
+<p>Setting the minimal value in the total point axis on the nomogram.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>total.max</code></td>
+<td>
+<p>Setting the maximal value in the total point axis.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mikeomit</code></td>
+<td>
+<p>The predictor variables specified by their names here will
+not be shown in the nomogram. The predicted outcome based on this
+reduced nomogram would be the same as if users were using the full
+version of the nomogram by entering the some values for the predictors
+remaining in the reduced nomogram but adjusted values for the hiden
+predictors so that 0 points will be achieved from these hiden predictor
+variables in the full nomogram.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list of class <code>"nomogram"</code> that contains information used in
+plotting the axes. Please see <code>nomogram</code> for details.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Changhong Yu, Michael Kattan, Ph.D <br> Department of Quantitative
+Health Sciences<br> Cleveland Clinic<br></p>
+<p>Frank Harrell<br>
+Department of Biostatistics<br>
+Vanderbilt University<br><a href="mailto:f.harrell@vanderbilt.edu">f.harrell@vanderbilt.edu</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Banks J: Nomograms. Encylopedia of Statistical Sciences, Vol 6.
+Editors: S Kotz and NL Johnson.  New York: Wiley; 1985.
+</p>
+<p>Lubsen J, Pool J, van der Does, E: A practical device for the application
+of a diagnostic or prognostic function.  Meth. Inform. Med. 17:127–129;
+1978.
+</p>
+<p>Wikipedia: Nomogram, <a href="https://en.wikipedia.org/wiki/Nomogram">https://en.wikipedia.org/wiki/Nomogram</a>.
+</p>
+<p>Michael W. Kattan, Glenn Heller and Murray F. Brennan (2003). A
+competing-risks nomogram <br> for sarcoma-specific death following local
+recurrence. Statistics in Medicine. <code>Stat Med</code>. 2003;22:3515-3525.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>nomogram</code> <code>nomogram.mk6</code> <code>crr.fit</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(prostate.dat)
+dd &lt;- datadist(prostate.dat)
+options(datadist = "dd")
+prostate.f &lt;- cph(Surv(TIME_EVENT,EVENT_DOD == 1) ~ TX  + rcs(PSA,3) +
+           BX_GLSN_CAT +  CLIN_STG + rcs(AGE,3) +
+           RACE_AA, data = prostate.dat,
+           x = TRUE, y= TRUE, surv=TRUE,time.inc = 144)
+prostate.crr &lt;- crr.fit(prostate.f,cencode = 0,failcode = 1)
+## make a CRR nomogram
+nomogram.crr(prostate.crr,failtime = 120,lp=FALSE,
+funlabel = "Predicted 10-year cumulative incidence")
+
+</code></pre>
+
+
+</div>

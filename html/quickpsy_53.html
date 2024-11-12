@@ -1,0 +1,56 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>quickreadfiles</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Reads several files</h2>
+
+<h3>Description</h3>
+
+<p><code>quickreadfiles</code> builts a data frame from several txt files. It
+assumes that in each file, the first row has the names of the variables.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">quickreadfiles(path = getwd(), extension = "txt", ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>path</code></td>
+<td>
+<p>Path of the file (default is the working directory).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>extension</code></td>
+<td>
+<p>Specify whether the file extension is 'txt' or 'csv'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>arguments of the form name_var = c('value1', 'value2',..).
+A new column with variable name name_var is addes to the data frame.</p>
+</td>
+</tr>
+</table>
+<h3>Examples</h3>
+
+<pre><code class="language-R"># download the 3 files in
+# https://github.com/danilinares/quickpsy/tree/master/inst/extdata/example1
+# and add them to your working directory
+# dat &lt;- quickreadfiles(subject = c('aa', 'bb', 'cc'), session = c('1', '2'))
+# fit &lt;- quickpsy(dat, phase, resp, grouping=.(subject), lapses = T, guess = T)
+# plotcurves(fit)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,169 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>QGmvpred</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Predict the evolutionary response to selection on the observed scale</h2>
+
+<h3>Description</h3>
+
+<p>This function uses an assumed or measured fitness function to compute evolutionary response to selection on the observed scale. To do so a latent fitness function must be provided to the function. This fitness function is used to compute the evolutionary response on the latent scale.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">    QGmvpred(mu = NULL, vcv.G, vcv.P, fit.func, d.fit.func, 
+             predict = NULL, rel.acc = 0.001, width = 10,
+             verbose = TRUE, mask = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>mu</code></td>
+<td>
+<p>Vector of latent intercepts estimated from a GLMM (ignored if predict is not <code>NULL</code>). (numeric)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vcv.G</code></td>
+<td>
+<p>Genetic additive variance-covariance matrix (a.k.a. G-matrix). (numeric)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vcv.P</code></td>
+<td>
+<p>Total phenotypic variance-covariance matrix. Usually, the sum of all the estimated variance-covariance matrices. (numeric)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fit.func</code></td>
+<td>
+<p>Function giving the expected fitness on the observed scale for a given latent trait (see Example). (function)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>d.fit.func</code></td>
+<td>
+<p>Derivative of the expected fitness to the latent trait. This function should return a vector containing the partial derivative to each trait (see Example). (function)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rel.acc</code></td>
+<td>
+<p>Relative accuracy of the integral approximation. (numeric)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>width</code></td>
+<td>
+<p>Parameter for the integral computation. The default value is 10, which should be sensible for most models. (numeric)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>predict</code></td>
+<td>
+<p>Optional matrix of predicted values on the latent scale (each trait in each column). The latent predicted values must be computed while only accounting for the fixed effects (marginal to the random effects). (numeric)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p>Should the function be verbose? (boolean)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mask</code></td>
+<td>
+<p>Masking filter for removing predictions that don't exist in the population (e.g. female predictions for males for a sex - based bivariate model). Should the same dimensions as <code>predict</code> and values should be <code>FALSE</code> when the predictions should be filtered out.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The function uses the latent fitness function (<code>fitness.func</code>) and latent quantitative genetics parameters to compute the expected selection differential and response on the latent scale.
+</p>
+<p>There is no argument to describe the model used as it is already and implicitely contained in the calculation of <code>fit.func</code> and <code>d.fit.func</code> (see Example below).
+</p>
+<p>If fixed effects were included during the estimation of the quantitative genetics parameters, they can be included as marginal predicted values, i.e. predicted values excluding the random effects, which can be calculated as the matrix product <strong>Xb</strong> where <strong>X</strong> is the design matrix and <strong>b</strong> is the vector of fixed effects estimates. To do so, provide the vector of marginal predicted values using the argument <code>predict</code>. Note this will considerably slow down the algorithm.
+</p>
+<p>The predictions can be transposed on the observed scale by using the <code>QGmvmean</code> function (see Example below).
+</p>
+
+
+<h3>Value</h3>
+
+<p>The function yields a data.frame containing:
+</p>
+
+<ul>
+<li>
+<p><code>mean.lat.fitness</code>Average latent fitness. (numeric)
+</p>
+</li>
+<li>
+<p><code>lat.grad</code>Latent selection gradient. (numeric)
+</p>
+</li>
+<li>
+<p><code>lat.sel</code>Latent selection differential. (numeric)
+</p>
+</li>
+<li>
+<p><code>lat.resp</code>Latent evolutionary response to selection. (numeric)
+</p>
+</li>
+</ul>
+<h3>Author(s)</h3>
+
+<p>Pierre de Villemereuil &amp; Michael B. Morrissey
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>QGparams</code>, <code>QGlink.funcs</code>, <code>QGmean</code>, <code>QGvar.dist</code>, <code>QGvar.exp</code>, <code>QGpsi</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Bivariate example with a binary trait and a Gaussian one
+
+# Assume a bivariate GLMM with Binomial(probit)/Gaussian distributions with:
+mu &lt;- c(0, 10)
+G &lt;- matrix(c(0.5, 0, 0, 1), nrow = 2)
+P &lt;- matrix(c(1, 0, 0, 2), nrow = 2) 
+
+# Link functions
+inv.links = function(vec){c(pnorm(vec[1]), vec[2])}
+
+# Creating the expected fitness function
+# i.e. expected fitness given a latent trait vector l
+# Say if the binary trait is 1, then the fitness is 0.5 * "the Gaussian trait"
+# But if the binary trait is 0, then the fitness is 0
+lat.fit &lt;- function(mat) {pnorm(mat[1, ]) * 0.5 * mat[2, ]}
+# Derivative of the above function
+# This function yields a vector which elements are the derivative according to each trait
+d.lat.fit &lt;- function(mat) {matrix(c(dnorm(mat[1, ]) * 0.5 * mat[2, ], pnorm(mat[1, ]) * 0.5),
+                            nrow = 2, 
+                            byrow = TRUE)}
+
+# Predicting the latent evolutionary response
+pred&lt;- QGmvpred(mu = mu, vcv.P = P, vcv.G = G, fit.func = lat.fit, d.fit.func = d.lat.fit)
+
+
+# Predicting the observed evolutionary response
+# Current observed phenotypic mean
+QGmvmean(mu = mu, vcov = P, link.inv = inv.links)
+# Predicted observed phenotypic mean after selection
+QGmvmean(mu = mu + pred$lat.resp, vcov = P, link.inv = inv.links)
+</code></pre>
+
+
+</div>

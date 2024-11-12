@@ -1,0 +1,176 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>WenS</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>The second step of Wen method</h2>
+
+<h3>Description</h3>
+
+<p>An efficient multi-locus mixed model framework for the detection of small and linked QTLs in F2</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">WenS(flag,CriLOD,NUM,pheRaw,Likelihood,setseed,flagrqtl,yygg,mx,phe,
+chr_name,v.map,gen.raw,a.gen.orig,d.gen.orig,n,names.insert2,X.ad.tran.data,X.ad.t4,dir)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>flag</code></td>
+<td>
+<p>random or fix model.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>CriLOD</code></td>
+<td>
+<p>LOD score.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>NUM</code></td>
+<td>
+<p>the number of trait.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pheRaw</code></td>
+<td>
+<p>raw phenotype matrix .</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Likelihood</code></td>
+<td>
+<p>likelihood function.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>setseed</code></td>
+<td>
+<p>random seed set in which,
+the cross validation is needed.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>flagrqtl</code></td>
+<td>
+<p>do CIM or not.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>yygg</code></td>
+<td>
+<p>covariate matrix.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mx</code></td>
+<td>
+<p>raw genotype matrix.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>phe</code></td>
+<td>
+<p>phenotype matrix.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>chr_name</code></td>
+<td>
+<p>chromosome name.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>v.map</code></td>
+<td>
+<p>linkage map matrix.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gen.raw</code></td>
+<td>
+<p>raw genotype matrix.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>a.gen.orig</code></td>
+<td>
+<p>additive genotype matrix.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>d.gen.orig</code></td>
+<td>
+<p>dominant genotype matrix.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p>number of individual.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>names.insert2</code></td>
+<td>
+<p>linkage map after insert.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>X.ad.tran.data</code></td>
+<td>
+<p>genotype matrix after insert.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>X.ad.t4</code></td>
+<td>
+<p>genotype matrix.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dir</code></td>
+<td>
+<p>file storage path.</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Zhang Ya-Wen, Wen Yang-Jun, Wang Shi-Bo, Zhang Yuan-Ming<br>
+Maintainer: Yuanming Zhang&lt;soyzhang@mail.hzau.edu.cn&gt;
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+data(genf2)
+data(phef2)
+data(mapf2)
+WEN1re&lt;-WenF(pheRaw=phef2,genRaw=genf2,mapRaw1=mapf2,
+yygg1=NULL,cov_en=NULL,WalkSpeed=1,CriLOD=2.5,dir=tempdir())
+###
+ws&lt;-WenS(flag=1,CriLOD=2.5,NUM=1,pheRaw=phef2,
+Likelihood="REML",setseed=11001,flagrqtl=FALSE,
+yygg=WEN1re$yygg,mx=WEN1re$mx,phe=WEN1re$phe,
+chr_name=WEN1re$chr_name,v.map=WEN1re$v.map,
+gen.raw=WEN1re$gen.raw,a.gen.orig=WEN1re$a.gen.orig,
+d.gen.orig=WEN1re$d.gen.orig,n=WEN1re$n,
+names.insert2=WEN1re$names.insert2,
+X.ad.tran.data=WEN1re$X.ad.tran.data,
+X.ad.t4=WEN1re$X.ad.t4,dir=tempdir())
+
+## End(Not run)
+</code></pre>
+
+
+</div>

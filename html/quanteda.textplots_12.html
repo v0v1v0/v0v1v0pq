@@ -1,0 +1,106 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>textplot_xray</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Plot the dispersion of key word(s)</h2>
+
+<h3>Description</h3>
+
+<p>Plots a dispersion or "x-ray" plot of selected word pattern(s) across one or
+more texts. The format of the plot depends on the number of
+kwic class objects passed: if there is only one document,
+keywords are plotted one below the other. If there are multiple documents the
+documents are plotted one below the other, with keywords shown side-by-side.
+Given that this returns a <span class="pkg">ggplot2</span> object, you can modify the plot by
+adding <span class="pkg">ggplot2</span> layers (see example).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">textplot_xray(..., scale = c("absolute", "relative"), sort = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>any number of kwic class objects</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>scale</code></td>
+<td>
+<p>whether to scale the token index axis by absolute position of
+the token in the document or by relative position. Defaults are absolute
+for single document and relative for multiple documents.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sort</code></td>
+<td>
+<p>whether to sort the rows of a multiple document plot by document
+name</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>a <span class="pkg">ggplot2</span> object
+</p>
+
+
+<h3>Known Issues</h3>
+
+<p>These are known issues on which we are working to solve in future versions:
+</p>
+
+<ul>
+<li> <p><code>textplot_xray()</code> will not display the patterns correctly when
+these are multi-token sequences.
+</p>
+</li>
+<li>
+<p> For dictionaries with keys that have overlapping value matches to tokens in
+the text, only the first match will be used in the plot.  The way around this
+is to produce one kwic per dictionary key, and send them as a list to
+<code>textplot_xray</code>.
+</p>
+</li>
+</ul>
+<h3>Examples</h3>
+
+<pre><code class="language-R">library("quanteda")
+toks &lt;- data_corpus_inaugural |&gt;
+  corpus_subset(Year &gt; 1970) |&gt;
+  tokens()
+# compare multiple documents
+textplot_xray(kwic(toks, pattern = "american"))
+textplot_xray(kwic(toks, pattern = "american"), scale = "absolute")
+
+# compare multiple terms across multiple documents
+textplot_xray(kwic(toks, pattern = "america*"),
+              kwic(toks, pattern = "people"))
+
+## Not run: 
+# how to modify the ggplot with different options
+library("ggplot2")
+tplot &lt;- textplot_xray(kwic(toks, pattern = "american"),
+                       kwic(toks, pattern = "people"))
+tplot + aes(color = keyword) + scale_color_manual(values = c('red', 'blue'))
+
+# adjust the names of the document names
+docnames(toks) &lt;- apply(docvars(toks, c("Year", "President")), 1, paste, collapse = ", ")
+textplot_xray(kwic(toks, pattern = "america*"),
+              kwic(toks, pattern = "people"))
+
+## End(Not run)
+</code></pre>
+
+
+</div>

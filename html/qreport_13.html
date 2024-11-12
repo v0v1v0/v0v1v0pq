@@ -1,0 +1,64 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>htmlView</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>htmlView</h2>
+
+<h3>Description</h3>
+
+<p>Convert Objects to HTML and View
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">htmlView(...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>any number of objects for which an <code>html</code> method exists</p>
+</td>
+</tr></table>
+<h3>Details</h3>
+
+<p>Converts a series of objects created to html.
+Displays these in the RStudio View pane.
+If RStudio is not running displays in an external browser.
+Assumes there is an <code>html</code> method for the objects (e.g., objects
+are result of <code>Hmisc::describe</code> or <code>Hmisc::contents</code>.
+User can page through the different outputs with the arrow keys
+in the RStudio View pane
+</p>
+
+
+<h3>Value</h3>
+
+<p>nothing is returned; used to launch a browser on html text
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Frank Harrell
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+ htmlView(contents(d1), contents(d2))
+ htmlView(describe(d1), describe(d2, descript='Second Dataset'))
+ htmlView(contents(d), describe(d))
+
+## End(Not run)
+</code></pre>
+
+
+</div>

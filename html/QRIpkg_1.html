@@ -1,0 +1,132 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>QRI_func</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Quantile Regression Index Score</h2>
+
+<h3>Description</h3>
+
+<p>The QRI_func() performs quantile regression analysis using age and sex as predictors to calculate
+the Quantile Regression Index (QRI) score for each individual’s regional brain imaging metrics
+and then averages across the regional scores to generate an average tissue specific score for each subject.
+The QRI indicates individual deviations from the expected aging trajectory.
+Positive QRI indicates accelerated vs. expected aging trajectory while negative QRI indicates delayed aging.
+The expected aging trajectory is modeled based on sample of controls.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">QRI_func(
+  formula,
+  ID,
+  DXcontrol,
+  predictors,
+  resp.range,
+  rev.sign.col = NULL,
+  data
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>formula</code></td>
+<td>
+<p>an string of "formula" for Quantile Regression model for QRI.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ID</code></td>
+<td>
+<p>a column name of subject IDs in data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>DXcontrol</code></td>
+<td>
+<p>The expected aging trajectory should only be calculated from the controls(i.e. DXcontrol='control==0').
+If DXcontrol=NULL, the expected aging trajectory will be calculated from the full data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>predictors</code></td>
+<td>
+<p>a character vector specifying column names of predictors (i.e. 'Age', 'Sex').</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>resp.range</code></td>
+<td>
+<p>a numeric vector specifying column range of responses.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rev.sign.col</code></td>
+<td>
+<p>an optional numeric vector specifying columns. QRI signs of corresponding columns will be reversed(i.e. rev.sign.col=5).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>a data frame contains a column of subject IDs, a column of controls, columns of predictors and columns of responses.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The QRI score can be used as an alternative to BrainAge to assess accelerated brain aging by determining an individuals' placement
+on the expected aging trajectory.A study by Ryan et al (2020) demonstrated that QRI and BrainAge share up to 80% of the variance in
+both patients and controls. The typical function usage involves calling the QRI function with the following parameters (age, sex) on
+a list of tissue-specific neuroimaging traits such as regional white matter fractional anisotropy, regional gray matter cortical
+thickness, or gray matter subcortical volumes. Quantile regression is performed using the controls (DXcontrol='control==0') to generate
+the normative curves for the 5th, 50th, and 95th percentiles. Then each patient (DXcontrol='control==1') and control’s individual
+(DXcontrol='control==0') data is compared to the expected aging trajectory. Each regional measure is assigned a score based upon its
+location: values &gt; 95% of the expected age data are assigned a value of “-1”; values &lt; 5% receive a value of “1”; all others are
+assigned “0”. The function then averages across the regional data to generate a tissue-specific QRI score (i.e. white matter QRI).
+</p>
+
+
+<h3>Value</h3>
+
+<p>This function returns the average tissue-specific QRI scores for all subjects.
+</p>
+
+
+<h3>Note</h3>
+
+<p>The QRI_func() function is developed at the Maryland Psychiatric Research Center, Department of Psychiatry,
+University of Maryland School of Medicine. This project is supported by NIH R01 EB015611 grant. Please cite our funding if
+you use this software.
+</p>
+<p>Meghann C. Ryan, L. Elliot Hong, Kathryn S. Hatch, Shuo Chen, Krystl Haerian, Jingtao Wang, Eric L. Goldwaser, Xiaoming Du,
+Bhim M. Adhikari, Heather Bruce, Stephanie Hare, Mark D. Kvarta, Neda Jahanshad, Thomas E. Nichols, Paul M. Thompson,
+Peter Kochunov. The Additive Impact of Metabolic Disorders and Psychiatric Illnesses on Accelerated Brain Aging. In Review
+</p>
+
+
+<h3>References</h3>
+
+<p>Roger Koenker (2020). quantreg: Quantile
+Regression. R package version 5.61.
+https://CRAN.R-project.org/package=quantreg
+</p>
+<p>R Core Team (2020). R: A language and environment for statistical computing. R
+Foundation for Statistical Computing, Vienna, Austria. URL
+https://www.R-project.org/.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">QRI &lt;- QRI_func(formula= 'y ~ poly(Age, 2, raw = TRUE)', ID='ID', DXcontrol='Control==0',
+predictors=c('Age'), resp.range=c(5:6), rev.sign.col = 5, data=QRIpkg::subcortical)
+</code></pre>
+
+
+</div>

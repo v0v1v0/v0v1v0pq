@@ -1,0 +1,64 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>B_erlang</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Returns the probability that all servers are busy</h2>
+
+<h3>Description</h3>
+
+<p>Returns the probability that all servers are busy
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">  B_erlang(c=1, u=0)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>c</code></td>
+<td>
+<p>numbers of servers</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>u</code></td>
+<td>
+<p>lambda/mu, that is, ratio of rate of arrivals and rate of service</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Returns the probability that all servers are busy</p>
+
+
+<h3>References</h3>
+
+<p>[Sixto2004] Sixto Rios Insua, Alfonso Mateos Caballero, M Concepcion Bielza Lozoya, Antonio Jimenez Martin (2004).<br><em>Investigacion Operativa. Modelos deterministicos y estocasticos</em>.<br>
+Editorial Centro de Estudios Ramon Areces.<br><br>
+[Jagerman1974] Jagerman, D. L. (1974).<br><em>Some properties of  the Erlang loss function</em>.<br>
+Bell System Tech. J. (53), 525-551
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>C_erlang</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## two servers
+B_erlang(2, 0.5/0.7)
+</code></pre>
+
+
+</div>

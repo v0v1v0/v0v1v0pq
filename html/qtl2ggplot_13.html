@@ -1,0 +1,116 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>ggplot_onegeno</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Plot one individual's genome-wide genotypes</h2>
+
+<h3>Description</h3>
+
+<p>Plot one individual's genome-wide genotypes
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">ggplot_onegeno(
+  geno,
+  map,
+  ind = 1,
+  chr = NULL,
+  col = NULL,
+  shift = FALSE,
+  chrwidth = 0.5,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>geno</code></td>
+<td>
+<p>Imputed phase-known genotypes, as a list of matrices
+(as produced by <code>maxmarg</code>) or a list of
+three-dimensional arrays (as produced by <code>guess_phase</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>map</code></td>
+<td>
+<p>Marker map (a list of vectors of marker positions).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ind</code></td>
+<td>
+<p>Individual to plot, either a numeric index or an ID (can be a vector).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>chr</code></td>
+<td>
+<p>Selected chromosomes to plot; a vector of character strings.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>col</code></td>
+<td>
+<p>Vector of colors for the different genotypes.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>shift</code></td>
+<td>
+<p>If TRUE, shift the chromosomes so they all start at 0.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>chrwidth</code></td>
+<td>
+<p>Total width of rectangles for each chromosome, as a
+fraction of the distance between them.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Additional graphics parameters</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>object of class <code>ggplot</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># load qtl2 package for data and genoprob calculation
+library(qtl2)
+
+# read data
+iron &lt;- read_cross2(system.file("extdata", "iron.zip", package="qtl2"))
+
+# insert pseudomarkers into map
+map &lt;- insert_pseudomarkers(iron$gmap, step=1)
+
+# calculate genotype probabilities
+probs &lt;- calc_genoprob(iron, map, error_prob=0.002)
+
+# inferred genotypes
+geno &lt;- maxmarg(probs)
+
+# plot the inferred genotypes for the first individual
+ggplot_onegeno(geno, map, shift = TRUE)
+
+# plot the inferred genotypes for the first four individuals
+ggplot_onegeno(geno, map, ind=1:4)
+</code></pre>
+
+
+</div>

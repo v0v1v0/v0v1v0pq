@@ -1,0 +1,105 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>pkg_check</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Package Checks</h2>
+
+<h3>Description</h3>
+
+<p>Check if a package is available on the local machine and optionally verify a
+version.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">pkg_check(pkgs, versions, stop = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>pkgs</code></td>
+<td>
+<p>a character vector of package names to check for</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>versions</code></td>
+<td>
+<p>an optional character vector, of the same length of
+<code>pkgs</code> for the minimum version of the packages.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>stop</code></td>
+<td>
+<p>if <code>TRUE</code> then an error is thrown if any of the checks fail.
+If <code>FALSE</code> (default) a logical is returned.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>When writing a script that will be shared it is very likely that the multiple
+authors/users will need to have a certain set of packages available to load.
+The <code>pkg_check</code> function will verify that the packages are available to
+load, this includes an optional version test, and attach the package to the
+search list if requested.
+</p>
+<p>Testing for package versions will is done as <code>packageVersion(x) &gt;=
+version</code>.  If you need a specific version of a package you should explicitly
+use <code>packageVersion(x) == version</code> in your script.  In general,
+<code>pkg_check</code> is a handy tool in interactive sessions.  For a package you
+should have package version documentation in the DESCRIPTION file.
+For a script a base R solution of
+<code>stopifnot(packageVersion("pkg") &gt;= "x.y.z")</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># verify that the packages qwraps2, and ggplot2 are available (this should be
+# TRUE if you have qwraps2 installed since ggplot2 is imported by qwraps2)
+pkg_check(c("qwraps2", "ggplot2"))
+
+# show that the return is FALSE if a package is not available
+pkg_check(c("qwraps2", "ggplot2", "NOT a PCKG"))
+
+# verify the version for just ggplot2
+pkg_check(c("qwraps2", "ggplot2"), c(NA, "2.2.0"))
+
+# verify the version for qwraps2 (this is expected to fail as we are looking for
+# version 42.3.14 which is far too advanced for the actual package development.
+pkg_check(c("qwraps2", "ggplot2"), c("42.3.14", "2.2.0"))
+
+## Not run: 
+  # You can have the function throw an error is any of the checks fail
+  pkg_check(c("qwraps2", "ggplot2"),
+            c("42.3.14", "2.2.0"),
+            stop = TRUE)
+
+## End(Not run)
+
+## Not run: 
+  # If you have missing packages that can be installed from CRAN you may find
+  # the following helpful.  If this code, with the needed edits, were placed at
+  # the top of a script, then if a package is missing then the current version
+  # from a target repository will be installed.  Use this set up with
+  # discretion, others may not want the automatic install of packages.
+  pkgs &lt;- pkg_check("&lt;packages to install&gt;")
+  if (!pkgs) {
+    install.packages(attr(pkgs, "checks")[!attr(pkgs, "checks")$available][["package"]])
+  }
+
+## End(Not run)
+
+
+</code></pre>
+
+
+</div>

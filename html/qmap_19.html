@@ -1,0 +1,289 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>fitQmapQUANT</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Non-parametric quantile mapping using empirical quantiles.  
+</h2>
+
+<h3>Description</h3>
+
+<p><code>fitQmapQUANT</code> estimates values of the empirical cumulative
+distribution function of observed and modelled time series for
+regularly spaced quantiles. <code>doQmapQUANT</code> uses these estimates to
+perform quantile mapping. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">fitQmapQUANT(obs, mod, ...)
+## Default S3 method:
+fitQmapQUANT(obs,mod,wet.day=TRUE,qstep=0.01,
+nboot = 1,...)
+## S3 method for class 'matrix'
+fitQmapQUANT(obs, mod, ...)
+## S3 method for class 'data.frame'
+fitQmapQUANT(obs, mod, ...)
+
+doQmapQUANT(x,fobj,...)
+## Default S3 method:
+doQmapQUANT(x,fobj, type=c("linear","tricub"),...)
+## S3 method for class 'matrix'
+doQmapQUANT(x,fobj,...)
+## S3 method for class 'data.frame'
+doQmapQUANT(x,fobj,...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>obs</code></td>
+<td>
+
+<p><code>numeric</code> vector, column <code>matrix</code> or <code>data.frame</code>
+with observed time series. 
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mod</code></td>
+<td>
+
+<p><code>numeric</code> vector, column <code>matrix</code> or <code>data.frame</code>
+with modelled time series, corresponding to <code>obs</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>wet.day</code></td>
+<td>
+
+<p><code>logical</code> indicating whether to perform wet day correction or
+not. OR a <code>numeric</code> threshold below which all values are set to
+zero. See details.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qstep</code></td>
+<td>
+
+<p>a numeric value between 0 and 1. The quantile mapping is fitted only
+for the quantiles defined by
+<code>quantile(0,1,probs=seq(0,1,by=qstep)</code>. 
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nboot</code></td>
+<td>
+
+<p>number of bootstrap samples used for estimation of the observed
+quantiles. If <code>nboot==1</code> the estimation is based on all (and
+not resampled) data. See details.   
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+
+<p><code>numeric</code> vector or a column <code>matrix</code> of modelled time
+series
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fobj</code></td>
+<td>
+
+<p>output from <code>fitQmapQUANT</code>
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>type</code></td>
+<td>
+
+<p>type of interpolation between the fitted transformed
+values. See details.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+
+<p>Further arguments passed to methods
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p><code>fitQmapQUANT</code> estimates the empirical cumulative distribution
+function of <code>mod</code> and <code>obs</code> for the quantiles defined by
+<code>seq(0,1,by=qstep)</code>. The quantiles of <code>mod</code> are estimated
+using the empirical quantiles. If <code>nboot&gt;1</code> the quantiles of
+<code>obs</code> are estimated as the mean of <code>nboot</code> bootstrap
+samples (if <code>nboot&gt;1</code>).  
+</p>
+<p><code>doQmapQUANT</code> transforms the variable <code>x</code> based on the
+transformation identified using <code>fitQmapQUANT</code>. 
+For all values that are not in
+<code>quantile(mod,probs=seq(0,1,by=qstep))</code> the  transformation is
+estimated using interpolation of the fitted  values. Available
+interpolation options are: 
+</p>
+<p><code>type="linear"</code>: linear interpolation using <code>approx</code>, 
+but using the extrapolation suggested by Boe et al. (2007) for values
+of <code>x</code> larger than <code>max(mod)</code> (constant correction). 
+</p>
+<p><code>type="tricube"</code>: monotonic  tricubic spline interpolation using
+<code>splinefun</code>. Spline  interpolation is performed using a
+_monotone_ Hermite spline (<code>method="monoH.FC"</code> in
+<code>splinefun</code>).
+</p>
+<p><code>wet.day</code> is intended for the use for precipitation data. Wet day
+correction  attempts to equalise the fraction of days with
+precipitation between the observed and the modelled data. If
+<code>wet.day=TRUE</code> the empirical probability of nonzero observations
+is found (<code>obs&gt;=0</code>) and the corresponding modelled value is
+selected as a threshold. All modelled  values below this threshold are
+set to zero. If <code>wet.day</code> is <code>numeric</code> the same procedure is
+performed after setting all <code>obs&lt;wet.day</code> to zero.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>fitQmapQUANT</code> returns an object of class <code>fitQmapQUANT</code>
+containing following elements:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>par</code></td>
+<td>
+<p>A list containing:</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>par$modq</code></td>
+<td>
+
+<p>a matrix. Each column <code>i</code> corresponds to the output
+of <code>quantile(mod[,i],probs=seq(0,1,by=qstep))</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>par$fitq</code></td>
+<td>
+
+<p>observed empirical quantiles corresponding to <code>par$modq</code>. 
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>wet.day</code></td>
+<td>
+
+<p><code>logical</code>, indicating whether to perform wet day correction or
+not. OR a <code>numeric</code> threshold below which all values are set to
+zero. 
+</p>
+</td>
+</tr>
+</table>
+<p><code>doQmapQUANT</code> returns a <code>numeric</code> vector or <code>matrix</code>
+depending on the format of <code>x</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Lukas Gudmundsson
+</p>
+
+
+<h3>References</h3>
+
+<p>Boe, J.; Terray, L.; Habets, F. &amp; Martin, E. Statistical and dynamical
+downscaling of the Seine basin climate for hydro-meteorological
+studies. International Journal of Climatology, 2007, 27,
+1643-1655, doi: 10.1002/joc.1602.
+</p>
+<p>For a general assessment of the methods see:
+</p>
+<p>Gudmundsson, L.; Bremnes, J. B.; Haugen, J. E. &amp; Engen-Skaugen,
+T. Technical Note: Downscaling RCM precipitation to the station scale
+using statistical transformations - a comparison of methods. Hydrology
+and Earth System Sciences, 2012, 16, 3383-3390,
+doi:10.5194/hess-16-3383-2012.   
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>fitQmap</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(obsprecip)
+data(modprecip)
+
+qm.fit &lt;- fitQmapQUANT(obsprecip[,2],modprecip[,2],
+                      qstep=0.1,nboot=1,wet.day=TRUE)
+qm.a &lt;- doQmapQUANT(modprecip[,2],qm.fit,type="linear")
+qm.s &lt;- doQmapQUANT(modprecip[,2],qm.fit,type="tricub")
+
+
+sqrtquant &lt;- function(x,qstep=0.01){
+  qq &lt;- quantile(x,prob=seq(0,1,by=qstep))
+  sqrt(qq)
+}
+
+plot(sqrtquant(modprecip[,2]),
+     sqrtquant(obsprecip[,2]))
+lines(sqrtquant(modprecip[,2]),
+      sqrtquant(qm.a),col="red")
+lines(sqrtquant(modprecip[,2]),
+      sqrtquant(qm.s),col="blue")
+points(sqrt(qm.fit$par$modq),sqrt(qm.fit$par$fitq),
+       pch=19,cex=0.5,col="green")
+legend("topleft",
+       legend=c("linear","tricub","support"),
+       lty=c(1,1,NA),pch=c(NA,NA,19),
+       col=c("red","blue","green"))
+         
+
+qm2.fit &lt;- fitQmapQUANT(obsprecip,modprecip,
+                      qstep=0.01,nboot=1,wet.day=TRUE)
+qm2 &lt;- doQmapQUANT(modprecip,qm2.fit,type="tricub")
+
+op &lt;- par(mfrow=c(1,3))
+for(i in 1:3){
+  plot(sqrtquant(modprecip[,i]),
+       sqrtquant(obsprecip[,i]),
+       main=names(qm2)[i])
+  lines(sqrtquant(modprecip[,i]),
+        sqrtquant(qm2[,i]),col="red")
+  points(sqrt(qm2.fit$par$modq[,i]),
+         sqrt(qm2.fit$par$fitq[,i]),
+       pch=19,cex=0.5,col="green")
+
+}
+par(op)
+
+
+</code></pre>
+
+
+</div>

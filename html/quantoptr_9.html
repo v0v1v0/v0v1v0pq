@@ -1,0 +1,74 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>mean_est</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>The Inverse Probability Weighted Estimator of the Marginal Mean Given a Specific Treatment Regime</h2>
+
+<h3>Description</h3>
+
+<p>Estimate the marginal mean of the response when the entire population
+follows a treatment regime. This function implements the inverse probability weighted
+estimator proposed by Baqun Zhang et. al..
+</p>
+<p>This function supports the <code>mestimate</code> function.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">mean_est(beta, x, a, y, prob)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>beta</code></td>
+<td>
+<p>a vector indexing the treatment regime.
+It indexes a linear treatment regime:  
+</p>
+<p style="text-align: center;"><code class="reqn"> d(x)= I\{\beta_0 + \beta_1 x_1 + ... + \beta_k x_k &gt; 0\}.
+</code>
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a matrix of observed covariates from the sample. 
+Notice that we assumed the class of treatment regimes is linear.
+This is important that columns in <code>x</code> matches with <code>beta</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>a</code></td>
+<td>
+<p>a vector of 0s and 1s, the observed treatments from a sample</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>a vector, the observed responses from a sample</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>prob</code></td>
+<td>
+<p>a vector, the propensity scores of getting treatment 1 in the samples</p>
+</td>
+</tr>
+</table>
+<h3>References</h3>
+
+<p>Zhang B, Tsiatis AA, Laber EB and Davidian M (2012).
+“A robust method for estimating optimal treatment regimes.”
+<em>Biometrics</em>, <b>68</b>(4), pp. 1010–1018.
+</p>
+
+
+</div>

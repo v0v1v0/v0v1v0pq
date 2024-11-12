@@ -1,0 +1,90 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>lm_parms</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Helper functions for handling linear fits.</h2>
+
+<h3>Description</h3>
+
+<p><code>lm_window</code> performs a linear regression with the Theil-Sen estimator on a subset of data.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">lm_parms(m)
+
+lm_window(x, y, i0, h = 5)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>m</code></td>
+<td>
+<p>linear model (<code>lm</code>) object</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>vector of independent variable (e.g. time).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>vector of dependent variable (concentration of organisms).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>i0</code></td>
+<td>
+<p>index of first value used for a window.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>h</code></td>
+<td>
+<p>with of the window (number of data).</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>linear model object of class <code>lm</code> (lm_window)
+resp. vector with parameters of the fit (lm_parms).
+</p>
+
+
+<h3>References</h3>
+
+<p>Hall, B. G., H. Acar and M. Barlow 2013. Growth Rates Made Easy.
+Mol. Biol. Evol. 31: 232-238 <a href="https://doi.org/10.1093/molbev/mst197">doi:10.1093/molbev/mst197</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># Create random growth dataset
+rnd.dataset &lt;- rdm.data(d = 35, mu = 0.8, A = 5, label = "Test1")
+
+# Extract time and growth data for single sample
+time &lt;- rnd.dataset$time[1,]
+data &lt;- as.numeric(rnd.dataset$data[1,-(1:3)]) # Remove identifier columns
+data.log &lt;- log(data/data[1])
+
+# Perform linear fit on 8th window of size 8
+linreg &lt;- lm_window(time, data.log, 8, h=8)
+
+summary(linreg)
+
+lm_parms(linreg)
+</code></pre>
+
+
+</div>

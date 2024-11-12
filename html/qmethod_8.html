@@ -1,0 +1,55 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>import.pqmethod</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Q methodology: import PQMethod *.DAT files</h2>
+
+<h3>Description</h3>
+
+<p>Imports data from *.DAT files created in PQMethod software.</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">import.pqmethod(file, ...)</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>file</code></td>
+<td>
+<p>a file with extension *.DAT (see full description of the file below in References).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>further arguments to be passed to <code>read.table</code> and <code>read.fwf</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Extracts the raw data of a Q methodology study from the native format used in PQMethod. Returns a data frame with statements as rows and Q-sorts as columns.
+</p>
+<p>If the following error occurs: <code>"invalid multibyte string"</code>, a possible solution is to either set the right file-encoding in the argument <code>fileEncoding</code> or inspect the file for uncommon characters (see details in <code>read.table</code>).
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Aiora Zabala</p>
+
+
+<h3>References</h3>
+
+<p>Schmolck, Peter, 2014. <em>PQMethod Software</em>, Available at: <a href="http://schmolck.org/qmethod/">http://schmolck.org/qmethod/</a>
+</p>
+<p>File descriptions in <em>PQMethod Manual</em>: <a href="http://schmolck.org/qmethod/pqmanual.htm#appdxa">http://schmolck.org/qmethod/pqmanual.htm#appdxa</a></p>
+
+
+</div>

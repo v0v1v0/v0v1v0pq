@@ -1,0 +1,168 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>new_qfrm</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Construct qfrm object</h2>
+
+<h3>Description</h3>
+
+<p>These are internal “constructor” functions used to make <code>qfrm</code>
+and <code>qfpm</code> objects, which are used as a return value from the
+<code>qfrm</code>, <code>qfmrm</code>, and <code>qfpm</code> functions.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">new_qfrm(
+  statistic,
+  error_bound = NULL,
+  terms = statistic,
+  seq_error = NULL,
+  exact = FALSE,
+  twosided = FALSE,
+  alphaout = FALSE,
+  singular_arg = FALSE,
+  diminished = FALSE,
+  ...,
+  class = character()
+)
+
+new_qfpm(statistic, exact = TRUE, ..., class = character())
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>statistic</code></td>
+<td>
+<p>Terminal value (partial sum) for the moment.  When missing,
+obtained as <code>sum(terms)</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>error_bound</code></td>
+<td>
+<p>Terminal error bound.  When missing,
+obtained as <code>seq_error[length(seq_error)]</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>terms</code></td>
+<td>
+<p>Terms in series expression for the moment along varying polynomial degrees</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>seq_error</code></td>
+<td>
+<p>Vector of error bounds corresponding to <code>cumsum(terms)</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>exact, twosided, alphaout, singular_arg</code></td>
+<td>
+<p>Logicals used to append attributes to the resultant error bound
+(see “Value”)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>diminished</code></td>
+<td>
+<p>Logical used to append attribute to the resultant statistic and terms
+(see “Value”)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Additional arguments for accommodating subclasses</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>class</code></td>
+<td>
+<p>Character vector to (pre-)append classes to the return value</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p><code>new_qfrm()</code> and <code>new_qfpm()</code> return a list of class <code>qfrm</code>
+and <code>c(qfpm, qfrm)</code>, respectively.  These classes are defined for
+the <code>print</code> and <code>plot</code> methods.
+</p>
+<p>The return object is a list of 4 elements which are intended to be:
+</p>
+
+<dl>
+<dt><code>$statistic</code></dt>
+<dd>
+<p>evaluation result (<code>sum(terms)</code>)</p>
+</dd>
+<dt><code>$terms</code></dt>
+<dd>
+<p>vector of <code class="reqn">0</code>th to <code class="reqn">m</code>th order terms</p>
+</dd>
+<dt><code>$error_bound</code></dt>
+<dd>
+<p>error bound of <code>statistic</code></p>
+</dd>
+<dt><code>$seq_error</code></dt>
+<dd>
+<p>vector of error bounds corresponding to
+partial sums (<code>cumsum(terms)</code>)</p>
+</dd>
+</dl>
+<p>When the result is exact, <code>$terms</code> can be of length 1 and equal to
+<code>$statistic</code>.  This is always the case for the <code>qfpm</code> class.
+</p>
+<p>When the relevant flags are provided in the constructor, <code>$error_bound</code>
+and <code>$seq_error</code> have the following attributes which control behaviors
+of the <code>print</code> and <code>plot</code> methods:
+</p>
+
+<dl>
+<dt><code>"exact"</code></dt>
+<dd>
+<p>indicates whether the moment is exact</p>
+</dd>
+<dt><code>"twosided"</code></dt>
+<dd>
+<p>indicates whether the error bounds are
+two-sided</p>
+</dd>
+<dt><code>"alphaout"</code></dt>
+<dd>
+<p>indicates whether any of the scaling factors
+(<code>alphaA</code>, <code>alphaB</code>, <code>alphaD</code>) is outside
+<code class="reqn">(0, 1]</code>, when error bound does not strictly hold</p>
+</dd>
+<dt><code>"singular"</code></dt>
+<dd>
+<p>indicates whether the relevant argument matrix
+is (numerically) singular, in which case the error bound is
+invalid</p>
+</dd>
+</dl>
+<p>Similarly, when <code>diminished = TRUE</code>, <code>$statistic</code> and <code>$terms</code>
+have the attribute <code>"diminished"</code> being <code>TRUE</code>, which indicates
+that numerical underflow/diminishing happened during scaling
+(see “Scaling” in <code>d1_i</code>).
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>qfrm</code>, <code>qfmrm</code>, <code>qfpm</code>: functions
+that return objects of these classes
+</p>
+<p><code>methods.qfrm</code>: the <code>print</code> and <code>plot</code> methods
+</p>
+
+
+</div>

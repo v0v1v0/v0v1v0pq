@@ -1,0 +1,80 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>write_qst</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Write a data.frame to an SQLite database</h2>
+
+<h3>Description</h3>
+
+<p>This function writes a data.frame to an SQLite database.
+The database has one table, named data, containing the data.
+Additional tables, prefixed with meta_, may be added in the
+future to support additional data types not supported
+in a native way by SQLite.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">write_qst(x, path, ..., unique_indexes = NULL, indexes = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>A data.frame to be written to file. Supported
+column types are integer, numeric and character.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>path</code></td>
+<td>
+<p>The path to write to.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Other parameters passed to methods.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>unique_indexes</code></td>
+<td>
+<p>A list of character vectors.
+Each element of the list will create a new unique
+index over the specified column(s). Duplicate rows
+will result in failure.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>indexes</code></td>
+<td>
+<p>A list of character vectors. Each
+element of the list will create a new index.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>The original data frame passed in x
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># Write the cars data set to a file
+cars_db &lt;- tempfile()
+write_qst(cars, cars_db, indexes=list("speed"))
+unlink(cars_db)
+
+</code></pre>
+
+
+</div>

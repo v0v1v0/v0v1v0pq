@@ -1,0 +1,78 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>getMeanPG-QuantileSD</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Get <code>meanPG</code> from a quantile spectral density kernel</h2>
+
+<h3>Description</h3>
+
+<p>The selection mechanism for frequencies and levels operates in the same way
+as described in <code>getValues-QuantileSD</code>. The format of the
+output is also described there.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S4 method for signature 'QuantileSD'
+getMeanPG(
+  object,
+  frequencies = 2 * pi * (0:(getN(object) - 1))/getN(object),
+  levels.1 = getLevels(object, 1),
+  levels.2 = getLevels(object, 2),
+  d1 = 1:(dim(object@values)[2]),
+  d2 = 1:(dim(object@values)[4])
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p><code>QuantileSD</code> of which to get the <code>meanPG</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>frequencies</code></td>
+<td>
+<p>a vector of frequencies for which to get the <code>meanPG</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>levels.1</code></td>
+<td>
+<p>the first vector of levels for which to get the <code>meanPG</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>levels.2</code></td>
+<td>
+<p>the second vector of levels for which to get the <code>meanPG</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>d1</code></td>
+<td>
+<p>optional parameter that determine for which j1 to return the
+<code>meanPG</code>; may be a vector of elements 1, ..., D</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>d2</code></td>
+<td>
+<p>same as d1, but for j2</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Returns the array <code>meanPG</code> that's a slot of <code>object</code>.
+</p>
+
+
+</div>

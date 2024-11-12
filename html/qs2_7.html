@@ -1,0 +1,63 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qs_to_rds</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>qs2 to RDS format</h2>
+
+<h3>Description</h3>
+
+<p>Converts a file saved in the <code>qs2</code> format to the <code>RDS</code> format.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qs_to_rds(input_file, output_file, compress_level = 6)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>input_file</code></td>
+<td>
+<p>The <code>qs2</code> file to convert.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>output_file</code></td>
+<td>
+<p>The <code>RDS</code> file to write.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>compress_level</code></td>
+<td>
+<p>The gzip compression level to use when writing the RDS file (a value between 0 and 9).</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>No value is returned. The converted file is written to disk.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">qs_tmp &lt;- tempfile(fileext = ".qs2")
+rds_tmp &lt;- tempfile(fileext = ".RDS")
+
+x &lt;- runif(1e6)
+qs_save(x, qs_tmp)
+qs_to_rds(input_file = qs_tmp, output_file = rds_tmp)
+x2 &lt;- readRDS(rds_tmp)
+stopifnot(identical(x, x2))
+
+</code></pre>
+
+
+</div>

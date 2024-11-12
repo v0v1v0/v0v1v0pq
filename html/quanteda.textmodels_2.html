@@ -1,0 +1,83 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>affinity</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Internal function to fit the likelihood scaling mixture model.</h2>
+
+<h3>Description</h3>
+
+<p>Ken recommends you use <code>textmodel_affinity()</code> instead.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">affinity(p, x, smooth = 0.5, verbose = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>p</code></td>
+<td>
+<p>word likelihoods within classes, estimated from training data</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>term-document matrix for document(s) to be scaled</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>smooth</code></td>
+<td>
+<p>a misnamed smoothing parameter, either a scalar or a vector
+equal in length to the number of documents</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>a list containing:
+</p>
+
+<ul>
+<li> <p><code>coefficients</code> point estimates of theta
+</p>
+</li>
+<li> <p><code>se</code> (likelihood) standard error of theta
+</p>
+</li>
+<li> <p><code>cov</code> covariance matrix
+</p>
+</li>
+<li> <p><code>smooth</code> values of the smoothing parameter
+</p>
+</li>
+<li> <p><code>support</code> logical indicating if the feature was included
+</p>
+</li>
+</ul>
+<h3>Author(s)</h3>
+
+<p>Patrick Perry
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">p &lt;- matrix(c(c(5/6, 0, 1/6), c(0, 4/5, 1/5)), nrow = 3,
+            dimnames = list(c("A", "B", "C"), NULL))
+theta &lt;- c(.2, .8)
+q &lt;- drop(p %*% theta)
+x &lt;- 2 * q
+(fit &lt;- affinity(p, x))
+</code></pre>
+
+
+</div>

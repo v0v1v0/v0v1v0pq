@@ -1,0 +1,104 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>ChooserLT</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Chooser option valuation via Lattice Tree (LT) Model</h2>
+
+<h3>Description</h3>
+
+<p>Calculates the price of a Chooser option using a recombining binomial tree model.
+Has pricing capabilities for both simple European Chooser options
+as well as American Chooser Options, where exercise can occur any time as a call or put options.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">ChooserLT(o = OptPx(Opt("Chooser", ttm = 1)), t1 = 0.5, t2 = 0.5,
+  IncBT = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>o</code></td>
+<td>
+<p>The <code>OptPx</code> option object to price.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>t1</code></td>
+<td>
+<p>The time to maturity of the call option, measured in years.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>t2</code></td>
+<td>
+<p>The time to maturity of the put option, measured in years.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>IncBT</code></td>
+<td>
+<p><code>TRUE/FALSE</code> Choice of including the lattice tree simulation in the output.
+Input <code>FALSE</code> yields faster computation and fewer calculated results to store in memory.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The American chooser option is interpreted as exercise of option being available
+at any point in time during the life of the option.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An original <code>OptPx</code> object with <code>PxLT</code> field as the price of the option and user-supplied <code>ttc</code>,
+<code>IncBT</code> parameters attached.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Richard Huang, Department of Statistics, Rice University, spring 2015
+</p>
+
+
+<h3>References</h3>
+
+<p>Hull, J.C., <em>Options, Futures and Other Derivatives</em>, 9ed, 2014. Prentice Hall.
+ISBN 978-0-13-345631-8, <a href="http://www-2.rotman.utoronto.ca/~hull/ofod/index.html">http://www-2.rotman.utoronto.ca/~hull/ofod/index.html</a>
+<br> Thomas S.Y. Ho et al., <em>The Oxford Guide to Financial Modeling : Applications for Capital Markets. . .</em>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">(o = ChooserLT())$PxLT    #Default Chooser option price. (See Ho pg 234 in references)
+
+o = Opt('Eu', S0=100, ttm=1, K=100)
+o = OptPx(o, r=0.10, q=0, vol=0.1, NSteps=5)
+(o = ChooserLT(o, t1 = .5, t2 =.5, IncBT=TRUE))$PxLT
+
+#American Chooser, higher price than European equivalent
+o = Opt('Am', S0=100, ttm=1, K=100)
+o = OptPx(o, r=0.10, q=0, vol=0.1, NSteps=5)
+ChooserLT(o,t1=.5, t2=.5,IncBT=FALSE)$PxLT
+
+o = Opt('Eu', S0=50, ttm=1, K=50)
+o = OptPx(o, r=0.05, q=0.02, vol=0.25, NSteps=5)
+ChooserLT(o, t1 = .75, t2 = .75, IncBT=FALSE)$PxLT
+
+o = Opt('Eu', S0=50, ttm=1, K=50)
+o = OptPx(o, r=0.05, q=0.5, vol=0.25, NSteps=5)
+ChooserLT(o, t1 = .75, t2 = .75, IncBT=FALSE)$PxLT
+</code></pre>
+
+
+</div>

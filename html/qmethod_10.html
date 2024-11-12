@@ -1,0 +1,153 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>import.q.feedback</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Q methodology: imports feedback on Q items</h2>
+
+<h3>Description</h3>
+
+<p>Turns raw item feedback (in *.CSV files) into a  verified array or matrix.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">import.q.feedback(q.feedback.dir,	q.sorts, q.set,	manual.lookup = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>q.feedback.dir</code></td>
+<td>
+
+<p>A relative path to a directory structure where:
+</p>
+
+<ul>
+<li>
+<p> (optional) folders are <code>conditions</code> (such as <kbd>before</kbd> and <kbd>after</kbd>), if there is more than one condition.
+Conditions are inferred from the specified <code>q.sorts</code>.
+If there are no conditions, there should be no folders.
+</p>
+</li>
+<li>
+<p> filenames of *.CSV are participant names (might be given pseudonyms).
+</p>
+</li>
+<li>
+<p> *.CSV files within folders contain raw feedback, beginning with an arbitrary header line (ignored), and the following columns, starting from the left:
+</p>
+
+<ol>
+<li>
+<p> An ID, either as an automatic hash or manually specified (see <code>qmethod-package</code>), as specified per the <code>manual.lookup</code> option of <code>make.cards</code>.
+Each ID only occurs once.
+</p>
+</li>
+<li>
+<p> The full feedback in plain text, enclosed in quotes.
+</p>
+</li>
+<li>
+<p> Optionally, a logical indicator whether current line should be ignored (in which case it should be set to <code>TRUE</code>).
+If there is no such column, all feedback will be imported.
+</p>
+</li>
+</ol>
+</li>
+</ul>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>q.sorts</code></td>
+<td>
+
+<p>A matrix or array with handles as row names, participant as column names, (optional) conditions as 3rd dimension and cells as Q-sort ranks, as produced by <code>import.q.sorts</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>q.set</code></td>
+<td>
+
+<p>A matrix with handles as row names, languages (if applicable) in columns, as produced by <code>build.q.set</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>manual.lookup</code></td>
+<td>
+
+<p>A matrix with handles as row names, and IDs (such as <kbd>"sta121"</kbd>, as printed on the Q-cards by <code>make.cards</code>) in any of the columns.
+Defaults to <code>NULL</code> in which case items IDs are expected to be item wording hashes, as produced by <code>make.cards</code>.
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Participants in Q studies are often invited to provide open-ended feedback on items, giving researchers additional information on participants' viewpoints.
+This feedback is conveniently entered in a spreadsheet editor (2nd column), where each line of feedback corresponds to an item ID (1st column)
+An additional, optional (3rd) column indicates whether the current line should be ignored (<code>TRUE</code>), as may be the case for privacy reasons or when the feedback is merely a correction of a typographic error.
+If no such 3rd column is included, all feedback will be imported.
+</p>
+<p>The automatic summary of full item wordings, technically known as <em>hashing</em>, proceeds internally by passing the full item wording to the <code>digest</code> function of the package <span class="pkg">digest</span> (with arguments set to <code>algo = crc32, serialize = FALSE</code>.)
+</p>
+<p>After an (arbitrary) header line, a *.CSV file may look like this:<br>
+‘<span class="samp">⁠sta001,"This q-item sounds like r-research to me!",FALSE⁠</span>’, indicating that it should <em>not</em> be ignored (<kbd>FALSE</kbd>).
+</p>
+<p>If you are not familiar with the terminology of item <em>handle</em>, <em>ID</em> and <em>wording</em> or the file structure expected for import functions, please read the respective sections in the documentation for qmethod-package first or consider the package <a href="http://aiorazabala.github.io/qmethod/Data-management">website</a>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns a matrix or array (if there is more than one condition) with handles as row names, people as column names, (optional) conditions as 3rd dimension name and item feedback in cells.
+The return parallels the output from <code>import.q.sorts</code>, but with feedback as array cells, rather than Q-sort ranks.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Maximilian Held</p>
+
+
+<h3>See Also</h3>
+
+<p><code>import.q.concourse</code>,
+<code>import.q.sorts</code>,
+<code>build.q.set</code>,
+<code>make.cards</code>,
+<code>qmethod</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(importexample)
+path.feedback &lt;- paste(            # this part is only for the example!
+  path.package("qmethod"),         # just to make sure, use absolute path
+  # import example files are in root/extdata of package:
+  "/extdata/importexample/feedback/",  # location of sorts
+  sep = ""
+  )
+q.feedback &lt;- import.q.feedback(   # now import the feedback
+  q.feedback.dir = path.feedback,  # add your path here
+  q.sorts = importexample$q.sorts,
+  q.set = importexample$q.set,     # as produced by build.q.set
+  manual.lookup = matrix(  # ideally empty for automatic hashing, or read in from *.CSV
+    c("i01","i02","i03","i04"),
+    ncol = 1,
+    nrow = 4,
+    dimnames = list(c("r-dominance","q-uprising","small-village","life-with-q"),"ID")
+    )
+  )
+</code></pre>
+
+
+</div>

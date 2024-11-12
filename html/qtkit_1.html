@@ -1,0 +1,47 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>add_pkg_to_bib</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Add package to BibTeX file</h2>
+
+<h3>Description</h3>
+
+<p>This function adds a package to a BibTeX file. It uses the
+<code>knitr::write_bib</code> function to write the package name to the file.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">add_pkg_to_bib(pkg_name, bib_file = "packages.bib")
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>pkg_name</code></td>
+<td>
+<p>The name of the package to add to the BibTeX file.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bib_file</code></td>
+<td>
+<p>The name of the BibTeX file to write to.</p>
+</td>
+</tr>
+</table>
+<h3>Examples</h3>
+
+<pre><code class="language-R">my_bib_file &lt;- tempfile(fileext = ".bib")
+add_pkg_to_bib("dplyr", my_bib_file)
+readLines(my_bib_file) |&gt; cat(sep = "\n")
+
+</code></pre>
+
+
+</div>

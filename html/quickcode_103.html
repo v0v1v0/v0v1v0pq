@@ -1,0 +1,60 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>sort_length</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Sort vector by length of its content</h2>
+
+<h3>Description</h3>
+
+<p>Sort the length of the content of a vector
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">sort_length(vec, asc = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>vec</code></td>
+<td>
+<p>a vector</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>asc</code></td>
+<td>
+<p>TRUE or FALSE whether to sort by ascending or descending order</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>vector of items sorted by length
+</p>
+
+
+<h3>Note</h3>
+
+<p>This function removes all NAs prior to sorting the vector
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># sort by length of content
+x = c("acs","tt","jdssr","h","grab")
+sort_length(vec = x) # ascending order of length
+sort_length(vec = x, asc = FALSE) # descending order of length
+
+
+</code></pre>
+
+
+</div>

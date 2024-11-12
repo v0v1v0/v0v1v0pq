@@ -1,0 +1,115 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>create_probs_query_func</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Create a function to query genotype probabilities</h2>
+
+<h3>Description</h3>
+
+<p>Create a function that will connect to a database of genotype probability
+information and return a list with 'probs' object and a 'map' object.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">create_probs_query_func(dbfile, method_val = "fst", probdir_val = "genoprob")
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>dbfile</code></td>
+<td>
+<p>Name of database file</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method_val</code></td>
+<td>
+<p>either <code>"fst"</code> or <code>"calc"</code> for type of genotype probabilities</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>probdir_val</code></td>
+<td>
+<p>name of probability directory (default <code>"genoprob"</code>)</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Note that this function assumes that <code>probdir_val</code> has a file with the
+physical map with positions in Mbp and other files with genotype probabilities.
+See <code>read_probs</code> for details on how probabilities are read.
+See <code>create_variant_query_func</code> for original idea.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Function with six arguments, 'chr', 'start',
+'end', 'allele', 'method' and 'probdir'. It returns a list with 'probs' and 'map' objects
+spanning the region specified by the first three arguments.
+The 'probs' element should be either a 'calc_genoprob' or 'fst_genoprob' object
+(see <code>fst_genoprob</code>).
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">dirpath &lt;- "https://raw.githubusercontent.com/rqtl/qtl2data/master/DOex"
+
+create_qv &lt;- function(dirpath) {
+  # Download SNP info for DOex from web via RDS.
+  # snpinfo is referenced internally in the created function.
+  
+  tmpfile &lt;- tempfile()
+  download.file(file.path(dirpath, "c2_snpinfo.rds"), tmpfile, quiet=TRUE)
+  snpinfo &lt;- readRDS(tmpfile)
+  unlink(tmpfile)
+  snpinfo &lt;- dplyr::rename(snpinfo, pos = pos_Mbp)
+  
+  function(chr, start, end) {
+    if(chr != "2") return(NULL)
+    if(start &lt; 96.5) start &lt;- 96.5
+    if(end &gt; 98.5) end &lt;- 98.5
+    if(start &gt;= end) return(NULL)
+    dplyr::filter(snpinfo, .data$pos &gt;= start, .data$pos &lt;= end)
+  }
+}
+
+query_variants &lt;- create_qv(dirpath)
+
+
+create_qg &lt;- function(dirpath) {
+  # Download Gene info for DOex from web via RDS
+  # gene_tbl is referenced internally in the created function.
+  
+  tmpfile &lt;- tempfile()
+  download.file(file.path(dirpath, "c2_genes.rds"), tmpfile, quiet=TRUE)
+  gene_tbl &lt;- readRDS(tmpfile)
+  unlink(tmpfile)
+  
+  function(chr, start, end) {
+    if(chr != "2") return(NULL)
+    if(start &lt; 96.5) start &lt;- 96.5
+    if(end &gt; 98.5) end &lt;- 98.5
+    if(start &gt;= end) return(NULL)
+    dplyr::filter(gene_tbl, .data$end &gt;= start, .data$start &lt;= end)
+  }
+}
+
+query_genes &lt;- create_qg(dirpath)
+
+
+# Examples for probs require either FST or RDS storage of data.
+
+</code></pre>
+
+
+</div>

@@ -1,0 +1,85 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>waic</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Watanabe Information Criterion</h2>
+
+<h3>Description</h3>
+
+<p>Calculates two versions of the Watanabe information criteria from MCMC draws.</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R"> 
+waic(logliks, print = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>logliks</code></td>
+<td>
+<p>a matrix of observation level log-likelihood values, the columns are MCMC iterations and the rows are observations in the data</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>print</code></td>
+<td>
+<p>logical whether to print the results</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Returns the two version of the WAIC
+</p>
+
+
+<h3>References</h3>
+
+<p>Gelman, A., Hwang, J., and Vehtari, A. (2014). Understanding predictive information criterion for Bayesian models. <em>Stat Comput</em>, 24, 997-1016.</p>
+
+
+<h3>See Also</h3>
+
+<p><code>summary.qrjoint</code></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"> 
+# Plasma data analysis
+
+# recoding variables
+data(plasma)
+plasma$Sex &lt;- as.factor(plasma$Sex)
+plasma$SmokStat &lt;- as.factor(plasma$SmokStat)
+plasma$VitUse &lt;- 3 - plasma$VitUse
+plasma$VitUse &lt;- as.factor(plasma$VitUse)
+
+# Model fitting with 40 posterior samples from 80 iterations (thin = 2) is for
+# illustration only. For practical model fitting, increase iterations, 
+# e.g. nsamp = 500, thin = 20
+fit.qrj &lt;- qrjoint(BetaPlasma ~ Age + Sex + SmokStat + Quetelet + VitUse + Calories + 
+        Fat + Fiber + Alcohol + Cholesterol + BetaDiet, plasma, nsamp = 40, thin = 2)
+summary(fit.qrj, more = TRUE)
+
+# the call to summary already shows the waic for the fitted model, it also returns 
+# the observation level log-likelihood vales. To calculate waic from last 20 draws 
+# we can use:
+
+## Not run: 
+summary(fit.qrj, more = TRUE)
+ll &lt;- sm$ll
+waic(ll[,21:40])
+
+## End(Not run)
+</code></pre>
+
+
+</div>

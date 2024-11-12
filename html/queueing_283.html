@@ -1,0 +1,69 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>VNq.o_MMInf</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Returns the variance of the number of customers in the queue in the M/M/Infinite queueing model</h2>
+
+<h3>Description</h3>
+
+<p>Returns the variance of the number of customers in the queue in the M/M/Infinite queueing model
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">  ## S3 method for class 'o_MMInf'
+VNq(x, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a object of class o_MMInf</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>aditional arguments</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Returns the variance of the number of customers in the queue in the M/M/Infinite queueing model</p>
+
+
+<h3>References</h3>
+
+<p>[Sztrik2012] Dr. Janos Sztrik (2012).<br><em>Basic Queueing Theory</em>.<br>
+University of Debrecen, Faculty of Informatics.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>QueueingModel.i_MMInf</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## create input parameters
+i_mminf &lt;- NewInput.MMInf(lambda=0.25, mu=4, n=0)
+
+## Build the model
+o_mminf &lt;- QueueingModel(i_mminf)
+
+## Returns the variance
+VNq(o_mminf)
+</code></pre>
+
+
+</div>

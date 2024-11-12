@@ -1,0 +1,213 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>add_legend</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Add a gradient legend to a plot</h2>
+
+<h3>Description</h3>
+
+<p>Adds a gradient legend to a plot.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">add_legend(
+  zlim,
+  col,
+  alpha = 1,
+  lgd_box_col = NULL,
+  lgd_x_pct = 0.5,
+  lgd_y_pct = 0.5,
+  lgd_wd_pct = 0.5,
+  lgd_ht_pct = 0.5,
+  bar_box_col = "black",
+  bar_wd_pct = 0.2,
+  bar_ht_pct = 1,
+  text_cex = 1,
+  text_col = NULL,
+  text_font = NULL,
+  text_x_pct = 1,
+  ticks = NULL,
+  ticks_n = 5
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>zlim</code></td>
+<td>
+<p>two-element numeric vector; required; the min and max value of z</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>col</code></td>
+<td>
+<p>character vector; required; the colors that will be used in the
+legend.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>alpha</code></td>
+<td>
+<p>numeric; transparency of the colors. Must be in the range
+0-1, where 0 is fully transparent and 1 is fully opaque. Default is 1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lgd_box_col</code></td>
+<td>
+<p>character; color of the box to draw around the entire
+legend. If <code>NULL</code> (the default), no box is drawn</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lgd_x_pct</code></td>
+<td>
+<p>numeric; location of the center of the legend in the
+x-dimension, as a fraction (0 to 1) of the <em>right margin area</em>,
+<strong>not</strong> the entire width of the figure</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lgd_y_pct</code></td>
+<td>
+<p>numeric; location of the center of the legend in the
+y-dimension, as a fraction (0 to 1). Unlike <code>lgd_x_pct</code>, this
+<strong>is</strong> relative to the entire figure height (since the right margin
+area spans the entire vertical dimension)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lgd_wd_pct</code></td>
+<td>
+<p>numeric; width of the entire legend, as a fraction (0 to 1)
+of the right margin width</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lgd_ht_pct</code></td>
+<td>
+<p>numeric; height of the entire legend, as a fraction (0 to
+1) of the figure height</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bar_box_col</code></td>
+<td>
+<p>character; color of the box to draw around the color bar.
+If <code>NULL</code>, no box is drawn</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bar_wd_pct</code></td>
+<td>
+<p>numeric; width of the color bar, as a fraction (0 to 1) of
+the width of the <em>legend area</em> (<strong>not</strong> the entire right margin
+width)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bar_ht_pct</code></td>
+<td>
+<p>numeric; height of the color bar, as a fraction (0 to 1) of
+the height of the <em>legend area</em> (<strong>not</strong> the entire right margin
+height)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>text_cex</code></td>
+<td>
+<p>numeric; size of the legend text. Default is 1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>text_col</code></td>
+<td>
+<p>character; color of the legend text. Default is "black".</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>text_font</code></td>
+<td>
+<p>integer; specifies which font to use. See
+<code>par()</code> for more details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>text_x_pct</code></td>
+<td>
+<p>numeric; the x-placement of the legend text as a fraction
+(0 to 1) of the width of the legend area. This corresponds to the
+<em>right-most</em> part of the text - i.e. a value of 1 means the text will
+end exactly at the right border of the legend area. Default is 1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ticks</code></td>
+<td>
+<p>numeric vector; the z-values at which to place tick marks. If
+<code>NULL</code> (the default), tick placement is automatically calculated</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ticks_n</code></td>
+<td>
+<p>integer; the number of ticks desired - only used if
+<code>ticks</code> is <code>NULL</code>. Note that this is an <em>approximate</em> number
+- the <code>pretty()</code> function is used to generate
+"nice-looking" values, but it doesn't guarantee a set number of tick marks</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>I took an HTML/CSS-like approach to determining the positioning -
+that is, each space is treated as <code>&lt;div&gt;</code>-like space, and the position
+of objects within that space happens <em>relative to that space</em> rather
+than the entire space. The parameters prefixed by <code>lgd</code> are all
+relative to the right margin space and correspond to the box that contains
+the entire legend. The parameters prefixed by <code>bar</code> and <code>ticks</code>
+are relative to the space within the legend box.
+</p>
+<p>This function is used within <code>plot()</code>, so the
+user shouldn't call this function to manually create the legend.
+Customizations to the legend can be done via the <code>legend_args</code>
+parameter of <code>plot()</code>. Using this function to
+plot the legend after using <code>plot()</code> raises the
+possibility of the legend not corresponding correctly with the plot, and
+thus should be avoided.
+</p>
+
+
+<h3>Value</h3>
+
+<p>no return value
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(terra)
+library(quadtree)
+habitat &lt;- terra::rast(system.file("extdata", "habitat.tif", package="quadtree"))
+qt &lt;- quadtree(habitat, .2)
+
+old_par &lt;- par(mar = c(5, 4, 4, 5))
+plot(qt, legend = FALSE)
+leg &lt;- terra::minmax(habitat)[1:2]
+quadtree::add_legend(leg, rev(terrain.colors(100)))
+par(old_par)
+# this example simply illustrates how it COULD be used, but as stated in the
+# 'Details' section, it shouldn't be called separately from 'plot()' - if
+# customizations to the legend are desired, use the 'legend_args' parameter
+# of 'plot()'.
+</code></pre>
+
+
+</div>

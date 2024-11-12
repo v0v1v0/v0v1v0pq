@@ -1,0 +1,58 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>PSPcombination</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Symmetric polynomial as a linear combination of some power sum 
+polynomials</h2>
+
+<h3>Description</h3>
+
+<p>Expression of a symmetric <code>qspray</code> polynomial as a 
+linear combination of some power sum polynomials.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">PSPcombination(qspray)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>qspray</code></td>
+<td>
+<p>a symmetric <code>qspray</code> polynomial; symmetry is not checked</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>A list of pairs. Each pair is made of a <code>bigq</code> number, the 
+coefficient of the term of the linear combination, and an integer 
+partition, corresponding to a power sum polynomial.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>PSPexpression</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># take a symmetric polynomial
+( qspray &lt;- ESFpoly(4, c(2, 1)) + ESFpoly(4, c(2, 2)) )
+# compute the power sum combination
+( pspCombo &lt;- PSPcombination(qspray) )
+# then the polynomial can be reconstructed as follows:
+Reduce(`+`, lapply(pspCombo, function(term) {
+  term[["coeff"]] * PSFpoly(4, term[["lambda"]])
+}))
+</code></pre>
+
+
+</div>

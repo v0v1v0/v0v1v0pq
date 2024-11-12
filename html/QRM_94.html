@@ -1,0 +1,208 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>NH</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Normal Inverse Gaussian and Hyperbolic Distribution 
+</h2>
+
+<h3>Description</h3>
+
+<p>Functions for fitting uni- and multivariate NIG and HYP distribution. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">fit.NH(data, case = c("NIG", "HYP"), symmetric = FALSE,
+       se = FALSE, ...)
+fit.mNH(data, symmetric = FALSE, case = c("NIG", "HYP"),
+        kvalue = NA, nit = 2000, tol = 1e-10, ...)
+MCECMupdate(data, mix.pars, mu, Sigma, gamma, optpars, optfunc,
+xieval=FALSE, ...)
+MCECM.Qfunc(lambda, chi, psi, delta, eta, xi)
+EMupdate(data, mix.pars, mu, Sigma, gamma, symmetric, 
+         scaling = TRUE, kvalue = 1)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>case</code></td>
+<td>
+<p><code>character</code>, whether NIG or HYP shall be used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>chi</code></td>
+<td>
+<p><code>numeric</code>, chi parameter.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p><code>numeric</code>, data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>delta</code></td>
+<td>
+<p><code>numeric</code>, delta parameter.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>eta</code></td>
+<td>
+<p><code>numeric</code>, eta parameter.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>kvalue</code></td>
+<td>
+<p><code>numeric</code>, value to which the determinant of the
+dispersion matrix is constrained.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lambda</code></td>
+<td>
+<p><code>numeric</code>, lambda parameter.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mix.pars</code></td>
+<td>
+<p><code>vector</code>, values of lambda, chi and psi.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mu</code></td>
+<td>
+<p><code>numeric</code>, value of location parameters.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nit</code></td>
+<td>
+<p><code>integer</code>, maximum number of iterations.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>optpars</code></td>
+<td>
+<p><code>vector</code>, parameters to optimize over.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>optfunc</code></td>
+<td>
+<p><code>function</code>, the function to be optimized.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>psi</code></td>
+<td>
+<p><code>numeric</code>, pi parameter.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>scaling</code></td>
+<td>
+<p><code>logical</code>, whether determinant scaling of Sigma
+shall be fixed.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>se</code></td>
+<td>
+<p><code>logical</code>, whether standard errors should be
+calculated.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Sigma</code></td>
+<td>
+<p><code>matrix</code>, value of Sigma.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>symmetric</code></td>
+<td>
+<p><code>logical</code>, whether symmetric case should be
+fitted.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tol</code></td>
+<td>
+<p><code>numeric</code>, tolerance for convergence.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gamma</code></td>
+<td>
+<p><code>numeric</code>, value of gamma</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xi</code></td>
+<td>
+<p><code>numeric</code>, xi parameter.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xieval</code></td>
+<td>
+<p><code>logical</code>, whether log moment xi shall be
+evaluated.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>ellipsis, arguments are passed down to <code>optim()</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p><code>fit.NH()</code>: See pages 78–80 of QRM. Case ‘NIG’ sets
+<code class="reqn">\lambda = -1/2</code>; case ‘HYP’ sets
+<code class="reqn">\lambda = 1</code>.<br><code>fit.mNH()</code>: Fitting is accomplished by using a variant of the EM
+algorithm (see pages 81–83 in QRM).<br><code>MCECMupdate()</code>: updates estimates of mixing parameters in EM
+estimation of generalized hyperbolic (see Algorithm 3.14, steps (5)
+and (6) on page 83 in QRM).<br><code>MCECM.Qfunc()</code>: a functional form that must be optimized when
+fitting members of generalized hyperbolic family with an MCECM
+algorithm (see function Q2 on page 82 of QRM).<br><code>EMupdate()</code>: updates estimates of location (<code class="reqn">\mu</code>),
+dispersion (<code class="reqn">\Sigma</code>) and skewness (<code class="reqn">\gamma</code>)
+parameters in EM estimation of multivariate generalized hyperbolic
+distributions (see pages 81–83 in QRM; in that case k is the
+determinant of the sample covariance matrix. “EM” is an acronym
+for for “Expectation-Maximization” type of algorithm
+used to fit proposed multivariate hyperbolic models to actual data). 
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(QRM)
+data(DJ)
+r &lt;- returns(DJ) 
+s &lt;- window(r[, "MSFT"], "1993-01-01", "2000-12-31")
+mod.NIG &lt;- fit.NH(100 * s, method = "BFGS")
+## multivariate
+stocks &lt;- c("AXP","EK","BA","C","KO","MSFT",
+            "HWP","INTC","JPM","DIS")
+ss &lt;- window(r[, stocks], "1993-01-01", "2000-12-31")
+fridays &lt;- time(ss)[isWeekday(time(ss), wday = 5)]
+ssw &lt;- aggregate(ss, by = fridays, FUN = sum)
+mod.mNIG &lt;- fit.mNH(ssw, symmetric = FALSE, case = "NIG") 
+</code></pre>
+
+
+</div>

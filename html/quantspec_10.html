@@ -1,0 +1,107 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>ClippedCov-constructor</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Create an instance of the <code>ClippedCov</code> class.</h2>
+
+<h3>Description</h3>
+
+<p>Create an instance of the <code>ClippedCov</code> class.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">clippedCov(
+  Y,
+  maxLag = length(Y) - 1,
+  levels.1 = c(0.5),
+  levels.2 = levels.1,
+  isRankBased = TRUE,
+  B = 0,
+  l = 0,
+  type.boot = c("none", "mbb")
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>Y</code></td>
+<td>
+<p>Time series to calculate the copula covariance from</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>maxLag</code></td>
+<td>
+<p>maximum lag between observations that should be used</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>levels.1</code></td>
+<td>
+<p>a vector of numerics that determines the level of clipping</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>levels.2</code></td>
+<td>
+<p>a vector of numerics that determines the level of clipping</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>isRankBased</code></td>
+<td>
+<p>If true the time series is first transformed to pseudo data;
+currently only rank-based estimation is possible.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>B</code></td>
+<td>
+<p>number of bootstrap replications</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>l</code></td>
+<td>
+<p>(expected) length of blocks</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>type.boot</code></td>
+<td>
+<p>A flag to choose a method for the block bootstrap; currently
+two options are implemented: <code>"none"</code> and <code>"mbb"</code>
+which means to do a moving blocks  bootstrap with <code>B</code>
+and <code>l</code> as specified.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Returns an instance of <code>ClippedCov</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>LagOperator</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">ccf &lt;- clippedCov(rnorm(200), maxLag = 25, levels.1 = c(0.1,0.5,0.9))
+dim(getValues(ccf))
+#print values for levels (.5,.5)
+plot(ccf, maxLag = 20)
+</code></pre>
+
+
+</div>

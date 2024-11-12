@@ -1,0 +1,74 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>GroversAlgorithm</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>GroversAlgorithm</h2>
+
+<h3>Description</h3>
+
+<p>Applies Grover's search algorithm to a uniform ket to simulate a quantum search
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">GroversAlgorithm(n,w,iterations=n,printOutput=FALSE,plotOutput=FALSE,tag="")
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p>Number of qubits in the problem, not counting the extra ancillary qubit</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>w</code></td>
+<td>
+<p>Integer specifying the state to search for, between 0 and 2^n-1 where n is the number of qubits</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>iterations</code></td>
+<td>
+<p> Number of iterations to apply the oracle and diffusion, optimal is approximately n </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>printOutput</code></td>
+<td>
+<p>Boolean specifying if the measurement probabilities should be printed as search progresses</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>plotOutput</code></td>
+<td>
+<p>Boolean specifying if the output probabilities should be plotted to a graph</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tag</code></td>
+<td>
+<p>String which is attached to output file name if plotOutput is TRUE</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Ket after a Grover search has been applied to it
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"> GroversAlgorithm(7,0,14)
+ GroversAlgorithm(7,0,14,printOutput=TRUE)
+</code></pre>
+
+
+</div>

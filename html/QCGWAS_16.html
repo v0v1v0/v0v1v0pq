@@ -1,0 +1,582 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>match_alleles</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Check and correct alleles in GWAS result files</h2>
+
+<h3>Description</h3>
+
+<p>This function checks the reported alleles and allele frequencies
+in GWAS results data by comparing them to a reference table.
+It will also uniformize the dataset by switching all SNPs to
+the positive strand and flipping the alleles so that the
+effect allele matches the reference minor allele.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">match_alleles(dataset, ref_set, HQ_subset,
+              dataname = "dataset", ref_name = "reference",
+       unmatched_data = !all(dataset$MARKER %in% ref_set$SNP),
+              check_strand = FALSE,
+              save_mismatches = TRUE, delete_mismatches = FALSE,
+              delete_diffEAF = FALSE, threshold_diffEAF = 0.15,
+              check_FRQ = TRUE, check_ambiguous = FALSE,
+              plot_FRQ = FALSE, plot_intensity = FALSE, 
+              plot_if_threshold = FALSE,
+              threshold_r = 0.95,
+              return_SNPs = FALSE, return_ref_values = FALSE,
+              header_translations, header_reference,
+              save_name = dataname, save_dir = getwd(),
+              use_log = FALSE, log_SNPall = nrow(dataset))
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>dataset</code></td>
+<td>
+
+<p>table containing the allele data. <code>dataset</code>
+should always contain columns for the SNPID, the effect
+allele and the other allele. Strand and allele frequency
+may be required, depending upon the settings, while
+effect size is optional. <code>match_alleles</code> accepts
+non-standard column names, provided a translation table is
+specified in <code>header_translations</code>. The order of columns
+does not matter; nor does the presence of other columns.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ref_set</code></td>
+<td>
+
+<p>table containing the reference data. <code>ref_set</code>
+should always contain columns for the SNPID, the minor
+allele and the major allele. Minor allele frequency is only
+required if <code>check_FRQ</code> or <code>check_ambiguous</code> are
+<code>TRUE</code>. The standard column-names are <code>"SNP"</code>,
+<code>"MINOR"</code>, <code>"MAJOR"</code> and <code>"MAF"</code>. Non-standard
+column names are accepted if a translation table is
+specified in <code>header_reference</code>. All SNPs <em>must</em>
+be aligned to the positive strand.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>HQ_subset</code></td>
+<td>
+<p>an <em>optional</em> logical or numeric vector
+indicating the rows in <code>dataset</code> that contain high
+quality SNPs.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dataname, ref_name</code></td>
+<td>
+<p>character strings; the names of the
+dataset and reference, respectively. Used as identifiers
+in the output files.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>unmatched_data</code></td>
+<td>
+<p>logical; are there SNPs in the dataset
+that do not appear in the reference? This argument is
+currently redundant: the function will determine it
+automatically.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>check_strand</code></td>
+<td>
+<p>logical; should the function check for
+negative-strand SNPs? If <code>FALSE</code>, all SNPs are assumed
+to be on the positive strand.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>save_mismatches</code></td>
+<td>
+<p>logical; should mismatching entries be
+exported to a .txt file before they are corrected?</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>delete_mismatches</code></td>
+<td>
+<p>logical; should mismatching SNPs
+(that could not be corrected by strand-switching) have
+their effect allele set to missing?</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>delete_diffEAF</code></td>
+<td>
+<p>logical; should SNPs that exceed the
+<code>threshold_diffEAF</code> have their effect allele set to
+missing?</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>threshold_diffEAF</code></td>
+<td>
+<p>numeric; the max. allowed difference
+between reported and reference allele frequency.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>check_FRQ</code></td>
+<td>
+<p>logical; should the function correlate
+the reported allele-frequency with that of the reference?</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>check_ambiguous</code></td>
+<td>
+<p>logical; should the function do separate
+frequency correlations and create separate plots for SNPs
+with a strand-independent allele-pair (i.e. an A/T or C/G
+configuration)?</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>plot_FRQ</code></td>
+<td>
+<p>logical; should a scatterplot of reported vs.
+reference allele-frequency be made?</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>plot_intensity</code></td>
+<td>
+<p>logical; if <code>TRUE</code>, instead of a
+scatterplot an intensity plot is generated. This option is
+currently only partially implemented. Leave to <code>FALSE</code>
+for now.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>plot_if_threshold</code></td>
+<td>
+<p>logical; if <code>TRUE</code>, the
+scatterplot is only made when frequency correlation is below
+the threshold specified by <code>threshold_r</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>threshold_r</code></td>
+<td>
+<p>numeric; the correlation threshold value.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>return_SNPs</code></td>
+<td>
+<p>logical; should the return value include
+the relevant columns of <code>dataset</code>?</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>return_ref_values</code></td>
+<td>
+<p>logical; should the return-value
+include the matching entries in <code>ref_set</code>?</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>header_translations, header_reference</code></td>
+<td>
+
+<p>translation tables for converting the column names of
+<code>dataset</code> and <code>ref_set</code> to standard names,
+respectively. See <code>translate_header</code> for more
+information.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>save_name</code></td>
+<td>
+
+<p>character string; the filename, <em>without</em>
+extension, for the various output files.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>save_dir</code></td>
+<td>
+<p>character string; the directory where the
+output files are saved. Note that R uses <em>forward</em>
+slash (/) where Windows uses backslash (\).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>use_log, log_SNPall</code></td>
+<td>
+
+<p>arguments used by <code>QC_GWAS</code>;
+redundant when <code>match_alleles</code> is used separately.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p><code>match_alleles</code> is one of the more complicated functions
+of <code>QCGWAS</code>. However, what it does is quite simple:
+</p>
+
+<ul>
+<li>
+<p> Check for incorrect allele pairs
+</p>
+</li>
+<li>
+<p> Uniformize the output so that all SNPs are on the
+positive strand, and identical SNPs will have the same
+effect allele and other allele in all datasets
+</p>
+</li>
+<li>
+<p> Check the allele frequency
+</p>
+</li>
+</ul>
+<p>The complexity stems from the fact that these three tasks have
+to be carried out together and often overlap.
+So the actual function schematic looks like this:
+</p>
+
+<ul>
+<li>
+<p> Switch negative-strand SNPs (i.e. SNPs with <code>"-"</code>
+in the strand-column) to the positive strand. This step can be
+disabled by setting <code>check-strand</code> to <code>FALSE</code>.
+</p>
+</li>
+<li>
+<p> Correct (if possible) mismatching alleles. A mismatch
+is when the reported allele-pair does not match that in
+the reference. <code>match_alleles</code> will attempt to fix
+the mismatch by "strand-switching" the alleles. The
+assumption is that dataset merely reported the wrong
+strand, so converting them to the opposing strand should
+solve the mismatch. If it does not, the SNPs are truly
+mismatches. If <code>delete_mismatches</code> is <code>TRUE</code>,
+the effect alleles are set to <code>NA</code>; if <code>FALSE</code>,
+they are restored to their original configuration and
+excluded from the allele-frequency test. If
+<code>save_mismatches</code> is <code>TRUE</code>, the entries are
+exported in a .txt before being changed. Note that
+<code>save_mismatches</code> only exports true mismatches (i.e.
+not those that were fixed after strand-switching).
+</p>
+</li>
+<li>
+<p> Align the allele-pairs with the reference. In order to
+have the same effect allele with the same SNP in every
+dataset, SNPs are "flipped" so that the effect allele
+matches the reference minor allele. Flipped alleles will
+also have their allele frequency and effect size inverted.
+</p>
+</li>
+<li>
+<p> Check for undetected strand-mismatch by counting the
+number of ambiguous and (if <code>check_FRQ</code> is <code>TRUE</code>)
+suspect SNPs. Ambiguous SNPs are SNPs with an allele-pair
+that is identical on both strands (i.e. A/T or C/G).
+Suspect SNPs are ambiguous SNPs whose allele-frequency
+differs strongly from that of the reference.
+</p>
+</li>
+<li>
+<p> Check allele-frequencies by correlating and/or
+plotting them against the reference. If
+<code>check_ambiguous</code> is <code>TRUE</code>, additional
+scatterplots will be made for the subsets of ambiguous and
+non-ambiguous SNPs. If <code>delete_diffEAF</code> is <code>TRUE</code>,
+SNPs whose allele-frequency differs from the reference by
+more than <code>threshold_diffEAF</code> have their effect alleles
+set to <code>NA</code> as well. This entire step can be disabled
+by setting <code>check_FRQ</code> to <code>FALSE</code>.
+</p>
+</li>
+</ul>
+<h3>Value</h3>
+
+<p>An object of class 'list' with the following components:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>FRQ_cor, FRQ_cor_ambiguous, FRQ_cor_nonambi</code></td>
+<td>
+
+<p>Allele-frequency correlations for all, ambiguous, and
+non-ambiguous SNPs respectively.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n_SNPs</code></td>
+<td>
+<p>Total number of SNPs in <code>dataset</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n_missing, n_missing_data, n_missing_ref</code></td>
+<td>
+
+<p>Number of SNPs with missing allele-data in either
+<code>dataset</code> or <code>reference</code>, dataset only, and
+reference only, respectively.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n_negative_strand, n_negative_switch, n_negative_mismatch</code></td>
+<td>
+
+<p>Number of negative-strand SNPs, the subset of negative-strand
+SNPs that were strand-switched twice because they did not match
+the reference, and the subset of double-switched SNPs that
+were still mismatching after the second strand-switch.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n_strandswitch, n_mismatch</code></td>
+<td>
+
+<p>Number of SNPs that was strand-switched because they did not
+match the reference, and the subset of those that still did
+not match after the strand-switch.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n_flipped</code></td>
+<td>
+<p>Number of SNPs whose alleles were flipped to
+align them with the reference.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n_ambiguous, n_suspect</code></td>
+<td>
+<p>Number of ambiguous SNPs, and
+the subset of those that had a large allele-frequency aberration.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n_diffEAF</code></td>
+<td>
+<p>Number of SNPs whose allele-frequency differs from
+the reference by more than <code>threshold_diffEAF</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>MARKER</code></td>
+<td>
+<p>When <code>return_SNPs</code> and/or <code>return_ref_values</code>
+is <code>TRUE</code>, this returns the column of <code>dataset</code>
+containing the SNP IDs. If not, this returns <code>NULL</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>EFFECT_ALL, OTHER_ALL, STRAND, EFFECT, EFF_ALL_FREQ</code></td>
+<td>
+
+<p>If <code>return_SNPs</code> is <code>TRUE</code>, these elements return
+the corrected columns of data-set. If <code>FALSE</code>, these
+return <code>NULL</code>. Note: <code>match_alleles</code> only returns
+those columns that were checked; if <code>check_FRQ</code> is
+<code>FALSE</code>, <code>EFF_ALL_FREQ</code> return <code>NULL</code>. The
+same goes for <code>check_strand</code> and <code>STAND</code>.
+<code>EFFECT</code> is only returned if present in <code>dataset</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ref_MINOR, ref_MAJOR, ref_MAF</code></td>
+<td>
+
+<p>If <code>return_ref_values</code> is <code>TRUE</code>, these elements
+return the reference minor and major alleles and allele
+frequency column for the SNPs in <code>MARKER</code>.If
+<code>FALSE</code>, these return <code>NULL</code>. <code>ref_MAF</code> is
+only returned when <code>check_FRQ</code> is <code>TRUE</code>.
+</p>
+</td>
+</tr>
+</table>
+<h3>Interpreting the output</h3>
+
+<p>The output of <code>match_alleles</code> may seem a bit overwhelming
+at first, so here is a short explanation of what it means and
+what you should pay attention to.
+</p>
+<p>The columns included in the return value when <code>return_SNPs</code>
+is <code>TRUE</code> are the  post-matching dataset. This is only
+relevant if you want to  continue working with the corrected
+dataset. Similarly, the output of <code>return_ref_values</code> is
+only used for comparing the post-matching dataset to the
+reference.
+</p>
+<p><code>n_missing</code>, <code>n_missing_data</code> and
+<code>n_missing_ref</code> report the prevalence of missing allele
+data, but are otherwise irrelevant.
+</p>
+<p>The majority of return values serve to check whether
+strand-switching was performed correctly. <code>n_strandswitch</code>
+indicates how many SNPs were converted to the other strand
+because of a mismatch with the reference. In our experience,
+many cohorts do not include stand data, or simply set all SNPs
+to <code>"+"</code>, so the presence of strand-switched SNPs
+isn't an indicator of problems by itself. However, if the
+strand-switching did not fix the mismatch, there may a problem.
+The subset of strand-switched SNPs that could not be fixed is
+reported as <code>n_mismatch</code>, and indicates incorrect allele
+data or, possibly, triallelic SNPs.
+</p>
+<p>Depending on the argument <code>save_mismatches</code>, mismatching
+entries are exported
+as a .txt file, together with the reference data. This allows
+the user to see which SNPs are affected.
+</p>
+<p>Another sign of trouble is when negative-strand SNPs
+(<code>n_negative_strand</code>) are present (i.e. the cohort included
+real strand data, rather just setting it to <code>"+"</code>), but
+strand-switching still occurred. Negative-strand SNPs
+are converted to the positive strand before their alleles are
+compared to the reference, so they should not appear here.
+If they do, it means that either the strand-column data is
+incorrect, or it is an ordinary mismatch (see above).
+</p>
+<p>Negative-strand SNPs that are "strand-switched" will revert
+to their original allele configuration (but the strand column
+now reports them as being on positive strand). The output of
+<code>QC_GWAS</code> calls them double strand-switches, but here
+they are reported as <code>n_negative_switch</code>. The subset of
+those that could not be fixed is <code>n_negative_mismatch</code>.
+</p>
+<p>Just to be clear: the relevant output is still
+<code>n_strandswitch</code> and <code>n_negative_strand</code>, not 
+<code>n_negative_switch</code> and <code>n_negative_mismatch</code>.
+Whether it was the negative-strand SNPs that were switched or
+not is not important: the important thing is that there were
+negative-strand SNPs (i.e. the cohort included real strand
+data rather setting everything to <code>"+"</code>); yet
+strand-switches were still necessary and cannot be attributed
+to mismatch (i.e. the strand data is incorrect). 
+</p>
+<p><code>n_flipped</code> counts how many SNPs had their alleles
+reversed to match the effect allele with the reference
+minor-allele. This is merely recorded for "administrative"
+purposes, and shouldn't concern the user.
+</p>
+<p><code>n_ambiguous</code> and <code>n_suspect</code> are another test of
+the strand information. Ambiguous SNPs are SNPs that have
+the same allele pair on the positive and negative strands (i.e.
+A/T or C/G). Matching them with the allele-reference therefor
+won't detected incorrect strand-information. In a normal-sized
+GWAS results file, about 15% of SNPs will be ambiguous.
+</p>
+<p>Suspect SNPs are the subset of ambiguous SNPs whose allele
+frequency is significantly different from that in the reference
+( &lt; 0.35. vs &gt; 0.65 or visa versa). In our experience,
+a GWAS results file with 2.5M SNPs will have only a few dozen
+suspect SNPs. However, if it's a sizable proportion of all
+ambiguous SNPs, it indicates that the ambiguous SNPs are
+listed for the wrong strand. This will also have resulted
+in the wrong SNPs being flipped in the previous step, so
+it should be visible in the allele-frequency correlation test
+as well.
+</p>
+<p><code>n_diffEAF</code> counts SNPs with significantly different
+allele-frequencies. A large number here indicates either
+that the allele-frequencies are incorrect or listed for the
+wrong allele (see below), or that the population used in the
+dataset does not match that of the reference.
+</p>
+<p>The <code>FRQ_cor</code> value is the correlation between the
+reported and reference allele-frequencies. If allele frequency
+is correct, the correlation should be near <code>1</code>. If it's
+close to <code>-1</code>, the listed frequency is that of the other
+(i.e. non-effect) allele.
+</p>
+<p>the <code>FRQ_cor_ambiguous</code> and <code>FRQ_cor_nonambi</code> values
+are the same test for the subsets of ambiguous and
+non-ambiguous SNPs. If ambiguous SNPs are listed on the wrong
+strand, then they will have been flipped incorrectly, so
+allele-frequency correlation should also move towards <code>-1</code>.
+</p>
+
+
+<h3>Note</h3>
+
+<p>The function does not delete SNPs, regardless of the
+<code>delete_mismatches</code> <code>delete_diffEAF</code> arguments.
+Setting these to <code>TRUE</code> means that any such
+SNPs are marked by having their effect allele set to <code>NA</code>.
+The actual deletion takes place inside <code>QC_GWAS</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>create_hapmap_reference</code> for creating an allele
+reference from publicly-available HapMap data
+</p>
+<p><code>switch_strand</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># In order to keep the QCGWAS package small, no allele reference
+# is included. Use the create_hapmap_reference function (see
+# above) to create one.
+
+## Not run: 
+  data("gwa_sample")
+  hapmap_ref &lt;- read.table("C:/new_hapmap/new_hapmap.txt",
+                  header = TRUE, stringsAsFactors = FALSE)
+
+  match_alleles(gwa_sample, hapmap_ref,
+    dataname = "sample data", ref_name = "HapMap",
+    save_name = "test_allele1", save_dir = "C:/new_hapmap",
+    check_strand = TRUE, plot_FRQ = TRUE)
+
+ HQ_SNPs &lt;- HQ_filter(data = gwa_sample, filter_NA = TRUE,
+                          filter_FRQ = 0.01, filter_cal = 0.95)
+  match_alleles(gwa_sample, hapmap_ref,
+    HQ_subset = HQ_SNPs,
+    dataname = "sample data", ref_name = "HapMap",
+    save_name = "test_allele2", save_dir = "C:/new_hapmap",
+    check_strand = TRUE, plot_FRQ = TRUE)
+
+  match_output &lt;-
+    match_alleles(gwa_sample, hapmap_ref,
+      HQ_subset = HQ_SNPs,
+      delete_mismatches = TRUE, return_SNPs = TRUE,
+      delete_diffEAF = TRUE, threshold_diffEAF = 0.15,
+      dataname = "sample data", ref_name = "HapMap",
+      save_name = "test_allele3", save_dir = "C:/new_hapmap",
+      check_strand = TRUE, plot_FRQ = TRUE)
+  
+  if(sum(match_output$n_negative_strand,
+         match_output$n_strandswitch, match_output$n_mismatch,
+         match_output$n_flipped, match_output$n_diffEAF) &gt; 0){
+    gwa_sample$EFFECT_ALL   &lt;- match_output$EFFECT_ALL
+    gwa_sample$OTHER_ALL    &lt;- match_output$OTHER_ALL
+    gwa_sample$STRAND       &lt;- match_output$STRAND
+    gwa_sample$EFFECT       &lt;- match_output$EFFECT
+    gwa_sample$EFF_ALL_FREQ &lt;- match_output$EFF_ALL_FREQ
+  }
+  
+## End(Not run)
+</code></pre>
+
+
+</div>

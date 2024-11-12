@@ -1,0 +1,179 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>agg</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Aggregate an Atomic Vector by Group</h2>
+
+<h3>Description</h3>
+
+<p><code>agg</code> evaluates a function separately for each group and combines the
+results back together into an atomic vector of data.frame that is returned.
+Depending on the argument <code>rep</code>, the results of <code>fun</code> are repeated
+for each element of <code>x</code> in the group (TRUE) or only once for each group
+(FALSE). Depending on the argument <code>rtn.grp</code>, the return object is a
+data.frame and the groups within <code>grp</code> are included in the data.frame as
+columns (TRUE) or the return object is an atomic vector and the groups are
+the names (FALSE).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">agg(x, grp, rep = TRUE, rtn.grp = !rep, sep = "_", fun, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>atomic vector.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>grp</code></td>
+<td>
+<p>atomic vector or list of atomic vectors (e.g., data.frame)
+specifying the groups. The atomic vector(s) must be the length of <code>x</code>
+or else an error is returned.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rep</code></td>
+<td>
+<p>logical vector of length 1 specifying whether the result of
+<code>fun</code> should be repeated for every instance of the group in <code>x</code>
+(TRUE) or only once for each group (FALSE).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rtn.grp</code></td>
+<td>
+<p>logical vector of length 1 specifying whether the groups
+(i.e., <code>grp</code>) should be included in the return object as columns. The
+default is the opposite of <code>rep</code> as traditionally it is most important
+to return the group columns when <code>rep</code> = FALSE.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sep</code></td>
+<td>
+<p>character vector of length 1 specifying what string should
+separate different group values when naming the return object. This
+argument is only used if <code>grp</code> is a list of atomic vectors (e.g.,
+data.frame) AND <code>rep</code> = FALSE AND <code>rtn.grp</code> = FALSE.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fun</code></td>
+<td>
+<p>function to use for aggregation. This function is expected to
+return an atomic vector of length 1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>additional named arguments to <code>fun</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>If <code>rep</code> = TRUE, then <code>agg</code> calls <code>ave</code>; if <code>rep</code> =
+FALSE, then <code>agg</code> calls <code>aggregate</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>result of <code>fun</code> applied to <code>x</code> for each group
+within <code>grp</code>. The structure of the return object depends on the
+arguments <code>rep</code> and <code>rtn.grp</code>:
+</p>
+
+<dl>
+<dt>If rep = TRUE and rtn.grp = TRUE:</dt>
+<dd>
+<p>then the return
+object is a data.frame with nrow = <code>nrow(data)</code> where the first
+columns are <code>grp</code> and the last column is the result of <code>fun</code>. If
+<code>grp</code> is not a list with names, then its colnames will be "Group.1",
+"Group.2", "Group.3" etc. similar to <code>aggregate</code>'s return object. The
+colname for the result of <code>fun</code> will be "x".</p>
+</dd>
+<dt>If rep = TRUE and rtn.grp = FALSE:</dt>
+<dd>
+<p>then the return
+object is an atomic vector with length = <code>length(x)</code> where the values
+are the result of <code>fun</code> and the names = <code>names(x)</code>.</p>
+</dd>
+<dt>If rep = FALSE and rtn.grp = TRUE:</dt>
+<dd>
+<p>then the return
+object is a data.frame with nrow =
+<code>length(levels(interaction(grp)))</code>
+where the first columns are the unique group combinations in <code>grp</code> and
+the last column is the result of <code>fun</code>. If <code>grp</code> is not a list
+with names, then its colnames will be "Group.1", "Group.2", "Group.3" etc.
+similar to <code>aggregate</code>'s return object. The colname for the result of
+<code>fun</code> will be "x".</p>
+</dd>
+<dt>If rep = FALSE and rtn.grp = FALSE:</dt>
+<dd>
+<p>then the return
+object is an atomic vector with length
+<code>length(levels(interaction(grp)))</code> where the values are the result of
+<code>fun</code> and the names are each group value pasted together by <code>sep</code>
+if there are multiple grouping variables within <code>grp</code> (i.e.,
+<code>is.list(grp) &amp;&amp; length(grp) &gt; 2</code>).</p>
+</dd>
+</dl>
+<h3>See Also</h3>
+
+<p><code>aggs</code>,
+<code>agg_dfm</code>,
+<code>ave</code>,
+<code>aggregate</code>,
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+# one grouping variable
+agg(x = airquality$"Solar.R", grp = airquality$"Month", fun = mean)
+agg(x = airquality$"Solar.R", grp = airquality$"Month", fun = mean,
+   na.rm = TRUE) # ignoring missing values
+agg(x = setNames(airquality$"Solar.R", nm = row.names(airquality)), grp = airquality$"Month",
+   fun = mean, na.rm = TRUE) # keeps the names in the return object
+agg(x = airquality$"Solar.R", grp = airquality$"Month", rep = FALSE,
+   fun = mean, na.rm = TRUE) # do NOT repeat aggregated values
+agg(x = airquality$"Solar.R", grp = airquality$"Month", rep = FALSE, rtn.grp = FALSE,
+   fun = mean, na.rm = TRUE) # groups are the names of the returned atomic vector
+
+# two grouping variables
+tmp_nm &lt;- c("vs","am") # Roxygen2 doesn't like a c() within a []
+agg(x = mtcars$"mpg", grp = mtcars[tmp_nm], rep = TRUE, fun = sd)
+agg(x = mtcars$"mpg", grp = mtcars[tmp_nm], rep = FALSE,
+   fun = sd) # do NOT repeat aggregated values
+agg(x = mtcars$"mpg", grp = mtcars[tmp_nm], rep = FALSE, rtn.grp = FALSE,
+   fun = sd) # groups are the names of the returned atomic vector
+agg(x = mtcars$"mpg", grp = mtcars[tmp_nm], rep = FALSE, rtn.grp = FALSE,
+   sep = ".", fun = sd) # change the separater for naming
+
+# error messages
+## Not run: 
+   agg(x = airquality$"Solar.R", grp = mtcars[tmp_nm]) # error returned
+   # b/c  atomic vectors within \code{grp} not having the same length as \code{x}
+
+## End(Not run)
+
+</code></pre>
+
+
+</div>

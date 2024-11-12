@@ -1,0 +1,197 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>quantKrig</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Quantile Kriging</h2>
+
+<h3>Description</h3>
+
+<p>Implements Quantile Kriging from Plumlee and Tuo (2014).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">quantKrig(x, y, quantv, lower, upper, method = "loo",
+  type = "Gaussian", rs = TRUE, nm = TRUE, known = NULL,
+  optstart = NULL, control = list())
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>Inputs</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>Univariate Response</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>quantv</code></td>
+<td>
+<p>Vector of Quantile values to estimate (ex: c(0.025, 0.975))</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lower</code></td>
+<td>
+<p>Lower bound of hyperparameters, if isotropic set lengthscale then nugget, if anisotropic set k lengthscales and then nugget</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>upper</code></td>
+<td>
+<p>Upper bound of hyperparameters, if isotropic set lengthscale then nugget, if anisotropic set k lengthscales and then nugget</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+<p>Either maximum likelihood ('mle') or leave-one-out cross validation ('loo') optimization of hyperparameters</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>type</code></td>
+<td>
+<p>Covariance type, either 'Gaussian', 'Matern3_2', or 'Matern5_2'</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rs</code></td>
+<td>
+<p>If TRUE, rescales inputs to [0,1]</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nm</code></td>
+<td>
+<p>If TRUE, normalizes output to mean 0, variance 1</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>known</code></td>
+<td>
+<p>Fixes all hyperparamters to a known value</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>optstart</code></td>
+<td>
+<p>Sets the starting value for the optimization</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>control</code></td>
+<td>
+<p>Control from optim function</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Fits quantile kriging using a double exponential or Matern covariance function. This emulator is for a stochastic simulation and models the distribution of the results (through the quantiles), not just the mean.  The hyperparameters can be trained using maximum likelihood estimation or leave-one-out cross validation as recommended in Plumlee and Tuo (2014).  The GP is trained using the Woodbury formula to improve computation speed with replication as shown in Binois et al. (2018).  To get meaningful results, there should be sufficient replication at each input. The quantiles at a location <code class="reqn">x0</code> are found using: </p>
+<p style="text-align: center;"><code class="reqn">\mu(x0) + kn(x0)Kn^{-1}(y(i) - \mu(x)</code>
+</p>
+<p>) where <code class="reqn">Kn</code> is the kernel of the design matrix (with nugget effect), <code class="reqn">y(i)</code> the ordered sample closest to that quantile at each input, and <code class="reqn">\mu(x)</code> the mean at each input.
+</p>
+
+
+<h3>Value</h3>
+
+
+<dl>
+<dt>quants</dt>
+<dd>
+<p>The estimated quantile values in matrix form</p>
+</dd>
+<dt>yquants</dt>
+<dd>
+<p>The actual quantile values from the data in matrix form</p>
+</dd>
+<dt>g</dt>
+<dd>
+<p>The scaling parameter for the kernel</p>
+</dd>
+<dt>l</dt>
+<dd>
+<p>The lengthscale parameter(s)</p>
+</dd>
+<dt>ll</dt>
+<dd>
+<p>The log likelihood</p>
+</dd>
+<dt>beta0</dt>
+<dd>
+<p>Estimated linear trend</p>
+</dd>
+<dt>nu</dt>
+<dd>
+<p>Estimator of the variance</p>
+</dd>
+<dt>xstar</dt>
+<dd>
+<p>Matrix of unique input values</p>
+</dd>
+<dt>ystar</dt>
+<dd>
+<p>Average value at each unique input value</p>
+</dd>
+<dt>Ki </dt>
+<dd>
+<p>Inverted covariance matrix</p>
+</dd>
+<dt>quantv</dt>
+<dd>
+<p>Vector of alpha values between 0 and 1 for estimated quantiles, it is recommended that only a small number of quantiles are used for fitting and more quantiles can be found later using newQuants</p>
+</dd>
+<dt>mult</dt>
+<dd>
+<p>Number of replicates at each input</p>
+</dd>
+</dl>
+<h3>References</h3>
+
+
+<ul>
+<li>
+<p> Matthew Plumlee &amp; Rui Tuo (2014) Building Accurate Emulators for Stochastic Simulations via Quantile Kriging, Technometrics, 56:4, 466-473, DOI: 10.1080/00401706.2013.860919
+</p>
+</li>
+<li>
+<p> Mickael Binois, Robert B. Gramacy &amp; Mike Ludkovski (2018) Practical Heteroscedastic Gaussian Process Modeling for Large Simulation Experiments, Journal of Computational and Graphical Statistics, 27:4, 808-821, DOI: 10.1080/10618600.2018.1458625
+</p>
+</li>
+</ul>
+<h3>Examples</h3>
+
+<pre><code class="language-R"># Simple example
+X &lt;- seq(0,1,length.out = 20)
+Y &lt;- cos(5*X) + cos(X)
+Xstar &lt;- rep(X,each = 100)
+Ystar &lt;- rep(Y,each = 100)
+Ystar &lt;- rnorm(length(Ystar),Ystar,1)
+lb &lt;- c(0.0001,0.0001)
+ub &lt;- c(10,10)
+Qout &lt;- quantKrig(Xstar,Ystar, quantv = seq(0.05,0.95, length.out = 7), lower = lb, upper = ub)
+QuantPlot(Qout, Xstar, Ystar)
+
+#fit for non-normal errors
+
+Ystar &lt;- rep(Y,each = 100)
+e &lt;- rchisq(length(Ystar),5)/5 - 1
+Ystar &lt;- Ystar + e
+Qout &lt;- quantKrig(Xstar,Ystar, quantv = seq(0.05,0.95, length.out = 7), lower = lb, upper = ub)
+QuantPlot(Qout, Xstar, Ystar)
+</code></pre>
+
+
+</div>

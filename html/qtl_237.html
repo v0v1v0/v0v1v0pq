@@ -1,0 +1,112 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>replaceqtl</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Replace a QTL in a qtl object with a different position</h2>
+
+<h3>Description</h3>
+
+<p>This function replaces a QTL or QTLs in a qtl object with a different
+position.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">replaceqtl(cross, qtl, index, chr, pos, qtl.name, drop.lod.profile=TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>cross</code></td>
+<td>
+<p>An object of class <code>cross</code>. See
+<code>read.cross</code> for details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qtl</code></td>
+<td>
+<p>A qtl object, as created by <code>makeqtl</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>index</code></td>
+<td>
+<p>Numeric index indicating the QTL to be replaced.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>chr</code></td>
+<td>
+<p>Vector (of same length as <code>index</code>) indicating the
+chromosomes for the new QTL.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pos</code></td>
+<td>
+<p>Vector (of same length as <code>index</code>) indicating the
+positions for the new QTL. If there is no marker or pseudomarker at a
+position, the nearest position is used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qtl.name</code></td>
+<td>
+<p>Optional vector (of same length as <code>index</code>)
+of user-specified names for each new QTL, used in the
+drop-one-term ANOVA table in <code>fitqtl</code>.
+If unspecified, the names will be of the form <code>"Chr1@10"</code> for a
+QTL on Chromsome 1 at 10 cM.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>drop.lod.profile</code></td>
+<td>
+<p>If TRUE, remove any LOD profiles from the object.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>The input <code>qtl</code> object,
+but with some QTL replaced by new ones.  See <code>makeqtl</code> for
+details on the format.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Karl W Broman, <a href="mailto:broman@wisc.edu">broman@wisc.edu</a></p>
+
+
+<h3>See Also</h3>
+
+ <p><code>makeqtl</code>, <code>fitqtl</code>,
+<code>dropfromqtl</code>, <code>addtoqtl</code>,
+<code>reorderqtl</code> </p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(fake.f2)
+
+# take out several QTLs and make QTL object
+qc &lt;- c(1, 6, 13)
+qp &lt;- c(25.8, 33.6, 18.63)
+fake.f2 &lt;- subset(fake.f2, chr=qc)
+
+fake.f2 &lt;- calc.genoprob(fake.f2, step=2, err=0.001)
+qtl &lt;- makeqtl(fake.f2, qc, qp, what="prob")
+
+qtl &lt;- replaceqtl(fake.f2, qtl, 2, 6, 48.1)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,188 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>dictionary</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Create a dictionary</h2>
+
+<h3>Description</h3>
+
+<p>Create a <span class="pkg">quanteda</span> dictionary class object, either from a list or by
+importing from a foreign format.  Currently supported input file formats are
+the WordStat, LIWC, Lexicoder v2 and v3, and Yoshikoder formats.  The import
+using the LIWC format works with all currently available dictionary files
+supplied as part of the LIWC 2001, 2007, and 2015 software (see References).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">dictionary(
+  x,
+  file = NULL,
+  format = NULL,
+  separator = " ",
+  tolower = TRUE,
+  encoding = "utf-8"
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a named list of character vector dictionary entries, including
+valuetype pattern matches, and including multi-word expressions
+separated by <code>concatenator</code>.  See examples. This argument may be
+omitted if the dictionary is read from <code>file</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>file</code></td>
+<td>
+<p>file identifier for a foreign dictionary</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>format</code></td>
+<td>
+<p>character identifier for the format of the foreign dictionary.
+If not supplied, the format is guessed from the dictionary file's
+extension. Available options are: </p>
+
+<dl>
+<dt><code>"wordstat"</code></dt>
+<dd>
+<p>format used by Provalis Research's WordStat
+software</p>
+</dd> <dt><code>"LIWC"</code></dt>
+<dd>
+<p>format used by the Linguistic Inquiry and
+Word Count software</p>
+</dd> <dt><code>"yoshikoder"</code></dt>
+<dd>
+<p> format used by Yoshikoder
+software</p>
+</dd> <dt><code>"lexicoder"</code></dt>
+<dd>
+<p>format used by Lexicoder</p>
+</dd>
+<dt><code>"YAML"</code></dt>
+<dd>
+<p>the standard YAML format</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>separator</code></td>
+<td>
+<p>the character in between multi-word dictionary values. This
+defaults to <code>" "</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tolower</code></td>
+<td>
+<p>if <code>TRUE</code>, convert all dictionary values to lowercase</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>encoding</code></td>
+<td>
+<p>additional optional encoding value for reading in imported
+dictionaries. This uses the iconv labels for encoding.  See the
+"Encoding" section of the help for file.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Dictionaries can be subsetted using
+<code>[</code> and
+<code>[[</code>, operating the same as the equivalent
+list operators.
+</p>
+<p>Dictionaries can be coerced from lists using <code>as.dictionary()</code>,
+coerced to named lists of characters using
+<code>as.list()</code>, and checked using
+<code>is.dictionary()</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A dictionary class object, essentially a specially classed named list
+of characters.
+</p>
+
+
+<h3>References</h3>
+
+<p>WordStat dictionaries page, from Provalis Research
+<a href="https://provalisresearch.com/products/content-analysis-software/wordstat-dictionary/">https://provalisresearch.com/products/content-analysis-software/wordstat-dictionary/</a>.
+</p>
+<p>Pennebaker, J.W., Chung, C.K., Ireland, M., Gonzales, A., &amp; Booth, R.J.
+(2007). The development and psychometric properties of LIWC2007. [Software
+manual]. Austin, TX (<a href="https://www.liwc.app/">https://www.liwc.app/</a>).
+</p>
+<p>Yoshikoder page, from Will Lowe
+<a href="https://conjugateprior.org/software/yoshikoder/">https://conjugateprior.org/software/yoshikoder/</a>.
+</p>
+<p>Lexicoder format, <a href="https://www.snsoroka.com/data-lexicoder/">https://www.snsoroka.com/data-lexicoder/</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>as.dictionary()</code>,
+<code>as.list()</code>, <code>is.dictionary()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">corp &lt;- corpus_subset(data_corpus_inaugural, Year&gt;1900)
+dict &lt;- dictionary(list(christmas = c("Christmas", "Santa", "holiday"),
+                          opposition = c("Opposition", "reject", "notincorpus"),
+                          taxing = "taxing",
+                          taxation = "taxation",
+                          taxregex = "tax*",
+                          country = "america"))
+tokens(corp) |&gt;
+    tokens_lookup(dictionary = dict) |&gt;
+    dfm()
+
+# subset a dictionary
+dict[1:2]
+dict[c("christmas", "opposition")]
+dict[["opposition"]]
+
+# combine dictionaries
+c(dict["christmas"], dict["country"])
+
+## Not run: 
+dfmat &lt;- dfm(tokens(data_corpus_inaugural))
+
+# import the Laver-Garry dictionary from Provalis Research
+dictfile &lt;- tempfile()
+download.file("https://provalisresearch.com/Download/LaverGarry.zip",
+              dictfile, mode = "wb")
+unzip(dictfile, exdir = (td &lt;- tempdir()))
+dictlg &lt;- dictionary(file = paste(td, "LaverGarry.cat", sep = "/"))
+dfm_lookup(dfmat, dictlg)
+
+# import a LIWC formatted dictionary from http://www.moralfoundations.org
+download.file("http://bit.ly/37cV95h", tf &lt;- tempfile())
+dictliwc &lt;- dictionary(file = tf, format = "LIWC")
+dfm_lookup(dfmat, dictliwc)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

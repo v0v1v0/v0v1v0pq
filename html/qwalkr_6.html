@@ -1,0 +1,70 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>cartesian</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Adjacency Matrix of the Cartesian Product</h2>
+
+<h3>Description</h3>
+
+<p>Returns the adjacency matrix of the cartesian product of two graphs
+given the adjacency matrix of each one, <code class="reqn">G</code> and <code class="reqn">H</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">cartesian(G, H = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>G</code></td>
+<td>
+<p>adjacency matrix of the first graph.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>H</code></td>
+<td>
+<p>adjacency matrix of the second graph. If not provided,
+it takes the same value as <code>G</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Let <code class="reqn">A(G),\ A(H)</code> be the adjacency matrices of
+the graphs <code class="reqn">G,\ H</code> such that <code class="reqn">|V(G)| = n</code> and <code class="reqn">|V(H)| = m</code>,
+then the adjacency matrix of the cartesian product <code class="reqn">G \times H</code> is
+given by
+</p>
+<p style="text-align: center;"><code class="reqn">A(G \times H) = A(G) \otimes I_{m\ x\ m} + I_{n\ x\ n} \otimes A(H)</code>
+</p>
+
+
+
+<h3>See Also</h3>
+
+<p><code>J()</code>, <code>tr()</code>, <code>trdot()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">P3 &lt;- matrix(c(0,1,0,1,0,1,0,1,0), nrow=3)
+K3 &lt;- matrix(c(0,1,1,1,0,1,1,1,0), nrow=3)
+
+# Return the adjacency matrix of P3 X K3
+cartesian(P3, K3)
+
+# Return the adjacency matrix of P3 X P3
+cartesian(P3)
+</code></pre>
+
+
+</div>

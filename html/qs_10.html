@@ -1,0 +1,66 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>encode_source</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Encode and compress a file or string</h2>
+
+<h3>Description</h3>
+
+<p>A helper function for encoding and compressing a file or string to ASCII using <code>base91_encode()</code> and <code>qserialize()</code> with the highest compression level.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">encode_source(x = NULL, file = NULL, width = 120)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>The object to encode (if <code>file</code> is not NULL)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>file</code></td>
+<td>
+<p>The file to encode (if <code>x</code> is not NULL)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>width</code></td>
+<td>
+<p>The output will be broken up into individual strings, with <code>width</code> being the longest allowable string.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The <code>encode_source()</code> and <code>decode_source()</code> functions are useful for storing small amounts of data or text inline to a .R or .Rmd file.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A character vector in base91 representing the compressed original file or object.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">set.seed(1); data &lt;- sample(500)
+result &lt;- encode_source(data)
+# Note: the result string is not guaranteed to be consistent between qs or zstd versions
+#       but will always properly decode regardless
+print(result)
+result &lt;- decode_source(result) # [1]  1  2  3  4  5  6  7  8  9 10
+</code></pre>
+
+
+</div>

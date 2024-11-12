@@ -1,0 +1,81 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>textstat_proxy-class</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>textstat_simil/dist classes</h2>
+
+<h3>Description</h3>
+
+<p>Sparse classes for similarity and distance matrices created by
+<code>textstat_simil()</code> and <code>textstat_dist()</code>.
+</p>
+<p>Sparse classes for similarity and distance matrices created by
+<code>textstat_simil()</code> and
+<code>textstat_dist()</code>.
+</p>
+<p>Print/show method for objects created by <code>textstat_simil</code> and
+<code>textstat_dist</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">validate_min_simil(object)
+
+## S4 method for signature 'textstat_proxy'
+show(object)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>the textstat_proxy object to be printed</p>
+</td>
+</tr></table>
+<h3>Slots</h3>
+
+
+<dl>
+<dt><code>.Data</code></dt>
+<dd>
+<p>a sparse <span class="pkg">Matrix</span> object, symmetric if selection is
+<code>NULL</code></p>
+</dd>
+<dt><code>method</code></dt>
+<dd>
+<p>the method used for computing similarity or distance</p>
+</dd>
+<dt><code>min_simil</code></dt>
+<dd>
+<p>numeric; a threshold for the similarity values below which similarity
+values are not computed</p>
+</dd>
+<dt><code>margin</code></dt>
+<dd>
+<p>identifies the margin of the dfm on which similarity or
+difference was computed:  <code>"documents"</code> for documents or
+<code>"features"</code> for word/term features.</p>
+</dd>
+<dt><code>type</code></dt>
+<dd>
+<p>either <code>"textstat_simil"</code> or <code>"textstat_dist"</code></p>
+</dd>
+<dt><code>selection</code></dt>
+<dd>
+<p>target units, if any</p>
+</dd>
+</dl>
+<h3>See Also</h3>
+
+<p><code>textstat_simil()</code>
+</p>
+<p><code>textstat_simil()</code>
+</p>
+
+
+</div>

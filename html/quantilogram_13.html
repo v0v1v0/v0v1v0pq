@@ -1,0 +1,121 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>crossq.sb.opt</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Stationary Bootstrap for the Cross-Quantilogram with the choice of the stationary-bootstrap parameter</h2>
+
+<h3>Description</h3>
+
+<p>Returns critical values for the cross-quantilogram, based on the stationary bootstrap with the choice of the stationary-bootstrap parameter.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">crossq.sb.opt(DATA, vecA, k, Bsize, sigLev = 0.05)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>DATA</code></td>
+<td>
+<p>An input matrix of dimensions T x 2, where T is the number of observations.
+Column 1 contains the first variable and Column 2 contains the second variable.
+This function will apply a k-period lag to the second variable during computation.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vecA</code></td>
+<td>
+<p>A pair of two probability values at which sample quantiles are estimated</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>k</code></td>
+<td>
+<p>A lag order</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Bsize</code></td>
+<td>
+<p>The number of repetition of bootstrap</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sigLev</code></td>
+<td>
+<p>The statistical significance level. Default is 0.05 (5% significance level).</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>This function generates critical values for for the cross-quantilogram,
+using the stationary bootstrap in Politis and Romano (1994).
+To choose parameter for the statioanry bootstrap, this function
+first obtaines the optimal value for each time serie using the
+result provided by Politis and White (2004) and Patton, Politis and White (2004)
+(The R-package, "np", written by  Hayfield and Racine is used).
+Next, the average of the obtained values is used as the parameter value.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The boostrap critical values
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Heejoon Han, Oliver Linton, Tatsushi Oka and Yoon-Jae Whang
+</p>
+
+
+<h3>References</h3>
+
+<p>Han, H., Linton, O., Oka, T., and Whang, Y. J. (2016).
+"The cross-quantilogram: Measuring quantile dependence and testing directional predictability between time series." <em>Journal of Econometrics</em>, 193(1), 251-270.
+</p>
+<p>Patton, A., Politis, D. N., and White, H. (2009).
+Correction to "Automatic block-length selection for the dependent bootstrap"
+by D. Politis and H. White. <em>Econometric Reviews</em>, 28(4), 372-375.
+</p>
+<p>Politis, D. N., and White, H. (2004).
+"Automatic block-length selection for the dependent bootstrap."
+<em>Econometric Reviews</em>, 23(1), 53-70.
+</p>
+<p>Politis, Dimitris N., and Joseph P. Romano. (1994).
+"The stationary bootstrap."
+<em>Journal of the American Statistical Association</em> 89.428: 1303-1313.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## data source
+data("sys.risk")
+
+## data: 2 variables
+D = sys.risk[,c("Market", "JPM")]
+
+# probability levels for the 2 variables
+vecA = c(0.1, 0.5)
+
+## setup for stationary bootstrap
+Bsize  = 5    ## small size 5 for test
+sigLev = 0.05 ## significance level
+
+## cross-quantilogram with the lag of 5
+crossq.sb.opt(D, vecA, 5, Bsize, sigLev)
+
+</code></pre>
+
+
+</div>

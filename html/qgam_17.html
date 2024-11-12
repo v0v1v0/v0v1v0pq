@@ -1,0 +1,291 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>tuneLearnFast</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Fast learning rate calibration for the Gibbs posterior</h2>
+
+<h3>Description</h3>
+
+<p>The learning rate (sigma) of the Gibbs posterior is tuned either by calibrating the credible intervals for the fitted
+curve, or by minimizing the pinball loss on out-of-sample data. This is done by bootrapping or by k-fold cross-validation. 
+Here the loss function is minimized, for each quantile, using a Brent search.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">tuneLearnFast(
+  form,
+  data,
+  qu,
+  err = NULL,
+  multicore = !is.null(cluster),
+  cluster = NULL,
+  ncores = detectCores() - 1,
+  paropts = list(),
+  control = list(),
+  argGam = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>form</code></td>
+<td>
+<p>A GAM formula, or a list of formulae. See ?mgcv::gam details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>A data frame or list containing the model response variable and covariates required by the formula.
+By default the variables are taken from environment(formula): typically the environment from which gam is called.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qu</code></td>
+<td>
+<p>The quantile of interest. Should be in (0, 1).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>err</code></td>
+<td>
+<p>An upper bound on the error of the estimated quantile curve. Should be in (0, 1). 
+Since qgam v1.3 it is selected automatically, using the methods of Fasiolo et al. (2017).
+The old default was <code>err=0.05</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>multicore</code></td>
+<td>
+<p>If TRUE the calibration will happen in parallel.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cluster</code></td>
+<td>
+<p>An object of class <code>c("SOCKcluster", "cluster")</code>. This allowes the user to pass her own cluster,
+which will be used if <code>multicore == TRUE</code>. The user has to remember to stop the cluster.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ncores</code></td>
+<td>
+<p>Number of cores used. Relevant if <code>multicore == TRUE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>paropts</code></td>
+<td>
+<p>a list of additional options passed into the foreach function when parallel computation is enabled. 
+This is important if (for example) your code relies on external data or packages: 
+use the .export and .packages arguments to supply them so that all cluster nodes 
+have the correct environment set up for computing.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>control</code></td>
+<td>
+<p>A list of control parameters for <code>tuneLearn</code> with entries: </p>
+
+<ul>
+<li>
+<p><code>loss</code> = loss function use to tune log(sigma). If <code>loss=="cal"</code> is chosen, then log(sigma) is chosen so that
+credible intervals for the fitted curve are calibrated. See Fasiolo et al. (2017) for details.
+If <code>loss=="pin"</code> then log(sigma) approximately minimizes the pinball loss on the out-of-sample
+data.
+</p>
+</li>
+<li>
+<p><code>sam</code> = sampling scheme use: <code>sam=="boot"</code> corresponds to bootstrapping and <code>sam=="kfold"</code> to k-fold
+cross-validation. The second option can be used only if <code>ctrl$loss=="pin"</code>.
+</p>
+</li>
+<li>
+<p><code>vtype</code> = type of variance estimator used to standardize the deviation from the main fit in the calibration.
+If set to <code>"m"</code> the variance estimate obtained by the full data fit is used, if set to <code>"b"</code>
+than the variance estimated produced by the bootstrap fits are used. By default <code>vtype="m"</code>.
+</p>
+</li>
+<li>
+<p><code>epsB</code> = positive tolerance used to assess convergence when fitting the regression coefficients on bootstrap data.  
+In particular, if <code>|dev-dev_old|/(|dev|+0.1)&lt;epsB</code> then convergence is achieved. 
+Default is <code>epsB=1e-5</code>.
+</p>
+</li>
+<li>
+<p><code>K</code> = if <code>sam=="boot"</code> this is the number of boostrap datasets, while if <code>sam=="kfold"</code> this is the 
+number of folds. By default <code>K=50</code>.
+</p>
+</li>
+<li>
+<p><code>init</code> = an initial value for the log learning rate (log(sigma)). 
+By default <code>init=NULL</code> and the optimization is initialized by other means.
+</p>
+</li>
+<li>
+<p><code>brac</code> = initial bracket for Brent method. By default <code>brac=log(c(0.5, 2))</code>, so the initial 
+search range is <code>(init + log(0.5), init + log(2))</code>.
+</p>
+</li>
+<li>
+<p><code>tol</code> = tolerance used in the Brent search. By default <code>tol=.Machine$double.eps^0.25</code>.
+See <code>?optimize</code> for details.
+</p>
+</li>
+<li>
+<p><code>aTol</code> = Brent search parameter. If the solution to a Brent get closer than 
+<code>aTol * abs(diff(brac))</code> to one of the extremes of the bracket, the optimization is
+stop and restarted with an enlarged and shifted bracket. <code>aTol=0.05</code> should be &gt; 0 and values &gt; 0.1
+don't quite make sense. By default <code>aTol=0.05</code>.
+</p>
+</li>
+<li>
+<p><code>redWd</code> = parameter which determines when the bracket will be reduced.
+If <code>redWd==10</code> then the bracket is halved if the nearest solution
+falls within the central 10% of the bracket's width. By default <code>redWd = 10</code>.
+</p>
+</li>
+<li>
+<p><code>b</code> = offset parameter used by the mgcv::gauslss, which we estimate to initialize the quantile
+fit (when a variance model is used). By default <code>b=0</code>.
+</p>
+</li>
+<li>
+<p><code>link</code> = Link function to be used. See <code>?elf</code> and <code>?elflss</code> for defaults.
+</p>
+</li>
+<li>
+<p><code>verbose</code> = if TRUE some more details are given. By default <code>verbose=FALSE</code>.
+</p>
+</li>
+<li>
+<p><code>progress</code> = if TRUE progress in learning rate estimation is reported via printed text.
+<code>TRUE</code> by default.
+</p>
+</li>
+</ul>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>argGam</code></td>
+<td>
+<p>A list of parameters to be passed to <code>mgcv::gam</code>. This list can potentially include all the arguments listed
+in <code>?gam</code>, with the exception of <code>formula</code>, <code>family</code> and <code>data</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list with entries: </p>
+
+<ul>
+<li>
+<p><code>lsig</code> = a vector containing the values of log(sigma) that minimize the loss function, 
+for each quantile.
+</p>
+</li>
+<li>
+<p><code>err</code> = the error bound used for each quantile. Generally each entry is identical to the
+argument <code>err</code>, but in some cases the function increases it to enhance stabily.
+</p>
+</li>
+<li>
+<p><code>ranges</code> = the search ranges by the Brent algorithm to find log-sigma, for each quantile. 
+</p>
+</li>
+<li>
+<p><code>store</code> = a list, where the i-th entry is a matrix containing all the locations (1st row) at which
+the loss function has been evaluated and its value (2nd row), for the i-th quantile.
+</p>
+</li>
+</ul>
+<h3>Author(s)</h3>
+
+<p>Matteo Fasiolo &lt;matteo.fasiolo@gmail.com&gt;.
+</p>
+
+
+<h3>References</h3>
+
+<p>Fasiolo, M., Wood, S.N., Zaffran, M., Nedellec, R. and Goude, Y., 2020. 
+Fast calibrated additive quantile regression. 
+Journal of the American Statistical Association (to appear).
+<a href="https://www.tandfonline.com/doi/full/10.1080/01621459.2020.1725521">https://www.tandfonline.com/doi/full/10.1080/01621459.2020.1725521</a>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(qgam); library(MASS)
+
+###
+# Single quantile fit
+###
+# Calibrate learning rate on a grid
+set.seed(5235)
+tun &lt;- tuneLearnFast(form = accel~s(times,k=20,bs="ad"), 
+                     data = mcycle, 
+                     qu = 0.2)
+
+# Fit for quantile 0.2 using the best sigma
+fit &lt;- qgam(accel~s(times, k=20, bs="ad"), data = mcycle, qu = 0.2, lsig = tun$lsig)
+
+pred &lt;- predict(fit, se=TRUE)
+plot(mcycle$times, mcycle$accel, xlab = "Times", ylab = "Acceleration", 
+     ylim = c(-150, 80))
+lines(mcycle$times, pred$fit, lwd = 1)
+lines(mcycle$times, pred$fit + 2*pred$se.fit, lwd = 1, col = 2)
+lines(mcycle$times, pred$fit - 2*pred$se.fit, lwd = 1, col = 2) 
+
+###
+# Multiple quantile fits
+###
+# Calibrate learning rate on a grid
+quSeq &lt;- c(0.25, 0.5, 0.75)
+set.seed(5235)
+tun &lt;- tuneLearnFast(form = accel~s(times, k=20, bs="ad"), 
+                     data = mcycle, 
+                     qu = quSeq)
+
+# Fit using estimated sigmas
+fit &lt;- mqgam(accel~s(times, k=20, bs="ad"), data = mcycle, qu = quSeq, lsig = tun$lsig)
+
+# Plot fitted quantiles
+plot(mcycle$times, mcycle$accel, xlab = "Times", ylab = "Acceleration", 
+     ylim = c(-150, 80))
+for(iq in quSeq){
+  pred &lt;- qdo(fit, iq, predict)
+  lines(mcycle$times, pred, col = 2)
+}  
+
+## Not run: 
+# You can get a better fit by letting the learning rate change with "accel"
+# For instance
+tun &lt;- tuneLearnFast(form = list(accel ~ s(times, k=20, bs="ad"), ~ s(times)), 
+                      data = mcycle, 
+                      qu = quSeq)
+
+fit &lt;- mqgam(list(accel ~ s(times, k=20, bs="ad"), ~ s(times)),
+             data = mcycle, qu = quSeq, lsig = tun$lsig)
+
+# Plot fitted quantiles
+plot(mcycle$times, mcycle$accel, xlab = "Times", ylab = "Acceleration", 
+     ylim = c(-150, 80))
+for(iq in quSeq){
+  pred &lt;- qdo(fit, iq, predict)
+  lines(mcycle$times, pred, col = 2)
+}
+
+## End(Not run) 
+
+</code></pre>
+
+
+</div>

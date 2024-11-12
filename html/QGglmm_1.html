@@ -1,0 +1,141 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>QGglmm-package</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Estimate Quantitative Genetics Parameters from Generalised Linear Mixed Models
+</h2>
+
+<h3>Description</h3>
+
+<p>Compute various quantitative genetics parameters from a Generalised Linear Mixed Model (GLMM) estimates. Especially, it yields the observed phenotypic mean, phenotypic variance and additive genetic variance.
+</p>
+
+
+<h3>Details</h3>
+
+<p>The DESCRIPTION file:
+</p>
+
+<table>
+<tr>
+<td style="text-align: left;">
+Package: </td>
+<td style="text-align: left;"> QGglmm</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+Type: </td>
+<td style="text-align: left;"> Package</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+Title: </td>
+<td style="text-align: left;"> Estimate Quantitative Genetics Parameters from Generalised Linear Mixed Models</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+Version: </td>
+<td style="text-align: left;"> 0.7.4</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+Date: </td>
+<td style="text-align: left;"> 2020-01-03</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+Author: </td>
+<td style="text-align: left;"> Pierre de Villemereuil &lt;bonamy@horus.ens.fr&gt;</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+Maintainer: </td>
+<td style="text-align: left;"> Pierre de Villemereuil &lt;bonamy@horus.ens.fr&gt;</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+BugReports: </td>
+<td style="text-align: left;"> https://github.com/devillemereuil/qgglmm/issues</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+Description: </td>
+<td style="text-align: left;"> Compute various quantitative genetics parameters from a Generalised Linear Mixed Model (GLMM) estimates. Especially, it yields the observed phenotypic mean, phenotypic variance and additive genetic variance.</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+Imports: </td>
+<td style="text-align: left;"> cubature (&gt;= 1.4)</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+License: </td>
+<td style="text-align: left;"> GPL-2</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+</td>
+</tr>
+</table>
+<p>Index of help topics:
+</p>
+<pre>
+QGglmm-package          Estimate Quantitative Genetics Parameters from
+                        Generalised Linear Mixed Models
+QGicc                   Intra - Class Correlation coefficients (ICC) on
+                        the observed data scale
+QGlink.funcs            List of functions according to a distribution
+                        and a link function
+QGmean                  Compute the phenotypic mean on the observed
+                        scale
+QGmvicc                 Intra - Class Correlation coefficients (ICC) on
+                        the observed data scale (multivariate
+                        analysis).
+QGmvmean                Compute the multivariate phenotypic mean on the
+                        observed scale
+QGmvparams              Quantitative Genetics parameters from GLMM
+                        estimates (multivariate analysis).
+QGmvpred                Predict the evolutionary response to selection
+                        on the observed scale
+QGmvpsi                 Compute a multivariate "Psi" (used to compute
+                        the additive genetic variance on the observed
+                        scale).
+QGparams                Quantitative Genetics parameters from GLMM
+                        estimates.
+QGpred                  Predict the evolutionary response to selection
+                        on the observed scale
+QGpsi                   Compute "Psi" (used to compute the additive
+                        genetic variance on the observed scale).
+QGvar.dist              Compute the distribution variance
+QGvar.exp               Compute the variance of expected values (i.e.
+                        the latent values after inverse-link
+                        transformation.)
+QGvcov                  Compute the phenotypic variance-covariance
+                        matrix on the observed / expected scale
+</pre>
+<p>This package gives the values on the observed scale for several quantitative genetics parameter using estimates from a Generalised Linear Mixed Model (GLMM). If a fitness function is assumed or measured, it also predicts the evolutionary response to selection on the observed scale.
+</p>
+<p>The two main functions of this package are <code>QGparams</code> and <code>QGpred</code>. The first allows to compute the quantitative genetics parameters on the observed scale for any given GLMM and its estimates. The second allows to compute a predicted response to evolution on the observed scale using GLMM estimates and an assumed/measured/inferred fitness function.
+</p>
+<p>For some distribution/link models (e.g. Binomial/probit and Poisson and Negative Binomial with logartihm or square-root link), a closed form solutions of the integrals computed by this package are available. They are automatially used by <code>QGparams</code> and this function only.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Pierre de Villemereuil &lt;bonamy@horus.ens.fr&gt;
+</p>
+<p>Maintainer: Pierre de Villemereuil &lt;bonamy@horus.ens.fr&gt;
+</p>
+
+
+<h3>References</h3>
+
+<p>de Villemereuil, P., Schielzeth, H., Nakagawa, S., and Morrissey, M.B. (2016). General methods for evolutionary quantitative genetic inference from generalised mixed models. Genetics 204, 1281-1294.
+</p>
+
+
+</div>

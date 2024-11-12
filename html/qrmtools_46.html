@@ -1,0 +1,159 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>matrix_plot</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Graphical Tool for Visualizing Matrices</h2>
+
+<h3>Description</h3>
+
+<p>Plot of a matrix.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">matrix_plot(x, ran = range(x, na.rm = TRUE), ylim = rev(c(0.5, nrow(x) + 0.5)),
+            xlab = "Column", ylab = "Row",
+            scales = list(alternating = c(1,1), tck = c(1,0),
+                          x = list(at = pretty(1:ncol(x)), rot = 90),
+                          y = list(at = pretty(1:nrow(x)))),
+            at = NULL, colorkey = NULL, col = c("royalblue3", "white", "maroon3"),
+            col.regions = NULL, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p><code>matrix</code>-like object.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ran</code></td>
+<td>
+<p>range (can be used to enforce (-1,1), for example).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ylim</code></td>
+<td>
+<p>y-axis limits in reverse order (for the rows to appear 'top down').</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xlab</code></td>
+<td>
+<p>x-axis label.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ylab</code></td>
+<td>
+<p>y-axis label.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>scales</code></td>
+<td>
+<p>see <code>levelplot()</code>; if <code>NULL</code>,
+labels and ticks are omitted.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>at</code></td>
+<td>
+<p>see <code>levelplot()</code>. If <code>NULL</code>, a
+useful default is computed based on the given values in <code>x</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>colorkey</code></td>
+<td>
+<p>see <code>levelplot()</code>. If <code>NULL</code>, a
+useful default is computed based on <code>at</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>col</code></td>
+<td>
+<p><code>vector</code> of length two (if all values of
+<code>x</code> are non-positive or all are non-negative; note that also a
+vector of length three is allowed in this case) or three (if
+<code>x</code> contains negative and positive values) providing the color
+key's default colors.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>col.regions</code></td>
+<td>
+<p>see <code>levelplot()</code>. If <code>NULL</code>, a
+useful default is computed based on <code>at</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>additional arguments passed to the underlying
+<code>levelplot()</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Plot of a matrix.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The plot, a Trellis object.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Marius Hofert</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Generate a random correlation matrix
+d &lt;- 50
+L &lt;- diag(1:d)
+set.seed(271)
+L[lower.tri(L)] &lt;- runif(choose(d,2)) # random Cholesky factor
+Sigma &lt;- L 
+P &lt;- cor(Sigma)
+
+## Default
+matrix_plot(P)
+matrix_plot(P, ran = c(-1, 1)) # within (-1, 1)
+matrix_plot(abs(P)) # if nonnegative
+L. &lt;- L
+diag(L.) &lt;- NA
+matrix_plot(L.) # Cholesky factor without diagonal
+
+## Default if nonpositive
+matrix_plot(-abs(P))
+
+## Changing colors
+matrix_plot(P, ran = c(-1, 1),
+            col.regions = grey(c(seq(0, 1, length.out = 100),
+                                 seq(1, 0, length.out = 100))))
+
+## An example with overlaid lines
+library(lattice)
+my_panel &lt;- function(...) {
+    panel.levelplot(...)
+    panel.abline(h = c(10, 20), v = c(10, 20), lty = 2)
+}
+matrix_plot(P, panel = my_panel)
+</code></pre>
+
+
+</div>

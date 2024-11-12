@@ -1,0 +1,79 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>dev</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Specify where to plot</h2>
+
+<h3>Description</h3>
+
+<p>Switch to an existing plot device, or if not already open,
+launch a new graphics device based on operating system used.
+On Windows and macOS, if <code>x</code> is not provided, this will open or switch to the first
+non-RStudio device, which is much faster than the ‘<span class="file">png</span>’-based RStudio plot device.
+Currently, this will not open anything new.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">dev(x, ..., verbose = getOption("quickPlot.verbose"))
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>The number of a plot device. If missing, will open a new
+non-RStudio plotting device</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Additional arguments passed to <code>newPlot()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p>Numeric or logical. If <code>TRUE</code> or <code style="white-space: pre;">⁠&gt;0⁠</code>, then messages will be
+shown. If <code>FALSE</code> or <code>0</code>, most messages will be suppressed.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>For example, <code>dev(6)</code> switches the active plot device to device 6.
+If it does not exist, it opens it. If devices 1-5 don't exist they will be opened too.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Opens a new plot device on the screen.
+Invisibly returns the device number selected.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Eliot McIntire and Alex Chubaty
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+  dev(4)
+
+## End(Not run)
+
+</code></pre>
+
+
+</div>

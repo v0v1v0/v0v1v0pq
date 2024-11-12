@@ -1,0 +1,189 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>.plotGrob</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Plot spatial grobs (using <span class="pkg">grid</span> package)</h2>
+
+<h3>Description</h3>
+
+<p>Internal function. Plot a raster Grob, a points Grob, polygon Grob.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">.plotGrob(
+  grobToPlot,
+  col = NULL,
+  real = FALSE,
+  size = unit(5, "points"),
+  minv,
+  maxv,
+  legend = TRUE,
+  legendText = NULL,
+  length = NULL,
+  gp = gpar(),
+  gpText = gpar(),
+  pch = 19,
+  speedup = 1,
+  name = character(),
+  vp = list(),
+  ...,
+  verbose = getOption("quickPlot.verbose")
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>grobToPlot</code></td>
+<td>
+<p><code style="white-space: pre;">⁠Raster*⁠</code>, <code style="white-space: pre;">⁠SpatialLines*⁠</code>,
+<code style="white-space: pre;">⁠SpatialPoints*⁠</code>, or <code style="white-space: pre;">⁠SpatialPolygons*⁠</code> object.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>col</code></td>
+<td>
+<p>Currently only used for the legend of a <code style="white-space: pre;">⁠Raster*⁠</code> object.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>real</code></td>
+<td>
+<p>Logical indicating whether the data are <code>real</code> numbers
+(i.e., as opposed to <code>integer</code> or <code>factor</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>size</code></td>
+<td>
+<p>The size of the <code>SpatialPoints</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>minv</code></td>
+<td>
+<p>The minimum value on a <code style="white-space: pre;">⁠Raster*⁠</code>. Required because not
+all Rasters have this defined internally.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>maxv</code></td>
+<td>
+<p>The maximum value on a <code style="white-space: pre;">⁠Raster*⁠</code>. Required because not
+all Rasters have this defined internally.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>legend</code></td>
+<td>
+<p>Logical indicating whether a legend should be drawn.
+Default <code>TRUE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>legendText</code></td>
+<td>
+<p>Vector of values to use for legend value labels.
+Defaults to <code>NULL</code> which results in a pretty numeric
+representation. If <code style="white-space: pre;">⁠Raster*⁠</code> has a Raster Attribute
+Table (rat; see <span class="pkg">raster</span> package), this will be used
+by default. Currently, only a single vector is accepted.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>length</code></td>
+<td>
+<p>Numeric.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gp</code></td>
+<td>
+<p><code>grid</code> parameters, usually the output of a call to <code>gpar()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gpText</code></td>
+<td>
+<p><code>gpar</code> object for legend label text.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pch</code></td>
+<td>
+<p>Point character for <code>SpatialPoints</code>, as <code>par</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>speedup</code></td>
+<td>
+<p>Numeric. The factor by which the number of vertices in
+<code>SpatialPolygons</code> and <code style="white-space: pre;">⁠SpatialLines*⁠</code> will be
+subsampled. The vertices are already subsampled by default to
+make plotting faster.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>name</code></td>
+<td>
+<p>Character string of name of object being plotted.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vp</code></td>
+<td>
+<p>whole viewport tree of <code>quickPlotGrob</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Additional arguments. None currently implemented.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p>Numeric or logical. If <code>TRUE</code> or <code style="white-space: pre;">⁠&gt;0⁠</code>, then messages will be
+shown. If <code>FALSE</code> or <code>0</code>, most messages will be suppressed.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p><code>speedup</code> is only used for <code>SpatialPolygons</code>, <code>SpatialPoints</code>,
+and <code>SpatialLines</code> in this function.
+Attempts have been made to subsample at a good level that optimizes speed of
+plotting, without losing visible quality. Nevertheless, to force all points to
+be plotted, use a speedup value less than 0.1.
+From a speed perspective, there appears to be an optimal subsampling when
+using <code>thin</code> from the <span class="pkg">fastshp</span> package.
+Presumably, too much thinning requires large distance matrices to be
+calculated, slowing plotting down.
+Too little thinning causes an overabundance of points to be plotted, slowing
+plotting down.
+</p>
+<p>The suggested package <code>fastshp</code> can be installed with:
+<code>install.packages("fastshp", repos = "https://rforge.net", type = "source")</code> or
+for binary <code>install.packages("fastshp", repos = "https://PredictiveEcology.r-universe.dev")</code>
+</p>
+<p>NOTE: you may get errors relating to not having installed the software tools
+required for building R packages on your system.
+For building on Windows, you'll need to install <code>Rtools</code> from
+<a href="https://cran.r-project.org/bin/windows/Rtools/">https://cran.r-project.org/bin/windows/Rtools/</a>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Eliot McIntire
+</p>
+
+
+</div>

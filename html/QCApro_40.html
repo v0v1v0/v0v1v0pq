@@ -1,0 +1,353 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>truthTable</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Create a Truth Table</h2>
+
+<h3>Description</h3>
+
+<p>This function creates truth tables from configurational data.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">truthTable(data, outcome = "", neg.out = FALSE, exo.facs = c(""), 
+           n.cut = 1, incl.cut1 = 1, incl.cut0 = 1, complete = FALSE, 
+           show.cases = FALSE, sort.by = c(""), decreasing = TRUE, 
+           inf.test = c(""), use.letters = FALSE, ...)
+
+is.tt(x)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>A set of configurational data (of class 'matrix' or 'data.frame').</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>outcome</code></td>
+<td>
+<p>The name of the outcome.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>neg.out</code></td>
+<td>
+<p>Logical, use the negation of <code>outcome</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>exo.facs</code></td>
+<td>
+<p>A character vector with the names of the exogenous factors.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n.cut</code></td>
+<td>
+<p>The minimum number of cases with set membership score above 0.5 
+for an output function value of "0", "1" or "C"; an integer between 1 and
+the maximum number of cases for all non-remainder minterms.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>incl.cut1</code></td>
+<td>
+<p>The minimum sufficiency inclusion score for an output function 
+value of "1".</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>incl.cut0</code></td>
+<td>
+<p>The maximum sufficiency inclusion score for an output function 
+value of "0".</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>complete</code></td>
+<td>
+<p>Logical, print the complete truth table.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>show.cases</code></td>
+<td>
+<p>Logical, print case names (do not use this option with many 
+cases and/or long case names).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sort.by</code></td>
+<td>
+<p>Sort the truth table by inclusion scores and/or number of cases.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>decreasing</code></td>
+<td>
+<p>Sort in decreasing or increasing order of value(s) passed to 
+<code>sort.by</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>inf.test</code></td>
+<td>
+<p>A vector of length two specifying the inference-statistical 
+test to be performed (currently only <code>"binom"</code>) and the critical
+significance level.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>use.letters</code></td>
+<td>
+<p>Logical, use single letters (in alphabetical order) instead 
+of original variable names.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Other arguments.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>An object of class 'tt'.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The argument <code>data</code> can be a truth table object (an object of class 'tt' 
+returned by the <code>truthTable</code> function) or a suitable data set. Suitable data
+sets have the following structure: values of 0 and 1 for bivalent crisp-set factors, 
+values between 0 and 1 for bivalent fuzzy-set factors, and values beginning 
+with 0 at increments of 1 for multivalent crisp-set factors. The placeholders 
+"-" and "dc" indicate "don't cares" in auxiliary factors that specify temporal 
+order between other substantive factors in tQCA. These values lead to the 
+exclusion of the auxiliary factor from the computation of parameters of fit.
+</p>
+<p>The argument <code>outcome</code> specifies the outcome to be analyzed, either in
+curly-bracket notation (e.g., <code>O{value}</code>) if the outcome is from a multivalent
+(or a bivalent) factor, or in upper-case notation if the outcome is from a bivalent
+factor (e.g., <code>O</code> as a short-cut for <code>O{1}</code>). Outcomes from multivalent crisp-set factors always require curly-bracket notation. Outcomes must be single 
+levels of factors not simultaneously passed to <code>exo.facs</code>.
+</p>
+<p>The logical argument <code>neg.out</code> controls whether <code>outcome</code> is to be 
+analyzed or its negation. If <code>outcome</code> is a level from a multivalent factor, 
+<code>neg.out = TRUE</code> causes the disjunction of all remaining levels to become 
+the outcome to be analyzed.
+</p>
+<p>The argument <code>exo.facs</code> specifies the exogenous factors. If omitted, all 
+factors in <code>data</code> are used except that of the <code>outcome</code>. Please note 
+that computation times may increase significantly beyond 17 exogenous factors, 
+and that the computation of a solution may not be possible at all depending on 
+end-user machine constraints.
+</p>
+<p>Minterms that contain fewer than <code>n.cut</code> cases with membership scores above 
+0.5 are coded as remainders (<code>OUT = "?"</code>). If the number of such cases is at 
+least <code>n.cut</code>, minterms with an inclusion score of at least <code>incl.cut1</code> 
+are coded positive (<code>OUT = "1"</code>), minterms with an inclusion score below 
+<code>incl.cut1</code> but with at least <code>incl.cut0</code> are coded as a contradiction 
+(<code>OUT = "C"</code>), and minterms with an inclusion score below <code>incl.cut0</code> 
+are coded negative (<code>OUT = "0"</code>). If <code>incl.cut0</code> is not explicitly 
+changed, it is set equal to <code>incl.cut1</code>.
+</p>
+<p>The logical argument <code>show.cases</code> controls whether case names are displayed
+next to their corresponding minterm (do not use this option with many cases 
+and/or long case names).
+</p>
+<p>The <code>sort.by</code> argument orders all minterms by their inclusion scores 
+(<em>incl</em>) or the number of cases with membership above 0.5 they contain 
+(<em>n</em>) or both, in either order.
+</p>
+<p>If the exogenous factors are already named with single letters, the argument 
+<code>use.letters</code> will have no effect when set to <code>TRUE</code>. Otherwise, 
+upper-case letters will replace original factor names in alphabetical order.
+</p>
+<p>The argument <code>inf.test</code> provides functionality for basing output function
+value codings on inference-statistical tests. Currently, only an exact binomial
+test (<code>"binom"</code>) is available, which requires the data to contain only
+bivalent or multivalent crisp-set factors. The argument requires a vector of
+length two, comprising the test and a critical significance level. If the
+empirical inclusion score of a minterm is not significantly lower than 
+<code>incl.cut1</code>, it will be coded positive (<code>OUT = "1"</code>). If it is 
+significantly lower than <code>incl.cut1</code> yet still significantly higher than 
+<code>incl.cut0</code>, it will be coded as a contradiction (<code>OUT = "C"</code>). If it
+is not significantly higher than <code>incl.cut0</code>, it will be coded negative
+(<code>OUT = "0"</code>).
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class 'tt', which is a list with the following six main 
+components:<br></p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>tt</code></td>
+<td>
+<p>The truth table.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>indexes</code></td>
+<td>
+<p>The minterm line numbers.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>noflevels</code></td>
+<td>
+<p>A vector with the number of levels of the exogenous factors.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>initial.data</code></td>
+<td>
+<p>The initial data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>recoded.data</code></td>
+<td>
+<p>Recoded data (if crisp, same as <code>initial.data</code>; if 
+fuzzy, dichotomized version of <code>initial.data</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cases</code></td>
+<td>
+<p>The cases with membership above 0.5 in a minterm.</p>
+</td>
+</tr>
+</table>
+<h3>Contributors</h3>
+
+
+<table>
+<tr>
+<td style="text-align: left;">
+Dusa, Adrian</td>
+<td style="text-align: left;">: development, programming</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+Thiem, Alrik</td>
+<td style="text-align: left;">: development, documentation, programming, testing
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Alrik Thiem (<a href="http://www.alrik-thiem.net">Personal Website</a>; <a href="https://www.researchgate.net/profile/Alrik_Thiem">ResearchGate Website</a>)
+</p>
+
+
+<h3>References</h3>
+
+<p>Emmenegger, Patrick. 2011. “Job Security Regulations in Western Democracies: 
+A Fuzzy Set Analysis.” <em>European Journal of Political Research</em> <strong>50</strong> (3):336-64.
+DOI: <a href="http://dx.doi.org/10.1111/j.1475-6765.2010.01933.x">10.1111/j.1475-6765.2010.01933.x</a>.
+</p>
+<p>Hartmann, Christof, and Joerg Kemmerzell. 2010. “Understanding Variations 
+in Party Bans in Africa.” <em>Democratization</em> <strong>17</strong> (4):642-65.
+DOI: <a href="http://dx.doi.org/10.1080/13510347.2010.491189">10.1080/13510347.2010.491189</a>.
+</p>
+<p>Krook, Mona Lena. 2010. “Women's Representation in Parliament: A Qualitative 
+Comparative Analysis.” <em>Political Studies</em> <strong>58</strong> (5):886-908.
+DOI: <a href="http://dx.doi.org/10.1111/j.1467-9248.2010.00833.x">10.1111/j.1467-9248.2010.00833.x</a>.
+</p>
+<p>Ragin, Charles C., and Sarah Ilene Strand. 2008. “Using Qualitative 
+Comparative Analysis to Study Causal Order: Comment on Caren and Panofsky (2005).” 
+<em>Sociological Methods &amp; Research</em> <strong>36</strong> (4):431-41.
+DOI: <a href="http://dx.doi.org/10.1177/0049124107313903">10.1177/0049124107313903</a>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># csQCA using Krook (2010)
+#-------------------------
+data(d.represent)
+head(d.represent)
+
+# print truth table; if all factors except that of the outcome in 
+# the data should be included as exogenous factors, then these need 
+# not be specified separately
+truthTable(d.represent, outcome = "WNP")
+
+# print complete truth table, show cases, and first sort by 
+# inclusion scores, then by number of cases
+truthTable(d.represent, outcome = "WNP", complete = TRUE, 
+  show.cases = TRUE, sort.by = c("incl", "n"))
+
+# code minterms with a single case as remainders (note: use of 
+# 'n.cut' should be well justified)
+KRO.tt &lt;- truthTable(d.represent, outcome = "WNP", n.cut = 2, 
+  show.cases = TRUE)
+KRO.tt
+
+# print cases that were assigned to remainders based on argument 'n.cut'
+KRO.tt$excluded
+
+# fsQCA using Emmenegger (2011)
+#------------------------------
+data(d.jobsecurity)
+head(d.jobsecurity)
+
+# code non-remainder minterms with inclusion scores between 0.4 
+# and 0.8 as contradictions (note: these are not 'contradictions' 
+# in the logical sense of the word but minterms that can neither 
+# be coded as sufficient nor as insufficient for the outcome)
+truthTable(d.jobsecurity, outcome = "JSR", incl.cut1 = 0.8, incl.cut0 = 0.4)
+
+# truth table based on the negated outcome
+truthTable(d.jobsecurity, outcome = "JSR", neg.out = TRUE, incl.cut1 = 0.8, 
+  incl.cut0 = 0.4)
+
+# mvQCA using Hartmann and Kemmerzell (2010)
+#-------------------------------------------
+data(d.partybans)
+head(d.partybans)
+
+# code non-remainder minterms with inclusion scores below 1 
+# but above 0.4 as contradictions 
+HK.tt &lt;- truthTable(d.partybans, outcome = "PB", 
+  exo.facs = c("C","F","T","V"), incl.cut0 = 0.4)
+HK.tt
+
+# list the number of levels for the exogenous factors  
+HK.tt$noflevels
+
+# which minterms have more than 2 cases?
+HK.tt$tt[which(HK.tt$tt$n &gt; 2), ]
+
+# code output function values in truth table based on 
+# exact binomial test
+truthTable(d.partybans, outcome = "PB", exo.facs = c("C","F","T"), 
+  incl.cut1 = 0.9, incl.cut0 = 0.4, show.cases = TRUE, 
+  inf.test = c("binom", 0.1))
+
+# tQCA using Ragin and Strand (2008)
+#-----------------------------------
+data(d.graduate)
+head(d.graduate)
+
+# tQCA truth table with "don't care" values
+truthTable(d.graduate, outcome = "REC")
+
+</code></pre>
+
+
+</div>

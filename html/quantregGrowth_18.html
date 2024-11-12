@@ -1,0 +1,85 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>vcov.gcrq</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Variance-Covariance Matrix for a Fitted 'gcrq' Model
+</h2>
+
+<h3>Description</h3>
+
+<p>Returns the variance-covariance matrix of the parameter estimates of a fitted gcrq model object.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'gcrq'
+vcov(object, term, type=c("sandw","boot"), ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+
+<p>a fitted model object of class <code>"gcrq"</code> returned by <code>gcrq()</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>term</code></td>
+<td>
+
+<p>if specified, the returned covariance matrix includes entries relevant to parameter estimates for that 'term' only. If missing, the returned matrices refer to all model parameter estimates. Currently <code>term</code> is not allowed. 
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>type</code></td>
+<td>
+
+<p>Which cov matrix should be returned? <code>'boot'</code> means case-resampling bootstrap (see <code>n.boot</code> in <code>gcrq()</code>), <code>'sandw'</code> mean via the 
+sandwich formula.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+
+<p>additional arguments.  
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Bootstrap-based covariance matrix, i.e. <code>type="boot"</code>, is computable only if the object fit has been obtained by specifying <code>n.boot&gt;0</code> in <code>gcrq()</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list (its length equal the length of <code>tau</code> specified in <code>gcrq</code>) of square matrices. Namely the list includes the covariance matrices of the parameter estimates for each regression quantile curve.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Vito Muggeo
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>summary.gcrq</code>
+</p>
+
+
+</div>

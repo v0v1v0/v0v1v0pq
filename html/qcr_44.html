@@ -1,0 +1,48 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>plates</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Vickers hardness data</h2>
+
+<h3>Description</h3>
+
+<p>A known chemical company is developing a patent for 
+a new variant of artificial stone composed mostly of quartz ( 93wt 
+and polyester resin . This company is launching a pilot plant where 
+it begins to produce plates of this material to industry scale. In order 
+to measure the degree of product homogeneity, 50 samples were taken, 
+performed 5 measurements per plate corresponding to different areas 
+of artificial stone Vickers hardness
+</p>
+
+
+<h3>Format</h3>
+
+<p>A data frame with 250 observations on the following 2 variables:
+</p>
+
+<dl>
+<dt>hardness</dt>
+<dd>
+<p>Vickers hardness corresponding to different
+areas of artificial stone</p>
+</dd>
+<dt>sample</dt>
+<dd>
+<p>sample id</p>
+</dd>
+</dl>
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+data(plates)
+attach(plates)
+summary(plates)
+plot(hardness, type="b")
+detach(plates)
+</code></pre>
+
+
+</div>

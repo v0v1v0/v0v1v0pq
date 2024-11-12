@@ -1,0 +1,106 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>dfm_subset</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Extract a subset of a dfm</h2>
+
+<h3>Description</h3>
+
+<p>Returns document subsets of a dfm that meet certain conditions,
+including direct logical operations on docvars (document-level variables).
+<code>dfm_subset</code> functions identically to <code>subset.data.frame()</code>,
+using non-standard evaluation to evaluate conditions based on the
+docvars in the dfm.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">dfm_subset(
+  x,
+  subset,
+  min_ntoken = NULL,
+  max_ntoken = NULL,
+  drop_docid = TRUE,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>dfm object to be subsetted.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>subset</code></td>
+<td>
+<p>logical expression indicating the documents to keep: missing
+values are taken as false.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>min_ntoken, max_ntoken</code></td>
+<td>
+<p>minimum and maximum lengths of the documents to extract.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>drop_docid</code></td>
+<td>
+<p>if <code>TRUE</code>, <code>docid</code> for documents are removed as the result
+of subsetting.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>not used</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>To select or subset <em>features</em>, see <code>dfm_select()</code> instead.
+</p>
+<p>When <code>select</code> is a dfm, then the returned dfm will be equal in
+document dimension and order to the dfm used for selection.  This is the
+document-level version of using <code>dfm_select()</code> where
+<code>pattern</code> is a dfm: that function matches features, while
+<code>dfm_subset</code> will match documents.
+</p>
+
+
+<h3>Value</h3>
+
+<p>dfm object, with a subset of documents (and docvars) selected
+according to arguments
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>subset.data.frame()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">corp &lt;- corpus(c(d1 = "a b c d", d2 = "a a b e",
+                 d3 = "b b c e", d4 = "e e f a b"),
+               docvars = data.frame(grp = c(1, 1, 2, 3)))
+dfmat &lt;- dfm(tokens(corp))
+# selecting on a docvars condition
+dfm_subset(dfmat, grp &gt; 1)
+# selecting on a supplied vector
+dfm_subset(dfmat, c(TRUE, FALSE, TRUE, FALSE))
+</code></pre>
+
+
+</div>

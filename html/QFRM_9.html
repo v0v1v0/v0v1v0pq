@@ -1,0 +1,95 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>BinaryMC</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Binary option valuation via Monte-Carlo (via) simulation.</h2>
+
+<h3>Description</h3>
+
+<p>Binary option valuation via Monte-Carlo (via) simulation.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">BinaryMC(o = OptPx(Opt(Style = "Binary")), Q = 25,
+  Type = c("cash-or-nothing", "asset-or-nothing"), NPaths = 5)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>o</code></td>
+<td>
+<p>An <code>OptPx</code> object</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Q</code></td>
+<td>
+<p>A fixed numeric amount of payoff</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Type</code></td>
+<td>
+<p>Binary option type: <code>'cash-or-nothing'</code> or <code>'asset-or-nothing'</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>NPaths</code></td>
+<td>
+<p>The number of simulation paths to use in calculating the price
+Partial names are allowed, eg. <code>'c'</code> or <code>'a'</code></p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Two types of binary options are priced: <code>'cash-or-nothing'</code> and <code>'asset-or-nothing'</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The original input object <code>o</code> with added parameters and option price <code>PxMC</code>
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Tongyue Luo, Rice University, Spring 2015.
+</p>
+
+
+<h3>References</h3>
+
+<p>Hull, John C., <em>Options, Futures and Other Derivatives</em>, 9ed, 2014. Prentice Hall.
+ISBN 978-0-13-345631-8, <a href="http://www-2.rotman.utoronto.ca/~hull/ofod/index.html">http://www-2.rotman.utoronto.ca/~hull/ofod/index.html</a>.
+pp.606-607.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">(o = BinaryMC())$PxMC
+
+o = OptPx(Opt(Style="Binary"))
+(o = BinaryMC(o, Type="cash"))$PxMC
+
+o = OptPx(Opt(Style="Binary"),q=0.01)
+(o = BinaryMC(o, Type="asset"))$PxMC
+
+o = OptPx(Opt(Style="Binary", S0=100, K=80),q=0.01)
+(o = BinaryMC(o, Type="cash"))$PxMC
+
+o = OptPx(Opt(Style="Binary", Right="Put", S0=50, K=60),q=0.04)
+(o = BinaryMC(o, Type="asset"))$PxMC
+</code></pre>
+
+
+</div>

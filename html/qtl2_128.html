@@ -1,0 +1,95 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>pull_genoprobpos</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Pull genotype probabilities for a particular position</h2>
+
+<h3>Description</h3>
+
+<p>Pull out the genotype probabilities for a particular position (by
+name)
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">pull_genoprobpos(genoprobs, map = NULL, chr = NULL, pos = NULL, marker = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>genoprobs</code></td>
+<td>
+<p>Genotype probabilities as calculated by
+<code>calc_genoprob()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>map</code></td>
+<td>
+<p>A map object: a list (corresponding to chromosomes) of
+vectors of marker positions. Can also be a snpinfo object (data
+frame with columns <code>chr</code> and <code>pos</code>; marker names taken from
+column <code>snp</code> or if that doesn't exist from the row names)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>chr</code></td>
+<td>
+<p>A chromosome ID</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pos</code></td>
+<td>
+<p>A numeric position</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>marker</code></td>
+<td>
+<p>A single character string with the name of the
+position to pull out.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Provide either a marker/pseudomarker name (with the argument <code>marker</code>)
+or all of <code>map</code>, <code>chr</code>, and <code>pos</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A matrix of genotype probabilities for the specified position.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>find_marker()</code>, <code>fit1()</code>, <code>pull_genoprobint()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">iron &lt;- read_cross2(system.file("extdata", "iron.zip", package="qtl2"))
+
+gmap &lt;- insert_pseudomarkers(iron$gmap, step=1)
+pr &lt;- calc_genoprob(iron, gmap, error_prob=0.002)
+
+pmar &lt;- find_marker(gmap, 8, 40)
+pr_8_40 &lt;- pull_genoprobpos(pr, pmar)
+
+pr_8_40_alt &lt;- pull_genoprobpos(pr, gmap, 8, 40)
+
+</code></pre>
+
+
+</div>

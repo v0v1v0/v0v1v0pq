@@ -1,0 +1,57 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>fst_files</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>List files used in fst_genoprob object</h2>
+
+<h3>Description</h3>
+
+<p>List all of the files used in an fst_genoprob object.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">fst_files(object)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>An object of class <code>"fst_genoprob"</code> as created by <code>fst_genoprob()</code>.</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>Vector of character strings with the full paths for all of the files used for the input <code>object</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>fst_path()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(qtl2)
+grav2 &lt;- read_cross2(system.file("extdata", "grav2.zip", package="qtl2"))
+probs &lt;- calc_genoprob(grav2, error_prob=0.002)
+dir &lt;- tempdir()
+fprobs &lt;- fst_genoprob(probs, "grav2", dir, overwrite=TRUE)
+
+fst_path(fprobs)
+fst_files(fprobs)
+
+# clean up: remove all the files we created
+unlink(fst_files(fprobs))
+</code></pre>
+
+
+</div>

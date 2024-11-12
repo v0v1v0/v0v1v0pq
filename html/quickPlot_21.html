@@ -1,0 +1,74 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>.makeQuickPlot</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Make a <code>.quickPlot</code> class object</h2>
+
+<h3>Description</h3>
+
+<p>Builds a <code>.quickPlot</code> object from a list of objects.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">.makeQuickPlot(plotObjects, plotArgs, whichQuickPlottables, ...)
+
+## S4 method for signature 'list,list'
+.makeQuickPlot(plotObjects, plotArgs, whichQuickPlottables, ...)
+
+## S4 method for signature 'list,missing'
+.makeQuickPlot(plotObjects, plotArgs, whichQuickPlottables, ...)
+
+## S4 method for signature 'missing,missing'
+.makeQuickPlot(plotObjects, plotArgs, whichQuickPlottables, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>plotObjects</code></td>
+<td>
+<p>list. Any plot objects.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>plotArgs</code></td>
+<td>
+<p>list. Any arguments that the the grid package can accept for
+the specific grob types, e.g., <code>rasterGrob</code>, <code>polygonGrob</code>, etc.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>whichQuickPlottables</code></td>
+<td>
+<p>Logical indicating which objects in the
+<code>Plot</code> call can be plotted by <code>Plot</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>additional arguments. Currently nothing.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A <code>.quickPlot()</code> object, which has 2 slots, one for the plot arrangement
+(i.e., layout and dimensions) and one for all of the <code>quickPlotGrobs</code>
+(stored as a <code>quickPlotGrobList</code> of lists <code>.quickPlotGrob</code> objects).
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Eliot McIntire
+</p>
+
+
+</div>

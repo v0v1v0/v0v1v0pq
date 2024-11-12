@@ -1,0 +1,58 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>%nin%</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Not in vector or array</h2>
+
+<h3>Description</h3>
+
+<p>Check if entry is in vector
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">x %nin% table
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>vector entry</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>table</code></td>
+<td>
+<p>table of items to check</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>a boolean value to indicate if entry is present
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">5 %nin% c(1:10) #FALSE
+5 %nin% c(11:20) #TRUE
+
+x = "a"
+if(x %nin% letters) x
+
+# let's say we are trying to exclude numbers from a vector
+vector_num1 &lt;- number(9, max.digits = 5, seed = 1) #simulate 9 numbers
+vector_num1 #values
+vector_num1[vector_num1 %nin% c(83615,85229)]#return values not 83615 or 85229
+</code></pre>
+
+
+</div>

@@ -1,0 +1,136 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>ggmFit</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Obtain fit measures of a Gaussian graphical model
+</h2>
+
+<h3>Description</h3>
+
+<p>Obtain fit measures of a given Gaussian graphical model (GGM). Input can be either a partial correlation matrix, inverse covariance matrix or <code>qgraph</code> object.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">ggmFit(pcor, covMat, sampleSize, refit = TRUE, ebicTuning = 0.5, 
+        nPar, invSigma, tol = sqrt(.Machine$double.eps), verbose = TRUE,
+        countDiagonalPars = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>pcor</code></td>
+<td>
+
+<p>Implied partial correlation matrix or <code>qgraph</code> object.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>covMat</code></td>
+<td>
+
+<p>Observed variance-covariance matrix
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sampleSize</code></td>
+<td>
+
+<p>The sample size used in computing the variance-covariance matrix
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>refit</code></td>
+<td>
+
+<p>Logical, should the network be refitted using <code>glasso</code>?
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ebicTuning</code></td>
+<td>
+
+<p>EBIC tuning parameter.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>invSigma</code></td>
+<td>
+
+<p>Implied inverse variance-covariance matrix. If this object is assigned <code>pcor</code> is not used.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nPar</code></td>
+<td>
+
+<p>Number of parameters, if not specified this is retrieved from the number of zeroes in the inverse variance–covariance matrix. Can be used to compute fit measures of any statistical model (e.g., SEM). 
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tol</code></td>
+<td>
+
+<p>Tolerance for setting an edge to zero.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+
+<p>Logical, should progress reports be printed to the console?
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>countDiagonalPars</code></td>
+<td>
+
+<p>Logical, should the diagonal of the precision matrix be counted as parameters?
+</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Sacha Epskamp &lt;mail@sachaepskamp.com&gt;
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library("psych")
+
+# Load BFI data:
+data(bfi)
+bfi &lt;- bfi[,1:25]
+
+# Covariance matrix:
+CovMat &lt;- cov(bfi[,1:25], use="pairwise.complete.obs")
+
+# Compute network:
+EBICgraph &lt;- qgraph(CovMat, graph = "glasso", sampleSize = nrow(bfi),
+                    tuning = 0.5, layout = "spring", title = "BIC", details = TRUE)
+
+# Obtain fit measures:
+fitNetwork &lt;- ggmFit(EBICgraph, CovMat, nrow(bfi))
+fitNetwork
+</code></pre>
+
+
+</div>

@@ -1,0 +1,104 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>texts</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Get or assign corpus texts [deprecated]</h2>
+
+<h3>Description</h3>
+
+<p><a href="https://lifecycle.r-lib.org/articles/stages.html#superseded"><img src="../help/figures/lifecycle-superseded.svg" alt="[Superseded]"></a>
+</p>
+<p>This function has been made defunct and replaced.
+</p>
+
+<ul>
+<li>
+<p> Use <code>as.character.corpus()</code> to turn a corpus into a simple named character
+vector.
+</p>
+</li>
+<li>
+<p> Use <code>corpus_group()</code> instead of <code>texts(x, groups = ...)</code> to aggregate texts
+by a grouping variable.
+</p>
+</li>
+<li>
+<p> Use <code>[&lt;-</code> instead of <code style="white-space: pre;">⁠texts()&lt;-⁠</code> for replacing texts in a corpus object.
+</p>
+</li>
+</ul>
+<h3>Usage</h3>
+
+<pre><code class="language-R">texts(x, groups = NULL, spacer = " ")
+
+texts(x) &lt;- value
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a corpus</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>groups</code></td>
+<td>
+<p>grouping variable for sampling, equal in length to the number
+of documents. This will be evaluated in the docvars data.frame, so that
+docvars may be referred to by name without quoting. This also changes
+previous behaviours for <code>groups</code>. See <code>news(Version &gt;= "3.0", package = "quanteda")</code> for details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>spacer</code></td>
+<td>
+<p>when concatenating texts by using <code>groups</code>, this will be the
+spacing added between texts.  (Default is two spaces.)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>value</code></td>
+<td>
+<p>character vector of the new texts</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Get or replace the texts in a corpus, with grouping options.
+Works for plain character vectors too, if <code>groups</code> is a factor.
+</p>
+
+
+<h3>Value</h3>
+
+<p>For <code>texts</code>, a character vector of the texts in the corpus.
+</p>
+<p>For <code style="white-space: pre;">⁠texts &lt;-⁠</code>, the corpus with the updated texts.
+</p>
+<p>for <code style="white-space: pre;">⁠texts &lt;-⁠</code>, a corpus with the texts replaced by <code>value</code>
+</p>
+
+
+<h3>Note</h3>
+
+<p>The <code>groups</code> will be used for concatenating the texts based on shared
+values of <code>groups</code>, without any specified order of aggregation.
+</p>
+<p>You are strongly encouraged as a good practice of text analysis
+workflow <em>not</em> to modify the substance of the texts in a corpus.
+Rather, this sort of processing is better performed through downstream
+operations.  For instance, do not lowercase the texts in a corpus, or you
+will never be able to recover the original case.  Rather, apply
+<code>tokens_tolower()</code> after applying <code>tokens()</code> to a
+corpus, or use the option <code>tolower = TRUE</code> in <code>dfm()</code>.
+</p>
+
+
+</div>

@@ -1,0 +1,72 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>get_effects</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Extract founder allele effects at a single marker from output of qtl2::scan1coef</h2>
+
+<h3>Description</h3>
+
+<p>Extract founder allele effects at a single marker from output of qtl2::scan1coef
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">get_effects(marker_index, allele_effects_matrix, map, columns = 1:8)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>marker_index</code></td>
+<td>
+<p>an integer indicating where in the 'map' object the peak position (or position of interest) is located</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>allele_effects_matrix</code></td>
+<td>
+<p>output of 'qtl2::scan1coef' for a single chromosome</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>map</code></td>
+<td>
+<p>a map object for the chromosome of interest</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>columns</code></td>
+<td>
+<p>which columns to choose within the 'allele_effects_matrix'. Default is 1:8 to reflect 8 founder alleles of Diversity Outbred mice</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>a vector of 8 founder allele effects at a single marker
+</p>
+<p>a vector of founder allele effects at a single marker
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># set up allele effects matrix
+ae &lt;- matrix(dat = rnorm(100 * 8), ncol = 8, nrow = 100)
+ae[, 8] &lt;- - rowSums(ae[, 1:7])
+colnames(ae) &lt;- LETTERS[1:8]
+rownames(ae) &lt;- paste0(1, "_", 1:100)
+# set up map
+map &lt;- 1:100
+names(map) &lt;- rownames(ae)
+# call get_effects
+get_effects(marker_index = 15, allele_effects_matrix = ae, map = map)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,93 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>crossq.partial.sb.opt</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Stationary Bootstrap for the Partial Cross-Quantilogram dwith the choice of the stationary-bootstrap parameter</h2>
+
+<h3>Description</h3>
+
+<p>Returns critical values for the partial cross-quantilogram, based on the stationary bootstrap with the choice of the stationary-bootstrap parameter.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">crossq.partial.sb.opt(DATA, vecA, k, Bsize, sigLev)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>DATA</code></td>
+<td>
+<p>The original data matrix</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vecA</code></td>
+<td>
+<p>A pair of two probability values at which sample quantiles are estimated</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>k</code></td>
+<td>
+<p>A lag order</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Bsize</code></td>
+<td>
+<p>The number of repetition of bootstrap</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sigLev</code></td>
+<td>
+<p>The statistical significance level</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>This function generates critical values for for the partial cross-quantilogram,
+using the stationary bootstrap in Politis and Romano (1994).
+</p>
+
+
+<h3>Value</h3>
+
+<p>The boostrap critical values
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Heejoon Han, Oliver Linton, Tatsushi Oka and Yoon-Jae Whang
+</p>
+
+
+<h3>References</h3>
+
+<p>Han, H., Linton, O., Oka, T., and Whang, Y. J. (2016).
+"The cross-quantilogram: Measuring quantile dependence and testing directional predictability between time series." <em>Journal of Econometrics</em>, 193(1), 251-270.
+</p>
+<p>Patton, A., Politis, D. N., and White, H. (2009).
+Correction to "Automatic block-length selection for the dependent bootstrap"
+by D. Politis and H. White. <em>Econometric Reviews</em>, 28(4), 372-375.
+</p>
+<p>Politis, D. N., and White, H. (2004).
+"Automatic block-length selection for the dependent bootstrap."
+<em>Econometric Reviews</em>, 23(1), 53-70.
+</p>
+<p>Politis, Dimitris N., and Joseph P. Romano. (1994).
+"The stationary bootstrap."
+<em>Journal of the American Statistical Association</em> 89.428: 1303-1313.
+</p>
+
+
+</div>

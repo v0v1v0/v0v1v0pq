@@ -1,0 +1,71 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>tibble_of</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Random tibble generator</h2>
+
+<h3>Description</h3>
+
+<p>Random tibble generator
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">tibble_of(..., rows = c(1L, 10L), cols = c(1L, 10L))
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>A set of unnamed generators. The generated tibbles will be built
+with random combinations of these generators.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rows</code></td>
+<td>
+<p>Number of rows of the generated data frame.
+If <code>rows</code> is a single number all data frames will have
+this number of rows. If <code>rows</code> is a numeric vector of
+length 2 it will produce data frames with rows between
+a minimum and maximum, inclusive. For example
+<code>rows = c(1L, 10L)</code> would produce data frames with rows
+between 1 and 10. To produce empty tibbles set <code>rows = 0L</code>
+or a range like <code>rows = c(0L, 10L)</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cols</code></td>
+<td>
+<p>Number of columns of the generated data frame.
+If <code>cols</code> is a single number all data frames will have
+this number of columns. If <code>cols</code> is a numeric vector
+of length 2 it will produce data frames with columns
+between a minimum and maximum, inclusive. For example
+<code>cols = c(1L, 10L)</code> would produce data frames with
+columns between 1 and 10. To produce empty tibbles
+set <code>cols = 0L</code> or a range like <code>cols = c(0L, 10L)</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A <code>quickcheck_generator</code> object.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">tibble_of(logical_(), date_()) %&gt;% show_example()
+tibble_of(any_atomic(), rows = 10L, cols = 5L) %&gt;% show_example()
+</code></pre>
+
+
+</div>

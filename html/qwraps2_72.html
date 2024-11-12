@@ -1,0 +1,159 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>stat_stepribbon</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Step ribbon statistic</h2>
+
+<h3>Description</h3>
+
+<p>Provides stair step values for ribbon plots (Copied this from the
+https://github.com/hrbrmstr/ggalt version 0.6.0, which is not yet on CRAN.
+Some minor modifications to the file have been made).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">stat_stepribbon(
+  mapping = NULL,
+  data = NULL,
+  geom = "ribbon",
+  position = "identity",
+  na.rm = FALSE,
+  show.legend = NA,
+  inherit.aes = TRUE,
+  direction = "hv",
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>mapping</code></td>
+<td>
+<p>Set of aesthetic mappings created by <code>aes()</code>. If specified and
+<code>inherit.aes = TRUE</code> (the default), it is combined with the default mapping
+at the top level of the plot. You must supply <code>mapping</code> if there is no plot
+mapping.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>The data to be displayed in this layer. There are three
+options:
+</p>
+<p>If <code>NULL</code>, the default, the data is inherited from the plot
+data as specified in the call to <code>ggplot()</code>.
+</p>
+<p>A <code>data.frame</code>, or other object, will override the plot
+data. All objects will be fortified to produce a data frame. See
+<code>fortify()</code> for which variables will be created.
+</p>
+<p>A <code>function</code> will be called with a single argument,
+the plot data. The return value must be a <code>data.frame</code>, and
+will be used as the layer data. A <code>function</code> can be created
+from a <code>formula</code> (e.g. <code>~ head(.x, 10)</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>geom</code></td>
+<td>
+<p>which geom to use; defaults to <code>ribbon</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>position</code></td>
+<td>
+<p>Position adjustment, either as a string naming the adjustment
+(e.g. <code>"jitter"</code> to use <code>position_jitter</code>), or the result of a call to a
+position adjustment function. Use the latter if you need to change the
+settings of the adjustment.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>na.rm</code></td>
+<td>
+<p>If <code>FALSE</code>, the default, missing values are removed with
+a warning. If <code>TRUE</code>, missing values are silently removed.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>show.legend</code></td>
+<td>
+<p>logical. Should this layer be included in the legends?
+<code>NA</code>, the default, includes if any aesthetics are mapped.
+<code>FALSE</code> never includes, and <code>TRUE</code> always includes.
+It can also be a named logical vector to finely select the aesthetics to
+display.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>inherit.aes</code></td>
+<td>
+<p>If <code>FALSE</code>, overrides the default aesthetics,
+rather than combining with them. This is most useful for helper functions
+that define both data and aesthetics and shouldn't inherit behaviour from
+the default plot specification, e.g. <code>borders()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>direction</code></td>
+<td>
+<p><code>hv</code> for horizontal-vertical steps, <code>vh</code> for
+vertical-horizontal steps</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Other arguments passed on to <code>layer()</code>. These are
+often aesthetics, used to set an aesthetic to a fixed value, like
+<code>colour = "red"</code> or <code>size = 3</code>. They may also be parameters
+to the paired geom/stat.</p>
+</td>
+</tr>
+</table>
+<h3>References</h3>
+
+<p><a href="https://groups.google.com/forum/?fromgroups=#!topic/ggplot2/9cFWHaH1CPs">https://groups.google.com/forum/?fromgroups=#!topic/ggplot2/9cFWHaH1CPs</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">x &lt;- 1:10
+df &lt;- data.frame(x=x, y=x+10, ymin=x+7, ymax=x+12)
+
+# horizontal-vertical steps (default)
+gg &lt;- ggplot2::ggplot(df, ggplot2::aes(x, y))
+gg &lt;- gg + ggplot2::geom_ribbon(ggplot2::aes(ymin=ymin, ymax=ymax),
+                                stat="stepribbon", fill="#b2b2b2",
+                                direction="hv")
+gg &lt;- gg + ggplot2::geom_step(color="#2b2b2b")
+gg
+
+# vertical-horizontal steps (default)
+gg &lt;- ggplot2::ggplot(df, ggplot2::aes(x, y))
+gg &lt;- gg + ggplot2::geom_ribbon(ggplot2::aes(ymin=ymin, ymax=ymax),
+                                stat="stepribbon", fill="#b2b2b2",
+                                direction="vh")
+gg &lt;- gg + ggplot2::geom_step(color="#2b2b2b")
+gg
+
+# The same plot calling stat_stepribbon directly
+gg &lt;- ggplot2::ggplot(df, ggplot2::aes(x, y))
+gg &lt;- gg + stat_stepribbon(mapping = ggplot2::aes(ymin=ymin, ymax=ymax),
+                           fill="#b2b2b2", direction="vh")
+gg &lt;- gg + ggplot2::geom_step(color="#2b2b2b")
+gg
+
+</code></pre>
+
+
+</div>

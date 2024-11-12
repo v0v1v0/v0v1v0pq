@@ -1,0 +1,86 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>plot-LagOperator</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Plot the values of the <code>LagOperator</code>.</h2>
+
+<h3>Description</h3>
+
+<p>Creates a <code>K</code> x <code>K</code> plot (where <code>K</code> is the length of the <code>levels</code> parameter)
+showing the values of the <code>LagOperator</code>. The plots below the diagonal show the positive
+Lags and the plots above display the negative ones.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S4 method for signature 'LagOperator,ANY'
+plot(
+  x,
+  levels = intersect(x@levels.1, x@levels.2),
+  maxLag = maxLag,
+  widthlab = lcm(1),
+  ratio = 3/2,
+  xlab = expression(omega/2 * pi),
+  ylab = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>The <code>LagOperator</code> to plot.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>levels</code></td>
+<td>
+<p>a set of levels for which the values are to be plotted.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>maxLag</code></td>
+<td>
+<p>maximum Lag that should be displayed. It defaults to the
+maximum number of Lags available but usually a smaller number
+yields a more informative result.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>widthlab</code></td>
+<td>
+<p>width for the labels (left and bottom); default is
+<code>lcm(1)</code>, cf. <code>layout</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ratio</code></td>
+<td>
+<p>quotient of width over height of the subplots; use this
+parameter to produce landscape or portrait shaped plots.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xlab</code></td>
+<td>
+<p>label that will be shown on the bottom of the plots; can be
+an expression (for formulas), characters or <code>NULL</code> to
+force omission (to save space).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ylab</code></td>
+<td>
+<p>label that will be shown on the left side of the plots;
+can be an expression (for formulas), characters or
+<code>NULL</code> to force omission (to save space).</p>
+</td>
+</tr>
+</table>
+</div>

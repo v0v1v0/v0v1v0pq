@@ -1,0 +1,47 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>.NormalizeStatus</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Normalize element statuses to generate metric</h2>
+
+<h3>Description</h3>
+
+<p>Handles vectors and matrices of two or three dimensions.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">.NormalizeStatus(elementStatus, numerator, denominator, takeFromOne)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>elementStatus</code></td>
+<td>
+<p>Two-dimensional integer array, with rows corresponding to
+counts of matching quartets or partitions for each tree, and columns named
+according to the output of <code>QuartetStatus()</code> or
+<code>SplitStatus()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>numerator, denominator</code></td>
+<td>
+<p>Character vector listing elements to sum in
+numerator / denominator.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>takeFromOne</code></td>
+<td>
+<p>Logical specifying whether to deduct value from one.</p>
+</td>
+</tr>
+</table>
+</div>

@@ -1,0 +1,75 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>avg_matrix.ctqwalk</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>The Average Mixing Matrix of a Continuous-Time Quantum Walk</h2>
+
+<h3>Description</h3>
+
+<p>The Average Mixing Matrix of a Continuous-Time Quantum Walk
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'ctqwalk'
+avg_matrix(object, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>a representation of the quantum walk.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>further arguments passed to or from other methods.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Let <code class="reqn">M(t)</code> be the mixing matrix of the quantum walk, then the average mixing matrix is defined as
+</p>
+<p style="text-align: center;"><code class="reqn">\widehat{M} := \lim_{T \to \infty} \frac{1}{T}\int_{0}^T M(t)\textrm{d}t</code>
+</p>
+
+<p>and encodes the long-term average behavior of the walk. Given the Hamiltonian
+<code class="reqn">H = \sum_r \lambda_r E_r</code>, it is possible to prove that
+</p>
+<p style="text-align: center;"><code class="reqn">\widehat{M} = \sum_r E_r \circ E_r</code>
+</p>
+
+
+
+<h3>Value</h3>
+
+<p><code>avg_matrix()</code> returns the average mixing matrix
+as a square matrix of the same order as the walk.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>ctqwalk()</code>, <code>avg_matrix()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">walk &lt;- ctqwalk(matrix(c(0,1,0,1,0,1,0,1,0), nrow=3))
+
+# Return the average mixing matrix
+avg_matrix(walk)
+</code></pre>
+
+
+</div>

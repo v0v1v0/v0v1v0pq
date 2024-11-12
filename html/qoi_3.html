@@ -1,0 +1,63 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>writeQOI</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Write an QOI image from an RGB(A) raster array or matrix</h2>
+
+<h3>Description</h3>
+
+<p>Write an QOI image from an RGB(A) raster array or matrix
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">writeQOI(image, target = raw())
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>image</code></td>
+<td>
+<p>matrix (<strong>required</strong>): Image represented by a integer matrix or array with values in the range of 0 to 255.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>target</code></td>
+<td>
+<p>character or connections or raw: Either name of the file to write, a binary connection or a raw vector (raw() - the default - is good enough) indicating that the output should be a raw vector.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>The result is either stored in a file (if target is a file name), in a raw vector (if target is a raw vector) or sent to a binary connection.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Johannes Friedrich
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## (1) Write to raw() -&gt; see bytes
+bin &lt;- writeQOI(Rlogo_RGBA)
+rawToChar(head(bin)) ## qoif
+
+## Not run: 
+## (2) Write to a *.qoi file
+writeQOI(Rlogo_RGBA, "Rlogo_RGBA.qoi")
+
+## End(Not run)
+</code></pre>
+
+
+</div>

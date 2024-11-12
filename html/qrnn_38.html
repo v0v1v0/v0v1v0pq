@@ -1,0 +1,229 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>quantile.dtn</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Interpolated quantile distribution with exponential tails and Nadaraya-Watson quantile distribution
+</h2>
+
+<h3>Description</h3>
+
+<p><code>dquantile</code> gives a probability density function (pdf) by combining
+step-interpolation of probability densities for specified
+<code>tau</code>-quantiles (<code>quant</code>) with exponential lower/upper tails
+(Quiñonero-Candela, 2006; Cannon, 2011). Point mass (e.g., as might occur
+when using censored QRNN models) can be defined by setting <code>lower</code> to
+the left censoring point. <code>pquantile</code> gives the cumulative distribution
+function (cdf); the <code>integrate</code> function is used for values
+outside the range of <code>quant</code>. The inverse cdf is given by
+<code>qquantile</code>; the <code>uniroot</code> function is used for values
+outside the range of <code>tau</code>. <code>rquantile</code> is used for
+generating random variates. 
+</p>
+<p>Alternative formulations (without left censoring) based on the
+Nadaraya-Watson estimator <code>[p,q,r]quantile.nw</code> are also provided
+(Passow and Donner, 2020).
+</p>
+<p>Note: these functions have not been extensively tested or optimized and 
+should be considered experimental.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">dquantile(x, tau, quant, lower=-Inf)
+pquantile(q, tau, quant, lower=-Inf, ...)
+pquantile.nw(q, tau, quant, h=0.001, ...)
+qquantile(p, tau, quant, lower=-Inf,
+          tol=.Machine$double.eps^0.25, maxiter=1000,
+          range.mult=1.1, max.error=100, ...)
+qquantile.nw(p, tau, quant, h=0.001)
+rquantile(n, tau, quant, lower=-Inf,
+          tol=.Machine$double.eps^0.25, maxiter=1000,
+          range.mult=1.1, max.error=100, ...)
+rquantile.nw(n, tau, quant, h=0.001)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x, q</code></td>
+<td>
+
+<p>vector of quantiles.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p</code></td>
+<td>
+
+<p>vector of cumulative probabilities.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+
+<p>number of random samples.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tau</code></td>
+<td>
+
+<p>ordered vector of cumulative probabilities associated with <code>quant</code> argument.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>quant</code></td>
+<td>
+
+<p>ordered vector of quantiles associated with <code>tau</code> argument.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lower</code></td>
+<td>
+
+<p>left censoring point.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tol</code></td>
+<td>
+
+<p>tolerance passed to <code>uniroot</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>h</code></td>
+<td>
+
+<p>bandwidth for Nadaraya-Watson kernel.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>maxiter</code></td>
+<td>
+
+<p>maximum number of iterations passed to <code>uniroot</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>range.mult</code></td>
+<td>
+
+<p>values of <code>lower</code> and <code>upper</code> in <code>uniroot</code> are initialized to <br><code>quant[1]-range.mult*diff(range(quant))</code> and <br><code>quant[length(quant)]+range.mult*diff(range(quant))</code> respectively; <code>range.mult</code> is squared, <code>lower</code> and <code>upper</code> are recalculated, and <code>uniroot</code> is rerun if the current values lead to an exception.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>max.error</code></td>
+<td>
+
+<p>maximum number of <code>uniroot</code> errors allowed before termination.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+
+<p>additional arguments passed to <code>integrate</code> or <code>uniroot</code>.
+</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p><code>dquantile</code> gives the pdf, <code>pquantile</code> gives the cdf,
+<code>qquantile</code> gives the inverse cdf (or quantile function), and
+<code>rquantile</code> generates random deviates.
+</p>
+
+
+<h3>References</h3>
+
+<p>Cannon, A.J., 2011. Quantile regression neural networks: implementation
+in R and application to precipitation downscaling. Computers &amp; Geosciences,
+37: 1277-1284. doi:10.1016/j.cageo.2010.07.005
+</p>
+<p>Passow, C., R.V. Donner, 2020. Regression-based distribution mapping for
+bias correction of climate model outputs using linear quantile regression.
+Stochastic Environmental Research and Risk Assessment, 34:87-102.
+doi:10.1007/s00477-019-01750-7
+</p>
+<p>Quiñonero-Candela, J., C. Rasmussen, F. Sinz, O. Bousquet,
+B. Scholkopf, 2006. Evaluating Predictive Uncertainty Challenge.
+Lecture Notes in Artificial Intelligence, 3944: 1-27.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>integrate</code>, <code>uniroot</code>, <code>qrnn.predict</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Normal distribution
+tau &lt;- c(0.01, seq(0.05, 0.95, by=0.05), 0.99)
+quant &lt;- qnorm(tau)
+
+x &lt;- seq(-3, 3, length=500)
+plot(x, dnorm(x), type="l", col="red", lty=2, lwd=2,
+     main="pdf")
+lines(x, dquantile(x, tau, quant), col="blue")
+
+q &lt;- seq(-3, 3, length=20)
+plot(q, pnorm(q), type="b", col="red", lty=2, lwd=2,
+     main="cdf")
+lines(q, pquantile(q, tau, quant),
+      col="blue")
+
+abline(v=1.96, lty=2)
+abline(h=pnorm(1.96), lty=2)
+abline(h=pquantile(1.96, tau, quant), lty=3)
+abline(h=pquantile.nw(1.96, tau, quant, h=0.01), lty=3)
+
+p &lt;- c(0.001, 0.01, 0.025, seq(0.05, 0.95, by=0.05),
+       0.975, 0.99, 0.999)
+plot(p, qnorm(p), type="b", col="red", lty=2, lwd=2,
+     main="inverse cdf")
+lines(p, qquantile(p, tau, quant), col="blue")
+
+## Distribution with point mass at zero
+tau.0 &lt;- c(0.3, 0.5, 0.7, 0.8, 0.9)
+quant.0 &lt;- c(0, 5, 7, 15, 20)
+
+r.0 &lt;- rquantile(500, tau=tau.0, quant=quant.0, lower=0)
+x.0 &lt;- seq(0, 40, by=0.5)
+d.0 &lt;- dquantile(x.0, tau=tau.0, quant=quant.0, lower=0)
+p.0 &lt;- pquantile(x.0, tau=tau.0, quant=quant.0, lower=0)
+q.0 &lt;- qquantile(p.0, tau=tau.0, quant=quant.0, lower=0)
+
+par(mfrow=c(2, 2))
+plot(r.0, pch=20, main="random")
+plot(x.0, d.0, type="b", col="red", main="pdf")
+plot(x.0, p.0, type="b", col="blue", ylim=c(0, 1),
+     main="cdf")
+plot(p.0, q.0, type="b", col="green", xlim=c(0, 1),
+     main="inverse cdf")
+</code></pre>
+
+
+</div>

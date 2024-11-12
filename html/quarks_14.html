@@ -1,0 +1,247 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>rollcast</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Rolling one-step ahead forecasts of Value at Risk and Expected Shortfall</h2>
+
+<h3>Description</h3>
+
+<p>Computes rolling one-step ahead forecasts of Value at Risk and Expected
+Shortfall (Conditional Value at Risk) by means of plain historical
+simulation age- and volatility-weighted historical simulation as well as
+filtered historical simulation.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">rollcast(
+  x,
+  p = 0.975,
+  model = c("EWMA", "GARCH"),
+  method = c("plain", "age", "vwhs", "fhs"),
+  lambda = c(0.94, 0.98),
+  nout = NULL,
+  nwin = NULL,
+  nboot = NULL,
+  smoothscale = c("none", "lpr", "auto"),
+  smoothopts = list(),
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a numeric vector of asset returns</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p</code></td>
+<td>
+<p>confidence level for VaR calculation; default is <code>0.975</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>model</code></td>
+<td>
+<p>model for estimating conditional volatility; options are <code>'EWMA'</code>
+and <code>'GARCH'</code>; if <code>model = 'GARCH'</code>, additional arguments can be adjusted
+via <code>...</code>; default is <code>'EWMA'</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+<p>method to be used for calculation; default is <code>'plain'</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lambda</code></td>
+<td>
+<p>decay factor for the calculation of weights; default is <code>0.98</code>
+for <code>method = 'age'</code> and <code>0.94</code> for <code>method = 'vwhs'</code> or
+<code>method = 'fhs'</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nout</code></td>
+<td>
+<p>number of out-of-sample observations; most recent observations are used;
+default is <code>NULL</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nwin</code></td>
+<td>
+<p>window size for rolling one-step forecasting; most recent observations
+before out-of-sample are used; default is <code>NULL</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nboot</code></td>
+<td>
+<p>size of bootstrap sample; must be a single non-NA integer value
+with <code>nboot &gt; 0</code>; default is <code>NULL</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>smoothscale</code></td>
+<td>
+<p>a character object; defines the smoothing approach
+for the unconditional variance from the logarithm of the squared centralized
+returns; for <code>smoothscale = 'lpr'</code>, the unconditional
+variance is smoothed via the <code>smoots::gsmooth()</code> function from the
+<code>smoots</code> package; the bandwidth has to be chosen manually; otherwise the
+default is used; if <code>smoothscale = 'auto'</code>, the function <code>smoots::msmooth()</code>
+is employed and the bandwidth is chosen automatically (data-driven); see the
+documentation of the <code>smoots</code> package for more information; is set to
+<code>smoothscale = 'none'</code> by default</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>smoothopts</code></td>
+<td>
+<p>additional arguments of <code>smoots::gsmooth()</code> and
+<code>smoots::msmooth()</code>; see the documentation of the <code>smoots</code>
+package for more information; is set to customized default settings</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>additional arguments of the <code>ugarchspec</code> function from the
+<code>rugarch</code>-package; only applied if <code>model = 'GARCH'</code>; default
+settings for the arguments <code>variance.model</code> and <code>mean.model</code> are:
+</p>
+
+<dl>
+<dt>
+<code>variance.model</code> = <code>list(model = 'sGARCH', garchOrder = c(1, 1))</code>
+</dt>
+<dd></dd>
+<dt>
+<code>mean.model</code> = <code>list(armaOrder = c(0, 0))</code>
+</dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Returns a list with the following elements:
+</p>
+
+<dl>
+<dt>VaR</dt>
+<dd>
+<p>Numerical vector containing out-of-sample forecasts of Value at
+Risk</p>
+</dd>
+<dt>ES</dt>
+<dd>
+<p>Numerical vector containing out-of-sample forecasts of Expected
+Shortfall (Conditional Value at Risk)</p>
+</dd>
+<dt>xout</dt>
+<dd>
+<p>Numerical vector containing out-of-sample returns</p>
+</dd>
+<dt>p</dt>
+<dd>
+<p>Confidence level for VaR calculation</p>
+</dd>
+<dt>model</dt>
+<dd>
+<p>Model for estimating conditional volatility</p>
+</dd>
+<dt>method</dt>
+<dd>
+<p>Method to be used for calculation</p>
+</dd>
+<dt>nout</dt>
+<dd>
+<p>Number of out-of-sample observations</p>
+</dd>
+<dt>nwin</dt>
+<dd>
+<p>Window size for rolling one-step forecasting</p>
+</dd>
+<dt>nboot</dt>
+<dd>
+<p>Size of bootstrap sample</p>
+</dd>
+</dl>
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+prices &lt;- DAX$price_close
+returns &lt;- diff(log(prices))
+n &lt;- length(returns)
+nout &lt;- 250 # number of obs. for out-of-sample forecasting
+nwin &lt;- 1000 # window size for rolling forecasts
+
+
+### Example 1 - plain historical simulation
+results1 &lt;- rollcast(x = returns, p = 0.975, method = 'plain', nout = nout,
+                     nwin = nwin)
+matplot(1:nout, cbind(-results1$xout, results1$VaR, results1$ES),
+  type = 'hll',
+  xlab = 'number of out-of-sample obs.', ylab = 'losses, VaR and ES',
+  main = 'Plain HS - 97.5% VaR and ES for the DAX30 return series')
+
+### Example 2 - age weighted historical simulation
+results2 &lt;- rollcast(x = returns, p = 0.975, method = 'age', nout = nout,
+                     nwin = nwin)
+matplot(1:nout, cbind(-results2$xout, results2$VaR, results2$ES),
+  type = 'hll',
+  xlab = 'number of out-of-sample obs.', ylab = 'losses, VaR and ES',
+  main = 'Age weighted HS - 97.5% VaR and ES for the DAX30 return series')
+
+### Example 3 - volatility weighted historical simulation - EWMA
+results3 &lt;- rollcast(x = returns, p = 0.975, model = 'EWMA',
+                     method = 'vwhs', nout = nout, nwin = nwin)
+matplot(1:nout, cbind(-results3$xout, results3$VaR, results3$ES),
+  type = 'hll',
+  xlab = 'number of out-of-sample obs.', ylab = 'losses, VaR and ES',
+  main = 'Vol. weighted HS (EWMA) - 97.5% VaR and ES for the DAX30 return
+  series')
+
+### Example 4 - volatility weighted historical simulation - GARCH
+results4 &lt;- rollcast(x = returns, p = 0.975, model = 'GARCH',
+                     method = 'vwhs', nout = nout, nwin = nwin)
+matplot(1:nout, cbind(-results4$xout, results4$VaR, results4$ES),
+  type = 'hll',
+  xlab = 'number of out-of-sample obs.', ylab = 'losses, VaR and ES',
+  main = 'Vol. weighted HS (GARCH) - 97.5% VaR and ES for the DAX30 return
+  series')
+
+### Example 5 - filtered historical simulation - EWMA
+results5 &lt;- rollcast(x = returns, p = 0.975, model = 'EWMA',
+                     method = 'fhs', nout = nout, nwin = nwin, nboot = 10000)
+matplot(1:nout, cbind(-results5$xout, results5$VaR, results5$ES),
+  type = 'hll',
+  xlab = 'number of out-of-sample obs.', ylab = 'losses, VaR and ES',
+  main = 'Filtered HS (EWMA) - 97.5% VaR and ES for the DAX30 return
+  series')
+
+### Example 6 - filtered historical simulation - GARCH
+results6 &lt;- rollcast(x = returns, p = 0.975, model = 'GARCH',
+                     method = 'fhs', nout = nout, nwin = nwin, nboot = 10000)
+matplot(1:nout, cbind(-results6$xout, results6$VaR, results6$ES),
+  type = 'hll',
+  xlab = 'number of out-of-sample obs.', ylab = 'losses, VaR and ES',
+  main = 'Filtered HS (GARCH) - 97.5% VaR and ES for the DAX30 return
+  series')
+
+</code></pre>
+
+
+</div>

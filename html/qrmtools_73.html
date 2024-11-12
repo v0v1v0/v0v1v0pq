@@ -1,0 +1,162 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>tail_plot</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Plot of an Empirical Surival Function with Smith Estimator</h2>
+
+<h3>Description</h3>
+
+<p>Plot an empirical tail survival function, possibly overlaid
+with the Smith estimator.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">tail_plot(x, threshold, shape = NULL, scale = NULL,
+          q = NULL, length.out = 129, lines.args = list(),
+          log = "xy", xlim = NULL, ylim = NULL,
+          xlab = "x", ylab = "Tail probability at x", ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p><code>numeric</code> vector of data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>threshold</code></td>
+<td>
+<p><code>numeric(1)</code> giving the threshold <code class="reqn">u</code> above
+which the tail (starts and) is to be plotted.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>shape</code></td>
+<td>
+<p><code>NULL</code> or the GPD shape parameter <code class="reqn">\xi</code>
+(typically obtained via <code>fit_GPD_MLE()</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>scale</code></td>
+<td>
+<p><code>NULL</code> or the GPD shape parameter <code class="reqn">\beta</code>
+(typically obtained via <code>fit_GPD_MLE()</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>q</code></td>
+<td>
+<p><code>NULL</code>, <code>numeric(1)</code> or <code>numeric</code> vector of
+evaluationn points of the  Smith estimator (semi-parametric GPD-based tail
+estimator in the POT method). If <code>NULL</code>, the evaluation points
+are determined internally as an equidistant sequence of length
+<code>length.out</code> between the smallest and largest exceedance
+(taken equidistant in log-scale if <code>log</code> contains <code>"x"</code>).
+If <code>numeric(1)</code>, then the behavior is similar to <code>NULL</code>
+with the exception that the plot is extended to the right of the
+largest exceedance if <code>q</code> is larger than the largest
+exceedance.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>length.out</code></td>
+<td>
+<p>length of <code>q</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lines.args</code></td>
+<td>
+<p><code>list</code> of arguments passed to the
+underlying <code>lines()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>log</code></td>
+<td>
+<p><code>character</code> indicating whether
+logarithmic axes are to be used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xlim</code></td>
+<td>
+<p>x-axis limits.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ylim</code></td>
+<td>
+<p>y-axis limits.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xlab</code></td>
+<td>
+<p>x-axis label.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ylab</code></td>
+<td>
+<p>y-axis label.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>additional arguments passed to the underlying
+<code>plot()</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>If both <code>shape</code> and <code>scale</code> are provided, <code>tail_plot()</code>
+overlays the empirical tail survival function estimator (evaluated at
+the exceedances) with the corresponding GPD. In this case,
+<code>tail_plot()</code> invisibly returns a list with two two-column
+matrices, one containing the x-values and y-values of the
+empirical survival distribution estimator and one containing the
+x-values and y-values of the Smith estimator. If <code>shape</code> or
+<code>scale</code> are <code>NULL</code>, <code>tail_plot()</code> invisibly returns
+a two-column matrix with the x-values and y-values of the empirical
+survival distribution estimator.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Marius Hofert</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Generate losses to work with
+set.seed(271)
+X &lt;- rt(1000, df = 3.5) # in MDA(H_{1/df}); see MFE (2015, Section 16.1.1)
+
+## Threshold (see ?dGPDtail, for example)
+u &lt;- 1.5 # threshold
+
+## Plots of empirical survival distribution functions (overlaid with Smith estimator)
+tail_plot(X, threshold = u, log = "", type = "b") # =&gt; need log-scale
+tail_plot(X, threshold = u, type = "s") # as a step function
+fit &lt;- fit_GPD_MLE(X[X &gt; u] - u) # fit GPD to excesses (POT method)
+tail_plot(X, threshold = u, # without log-scale
+          shape = fit$par[["shape"]], scale = fit$par[["scale"]], log = "")
+tail_plot(X, threshold = u, # highlights linearity
+          shape = fit$par[["shape"]], scale = fit$par[["scale"]])
+</code></pre>
+
+
+</div>

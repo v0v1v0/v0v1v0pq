@@ -1,0 +1,136 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>object2id</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Match quanteda objects against token types</h2>
+
+<h3>Description</h3>
+
+<p>Developer function to match patterns in quanteda objects against token types.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">object2id(
+  x,
+  types,
+  valuetype = c("glob", "fixed", "regex"),
+  case_insensitive = TRUE,
+  concatenator = "_",
+  levels = 1,
+  remove_unigram = FALSE,
+  keep_nomatch = FALSE
+)
+
+object2fixed(
+  x,
+  types,
+  valuetype = c("glob", "fixed", "regex"),
+  case_insensitive = TRUE,
+  concatenator = "_",
+  levels = 1,
+  remove_unigram = FALSE,
+  keep_nomatch = FALSE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a list of character vectors, dictionary or collocations object</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>types</code></td>
+<td>
+<p>token types against which patterns are matched</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>valuetype</code></td>
+<td>
+<p>the type of pattern matching: <code>"glob"</code> for "glob"-style
+wildcard expressions; <code>"regex"</code> for regular expressions; or <code>"fixed"</code> for
+exact matching. See valuetype for details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>case_insensitive</code></td>
+<td>
+<p>logical; if <code>TRUE</code>, ignore case when matching a
+<code>pattern</code> or dictionary values</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>concatenator</code></td>
+<td>
+<p>the concatenation character that joins multi-word
+expression in <code>types</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>levels</code></td>
+<td>
+<p>integers specifying the levels of entries in a hierarchical
+dictionary that will be applied.  The top level is 1, and subsequent levels
+describe lower nesting levels.  Values may be combined, even if these
+levels are not contiguous, e.g. <code>levels = c(1:3)</code> will collapse the second
+level into the first, but record the third level (if present) collapsed
+below the first (see examples).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>remove_unigram</code></td>
+<td>
+<p>if <code>TRUE</code>, ignores single-word patterns</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>keep_nomatch</code></td>
+<td>
+<p>keep patterns that did not match</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p><code>object2fixed()</code> returns a list of character vectors of matched
+types. <code>object2id()</code> returns a list of indices of matched types with
+attributes. The "pattern" attribute records the indices of the matched patterns
+in <code>x</code>; the "key" attribute records the keys of the matched patterns when <code>x</code> is
+dictionary.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>pattern2id()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">types &lt;- c("A", "AA", "B", "BB", "B_B", "C", "C-C")
+
+# dictionary
+dict &lt;- dictionary(list(A = c("a", "aa"), 
+                        B = c("BB", "B B"),
+                        C = c("C", "C-C")))
+object2fixed(dict, types)
+object2fixed(dict, types, remove_unigram = TRUE)
+
+# phrase
+pats &lt;- phrase(c("a", "aa", "zz", "bb", "b b"))
+object2fixed(pats, types)
+object2fixed(pats, types, keep_nomatch = TRUE)
+</code></pre>
+
+
+</div>

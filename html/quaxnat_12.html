@@ -1,0 +1,63 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>seed_tree_distmap</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Distance map to nearest seed source</h2>
+
+<h3>Description</h3>
+
+<p>Creation of a distance map for the study area. The distance to
+the nearest seed source is calculated for every raster cell.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">seed_tree_distmap(raster, species)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>raster</code></td>
+<td>
+<p>Raster data set with tree species classification of specific
+tree species and tree species groups.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>species</code></td>
+<td>
+<p>Represents the numerical value by which the tree species of
+interest is encoded in the raster data set.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A SpatRaster object containing the distances to seed source.
+The object has the same resolution and extent as the input raster.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Create raster data set
+ rr &lt;- terra::rast(
+ matrix(sample(0:10, 20 * 20, replace = TRUE),
+        nrow = 20, ncol = 20))
+
+## Compute distance for study area
+distance &lt;- seed_tree_distmap(raster = rr, species = "10")
+
+## Plot the seed_tree_distmap
+terra::plot(distance)
+
+</code></pre>
+
+
+</div>

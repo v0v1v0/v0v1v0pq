@@ -1,0 +1,109 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>Xplot</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Display the distribution of points for a single condition</h2>
+
+<h3>Description</h3>
+
+<p>This function creates a plot for a single vector of numerical values, arranging them
+horizontally on the X axis from minimum to maximum.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">Xplot(x, jitter = FALSE, at = pretty(x), ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>A numeric vector.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>jitter</code></td>
+<td>
+<p>Logical, vertically jitter the points.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>at</code></td>
+<td>
+<p>The points at which tick-marks are to be drawn. Non-finite (infinite, NaN or NA)
+values are omitted. By default, tickmark locations are automatically
+computed, see the help file for <b><code>?pretty</code></b>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Other graphical parameters from <b><code>?par</code></b></p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>This is a special type of (scatter)plot, with points being arranged only on the
+horizontal axis (it has no vertical axis). Useful when inspecting if points
+are grouped into naturally occuring clusters, mainly for crisp calibration purposes.
+</p>
+<p>The argument <b><code>...</code></b> is used to pass arguments to the various graphical
+parameters from <code>?par</code>, and also to the settings from <code>?jitter</code>.
+</p>
+<p>The points have a default <b><code>cex</code></b> (character expansion) value of 1, and
+a default <b><code>pch</code></b> value of 1 (empty points), which can be modified
+accordingly (for instance value 21 for filled points). When <b><code>pch = 21</code></b>,
+the color for the margins of the points can be specified via the argument
+<b><code>col</code></b>, while the argument <b><code>bg</code></b> will determine the fill color
+of the points.
+</p>
+<p>The axis labels have a default <b><code>cex.axis</code></b> value of 0.8, which affects
+both the tickmarks labels and the axis labels.
+</p>
+<p>When jittering the points, default values of 0.5 are used for the parameters
+<b><code>factor</code></b> and <b><code>amount</code></b>, on the horizontal axis. More details
+can be found in the base function <code>jitter()</code>.
+</p>
+<p>Although the points are displayed in a single dimension, on the horizontal axis,
+the R graphical window will still have the default squared shape, with a lot of 
+empty space on the vertical axis. Users are free to create their custom code to 
+determine the size of the graphics window, or simply resize it to a suitable
+height.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Adrian Dusa
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>par</code>, <code>text</code>, <code>jitter</code></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+# Lipset's raw data
+# plot the DEV (level of developent) causal condition
+Xplot(LR$DEV)
+
+# jitter the points vertically
+Xplot(LR$DEV, jitter = TRUE)
+
+# clip plotting between the range of min and max
+Xplot(LR$DEV, jitter = TRUE, at = range(LR$DEV))
+</code></pre>
+
+
+</div>

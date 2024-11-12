@@ -1,0 +1,101 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>generateIRData</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+generate IR MRI example data
+</h2>
+
+<h3>Description</h3>
+
+<p>The function generates  IR MRI example data for specified parameters
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">generateIRData(segm, pCSF, pGM, pWM, InvTimes, sigma = 40)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>segm</code></td>
+<td>
+
+<p>array containing segmentation resuts for an 3D MRI template. Contains 1 for CSF,
+2 for Gray Matter and 3 for White Matter
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pCSF</code></td>
+<td>
+
+<p>Parameters (S,R) for CSF
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pGM</code></td>
+<td>
+
+<p>Parameters (f,R,S) for Gray Matter
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pWM</code></td>
+<td>
+
+<p>Parameters (f,R,S) for White Matter
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>InvTimes</code></td>
+<td>
+
+<p>Vector of Inversion Times, length nTimes
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sigma</code></td>
+<td>
+
+<p>Noise standard variation
+</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>array with dimension c(nTimes,dim(segm)) 
+</p>
+
+
+<h3>Note</h3>
+
+<p>used in examples for IR functions
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Karsten Tabelow <a href="mailto:tabelow@wias-berlin.de">tabelow@wias-berlin.de</a><br>
+J\"org Polzehl <a href="mailto:polzehl@wias-berlin.de">polzehl@wias-berlin.de</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>estimateIRfluid</code>, <code>estimateIRsolid</code>, <code>estimateIR</code>,<code>smoothIRSolid</code>, <code>readIRData</code>
+</p>
+
+
+</div>

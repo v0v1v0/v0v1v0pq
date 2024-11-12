@@ -1,0 +1,60 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>Huber</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Huber Loss
+</h2>
+
+<h3>Description</h3>
+
+<p>Evaluates the Huber loss function defined as </p>
+<p style="text-align: center;"><code class="reqn"> f(r) = \left\{
+\begin{array}{ll}
+\frac{1}{2}|r|^2 &amp; |r| \le c \\
+c(|r|-\frac{1}{2}c)  &amp; |r| &gt; c
+\end{array}
+\right. </code>
+</p>
+
+
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">Huber(r, c = 1.345)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>r </code></td>
+<td>
+<p>a real number or vector.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>c </code></td>
+<td>
+<p>a positive number. If the value is negative, it's absolute value will be used.
+</p>
+</td>
+</tr>
+</table>
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+set.seed(1)
+x = rnorm(200, mean = 1)
+y = Huber(x)
+plot(x, y)
+abline(h = (1.345)^2/2)
+
+</code></pre>
+
+
+</div>

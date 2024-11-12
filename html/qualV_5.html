@@ -1,0 +1,87 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>EF</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Efficiency Factor as Suggested by Nash and Sutcliffe</h2>
+
+<h3>Description</h3>
+
+<p>The efficiency factor is a dimensionless statistic which
+directly relates predictions to observed data.</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">EF(o, p)</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>o</code></td>
+<td>
+<p>vector of observed values</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p</code></td>
+<td>
+<p>vector of corresponding predicted values</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Two time series are compared. <code>'EF'</code> is an overall measure
+of similarity between fitted and observed values. Any model giving a
+negative value cannot be recommended, whereas values close to one
+indicate a 'near-perfect' fit.</p>
+
+
+<h3>Value</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>EF</code></td>
+<td>
+<p>efficiency factor</p>
+</td>
+</tr></table>
+<h3>References</h3>
+
+<p>Nash, J. E. and Sutcliffe, J. V. (1970) River flow forecasting through
+conceptual models part I - A discussion of principles. Journal of
+Hydrology, 10, 282-290.
+</p>
+<p>Mayer, D. G. and Butler, D. G. (1993) Statistical
+Validation. Ecological Modelling, 68, 21-32.</p>
+
+
+<h3>See Also</h3>
+
+<p><code>MAE</code>, <code>MSE</code>, <code>MAPE</code>,
+<code>GRI</code></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># a constructed example
+x &lt;- seq(0, 2*pi, 0.1)
+y &lt;- 5 + sin(x)           # a process
+o &lt;- y + rnorm(x, sd=0.2) # observation with random error
+p &lt;- y + 0.1              # simulation with systematic bias
+
+plot(x, o); lines(x, p)
+EF(o, p)
+
+# observed and measured data with non-matching time intervals
+data(phyto)
+obsb &lt;- na.omit(obs[match(sim$t, obs$t), ])
+simb &lt;- sim[na.omit(match(obs$t, sim$t)), ]
+EF(obsb$y, simb$y)
+</code></pre>
+
+
+</div>

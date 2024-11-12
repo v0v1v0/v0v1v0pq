@@ -1,0 +1,55 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>summary.fst_genoprob</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Summary of an fst_genoprob object</h2>
+
+<h3>Description</h3>
+
+<p>Summarize an fst_genoprob object
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'fst_genoprob'
+summary(object, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>An object of class <code>"fst_genoprob"</code>, as output by <code>fst_genoprob()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Ignored.</p>
+</td>
+</tr>
+</table>
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(qtl2)
+grav2 &lt;- read_cross2(system.file("extdata", "grav2.zip", package="qtl2"))
+
+pr &lt;- calc_genoprob(grav2)
+dir &lt;- tempdir()
+fpr &lt;- fst_genoprob(pr, "grav2", dir)
+
+# summary of fst_genoprob object
+summary(fpr)
+
+# clean up: remove all the files we created
+unlink(fst_files(fpr))
+</code></pre>
+
+
+</div>

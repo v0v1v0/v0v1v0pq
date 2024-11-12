@@ -1,0 +1,129 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>create_variant_query_func</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Create a function to query variants</h2>
+
+<h3>Description</h3>
+
+<p>Create a function that will connect to a SQLite database of founder
+variant information and return a data frame with variants for a
+selected region.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">create_variant_query_func(
+  dbfile = NULL,
+  db = NULL,
+  table_name = "variants",
+  chr_field = "chr",
+  pos_field = "pos",
+  id_field = "snp_id",
+  sdp_field = "sdp",
+  filter = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>dbfile</code></td>
+<td>
+<p>Name of database file</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>db</code></td>
+<td>
+<p>Optional database connection (provide one of <code>file</code> and <code>db</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>table_name</code></td>
+<td>
+<p>Name of table in the database</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>chr_field</code></td>
+<td>
+<p>Name of chromosome field</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pos_field</code></td>
+<td>
+<p>Name of position field</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>id_field</code></td>
+<td>
+<p>Name of SNP/variant ID field</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sdp_field</code></td>
+<td>
+<p>Name of strain distribution pattern (SDP) field</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>filter</code></td>
+<td>
+<p>Additional SQL filter (as a character string)</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Note that this function assumes that the database has a
+<code>pos</code> field that is in basepairs, but the selection uses
+<code>start</code> and <code>end</code> positions in Mbp, and the output
+data frame should have <code>pos</code> in Mbp.
+</p>
+<p>Also note that a SQLite database of variants in the founder strains
+of the mouse Collaborative Cross is available at figshare:
+<a href="https://doi.org/10.6084/m9.figshare.5280229.v3">doi:10.6084/m9.figshare.5280229.v3</a>
+</p>
+
+
+<h3>Value</h3>
+
+<p>Function with three arguments, <code>chr</code>, <code>start</code>,
+and <code>end</code>, which returns a data frame with the variants in
+that region, with <code>start</code> and <code>end</code> being in Mbp. The
+output should contain at least the columns <code>chr</code> and
+<code>pos</code>, the latter being position in Mbp.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># create query function by connecting to file
+dbfile &lt;- system.file("extdata", "cc_variants_small.sqlite", package="qtl2")
+query_variants &lt;- create_variant_query_func(dbfile)
+# query_variants will connect and disconnect each time
+variants &lt;- query_variants("2", 97.0, 98.0)
+
+# create query function to just grab SNPs
+query_snps &lt;- create_variant_query_func(dbfile, filter="type=='snp'")
+# query_variants will connect and disconnect each time
+snps &lt;- query_snps("2", 97.0, 98.0)
+
+# connect and disconnect separately
+library(RSQLite)
+db &lt;- dbConnect(SQLite(), dbfile)
+query_variants &lt;- create_variant_query_func(db=db)
+variants &lt;- query_variants("2", 97.0, 98.0)
+dbDisconnect(db)
+</code></pre>
+
+
+</div>

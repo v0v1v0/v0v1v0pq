@@ -1,0 +1,53 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qcQpcr</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Histone ChIP-Seq qPCR Analyzer</h2>
+
+<h3>Description</h3>
+
+<p>Quality control of chromatin immunoprecipitation libraries (ChIP-seq) by quantitative polymerase chain reaction (qPCR). This function calculates Enrichment value with respect to reference for each histone modification (specific to 'Vii7' software &lt;http://www.thermofisher.com/ca/en/home/life-science/pcr/real-time-pcr/real-time-pcr-instruments/viia-7-real-time-pcr-system/viia-7-software.html&gt;). This function is applicable to full panel of histone modifications described by International Human Epigenomic Consortium (IHEC).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qcQpcr(xx, Name)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>xx</code></td>
+<td>
+<p>'Your Data Set'</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Name</code></td>
+<td>
+<p>'.... Title for you graph, (ie: Projects name and date)'</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Alireza Lorzadeh
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+library(ggplot2)
+data(SampleTest)
+qcQpcr(SampleTest,'Title for your graph')
+
+</code></pre>
+
+
+</div>

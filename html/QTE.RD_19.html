@@ -1,0 +1,141 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>rdq.sim</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Simulation the asymptotic distributions</h2>
+
+<h3>Description</h3>
+
+<p><code>rdq.sim</code> produces iid draws from the asymptotic distribution of the conditional quantile process estimate.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">rdq.sim(x, d, x0, z0, dz, cov, tt, hh, hh2, fxp, fxm, n.sim)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a vector (or a matrix) of covariates.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>d</code></td>
+<td>
+<p>a numeric vector, the treatment status.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x0</code></td>
+<td>
+<p>the cutoff point.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>z0</code></td>
+<td>
+<p>the value of the covariates at which to evaluate the effects.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dz</code></td>
+<td>
+<p>the number of covariates.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cov</code></td>
+<td>
+<p>either 0 or 1. Set <em>cov=1</em> if covariates are present in the model;
+otherwise set <em>cov=0</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tt</code></td>
+<td>
+<p>a vector of quantiles.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>hh</code></td>
+<td>
+<p>the bandwidth values (specified for each quantile level).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>hh2</code></td>
+<td>
+<p>the bandwidth values for the local quadratic quantile regression.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fxp</code></td>
+<td>
+<p>conditional density estimates on the right side of <code class="reqn">x_0</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fxm</code></td>
+<td>
+<p>conditional density estimates on the left side of <code class="reqn">x_0</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n.sim</code></td>
+<td>
+<p>the number of simulation repetitions.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list with elements:
+</p>
+
+<dl>
+<dt>dcp</dt>
+<dd>
+<p>realizations from the asymptotic distribution of the conditional quantile process, from the right side of <code class="reqn">x_0</code>.</p>
+</dd>
+<dt>dcm</dt>
+<dd>
+<p>realizations from the asymptotic distribution of the conditional quantile process, from the left side of <code class="reqn">x_0</code>.</p>
+</dd>
+<dt>drp</dt>
+<dd>
+<p>realizations from the asymptotic distribution of the bias corrected conditional quantile process, from the right side of <code class="reqn">x_0</code>.</p>
+</dd>
+<dt>drm</dt>
+<dd>
+<p>realizations from the asymptotic distribution of the bias corrected conditional quantile process, from the left side of <code class="reqn">x_0</code>.</p>
+</dd>
+</dl>
+<h3>Examples</h3>
+
+<pre><code class="language-R">n = 500
+x = runif(n,min=-4,max=4)
+d = (x &gt; 0)
+y = x + 0.3*(x^2) - 0.1*(x^3) + 1.5*d + rnorm(n)
+tlevel = seq(0.1,0.9,by=0.1)
+tlevel2 = c(0.05,tlevel,0.95)
+hh = rep(2,length(tlevel))
+hh2 = rep(2,length(tlevel2))
+
+ab = rdq(y=y,x=x,d=d,x0=0,z0=NULL,tau=tlevel2,h.tau=hh2,cov=0)
+delta = c(0.05,0.09,0.14,0.17,0.19,0.17,0.14,0.09,0.05)
+fp = rdq.condf(x=x,Q=ab$qp.est,bcoe=ab$bcoe.p,taus=tlevel,taul=tlevel2,delta,cov=0)
+fm = rdq.condf(x=x,Q=ab$qm.est,bcoe=ab$bcoe.m,taus=tlevel,taul=tlevel2,delta,cov=0)
+sa = rdq.sim(x=x,d=d,x0=0,z0=NULL,dz=0,cov=0,tt=tlevel,hh,hh,fxp=fp$ff,fxm=fm$ff,n.sim=200)
+
+</code></pre>
+
+
+</div>

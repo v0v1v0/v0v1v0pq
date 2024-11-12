@@ -1,0 +1,309 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>Qest</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Q-Estimation
+</h2>
+
+<h3>Description</h3>
+
+<p>An implementation of the quantile-based estimators described in Sottile and Frumento (2022).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">Qest(formula, Q, weights, start, data, ntau = 199, wtau = NULL,
+  control = Qest.control(), ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>formula</code></td>
+<td>
+
+<p>a two-sided formula of the form <code>y ~ x</code>. Note that the parametric model is identified through <code>Q</code>, and not through <code>formula</code>, that only identifies the response and the predictors. Use <code>Surv(time, event)</code>, if the data are right-censored, and <code>Surv(start, stop, event)</code>, if the data are right-censored and left-truncated (<code>start &lt; stop</code>, <code>start</code> can be <code>-Inf</code>).
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Q</code></td>
+<td>
+
+<p>a parametric quantile function of the form <code>Q(theta, tau, data)</code>. Alternatively, a
+character string naming a <code>Qfamily</code> function, a <code>Qfamily</code> function itself, or the
+result of a call to a <code>Qfamily</code> function. See <code>Qfamily</code> for details.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>weights</code></td>
+<td>
+
+<p>an optional vector of weights to be used in the fitting process. The weights will always be normalized to sum to the sample size. This implies that, for example, using double weights will <em>not</em> halve the standard errors.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>start</code></td>
+<td>
+
+<p>a vector of starting values. <code>NA</code>s are allowed, but will be internally replaced by zeroes. Make sure that the quantile function is well-defined at <code>theta = start</code>. The size of <code>start</code> is also used to identify the number of parameters in the model. You <em>must</em> supply starting points, unless you are fitting a model defined by a <code>Qfamily</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+
+<p>an optional data frame, list or environment (or object coercible by <code>as.data.frame</code> to a data frame) containing the variables in the model. If not found in data, the variables are taken from <code>environment(formula)</code>, typically the environment from which <code>Qest</code> is called.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ntau</code></td>
+<td>
+
+<p>the number of points for numerical integration (see “Details”). Default <code>ntau = 199</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>wtau</code></td>
+<td>
+
+<p>an optional function that assigns a different weight to each quantile. By default, all quantiles in (0,1) have the same weight. Please check the documentation of <code>wtrunc</code> for built-in weighting functions.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>control</code></td>
+<td>
+
+<p>a list of operational parameters. This is usually passed through <code>Qest.control</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+
+<p>additional arguments for <code>wtau</code> and <code>Q</code>.
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>A parametric model, <code class="reqn">Q(\tau | \theta, x)</code>, is used to describe the conditional quantile function of an outcome <code class="reqn">Y</code>, given a vector <code class="reqn">x</code> of covariates. The model parameters, <code class="reqn">\theta</code>, are estimated by minimizing the (weighted) integral, with respect to <code class="reqn">\tau</code>, of the loss function of standard quantile regression. If the data are censored or truncated, <code class="reqn">\theta</code> is estimated by solving a set of estimating equations. In either case, numerical integration is required to calculate the objective function: a grid of <code>ntau</code> points in <code>(0,1)</code> is used.  The estimation algorithm is briefly described in the documentation of <code>Qest.control</code>.
+</p>
+<p>The optional argument <code>wtau</code> can be used to attribute a different weight to each quantile. Although it is possible to choose <code>wtau</code> to be a discontinuous function (e.g., <code>wtau = function(tau){tau &lt; 0.95}</code>), this may occasionally result in poorly estimated standard errors.
+</p>
+<p>The quantile function <code>Q</code> must have at least the following three arguments: <code>theta, tau, data</code>, in this order. The first argument, <code>theta</code>, is a vector (not a matrix) of parameters' values. The second argument, <code>tau</code>, is the order of the quantile. When <code>Q</code> receives a <code>n*ntau</code> matrix of <code>tau</code> values, it must return a <code>n*ntau</code> matrix of quantiles. The third argument, <code>data</code>, is a data frame that includes the predictors used by <code>Q</code>.
+</p>
+<p>If <code>Q</code> is identified by one <code>Qfamily</code>, everything becomes much simpler. It is not necessary to implement your own quantile function, and the starting points are not required. Note that <code>ntau</code> is ignored if <code>Q = Qnorm</code> or <code>Q = Qunif</code>.
+</p>
+<p>Please check the documentation of <code>Qfamily</code> to see the available built-in distributions. A convenient Q-based implementation of the standard linear regression model is offered by <code>Qlm</code>. Proportional hazards models are implemented in <code>Qcoxph</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>a list with the following elements:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>coefficients</code></td>
+<td>
+<p>a named vector of coefficients.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>std.errs</code></td>
+<td>
+<p>a named vector of estimated standard errors.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>covar</code></td>
+<td>
+<p>the estimated covariance matrix of the estimators.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>obj.function</code></td>
+<td>
+<p>the value of the minimized loss function. If the data are censored or truncated, a meaningful loss function which, however, is not the function being minimized (see “Note”).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ee</code></td>
+<td>
+<p>the values of the estimating equations at the solution. If the data are neither censored nor truncated, the partial derivatives of the loss function.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>jacobian</code></td>
+<td>
+<p>the jacobian at the solution. If the data are neither censored nor truncated, the matrix of second derivatives of the loss function.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>CDF, PDF</code></td>
+<td>
+<p>the fitted values of the cumulative distribution function (CDF) and the probability density function (PDF).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>converged</code></td>
+<td>
+<p>logical. The convergence status.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n.it</code></td>
+<td>
+<p>the number of iterations.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>internal</code></td>
+<td>
+<p>internal elements.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>call</code></td>
+<td>
+<p>the matched call.</p>
+</td>
+</tr>
+</table>
+<h3>Note</h3>
+
+<p>NOTE 1. If the data are censored or truncated, estimation is carried out by solving estimating equations, and no associated loss is present. In this case, a meaningful value of <code>obj.function</code> is the integrated loss [equation 1 of Sottile and Frumento (2022)] in which the indicator function <code class="reqn">I(y \le Q(\tau | \theta, x))</code> has been replaced with one of the expressions presented in equations 6 and 7 of the paper. The resulting loss, however, is not the function being minimized.
+</p>
+<p>NOTE 2. To prevent computational problems, avoid situations in which some of the estimated parameters are expected to be very small or very large. For example, standardize the predictors, and normalize the response. Avoid as much as possible parameters with bounded support. For example, model a variance/rate/shape parameter on the log scale, e.g., <code class="reqn">\sigma = exp(\theta)</code>. Carefully select the starting points, and make sure that <code>Q(start, ...)</code> is well-defined. If <code>Q</code> is identified by one <code>Qfamily</code>, all these recommendations can be ignored.
+</p>
+<p>NOTE 3. You should <em>not</em> use <code>Qest</code> to fit parametric models describing discrete distributions, where the quantile function is piecewise constant. You can try, but the optimization algorithm will most likely fail. The predefined family <code>Qpois</code> allows to fit a Poisson distribution by using a continuous version of its quantile function (see <code>Qfamily</code>).
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Paolo Frumento &lt;paolo.frumento@unipi.it&gt;, Gianluca Sottile &lt;gianluca.sottile@unipa.it&gt;
+</p>
+
+
+<h3>References</h3>
+
+<p>Sottile G, and Frumento P (2022). <em>Robust estimation and regression with parametric quantile functions.</em> Computational Statistics and Data Analysis. &lt;doi:10.1016/j.csda.2022.107471&gt;
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>Qest.control</code>, for operational parameters, and <code>summary.Qest</code>, for model summary. <code>Qfamily</code>, for the available built-in distributions. <code>wtrunc</code> for built-in weighting functions (<code>wtau</code> argument). <code>Qlm</code>, for Q-estimation of the standard normal (linear) regression model; <code>Qcoxph</code>, for proportional hazards models.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># Ex1. Normal model
+
+# Quantile function of a linear model
+Qlinmod &lt;- function(theta, tau, data){
+  sigma &lt;- exp(theta[1])
+  beta &lt;- theta[-1]
+  X &lt;- model.matrix( ~ x1 + x2, data = data)
+  qnorm(tau, X %*% beta, sigma)
+}
+
+n &lt;- 100
+x1 &lt;- rnorm(n)
+x2 &lt;- runif(n,0,3)
+theta &lt;- c(1,4,1,2)
+y &lt;- Qlinmod(theta, runif(n), data.frame(x1,x2)) # generate the data
+
+m1 &lt;- Qest(y ~ x1 + x2, Q = Qlinmod, start = c(NA,NA,NA,NA)) # User-defined quantile function
+summary(m1)
+
+m2 &lt;- Qest(y ~ x1 + x2, Q = Qnorm) # Qfamily
+summary(m2)
+
+m3 &lt;- Qlm(y ~ x1 + x2)
+summary(m3) # using 'Qlm' is much simpler and faster, with identical results
+
+
+
+
+
+# Ex2. Weibull model with proportional hazards
+
+# Quantile function
+QWeibPH &lt;- function(theta, tau, data){
+  shape &lt;- exp(theta[1])
+  beta &lt;- theta[-1]
+  X &lt;- model.matrix(~ x1 + x2, data = data)
+  qweibull(tau, shape = shape, scale = (1/exp(X %*% beta))^(1/shape))
+}
+
+n &lt;- 100
+x1 &lt;- rbinom(n,1,0.5)
+x2 &lt;- runif(n,0,3)
+theta &lt;- c(2,-0.5,1,1)
+
+t &lt;- QWeibPH(theta, runif(n), data.frame(x1,x2)) # time-to-event
+c &lt;- runif(n,0.5,1.5) # censoring variable
+y &lt;- pmin(t,c) # observed response
+d &lt;- (t &lt;= c) # event indicator
+
+m1 &lt;- Qest(Surv(y,d) ~ x1 + x2, Q = QWeibPH, start = c(NA,NA,NA,NA))
+summary(m1)
+
+m2 &lt;- Qcoxph(Surv(y,d) ~ x1 + x2)
+summary(m2) # using 'Qcoxph' is much simpler and faster (but not identical)
+
+
+
+
+# Ex3. A Gamma model
+
+# Quantile function
+Qgm &lt;- function(theta, tau, data){
+  a &lt;- exp(theta[1])
+  b &lt;- exp(theta[2])
+  qgamma(tau, shape = a, scale = b)
+}
+n &lt;- 100
+theta &lt;- c(2,-1)
+y &lt;- rgamma(n, shape = exp(theta[1]), scale = exp(theta[2]))
+
+m1 &lt;- Qest(y ~ 1, Q = Qgm, start = c(NA, NA)) # User-defined quantile function
+m2 &lt;- Qest(y ~ 1, Q = Qgamma) # Qfamily
+m3 &lt;- Qest(y ~ 1, Q = Qgamma, wtau = function(tau, h) dnorm((tau - 0.5)/h), h = 0.2)
+# In m3, more weight is assigned to quantiles around the median
+
+
+
+
+# Ex4. A Poisson model
+
+# Quantile function
+n &lt;- 100
+x1 &lt;- runif(n)
+x2 &lt;- rbinom(n,1,0.5)
+y &lt;- rpois(n, exp(1.5 -0.5*x1 + x2))
+m1 &lt;- Qest(y ~ x1 + x2, Q = Qpois) # Use a Qfamily! See "Note"
+m2 &lt;- Qest(y + runif(n) ~ x1 + x2, Q = Qpois) # Use jittering! See the documentation of "Qfamily"
+
+</code></pre>
+
+
+</div>

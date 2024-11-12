@@ -1,0 +1,125 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>D1</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Calculate the D1 distance between two dependence structures</h2>
+
+<h3>Description</h3>
+
+<p>Computation of the D1 distance between two checkerboard copulas A and B, corresponding to the random vectors (X1,Y1) and (X2,Y2), respectively.
+The function <code>D1()</code> computes the difference between the dependence structures of two random vectors. The function <code>D1.ECBC()</code> computes the D1-distance between two checkerboard copulas with the same resolution.
+The function <code>zeta1()</code> is defined as 3D1(A,Pi), where Pi denotes the independence copula and returns the dependence measure computed in qad.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">D1(x1, y1, x2, y2, resolution = NULL)
+
+D1.ECBC(A, B)
+
+zeta1(X, Y, resolution = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x1</code></td>
+<td>
+<p>a (non-empty) numeric vector of data values for the first random vector (first coordinate)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y1</code></td>
+<td>
+<p>a (non-empty) numeric vector of data values for the first random vector (second coordinate)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x2</code></td>
+<td>
+<p>a (non-empty) numeric vector of data values for the second random vector (first coordinate)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y2</code></td>
+<td>
+<p>a (non-empty) numeric vector of data values for the second random vector (second coordinate)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>resolution</code></td>
+<td>
+<p>integer indicating the resolution of the checkerboard copula. (default = NULL)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>A</code></td>
+<td>
+<p>Numeric matrix of dimension NxN indicating the mass of the first N-checkerboad copula</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>B</code></td>
+<td>
+<p>Numeric matrix of dimension NxN indicating the mass of the second N-checkerboad copula</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>X</code></td>
+<td>
+<p>Numeric vector of values in the first coordinate</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Y</code></td>
+<td>
+<p>Numeric vector of values in the second coordinate</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p><code>D1()</code> returns the D1 distance, introduced in (Trutschnig, 2011).
+</p>
+<p><code>D1.ECBC()</code> returns the D1-distance between to checkerboard copulas A and B with same resolution
+</p>
+<p><code>zeta1()</code> returns the directed dependence from x to y.
+</p>
+
+
+<h3>References</h3>
+
+<p>Trutschnig, W. (2011). On a strong metric on the space of copulas and its induced dependence measure. Journal of Mathematical Analysis and Applications. 384 (2), 690-705.
+</p>
+<p>Junker, R.R., Griessenberger, F. and Trutschnig, W. (2021). Estimating scale-invariant directed dependence of bivariate distributions. Computational Statistics and Data Analysis, 153, 107058.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+n &lt;- 100
+x1 &lt;- runif(n)
+y1 &lt;- x1
+x2 &lt;- runif(n)
+y2 &lt;- 1-x2
+D1(x1,y1,x2,y2)
+
+n &lt;- 1000
+x &lt;- runif(n, 0, 1)
+y1 &lt;- ifelse(x &lt; 0.5, runif(length(x &lt; 0.5), 0,0.5), runif(length(x &gt;= 0.5), 0.5, 1))
+y2 &lt;- ifelse(x &gt; 0.5, runif(length(x &lt; 0.5), 0,0.5), runif(length(x &gt;= 0.5), 0.5, 1))
+A &lt;- ECBC(x,y1, resolution = 50)
+B &lt;- ECBC(x,y2, resolution = 50)
+#plot_density(A)
+#plot_density(B)
+D1.ECBC(A,B)
+</code></pre>
+
+
+</div>

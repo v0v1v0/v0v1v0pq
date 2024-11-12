@@ -1,0 +1,113 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>findTh</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Find Calibration Thresholds</h2>
+
+<h3>Description</h3>
+
+<p>This function finds calibration thresholds for splitting base variables into the 
+desired number of groups using cluster analysis.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">findTh(x, groups = 2, hclustm = "complete", distm = "euclidean")
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>An interval or ratio-scaled base variable.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>groups</code></td>
+<td>
+<p>A vector of integers with the desired number of groups.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>hclustm</code></td>
+<td>
+<p>The agglomeration (clustering) method to be used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>distm</code></td>
+<td>
+<p>The distance measure to be used.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>For more details about argument <code>groups</code>, see <code>?cutree</code>. For more 
+details about argument <code>hclustm</code>, see <code>?hclust</code>. For more details 
+about argument <code>distm</code>, see <code>?dist</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A numeric vector of suggested threshold(s) for dividing base variables 
+into the desired number of groups.
+</p>
+
+
+<h3>Contributors</h3>
+
+
+<table>
+<tr>
+<td style="text-align: left;">
+Dusa, Adrian</td>
+<td style="text-align: left;">: programming</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+Thiem, Alrik</td>
+<td style="text-align: left;">: development, documentation, testing
+</td>
+</tr>
+</table>
+<h3>Note</h3>
+
+<p>Default values from the <code>hclust</code> method and the <code>dist</code> method 
+are used for both the distance measure <code>distm</code> and the clustering method 
+<code>hclustm</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Alrik Thiem (<a href="http://www.alrik-thiem.net">Personal Website</a>; <a href="https://www.researchgate.net/profile/Alrik_Thiem">ResearchGate Website</a>)
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>cutree</code>, <code>hclust</code>, <code>dist</code></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># 15 random values between 1 and 100 
+x &lt;- sample(1:100, size = 15)
+
+# split into two groups for csQCA
+findTh(x)
+
+# split into three groups for mvQCA
+findTh(x, groups = 3)
+</code></pre>
+
+
+</div>

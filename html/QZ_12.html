@@ -1,0 +1,62 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>Conjugate transpose</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Conjugate Transpose for Complex Matrix</h2>
+
+<h3>Description</h3>
+
+<p>Conjugate transpose, Hermitian transpose, or Hermitian conjugate.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">  H(x)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a complex matrix or vector.</p>
+</td>
+</tr></table>
+<h3>Details</h3>
+
+<p>This is equivalent to <code>Conj(t.default(x))</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>This returns a conjugate transpose of <code>x</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Wei-Chen Chen <a href="mailto:wccsnow@gmail.com">wccsnow@gmail.com</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+library(QZ, quiet = TRUE)
+
+A &lt;- matrix(c(-21.10 -22.50i, 53.50 -50.50i, -34.50 +127.50i,   7.50  +0.50i,
+               -0.46  -7.78i, -3.50 -37.50i, -15.50  +58.50i, -10.50  -1.50i,
+                4.30  -5.50i, 39.70 -17.10i, -68.50  +12.50i,  -7.50  -3.50i,
+                5.50  +4.40i, 14.40 +43.30i, -32.50  -46.00i, -19.00 -32.50i),
+            nrow = 4, byrow = TRUE)
+H(A)
+
+</code></pre>
+
+
+</div>

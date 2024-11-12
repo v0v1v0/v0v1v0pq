@@ -1,0 +1,134 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>tokenize_internal</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>quanteda tokenizers</h2>
+
+<h3>Description</h3>
+
+<p>Internal methods for tokenization providing default and legacy methods for
+text segmentation.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">tokenize_word2(
+  x,
+  split_hyphens = FALSE,
+  verbose = quanteda_options("verbose"),
+  ...
+)
+
+tokenize_word3(
+  x,
+  split_hyphens = FALSE,
+  verbose = quanteda_options("verbose"),
+  ...
+)
+
+tokenize_word4(
+  x,
+  split_hyphens = FALSE,
+  split_tags = FALSE,
+  split_elisions = FALSE,
+  verbose = quanteda_options("verbose"),
+  ...
+)
+
+tokenize_word1(
+  x,
+  split_hyphens = FALSE,
+  verbose = quanteda_options("verbose"),
+  ...
+)
+
+tokenize_character(x, ...)
+
+tokenize_sentence(x, verbose = FALSE, ...)
+
+tokenize_fasterword(x, ...)
+
+tokenize_fastestword(x, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>(named) character; input texts</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>split_hyphens</code></td>
+<td>
+<p>logical; if <code>FALSE</code>, do not split words that are
+connected by hyphenation and hyphenation-like characters in between words,
+e.g. <code>"self-aware"</code> becomes <code>c("self", "-", "aware")</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p>if <code>TRUE</code>, print timing messages to the console</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>used to pass arguments among the functions</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>split_tags</code></td>
+<td>
+<p>logical; if <code>FALSE</code>, do not split social media tags defined
+in <code>quanteda_options()</code>. The default patterns are <code>pattern_hashtag = "#\\w+#?"</code> and <code>pattern_username = "@[a-zA-Z0-9_]+"</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Each of the word tokenizers corresponds to a major version of <span class="pkg">quanteda</span>,
+kept here for backward compatibility and comparison.  <code>tokenize_word3()</code> is
+identical to <code>tokenize_word2()</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>a list of characters corresponding to the (most conservative)
+tokenization, including whitespace where applicable; except for
+<code>tokenize_word1()</code>, which is a special tokenizer for Internet language that
+includes URLs, #hashtags, @usernames, and email addresses.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+txt &lt;- c(doc1 = "Tweet https://quanteda.io using @quantedainit and #rstats.",
+         doc2 = "The £1,000,000 question.",
+         doc4 = "Line 1.\nLine2\n\nLine3.",
+         doc5 = "?",
+         doc6 = "Self-aware machines! \U0001f600",
+         doc7 = "Qu'est-ce que c'est?")
+tokenize_word2(txt)
+tokenize_word2(txt, split_hyphens = FALSE)
+tokenize_word1(txt, split_hyphens = FALSE)
+tokenize_word4(txt, split_hyphens = FALSE, split_elisions = TRUE)
+tokenize_fasterword(txt)
+tokenize_fastestword(txt)
+tokenize_sentence(txt)
+tokenize_character(txt[2])
+
+## End(Not run)
+</code></pre>
+
+
+</div>

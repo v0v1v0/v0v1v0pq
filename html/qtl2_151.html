@@ -1,0 +1,252 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>scan1</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Genome scan with a single-QTL model</h2>
+
+<h3>Description</h3>
+
+<p>Genome scan with a single-QTL model by Haley-Knott regression or a
+linear mixed model, with possible allowance for covariates.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">scan1(
+  genoprobs,
+  pheno,
+  kinship = NULL,
+  addcovar = NULL,
+  Xcovar = NULL,
+  intcovar = NULL,
+  weights = NULL,
+  reml = TRUE,
+  model = c("normal", "binary"),
+  hsq = NULL,
+  cores = 1,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>genoprobs</code></td>
+<td>
+<p>Genotype probabilities as calculated by
+<code>calc_genoprob()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pheno</code></td>
+<td>
+<p>A numeric matrix of phenotypes, individuals x phenotypes.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>kinship</code></td>
+<td>
+<p>Optional kinship matrix, or a list of kinship matrices (one
+per chromosome), in order to use the LOCO (leave one chromosome
+out) method.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>addcovar</code></td>
+<td>
+<p>An optional numeric matrix of additive covariates.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Xcovar</code></td>
+<td>
+<p>An optional numeric matrix with additional additive covariates used for
+null hypothesis when scanning the X chromosome.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>intcovar</code></td>
+<td>
+<p>An numeric optional matrix of interactive covariates.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>weights</code></td>
+<td>
+<p>An optional numeric vector of positive weights for the
+individuals. As with the other inputs, it must have <code>names</code>
+for individual identifiers.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>reml</code></td>
+<td>
+<p>If <code>kinship</code> provided: if <code>reml=TRUE</code>, use
+REML; otherwise maximum likelihood.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>model</code></td>
+<td>
+<p>Indicates whether to use a normal model (least
+squares) or binary model (logistic regression) for the phenotype.
+If <code>model="binary"</code>, the phenotypes must have values in <code class="reqn">[0, 1]</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>hsq</code></td>
+<td>
+<p>Considered only if <code>kinship</code> is provided, in which case
+this is taken as the assumed value for the residual
+heritability. It should be a vector with length corresponding
+to the number of columns in <code>pheno</code>, or (if <code>kinship</code>
+corresponds to a list of LOCO kinship matrices) a matrix with dimension
+<code style="white-space: pre;">⁠length(kinship) x ncol(pheno)⁠</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cores</code></td>
+<td>
+<p>Number of CPU cores to use, for parallel calculations.
+(If <code>0</code>, use <code>parallel::detectCores()</code>.)
+Alternatively, this can be links to a set of cluster sockets, as
+produced by <code>parallel::makeCluster()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Additional control parameters; see Details.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>We first fit the model <code class="reqn">y = X \beta + \epsilon</code>
+where <code class="reqn">X</code> is a matrix of covariates (or just an intercept) and
+<code class="reqn">\epsilon</code> is multivariate normal with mean 0 and covariance
+matrix <code class="reqn">\sigma^2 [h^2 (2 K) + I]</code> where
+<code class="reqn">K</code> is the kinship matrix and <code class="reqn">I</code> is the identity matrix.
+</p>
+<p>We then take <code class="reqn">h^2</code> as fixed and then scan the genome, at
+each genomic position fitting the model <code class="reqn">y = P \alpha + X \beta
++ \epsilon</code> where <code class="reqn">P</code> is a matrix of genotype
+probabilities for the current position and again <code class="reqn">X</code> is a
+matrix of covariates <code class="reqn">\epsilon</code> is multivariate normal with
+mean 0 and covariance matrix <code class="reqn">\sigma^2 [h^2 (2 K) +
+I]</code>, taking <code class="reqn">h^2</code> to be known.
+</p>
+<p>Note that if <code>weights</code> are provided, the covariance matrix becomes
+<code class="reqn">\sigma^2 [h^2 (2 K) + D]</code> where
+<code class="reqn">D</code> is a diagonal matrix with the reciprocal of the weights.
+</p>
+<p>For each of the inputs, the row names are used as
+individual identifiers, to align individuals. The <code>genoprobs</code>
+object should have a component <code>"is_x_chr"</code> that indicates
+which of the chromosomes is the X chromosome, if any.
+</p>
+<p>The <code>...</code> argument can contain several additional control
+parameters; suspended for simplicity (or confusion, depending on
+your point of view). <code>tol</code> is used as a tolerance value for linear
+regression by QR decomposition (in determining whether columns are
+linearly dependent on others and should be omitted); default
+<code>1e-12</code>. <code>intcovar_method</code> indicates whether to use a high-memory
+(but potentially faster) method or a low-memory (and possibly
+slower) method, with values <code>"highmem"</code> or <code>"lowmem"</code>; default
+<code>"lowmem"</code>. <code>max_batch</code> indicates the maximum number of phenotypes
+to run together; default is unlimited. <code>maxit</code> is the maximum
+number of iterations for converence of the iterative algorithm
+used when <code>model=binary</code>. <code>bintol</code> is used as a tolerance for
+converence for the iterative algorithm used when <code>model=binary</code>.
+<code>eta_max</code> is the maximum value for the "linear predictor" in the
+case <code>model="binary"</code> (a bit of a technicality to avoid fitted
+values exactly at 0 or 1).
+</p>
+<p>If <code>kinship</code> is absent, Haley-Knott regression is performed.
+If <code>kinship</code> is provided, a linear mixed model is used, with a
+polygenic effect estimated under the null hypothesis of no (major)
+QTL, and then taken as fixed as known in the genome scan.
+</p>
+<p>If <code>kinship</code> is a single matrix, then the <code>hsq</code>
+in the results is a vector of heritabilities (one value for each phenotype). If
+<code>kinship</code> is a list (one matrix per chromosome), then
+<code>hsq</code> is a matrix, chromosomes x phenotypes.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>"scan1"</code>: a matrix of LOD scores, positions x phenotypes.
+Also contains one or more of the following attributes:
+</p>
+
+<ul>
+<li> <p><code>sample_size</code> - Vector of sample sizes used for each
+phenotype
+</p>
+</li>
+<li> <p><code>hsq</code> - Included if <code>kinship</code> provided: A matrix of
+estimated heritabilities under the null hypothesis of no
+QTL. Columns are the phenotypes. If the <code>"loco"</code> method was
+used with <code>calc_kinship()</code> to calculate a list
+of kinship matrices, one per chromosome, the rows of <code>hsq</code>
+will be the heritabilities for the different chromosomes (well,
+leaving out each one). If <code>Xcovar</code> was not NULL, there will at
+least be an autosome and X chromosome row.
+</p>
+</li>
+</ul>
+<h3>References</h3>
+
+<p>Haley CS, Knott SA (1992) A simple
+regression method for mapping quantitative trait loci in line
+crosses using flanking markers.  Heredity 69:315–324.
+</p>
+<p>Kang HM, Zaitlen NA, Wade CM, Kirby A, Heckerman D, Daly MJ, Eskin
+E (2008) Efficient control of population structure in model
+organism association mapping. Genetics 178:1709–1723.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>scan1perm()</code>, <code>scan1coef()</code>, <code>cbind.scan1()</code>, <code>rbind.scan1()</code>, <code>scan1max()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># read data
+iron &lt;- read_cross2(system.file("extdata", "iron.zip", package="qtl2"))
+
+
+# insert pseudomarkers into map
+map &lt;- insert_pseudomarkers(iron$gmap, step=1)
+
+# calculate genotype probabilities
+probs &lt;- calc_genoprob(iron, map, error_prob=0.002)
+
+# grab phenotypes and covariates; ensure that covariates have names attribute
+pheno &lt;- iron$pheno
+covar &lt;- match(iron$covar$sex, c("f", "m")) # make numeric
+names(covar) &lt;- rownames(iron$covar)
+Xcovar &lt;- get_x_covar(iron)
+
+# perform genome scan
+out &lt;- scan1(probs, pheno, addcovar=covar, Xcovar=Xcovar)
+
+# leave-one-chromosome-out kinship matrices
+kinship &lt;- calc_kinship(probs, "loco")
+
+# genome scan with a linear mixed model
+out_lmm &lt;- scan1(probs, pheno, kinship, covar, Xcovar)
+
+</code></pre>
+
+
+</div>

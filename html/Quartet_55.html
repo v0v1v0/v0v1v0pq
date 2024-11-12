@@ -1,0 +1,115 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>QuartetPoints</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Plot tree differences on ternary plots</h2>
+
+<h3>Description</h3>
+
+<p>Generate points to depict tree difference (in terms of resolution
+and accuracy) on a ternary plot.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">QuartetPoints(trees, cf = trees[[1]])
+
+SplitPoints(trees, cf = trees[[1]])
+
+BipartitionPoints(trees, cf = trees[[1]])
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>trees</code></td>
+<td>
+<p>A list of trees of class <code>phylo</code>,
+with identically labelled tips.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cf</code></td>
+<td>
+<p>Comparison tree of class <code>phylo</code>.  If unspecified,
+each tree is compared to the first tree in <code>trees</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The ternary plot will depict the number of quartets or splits that are:
+</p>
+
+<ul>
+<li>
+<p> resolved in the reference tree (<code>cf</code>), but neither present nor contradicted
+in each comparison tree (<code>trees</code>);
+</p>
+</li>
+<li>
+<p> resolved differently in the reference and the comparison tree;
+</p>
+</li>
+<li>
+<p> resolved in the same manner in the reference and comparison trees.
+</p>
+</li>
+</ul>
+<p>If the reference tree (<code>cf</code>) is taken to represent the best possible knowledge
+of the "true" topology, then polytomies in the reference tree represent
+uncertainty.  If a tree in <code>trees</code> resolves relationships within this
+polytomy, it is not possible to establish (based only on the reference tree)
+whether this resolution is correct or erroneous.  As such, extra resolution
+in <code>trees</code> that is neither corroborated nor contradicted by <code>cf</code> is ignored.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A data frame listing the ternary coordinates of trees, based on the
+amount of information that they have in common with the comparison
+tree (which defaults to the first member of the list, if unspecified).
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p><a href="https://orcid.org/0000-0001-5660-1727">Martin R. Smith</a>
+(<a href="mailto:martin.smith@durham.ac.uk">martin.smith@durham.ac.uk</a>)
+</p>
+
+
+<h3>References</h3>
+
+
+<ul><li> <p>Smith MR (2019).
+“Bayesian and parsimony approaches reconstruct informative trees from simulated morphological datasets.”
+<em>Biology Letters</em>, <b>15</b>(2), 20180632.
+<a href="https://doi.org/10.1098/rsbl.2018.0632">doi:10.1098/rsbl.2018.0632</a>.
+</p>
+</li></ul>
+<h3>Examples</h3>
+
+<pre><code class="language-R">library("Ternary")
+data("sq_trees")
+
+TernaryPlot(alab = "Unresolved", blab = "Contradicted", clab = "Consistent",
+            point = "right")
+TernaryLines(list(c(0, 2/3, 1/3), c(1, 0, 0)), col = "red", lty = "dotted")
+TernaryText(QuartetPoints(sq_trees, cf = sq_trees$collapse_one), 1:15, 
+            col = Ternary::cbPalette8[2], cex = 0.8)
+TernaryText(SplitPoints(sq_trees, cf = sq_trees$collapse_one), 1:15, 
+            col = Ternary::cbPalette8[3], cex = 0.8)
+legend("bottomright", c("Quartets", "Splits"), bty = "n", pch = 1, cex = 0.8,
+       col = Ternary::cbPalette8[2:3])
+
+</code></pre>
+
+
+</div>

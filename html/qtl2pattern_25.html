@@ -1,0 +1,228 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>ggplot_scan1pattern</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Plot scan pattern usign ggplot2</h2>
+
+<h3>Description</h3>
+
+<p>Plot scan pattern usign ggplot2
+</p>
+<p>Genome scan by pattern set
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">ggplot_scan1pattern(
+  object,
+  map,
+  plot_type = c("lod", "coef", "coef_and_lod"),
+  patterns = object$patterns$founders,
+  columns = 1:3,
+  min_lod = 3,
+  lodcolumn = seq_along(patterns),
+  facet = "pheno",
+  ...
+)
+
+## S3 method for class 'scan1pattern'
+autoplot(object, ...)
+
+scan1pattern(
+  probs1,
+  phe,
+  K = NULL,
+  covar = NULL,
+  map,
+  patterns,
+  condense_patterns = TRUE,
+  blups = FALSE,
+  do_scans = TRUE
+)
+
+## S3 method for class 'scan1pattern'
+summary(object, map, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>object of class <code>scan1pattern</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>map</code></td>
+<td>
+<p>genome map</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>plot_type</code></td>
+<td>
+<p>type of plot from <code>c("lod","coef")</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>patterns</code></td>
+<td>
+<p>data frame of pattern information</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>columns</code></td>
+<td>
+<p>columns used for coef plot</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>min_lod</code></td>
+<td>
+<p>minimum LOD peak for contrast to be retained</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lodcolumn</code></td>
+<td>
+<p>columns used for scan1 plot (default all <code>patterns</code>)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>facet</code></td>
+<td>
+<p>Plot facets if multiple phenotypes and patterns provided (default = <code>"pheno"</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>additional parameters passed on to other methods</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>probs1</code></td>
+<td>
+<p>object of class <code>calc_genoprob</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>phe</code></td>
+<td>
+<p>data frame with one phenotype</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>K</code></td>
+<td>
+<p>kinship matrix</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>covar</code></td>
+<td>
+<p>covariate matrix</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>condense_patterns</code></td>
+<td>
+<p>remove snp_action from contrasts if TRUE</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>blups</code></td>
+<td>
+<p>Create BLUPs if <code>TRUE</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>do_scans</code></td>
+<td>
+<p>Do scans if <code>TRUE</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>object of class <code>ggplot</code>
+</p>
+<p>List containing:
+</p>
+
+<ul>
+<li>
+<p>patterns Data frame of summary for top patterns (column <code>founders</code> has pattern)
+</p>
+</li>
+<li>
+<p>dip_set Diplotype sets for contrasts
+</p>
+</li>
+<li>
+<p>group Group for each founder pattern
+</p>
+</li>
+<li>
+<p>scan Object of class <code>scan1</code>.
+</p>
+</li>
+<li>
+<p>coef Object of class <code>listof_scan1coef</code>. See package 'qtl2ggplot'.
+</p>
+</li>
+</ul>
+<h3>Author(s)</h3>
+
+<p>Brian S Yandell, <a href="mailto:brian.yandell@wisc.edu">brian.yandell@wisc.edu</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">dirpath &lt;- "https://raw.githubusercontent.com/rqtl/qtl2data/master/DOex"
+
+# Read DOex example cross from 'qtl2data'
+DOex &lt;- subset(qtl2::read_cross2(file.path(dirpath, "DOex.zip")), chr = "2")
+
+
+# Download genotype probabilities
+tmpfile &lt;- tempfile()
+download.file(file.path(dirpath, "DOex_genoprobs_2.rds"), tmpfile, quiet=TRUE)
+pr &lt;- readRDS(tmpfile)
+unlink(tmpfile)
+
+# Download SNP info for DOex from web and read as RDS.
+tmpfile &lt;- tempfile()
+download.file(file.path(dirpath, "c2_snpinfo.rds"), tmpfile, quiet=TRUE)
+snpinfo &lt;- readRDS(tmpfile)
+unlink(tmpfile)
+snpinfo &lt;- dplyr::rename(snpinfo, pos = pos_Mbp)
+
+# Convert to SNP probabilities
+snpinfo &lt;- qtl2::index_snps(DOex$pmap, snpinfo)
+snppr &lt;- qtl2::genoprob_to_snpprob(pr, snpinfo)
+
+# Scan SNPs
+scan_snppr &lt;- qtl2::scan1(snppr, DOex$pheno)
+top_snps_tbl &lt;- top_snps_pattern(scan_snppr, snpinfo)
+
+# Summarize to find top patterns
+patterns &lt;- dplyr::arrange(summary(top_snps_tbl), dplyr::desc(max_lod))
+
+# Scan using patterns.
+scan_pat &lt;- scan1pattern(pr, DOex$pheno, map = DOex$pmap, patterns = patterns)
+
+# Summary of scan1pattern.
+summary(scan_pat, DOex$pmap)
+
+
+</code></pre>
+
+
+</div>

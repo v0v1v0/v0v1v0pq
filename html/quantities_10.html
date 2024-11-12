@@ -1,0 +1,62 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>diff.quantities</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Lagged Differences</h2>
+
+<h3>Description</h3>
+
+<p>S3 method for <code>quantities</code> objects (see <code>diff</code>).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'quantities'
+diff(x, lag = 1L, differences = 1L, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a numeric vector or matrix containing the values to be
+differenced.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lag</code></td>
+<td>
+<p>an integer indicating which lag to use.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>differences</code></td>
+<td>
+<p>an integer indicating the order of the difference.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>further arguments to be passed to or from methods.</p>
+</td>
+</tr>
+</table>
+<h3>Examples</h3>
+
+<pre><code class="language-R">diff(set_quantities(1:10, m/s, 0.1), 2)
+diff(set_quantities(1:10, m/s, 0.1), 2, 2)
+x &lt;- cumsum(cumsum(set_quantities(1:10, m/s, 0.1)))
+diff(x, lag = 2)
+diff(x, differences = 2)
+
+</code></pre>
+
+
+</div>

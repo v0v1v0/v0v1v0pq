@@ -1,0 +1,70 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>Normalize</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2> Normalize Data </h2>
+
+<h3>Description</h3>
+
+<p> Convert data to Normal Scores with the same Mean and SD. 
+This reshapes data to conform to a Normal Distribution. It is not converting to z-scores 
+(i.e., it is not standardizing data)
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">Normalize(x) </code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>Data to be normalized. Should be vector of scores</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>A numeric with the same Mean and SD as x, but without skew or kurtosis</p>
+
+
+<h3>Warning </h3>
+
+<p>This is a primative function. I have a long to do list.
+For example, it is not yet written to handle missing observations.</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Thomas D. Fletcher <a href="mailto:t.d.fletcher05@gmail.com">t.d.fletcher05@gmail.com</a> </p>
+
+
+<h3>References</h3>
+
+<p>Joreskog, K., Sorbom, D., du Toit, S., &amp; du Toit, M. (2000). LISREL 8: New Statistical Features. SSI. <br><br>
+Snippets of code were borrowed and modified from: http://zoonek2.free.fr/UNIX/48_R/03.html
+</p>
+
+
+<h3>See Also</h3>
+
+  <p><code>norm</code></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+summary(USJudgeRatings$CONT)
+plot(density(USJudgeRatings$CONT))
+
+ContN &lt;- Normalize(USJudgeRatings$CONT)
+summary(ContN)
+lines(density(ContN), col=2)
+</code></pre>
+
+
+</div>

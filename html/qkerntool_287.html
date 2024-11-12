@@ -1,0 +1,112 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qkpca-class</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Class "qkpca"</h2>
+
+<h3>Description</h3>
+
+<p> The qkernel Principal Components Analysis class</p>
+
+
+<h3>Objects of class "qkpca"</h3>
+
+<p>Objects can be created by calls of the form <code>new("qkpca", ...)</code>.
+or by calling the <code>qkpca</code> function.
+</p>
+
+
+<h3>Slots</h3>
+
+
+<dl>
+<dt>
+<code>pcv</code>:</dt>
+<dd>
+<p>Object of class <code>"matrix"</code> containing the
+principal component vectors </p>
+</dd>
+<dt>
+<code>eVal</code>:</dt>
+<dd>
+<p>Object of class <code>"vector"</code> containing the
+corresponding eigenvalues</p>
+</dd>
+<dt>
+<code>rotated</code>:</dt>
+<dd>
+<p>Object of class <code>"matrix"</code> containing the
+projection of the data on the principal components</p>
+</dd>
+</dl>
+<h3>Methods</h3>
+
+
+<dl>
+<dt>eVal</dt>
+<dd>
+<p><code>signature(object = "qkpca")</code>: returns the eigenvalues </p>
+</dd>
+<dt>pcv</dt>
+<dd>
+<p><code>signature(object = "qkpca")</code>: returns the principal
+component vectors </p>
+</dd>
+<dt>predict</dt>
+<dd>
+<p><code>signature(object = "qkpca")</code>: embeds new data </p>
+</dd>
+<dt>rotated</dt>
+<dd>
+<p><code>signature(object = "qkpca")</code>: returns the
+projected data</p>
+</dd>
+<dt>xmatrix</dt>
+<dd>
+<p><code>signature(object = "qkpca")</code>: returns the used
+data matrix </p>
+</dd>
+<dt>kcall</dt>
+<dd>
+<p><code>signature(object = "qkpca")</code>: returns the
+performed call</p>
+</dd>
+<dt>cndkernf</dt>
+<dd>
+<p><code>signature(object = "qkpca")</code>: returns the used
+kernel function</p>
+</dd>
+</dl>
+<h3>Author(s)</h3>
+
+<p>Yusen Zhang<br><a href="mailto:yusenzhang@126.com">yusenzhang@126.com</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code>qkernel-class</code>,
+<code>cndkernel-class</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">  # another example using the iris data
+  data(iris)
+  test &lt;- sample(1:150,20)
+  qkpc &lt;- qkpca(~.,iris[-test,-5], kernel = "rbfbase",
+                qpar = list(sigma = 50, q = 0.8), features = 2)
+
+  # print the principal component vectors
+  pcv(qkpc)
+  rotated(qkpc)
+  cndkernf(qkpc)
+  eVal(qkpc)
+  xmatrix(qkpc)
+  names(eVal(qkpc))
+</code></pre>
+
+
+</div>

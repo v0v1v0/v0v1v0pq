@@ -1,0 +1,120 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>summary.qbld</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>QBLD Summary Class</h2>
+
+<h3>Description</h3>
+
+<p>Outputs a ‘summary.qbld’ class object, and prints as described.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'qbld'
+summary(object,quantiles = c(0.025, 0.25, 0.5, 0.75, 0.975),epsilon = 0.05,...)
+
+## S3 method for class 'summary.qbld'
+print(x, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>: ‘qbld’ class object</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>quantiles</code></td>
+<td>
+<p>: Vector of quantiles for summary of the covariates, 
+defaulted to <code>c(0.025, 0.25, 0.5, 0.75, 0.975)</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>epsilon</code></td>
+<td>
+<p>: epsilon value for calculating significance stars (see details), 0.05 by default.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>: Other summary arguments</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>: (for print.summary.qbld) ‘qbld.summary’ class object</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>‘qbld.summary’ class summarizes the outputs of the model.qbld function. 
+Markov Std Error (MCSE), Effective sample size (ESS) are calculated using mcmcse package. 
+Gelman-Rubin diagnostic (R hat), and significance stars are indicated using Vats and Knudson et. al.
+</p>
+
+
+<h3>Value</h3>
+
+<p>summary.qbld produces following sets of summary statistics for each variable:
+</p>
+
+<ul>
+<li> <p><code>statistics:</code>  Contains the mean, sd, markov std error, ess and Gelman-Rubin diagnostic
+</p>
+</li>
+<li> <p><code>quantiles:</code>   Contains quantile estimates for each variable
+</p>
+</li>
+<li> <p><code>nsim:</code>        No. of simulations run
+</p>
+</li>
+<li> <p><code>burn:</code>        Burn-in used or not
+</p>
+</li>
+<li> <p><code>which:</code>       Block, or Unblock version of sampler
+</p>
+</li>
+<li> <p><code>p:</code>           quantile for the AL distribution on the error term
+</p>
+</li>
+<li> <p><code>multiess:</code>    multiess value for the sample
+</p>
+</li>
+<li> <p><code>multigelman:</code>  multivariate version of Gelman-Rubin
+</p>
+</li>
+</ul>
+<h3>References</h3>
+
+<p>Vats, Dootika and Christina Knudson. “Revisiting the Gelman-Rubin Diagnostic.” arXiv 
+</p>
+<p>James M. Flegal, John Hughes, Dootika Vats, and Ning Dai. (2020). mcmcse: Monte Carlo Standard Errors for MCMC. R
+package version 1.4-1. Riverside, CA, Denver, CO, Coventry, UK, and Minneapolis, MN.
+</p>
+<p>Christina Knudson and Dootika Vats (2020). stableGR: A Stable Gelman-Rubin Diagnostic for Markov Chain Monte Carlo. R
+package version 1.0.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>plot.qbld</code>, <code>model.qbld</code>  
+</p>
+<p>Additional functions : <code>mcse.mat</code>, <code>ess</code>, <code>multiESS</code>, 
+<code>stable.GR</code>, <code>target.psrf</code>
+</p>
+
+
+</div>

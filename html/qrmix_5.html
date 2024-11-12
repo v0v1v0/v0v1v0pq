@@ -1,0 +1,84 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>predict.qrmix</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Predict Method for qrmix Fits
+</h2>
+
+<h3>Description</h3>
+
+<p>Obtains clusters, predictions, or residuals from a fitted qrmix object.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'qrmix'
+predict(object, newdata = NULL, type = "clusters", ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+
+<p>a fitted object of class <code>"qrmix"</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>newdata</code></td>
+<td>
+
+<p>optional data frame for which clusters, predictions, or residuals will be obtained from the qrmix fitted object. If omitted, the training values will be used.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>type</code></td>
+<td>
+<p>the type of prediction. <code>type = "clusters"</code> (default value) for predicted clusters, <code>"yhat"</code> for the response predicted value corresponding to the predicted cluste, <code>"residuals"</code> for the residuals corresponding to the response predicted values.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>other argumets passed to other methods.
+</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A vector with predicted clusters, responses, or residuals, depending on <code>type</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+data(blood.pressure)
+
+set.seed(8)
+sampleInd = sort(sample(1:500, 400))
+bpSample1 = blood.pressure[sampleInd,]
+bpSample2 = blood.pressure[-sampleInd,]
+
+mod1 = qrmix(bmi ~ ., data = bpSample1, k = 3)
+
+#Cluster assigned to the training values
+predict(mod1)
+
+#Residuals corresponding to the response predicted values from mod1 for new data
+predict(mod1, newdata = bpSample2, type = "residuals")
+
+</code></pre>
+
+
+</div>

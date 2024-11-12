@@ -1,0 +1,198 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>rm_non_ascii</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Remove/Replace/Extract Non-ASCII</h2>
+
+<h3>Description</h3>
+
+<p>Remove/replace/extract non-ASCII substring from a string.  This is the template used by
+other <span class="pkg">qdapRegex</span> <code>rm_XXX</code> functions.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">rm_non_ascii(
+  text.var,
+  trim = !extract,
+  clean = TRUE,
+  pattern = "@rm_non_ascii",
+  replacement = "",
+  extract = FALSE,
+  dictionary = getOption("regex.library"),
+  ascii.out = TRUE,
+  ...
+)
+
+ex_non_ascii(
+  text.var,
+  trim = !extract,
+  clean = TRUE,
+  pattern = "@rm_non_ascii",
+  replacement = "",
+  extract = TRUE,
+  dictionary = getOption("regex.library"),
+  ascii.out = TRUE,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>text.var</code></td>
+<td>
+<p>The text variable.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>trim</code></td>
+<td>
+<p>logical.  If <code>TRUE</code> removes leading and trailing white 
+spaces.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>clean</code></td>
+<td>
+<p>trim logical.  If <code>TRUE</code> extra white spaces and escaped 
+character will be removed.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pattern</code></td>
+<td>
+<p>A character string containing a regular expression (or 
+character string for <code>fixed = TRUE</code>) to be matched in the given 
+character vector.  Default, <code>@rm_non_ascii</code> uses the 
+<code>rm_non_ascii</code> regex from the regular expression dictionary from 
+the <code>dictionary</code> argument.  If <code>extract = FALSE</code> 
+<code>gsub</code> is not used as with other <code>rm_XXX</code> functions,
+rather <code>iconv</code> with the <code>sub</code> argument set is used to
+conduct the subbing.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>replacement</code></td>
+<td>
+<p>Replacement for matched <code>pattern</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>extract</code></td>
+<td>
+<p>logical.  If <code>TRUE</code> the all non-ASCII strings are extracted 
+into a list of vectors.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dictionary</code></td>
+<td>
+<p>A dictionary of canned regular expressions to search within 
+if <code>pattern</code> begins with <code>"@rm_"</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ascii.out</code></td>
+<td>
+<p>logical.  If <code>TRUE</code> output is given in non-ASCII format,
+otherwise <code>"byte"</code> is used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>ignored.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Returns a character string with "all non-ascii" removed.
+</p>
+
+
+<h3>Note</h3>
+
+<p>MacOS 14, Sonoma (and likely all versions afterward), has a different 
+implementation of iconv which may not result in expected results.
+</p>
+
+
+<h3>Warning</h3>
+
+<p><code>iconv</code> is used within <code>rm_non_ascii</code>.
+<code>iconv</code>'s behavior across operating systems may not be 
+consistent.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p><a href="https://stackoverflow.com">stackoverflow</a>'s MrFlick, hwnd, and Tyler Rinker &lt;tyler.rinker@gmail.com&gt;.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>gsub</code>,
+<code>stri_extract_all_regex</code>
+</p>
+<p>Other rm_ functions: 
+<code>rm_abbreviation()</code>,
+<code>rm_between()</code>,
+<code>rm_bracket()</code>,
+<code>rm_caps_phrase()</code>,
+<code>rm_caps()</code>,
+<code>rm_citation_tex()</code>,
+<code>rm_citation()</code>,
+<code>rm_city_state_zip()</code>,
+<code>rm_city_state()</code>,
+<code>rm_date()</code>,
+<code>rm_default()</code>,
+<code>rm_dollar()</code>,
+<code>rm_email()</code>,
+<code>rm_emoticon()</code>,
+<code>rm_endmark()</code>,
+<code>rm_hash()</code>,
+<code>rm_nchar_words()</code>,
+<code>rm_non_words()</code>,
+<code>rm_number()</code>,
+<code>rm_percent()</code>,
+<code>rm_phone()</code>,
+<code>rm_postal_code()</code>,
+<code>rm_repeated_characters()</code>,
+<code>rm_repeated_phrases()</code>,
+<code>rm_repeated_words()</code>,
+<code>rm_tag()</code>,
+<code>rm_time()</code>,
+<code>rm_title_name()</code>,
+<code>rm_url()</code>,
+<code>rm_white()</code>,
+<code>rm_zip()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">x &lt;- c("Hello World", "Ekstr\xf8m", "J\xf6reskog", "bi\xdfchen Z\xfcrcher")
+Encoding(x) &lt;- "latin1"
+x
+
+rm_non_ascii(x)
+rm_non_ascii(x, replacement="&lt;&lt;FLAG&gt;&gt;")
+ex_non_ascii(x)
+ex_non_ascii(x, ascii.out=FALSE)
+
+## simple regex to remove non-ascii
+rm_default(x, pattern="[^ -~]")
+ex_default(x, pattern="[^ -~]")
+</code></pre>
+
+
+</div>

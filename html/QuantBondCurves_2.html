@@ -1,0 +1,269 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>average.life</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Weighted Average Life</h2>
+
+<h3>Description</h3>
+
+<p>Calculates the weighted average life of a given bond by dividing the weighted
+total payments by the total payments.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">average.life(
+  input,
+  price,
+  maturity,
+  analysis.date = Sys.Date(),
+  coupon.rate,
+  principal = 1,
+  asset.type = "TES",
+  freq = 1,
+  rate.type = 1,
+  spread = 0,
+  daycount = "ACT/365",
+  dirty = 1,
+  convention = "F",
+  trade.date = NULL,
+  coupon.schedule = "SF"
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>input</code></td>
+<td>
+<p>String that establishes if the price input corresponds to the
+Internal Rate of Return (IRR) of the bond or the market price. Set
+<code>"rate"</code> for the IRR. Otherwise, <code>"price"</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>price</code></td>
+<td>
+<p>Numeric value of either market price or Internal Rate of Return (IRR) of a
+given bond. Instead of IRR, can also be a rates vector that corresponds to coupon dates.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>maturity</code></td>
+<td>
+<p>Last day of the contract: YYYY-MM-DD.
+Alternatively, it can be a numeric value that represents the duration of the contract in years.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>analysis.date</code></td>
+<td>
+<p>Date in which the asset is valued. By default, the
+current date.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>coupon.rate</code></td>
+<td>
+<p>Coupon rate of the asset. Can be an unique numeric
+value or a vector corresponding to each coupon payment date.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>principal</code></td>
+<td>
+<p>Notional amount for the asset.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>asset.type</code></td>
+<td>
+<p>String that determines the asset type to value. See also
+'Details'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>freq</code></td>
+<td>
+<p>Frequency of payments of a given asset in a year. For LIBOR and
+IBR the default frequency is four (quarterly payments). TES has a default
+frequency of one (annual payments).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rate.type</code></td>
+<td>
+<p>(1) for discrete compounded discount rates and (0) for continuosly
+compounded discount rates. By default rates are assumed to be discrete.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>spread</code></td>
+<td>
+<p>Decimal value of spread added to coupon payment rate. By
+default, <code>0</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>daycount</code></td>
+<td>
+<p>Day count convention. See also 'Details'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dirty</code></td>
+<td>
+<p>Numeric value to determine if the calculated price is dirty or
+clean. To calculate dirty price, set <code>dirty = 1</code>. Otherwise,
+<code>dirty = 0</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>convention</code></td>
+<td>
+<p>String that establishes if the effective dates are
+calculated using Following, Modified Following, Backward or Backward Following.
+See also 'Details'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>trade.date</code></td>
+<td>
+<p>The date on which the transaction occurs. It is used to calculate
+maturity as a date, when given in years. Also required for non-trivial cases such as
+bonds with long first coupon.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>coupon.schedule</code></td>
+<td>
+<p>String that establishes if a bond first coupon period is a long
+first coupon or a short first coupon. On the contrary, establishes if last coupon period
+is long last coupon or a short last coupon. See also 'Details'.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p><code>asset.type</code> makes reference to the following type of assets:
+</p>
+
+<ul>
+<li>
+<p> "TES" for Colombian Treasury Bonds (default).
+</p>
+</li>
+<li>
+<p> "FixedIncome" for assets that are indexed to a fixed income with
+different frequency of payments.
+</p>
+</li>
+<li>
+<p> "IBR" for bonds and assets indexed to 3M IBR rate.
+</p>
+</li>
+<li>
+<p> "LIBOR" for bonds and assets indexed to 3M LIBOR.
+</p>
+</li>
+</ul>
+<p><code>daycount</code> convention accepts the following values:
+</p>
+
+<ul>
+<li>
+<p> 30/360.
+</p>
+</li>
+<li>
+<p> ACT/365.
+</p>
+</li>
+<li>
+<p> ACT/360 (Default).
+</p>
+</li>
+<li>
+<p> ACT/365L.
+</p>
+</li>
+<li>
+<p> NL/365.
+</p>
+</li>
+<li>
+<p> ACT/ACT-ISDA
+</p>
+</li>
+<li>
+<p> ACT/ACT-AFB
+</p>
+</li>
+</ul>
+<p><code>convention</code> makes reference to the following type of business day conventions:
+</p>
+
+<ul>
+<li>
+<p> "F" for Following business day convention.
+</p>
+</li>
+<li>
+<p> "MF" for Modified Following business day convention.
+</p>
+</li>
+<li>
+<p> "B" for Backward business day convention.
+</p>
+</li>
+<li>
+<p> "MB" for Modified Backward business day convention.
+</p>
+</li>
+</ul>
+<p><code>coupon.schedule</code> makes reference to the following type of coupon payment schedule
+of a bond:
+</p>
+
+<ul>
+<li>
+<p> "LF" for Long First coupon payment.
+</p>
+</li>
+<li>
+<p> "LL" for Long Last coupon payment.
+</p>
+</li>
+<li>
+<p> "SF" for Short First coupon payment.
+</p>
+</li>
+<li>
+<p> "SL" for Short Last coupon payment.
+</p>
+</li>
+</ul>
+<h3>Value</h3>
+
+<p>Weighted average life of given bond
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">average.life(input = c("rate"), price = 0.08, maturity = "2026-06-01",
+             analysis.date = "2025-06-01", coupon.rate = 0.06, principal = 1000,
+             asset.type = "IBR", freq = 4)
+average.life(input = c("rate"), price = c(0.043,0.05), maturity = "2023-01-03",
+             analysis.date = "2021-01-03", coupon.rate = 0.04, principal = 1,
+             asset.type = "FixedIncome", freq = 1, rate.type = 0)
+
+</code></pre>
+
+
+</div>

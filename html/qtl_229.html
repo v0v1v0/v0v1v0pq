@@ -1,0 +1,82 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>reduce2grid</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Reduce to a grid of pseudomarkers.</h2>
+
+<h3>Description</h3>
+
+<p>For high-density marker data, rather than run <code>scanone</code> at both the
+markers and at a set of pseudomarkers, we reduce to just
+a set of evenly-spaced pseudomarkers
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">reduce2grid(cross)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>cross</code></td>
+<td>
+<p>An object of class <code>cross</code>.  See
+<code>read.cross</code> for details.</p>
+</td>
+</tr></table>
+<h3>Details</h3>
+
+<p>Genotype probabilities (from <code>calc.genoprob</code>) and/or
+imputations (from <code>sim.geno</code>) are subset to a grid of
+pseudomarkers.
+</p>
+<p>This is so that, in the case of high-density markers, we can do the
+genome scan calculations at a smaller set of points (on an
+evenly-spaced grid, but not at the markers) to save computation time.
+</p>
+<p>You need to first have run <code>calc.genoprob</code> and/or
+<code>sim.geno</code>, and you must use <code>stepwidth="fixed"</code>.
+</p>
+<p>When plotting results with <code>plot.scanone</code>, use
+<code>incl.markers=FALSE</code>, as the output of <code>scanone</code>
+won't include information about the marker locations and so will plot
+tick marks only at the first marker on each chromosome.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The input <code>cross</code> object with included genotype probabilities or
+imputations subset to an evenly-spaced grid.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Karl W Broman, <a href="mailto:broman@wisc.edu">broman@wisc.edu</a> </p>
+
+
+<h3>See Also</h3>
+
+ <p><code>calc.genoprob</code>,
+<code>sim.geno</code>, <code>scanone</code>, <code>plot.scanone</code> </p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(hyper)
+hyper &lt;- calc.genoprob(hyper, step=2)
+hypersub &lt;- reduce2grid(hyper)
+
+## Not run: out &lt;- scanone(hypersub)
+plot(out, incl.markers=FALSE)
+## End(Not run)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,393 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>valuation.swaps</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Swap valuation</h2>
+
+<h3>Description</h3>
+
+<p>Function that values Interest Rate Swaps (IRS) and Cross Currency
+Swaps (CCS).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">valuation.swaps(
+  maturity,
+  analysis.date = Sys.Date(),
+  asset.type = "IBRSwaps",
+  freq = 4,
+  coupon.rate,
+  rates,
+  float.rate = NULL,
+  spread = 0,
+  principal = 1,
+  Legs = "FF",
+  ex.rate = NULL,
+  basis.rates = NULL,
+  coupon.rate2 = NULL,
+  rates2 = NULL,
+  float.rate2 = NULL,
+  spread2 = 0,
+  principal2 = NULL,
+  rate.type = 1,
+  daycount = "NL/365",
+  loc = "BOG",
+  convention = "F",
+  trade.date = NULL,
+  coupon.schedule = "SF"
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>maturity</code></td>
+<td>
+<p>Last day of the contract: YYYY-MM-DD.
+Alternatively, it can be a numeric value that represents the duration of the contract in years.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>analysis.date</code></td>
+<td>
+<p>Date in which the asset is valued. By default, the
+current date.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>asset.type</code></td>
+<td>
+<p>String that determines the asset type to value. See also
+'Details'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>freq</code></td>
+<td>
+<p>Frequency of payments of a given asset in a year. For LIBOR and
+IBR the default frequency is four (quarterly payments). TES has a default
+frequency of one (annual payments).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>coupon.rate</code></td>
+<td>
+<p>For (IRS), coupon rate of the fixed leg. For (CCS), coupon rate
+of local fixed leg.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rates</code></td>
+<td>
+<p>For (IRS) discount rates given by the zero coupon rate curve. For (CCS),
+represents discount rates for local currency. Can be a vector that corresponds
+to each coupon date or a curve with at least, nodes with 3 decimals.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>float.rate</code></td>
+<td>
+<p>For (IRS), last observed floating rate, necessary for variable leg when swap valuation
+date doesn't belong to a coupon date. For (CCS), last observed local floating rate. By default,
+<code>NULL</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>spread</code></td>
+<td>
+<p>Decimal value of spread added to coupon payment rate. By
+default, <code>0</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>principal</code></td>
+<td>
+<p>For (IRS), notional amount for both legs. For (CCS), notional
+amount of local leg.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Legs</code></td>
+<td>
+<p>For (CCS), string that establishes the type of both legs that makeup
+the Cross Currency Swap. See also 'Details'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ex.rate</code></td>
+<td>
+<p>Exchange rate on analysis date. Format has to be local currency divided
+by foreign currency.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>basis.rates</code></td>
+<td>
+<p>"Discount rates" given by the basis curve. Can be a vector
+that corresponds to each coupon date or a curve with at least,
+nodes with 3 decimals.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>coupon.rate2</code></td>
+<td>
+<p>Coupon rate of the foreign leg. By default, <code>NULL</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rates2</code></td>
+<td>
+<p>Discount rates given by the foreign zero coupon rate curve.
+Can be a vector that corresponds to each coupon date or a curve with at least,
+nodes with 3 decimals.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>float.rate2</code></td>
+<td>
+<p>Last observed foreign floating rate. By
+default, <code>NULL</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>spread2</code></td>
+<td>
+<p>Decimal value of spread added to foreign floating rate. By
+default, <code>0</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>principal2</code></td>
+<td>
+<p>Notional amount for the foreign leg. By
+default, <code>NULL</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rate.type</code></td>
+<td>
+<p>(1) for annual compounded discount rates and (0) for continuosly
+compounded discount rates. By default, rates are assumed to be the former.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>daycount</code></td>
+<td>
+<p>Day count convention. See also 'Details'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>loc</code></td>
+<td>
+<p>String related to the location of the asset. It is used to
+calculate the effective dates, taking into account the business days
+of the given location. See also 'Details'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>convention</code></td>
+<td>
+<p>String that establishes if the effective dates are
+calculated using Following, Modified Following, Backward or Backward Following.
+See also 'Details'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>trade.date</code></td>
+<td>
+<p>The date on which the transaction occurs. It is used to calculate
+maturity as a date, when given in years. Also required for non-trivial cases such as
+bonds with long first coupon.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>coupon.schedule</code></td>
+<td>
+<p>String that establishes if a bond first coupon period is a long
+first coupon or a short first coupon. On the contrary, establishes if last coupon period
+is long last coupon or a short last coupon. See also 'Details'.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p><code>asset.type</code> makes reference to the following type of assets:
+</p>
+
+<ul>
+<li>
+<p> "IBRSwaps" for swaps indexed to IBR rate.
+</p>
+</li>
+<li>
+<p> "LIBORSwaps" for Interest Rate Swaps (IRS) indexed to 3M LIBOR.
+</p>
+</li>
+<li>
+<p> "CCS" for cross currency swaps.
+</p>
+</li>
+</ul>
+<p><code>daycount</code> convention accepts the following values:
+</p>
+
+<ul>
+<li>
+<p> 30/360.
+</p>
+</li>
+<li>
+<p> ACT/365.
+</p>
+</li>
+<li>
+<p> ACT/360 (Default).
+</p>
+</li>
+<li>
+<p> ACT/365L.
+</p>
+</li>
+<li>
+<p> NL/365.
+</p>
+</li>
+<li>
+<p> ACT/ACT-ISDA
+</p>
+</li>
+<li>
+<p> ACT/ACT-AFB
+</p>
+</li>
+</ul>
+<p><code>convention</code> makes reference to the following type of business day conventions:
+</p>
+
+<ul>
+<li>
+<p> "F" for Following business day convention.
+</p>
+</li>
+<li>
+<p> "MF" for Modified Following business day convention.
+</p>
+</li>
+<li>
+<p> "B" for Backward business day convention.
+</p>
+</li>
+<li>
+<p> "MB" for Modified Backward business day convention.
+</p>
+</li>
+</ul>
+<p><code>coupon.schedule</code> makes reference to the following type of coupon payment schedule
+of a bond:
+</p>
+
+<ul>
+<li>
+<p> "LF" for Long First coupon payment.
+</p>
+</li>
+<li>
+<p> "LL" for Long Last coupon payment.
+</p>
+</li>
+<li>
+<p> "SF" for Short First coupon payment.
+</p>
+</li>
+<li>
+<p> "SL" for Short Last coupon payment.
+</p>
+</li>
+</ul>
+<p><code>Legs</code> makes reference to the following types of legs composition of the
+cross currency swap
+</p>
+
+<ul>
+<li>
+<p> "FF" for fixed leg in local currency and fixed leg in foreign currency.
+</p>
+</li>
+<li>
+<p> "FV" for fixed leg in local currency and variable leg in foreign currency.
+</p>
+</li>
+<li>
+<p> "VF" for variable leg in local currency and fixed leg in foreign currency.
+</p>
+</li>
+<li>
+<p> "VV" for variable leg in local currency and variable leg in foreign currency.
+</p>
+</li>
+</ul>
+<h3>Value</h3>
+
+<p>Swap value for Interest Rate Swap (IRS) or Cross Currency Swap (CCR).
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># (IRS) ----------------------------------------------------------------------
+valuation.swaps(maturity = "2026-06-01", analysis.date= Sys.Date(),
+                coupon.rate = 0.06, rates = 0.08, float.rate = 0.03)
+valuation.swaps(maturity = "2021-03-09", analysis.date= "2018-03-09",
+                coupon.rate = 0.05, rates = 0.08, rate.type = 0)
+valuation.swaps(maturity = "2026-07-01", analysis.date = "2023-01-02",
+                asset.type = "IBRSwaps", freq = 4,
+                coupon.rate = 0.04, rates = rep(0.05,14),
+                float.rate = 0.03, spread = 0)
+# (CCS) ----------------------------------------------------------------------
+# Curve Calibration for rates input
+yield.curve &lt;- c(0.103,0.1034,0.1092, 0.1161, 0.1233, 0.1280, 0.1310, 0.1320, 0.1325)
+names(yield.curve) &lt;- c(0,0.08,0.25,0.5,1,2,3,5,6)
+nodes &lt;- seq(0, 10, by = 0.001) # Our curve has nodes with three decimals.
+rates &lt;- curve.calibration (yield.curve = yield.curve, market.assets = NULL,
+                            analysis.date = "2023-03-01", asset.type = "IBRSwaps",
+                            freq = 4, rate.type = 0, daycount= "ACT/365",
+                            fwd = 0, npieces = NULL, nodes = nodes, approximation = "constant")
+
+# Curve Calibration for basis.rates input
+nodes  &lt;- seq(0, 10, by = 0.001)
+rates2 &lt;- rates/4 # It is assumed foreign curve is proportional to local spot curve.
+# Swaps input for calibration
+ex.rate &lt;- 4814
+swaps &lt;- rbind(c("2024-03-01", "FF", 0.07 , 0.0325, NA   , NA    , 2000 * ex.rate, 2000),
+c("2025-03-01", "VV", NA   , NA    , 0.015, 0.0175, 2000 * ex.rate, 2000),
+c("2026-03-01", "FF", 0.075, 0.03  , NA   ,  NA   , 500000, 5000000 / ex.rate),
+c("2027-03-01", "VV", NA   , NA    , 0.01 , 0.015 , 5000000, 5000000 / ex.rate),
+c("2028-03-01", "FF", 0.08 ,0.035  , NA   , NA    , 3000000, 3000000 / ex.rate),
+c("2029-03-01", "VV", NA   , NA    , 0.01 , 0.0125, 3000000, 3000000 / ex.rate))
+colnames(swaps) &lt;- c("Mat"  ,"Legs", "C1" , "C2", "spread1", "spread2", "prin1", "prin2")
+# Calibration
+basis.rates &lt;- basis.curve(swaps, ex.rate = 4814, analysis.date = "2023-03-01",
+                           freq = c(2,2,2,2,1,1), rates = rates, rates2 = rates2,
+                           rate.type = 1, npieces = NULL, obj = "Price",
+                           Weights = NULL, nodes = nodes, approximation = "linear")
+
+# Valuation
+valuation.swaps (maturity = "2024-03-01", analysis.date = "2023-03-01",
+                 asset.type = "CCS", freq = 2, Legs = "FF", ex.rate = 4814,
+                 coupon.rate = 0.07, coupon.rate2 = 0.0325,
+                 rates = rates, rates2 = rates2, basis.rates = basis.rates,
+                 float.rate = NULL, float.rate2 = NULL, spread = 0,
+                 spread2 = 0, principal = 2000 * 4814, principal2 = 2000,
+                 rate.type = 0, daycount = "ACT/365", loc = "BOG",
+                 convention = "F")
+
+</code></pre>
+
+
+</div>

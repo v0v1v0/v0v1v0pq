@@ -1,0 +1,110 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>realestData</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Population data - real estate in Poland at NUTS 4 level
+</h2>
+
+<h3>Description</h3>
+
+<p>A data frame with 1504 observations on the following 7 variables (NUTS 4 units with masked values of the variables due to Statistical confidentiality has been removed).</p>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>year</code></td>
+<td>
+<p>year.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>NUTS4</code></td>
+<td>
+<p>NUTS 4 code (powiats).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>NUTS2</code></td>
+<td>
+<p>NUTS 2 code (voivodships).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>NUTS4type</code></td>
+<td>
+<p>type of NUTS 4 (1 - land counties, 2 - city counties/cities with powiat status).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>premises</code></td>
+<td>
+<p>number of residential premises sold in market transactions (in thousands).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>area</code></td>
+<td>
+<p>usable floor area of residential premises sold in market transactions (in millions of square meters).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>price</code></td>
+<td>
+<p>sum of prices of residential premises sold (in billions of Polish zloty).</p>
+</td>
+</tr>
+</table>
+<h3>Source</h3>
+
+<p>Statitics Poland, https://bdl.stat.gov.pl/eng
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(realestData)
+hist(realestData$price[realestData$year==2018])
+boxplot(realestData$price~realestData$year)
+boxplot(realestData$price[realestData$year==2018]~realestData$NUTS2[realestData$year==2018])
+boxplot(realestData$price[realestData$year==2018]~realestData$NUTS4type[realestData$year==2018])
+
+
+library(lme4)
+attach(realestData)
+
+N &lt;- nrow(realestData[(year == 2015),]) # population size in the first period
+n &lt;- 75 # sample size in the first period
+set.seed(123456)
+sampled_elements_in_2015 &lt;- sample(N,n) 
+con2015 &lt;- rep(0,N)
+con2015[sampled_elements_in_2015] &lt;- 1
+
+sampled_elements_in_2016 &lt;- sample(N,n)
+con2016 &lt;- rep(0,N)
+con2016[sampled_elements_in_2016] &lt;- 1
+
+sampled_elements_in_2017 &lt;- sample(N,n)
+con2017 &lt;- rep(0,N)
+con2017[sampled_elements_in_2017] &lt;- 1
+
+sampled_elements_in_2018 &lt;- sample(N,n)
+con2018 &lt;- rep(0,N)
+con2018[sampled_elements_in_2018] &lt;- 1
+
+con=as.logical(con2015, con2016, con2017, con2018)
+
+model1 &lt;- lmer(price ~ premises + area + (1|NUTS2)+(0+premises|NUTS2) + 
+(1|NUTS4type)+(0+area|NUTS4type), subset=con)
+AIC(model1)
+model2 &lt;- lmer(price ~ premises + area + (0+premises|NUTS2) + (0+area|NUTS4type), subset = con)
+AIC(model2)
+
+</code></pre>
+
+
+</div>

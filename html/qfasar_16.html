@@ -1,0 +1,146 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>lopo_pool</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Pool lopo results to original prey types</h2>
+
+<h3>Description</h3>
+
+<p>If <code>lopo</code> is used to perform a leave-one-prey-out analysis with
+a partitioned prey library (<code>make_prey_part</code>), <code>lopo_pool</code>
+pools the partitioned results back to the original unpartitioned prey types.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">lopo_pool(est, n_conv, type_ss, pre, post)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>est</code></td>
+<td>
+<p>The estimation matrix of a leave-one-prey-out analysis performed
+by the function <code>lopo</code>, returned as the <code>est</code> object.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n_conv</code></td>
+<td>
+<p>An integer vector denoting the number of signature estimates in
+the partitioned prey types that converged, returned by a call to
+<code>lopo</code> as the <code>n_conv</code> object.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>type_ss</code></td>
+<td>
+<p>An integer vector with the number of signatures (sample size)
+in each of the partitioned prey types, returned by a call to
+<code>make_prey_part</code> as the <code>type_ss</code> object.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pre</code></td>
+<td>
+<p>The pre-multiplication matrix returned by a call to
+<code>make_prey_part</code> as the <code>pool_pre</code> object.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>post</code></td>
+<td>
+<p>The post-multiplication matrix returned by a call to
+<code>make_prey_part</code> as the <code>pool_post</code> object.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list containing the following elements, all of which are organized
+on the basis of the original unpartitioned prey types: </p>
+
+<dl>
+<dt>est</dt>
+<dd>
+<p>A square matrix containing the mean distribution of
+leave-one-prey-out estimates among all prey types.</p>
+</dd>
+<dt>mean_correct</dt>
+<dd>
+<p>The mean proportion correctly estimated across prey
+types, unweighted by prey-type sample sizes.</p>
+</dd>
+<dt>total_correct</dt>
+<dd>
+<p>The proportion of all signatures correctly estimated.</p>
+</dd>
+<dt>n_conv</dt>
+<dd>
+<p>An integer vector containing the number of estimates that
+converged.</p>
+</dd>
+<dt>err_code</dt>
+<dd>
+<p>An integer error code (0 if no error is detected).</p>
+</dd>
+<dt>err_message</dt>
+<dd>
+<p>A string containing a brief summary of the results.</p>
+</dd>
+</dl>
+<h3>Details</h3>
+
+<p>The statistics computed by <code>lopo</code> and <code>lopo_pool</code> are one
+measure of the distinctiveness of prey types within a prey library.  However,
+it is important to be aware that such statistics are not necessarily
+informative of the ability of QFASA to accurately estimate predator diets, as
+Bromaghin et al. (2015, 2016a, 2016b) found that QFASA performance depends
+strongly on the interaction between characteristics of a prey library, the
+specific diet of a predator, and the accuracy of the calibration
+coefficients.  Consequently, the user is warned not to misinterpret or
+misrepresent these statistics.
+</p>
+
+
+<h3>References</h3>
+
+<p>Bromaghin, J.F., S.M. Budge, and G.W. Thiemann. 2016b. Should fatty
+acid signature proportions sum to 1 for diet estimation?
+<em>Ecological Research</em> 31:597-606.
+</p>
+<p>Bromaghin, J.F., S.M. Budge, G.W. Thiemann, and K.D. Rode. 2016a. Assessing
+the robustness of quantitative fatty acid signature analysis to assumption
+violations. <em>Methods in Ecology and Evolution</em> 7:51-59.
+</p>
+<p>Bromaghin, J.F., K.D. Rode, S.M. Budge, and G.W. Thiemann. 2015. Distance
+measures and optimization spaces in quantitative fatty acid signature
+analysis. <em>Ecology and Evolution</em> 5:1249-1262.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+lopo_pool(est = matrix(c(0.90, 0.05, 0.30, 0.02,
+                         0.04, 0.84, 0.09, 0.03,
+                         0.02, 0.06, 0.35, 0.57,
+                         0.05, 0.10, 0.15, 0.70), nrow = 4, byrow = TRUE),
+          n_conv = c(2, 8, 8, 11),
+          type_ss = c(2, 8, 8, 12),
+          pre = matrix(c(0.2, 0.8, 0.0, 0.0,
+                         0.0, 0.0, 0.4, 0.6), nrow = 2, byrow = TRUE),
+          post = matrix(c(1, 1, 0, 0,
+                          0, 0, 1, 1), ncol = 2)
+          )
+
+</code></pre>
+
+
+</div>

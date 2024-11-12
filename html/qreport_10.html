@@ -1,0 +1,56 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>hookaddcap</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>hookaddcap</h2>
+
+<h3>Description</h3>
+
+<p>Set <code>knitr</code> to Automatically Call <code>addCap</code> in Figure-Producing Chunks
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">hookaddcap(loc = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>loc</code></td>
+<td>
+<p>if non-<code>NULL</code> will be used to set the <code>knitr</code> chunk option <code>fig.cap.location</code></p>
+</td>
+</tr></table>
+<h3>Details</h3>
+
+<p>Adds a <code>knitr</code> hook that takes effect before the chunk is run.  The hook function retrieves figure information from the current chunk to give to <code>addCap</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>nothing; calls <code>knitr</code> hook and chunk option setting functions
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Frank Harrell
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+hookaddcap()
+
+## End(Not run)
+</code></pre>
+
+
+</div>

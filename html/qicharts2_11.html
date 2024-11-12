@@ -1,0 +1,102 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>summary.qic</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Prints summary of a qic object</h2>
+
+<h3>Description</h3>
+
+<p>Prints summary of a qic object
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'qic'
+summary(object, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>A qic object.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>For compatibility with generic summary function.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A data frame of summary values of each facet and part of a qic plot.
+</p>
+
+<ul>
+<li>
+<p> facet1 Vertical facets.
+</p>
+</li>
+<li>
+<p> facet2 Horizontal facets
+</p>
+</li>
+<li>
+<p> part Number of chart part when argument break.points is given.
+</p>
+</li>
+<li>
+<p> aLCL Average of lower control limit.
+</p>
+</li>
+<li>
+<p> CL Centre line.
+</p>
+</li>
+<li>
+<p> aUCL Average of upper control limit.
+</p>
+</li>
+<li>
+<p> longest.run Length of the longest run of data points on the same side of the centre line.
+</p>
+</li>
+<li>
+<p> longest.run.max Upper limit of expected length of longest run.
+</p>
+</li>
+<li>
+<p> n.crossings Number of times the data line crosses the centre line.
+</p>
+</li>
+<li>
+<p> n.crossings.min Lower limit of expected number of crossings.
+</p>
+</li>
+<li>
+<p> runs.signal 1 if either longest run or number of crossings are outside expected limits.
+</p>
+</li>
+<li>
+<p> sigma.signal Number of data points outside control limits.
+</p>
+</li>
+</ul>
+<h3>Examples</h3>
+
+<pre><code class="language-R">p &lt;- qic(rnorm(24), chart = 'i')
+p
+summary(p)
+
+</code></pre>
+
+
+</div>

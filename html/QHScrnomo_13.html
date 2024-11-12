@@ -1,0 +1,77 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>summary.cmprsk</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Summary of a Competing Risks Regression Model</h2>
+
+<h3>Description</h3>
+
+<p>Uses the <code>summary.rms</code> method to construct a summary for the competing risks regression model fit from <code>crr.fit</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'cmprsk'
+summary(object, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>A model fit by <code>crr.fit</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Other arguments for <code>summary.rms</code></p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A <code>summary.rms</code> matrix
+</p>
+
+
+<h3>Note</h3>
+
+<p>This function requires that the <code>rms</code> package is attached
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Changhong Yu. Department of
+Quantitative Health Sciences, Cleveland Clinic
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>crr.fit</code> <code>summary.rms</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">dd &lt;- datadist(prostate.dat)
+options(datadist = "dd")
+prostate.f &lt;- cph(Surv(TIME_EVENT,EVENT_DOD == 1) ~ TX  + rcs(PSA,3) +
+           BX_GLSN_CAT +  CLIN_STG + rcs(AGE,3) +
+           RACE_AA, data = prostate.dat,
+           x = TRUE, y = TRUE, surv = TRUE,time.inc = 144)
+prostate.crr &lt;- crr.fit(prostate.f, cencode = 0, failcode = 1)
+summary(prostate.crr)
+
+</code></pre>
+
+
+</div>

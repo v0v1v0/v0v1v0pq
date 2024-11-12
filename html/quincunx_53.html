@@ -1,0 +1,75 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>pgs_to_pgp</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Map PGS identifiers to PGP identifiers</h2>
+
+<h3>Description</h3>
+
+<p>Map PGS identifiers to PGP identifiers.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">pgs_to_pgp(
+  pgs_id = NULL,
+  verbose = FALSE,
+  warnings = TRUE,
+  progress_bar = TRUE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>pgs_id</code></td>
+<td>
+<p>A character vector of PGS identifiers,
+e.g., "PGS000001". If <code>NULL</code> then returns results for all PGS
+identifiers in the Catalog.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p>A <code>logical</code> indicating whether the function should be
+verbose about the different queries or not.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>warnings</code></td>
+<td>
+<p>A <code>logical</code> indicating whether to print warnings, if
+any.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>progress_bar</code></td>
+<td>
+<p>Whether to show a progress bar as the queries are
+performed.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A data frame of two columns: <code>pgs_id</code> and <code>pgp_id</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+pgs_to_pgp('PGS000001')
+pgs_to_pgp(c('PGS000017', 'PGS000042'))
+
+## End(Not run)
+</code></pre>
+
+
+</div>

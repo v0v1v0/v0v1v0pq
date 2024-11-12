@@ -1,0 +1,280 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>ra</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Regression approach
+</h2>
+
+<h3>Description</h3>
+
+<p><code>ra</code> implements the regression approach developed by Pesaran (1984).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">ra(y.series, survey.up, survey.same, survey.down, forecast.horizon, 
+	first.period = 1, last.period = (length(survey.up) - forecast.horizon), 
+	distrib.type = "normal", distrib.mean = 0, distrib.sd = 1, 
+	distrib.log.location = 0, distrib.log.scale = 1, 
+	distrib.t.df = (first.period - last.period), growth.limit = NA, 
+	symmetry.error = "white", suppress.warnings = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>y.series</code></td>
+<td>
+
+<p>a numerical vector containing the variable whose change is the subject of the qualitative survey question. If, for example the survey asks participants to assess whether inflation will increase, decrease or stay the same, <code>y.series</code> would be the series of inflation data.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>survey.up</code></td>
+<td>
+
+<p>a numerical vector containing the number or the share of survey respondents expecting the variable contained in <code>y.series</code> to increase. This vector needs to be of the same length as <code>y.series</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>survey.same</code></td>
+<td>
+
+<p>a numerical vector containing the number or the share of survey respondents expecting the variable contained in <code>y.series</code> to stay the same. This vector needs to be of the same length as <code>y.series</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>survey.down</code></td>
+<td>
+
+<p>a numerical vector containing the number or the share of survey respondents expecting the variable contained in <code>y.series</code> to decrease. This vector needs to be of the same length as <code>y.series</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>forecast.horizon</code></td>
+<td>
+
+<p>a numeric value defining the number of periods the survey question looks in to the future. If the data in <code>y.series</code> is monthly data and the survey question asks respondents to assess the development of the variable over the next six months then <code>forecast.horizon=6</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>first.period</code></td>
+<td>
+
+<p>an optional numeric value indexing the first period for which survey data in <code>survey.up</code>, <code>survey.same</code> and <code>survey.down</code> shall be used for quantification; default value is <code>1</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>last.period</code></td>
+<td>
+
+<p>an optional numeric value indexing the last period for which survey data in <code>survey.up</code>, <code>survey.same</code> and <code>survey.down</code> shall be used for quantification; default value is <code>length(survey.up) - forecast.horizon</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>distrib.type</code></td>
+<td>
+
+<p>an optional character vector describing the type of distribution used for quantification. Possible values are:
+</p>
+
+<ul>
+<li>
+<p> "<code>normal</code>": the normal distribution is used. Default value for <code>distrib.type</code>. Parameters <code>distrib.mean</code> and <code>distrib.sd</code> can be used to specify the distribution.
+</p>
+</li>
+<li>
+<p> "<code>logistic</code>": the logistic distribution is used. Parameters <code>distrib.log.location</code> and <code>distrib.log.scale</code> can be used to specify the distribution.
+</p>
+</li>
+<li>
+<p> "<code>t</code>": the t distribution is used. Parameter <code>distrib.t.df</code> can be used to specify the distribution.
+</p>
+</li>
+</ul>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>distrib.mean</code></td>
+<td>
+
+<p>an optional numerical value defining the mean of the normal distribution (used in case <code>distrib.type="normal"</code>). Default value is <code>0</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>distrib.sd</code></td>
+<td>
+
+<p>an optional numerical value defining the standard deviation of the normal distribution (used in case <code>distrib.type="normal"</code>). Default value is <code>1</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>distrib.log.location</code></td>
+<td>
+
+<p>an optional numerical value defining the location of the logistic distribution (used in case <code>distrib.type="logistic"</code>). Default value is <code>0</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>distrib.log.scale</code></td>
+<td>
+
+<p>an optional numerical value defining the scale of the logistic distribution (used in case <code>distrib.type="logistic"</code>). Default value is <code>1</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>distrib.t.df</code></td>
+<td>
+
+<p>an optional numerical value defining the degrees of freedom (df) of the t distribution (used in case <code>distrib.type="t"</code>). Default value is <code>last.period - first.period</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>growth.limit</code></td>
+<td>
+
+<p>serves to limit the effect of outliers when expectations are quantified under the assumption that survey respondents form expectations on the percentage change of <code>y</code>. <code>growth.limit</code> defines a limit for percentage change of <code>y</code>. When this limit is exceeded the growth rate is set automatically to the median growth of <code>y</code> over the period covered by the expectations. Default value is <code>NA</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>symmetry.error</code></td>
+<td>
+
+<p>an optional character vector indicating the type of standard error used for testing the symmetry of the estimated upper and lower indifference limens. Can be either "<code>white</code>" (for White standard error) or  "<code>small.sample</code>" (for small sample standard error, HC3), see MacKinnon/White (1985) for details. Default value is "<code>white</code>".
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>suppress.warnings</code></td>
+<td>
+
+<p>a logical value indicating if runtime warnings shall be displayed (<code>FALSE</code>) or not (<code>TRUE</code>). Default value is <code>FALSE</code>.
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p><code>ra</code> estimates the time-invariant, asymmetric indifference limens using OLS regression with non-robust standard errors.
+</p>
+<p>The function <code>ra</code> provides two alternative versions of quantified expectations, depending on the assumed expectation formation process of survey respondents. The basic common assumption of the regression approach is that survey participants are asked to assess whether variable <code>y</code> will go up or down or stay the same. Survey respondents can now form expectations on either the absolute or the relative change of <code>y</code>. The <code>reg</code> function calculates both versions.
+</p>
+<p>The survey result vectors <code>survey.up</code>, <code>survey.down</code> and <code>survey.same</code> as well as the variable <code>y.series</code> must be of the same length and must cover the forecasted horizon (i.e. <code>last.period</code> + <code>forecast.horizon</code> <code class="reqn">\le</code> <code>length(survey.up)</code>). 
+</p>
+<p>Data in <code>survey.up</code>, <code>survey.down</code> and <code>survey.same</code> outside the survey period interval <code>[first.period, last.period]</code> are ignored. Similiarly, <code>y.series</code> data with a period index greater than <code>last.period</code> is ignored.
+</p>
+<p><code>survey.up</code>, <code>survey.down</code> and <code>survey.same</code> need not sum up to <code>100%</code> or <code>1</code> (which may happen, for example, if the survey has a 'Don't know' answer option).
+</p>
+
+
+<h3>Value</h3>
+
+
+<ul>
+<li> <p><code>y.e.mean.abs</code>: a numeric vector containing the quantified mean expectations of the variable <code>y</code>, assuming that survey respondents form expectations on the <em>absolute</em> change in <code>y</code>. For all periods which are not in scope of the survey the value is <code>NA</code>.
+</p>
+</li>
+<li> <p><code>y.e.mean.perc</code>: a numeric vector containing the quantified mean expectations of the variable <code>y</code>, assuming that survey respondents form expectations on the <em>relative</em> change in <code>y</code>. For all periods which are not in scope of the survey the value is <code>NA</code>.
+</p>
+</li>
+<li> <p><code>delta.y.e.mean.abs</code>: a numeric vector containing the quantified mean absolute change of the variable <code>y</code>, assuming that survey respondents form expectations on the <em>absolute</em> change in <code>y</code>. For all periods which are not in scope of the survey the value is <code>NA</code>.
+</p>
+</li>
+<li> <p><code>delta.y.e.mean.perc</code>: a numeric vector containing the quantified mean percentage change of the variable <code>y</code>, assuming that survey respondents form expectations on the <em>relative</em> change in <code>y</code>. For all periods which are not in scope of the survey the value is <code>NA</code>.
+</p>
+</li>
+<li> <p><code>upper.limit.abs</code>: a numeric value containing the estimated upper indifference limen when survey respondents form expectations on the <em>absolute</em> change in variable <code>y</code>.
+</p>
+</li>
+<li> <p><code>lower.limit.abs</code>: a numeric value containing the estimated upper indifference limen when survey respondents form expectations on the <em>absolute</em> change in variable <code>y</code>.
+</p>
+</li>
+<li> <p><code>upper.limit.per</code>: a numeric value containing the estimated upper indifference limen when survey respondents form expectations on the <em>relative</em> change in variable <code>y</code>.
+</p>
+</li>
+<li> <p><code>lower.limit.perc</code>: a numeric value containing the estimated upper indifference limen when survey respondents form expectations on the <em>relative</em> change in variable <code>y</code>.
+</p>
+</li>
+<li> <p><code>nob</code>: a numeric value showing the number of periods for which expectations have been quantified.
+</p>
+</li>
+<li> <p><code>mae.abs</code>: a numeric value showing the mean absolute error (MAE) of expectations when survey respondents form expectations on the <em>absolute</em> change in variable <code>y</code>.
+</p>
+</li>
+<li> <p><code>rmse.abs</code>: a numeric value showing the root mean squared error (RMSE) of expectations when survey respondents form expectations on the <em>absolute</em> change in variable <code>y</code>.
+</p>
+</li>
+<li> <p><code>mae.perc</code>: a numeric value showing the mean absolute error (MAE) of expectations when survey respondents form expectations on the <em>relative</em> change in variable <code>y</code>.
+</p>
+</li>
+<li> <p><code>rmse.perc</code>: a numeric value showing the root mean squared error (RMSE) of expectations when survey respondents form expectations on the <em>relative</em> change in variable <code>y</code>.
+</p>
+</li>
+<li> <p><code>symmetry.abs</code>: a numeric value containing the p-value of the test for symmetry of the estimated indifference limens when survey respondents form expectations on the <em>absolute</em> change in variable <code>y</code>. The standard error used for testing depends on the argument <code>symmetry.error</code>.
+</p>
+</li>
+<li> <p><code>symmetry.perc</code>: a numeric value containing the p-value of the test for symmetry of the estimated indifference limens when survey respondents form expectations on the <em>relative</em> change in variable <code>y</code>. The standard error used for testing depends on the argument <code>symmetry.error</code>.
+</p>
+</li>
+</ul>
+<h3>Please cite as:</h3>
+
+<p>Zuckarelli, Joachim (2014). <em>Quantification of qualitative survey data in R</em>.<br>
+R package version 1.0.0. http://CRAN.R-project.org/package=quantification
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Joachim Zuckarelli, <a href="mailto:joachim@zuckarelli.de">joachim@zuckarelli.de</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>MacKinnon, J.G./White, H. (1985), Some heteroskedasticity-consistent covariance matrix estimators with immproved finite sample properties, <em>Journal of Econometrics</em> <b>29</b>, 305–325.
+</p>
+<p>Pesaran, M. (1984), Expectations formation and macroeconomic modelling, in: Malgrange, M. (1984), <em>Contemporary macroeconomic modelling</em>, 27–55.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>quantification-package</code>, <code>cp</code>, <code>bal</code>, <code>ce</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Data preparation: generate a sample dataset with inflation and survey data
+inflation&lt;-c(1.7, 1.9, 2, 1.9, 2, 2.1, 2.1, 2.1, 2.4, 2.3, 2.4)
+answer.up&lt;-c(67, 75.1, 76.4, 72.4, 69.7, 49.7, 45.2, 31.6, 14.9, 19.3, 19.2)
+answer.same&lt;-c(30.1, 19.6, 19.5, 21.3, 20.1, 33.1, 34.4, 33.5, 44.6, 38.1, 35.3)
+answer.down&lt;-c(2.9, 5.3, 4.1, 6.3, 10.2, 17.2, 20.4, 34.9, 40.5, 42.6, 45.5)
+
+## Call ra for quantification
+quant.ra&lt;-ra(inflation, answer.up, answer.same, answer.down, first.period=5, 
+	last.period=7, forecast.horizon=4, symmetry.error="small.sample")
+</code></pre>
+
+
+</div>

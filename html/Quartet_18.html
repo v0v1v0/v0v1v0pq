@@ -1,0 +1,127 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>CompareSplits</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Compare status of splits</h2>
+
+<h3>Description</h3>
+
+<p>Reports whether splits are present or contradicted in a set of reference
+splits.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">CompareSplits(splits, splits2)
+
+CompareBipartitions(splits, splits2)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>splits</code></td>
+<td>
+<p>An object that can be coerced into class <code>Splits</code> using
+<code>as.Splits</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>splits2</code></td>
+<td>
+<p>Splits against which to compare <code>splits</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A named vector of eight integers, listing the number of unique splits
+that:
+</p>
+
+<ul>
+<li> <p><strong>N</strong>    exist in total; i.e. the number of splits in <code>splits1</code> plus the
+number in <code>splits2</code>,
+equivalent to 2 <em>s</em> + <em>d1</em> + <em>d2</em> + <em>r1</em> + <em>r2</em>;
+</p>
+</li>
+<li> <p><strong>P1</strong>   occur in <code>splits1</code>
+</p>
+</li>
+<li> <p><strong>P2</strong>   occur in <code>splits2</code>
+</p>
+</li>
+<li> <p><strong>s</strong>    occur in both <code>splits1</code> and <code>splits2</code>;
+</p>
+</li>
+<li> <p><strong>d1</strong>   occur in <code>splits1</code> but are contradicted by <code>splits2</code>;
+</p>
+</li>
+<li> <p><strong>d2</strong>   occur in <code>splits2</code> but are contradicted by <code>splits1</code>;
+</p>
+</li>
+<li> <p><strong>r1</strong>   occur in <code>splits1</code> only, being neither present in nor contradicted by <code>splits2</code>;
+</p>
+</li>
+<li> <p><strong>r2</strong>   occur in <code>splits2</code> only, being neither present in nor contradicted by <code>splits1</code>;
+</p>
+</li>
+<li> <p><strong>RF</strong>   occur in one tree only; i.e. <em>d1</em> + <em>d2</em> + <em>r1</em> + <em>r2</em>,
+the Robinson-Foulds distance.
+</p>
+</li>
+</ul>
+<h3>Author(s)</h3>
+
+<p><a href="https://orcid.org/0000-0001-5660-1727">Martin R. Smith</a>
+(<a href="mailto:martin.smith@durham.ac.uk">martin.smith@durham.ac.uk</a>)
+</p>
+
+
+<h3>References</h3>
+
+
+<ul>
+<li> <p>Estabrook GF, McMorris FR, Meacham CA (1985).
+“Comparison of undirected phylogenetic trees based on subtrees of four evolutionary units.”
+<em>Systematic Zoology</em>, <b>34</b>(2), 193–200.
+<a href="https://doi.org/10.2307/2413326">doi:10.2307/2413326</a>.
+</p>
+</li>
+<li> <p>Robinson DF, Foulds LR (1981).
+“Comparison of phylogenetic trees.”
+<em>Mathematical Biosciences</em>, <b>53</b>(1-2), 131–147.
+<a href="https://doi.org/10.1016/0025-5564%2881%2990043-2">doi:10.1016/0025-5564(81)90043-2</a>.
+</p>
+</li>
+</ul>
+<h3>See Also</h3>
+
+<p>Equivalent function for quartets: <code>CompareQuartets()</code>
+</p>
+<p>Other element-by-element comparisons: 
+<code>CompareQuartetsMulti()</code>,
+<code>CompareQuartets()</code>,
+<code>PairSharedQuartetStatus()</code>,
+<code>QuartetState()</code>,
+<code>SharedQuartetStatus()</code>,
+<code>SplitStatus()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">splits1 &lt;- TreeTools::BalancedTree(8)
+splits2 &lt;- TreeTools::PectinateTree(8)
+
+CompareSplits(splits1, splits2)
+        
+</code></pre>
+
+
+</div>

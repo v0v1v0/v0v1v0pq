@@ -1,0 +1,142 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>plot.piqr</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Plot Penalized Quantile Regression Coefficients
+</h2>
+
+<h3>Description</h3>
+
+<p>Produces a coefficient profile plot of the quantile
+regression coefficient paths for a fitted model of
+class “<code>piqr</code>”.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'piqr'
+plot(x, xvar=c("lambda", "objective", "grad", "beta"), pos.lambda,
+                    label=FALSE, which=NULL, ask=TRUE, polygon=TRUE, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+
+<p>an object of class “<code>piqr</code>”, typically the result of a call to <code>piqr</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xvar</code></td>
+<td>
+
+<p>What is on the X-axis. "lambda" against the log-lambda sequence, "objective" against the value
+of the minimized integrated loss function and "grad" the log-lambda sequence
+against the gradient.
+xvar = "beta" needs a lambda value to plot quantile regression coefficients
+<code class="reqn">\beta(p | \theta(\lambda))</code> as a function of p, based on the fitted model of class “<code>piqr</code>”
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pos.lambda</code></td>
+<td>
+
+<p>the position of a lambda in the sequence of the object of class “<code>piqr</code>”. Could be the best
+after selecting the result of a call to <code>gof.piqr</code>
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>label</code></td>
+<td>
+
+<p>If TRUE, label the curves with variable sequence numbers.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>which</code></td>
+<td>
+
+<p>an optional numerical vector indicating which coefficient(s) to plot. If which = NULL, all coefficients are     plotted.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ask</code></td>
+<td>
+
+<p>logical. If which = NULL and ask = TRUE (the default), you will be asked interactively which coefficients to plot.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>polygon</code></td>
+<td>
+
+<p>ogical. If TRUE, confidence intervals are represented by shaded areas via polygon. Otherwise, dashed lines are used.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+
+<p>additional graphical parameters, that can include <kbd>xlim, ylim, xlab, ylab, col, lwd</kbd>.
+See <code>par</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>A coefficient profile plot is produced.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Gianluca Sottile <a href="mailto:gianluca.sottile@unipa.ot">gianluca.sottile@unipa.ot</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>piqr</code> for model fitting; <code>gof.piqr</code> for the model selection criteria; <code>summary.piqr</code> and <code>predict.piqr</code> for model summary and prediction.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+  # using simulated data
+
+  n &lt;- 300
+  x &lt;- runif(n)
+  qy &lt;- function(p,x){p^2 + x*log(p)}
+  # true quantile function: Q(p | x) = beta0(p) + beta1(p)*x, with
+     # beta0(p) = p^2
+     # beta1(p) = log(p)
+  y &lt;- qy(runif(n), x) # to generate y, plug uniform p in qy(p,x)
+
+  obj &lt;- piqr(y ~ x, formula.p = ~ slp(p,3), nlambda=50)
+  best &lt;- gof.piqr(obj, method="BIC", plot=FALSE)
+  par(mfrow = c(1,3))
+  plot(obj, xvar="lambda")
+  plot(obj, xvar="objective")
+  plot(obj, xvar="grad")
+  par(mfrow=c(1,2));plot(obj, xvar="beta", pos.lambda=best$posMinLambda, ask=FALSE)
+  # flexible fit with shifted Legendre polynomials
+</code></pre>
+
+
+</div>

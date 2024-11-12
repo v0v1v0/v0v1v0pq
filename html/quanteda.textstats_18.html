@@ -1,0 +1,70 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>nsyllable.tokens</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>nsyllable methods for tokens</h2>
+
+<h3>Description</h3>
+
+<p>Extends <code>nsyllable()</code> methods for tokens objects.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'tokens'
+nsyllable(
+  x,
+  language = "en",
+  syllable_dictionary = nsyllable::data_syllables_en,
+  use.names = FALSE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>character vector whose
+syllables will be counted.  This will count all syllables in a character
+vector without regard to separating tokens, so it is recommended that x be
+individual terms.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>language</code></td>
+<td>
+<p>specify the language for syllable counts by <a href="https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes">ISO 639-1</a> code. The
+default is English, using the data object <code>data_syllables_en</code>, an English
+pronunciation dictionary from CMU.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>syllable_dictionary</code></td>
+<td>
+<p>optional named integer vector of syllable counts
+where the names are lower case tokens.  This can be used to override the
+language setting, when set to <code>NULL</code> (the default).  If a syllable
+dictionary is supplied, this will override the <code>language</code> argument.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>use.names</code></td>
+<td>
+<p>logical; if <code>TRUE</code>, assign the tokens as the names of the
+syllable count vector</p>
+</td>
+</tr>
+</table>
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+</code></pre>
+
+
+</div>

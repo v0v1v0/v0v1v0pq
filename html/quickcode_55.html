@@ -1,0 +1,63 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>is.increasing</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Check is numbers in a vector are decreasing or increasing</h2>
+
+<h3>Description</h3>
+
+<p>Test if numeric values of a vector are decreasing or increasing using the radix method
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">is.increasing(., na.last = TRUE)
+
+is.decreasing(., na.last = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>.</code></td>
+<td>
+<p>a numeric vector</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>na.last</code></td>
+<td>
+<p>for controlling the treatment of NAs. If TRUE, missing values in the data are put last; if FALSE, they are put first; if NA, they are removed.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>boolean value to indicate if the values are increasing or decreasing
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># example code
+doy1 &lt;- rnorm(1e3)
+doy2 &lt;- sort(doy1, decreasing = FALSE)
+doy3 &lt;- sort(doy1, decreasing = TRUE)
+
+is.increasing(doy1)
+is.decreasing(doy1)
+
+is.increasing(doy2)
+is.decreasing(doy2)
+
+is.increasing(doy3)
+is.decreasing(doy3)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,60 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>error.out</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Error coalescing operator</h2>
+
+<h3>Description</h3>
+
+<p>Alternative return for error statements.Return alternative if the value of expression is erroneous
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">error.out(test, alternative = "")
+
+test %eo% alternative
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>test</code></td>
+<td>
+<p>an object to return</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>alternative</code></td>
+<td>
+<p>alternative object to return</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>value of test if error, else return value of alternative
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># The following statement would produce
+# error because 'stat1' does not exist
+
+# stat1 + 1
+
+# To prevent the statement from
+# stopping the process, when can have alternative out
+alt = 0
+error.out(stats1 + 1, alt)
+
+</code></pre>
+
+
+</div>

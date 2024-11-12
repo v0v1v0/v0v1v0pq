@@ -1,0 +1,79 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>predict_snpgeno</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Predict SNP genotypes</h2>
+
+<h3>Description</h3>
+
+<p>Predict SNP genotypes in a multiparent population from inferred genotypes plus founder strains' SNP alleles.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">predict_snpgeno(cross, geno, cores = 1)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>cross</code></td>
+<td>
+<p>Object of class <code>"cross2"</code>. For details, see the
+<a href="https://kbroman.org/qtl2/assets/vignettes/developer_guide.html">R/qtl2 developer guide</a>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>geno</code></td>
+<td>
+<p>Imputed genotypes, as a list of matrices, as from <code>maxmarg()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cores</code></td>
+<td>
+<p>Number of CPU cores to use, for parallel calculations.
+(If <code>0</code>, use <code>parallel::detectCores()</code>.)
+Alternatively, this can be links to a set of cluster sockets, as
+produced by <code>parallel::makeCluster()</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list of matrices with inferred SNP genotypes, coded 1/2/3.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>maxmarg()</code>, <code>viterbi()</code>, <code>calc_errorlod()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+# load example data and calculate genotype probabilities
+file &lt;- paste0("https://raw.githubusercontent.com/rqtl/",
+               "qtl2data/main/DOex/DOex.zip")
+DOex &lt;- read_cross2(file)
+probs &lt;- calc_genoprob(DOex, error_prob=0.002)
+
+# inferred genotypes
+m &lt;- maxmarg(probs, minprob=0.5)
+
+# inferred SNP genotypes
+inferg &lt;- predict_snpgeno(DOex, m)
+
+## End(Not run)
+
+</code></pre>
+
+
+</div>

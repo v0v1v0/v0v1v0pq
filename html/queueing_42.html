@@ -1,0 +1,73 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>L.o_BnD</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Returns the mean number of customers in the generic Birth and Death process model</h2>
+
+<h3>Description</h3>
+
+<p>Returns the mean number of customers in the generic Birth and Death process model
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">  ## S3 method for class 'o_BnD'
+L(x, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a object of class o_BnD</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>aditional arguments</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Returns the mean number of customers in the generic Birth and Death process model</p>
+
+
+<h3>References</h3>
+
+<p>[Sixto2004] Sixto Rios Insua, Alfonso Mateos Caballero, M Concepcion Bielza Lozoya, Antonio Jimenez Martin (2004).<br><em>Investigacion Operativa. Modelos deterministicos y estocasticos</em>.<br>
+Editorial Centro de Estudios Ramon Areces.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>QueueingModel.i_BnD</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Generating a generic Birth and Death model with the same lambda and mu vectors as M/M/1 model
+## create input parameters
+lambda &lt;- rep(1/4, 200)
+mu &lt;- rep(1/3, 200)
+
+i_BnD &lt;- NewInput.BnD(lambda=lambda, mu=mu)
+
+## Build the model
+o_BnD &lt;- QueueingModel(i_BnD)
+
+## Returns the L
+L(o_BnD)
+</code></pre>
+
+
+</div>

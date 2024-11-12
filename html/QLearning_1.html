@@ -1,0 +1,156 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qlearn</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2> qlearn
+</h2>
+
+<h3>Description</h3>
+
+<p>Input a <em>game</em> that has variables <em>statevars</em> (which the player can keep track of). The player can perform any of <em>possibleactions</em>. The output matrix will give the expected value of each action (column) in each state (row).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qlearn(game, statevars, possibleactions, playername="P1",
+  numiter=1000, prevstrategy=NULL, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>game
+</code></td>
+<td>
+<p>Name of the game to be played/learned.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>statevars
+</code></td>
+<td>
+<p>A vector of the states to be monitored inside <em>game</em>. These are the conditions under which we the player has to make his decision.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>possibleactions
+</code></td>
+<td>
+<p>A vector of the names of the possible actions inside <em>game</em>. This should be a list of every possible action that can be taken, regardless of state.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>playername
+</code></td>
+<td>
+<p>The name of the variable that holds the name for the player's action inside <em>game</em>. See <strong>Details</strong>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>numiter
+</code></td>
+<td>
+<p>Number of iterations of <em>game</em>. Defaults to 50.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>prevstrategy
+</code></td>
+<td>
+<p>Reward matrix returned by a previous <em>qlearn</em> function; serves as a starting point. Defaults to a blank reward matrix.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...
+</code></td>
+<td>
+<p>Additional arguments to be passed to <em>game</em>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>At some point in game, there must be a line of the format
+</p>
+<p><code>playername &lt;- 'Choose'</code>
+</p>
+<p>where playername is substituted with the paramater "playername". This line should be at the point where the user wants to have the player choose an action. Since playername defaults to "P1", it sufficient to put the line:
+</p>
+<p><code>P1 &lt;- 'Choose'</code>
+</p>
+<p>somewhere in the function.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A matrix describing the expected reward values of performing a certain action (columns) in a certain state (rows).
+</p>
+
+
+<h3>Note</h3>
+
+<p>Contact at liam.bressler@yale.edu
+
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Liam Bressler
+
+</p>
+
+
+<h3>References</h3>
+
+<p>http://labressler.github.io/analytics
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">cardgame &lt;- function()
+{
+  playercards &lt;- sample(1:8,4) #distribute the cards, we're player one
+  ourcard &lt;- playercards[1] #our card
+  playertotals &lt;- rep(-1,4) #including the antes
+  playersinpot &lt;- vector()
+  for (player in 2:4) #other 3 players go first
+  {
+    if (playercards[player]&gt;=2)
+    {
+      playertotals[player] &lt;- (-3)
+      playersinpot &lt;- append(playersinpot,player)
+    }
+  }
+  #the next line is where we want to choose our action
+  player1 &lt;- 'Choose'
+  if (player1=="Call")
+  {
+    playertotals[1] &lt;- (-3)
+    playersinpot &lt;- append(playersinpot,1)
+  }
+  potsize &lt;- -1*(sum(playertotals)) #the amount in the pot is how much the players put in
+  playercards[!(1:4 %in% playersinpot)] &lt;- 0 #get rid of everyone who folded
+  winner &lt;- which.max(playercards) #winner is the person with the highest card who didn't fold
+  playertotals[winner] &lt;- playertotals[winner]+potsize
+  return(playertotals[1]) #return how much we won
+}
+
+strat &lt;- qlearn(game="cardgame",statevars="ourcard",possibleactions=c("Call","Fold"),
+  playername="player1",numiter=25000) #make sure each function and variable name is a string
+
+strat
+
+
+
+</code></pre>
+
+
+</div>

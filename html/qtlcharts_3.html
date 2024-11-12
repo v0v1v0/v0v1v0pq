@@ -1,0 +1,83 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>estQTLeffects</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Calculate QTL effects at each position across the genome</h2>
+
+<h3>Description</h3>
+
+<p>Calculates the effects of QTL at each position across the genome
+using Haley-Knott regression, much like [qtl::effectscan()],
+but considering multiple phenotypes and not plotting the results
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">estQTLeffects(cross, pheno.col = 1, what = c("means", "effects"))
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>cross</code></td>
+<td>
+<p>(Optional) Object of class '"cross"', see
+[qtl::read.cross()].</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pheno.col</code></td>
+<td>
+<p>Phenotype columns in cross object.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>what</code></td>
+<td>
+<p>Indicates whether to calculate phenotype averages for
+each genotype group or to turn these into additive and dominance
+effects.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>One should first run [qtl::calc.genoprob()];
+if not, it is run with the default arguments.
+</p>
+<p>The estimated effects will be poorly estimated in the case of
+selective genotyping, as Haley-Knott regression performs poorly in
+this case.
+</p>
+
+
+<h3>Value</h3>
+
+<p>list of matrices; each component corresponds to a position
+in the genome and is a matrix with phenotypes x effects
+</p>
+
+
+<h3>See Also</h3>
+
+<p>[iplotMScanone()], [qtl::effectscan()]
+[cbindQTLeffects()]
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(grav)
+library(qtl)
+grav &lt;- reduce2grid(calc.genoprob(grav, step=1))
+out &lt;- estQTLeffects(grav, phe=seq(1, nphe(grav), by=5))
+
+</code></pre>
+
+
+</div>

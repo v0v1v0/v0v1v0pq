@@ -1,0 +1,78 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>plot_sdp</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>plot strain distribution patterns for SNPs</h2>
+
+<h3>Description</h3>
+
+<p>plot the strain distribution patterns of SNPs
+using tracks of tick-marks for each founder strain
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">plot_sdp(pos, sdp, strain_labels = names(qtl2::CCcolors), ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>pos</code></td>
+<td>
+<p>vector of SNP positions</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sdp</code></td>
+<td>
+<p>vector of strain distribution patterns (as integers)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>strain_labels</code></td>
+<td>
+<p>names of the strains</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>additional graphic arguments</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Additional arguments, such as <code>xlab</code>, <code>ylab</code>, <code>xlim</code>, and <code>main</code>,
+are passed via <code>...</code>; also <code>bgcolor</code> to control the color of the
+background, and <code>col</code> and <code>lwd</code> to control the color and thickness
+of the tick marks.
+</p>
+
+
+<h3>Value</h3>
+
+<p>None.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>calc_sdp()</code>, <code>invert_sdp()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">n_tick &lt;- 50
+plot_sdp(runif(n_tick, 0, 100), sample(0:255, n_tick, replace=TRUE))
+</code></pre>
+
+
+</div>

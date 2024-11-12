@@ -1,0 +1,226 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qmethod</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Q methodology analysis</h2>
+
+<h3>Description</h3>
+
+<p>This function performs a full Q methodology analysis. Both principal components analysis or centroid factor extraction can be used. The main results are factor characteristics, statement z-scores and factor scores, and distinguishing and consensus statements.</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qmethod(dataset, nfactors, extraction = "PCA", rotation = "varimax", 
+        forced = TRUE, distribution = NULL, cor.method = "pearson",
+        silent = FALSE, spc = 10^-5, ...)</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>dataset</code></td>
+<td>
+<p>a matrix or a data frame containing original data, with statements as rows, Q-sorts as columns, and the column scores in the distribution in each cell. The matrix or data frame should not contain character strings. The results keep row names and column names if set in the <code>dataset</code> (see 'Details').</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nfactors</code></td>
+<td>
+<p>number of factors to extract.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>extraction</code></td>
+<td>
+<p>extraction method, either Principal Components Analysis or centroid factor extraction. It defaults to <code>"PCA"</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rotation</code></td>
+<td>
+<p>rotation method, defaults to <code>"varimax"</code>. For <code>"centroid"</code> extraction, <code>"none"</code> and <code>"varimax"</code> are implemented. For <code>"PCA"</code> other possible rotations allowed in <code>principal</code> function can be used: <code>"none"</code>, <code>"varimax"</code>, <code>"quartimax"</code>, <code>"promax"</code>, <code>"oblimin"</code>, <code>"simplimax"</code>, and <code>"cluster"</code>. Note that only 'varimax' and manual rotation are standard in Q methodology.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>forced</code></td>
+<td>
+<p>logical; Is the ranking of the items forced to match the distributions? Set to <code>TRUE</code> if all respondents ranked the items strictly following the distribution scores, in which case the values of the distribution are calculated automatically. Set to <code>FALSE</code> if respondents were able to rank the items without following the distribution, and the values of the distribution have to be provided as an array in the argument <code>distribution</code>. See more details below in 'Notes'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>distribution</code></td>
+<td>
+<p>logical; when forced = <code>FALSE</code>, the distribution has to be provided as a vector of numbers, such as <code>c(-2, -1, -1, 0, 1, 1, 2, 2)</code>. See more details below in 'Notes' number 2.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cor.method</code></td>
+<td>
+<p>character string indicating which correlation coefficient is to be computed, to be passed on to the function <code>cor</code>: <code>"pearson"</code> (default), <code>"kendall"</code>, or <code>"spearman"</code>. </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>silent</code></td>
+<td>
+<p>logical; when = <code>TRUE</code>, a summary message is printed.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>spc</code></td>
+<td>
+<p>If centroid extraction is selected, this is the threshold to accept factor results, set to 0.00001 by default (in Brown 1980, this is set to 0.02; see <code>centroid</code>)</p>
+</td>
+</tr>
+</table>
+<p>.
+</p>
+<table><tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>other parameters to pass to functions such as <code>principal</code></p>
+</td>
+</tr></table>
+<h3>Details</h3>
+
+<p>This function wraps together all the steps required for a complete analysis: extracting component loadings (<code>principal</code> or <code>centroid</code>); flagging Q-sorts (<code>qflag</code>); calculating weights, z-scores, and rounded scores (<code>qzscores</code>), calculating general characteristics (<code>qfcharact</code>), and finding distinguishing and consensus statements (<code>qdc</code>).
+</p>
+<p>The default <code>qmethod</code> performs automatic flagging and uses varimax rotation. Varimax rotation can be replaced by <code>"none"</code> or other methods for rotation allowed in <code>principal</code> from <span class="pkg">psych</span> package.
+</p>
+<p>If the input data contains row names and variable names, these will be kept throughout the analysis. Input data is validated, and it will give an error if there are non numerical values or if either the number of statements and Q-sorts introduced do not match the input data. It also returns error if the argument <code>forced</code> is set to <code>TRUE</code> but Q-sorts contain differing distributions.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns a list of class <code>QmethodRes</code>, with eight objects:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>brief</code></td>
+<td>
+<p>a list with the basic values of the analysis: date (<code>"date"</code>), number of statements (<code>"nstat"</code>), number of Q-sorts (<code>"nqsort"</code>), whether the distribution was 'forced' (<code>"distro"</code>),  number of factors extracted (<code>"nfactors"</code>), method for factor extraction (<code>"extraction"</code>), method for rotation (<code>"rotation"</code>), method for correlation (<code>"cor.method"</code>), package version (<code>"pkg.version"</code>), and a summary of this information for display purposes (<code>"info"</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dataset</code></td>
+<td>
+<p>original data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>loa</code></td>
+<td>
+<p>factor loadings for Q-sorts.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>flagged</code></td>
+<td>
+<p>logical dataframe of flagged Q-sorts.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>zsc</code></td>
+<td>
+<p>statements z-scores.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>zsc_n</code></td>
+<td>
+<p>statements factor scores, matched to the ordered array of values in the first row of the dataset.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>f_char</code></td>
+<td>
+<p>factor characteristics (see <code>qfcharact</code>):
+</p>
+
+<ul>
+<li>
+<p><code>"characteristics"</code>: data frame with the following values for each factor: average reliability coefficient, number of loading Q-sorts, eigenvalues, percentage of explained variance, composite reliability, standard error of factor scores.
+</p>
+</li>
+<li>
+<p><code>"cor_zsc"</code>: matrix of correlation coefficients between factors z-scores.
+</p>
+</li>
+<li>
+<p><code>"sd_dif"</code>: matrix of standard errors of differences.
+</p>
+</li>
+</ul>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qdc</code></td>
+<td>
+<p>distinguishing and consensus statements (see <code>qdc</code>).</p>
+</td>
+</tr>
+</table>
+<h3>Note about non-forced distribution studies</h3>
+
+<p>The forced/ non-forced distribution (argument <code>forced</code>) refers to whether respondents were able to sort the items freely or they had to fit them in the distribution (i.e. the pyramid). If the <code>qmethod</code> function returns the following error: <code>"Q method input: The argument 'forced' is set as 'TRUE', but ..."</code> and you are unsure of how to solve it, continue reading. 
+</p>
+<p>First, ensure that the data are correctly introduced. For example, typos in the numbers entered result from forced distribution Q-sorts appearing as non-forced. 
+</p>
+<p>Second, if you data are indeed non-forced, set the argument <code>"forced = FALSE"</code> and specify the argument <code>"distribution = ..."</code>. For the argument <code>"distribution"</code>, specify a numerical vector with as many elements as there are cells in your original distribution (i.e. as many items in the Q-set), and with the values of the columns. Repeat the values of each column as many times as there are cells in that column. For example, for the distribution shown in Figure 1 in <a href="https://journal.r-project.org/archive/2014-2/zabala.pdf">this paper at <em>The R Journal</em></a>, the argument <code>distribution</code> should be:
+</p>
+<pre>c(-4, -4,
+  -3, -3, -3,
+  -2, -2, -2, -2, 
+  -1, -1, -1, -1, -1, 
+   0,  0,  0,  0,  0,
+   1,  1,  1,  1,  1, 
+   2,  2,  2,  2,
+   3,  3,  3,
+   4,  4 )</pre>
+<p>Or alternatively (a different way of getting the same vector):
+</p>
+<pre>c(rep(-4, 2), rep(-3, 3), rep(-2, 4), rep(-1, 5), rep( 0, 5), 
+  rep( 1, 5), rep( 2, 4), rep( 3, 3), rep( 4, 2)) </pre>
+<p>If you don't want to specify a given distribution, you can specify <code>distribution = c(1:nrow(dataset)</code> and then ignore the factor scores in the output of results.
+</p>
+<p><strong>IMPORTANT</strong>: The arguments <code>forced</code> and  <code>distribution</code> are relevant only for the calculation of factor (normalised) scores. All other values in the results (e.g. z-scores) are unaffected by these specifications. <strong>If in doubt in a study with non-forced distribution, best to interpret the z-scores instead of the factor scores</strong>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Aiora Zabala</p>
+
+
+<h3>References</h3>
+
+<p>Zabala, A., 2014. qmethod: a package to analyse human perspectives using Q methodology. <em>The R Journal</em>, 6(2):163-173. Available from: <a href="https://journal.r-project.org/archive/2014-2/zabala.pdf">https://journal.r-project.org/archive/2014-2/zabala.pdf</a> (Open access).
+</p>
+<p>Brown, S. R., 1980 <em>Political subjectivity: Applications of Q methodology in political science</em>, New Haven, CT: Yale University Press.
+</p>
+<p>See further references on the methodology in <code>qmethod-package</code>.</p>
+
+
+<h3>See Also</h3>
+
+<p><code>qzscores</code> and <code>centroid</code> in this package, and <code>principal</code> in package <span class="pkg">psych</span>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(lipset)
+results &lt;- qmethod(lipset[[1]], nfactors = 3, rotation = "varimax")
+summary(results)
+results #shows all results
+
+# Remember to manually inspect the automatic pre-flagging:
+loa.and.flags(results)
+</code></pre>
+
+
+</div>

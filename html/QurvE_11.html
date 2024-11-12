@@ -1,0 +1,173 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>flBootSpline</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>flBootSpline: Function to generate a bootstrap</h2>
+
+<h3>Description</h3>
+
+<p><code>fl.gcBootSpline</code> resamples the fluorescence-'x' value pairs in a dataset with replacement and performs a spline fit for each bootstrap sample.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">flBootSpline(
+  time = NULL,
+  growth = NULL,
+  fl_data,
+  ID = "undefined",
+  control = fl.control()
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>time</code></td>
+<td>
+<p>Vector of the independent variable: time (if <code>x_type = 'time'</code> in <code>fl.control</code> object.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>growth</code></td>
+<td>
+<p>Vector of the independent variable: growth (if <code>x_type = 'growth'</code> in <code>fl.control</code> object.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fl_data</code></td>
+<td>
+<p>Vector of dependent variable: fluorescence.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ID</code></td>
+<td>
+<p>(Character) The name of the analyzed sample.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>control</code></td>
+<td>
+<p>A <code>fl.control</code> object created with <code>fl.control</code>, defining relevant fitting options.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A <code>gcBootSpline</code> object containing a distribution of fluorescence parameters and
+a <code>flFitSpline</code> object for each bootstrap sample. Use <code>plot.gcBootSpline</code>
+to visualize all bootstrapping splines as well as the distribution of
+physiological parameters.
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>raw.x</code></td>
+<td>
+<p>Raw time values provided to the function as <code>time</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>raw.fl</code></td>
+<td>
+<p>Raw growth data provided to the function as <code>data</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ID</code></td>
+<td>
+<p>(Character) Identifies the tested sample.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>boot.x</code></td>
+<td>
+<p>Table of time values per column, resulting from each spline fit of the bootstrap.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>boot.fl</code></td>
+<td>
+<p>Table of growth values per column, resulting from each spline fit of the bootstrap.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>boot.flSpline</code></td>
+<td>
+<p>List of <code>flFitSpline</code> object, created by <code>flFitSpline</code> for each resample of the bootstrap.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lambda</code></td>
+<td>
+<p>Vector of estimated lambda (lag time) values from each bootstrap entry.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>max_slope</code></td>
+<td>
+<p>Vector of estimated max_slope (maximum slope) values from each bootstrap entry.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>A</code></td>
+<td>
+<p>Vector of estimated A (maximum fluorescence) values from each bootstrap entry.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>integral</code></td>
+<td>
+<p>Vector of estimated integral values from each bootstrap entry.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bootFlag</code></td>
+<td>
+<p>(Logical) Indicates the success of the bootstrapping operation.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>control</code></td>
+<td>
+<p>Object of class <code>fl.control</code> containing list of options passed to the function as <code>control</code>.</p>
+</td>
+</tr>
+</table>
+<h3>See Also</h3>
+
+<p>Other fluorescence fitting functions: 
+<code>flFitSpline()</code>,
+<code>flFit()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># load example dataset
+input &lt;- read_data(data.growth = system.file("lac_promoters_growth.txt", package = "QurvE"),
+                   data.fl = system.file("lac_promoters_fluorescence.txt", package = "QurvE"),
+                   csvsep = "\t",
+                   csvsep.fl = "\t")
+
+# Extract time and normalized fluorescence data for single sample
+time &lt;- input$time[4,]
+data &lt;- input$norm.fluorescence[4,-(1:3)] # Remove identifier columns
+
+# Perform linear fit
+TestFit &lt;- flBootSpline(time = time,
+                       fl_data = data,
+                       ID = 'TestFit',
+                       control = fl.control(fit.opt = 's', x_type = 'time',
+                       nboot.fl = 50))
+
+plot(TestFit, combine = TRUE, lwd = 0.5)
+</code></pre>
+
+
+</div>

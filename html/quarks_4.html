@@ -1,0 +1,57 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>ewma</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Exponentially weighted moving average</h2>
+
+<h3>Description</h3>
+
+<p>Estimates volatility of a return series by means of an exponentially
+weighted moving average.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">ewma(x, lambda = 0.94)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a numeric vector of asset returns</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lambda</code></td>
+<td>
+<p>decay factor for the calculation of weights; default is <code>0.94</code></p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Returns a numerical vector <code>vol</code> that contains the computed
+volatility.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">prices &lt;- DAX$price_close
+returns &lt;- diff(log(prices))
+date &lt;- DAX$ref_date[-1]
+cvar &lt;- ewma(x = returns, lambda = 0.94)
+csig &lt;- sqrt(cvar)
+plot(date, csig, type = 'l',
+     main = 'conditional standard deviations for the DAX30 return series')
+</code></pre>
+
+
+</div>

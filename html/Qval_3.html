@@ -1,0 +1,67 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>get.Mmatrix</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Calculate <code class="reqn">\mathbf{M}</code> matrix</h2>
+
+<h3>Description</h3>
+
+<p>Calculate <code class="reqn">\mathbf{M}</code> matrix for stauted CDMs (de la Torre, 2011).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">get.Mmatrix(K = NULL, pattern = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>K</code></td>
+<td>
+<p>The number of attributes. Can be NULL if <code>pattern</code> is passed to the function and is not NULL.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pattern</code></td>
+<td>
+<p>The knowledge state matrix containing all possible attribute mastery pattern.
+Can be gained from @seealso <code>attributepattern</code>. Also can be NULL if <code>K</code>
+is passed to the function and is not NULL.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>An object of class <code>matrix</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Haijiang Qin &lt;Haijiang133@outlook.com&gt;
+</p>
+
+
+<h3>References</h3>
+
+<p>de la Torre, J. (2011). The Generalized DINA Model Framework. Psychometrika, 76(2), 179-199. DOI: 10.1007/s11336-011-9207-7.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+library(Qval)
+
+example.Mmatrix &lt;-  get.Mmatrix(K = 5)
+
+</code></pre>
+
+
+</div>

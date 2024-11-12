@@ -1,0 +1,265 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>prep_sig</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Prepare fatty acid signature data for analysis</h2>
+
+<h3>Description</h3>
+
+<p>The function <code>prep_sig</code> prepares raw fatty acid signatures for
+analysis.  Signature proportions that are missing, negative, or equal to zero
+are replaced with a small user-specified constant and the signatures are
+scaled to sum to 1.0. The fatty acids that are not to be used in the analysis
+are censored and the signatures are scaled using one of three options
+(Bromaghin et al. In press).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">prep_sig(df_sig, fa_names, use_fa, zero_rep = 75, scale = 3)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>df_sig</code></td>
+<td>
+<p>A data frame containing prey fatty acid signature data.
+<code>qfasar</code> has strict formatting requirements for <code>df_sig</code>; please
+see Details and/or the vignette.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fa_names</code></td>
+<td>
+<p>A character vector of all fatty acid names.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>use_fa</code></td>
+<td>
+<p>A logical vector defining a fatty acid suite.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>zero_rep</code></td>
+<td>
+<p>A constant associated with the method and value to replace
+signature proportions that are missing or less than or equal to 0. Default
+value 75.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>scale</code></td>
+<td>
+<p>An integer indicator of the desired scaling option. Default
+value 3.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list containing the following elements: </p>
+
+<dl>
+<dt>type</dt>
+<dd>
+<p>A character vector of the type of each signature.</p>
+</dd>
+<dt>id</dt>
+<dd>
+<p>A character vector of the unique sample ID of each signature.</p>
+</dd>
+<dt>n_types</dt>
+<dd>
+<p>The number of unique types.</p>
+</dd>
+<dt>uniq_types</dt>
+<dd>
+<p>A character vector of the unique types, sorted
+alphanumerically.</p>
+</dd>
+<dt>n_sig</dt>
+<dd>
+<p>The total number of signatures.</p>
+</dd>
+<dt>type_ss</dt>
+<dd>
+<p>The number of signatures for each unique <code>type</code>.</p>
+</dd>
+<dt>loc</dt>
+<dd>
+<p>A vector or matrix giving the first and last locations of the
+signatures of each <code>type</code>, after being sorted by <code>type</code> and
+<code>id</code>.</p>
+</dd>
+<dt>sig_rep</dt>
+<dd>
+<p>A vector or matrix of the original signatures, with any
+values missing or less than or equal to 0 replaced, in column-major
+format.</p>
+</dd>
+<dt>n_fa_rep</dt>
+<dd>
+<p>The number of fatty acids in <code>sig_rep</code>.</p>
+</dd>
+<dt>sig_scale</dt>
+<dd>
+<p>A vector or matrix of scaled signatures ready for
+analysis, sorted by <code>type</code> and <code>id</code>, in column-major format.</p>
+</dd>
+<dt>n_fa_suite</dt>
+<dd>
+<p>The number of fatty acids in <code>sig_scale</code>.</p>
+</dd>
+<dt>fa_suite</dt>
+<dd>
+<p>A character vector of the names of fatty acids in the suite
+to be used in the analysis.</p>
+</dd>
+<dt>zero_rep_val</dt>
+<dd>
+<p>A constant associated with the method and value to be
+used to replace proportions that are missing or less than or equal to 0.
+See Details.</p>
+</dd>
+<dt>err_code</dt>
+<dd>
+<p>An integer error code (0 if no error is detected).</p>
+</dd>
+<dt>err_message</dt>
+<dd>
+<p>A string contains a brief summary of the execution.</p>
+</dd>
+</dl>
+<h3>Details</h3>
+
+<p>This function is designed to be called by the user to prepare fatty acid
+signatures for analysis.  For most analyses, <code>prep_sig</code> should be
+called immediately after the fatty acid suites and fatty acid signatures have
+been read into data frames, and after the fatty acid suites data frame has
+been processed by the function <code>prep_fa</code>.  Please refer to the
+vignette for additional information.
+</p>
+<p>The data frame with fatty acid signatures must meet the following formatting
+requirements:
+</p>
+
+<ul>
+<li>
+<p> The file must be in row-major format, i.e., each row contains the
+information for an individual animal.
+</p>
+</li>
+<li>
+<p> The first column must contain a designation of animal <code>type</code>.
+For prey data, <code>type</code> often denotes species.  For predator data,
+<code>type</code> denotes classes of predators for which separate estimates of
+mean diet composition are desired.
+</p>
+</li>
+<li>
+<p> The second column must contain an identifier unique to each
+signature, i.e. a sample ID.
+</p>
+</li>
+<li>
+<p> The remaining columns must contain fatty acid signature proportions
+or percentages.
+</p>
+</li>
+<li>
+<p> The data frame must contain a header record, with a name for each
+column, such as "type", "id", name of fatty acid 1, name of fatty
+acid 2, ...
+</p>
+</li>
+<li>
+<p> The file should contain data from all available fatty acids, rather
+than a subset.  The fatty acid suite to be used in the analysis is
+defined by the argument <code>fa</code>.
+</p>
+</li>
+</ul>
+<p>Please refer to the documentation for the utility function
+<code>sig_rep_zero</code> for information regarding the argument
+<code>zero_rep</code>.
+</p>
+<p>Please refer to the documentation for the utility function
+<code>sig_scale</code> for information regarding the argument
+<code>scale</code>.
+</p>
+
+
+<h3>References</h3>
+
+<p>Bromaghin, J.F., S.M. Budge, and G.W. Thiemann. In press. Should fatty
+acid signature proportions sum to 1 for diet estimation?
+<em>Ecological Research</em>.
+</p>
+<p>Iverson, S.J., C. Field, W.D. Bowen, and W. Blanchard. 2004.
+Quantitative fatty acid signature analysis: A new method of
+estimating predator diets. <em>Ecological Monographs</em> 74:211-235.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">prep_sig(df_sig = data.frame(type = c("Type_1", "Type_1", "Type_2",
+                                      "Type_2"),
+                             id = c("ID_1", "ID_2", "ID_3", "ID_4"),
+                             fa_1 = c(0.0, 0.2, 0.3, 0.6),
+                             fa_2 = c(0.1, 0.3, 0.3, 0.4),
+                             fa_3 = c(0.9, 0.5, 0.4, NA),
+                             row.names = c("Prey_1", "Prey_2", "Prey_3",
+                                           "Prey_4")),
+         fa_names = c("fa_1", "fa_2", "fa_3"),
+         use_fa = c(TRUE, FALSE, TRUE),
+         zero_rep = 0.0001,
+         scale=2)
+
+prep_sig(df_sig = data.frame(type = c("Type_1", "Type_1", "Type_2",
+                                      "Type_2"),
+                             id = c("ID_1", "ID_2", "ID_3", "ID_4"),
+                             fa_1 = c(0.0, 0.2, 0.3, 0.6),
+                             fa_2 = c(0.1, 0.3, 0.3, 0.4),
+                             fa_3 = c(0.9, 0.5, 0.4, NA),
+                             row.names = c("Prey_1", "Prey_2", "Prey_3",
+                                           "Prey_4")),
+         fa_names = c("fa_1", "fa_2", "fa_3"),
+         use_fa = c(TRUE, FALSE, TRUE),
+         zero_rep = 90,
+         scale=1)
+
+prep_sig(df_sig = data.frame(type = c("Type_1", "Type_1", "Type_2",
+                                      "Type_2"),
+                             id = c("ID_1", "ID_2", "ID_3", "ID_4"),
+                             fa_1 = c(0.0, 0.2, 0.3, 0.6),
+                             fa_2 = c(0.1, 0.3, 0.3, 0.4),
+                             fa_3 = c(0.9, 0.5, 0.4, NA),
+                             row.names = c("Prey_1", "Prey_2", "Prey_3",
+                                           "Prey_4")),
+         fa_names = c("fa_1", "fa_2", "fa_3"),
+         use_fa = c(TRUE, FALSE, TRUE),
+         scale=3)
+
+prep_sig(df_sig = data.frame(type = c("Type_1", "Type_1", "Type_2",
+                                      "Type_2"),
+                             id = c("ID_1", "ID_2", "ID_3", "ID_4"),
+                             fa_1 = c(0.0, 0.2, 0.3, 0.6),
+                             fa_2 = c(0.1, 0.3, 0.3, 0.4),
+                             fa_3 = c(0.9, 0.5, 0.4, NA),
+                             row.names = c("Prey_1", "Prey_2", "Prey_3",
+                                           "Prey_4")),
+         fa_names = c("fa_1", "fa_2", "fa_3"),
+         use_fa = c(TRUE, FALSE, TRUE))
+
+</code></pre>
+
+
+</div>

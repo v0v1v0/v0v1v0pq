@@ -1,0 +1,190 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>dfm_select</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Select features from a dfm or fcm</h2>
+
+<h3>Description</h3>
+
+<p>This function selects or removes features from a dfm or fcm,
+based on feature name matches with <code>pattern</code>.  The most common usages
+are to eliminate features from a dfm already constructed, such as stopwords,
+or to select only terms of interest from a dictionary.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">dfm_select(
+  x,
+  pattern = NULL,
+  selection = c("keep", "remove"),
+  valuetype = c("glob", "regex", "fixed"),
+  case_insensitive = TRUE,
+  min_nchar = NULL,
+  max_nchar = NULL,
+  padding = FALSE,
+  verbose = quanteda_options("verbose")
+)
+
+dfm_remove(x, ...)
+
+dfm_keep(x, ...)
+
+fcm_select(
+  x,
+  pattern = NULL,
+  selection = c("keep", "remove"),
+  valuetype = c("glob", "regex", "fixed"),
+  case_insensitive = TRUE,
+  verbose = quanteda_options("verbose"),
+  ...
+)
+
+fcm_remove(x, ...)
+
+fcm_keep(x, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>the dfm or fcm object whose features will be selected</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pattern</code></td>
+<td>
+<p>a character vector, list of character vectors, dictionary,
+or collocations object.  See pattern for details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>selection</code></td>
+<td>
+<p>whether to <code>keep</code> or <code>remove</code> the features</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>valuetype</code></td>
+<td>
+<p>the type of pattern matching: <code>"glob"</code> for "glob"-style
+wildcard expressions; <code>"regex"</code> for regular expressions; or <code>"fixed"</code> for
+exact matching. See valuetype for details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>case_insensitive</code></td>
+<td>
+<p>logical; if <code>TRUE</code>, ignore case when matching a
+<code>pattern</code> or dictionary values</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>min_nchar, max_nchar</code></td>
+<td>
+<p>optional numerics specifying the minimum and
+maximum length in characters for tokens to be removed or kept; defaults are
+<code>NULL</code> for no limits.  These are applied after (and hence, in addition
+to) any selection based on pattern matches.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>padding</code></td>
+<td>
+<p>if <code>TRUE</code>, record the number of removed tokens in the first column.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p>if <code>TRUE</code>, print message about how many pattern were
+removed</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>used only for passing arguments from <code>dfm_remove</code> or
+<code>dfm_keep</code> to <code>dfm_select</code>. Cannot include
+<code>selection</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p><code>dfm_remove</code> and <code>fcm_remove</code> are simply a convenience
+wrappers to calling <code>dfm_select</code> and <code>fcm_select</code> with
+<code>selection = "remove"</code>.
+</p>
+<p><code>dfm_keep</code> and <code>fcm_keep</code> are simply a convenience wrappers to
+calling <code>dfm_select</code> and <code>fcm_select</code> with <code>selection = "keep"</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A dfm or fcm object, after the feature selection has
+been applied.
+</p>
+<p>For compatibility with earlier versions, when <code>pattern</code> is a
+dfm object and <code>selection = "keep"</code>, then this will be
+equivalent to calling <code>dfm_match()</code>.  In this case, the following
+settings are always used: <code>case_insensitive = FALSE</code>, and
+<code>valuetype = "fixed"</code>.  This functionality is deprecated, however, and
+you should use <code>dfm_match()</code> instead.
+</p>
+
+
+<h3>Note</h3>
+
+<p>This function selects features based on their labels.  To select
+features based on the values of the document-feature matrix, use
+<code>dfm_trim()</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>dfm_match()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">dfmat &lt;- tokens(c("My Christmas was ruined by your opposition tax plan.",
+               "Does the United_States or Sweden have more progressive taxation?")) |&gt;
+    dfm(tolower = FALSE)
+dict &lt;- dictionary(list(countries = c("United_States", "Sweden", "France"),
+                        wordsEndingInY = c("by", "my"),
+                        notintext = "blahblah"))
+dfm_select(dfmat, pattern = dict)
+dfm_select(dfmat, pattern = dict, case_insensitive = FALSE)
+dfm_select(dfmat, pattern = c("s$", ".y"), selection = "keep", valuetype = "regex")
+dfm_select(dfmat, pattern = c("s$", ".y"), selection = "remove", valuetype = "regex")
+dfm_select(dfmat, pattern = stopwords("english"), selection = "keep", valuetype = "fixed")
+dfm_select(dfmat, pattern = stopwords("english"), selection = "remove", valuetype = "fixed")
+
+# select based on character length
+dfm_select(dfmat, min_nchar = 5)
+
+dfmat &lt;- dfm(tokens(c("This is a document with lots of stopwords.",
+                      "No if, and, or but about it: lots of stopwords.")))
+dfmat
+dfm_remove(dfmat, stopwords("english"))
+toks &lt;- tokens(c("this contains lots of stopwords",
+                 "no if, and, or but about it: lots"),
+               remove_punct = TRUE)
+fcmat &lt;- fcm(toks)
+fcmat
+fcm_remove(fcmat, stopwords("english"))
+</code></pre>
+
+
+</div>

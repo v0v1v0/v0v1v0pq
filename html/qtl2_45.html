@@ -1,0 +1,132 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>create_gene_query_func</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Create a function to query genes</h2>
+
+<h3>Description</h3>
+
+<p>Create a function that will connect to a SQLite database of gene
+information and return a data frame with gene information for a
+selected region.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">create_gene_query_func(
+  dbfile = NULL,
+  db = NULL,
+  table_name = "genes",
+  chr_field = "chr",
+  start_field = "start",
+  stop_field = "stop",
+  name_field = "Name",
+  strand_field = "strand",
+  filter = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>dbfile</code></td>
+<td>
+<p>Name of database file</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>db</code></td>
+<td>
+<p>Optional database connection (provide one of <code>file</code> and <code>db</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>table_name</code></td>
+<td>
+<p>Name of table in the database</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>chr_field</code></td>
+<td>
+<p>Name of chromosome field</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>start_field</code></td>
+<td>
+<p>Name of field with start position (in basepairs)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>stop_field</code></td>
+<td>
+<p>Name of field with stop position (in basepairs)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>name_field</code></td>
+<td>
+<p>Name of field with gene name</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>strand_field</code></td>
+<td>
+<p>Name of field with strand (+/-)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>filter</code></td>
+<td>
+<p>Additional SQL filter (as a character string).</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Note that this function assumes that the database has
+<code>start</code> and <code>stop</code> fields that are in basepairs, but
+the selection uses positions in Mbp, and the output data frame
+should have <code>start</code> and <code>stop</code> columns in Mbp.
+</p>
+<p>Also note that a SQLite database of MGI mouse genes
+is available at figshare:
+<a href="https://doi.org/10.6084/m9.figshare.5286019.v7">doi:10.6084/m9.figshare.5286019.v7</a>
+</p>
+
+
+<h3>Value</h3>
+
+<p>Function with three arguments, <code>chr</code>, <code>start</code>,
+and <code>end</code>, which returns a data frame with the genes
+overlapping that region, with <code>start</code> and <code>end</code> being
+in Mbp. The output should contain at least the columns
+<code>Name</code>, <code>chr</code>, <code>start</code>, and <code>stop</code>, the
+latter two being positions in Mbp.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># create query function by connecting to file
+dbfile &lt;- system.file("extdata", "mouse_genes_small.sqlite", package="qtl2")
+query_genes &lt;- create_gene_query_func(dbfile, filter="(source=='MGI')")
+# query_genes will connect and disconnect each time
+genes &lt;- query_genes("2", 97.0, 98.0)
+
+# connect and disconnect separately
+library(RSQLite)
+db &lt;- dbConnect(SQLite(), dbfile)
+query_genes &lt;- create_gene_query_func(db=db, filter="(source=='MGI')")
+genes &lt;- query_genes("2", 97.0, 98.0)
+dbDisconnect(db)
+</code></pre>
+
+
+</div>

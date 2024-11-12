@@ -1,0 +1,114 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>summary.qte</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Uniform confidence band for QTE.</h2>
+
+<h3>Description</h3>
+
+<p><code>summary.qte</code> returns uniform confidence bands and standard errors for QTE estimates.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'qte'
+summary(object, alpha, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>It is an object of class "qte" produced by <code>rd.qte</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>alpha</code></td>
+<td>
+<p>a number between 0 and 1, the desired significance level. For example,
+when alpha=0.1, one will get a 90% uniform band.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>optional arguments.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list with elements:
+</p>
+
+<dl>
+<dt>qte</dt>
+<dd>
+<p>QTE estimates.</p>
+</dd>
+<dt>uband</dt>
+<dd>
+<p>uniform confidence band for QTE. If <em>bias=1</em>, the band is robust
+capturing the effect of the bias correction. If <em>bias=0</em>, no bias correction is implemented.</p>
+</dd>
+<dt>sigma</dt>
+<dd>
+<p>standard errors for each quantile level. If <em>bias=1</em>, its value
+captures the effect of the bias correction. If <em>bias=0</em>, no bias correction is implemented.</p>
+</dd>
+<dt>qp.est</dt>
+<dd>
+<p>conditional quantile estimates on the right side of <code class="reqn">x_{0}</code> (or for the <code class="reqn">D=1</code> group).</p>
+</dd>
+<dt>qm.est</dt>
+<dd>
+<p>conditional quantile estimates on the left side of <code class="reqn">x_{0}</code> (or for the <code class="reqn">D=0</code> group).</p>
+</dd>
+<dt>uband.p</dt>
+<dd>
+<p>uniform confidence band for conditional quantiles on the right side of <code class="reqn">x_{0}</code>.</p>
+</dd>
+<dt>uband.m</dt>
+<dd>
+<p>uniform confidence band for conditional quantiles on the left side of <code class="reqn">x_{0}</code>.</p>
+</dd>
+</dl>
+<h3>References</h3>
+
+<p>Zhongjun Qu, Jungmo Yoon, Pierre Perron (2024), "Inference on Conditional Quantile
+Processes in Partially Linear Models with Applications to the Impact of Unemployment Benefits,"
+The Review of Economics and Statistics; https://doi.org/10.1162/rest_a_01168
+</p>
+<p>Zhongjun Qu and Jungmo Yoon (2019), "Uniform Inference on Quantile Effects
+under Sharp Regression Discontinuity Designs," Journal of Business and Economic Statistics,
+37(4), 625–647; https://doi.org/10.1080/07350015.2017.1407323
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># Without covariate
+n &lt;- 500
+x &lt;- runif(n,min=-4,max=4)
+d &lt;- (x &gt; 0)
+y &lt;- x + 0.3*(x^2) - 0.1*(x^3) + 1.5*d + rnorm(n)
+tlevel = seq(0.1,0.9,by=0.1)
+A &lt;- rd.qte(y=y,x=x,d=d,x0=0,z0=NULL,tau=tlevel,bdw=2,cov=0,bias=1)
+A2 &lt;- summary(A,alpha=0.1)
+
+# (continued) With covariates
+z &lt;- sample(c(0,1),n,replace=TRUE)
+y &lt;- x + 0.3*(x^2) - 0.1*(x^3) + 1.5*d + d*z + rnorm(n)
+A &lt;- rd.qte(y=y,x=cbind(x,z),d=d,x0=0,z0=c(0,1),tau=tlevel,bdw=2,cov=1,bias=1)
+A2 &lt;- summary(A,alpha=0.1)
+
+</code></pre>
+
+
+</div>

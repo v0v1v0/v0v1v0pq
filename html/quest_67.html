@@ -1,0 +1,101 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>make.latent</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Make Model Syntax for a Latent Factor in Lavaan</h2>
+
+<h3>Description</h3>
+
+<p><code>make.latent</code> makes the model syntax for a latent factor in
+<code>lavaan</code>. The return object can be used as apart of the model syntax for
+calls to <code>lavaan</code>, <code>sem</code>,
+<code>cfa</code>, etc.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">make.latent(
+  x,
+  nm.latent = "latent",
+  error.var = FALSE,
+  nm.par = FALSE,
+  suffix.load = "_l",
+  suffix.error = "_e"
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>character vector specifying the colnames in your data that
+correspond to the variables indicating the latent factor (e.g.,
+questionnaire items).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nm.latent</code></td>
+<td>
+<p>character vector of length 1 specifying what the latent
+factor should be labeled as in the return object.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>error.var</code></td>
+<td>
+<p>logical vector of length 1 specifying whether the model
+syntax for the error variances should be included in the return object.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nm.par</code></td>
+<td>
+<p>logical vector of length 1 specifying whether the model syntax
+should include names for the factor loading (and error variance)
+parameters.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>suffix.load</code></td>
+<td>
+<p>character vector of length 1 specifying what string should
+be appended to the end of the elements of <code>x</code> when creating names for
+the factor loading parameters. Only used if <code>nm.par</code> is TRUE.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>suffix.error</code></td>
+<td>
+<p>character vector of length 1 specifying what string
+should be appended to the end of the elements of <code>x</code> when creating
+names for the error variance parameters. Only used if <code>nm.par</code> is
+TRUE.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>character vector of length 1 providing the model syntax. The regular
+expression "\n" is used to delineate new lines within the model
+syntax.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+make.latent(x = names(psych::bfi)[1:5], error.var = FALSE, nm.par = FALSE)
+make.latent(x = names(psych::bfi)[1:5], error.var = FALSE, nm.par = TRUE)
+make.latent(x = names(psych::bfi)[1:5], error.var = TRUE, nm.par = FALSE)
+make.latent(x = names(psych::bfi)[1:5], error.var = TRUE, nm.par = TRUE)
+
+</code></pre>
+
+
+</div>

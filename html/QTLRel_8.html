@@ -1,0 +1,91 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>genMatrix</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Derive genetic matrices
+</h2>
+
+<h3>Description</h3>
+
+<p>Derive genetic matrices from Jacquard condensed identity coefficients or genotypic data.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">genMatrix(x)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+
+<p>An object of <code>cic</code> or <code>ibs</code>, or genotypic data in a matrix or a data frame with each row representing an individual and each column a marker locus and entry being "AA", "AB", "BB" (or 1, 2, 3) without missing genotypes.
+</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>AA</code></td>
+<td>
+<p>Additive genetic matrix.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>DD</code></td>
+<td>
+<p>Dominance genetic matrix.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>AD,HH,MH</code></td>
+<td>
+<p>Other three genetic matrices (see Abney et. al. 2000).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ib</code></td>
+<td>
+<p>Inbreeding coefficients.</p>
+</td>
+</tr>
+</table>
+<h3>References</h3>
+
+<p>Abney, M., M. S. McPeek, and C. Ober (2000). Estimation of variance components of quantitative traits in inbred populations. Am. J. Hum. Genet. 141, 629-650.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>cic</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(miscEx)
+
+ids&lt;- sample(pedF8$id[300:500],20)
+
+## Not run: 
+# get condensed identity coefficients
+oo&lt;- cic(pedF8, ids=ids, df=0)
+ksp&lt;- kinship(pedF8, ids=ids) # kinship coefficients only
+# extract genetic matrices
+gm&lt;- genMatrix(oo)
+sum((gm$AA-2*ksp)&gt;1e-7) # same results
+
+## End(Not run)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,58 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>IDSDS</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Iterated Deletion of Strictly Dominated Strategies algorithm</h2>
+
+<h3>Description</h3>
+
+<p>This function applies the IDSDS algorithm to result in the equilibrium strategies based on the rationaility of the players. The input parameters are equal dimensional payoff matrices for the first and the second players.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">IDSDS(P1, P2)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>P1</code></td>
+<td>
+<p>Payoff matrix to Alice</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>P2</code></td>
+<td>
+<p>Payoff matrix to Bob</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list consisting of the equilibrium strategies based on the rationality of the players by application of the IDSDS algorithm on <code>P1</code> and <code>P2</code>.
+</p>
+
+
+<h3>References</h3>
+
+<p><a href="https://arxiv.org/abs/1512.06808">https://arxiv.org/abs/1512.06808</a><br><a href="https://en.wikipedia.org/wiki/Strategic_dominance">https://en.wikipedia.org/wiki/Strategic_dominance</a><br></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">init()
+Alice &lt;- matrix(c(8, 0, 3, 3, 2, 4, 2, 1, 3), ncol=3, byrow=TRUE)
+Bob &lt;- matrix(c(6, 9, 8, 2, 1, 3, 8, 5, 1), ncol=3, byrow=TRUE)
+IDSDS(Alice, Bob)
+
+</code></pre>
+
+
+</div>

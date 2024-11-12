@@ -1,0 +1,68 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>trapm</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Calculate Area Under the Moment Curve Using Trapezoids</h2>
+
+<h3>Description</h3>
+
+<p>Calculates AUMC using the trapezoidal method.
+Assumes data represent a single profile.
+Despite choice of method, only linear interpolation is used
+for areas of intervals beginning or ending with y: 0.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">trapm(x = NA, y = NA, method = 1)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>variable names of x coordinates</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>variable names of y coordinates</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+<p>method:
+</p>
+
+<ul>
+<li>
+<p> 1: linear up - linear down
+</p>
+</li>
+<li>
+<p> 2: linear up - logarithmic down
+</p>
+</li>
+<li>
+<p> 3: linear before Tmax, logarithmic after Tmax
+</p>
+</li>
+</ul>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>area (length-one numeric)
+</p>
+
+
+</div>

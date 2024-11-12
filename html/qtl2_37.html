@@ -1,0 +1,142 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>clean_genoprob</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Clean genotype probabilities</h2>
+
+<h3>Description</h3>
+
+<p>Clean up genotype probabilities by setting small values to 0 and
+for a genotype column where the maximum value is rather small, set
+all values in that column to 0.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">clean_genoprob(
+  object,
+  value_threshold = 0.000001,
+  column_threshold = 0.01,
+  ind = NULL,
+  cores = 1,
+  ...
+)
+
+## S3 method for class 'calc_genoprob'
+clean(
+  object,
+  value_threshold = 0.000001,
+  column_threshold = 0.01,
+  ind = NULL,
+  cores = 1,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>Genotype probabilities as calculated by
+<code>calc_genoprob()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>value_threshold</code></td>
+<td>
+<p>Probabilities below this value will be set
+to 0.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>column_threshold</code></td>
+<td>
+<p>For genotype columns where the maximum
+value is below this threshold, all values will be set to 0.
+This must be less than <code class="reqn">1/k</code> where <code class="reqn">k</code> is the number of
+genotypes.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ind</code></td>
+<td>
+<p>Optional vector of individuals (logical, numeric, or
+character). If provided, only the genotype probabilities for
+these individuals will be cleaned, though the full set will be
+returned.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cores</code></td>
+<td>
+<p>Number of CPU cores to use, for parallel calculations.
+(If <code>0</code>, use <code>parallel::detectCores()</code>.)
+Alternatively, this can be links to a set of cluster sockets, as
+produced by <code>parallel::makeCluster()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Ignored at this point.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>In cases where a particular genotype is largely absent,
+<code>scan1coef()</code> and <code>fit1()</code> can give unstable estimates of the
+genotype effects. Cleaning up the genotype probabilities by setting
+small values to 0 helps to ensure that such effects get set to
+<code>NA</code>.
+</p>
+<p>At each position and for each genotype column, we find the maximum
+probability across individuals. If that maximum is &lt;
+<code>column_threshold</code>, all values in that genotype column at that
+position are set to 0.
+</p>
+<p>In addition, any genotype probabilties that are &lt; <code>value_threshold</code>
+(generally &lt; <code>column_threshold</code>) are set to 0.
+</p>
+<p>The probabilities are then re-scaled so that the probabilities for
+each individual at each position sum to 1.
+</p>
+<p>If <code>ind</code> is provided, the function is applied only to the
+designated subset of individuals. This may be useful when only a
+subset of individuals have been phenotyped, as you may want to zero
+out genotype columns where that subset of individuals has only
+negligible probability values.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A cleaned version of the input genotype probabilities
+object, <code>object</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">iron &lt;- read_cross2(system.file("extdata", "iron.zip", package="qtl2"))
+
+
+# calculate genotype probabilities
+probs &lt;- calc_genoprob(iron, error_prob=0.002)
+
+# clean the genotype probabilities
+# (doesn't really do anything in this case, because there are no small but non-zero values)
+probs_clean &lt;- clean(probs)
+
+# clean only the females' genotype probabilities
+probs_cleanf &lt;- clean(probs, ind=names(iron$is_female)[iron$is_female])
+</code></pre>
+
+
+</div>

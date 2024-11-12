@@ -1,0 +1,334 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>fitQmapDIST</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Quantile mapping using distribution derived transformations 
+</h2>
+
+<h3>Description</h3>
+
+<p><code>fitQmapDIST</code> fits a theoretical distribution to observed and to  
+modelled time series and returns these parameters as  well as a
+transfer function derived from the distribution. <code>doQmapDIST</code>
+uses the transfer function to transform the distribution of the
+modelled data to match the distribution of the observations. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">fitQmapDIST(obs, mod, ...)
+## Default S3 method:
+fitQmapDIST(obs,mod,distr="berngamma",start.fun,
+qstep=NULL,mlepar,...)
+## S3 method for class 'matrix'
+fitQmapDIST(obs, mod, ...)
+## S3 method for class 'data.frame'
+fitQmapDIST(obs, mod, ...)
+
+doQmapDIST(x,fobj,...)
+## Default S3 method:
+doQmapDIST(x,fobj,...)
+## S3 method for class 'matrix'
+doQmapDIST(x,fobj,...)
+## S3 method for class 'data.frame'
+doQmapDIST(x,fobj,...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>obs</code></td>
+<td>
+
+<p><code>numeric</code> vector, column <code>matrix</code> or <code>data.frame</code> with
+observed time series. 
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mod</code></td>
+<td>
+
+<p><code>numeric</code> vector, column <code>matrix</code> or <code>data.frame</code> with
+modelled time series, corresponding to <code>obs</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>distr</code></td>
+<td>
+
+<p>A character string <code>"name"</code> naming a distribution for which the
+corresponding density function (<code>dname</code>), the corresponding
+distribution function (<code>pname</code>) and the quantile function
+(<code>qname</code>) must be defined (see for example
+<code>GammaDist</code>, <code>berngamma</code> or
+<code>bernweibull</code>. 
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>start.fun</code></td>
+<td>
+
+<p>function estimating starting values for parameter
+optimisation. Default starting values are provided for
+<code>berngamma</code>, <code>bernweibull</code>,
+<code>bernlnorm</code>, <code>bernexp</code> and the  
+distributions mentioned in the documentation of
+<code>mledist</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qstep</code></td>
+<td>
+
+<p><code>NULL</code> or a numeric value between 0 and 1.
+If <code>!is.null(qstep)</code> than <code>mod</code> and <code>obs</code> are
+aggregated to quantiles before model identification as:
+</p>
+<p><code>quantile(x,probs=seq(0,1,by=qstep)</code>. This effectively reduces
+the sample-size and can be used to speedup computations - but may
+render estimates less reliable.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mlepar</code></td>
+<td>
+
+<p>a named list. Names correspond to parameters passed to
+<code>mledist</code> note that <code>start</code> may be overwritten by
+<code>start.fun</code> See examples.  
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+
+<p><code>numeric</code> vector or a column <code>matrix</code> of modelled time
+series
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fobj</code></td>
+<td>
+
+<p>output from <code>fitQmapDIST</code>
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+
+<p>Further arguments passed to methods
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Quantile mapping using distribution derived transformations to adjust
+the distribution of a modelled variable (<code class="reqn">P_m</code>) such that it
+matches the distribution of an observed variable (<code class="reqn">P_o</code>). The
+distribution derived transfer function is  defined as 
+
+</p>
+<p style="text-align: center;"><code class="reqn">P_o=F^{-1}_o(F_m(P_m))</code>
+</p>
+
+
+<p>where <code class="reqn">F</code> is a CDF and <code class="reqn">F^{-1}</code> is the corresponding quantile
+function (inverse CDF). The subscripts <code class="reqn">o</code>  and <code class="reqn">m</code> indicate
+parameters of the distribution that correspond to observed and
+modelled data respectively.   
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>fitQmapDIST</code> returns an object of class <code>fitQmapDIST</code>
+containing following elements:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>tfun </code></td>
+<td>
+<p>The function used to transform the distribution of
+modelled values such that the distribution of observations. The
+function is build internally based on the distribution function
+("pname") and quantile function ("qname") corresponding to
+<code>distr</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>par </code></td>
+<td>
+<p>A matrix. The (named) columns correspond to the parameters
+of the distribution specified in <code>distr</code> estimated for the
+observed (suffix <code>.o</code>) and the modelled (suffix <code>.m</code>)
+data. The rows correspond to each pair of time series in <code>obs</code>
+and <code>mod</code>.</p>
+</td>
+</tr>
+</table>
+<p><code>doQmapDIST</code> returns a <code>numeric</code> vector, <code>matrix</code> or
+<code>data.frame</code> depending on the format of <code>x</code>. 
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Lukas Gudmundsson
+</p>
+
+
+<h3>References</h3>
+
+<p>Piani, C.; Haerter, J. &amp; Coppola, E. Statistical bias correction for
+daily precipitation in regional climate models over
+Europe. Theoretical and Applied Climatology, 2010, 99,
+187-192, doi:10.1007/s00704-009-0134-9.
+</p>
+<p>Li, H.; Sheffield, J. &amp; Wood, E. F. Bias correction of monthly
+precipitation and temperature fields from Intergovernmental Panel on
+Climate Change AR4 models using equidistant quantile matching.
+J. Geophys. Res., 2010, 115, D10101, doi:10.1029/2009JD012882.
+</p>
+<p>Ines, A. V. &amp; Hansen, J. W. Bias correction of daily GCM rainfall for
+crop simulation studies. Agricultural and Forest Meteorology, 2006,
+138, 44 - 53, doi: 10.1016/j.agrformet.2006.03.009.
+</p>
+<p>For a general assessment of the methods see:
+</p>
+<p>Gudmundsson, L.; Bremnes, J. B.; Haugen, J. E. &amp; Engen-Skaugen,
+T. Technical Note: Downscaling RCM precipitation to the station scale
+using statistical transformations - a comparison of methods. Hydrology
+and Earth System Sciences, 2012, 16, 3383-3390,
+doi:10.5194/hess-16-3383-2012.   
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>doQmap</code>, <code>startberngamma</code>,
+<code>berngamma</code>, <code>startbernweibull</code>,
+<code>bernweibull</code>, <code>startbernlnorm</code>,
+<code>bernlnorm</code>, <code>startbernexp</code>,
+<code>bernexp</code>, <code>mledist</code>, <code>fitdist</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(obsprecip)
+data(modprecip)
+
+qm.fit &lt;- fitQmapDIST(obsprecip[,1],modprecip[,1],
+                      distr="berngamma",
+                      qstep=0.001)
+qm &lt;- doQmapDIST(modprecip[,1],qm.fit)
+
+
+qm.lnorm.fit &lt;- fitQmapDIST(obsprecip[,1],modprecip[,1],
+                      distr="bernlnorm",
+                      qstep=0.001)
+qm.lnorm &lt;- doQmapDIST(modprecip[,1],qm.lnorm.fit)
+
+
+qm.weibu.fit &lt;- fitQmapDIST(obsprecip[,1],modprecip[,1],
+                      distr="bernweibull",
+                      qstep=0.001)
+qm.weibu &lt;- doQmapDIST(modprecip[,1],qm.weibu.fit)
+
+qm.exp.fit &lt;- fitQmapDIST(sqrt(obsprecip[,1]),sqrt(modprecip[,1]),
+                      distr="bernexp",
+                      qstep=0.001)
+qm.exp &lt;- doQmapDIST(sqrt(modprecip[,1]),qm.exp.fit)^2
+
+
+## utility function. 
+## plots are easier to investigate if
+## precipitation data are sqrt transformed
+sqrtquant &lt;- function(x,qstep=0.01){
+  qq &lt;- quantile(x,prob=seq(0,1,by=qstep))
+  sqrt(qq)
+}
+
+plot(sqrtquant(modprecip[,1]),
+     sqrtquant(obsprecip[,1]))
+lines(sqrtquant(modprecip[,1]),
+      sqrtquant(qm),col="red")
+lines(sqrtquant(modprecip[,1]),
+      sqrtquant(qm.lnorm),col="blue")
+lines(sqrtquant(modprecip[,1]),
+      sqrtquant(qm.weibu),col="green")
+lines(sqrtquant(modprecip[,1]),
+      sqrtquant(qm.exp),col="orange")
+legend("topleft",
+       legend=c("berngamma","bernlnorm","bernweibull","bernexp"),
+       lty=1,
+       col=c("red","blue","green","orange"))
+
+## effect of qstep on speed of fitting process:
+system.time(
+qm.a.fit &lt;- fitQmapDIST(obsprecip[,2],modprecip[,2],
+                       distr="berngamma",
+                       start.fun=startberngamma,
+                       qstep=0.001)
+)
+
+system.time(
+qm.b.fit &lt;- fitQmapDIST(obsprecip[,2],modprecip[,2],
+                       distr="berngamma",
+                       start.fun=startberngamma,
+                       qstep=0.01)
+)
+
+qm.a &lt;- doQmapDIST(modprecip[,2],qm.a.fit)
+qm.b &lt;- doQmapDIST(modprecip[,2],qm.b.fit)
+
+plot(sqrtquant(modprecip[,2]),
+     sqrtquant(obsprecip[,2]))
+lines(sqrtquant(modprecip[,2]),
+     sqrtquant(qm.a),col="red")
+lines(sqrtquant(modprecip[,2]),
+     sqrtquant(qm.b),col="blue")
+legend("topleft",
+       legend=c("qstep=0.001","qstep=0.01"),
+       col=c("red","blue"),
+       lty=1)
+
+
+## method for matrix
+## the sqrt() transformation renders the
+## fitting procedure more stable
+qm2.fit &lt;- fitQmapDIST(sqrt(obsprecip),sqrt(modprecip),
+                       distr="berngamma",
+                       qstep=0.001)
+qm2 &lt;- doQmapDIST(sqrt(modprecip),qm2.fit)^2
+
+if(!any(is.na(qm2.fit$par))){
+  op &lt;- par(mfrow=c(1,3))
+  for(i in 1:3){
+    plot(sqrtquant(modprecip[,i]),
+         sqrtquant(obsprecip[,i]))
+    lines(sqrtquant(modprecip[,i]),
+          sqrtquant(qm2[,i]),col="red")
+  }
+ par(op)
+}
+</code></pre>
+
+
+</div>

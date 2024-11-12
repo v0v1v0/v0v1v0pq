@@ -1,0 +1,145 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>convert_impstatus</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Convert imputation-status values to the QCGWAS standard</h2>
+
+<h3>Description</h3>
+
+<p>Converts imputation-status data to the standard values used
+by <code>QC_GWAS</code>
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">convert_impstatus(impstatus,
+                  T_strings = c("1", "TRUE", "T"),
+                  F_strings = c("0", "FALSE", "F"),
+                  NA_strings = c(NA, "NA", ".", "-"),
+                  use_log = FALSE, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>impstatus</code></td>
+<td>
+<p>vector of imputation-status data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>T_strings</code></td>
+<td>
+<p>character-string(s) indicating imputed data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>F_strings</code></td>
+<td>
+<p>character-string(s) indicating genotyped
+data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>NA_strings</code></td>
+<td>
+<p>character-string(s) indicating missing
+data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>use_log, ...</code></td>
+<td>
+<p>arguments used by <code>QC_GWAS</code>;
+redundant when <code>convert_impstatus</code> is used separately.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>This function is used to convert the imputation-status column
+into the standard format, where <code>0</code> is genotyped and
+<code>1</code> is imputed. Untranslated values (i.e. strings that do
+not appear in any of the string arguments) will trigger a
+warning message and are set to <code>NA</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Numeric vector with values <code>0</code> for genotyped, <code>1</code>
+for imputed and <code>NA</code> for unknown data.
+</p>
+
+
+<h3>Note</h3>
+
+<p>The implementation of this function has changed. Previously,
+only character data was translated using the string
+arguments. Since version 1.0-4, the string arguments are used
+for all data types, so the user can determine the conversion
+of logical and numeric values as well.
+</p>
+<p>However, this does mean that values <code>1</code> and <code>0</code> are
+no longer converted automatically. They must be specified in
+the string arguments, or else the function will report them as
+untranslated and converts them to <code>NA</code>. The same applies
+to <code>TRUE</code>, <code>FALSE</code> and <code>NA</code>. Note the
+difference between the character string <code>"NA"</code> and the
+value <code>NA</code>.
+</p>
+<p>Finally, if the imputation-status column contains character
+strings, the main QC function <code>QC_GWAS</code> requires
+that all values are translated. If not, <code>QC_GWAS</code> will
+abort the QC.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">  status1 &lt;- c(0,0,0,1,1,1,2,NA)
+  status2 &lt;- c(TRUE, FALSE, TRUE, FALSE, NA)
+  status3 &lt;- c("imputed", "genotyped", "NA", NA)
+  status4 &lt;- c(status1, status2, status3)
+  
+  ( outcome1 &lt;- convert_impstatus(status1,
+                                  T_strings = 1,
+                                  F_strings = 0,
+                                  NA_strings = NA) )
+  # status 1 contains an untranslated value "2", which is
+  # converted to NA. To avoid the warning message:
+  
+  ( outcome1 &lt;- convert_impstatus(status1,
+                                  T_strings = 1,
+                                  F_strings = 0,
+                                  NA_strings = c(NA, 2)) )
+  
+  
+  ( outcome2 &lt;- convert_impstatus(status2,
+                                  T_strings = TRUE,
+                                  F_strings = FALSE,
+                                  NA_strings = NA) )
+  
+  ( outcome3 &lt;- convert_impstatus(status3,
+                                  T_strings = "imputed",
+                                  F_strings = "genotyped",
+                                  NA_strings = c("NA", NA)) )
+  # Note that NA_strings includes both the character-string "NA"
+  # and the value NA. Otherwise, one of the two would go 
+  # "untranslated" and trigger a warning message.
+  
+  
+  # And to check them all together
+  ( outcome4 &lt;- convert_impstatus(status4,
+                          T_strings = c(1, TRUE, "imputed"),
+                          F_strings = c(0, FALSE, "genotyped"),
+                          NA_strings = c("NA", NA, 2)) )
+</code></pre>
+
+
+</div>

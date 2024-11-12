@@ -1,0 +1,76 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>save_log</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Log entries for QC_GWAS</h2>
+
+<h3>Description</h3>
+
+<p>A subroutine for reporting problems encountered while running <code>QC_GWAS</code>. It's not designed for use outside of this context, so we recommend that users do not bother with it. It is described here for the sake of completeness only.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">save_log(phaseL, checkL, typeL, SNPL = allSNPs,
+         allSNPs = 1L, actionL, noteL = "", fileL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>phaseL, checkL, typeL</code></td>
+<td>
+<p>character-strings indicating (very briefly) what occurred to trigger a log entry.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>SNPL</code></td>
+<td>
+<p>integer value indicating the number of SNPs affected.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>allSNPs</code></td>
+<td>
+<p>integer value indicating the total number of SNPs in the dataset.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>actionL</code></td>
+<td>
+<p>character-string describing very briefly the response to situation.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>noteL</code></td>
+<td>
+<p>character-string for longer explanations of what happened.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fileL</code></td>
+<td>
+<p>character-string of the directory path and the file name,
+<em>without</em> file extension, of the log file.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p><code>save_log</code> is used to add entries to the log file the moment they are triggered (as opposed to waiting until the QC concludes and then saving the entire log). In case of a fatal crash, the log file should therefor give some indication of where in the QC it occurred.
+</p>
+<p><code>save_log</code> does not create the log file (this is done by <code>QC_GWAS</code>): it merely appends entries to the bottom of the specified file, regardless of what that file is. Hence it is not recommended to use the function outside of <code>QC_GWAS</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>save_log</code> returns an invisible <code>NULL</code>. The relevant output is the entry added to the log file.</p>
+
+
+</div>

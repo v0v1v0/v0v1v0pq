@@ -1,0 +1,150 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>quint.bootstrapCI</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Bootstrap method to compute confidence intervals for Qualitative Interaction Trees (Quint)</h2>
+
+<h3>Description</h3>
+
+<p>A bootstrap algorithm based on Loh et al. (2015) to estimate the confidence intervals of the difference
+in mean outcome between the two treatments in each leaf.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">quint.bootstrapCI(tree, n_boot, boot_r = 1)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>tree</code></td>
+<td>
+<p>a (pruned) quint object of class <code>quint</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n_boot</code></td>
+<td>
+<p>number of bootstrap samples.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>boot_r</code></td>
+<td>
+<p>bootstrap sample size expressed as proportion of total sample size. Default value is 1.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The details of this validation procedure are described in "Instability of
+QUalitative INteraction Trees: Quantifying uncertainty in decision trees." (
+https://openaccess.leidenuniv.nl/handle/1887/83059)
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns two lists: A first one ($tree) containing an object of the class <code>quint</code>, and a list ($bootinfo) with
+estimates obtained from the bootstrap procedure containing the following components:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>nleaves</code></td>
+<td>
+<p>vector containing the number of leaves in each of the estimated trees in the bootstrap samples.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>meanT_1</code></td>
+<td>
+<p>a matrix containing for each bootstrap sample (= rows) the mean outcome for Treatment A (T=1) in each leaf of the input quint tree (= columns) using the subjects in the intersection.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>meanT_2</code></td>
+<td>
+<p>a matrix containing for each bootstrap sample (= rows) the mean outcome for Treatment B (T=2) in each leaf of the input quint tree (= columns) using the subjects in the intersection.a matrix containing the mean outcome for Treatment 2 in each leaf using the subjects in the intersection.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>meandif</code></td>
+<td>
+<p>a matrix containing the difference in means between Treatment A and Treatment B in each leaf for each bootstrap sample.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bias_est</code></td>
+<td>
+<p>vector containing the bias in each leaf of the quint tree.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>meanboot</code></td>
+<td>
+<p>vector containing the bootstrap estimates of the difference of means between treatments in each leaf.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>CIs</code></td>
+<td>
+<p>vector containing the confidence intervals of the estimate of the difference of means between treatments in each leaf.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>se_est</code></td>
+<td>
+<p>vector containing the new estimates of the standard error of the difference of means between treatments in each leaf.</p>
+</td>
+</tr>
+</table>
+<h3>References</h3>
+
+<p>Dusseldorp E. and Van Mechelen I. (2014). Qualitative interaction trees:
+a tool to identify qualitative treatment-subgroup interactions.
+<em>Statistics in Medicine, 33</em>(2), 219-237. DOI: 10.1002/sim.5933.
+Beck C., Dusseldorp E. and Fokkema M. (2019). Instability of
+QUalitative INteraction Trees: Quantifying uncertainty in decision trees.
+(https://openaccess.leidenuniv.nl/handle/1887/83059))
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>quint</code>, <code>prune.quint</code>, <code>quint.control</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: data(bcrp)
+formula1&lt;- I(cesdt1-cesdt3)~cond | nationality+marital+wcht1+age+
+  trext+comorbid+disopt1+uncomt1+negsoct1
+
+set.seed(10)
+control1&lt;-quint.control(maxl=5, B=2, crit="dm")
+quint1&lt;-quint(formula1, data= subset(bcrp,bcrp$cond&lt;3),control=control1) #Grow a QUINT tree
+
+prquint1&lt;-prune(quint1) #Prune tree to optimal size
+
+bootquint1&lt;-quint.bootstrapCI(prquint1, n_boot = 5) #apply the bootstrap procedure
+
+#the summary of the tree with the new standard errors obtained from the bootstrap procedure
+summary(bootquint1$tree)
+
+#all results of the bootstrap procedure
+bootquint1$bootinfo
+
+#plot wiht 95% confidence intervals using the new standard errors
+plot(bootquint1$tree) 
+## End(Not run)
+</code></pre>
+
+
+</div>

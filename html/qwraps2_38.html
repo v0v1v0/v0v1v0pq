@@ -1,0 +1,137 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>n_perc</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Count and Percentage</h2>
+
+<h3>Description</h3>
+
+<p>A function for calculating and formatting counts and
+percentages.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">n_perc(
+  x,
+  digits = getOption("qwraps2_frmt_digits", 2),
+  na_rm = FALSE,
+  show_denom = "ifNA",
+  show_symbol = TRUE,
+  markup = getOption("qwraps2_markup", "latex"),
+  ...
+)
+
+perc_n(
+  x,
+  digits = getOption("qwraps2_frmt_digits", 2),
+  na_rm = FALSE,
+  show_denom = "ifNA",
+  show_symbol = FALSE,
+  markup = getOption("qwraps2_markup", "latex"),
+  ...
+)
+
+n_perc0(
+  x,
+  digits = 0,
+  na_rm = FALSE,
+  show_denom = "never",
+  show_symbol = FALSE,
+  markup = getOption("qwraps2_markup", "latex"),
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a 0:1 or boolean vector</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>digits</code></td>
+<td>
+<p>digits to the right of the decimal point to return in the
+percentage estimate.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>na_rm</code></td>
+<td>
+<p>if true, omit NA values</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>show_denom</code></td>
+<td>
+<p>defaults to "ifNA".  Other options are "always" or "never".</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>show_symbol</code></td>
+<td>
+<p>if TRUE (default) the percent symbol is shown, else it is suppressed.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>markup</code></td>
+<td>
+<p>latex or markdown</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>pass through</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Default behavior will return the count of successes and the percentage as "N
+(pp
+can be controlled by setting <code>na.rm = TRUE</code>.  In this case, the number
+of non-missing values will be reported by default.  Omission of the
+non-missing values can be controlled by setting <code>show_denom = "never"</code>.
+</p>
+<p>The function n_perc0 uses a set of default arguments which may be
+advantageous for use in building tables.
+</p>
+
+
+<h3>Value</h3>
+
+<p>a character vector of the formatted values
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+n_perc(c(0, 1,1, 1, 0, 0), show_denom = "always")
+n_perc(c(0, 1,1, 1, 0, 0, NA), na_rm = TRUE)
+
+n_perc(mtcars$cyl == 6)
+
+set.seed(42)
+x &lt;- rbinom(4269, 1, 0.314)
+n_perc(x)
+n_perc(x, show_denom = "always")
+n_perc(x, show_symbol = FALSE)
+
+# n_perc0 examples
+n_perc0(c(0, 1,1, 1, 0, 0))
+n_perc0(mtcars$cyl == 6)
+
+</code></pre>
+
+
+</div>

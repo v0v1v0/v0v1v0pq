@@ -1,0 +1,492 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>QRNLMM</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Quantile Regression for Nonlinear Mixed-Effects Models
+</h2>
+
+<h3>Description</h3>
+
+<p>Performs a quantile regression for a NLMEM using the Stochastic-Approximation of the EM Algorithm (SAEM) for an unique or a set of quantiles.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">QRNLMM(y,x,groups,initial,exprNL,covar=NA,p=0.5,precision=0.0001,MaxIter=500,
+       M=20,cp=0.25,beta=NA,sigma=NA,Psi=NA,show.convergence=TRUE,CI=95,verbose=TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+
+<p>the response vector of dimension <code class="reqn">N</code> where <code class="reqn">N</code> is the total of observations.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+
+<p>vector of longitudinal (repeated measures) covariate of dimension <code class="reqn">N</code>. For example: Time, location, etc.  
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>groups</code></td>
+<td>
+
+<p>factor of dimension <code class="reqn">N</code> specifying the partitions of the data over which the random effects vary.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>initial</code></td>
+<td>
+<p>an numeric vector, or list of initial estimates
+for the fixed effects. It must be provide adequately (see <code>details</code> section) in order to ensure a proper convergence.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>exprNL</code></td>
+<td>
+
+<p>expression containing the proposed nonlinear function. It can be of class <code>character</code> or <code>expression</code>. It must have a defined structure defined in the <code>details</code> section in order to be correctly read by the derivate R function <code>deriv</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>covar</code></td>
+<td>
+
+<p>a matrix of dimension <code class="reqn">N \times r</code> where <code class="reqn">r</code> represents the number of covariates.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p</code></td>
+<td>
+
+<p>unique quantile or a set of quantiles related to the quantile regression.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>precision</code></td>
+<td>
+
+<p>the convergence maximum error.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>MaxIter</code></td>
+<td>
+
+<p>the maximum number of iterations of the SAEM algorithm. Default = 500.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>M</code></td>
+<td>
+
+<p>Number of Monte Carlo simulations used by the SAEM Algorithm. Default = 20. For more accuracy we suggest to use <code>M=20</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cp</code></td>
+<td>
+
+<p>cut point <code class="reqn">(0 \le cp \le 1)</code> which determines
+the percentage of initial iterations with no memory.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>beta</code></td>
+<td>
+
+<p>fixed effects vector of initial parameters, if desired. 
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sigma</code></td>
+<td>
+
+<p>dispersion initial parameter for the error term, if desired.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Psi</code></td>
+<td>
+
+<p>Variance-covariance random effects matrix of initial parameters, if desired.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>show.convergence</code></td>
+<td>
+
+<p>if <code>TRUE</code>, it will show a graphical summary for the convergence of the estimates of all parameters for each quantile in order to assess the convergence.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>CI</code></td>
+<td>
+
+<p>Confidence to be used for the Confidence Interval when a grid of quantiles is provided. Default=95.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+
+<p>if <code>TRUE</code>, an output summary is printed.
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>This algorithm performs the SAEM algorithm proposed by Delyon et al. (1999), a stochastic version of the usual EM Algorithm deriving exact maximum likelihood estimates of the fixed-effects and variance components. Covariates are allowed, the longitudinal (repeated measures) coded <code>x</code> and a set of covariates <code>covar</code>.
+</p>
+<p><code class="reqn">About initial values:</code> Estimation for fixed effects parameters envolves a Newton-Raphson step. In adition, NL models are highly sensitive to initial values. So, we suggest to set of intial values quite good, this based in the parameter interpretation of the proposed NL function.
+</p>
+<p><code class="reqn">About the nonlinear expression:</code> For the NL expression <code>exprNL</code> just the variables <code>x</code>, <code>covar</code>, <code>fixed</code> and <code>random</code> can be defined. Both <code>x</code> and <code>covar</code> represent the covariates defined above. The fixed effects must be declared as <code>fixed[1]</code>, <code>fixed[2]</code>,..., <code>fixed[d]</code> representing the first, second and <code class="reqn">d</code>th fixed effect. Exactly the same for the random effects and covariates where the term <code>fixed</code> should be replace for <code>random</code> and <code>covar</code> respectively.
+</p>
+<p>For instance, if we use the exponential nonlinear function with two parameters, each parameter represented by a fixed and a random effect, this will be defined by
+</p>
+<p style="text-align: center;"><code class="reqn">y_{ij} = (\beta_1 + b_1)\exp^{-(\beta_2 + b_2)x_{ij}}</code>
+</p>
+
+<p>and the <code>exprNL</code> should be a character or and expression defined by
+</p>
+<p><code>exprNL = "(fixed[1]+random[1])*exp(-(fixed[2]+random[2])*x)"</code>
+</p>
+<p>or
+</p>
+<p><code>exprNL = expression((fixed[1]+random[1])*exp(-(fixed[2]+random[2])*x))</code>.
+</p>
+<p>If we are interested in adding two covariates in order to explain on of the parameters, the covariates <code>covar[1]</code> and <code>covar[2]</code> must be included in the model. For example, for the nonlinear function
+</p>
+<p style="text-align: center;"><code class="reqn">y_{ij} = (\beta_1 + \beta_3*covar1_{ij} + b_1)\exp^{-(\beta_2 + \beta_4*
+covar2_{ij} + b_2)x_{ij}}</code>
+</p>
+
+<p>the <code>exprNL</code> should be
+</p>
+<p><code>exprNL = "(fixed[1]+fixed[3]*covar[1]+random[1])*exp(-(fixed[2]+fixed[4]*covar[2]+random[2])*x)"</code>
+</p>
+<p>or
+</p>
+<p><code>exprNL = expression((fixed[1]+fixed[3]*covar[1]+random[1])*exp(-(fixed[2]+
+fixed[4]*covar[2]+random[2])*x))</code>.
+</p>
+<p>Note that the mathematical function <code>exp</code> was used. For derivating the <code>deriv</code> R function recognizes in the <code>exprNL</code> expression the arithmetic operators +, -, *, / and ^, and the single-variable functions <code>exp</code>, <code>log</code>, <code>sin</code>, <code>cos</code>, <code>tan</code>, <code>sinh</code>, <code>cosh</code>, <code>sqrt</code>, <code>pnorm</code>, <code>dnorm</code>, <code>asin</code>, <code>acos</code>, <code>atan</code>, <code>gamma</code>, <code>lgamma</code>, <code>digamma</code> and <code>trigamma</code>, as well as <code>psigamma</code> for one or two arguments (but derivative only with respect to the first).
+</p>
+<p><code class="reqn">General details:</code> When a grid of quantiles is provided, a graphical summary with point estimates and Confidence Intervals for model parameters is shown and also a graphical summary for the convergence of these estimates (for each quantile), if <code>show.convergence=TRUE</code>.
+</p>
+<p>If the convergence graphical summary shows that convergence has not be attained, it's suggested to increase the total number of iterations <code>MaxIter</code>.
+</p>
+<p>About the cut point parameter <code>cp</code>, a number between 0 and 1 <code class="reqn">(0 \le cp \le 1)</code> will assure an initial convergence in distribution to a solution neighborhood for the first <code>cp</code>*<code>MaxIter</code> iterations and an almost sure convergence for the rest of the iterations. If you do not know how SAEM algorithm works, these parameters SHOULD NOT be changed.
+</p>
+<p>This program uses progress bars that will close when the algorithm ends. They must not be closed before, if not, the algorithm will stop.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The function returns a list with two objects
+</p>
+<table><tr style="vertical-align: top;">
+<td><code>conv</code></td>
+<td>
+<p>A two elements list with the matrices <code>teta</code> and <code>se</code> containing the point estimates and standard error estimate for all parameters along all iterations.</p>
+</td>
+</tr></table>
+<p>The second element of the list is <code>res</code>, a list of 13 elements detailed as
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>p</code></td>
+<td>
+<p>quantile(s) fitted.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>iter</code></td>
+<td>
+<p>number of iterations.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>criteria</code></td>
+<td>
+<p>attained criteria value.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nlmodel</code></td>
+<td>
+<p>the proposed nonlinear function.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>beta</code></td>
+<td>
+<p>fixed effects estimates.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>weights</code></td>
+<td>
+<p>random effects weights (<code class="reqn">b_i</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sigma</code></td>
+<td>
+<p>scale parameter estimate for the error term.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Psi</code></td>
+<td>
+<p>Random effects variance-covariance estimate matrix.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>SE</code></td>
+<td>
+<p>Standard Error estimates.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>table</code></td>
+<td>
+<p>Table containing the inference for the fixed effects parameters.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>loglik</code></td>
+<td>
+<p>Log-likelihood value.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>AIC</code></td>
+<td>
+<p>Akaike information criterion.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>BIC</code></td>
+<td>
+<p>Bayesian information criterion.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>HQ</code></td>
+<td>
+<p>Hannan-Quinn information criterion.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fitted.values</code></td>
+<td>
+<p>vector containing the fitted values</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>residuals</code></td>
+<td>
+<p>vector containing the residuals.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>time</code></td>
+<td>
+<p>processing time.</p>
+</td>
+</tr>
+</table>
+<h3>Note</h3>
+
+<p>If a grid of quantiles was provided, the result is a list of the same dimension where each element corresponds to each quantile as detailed above.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Christian E. Galarza &lt;<a href="mailto:chedgala@espol.edu.ec">chedgala@espol.edu.ec</a>&gt; and 
+Victor H. Lachos &lt;<a href="mailto:hlachos@uconn.edu">hlachos@uconn.edu</a>&gt;
+</p>
+
+
+<h3>References</h3>
+
+<p>Galarza, C.E., Castro, L.M., Louzada, F. &amp; Lachos, V. (2020) Quantile regression for nonlinear mixed effects models: a likelihood based perspective. Stat Papers 61, 1281-1307.
+<a href="https://doi.org/10.1007/s00362-018-0988-y">doi:10.1007/s00362-018-0988-y</a>
+</p>
+<p>Delyon, B., Lavielle, M. &amp; Moulines, E. (1999). Convergence of a stochastic approximation version of the EM algorithm. Annals of Statistics, pages 94-128.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>Soybean</code>, <code>HIV</code>, <code>lqr</code> , <code>group.plots</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+#Using the Soybean data
+
+data(Soybean)
+attach(Soybean)
+
+#################################
+#A full model (no covariate)
+
+y     = weight          #response
+x     = Time            #time
+
+#Expression for the three parameter logistic curve
+
+exprNL = expression((fixed[1]+random[1])/
+                    (1 + exp(((fixed[2]+random[2])- x)/(fixed[3]+random[3]))))
+
+#Initial values for fixed effects
+initial = c(max(y),0.6*max(y),0.73*max(y))
+
+#A median regression (by default)
+median_reg = QRNLMM(y,x,Plot,initial,exprNL)
+
+#Assesing the fit
+
+fxd     = median_reg$res$beta
+nlmodel = median_reg$res$nlmodel
+seqc    = seq(min(x),max(x),length.out = 500)
+
+group.plot(x = Time,y = weight,groups = Plot,type="l",
+           main="Soybean profiles",xlab="time (days)",
+           ylab="mean leaf weight (gr)",col="gray")
+
+for(i in 1:48)
+{
+  lines(seqc,nlmodel(x = seqc,fixed = fxd,random = weights[i,]),lty=2)
+}
+
+lines(seqc,nlmodel(x = seqc,fixed = fxd,random = rep(0,3)),
+      lwd=3,col="red")          
+
+#########################################
+#A model for compairing the two genotypes
+
+y     = weight          #response
+x     = Time            #time
+covar = c(Variety)-1    #factor genotype (0=Forrest, 1=Plan Introduction)
+
+#Expression for the three parameter logistic curve with a covariate
+
+exprNL = expression((fixed[1]+(fixed[4]*covar[1])+random[1])/
+                    (1 + exp(((fixed[2]+random[2])- x)/(fixed[3]+random[3]))))
+
+#Initial values for fixed effects
+initial = c(max(y),0.6*max(y),0.73*max(y),3)
+
+# A quantile regression for the three quartiles
+box_reg = QRNLMM(y,x,Plot,initial,exprNL,covar,p=c(0.25,0.50,0.75))
+
+#Assing the fit for the median (second quartile)
+
+fxd     = box_reg[[2]]$res$beta
+nlmodel = box_reg[[2]]$res$nlmodel
+seqc    = seq(min(x),max(x),length.out = 500)
+
+group.plot(x = Time[Variety=="P"],y = weight[Variety=="P"],
+             groups = Plot[Variety=="P"],type="l",col="light blue",
+             main="Soybean profiles by genotype",xlab="time (days)",
+             ylab="mean leaf weight (gr)")
+             
+group.lines(x = Time[Variety=="F"],y = weight[Variety=="F"],
+              groups = Plot[Variety=="F"],col="gray")
+             
+lines(seqc,nlmodel(x = seqc,fixed = fxd,random = rep(0,3),covar=1),
+      lwd=2,col="blue")
+
+lines(seqc,nlmodel(x = seqc,fixed = fxd,random = rep(0,3),covar=0),
+      lwd=2,col="black")
+
+#########################################
+#A simple output example
+
+---------------------------------------------------
+Quantile Regression for Nonlinear Mixed Model
+---------------------------------------------------
+Quantile = 0.5
+Subjects = 48 ; Observations = 412
+
+- Nonlinear function
+
+function(x,fixed,random,covar=NA){
+  resp = (fixed[1] + random[1])/(1 + exp(((fixed[2] +
+          random[2]) - x)/(fixed[3] + random[3])))
+  return(resp)}
+
+-----------
+Estimates
+-----------
+- Fixed effects
+
+       Estimate Std. Error   z value Pr(&gt;|z|)
+beta 1 18.80029    0.53098  35.40704        0
+beta 2 54.47930    0.29571 184.23015        0
+beta 3  8.25797    0.09198  89.78489        0
+
+sigma = 0.31569
+
+Random effects Variance-Covariance Matrix matrix
+         b1       b2      b3
+b1 24.36687 12.27297 3.24721
+b2 12.27297 15.15890 3.09129
+b3  3.24721  3.09129 0.67193
+
+------------------------
+Model selection criteria
+------------------------
+        Loglik      AIC      BIC       HQ
+Value -622.899 1265.798 1306.008 1281.703
+
+-------
+Details
+-------
+Convergence reached? = FALSE
+Iterations = 300 / 300
+Criteria = 0.00058
+MC sample = 20
+Cut point = 0.25
+Processing time = 22.83885 mins
+
+## End(Not run)
+</code></pre>
+
+
+</div>

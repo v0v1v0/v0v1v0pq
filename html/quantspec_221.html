@@ -1,0 +1,128 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>QuantilePG-constructor</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Create an instance of the <code>QuantilePG</code> class.</h2>
+
+<h3>Description</h3>
+
+<p>The parameter <code>type.boot</code> can be set to choose a block bootstrapping
+procedure. If <code>"none"</code> is chosen, a moving blocks bootstrap with
+<code>l=length(Y)</code> and  <code>N=length(Y)</code> would be done. Note that in that
+case one would also chose <code>B=0</code> which means that <code>getPositions</code>
+would never be called. If <code>B&gt;0</code> then each bootstrap replication would
+be the undisturbed time series.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">quantilePG(
+  Y,
+  frequencies = 2 * pi/lenTS(Y) * 0:(lenTS(Y) - 1),
+  levels.1 = 0.5,
+  levels.2 = levels.1,
+  isRankBased = TRUE,
+  type = c("clipped", "qr"),
+  type.boot = c("none", "mbb"),
+  B = 0,
+  l = 0,
+  method = c("br", "fn", "pfn", "fnc", "lasso", "scad"),
+  parallel = FALSE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>Y</code></td>
+<td>
+<p>A <code>vector</code> of real numbers containing the time series from
+which to determine the quantile periodogram or a <code>ts</code> object
+or a <code>zoo</code> object.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>frequencies</code></td>
+<td>
+<p>A vector containing frequencies at which to determine the
+quantile periodogram.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>levels.1</code></td>
+<td>
+<p>A vector of length <code>K1</code> containing the levels <code>x1</code>
+at which the QuantilePG is to be determined.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>levels.2</code></td>
+<td>
+<p>A vector of length <code>K2</code> containing the levels <code>x2</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>isRankBased</code></td>
+<td>
+<p>If true the time series is first transformed to pseudo
+data [cf. <code>FreqRep</code>].</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>type</code></td>
+<td>
+<p>A flag to choose the type of the estimator. Can be either
+<code>"clipped"</code> or <code>"qr"</code>. In the first case
+<code>ClippedFT</code> is used as a frequency representation, in
+the second case <code>QRegEstimator</code> is used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>type.boot</code></td>
+<td>
+<p>A flag to choose a method for the block bootstrap; currently
+two options are implemented: <code>"none"</code> and <code>"mbb"</code>
+which means to do a moving blocks  bootstrap with <code>B</code>
+and <code>l</code> as specified.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>B</code></td>
+<td>
+<p>number of bootstrap replications</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>l</code></td>
+<td>
+<p>(expected) length of blocks</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+<p>method used for computing the quantile regression estimates.
+The choice is passed to <code>qr</code>; see the
+documentation of <code>quantreg</code> for details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>parallel</code></td>
+<td>
+<p>a flag to allow performing parallel computations,
+where possible.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Returns an instance of <code>QuantilePG</code>.
+</p>
+
+
+</div>

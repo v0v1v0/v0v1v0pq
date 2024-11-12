@@ -1,0 +1,235 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>find_peaks</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Find peaks in a set of LOD curves</h2>
+
+<h3>Description</h3>
+
+<p>Find peaks in a set of LOD curves (output from <code>scan1()</code>
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">find_peaks(
+  scan1_output,
+  map,
+  threshold = 3,
+  peakdrop = Inf,
+  drop = NULL,
+  prob = NULL,
+  thresholdX = NULL,
+  peakdropX = NULL,
+  dropX = NULL,
+  probX = NULL,
+  expand2markers = TRUE,
+  sort_by = c("column", "pos", "lod"),
+  cores = 1
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>scan1_output</code></td>
+<td>
+<p>An object of class <code>"scan1"</code> as returned by
+<code>scan1()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>map</code></td>
+<td>
+<p>A list of vectors of marker positions, as produced by
+<code>insert_pseudomarkers()</code>. Can also be an indexed SNP info table,
+as from <code>index_snps()</code> or <code>scan1snps()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>threshold</code></td>
+<td>
+<p>Minimum LOD score for a peak (can be a vector with
+separate thresholds for each lod score column in
+<code>scan1_output</code>)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>peakdrop</code></td>
+<td>
+<p>Amount that the LOD score must drop between peaks,
+if multiple peaks are to be defined on a chromosome. (Can be a vector with
+separate values for each lod score column in
+<code>scan1_output</code>.)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>drop</code></td>
+<td>
+<p>If provided, LOD support intervals are included in the
+results, and this indicates the amount to drop in the support
+interval. (Can be a vector with
+separate values for each lod score column in
+<code>scan1_output</code>.) Must be <code class="reqn">\le</code> <code>peakdrop</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>prob</code></td>
+<td>
+<p>If provided, Bayes credible intervals are included in the
+results, and this indicates the nominal coverage.
+(Can be a vector with
+separate values for each lod score column in
+<code>scan1_output</code>.) Provide just one of <code>drop</code> and <code>prob</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>thresholdX</code></td>
+<td>
+<p>Separate threshold for the X chromosome; if
+unspecified, the same threshold is used for both autosomes and the
+X chromosome. (Like <code>threshold</code>, this can be a vector with
+separate thresholds for each lod score column.)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>peakdropX</code></td>
+<td>
+<p>Like <code>peakdrop</code>, but for the X chromosome; if
+unspecified, the same value is used for both autosomes and the X
+chromosome.  (Can be a vector with separate values for each lod
+score column in <code>scan1_output</code>.)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dropX</code></td>
+<td>
+<p>Amount to drop for LOD support intervals on the X
+chromosome.  Ignored if <code>drop</code> is not provided. (Can be a
+vector with separate values for each lod score column in
+<code>scan1_output</code>.)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>probX</code></td>
+<td>
+<p>Nominal coverage for Bayes intervals on the X
+chromosome.  Ignored if <code>prob</code> is not provided. (Can be a
+vector with separate values for each lod score column in
+<code>scan1_output</code>.)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>expand2markers</code></td>
+<td>
+<p>If TRUE (and if <code>drop</code> or <code>prob</code> is
+provided, so that QTL intervals are calculated), QTL intervals are
+expanded so that their endpoints are at genetic markers.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sort_by</code></td>
+<td>
+<p>Indicates whether to sort the rows by lod column,
+genomic position, or LOD score.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cores</code></td>
+<td>
+<p>Number of CPU cores to use, for parallel calculations.
+(If <code>0</code>, use <code>parallel::detectCores()</code>.)
+Alternatively, this can be links to a set of cluster sockets, as
+produced by <code>parallel::makeCluster()</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>For each lod score column on each chromosome, we return a
+set of peaks defined as local maxima that exceed the specified
+<code>threshold</code>, with the requirement that the LOD score must have
+dropped by at least <code>peakdrop</code> below the lowest of any two
+adjacent peaks.
+</p>
+<p>At a given peak, if there are ties, with multiple positions jointly
+achieving the maximum LOD score, we take the average of these
+positions as the location of the peak.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A data frame with each row being a single peak on a single
+chromosome for a single LOD score column, and with columns
+</p>
+
+<ul>
+<li> <p><code>lodindex</code> - lod column index
+</p>
+</li>
+<li> <p><code>lodcolumn</code> - lod column name
+</p>
+</li>
+<li> <p><code>chr</code> - chromosome ID
+</p>
+</li>
+<li> <p><code>pos</code> - peak position
+</p>
+</li>
+<li> <p><code>lod</code> - lod score at peak
+</p>
+</li>
+</ul>
+<p>If <code>drop</code> or <code>prob</code> is provided, the results will include
+two additional columns: <code>ci_lo</code> and <code>ci_hi</code>, with the
+endpoints of the LOD support intervals or Bayes credible wintervals.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>scan1()</code>, <code>lod_int()</code>, <code>bayes_int()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># read data
+iron &lt;- read_cross2(system.file("extdata", "iron.zip", package="qtl2"))
+
+
+# insert pseudomarkers into map
+map &lt;- insert_pseudomarkers(iron$gmap, step=1)
+
+# calculate genotype probabilities
+probs &lt;- calc_genoprob(iron, map, error_prob=0.002)
+
+# grab phenotypes and covariates; ensure that covariates have names attribute
+pheno &lt;- iron$pheno
+covar &lt;- match(iron$covar$sex, c("f", "m")) # make numeric
+names(covar) &lt;- rownames(iron$covar)
+Xcovar &lt;- get_x_covar(iron)
+
+# perform genome scan
+out &lt;- scan1(probs, pheno, addcovar=covar, Xcovar=Xcovar)
+
+# find just the highest peak on each chromosome
+find_peaks(out, map, threshold=3)
+
+# possibly multiple peaks per chromosome
+find_peaks(out, map, threshold=3, peakdrop=1)
+
+# possibly multiple peaks, also getting 1-LOD support intervals
+find_peaks(out, map, threshold=3, peakdrop=1, drop=1)
+
+# possibly multiple peaks, also getting 90% Bayes intervals
+find_peaks(out, map, threshold=3, peakdrop=1, prob=0.9)
+</code></pre>
+
+
+</div>

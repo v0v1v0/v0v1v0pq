@@ -1,0 +1,340 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>weightedMap</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Construct weighted map using Voronoi tessellation and cartogram weighting
+</h2>
+
+<h3>Description</h3>
+
+<p>A weighted map ("wmap") is a combination of a Voronoi tessellation with cartogram weighting. A Voronoi map is a tessellation of a surface based on a set of geographic points. It is used to display areal patterns without overlap. Additionally, the size of the tiles can be weighted by cartogram-deformation to allow for varying the visual impression of the data. Specifically, this allows for equal-area-sized tiles to equally represent all data-points in the visual display.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">weightedMap(x, y = NULL, window = NULL, crs = NULL, weights = "equal",
+  grouping = NULL, holes = NULL, concavity = 2, expansion = 1000,
+  method = "dcn", maxit = 10, verbose = 0)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+
+<p>Coordinates of the data-points, either an <code>sf</code> object or a two-column matrix/dataframe with x ('longitude') and y ('latitude') coordinates. Alternatively, only specify the x-coordinates here and use the <code>y</code> parameter for the y-coordinates.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+
+<p>Latitude (y-coordinates), when the parameter <code>x</code> is used for longitude only.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>window</code></td>
+<td>
+
+<p>Geographical window within which the Voronoi-tessellation will be displayed. Typically an <code>sf</code> (multi)polygon, but an attempt is made to interpret other formats (e.g. <code>owin</code> from Spatstat, <code>SpatVector</code> from Terra and <code>Spatial</code> from sp). Consider libraries like <code>geodata</code> and <code>rnaturalearth</code> to obtain suitable windows. Polygons that do not contain any coordinates are removed (with a warning). Coordinates that do not lie within the window are removed (with a warning).
+</p>
+<p>When no window is provided (by default), then a concave hull is induced from the coordinates (using <code>concaveman</code>). Various other parameters explained below can be used to influence this hull.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>crs</code></td>
+<td>
+
+<p>Coordinate reference system that is necessary for the projection of the map. When not provided, an attempt is made to extract a crs from the provided coordinates or from the provided window. Without any crs there will be a warning and <code>EPSG:3857</code> will be assumed. Note that the ubiquitous <code>EPSG:4326</code> is strictly speaking not a projection and results in various errors; use a projected version like <code>EPSG:3857</code> instead, or use any of the numerous better alternatives (see examples below for some ideas).
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>weights</code></td>
+<td>
+
+<p>Vector with weights for the deformation of the Voronoi-tiles. Should have the same length as the number of coordinates provided. The weights are passed to <code>cartogramR</code> to perform the deformation. Defaults to <code>"equal"</code> for equal-area tiles. When <code>NULL</code> no weighting is performed, but a non-weighted Voronoi-map is still produced.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>grouping</code></td>
+<td>
+
+<p>Influence the form of the concave window around the coordinates. Only used when there is no <code>window</code> provided. A vector with the same length as the number of coordinates, listing for each coordinate to which group it belongs. An attempt is made to make separate windows for each group. Note that a high value for the parameter <code>expansion</code> might result in overlap.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>holes</code></td>
+<td>
+
+<p>A list of <code>x,y</code> coordinates where holes should be inferred. When <code>window = NULL</code> there will be holes inserted inside the window around the coordinates specified within a distance as specified in <code>expansion</code> from the nearest points around the coordinates. Not used when there is an explicit window provided.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>concavity</code></td>
+<td>
+
+<p>Influence the form of the concave window around the coordinates. Only used when there is no <code>window</code> provided. Parameter passed internally to <code>concaveman</code> determining the concavity of the hull. High values result in more convex hulls. Low values (especially between 1 and 0) lead to highly concave ("wiggly") windows.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>expansion</code></td>
+<td>
+
+<p>Influence the form of the concave window around the coordinates. Only used when there is no <code>window</code> provided. Expands the window (value in meters), and results in more "rounded" windows.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+
+<p>Method used for cartogram deformation, passed to <code>cartogramR</code>. By default, the older-quicker-less accurate method <code>dcn</code> is used. More modern and accurate methods <code>gsm</code> and <code>gn</code> can also be used, but they might lead to strange results with more complex windows. They also sometimes lead to strange results, or downright stall. Lower <code>maxit</code> might prevent these problems, but lead to less accurate weighting. Also consider the option <code>verbose</code> to get an indication where things go wring.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>maxit</code></td>
+<td>
+
+<p>Maximum number of iterations to find a suitable deformation. Parameter passed internally to <code>cartogramR</code>. Higher values lead to better approximations of the size of the polygons to the weights. However, with complex maps it might take very long to converge (or even never finish).
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+
+<p>With <code>verbose = 1</code> turn on verbose output for <code>cartogramR</code> to check where the deformation might run wild
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Internally, the Voronoi-tessellation is made without respecting the window, and only afterwards the window is superimposed on the tessellation. In some circumstances with internal holes in the window provided, an attempt is made to return tiles that do not jump across such holes. However, sometimes artefacts are still visible in the output.
+</p>
+<p>Warnings are produced when coordinates lie outside the window provided. The results should still work, but without these points outside. Any colouring or other uses of the results have to be adapted accordingly by using the information in <code>$outsideWindow</code>. Polygons without any points inside are likewise removed with a warning.
+</p>
+<p>To deal with overlapping coordinates some jitter is automatically applied to the coordinates provided.
+</p>
+
+
+<h3>Value</h3>
+
+<p>List of various lengths, depending on specified parameters. Use the names to select any of these results:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>crs: </code></td>
+<td>
+
+<p>The crs in WKT format.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>points: </code></td>
+<td>
+
+<p>The coordinates as provided, but as a projected <code>sfc_POINT</code> object.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>grouping: </code></td>
+<td>
+
+<p>Character vector with the provided grouping, or the grouping as induced from any provided window.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>window: </code></td>
+<td>
+
+<p>The window around the coordinates as a projected <code>sfc_POLYGON</code> or <code>sfc_MULTIPOLYGON</code> object. Some polygons from a provided window might have been removed because they are empty.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>emptyPolygons: </code></td>
+<td>
+
+<p>Numeric vector with the indices of the polygons that are removed because they do not contain any of the coordinates provided.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>outsideWindow: </code></td>
+<td>
+
+<p>Numeric vector with the indices of the coordinates that are removed because they are outside of the window provided.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>voronoi: </code></td>
+<td>
+
+<p>Voronoi-tessellation of the window as a projected <code>sfc_MULTIPOLYGON</code> object.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>weights: </code></td>
+<td>
+
+<p>Numeric vector with the weights used for the deformation. Weights for coordinates outside of the window are removed.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>weightedPoints: </code></td>
+<td>
+
+<p>Coordinates after the weighting-deformation, specified as a projected <code>sfc_POINT</code> object.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>weightedWindow: </code></td>
+<td>
+
+<p>Window after the weighting-deformation, specified as a projected <code>sfc_POLYGON</code> or <code>sfc_MULTIPOLYGON</code> object.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>weightedMap: </code></td>
+<td>
+
+<p>Voronoi-tessellation after the weighting-deformation, specified as a projected <code>sfc_MULTIPOLYGON</code> object.
+</p>
+</td>
+</tr>
+</table>
+<h3>Note</h3>
+
+<p>With more complex windows the deformation by <code>cartogramR</code> might throw errors (like "IllegalArgumentException") or fall into an infinite loop. Try to reduce <code>maxit</code> and check <code>verbose = 1</code> to get an idea what might be going wrong.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Michael Cysouw &lt;cysouw@mac.com&gt;
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># generate a window from coordinates
+# note the Germany-centered Gauss-Kruger projection "EPSG:2397"
+# consider increasing 'maxit' to remove the warning about convergence
+data(hessen)
+v &lt;- weightedMap(hessen$villages, expansion = 4000, crs = 2397, maxit = 2)
+plot(v$weightedVoronoi)
+
+# show the original locations before the transformation in orange
+plot(v$points, add = TRUE, col = "green", cex = .5)
+# show the new locations after transformation in red
+plot(v$weightedPoints, add = TRUE, col = "blue", cex = .5)
+
+# add the real border of Hessen for comparison
+h &lt;- sf::st_as_sf(hessen$boundary)
+sf::st_crs(h) &lt;- 4326
+h &lt;- sf::st_transform(h, 2397)
+plot(h, add = TRUE, border = "red")
+
+# use the Voronoi tiles e.g. for Heeringa-colouring (see function "heeringa()")
+d &lt;- dist(hessen$data, method = "canberra")
+plot(v$weightedVoronoi, col = heeringa(d), border = NA)
+plot(v$weightedWindow, add = TRUE, lwd = 2)
+
+# grouping-vector can be used to make separations in the base-map
+groups &lt;- rep("a", times = 157)
+groups[157] &lt;- "b"
+groups[c(58,59)] &lt;- "c"
+groups[c(101, 102, 107)] &lt;- "d"
+# holes-list can be used to add holes inside the region
+holes &lt;- list(c(9, 50.5), c(9.6, 51.3), c(8.9, 51))
+v &lt;- weightedMap(hessen$villages, grouping = groups, holes = holes,
+                  crs = 2397, expansion = 3000)
+plot(v$weightedVoronoi, col = "grey")
+
+## Not run: 
+# extensive example using data from WALS (https://wals.info). Both the worldmap
+# and the WALS data are downloaded directly. The worldmap is projected and
+# deformed so that each datapoint has equal area on the map.
+
+# load worldmap
+data(world)
+
+# try different projections
+azimuth_equaldist  &lt;- "+proj=aeqd +lat_0=90 +lon_0=45"
+mollweide_atlantic &lt;- "+proj=moll +lon_0=11.5"
+mollweide_pacific  &lt;- "+proj=moll +lon_0=151"
+
+plot(sf::st_transform(world, crs = azimuth_equaldist))
+
+# load WALS data, example feature 13: "tone"
+library(lingtypology)
+feature &lt;- "13A"
+wals &lt;- wals.feature(feature)
+head(wals)
+
+# get glottolog coordinates and correct errors in WALS
+wals$glottocode[wals$glottocode == "poqo1257"] &lt;- "poqo1253"
+wals$glottocode[wals$glottocode == "mamc1234"] &lt;- "mamm1241"
+wals$glottocode[wals$glottocode == "tuka1247"] &lt;- "tuka1248"
+wals$glottocode[wals$glottocode == "bali1280"] &lt;- "unea1237"
+wals &lt;- merge(wals[,c("glottocode", "wals.code", feature)],
+              glottolog[,c("glottocode", "longitude", "latitude")])
+
+# calculate an equally-weighted voronoi transformation
+v &lt;- weightedMap(wals$longitude, wals$latitude, window = world,
+                  crs = mollweide_atlantic, method = "dcn", maxit = 10)
+
+# prepare colors
+cols &lt;- c("lightsalmon", "grey", "lightpink")
+names(cols) &lt;- names(table(wals[,feature]))
+cols &lt;- cols[c(2,3,1)]
+
+# the map
+plot(v$weightedVoronoi, col = cols[wals[,feature]], border = "darkgrey", lwd = 0.2)
+plot(v$weightedWindow, border = "black", add = TRUE, lwd = 0.5)
+legend("bottomleft", legend = names(cols), fill = cols, cex = .7)
+
+# add contourlines
+height &lt;- c(0, 0.5, 1)
+names(height) &lt;- c("No tones", "Simple tone system", "Complex tone system")
+addContour(height = height[wals[,feature]],
+           points = v$weightedPoints,
+           window = v$weightedWindow,
+           crs = v$crs,
+           col = "darkred", levels = c(0.2, 0.4, 0.6))
+
+# Alternative: using points instead of polygons
+cols[2:3] &lt;- c("orange", "red")
+plot(v$weightedPoints, col = cols[wals[,feature]], cex = 1, pch = 19)
+plot(v$weightedWindow, add = T, border = "darkgrey", lwd = 0.5)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

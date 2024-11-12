@@ -1,0 +1,136 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>plot_scan1</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Plot a genome scan</h2>
+
+<h3>Description</h3>
+
+<p>Plot LOD curves for a genome scan
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">plot_scan1(x, map, lodcolumn = 1, chr = NULL, add = FALSE, gap = NULL, ...)
+
+## S3 method for class 'scan1'
+plot(x, map, lodcolumn = 1, chr = NULL, add = FALSE, gap = NULL, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>An object of class <code>"scan1"</code>, as output by <code>scan1()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>map</code></td>
+<td>
+<p>A list of vectors of marker positions, as produced by
+<code>insert_pseudomarkers()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lodcolumn</code></td>
+<td>
+<p>LOD score column to plot (a numeric index, or a
+character string for a column name). Only one value allowed.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>chr</code></td>
+<td>
+<p>Selected chromosomes to plot; a vector of character
+strings.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>add</code></td>
+<td>
+<p>If TRUE, add to current plot (must have same map and
+chromosomes).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gap</code></td>
+<td>
+<p>Gap between chromosomes. The default is 1% of the total genome length.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Additional graphics parameters.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>None.
+</p>
+
+
+<h3>Hidden graphics parameters</h3>
+
+<p>A number of graphics parameters can be passed via <code>...</code>. For
+example, <code>bgcolor</code> to control the background color and
+<code>altbgcolor</code> to control the background color on alternate chromosomes.
+<code>col</code> controls the color of lines/curves; <code>altcol</code> can be used if
+you want alternative chromosomes in different colors.
+These are not included as formal parameters in order to avoid
+cluttering the function definition.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>plot_coef()</code>, <code>plot_coefCC()</code>, <code>plot_snpasso()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># read data
+iron &lt;- read_cross2(system.file("extdata", "iron.zip", package="qtl2"))
+
+# insert pseudomarkers into map
+map &lt;- insert_pseudomarkers(iron$gmap, step=1)
+
+# calculate genotype probabilities
+probs &lt;- calc_genoprob(iron, map, error_prob=0.002)
+
+# grab phenotypes and covariates; ensure that covariates have names attribute
+pheno &lt;- iron$pheno
+covar &lt;- match(iron$covar$sex, c("f", "m")) # make numeric
+names(covar) &lt;- rownames(iron$covar)
+Xcovar &lt;- get_x_covar(iron)
+
+# perform genome scan
+out &lt;- scan1(probs, pheno, addcovar=covar, Xcovar=Xcovar)
+
+# plot the results for selected chromosomes
+ylim &lt;- c(0, maxlod(out)*1.02) # need to strip class to get overall max LOD
+chr &lt;- c(2,7,8,9,15,16)
+plot(out, map, chr=chr, ylim=ylim)
+plot(out, map, lodcolumn=2, chr=chr, col="violetred", add=TRUE)
+legend("topleft", lwd=2, col=c("darkslateblue", "violetred"), colnames(out),
+       bg="gray90")
+
+# plot just one chromosome
+plot(out, map, chr=8, ylim=ylim)
+plot(out, map, chr=8, lodcolumn=2, col="violetred", add=TRUE)
+
+# lodcolumn can also be a column name
+plot(out, map, lodcolumn="liver", ylim=ylim)
+plot(out, map, lodcolumn="spleen", col="violetred", add=TRUE)
+</code></pre>
+
+
+</div>

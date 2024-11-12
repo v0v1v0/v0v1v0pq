@@ -1,0 +1,71 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>scan_qtl2_to_qtl</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Convert scan1 results to the scanone format</h2>
+
+<h3>Description</h3>
+
+<p>Convert the results of <code>qtl2::scan1()</code>
+to the form used by the R/qtl function
+<code>qtl::scanone()</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">scan_qtl2_to_qtl(scan1_output, map)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>scan1_output</code></td>
+<td>
+<p>Matrix of LOD scores, as calculated by
+<code>qtl2::scan1()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>map</code></td>
+<td>
+<p>Map of markers/pseudomarkers (as a list of vectors).</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A data frame with class <code>"scanone"</code>, containing
+chromosome and position columns followed by the LOD scores in
+<code>scan1_output</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>scan_qtl2_to_qtl()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(qtl2)
+iron &lt;- read_cross2(system.file("extdata", "iron.zip", package="qtl2"))
+map &lt;- insert_pseudomarkers(iron$gmap, step=1)
+probs &lt;- calc_genoprob(iron, map, error_prob=0.002)
+pheno &lt;- iron$pheno
+covar &lt;- match(iron$covar$sex, c("f", "m")) # make numeric
+names(covar) &lt;- rownames(iron$covar)
+Xcovar &lt;- get_x_covar(iron)
+out &lt;- scan1(probs, pheno, addcovar=covar, Xcovar=Xcovar)
+
+out_rev &lt;- scan_qtl2_to_qtl(out, map)
+
+</code></pre>
+
+
+</div>

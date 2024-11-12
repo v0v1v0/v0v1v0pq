@@ -1,0 +1,125 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>mestimate</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>The Mean-Optimal Treatment Regime Wrapper Function</h2>
+
+<h3>Description</h3>
+
+<p>The wrapper function for mean-optimal treatment regime that calls a genetic algorithm.
+This function supports the <code>IPWE_Mopt</code> function.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">mestimate(x, y, a, prob, p_level, nvars, hard_limit = FALSE, max = TRUE,
+  cl.setup = 1, s.tol = 1e-04, it.num = 8, pop.size = 3000)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a matrix of observed covariates from the sample. 
+Notice that we assumed the class of treatment regimes is linear.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>a vector, the observed responses from a sample</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>a</code></td>
+<td>
+<p>a vector of 0s and 1s, the observed treatments from a sample</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>prob</code></td>
+<td>
+<p>a vector, the propensity scores of getting treatment 1 in the samples</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p_level</code></td>
+<td>
+<p>choose between 0,1,2,3 to indicate different levels of output
+from the genetic function. Specifically, 0 (minimal printing),
+1 (normal), 2 (detailed), and 3 (debug.)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nvars</code></td>
+<td>
+<p>an integer. The number of parameters indexing a treatment regime.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>hard_limit</code></td>
+<td>
+<p>logical. This logical variable determines if the
+max.generations variable is a binding constraint for genoud.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>max</code></td>
+<td>
+<p>logical. If <code>max=TRUE</code>, it indicates we wish to maximize the marginal
+mean; If <code>max=FALSE</code>, we wish to minimize the marginal mean. The default is <code>TRUE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cl.setup</code></td>
+<td>
+<p>the number of nodes. &gt;1 indicates choosing parallel computing option in 
+<code>rgenoud::genoud</code>. Default is 1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>s.tol</code></td>
+<td>
+<p>This is the tolerance level used by <code>genoud</code>. 
+Default is <code class="reqn">10^{-5}</code> times the difference between
+the largest and the smallest value in the observed responses.
+This is particularly important when it comes to evaluating <code>it.num</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>it.num</code></td>
+<td>
+<p>integer &gt; 1. This argument will be used in <code>rgeound::geound</code> function.
+If there is no improvement in the objective function in this number of generations,
+<code>rgenoud::genoud</code> will think that it has found the optimum.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pop.size</code></td>
+<td>
+<p>an integer with the default set to be 3000. This is the population number for the first generation
+in the genetic algorithm (<code>rgenoud::genoud</code>).</p>
+</td>
+</tr>
+</table>
+<h3>References</h3>
+
+<p>Zhang B, Tsiatis AA, Laber EB and Davidian M (2012).
+“A robust method for estimating optimal treatment regimes.”
+<em>Biometrics</em>, <b>68</b>(4), pp. 1010–1018.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>The function <code>IPWE_Mopt</code> is based on this function.
+</p>
+
+
+</div>

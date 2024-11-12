@@ -1,0 +1,45 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>chisq_colpairs</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Chi-square test on all pairs of columns</h2>
+
+<h3>Description</h3>
+
+<p>Perform a chi-square test for independence for all pairs of columns of a matrix.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">chisq_colpairs(x)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>A matrix of positive integers. <code>NA</code>s and values &lt;= 0 are treated as missing.</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>A matrix of size p x p, where p is the number of columns in
+the input matrix <code>x</code>, containing the chi-square test
+statistics for independence, applied to pairs of columns of
+<code>x</code>. The diagonal of the result will be all <code>NA</code>s.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">z &lt;- matrix(sample(1:2, 500, replace=TRUE), ncol=5)
+chisq_colpairs(z)
+</code></pre>
+
+
+</div>

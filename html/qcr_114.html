@@ -1,0 +1,60 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>state.control</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Univariante process state</h2>
+
+<h3>Description</h3>
+
+<p>This function removes observations from the sample which violates 
+the rules of a process under control
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">state.control(x)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>Object qcs (Quality Control Statistical)</p>
+</td>
+</tr></table>
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+##
+##  Continuous data 
+##
+library(qcr)
+data(pistonrings)
+str(pistonrings)
+pistonrings.qcd&lt;-qcd(pistonrings)
+
+class(pistonrings.qcd)
+
+res.qcs &lt;- qcs.xbar(pistonrings.qcd)
+plot(res.qcs,title="Control Chart Xbar for pistonrings I")
+summary(res.qcs)  
+
+res.qcd &lt;- state.control(res.qcs)
+res.qcs &lt;- qcs.xbar(res.qcd)
+plot(res.qcs,title="Control Chart Xbar for pistonrings II")
+summary(res.qcs)  
+
+res.qcd &lt;- state.control(res.qcs)
+res.qcs &lt;- qcs.xbar(res.qcd)
+plot(res.qcs,title="Control Chart Xbar for pistonrings III")
+summary(res.qcs)  
+
+</code></pre>
+
+
+</div>

@@ -1,0 +1,73 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qdft2qacf</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Quantile Autocovariance Function (QACF)</h2>
+
+<h3>Description</h3>
+
+<p>This function computes quantile autocovariance function (QACF) from QDFT.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qdft2qacf(y.qdft, return.qser = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>y.qdft</code></td>
+<td>
+<p>matrix or array of QDFT from <code>qdft()</code> or SQDFT from <code>sqdft()</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>return.qser</code></td>
+<td>
+<p>if <code>TRUE</code>, return quantile series (QSER) along with QACF</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>matrix or array of quantile autocovariance function if <code>return.sqer = FALSE</code> (default), else a list with the following elements:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>qacf</code></td>
+<td>
+<p>matirx or array of quantile autocovariance function</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qser</code></td>
+<td>
+<p>matrix or array of quantile series</p>
+</td>
+</tr>
+</table>
+<h3>Examples</h3>
+
+<pre><code class="language-R"># single time series
+y1 &lt;- stats::arima.sim(list(order=c(1,0,0), ar=0.5), n=64)
+tau &lt;- seq(0.1,0.9,0.05)
+y.qdft &lt;- qdft(y1,tau)
+y.qacf &lt;- qdft2qacf(y.qdft)
+plot(c(0:9),y.qacf[c(1:10),1],type='h',xlab="LAG",ylab="QACF")
+y.qser &lt;- qdft2qacf(y.qdft,return.qser=TRUE)$qser
+plot(y.qser[,1],type='l',xlab="TIME",ylab="QSER")
+# multiple time series
+y2 &lt;- stats::arima.sim(list(order=c(1,0,0), ar=-0.5), n=64)
+y.qdft &lt;- qdft(cbind(y1,y2),tau)
+y.qacf &lt;- qdft2qacf(y.qdft)
+plot(c(0:9),y.qacf[1,2,c(1:10),1],type='h',xlab="LAG",ylab="QACF")
+</code></pre>
+
+
+</div>

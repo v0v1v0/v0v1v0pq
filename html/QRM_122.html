@@ -1,0 +1,83 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>QQplot</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Generic Quantile-Quantile Plot 
+</h2>
+
+<h3>Description</h3>
+
+<p>Constructs a quantile-quantile plot against a given reference
+distribution.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">QQplot(x, a = 0.5, reference = c("normal", "exp", "student"), ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p><code>vector</code>, data for QQ-plot.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>a</code></td>
+<td>
+<p><code>numeric</code>, the offset fraction to be used in
+<code>ppoints()</code>; typically in (0, 1).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>reference</code></td>
+<td>
+<p><code>character</code>, name of reference distribution.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>ellipsis argument, passed down to quantile function of
+reference distribution.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Special forms like ParetoQQ plots can also be created via this function. E.g.,
+to create a ParetoQQ plot, merely pass log(data) in place of data as the first
+parameter and use <code>reference = "exp"</code> as the reference
+distribution. The ParetoQQ plot should provide a linear graph when a
+log transform of the data is plotted against the exponential distribution.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Produces QQ-plot and returns invisibly a list of <code>(x, y)</code> pairs.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>ppoints</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">QQplot(rnorm(1000), reference = "normal") 
+QQplot(rexp(1000), reference = "exp", rate = 0.3) 
+</code></pre>
+
+
+</div>

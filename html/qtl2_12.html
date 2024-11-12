@@ -1,0 +1,81 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>calc_geno_freq</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Calculate genotype frequencies</h2>
+
+<h3>Description</h3>
+
+<p>Calculate genotype frequencies, by individual or by marker
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">calc_geno_freq(probs, by = c("individual", "marker"), omit_x = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>probs</code></td>
+<td>
+<p>List of arrays of genotype probabilities, as
+calculated by <code>calc_genoprob()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>by</code></td>
+<td>
+<p>Whether to summarize by individual or marker</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>omit_x</code></td>
+<td>
+<p>If TRUE, results are just for the autosomes. If
+FALSE, results are a list of length two, containing the results
+for the autosomes and those for the X chromosome.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>If <code>omit_x=TRUE</code>, the result is a matrix of genotype
+frequencies; columns are genotypes and rows are either individuals
+or markers.
+</p>
+<p>If necessary (that is, if <code>omit_x=FALSE</code>, the data include the
+X chromosome, and the set of genotypes on the X chromosome are
+different than on the autosomes), the result is a list with two
+components (for the autosomes and for the X chromosome), each being
+a matrix of genotype frequencies.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>calc_raw_geno_freq()</code>, <code>calc_het()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">iron &lt;- read_cross2(system.file("extdata", "iron.zip", package="qtl2"))
+p &lt;- calc_genoprob(iron, err=0.002)
+
+# genotype frequencies by marker
+tab_g &lt;- calc_geno_freq(p, "marker")
+
+# allele frequencies by marker
+ap &lt;- genoprob_to_alleleprob(p)
+tab_a &lt;- calc_geno_freq(ap, "marker")
+
+</code></pre>
+
+
+</div>

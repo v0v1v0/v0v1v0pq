@@ -1,0 +1,103 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>Prediction with Missing Values</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Prediction with Missing Values</h2>
+
+<h3>Description</h3>
+
+<p>ML methods for prediction in which features are subject to missing
+values.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qeLinMV(data,yName)
+qeLogitMV(data,yName,yesYVal)
+qeKNNMV(data,yName,kmax)
+## S3 method for class 'qeLinMV'
+predict(object,newx,...)
+## S3 method for class 'qeLogitMV'
+predict(object,newx,...)
+## S3 method for class 'qeKNNMV'
+predict(object,newx,...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Further arguments.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>An object returned by one of the <code>qe*MV</code> functions.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>Dataframe, training set. Classification case is signaled
+via labels column being an R factor.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>yName</code></td>
+<td>
+<p>Name of the class labels column.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>newx</code></td>
+<td>
+<p>New data to be predicted.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>kmax</code></td>
+<td>
+<p>Number of nearest neighbors in training set.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>yesYVal</code></td>
+<td>
+<p>Y value to be considered "yes," to be coded 1 rather than 0.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>These are wrappers to the <span class="pkg">toweranNA</span> package.  Linear, logistic and
+kNN interfaces are available.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Norm Matloff
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+sum(is.na(airquality))  # 44 NAs, good test example
+z &lt;- qeKNNMV(airquality,'Ozone',10)
+# example of new case, insert an NA in 1st row
+aq2 &lt;- airquality[2,-1]
+aq2$Wind &lt;- NA
+predict(z,aq2)  # 28.1
+
+</code></pre>
+
+
+</div>

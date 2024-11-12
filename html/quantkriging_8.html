@@ -1,0 +1,91 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>QuantPlot</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Plot Univariate Quantile Data</h2>
+
+<h3>Description</h3>
+
+<p>Plots the Quantile output from quantKrig if there is only one input.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">QuantPlot(QKResults, X1 = NULL, Y1 = NULL, main = NULL,
+  xlab = NULL, ylab = NULL, colors = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>QKResults</code></td>
+<td>
+<p>Output from the quantKrig function.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>X1</code></td>
+<td>
+<p>X values if ploting the original data in the background</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Y1</code></td>
+<td>
+<p>Y values if ploting the original data in the background</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>main</code></td>
+<td>
+<p>Plot Title defaults to Fitted Quantiles</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xlab</code></td>
+<td>
+<p>Label for x-axis defaults to X</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ylab</code></td>
+<td>
+<p>Label for y-axis defaults to Y</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>colors</code></td>
+<td>
+<p>Customize colors associated with the quantiles</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A ggplot object
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">X &lt;- seq(0,1,length.out = 20)
+Y &lt;- cos(5*X) + cos(X)
+Xstar &lt;- rep(X,each = 100)
+Ystar &lt;- rep(Y,each = 100)
+Ystar &lt;- rnorm(length(Ystar),Ystar,1)
+Ystar &lt;- (Ystar - mean(Ystar)) / sd(Ystar)
+Xstar &lt;- (Xstar - min(Xstar)/ max(Xstar) - min(Xstar))
+lb &lt;- c(0.0001,0.0001)
+ub &lt;- c(10,10)
+Qout &lt;- quantKrig(Xstar,Ystar, seq(0.05,0.95, length.out = 7), lower = lb, upper = ub)
+QuantPlot(Qout, Xstar, Ystar)
+
+</code></pre>
+
+
+</div>

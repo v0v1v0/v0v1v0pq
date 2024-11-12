@@ -1,0 +1,204 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qdg.sem</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Score directed graphs outputed by qdg using structural equation models (SEM)</h2>
+
+<h3>Description</h3>
+
+<p>Score directed graphs (cyclic or acyclic) outputed by qdg function using the sem R
+package.     
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qdg.sem(qdgObject, cross)
+## S3 method for class 'qdg.sem'
+print(x, ...)
+## S3 method for class 'qdg.sem'
+summary(object, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>qdgObject</code></td>
+<td>
+<p>list containing the output of <code>qdg</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cross</code></td>
+<td>
+<p>object of class <code>cross</code> (see <code>read.cross</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x,object</code></td>
+<td>
+<p>object of class <code>qdg</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>extra arguments to print or summary (ignored).</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Fits a SEM to the phenotypes network. QTLs are not included as
+variables in the model. When additive covariates are used in qdg, qdg.sem
+fits a SEM model to the residuals of the variables after adjustment of the 
+additive covariates.
+</p>
+
+
+<h3>Value</h3>
+
+<p>List object that inherits class "qdg.sem" and "qdg" composed by:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>best.SEM</code></td>
+<td>
+<p>Solution with lowest SEM BIC (best fit to the data).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>BIC.SEM</code></td>
+<td>
+<p>Vector with the BIC values of all solutions from qdg.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>path.coeffs</code></td>
+<td>
+<p>Path coefficients associated with the best SEM solution.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Solutions</code></td>
+<td>
+<p>Solutions of dependency graph after recheck step
+(output of steps 3, 4 and 5 of the QDG algorithm.)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>marker.names</code></td>
+<td>
+<p>List of character strings, one for each of
+<code>phenotype.names</code>. 
+Each character string has the marker names
+for that phenotype.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>phenotype.names</code></td>
+<td>
+<p>Character string with names of phenotype nodes
+corresponding to phenotypes in <code>cross</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dropped</code></td>
+<td>
+<p>Indexes of solutions that were dropped (<code>NULL</code> if
+none dropped).</p>
+</td>
+</tr>
+</table>
+<h3>See Also</h3>
+
+ <p><code>qdg</code> <code>sem</code> </p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## simulate a genetic map (20 autosomes, 10 not equaly spaced markers per 
+## chromosome)
+mymap &lt;- sim.map(len=rep(100,20), n.mar=10, eq.spacing=FALSE, include.x=FALSE)
+
+## simulate an F2 cross object with n.ind (number of individuals)
+n.ind &lt;- 200
+mycross &lt;- sim.cross(map=mymap, n.ind=n.ind, type="f2")
+
+## produce multiple imputations of genotypes using the 
+## sim.geno function. The makeqtl function requires it,
+## even though we are doing only one imputation (since 
+## we don't have missing data and we are using the 
+## genotypes in the markers, one imputation is enough)
+mycross &lt;- sim.geno(mycross,n.draws=1)
+
+## sample markers (2 per phenotype)
+genotypes &lt;- pull.geno(mycross)
+geno.names &lt;- dimnames(genotypes)[[2]]
+m1 &lt;- sample(geno.names,2,replace=FALSE)
+m2 &lt;- sample(geno.names,2,replace=FALSE)
+m3 &lt;- sample(geno.names,2,replace=FALSE)
+m4 &lt;- sample(geno.names,2,replace=FALSE)
+
+## get marker genotypes
+g11 &lt;- genotypes[,m1[1]]; g12 &lt;- genotypes[,m1[2]]
+g21 &lt;- genotypes[,m2[1]]; g22 &lt;- genotypes[,m2[2]]
+g31 &lt;- genotypes[,m3[1]]; g32 &lt;- genotypes[,m3[2]]
+g41 &lt;- genotypes[,m4[1]]; g42 &lt;- genotypes[,m4[2]]
+
+## generate phenotypes
+y1 &lt;- runif(3,0.5,1)[g11] + runif(3,0.5,1)[g12] + rnorm(n.ind)
+y2 &lt;- runif(3,0.5,1)[g21] + runif(3,0.5,1)[g22] + rnorm(n.ind)
+y3 &lt;- runif(1,0.5,1) * y1 +  runif(1,0.5,1) * y2 + runif(3,0.5,1)[g31] +
+      runif(3,0.5,1)[g32] + rnorm(n.ind)
+y4 &lt;- runif(1,0.5,1) * y3 + runif(3,0.5,1)[g41] + runif(3,0.5,1)[g42] +
+      rnorm(n.ind)
+
+## incorporate phenotypes to cross object
+mycross$pheno &lt;- data.frame(y1,y2,y3,y4)
+
+## create markers list
+markers &lt;- list(m1,m2,m3,m4)
+names(markers) &lt;- c("y1","y2","y3","y4")
+
+## create qtl object
+allqtls &lt;- list()
+m1.pos &lt;- find.markerpos(mycross, m1)
+allqtls[[1]] &lt;- makeqtl(mycross, chr = m1.pos[,"chr"], pos = m1.pos[,"pos"])
+m2.pos &lt;- find.markerpos(mycross, m2)
+allqtls[[2]] &lt;- makeqtl(mycross, chr = m2.pos[,"chr"], pos = m2.pos[,"pos"])
+m3.pos &lt;- find.markerpos(mycross, m3)
+allqtls[[3]] &lt;- makeqtl(mycross, chr = m3.pos[,"chr"], pos = m3.pos[,"pos"])
+m4.pos &lt;- find.markerpos(mycross, m4)
+allqtls[[4]] &lt;- makeqtl(mycross, chr = m4.pos[,"chr"], pos = m4.pos[,"pos"])
+
+names(allqtls) &lt;- c("y1","y2","y3","y4")
+
+## infer QDG 
+out &lt;- qdg(cross=mycross, 
+		phenotype.names = c("y1","y2","y3","y4"), 
+		marker.names = markers, 
+		QTL = allqtls, 
+		alpha = 0.005, 
+		n.qdg.random.starts=10, 
+		skel.method="pcskel")
+		
+## Not run: 
+gr &lt;- graph.qdg(out)
+plot(gr)
+
+## Following does not work. Not sure why.
+out2 &lt;- qdg.sem(out, cross=mycross)
+out2
+gr2 &lt;- graph.qdg(out2)
+plot(gr2)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

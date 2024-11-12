@@ -1,0 +1,159 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>rdq.bandwidth</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Bandwidth estimation</h2>
+
+<h3>Description</h3>
+
+<p><code>rdq.bandwidth</code> implements two bandwidth selection rules and obtains the cross-validation (CV) bandwidth and the MSE optimal bandwidth.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">rdq.bandwidth(y, x, d, x0, z0=NULL, cov, cv, val,hp=NULL,pm.each=1,
+     bdy=1,p.order=1,xl=0.5)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>a numeric vector, the outcome variable.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a vector (or a matrix) of covariates, the first column is the running variable.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>d</code></td>
+<td>
+<p>a numeric vector, the treatment status.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x0</code></td>
+<td>
+<p>the cutoff point.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>z0</code></td>
+<td>
+<p>the value of the covariates at which to evaluate the effects.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cov</code></td>
+<td>
+<p>either 0 or 1. Set <em>cov=1</em> when covariates are present in the model;
+otherwise set <em>cov=0</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cv</code></td>
+<td>
+<p>either 0 or 1. When <em>cv=1</em>, both the CV and MSE optimal bandwidths
+are produced. When <em>cv=0</em>, the MSE optimal bandwidth is produced.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>val</code></td>
+<td>
+<p>a set of candidate values for the CV bandwidth.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>hp</code></td>
+<td>
+<p>a pilot bandwidth to estimate nuisance parameters for the MSE optimal bandwidth.
+It will be used only if <em>cv=0</em>. If <em>cv=1</em>, the CV bandwidth will be used
+as the pilot bandwidth to compute the MSE optimal bandwidth.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pm.each</code></td>
+<td>
+<p>either 0 or 1. When <em>pm.each=1</em>, the CV bandwidths for each side of the cutoff will be obtained separately.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bdy</code></td>
+<td>
+<p>either 0 or 1. When <em>bdy=1</em>, the CV bandwidth uses the boundary point procdure.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p.order</code></td>
+<td>
+<p>either 1 or 2. When <em>p.order=1</em>, a local linear regression is used, and
+when <em>p.order=2</em>, a local quadratic regression is used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xl</code></td>
+<td>
+<p>if <em>xl=0.5</em>, the CV bandwidth use the 50% of observations closest to <code class="reqn">x_0</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list with elements:
+</p>
+
+<dl>
+<dt>cv</dt>
+<dd>
+<p>the selected CV bandwidth at the median.</p>
+</dd>
+<dt>opt.p</dt>
+<dd>
+<p>the MSE optimal bandwidth at the median from the right side of <code class="reqn">x_0</code>.</p>
+</dd>
+<dt>opt.m</dt>
+<dd>
+<p>the MSE optimal bandwidth at the median from the left side of <code class="reqn">x_0</code>.</p>
+</dd>
+</dl>
+<h3>References</h3>
+
+<p>Zhongjun Qu, Jungmo Yoon, Pierre Perron (2024), "Inference on Conditional Quantile
+Processes in Partially Linear Models with Applications to the Impact of Unemployment Benefits,"
+The Review of Economics and Statistics; https://doi.org/10.1162/rest_a_01168
+</p>
+<p>Zhongjun Qu and Jungmo Yoon (2019), "Uniform Inference on Quantile Effects
+under Sharp Regression Discontinuity Designs," Journal of Business and Economic Statistics,
+37(4), 625–647; https://doi.org/10.1080/07350015.2017.1407323
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># Without covariate
+n = 500
+x = runif(n,min=-4,max=4)
+d = (x &gt; 0)
+y = x + 0.3*(x^2) - 0.1*(x^3) + 1.5*d + rnorm(n)
+tlevel = seq(0.1,0.9,by=0.1)
+rdq.bandwidth(y=y,x=x,d=d,x0=0,z0=NULL,cov=0,cv=1,val=(1:4))
+rdq.bandwidth(y=y,x=x,d=d,x0=0,z0=NULL,cov=0,cv=0,val=(1:4),hp=2)
+
+# (continued) With covariates
+z = sample(c(0,1),n,replace=TRUE)
+y = x + 0.3*(x^2) - 0.1*(x^3) + 1.5*d + d*z + rnorm(n)
+rdq.bandwidth(y=y,x=cbind(x,z),d=d,x0=0,z0=c(0,1),cov=1,cv=1,val=(1:4),bdy=1,p.order=1)
+
+</code></pre>
+
+
+</div>

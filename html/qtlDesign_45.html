@@ -1,0 +1,123 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>Thresholds and tail probabilities</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Calculating thresholds and tail probabilities for genome scans</h2>
+
+<h3>Description</h3>
+
+<p>Provides genome-wide thresholds and tail probabilities for the maxima of
+genome scans using Poisson approximations.</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">tailprob(t,G,cross,type="1",d=0.01,cov.dim=0)
+thresh(G,cross,type="1",p=c(0.10,0.05,0.01),d=0.01,cov.dim=0,
+       interval=c(1,40))
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>G</code></td>
+<td>
+<p>Genome size in centiMorgans.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>t</code></td>
+<td>
+<p>LOD value for which tail probability is desired.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p</code></td>
+<td>
+<p>Vector giving the genome-wide Type I error for which
+thresholds are desired.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cross</code></td>
+<td>
+<p>String indicating cross type which is "bc", for 
+backcross, "f2" for intercross.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>type</code></td>
+<td>
+<p>Type of LOD score for which threshold is desired.  Right
+now the only option is "1", but more options will be added in the
+future.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>d</code></td>
+<td>
+<p>Marker spacing in centiMorgans.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cov.dim</code></td>
+<td>
+<p>Dimension of interacting covariate.  Set to 0 right now.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>interval</code></td>
+<td>
+<p>Interval over which to search for LOD threshold.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The tail probabilities are calculated using the method of
+Dupuis and Siegmund (1999).  The thresholds are calculated by solving
+the tail probability equation using <code>uniroot</code>.  At this time only
+one-dimensional thresholds are calculated, but this function will be
+extended in the future.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The function <code>tailprob</code> returns the probability that the
+genome-wide maximum LOD score exceeds a particular value.  The
+function <code>thresh</code> returns genome-wide LOD thresholds
+corresponding to a particular Type I error rate.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Saunak Sen, Jaya Satagopan, Karl Broman, and Gary
+Churchill</p>
+
+
+<h3>References</h3>
+
+<p>Dupuis J and Siegmund D (1999) Statistical methods for
+mapping quantitative trait loci froma dense set of markers. Genetics
+151:373-386.</p>
+
+
+<h3>See Also</h3>
+
+<p><code>uniroot</code>.</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">tailprob(t=3,G=1440,cross="f2",d=10)
+thresh(G=1440,cross="bc",d=10)
+</code></pre>
+
+
+</div>

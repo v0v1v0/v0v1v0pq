@@ -1,0 +1,159 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>compute_SAI</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Estimates seasonal-ageing indexes from  quarterly tables of crude rates estimates.</h2>
+
+<h3>Description</h3>
+
+<p>Given a set of quarterly tables of crude rates estimates corresponding to several years (periods),
+this function computes their corresponding seasonal-ageing indexes.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">compute_SAI(x, y, ..., margins = FALSE, min.age = 0, max.age = 100)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>A data.frame/list output of either <code>crude_mx</code>, <code>crude_mx_sh2</code> or <code>crude_mx_sh3</code> functions corresponding to a period (typically a year).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>A data.frame/list output of either <code>crude_mx</code>, <code>crude_mx_sh2</code> or <code>crude_mx_sh3</code> functions corresponding to another period (typically a different year than the one corresponding to 'x').</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Further output(s) of either <code>crude_mx</code>, <code>crude_mx_sh2</code> or <code>crude_mx_sh3</code> functions corresponding to another period(s) (typically different year(s) than the ones corresponding to 'x' and 'y').</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>margins</code></td>
+<td>
+<p>A 'TRUE/FALSE' argument informing whether or not the marginal seasonal and ageing indexes should be also
+computed. Default, 'FALSE'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>min.age</code></td>
+<td>
+<p>A non-negative integer informing about the initial minimal age for which SAIs must be computed. This minimum age can
+be increased depending on the ages for which there are crude mx estimates (exposed-at-risk) in the objects  'x', 'y', '...'. Default, 0.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>max.age</code></td>
+<td>
+<p>A positive integer informing about the initial maximum age for which SAIs must be computed. This maximum age can
+be decreased depending on the maximum ages for which there are crude mx estimates (exposed-at-risk) in the objects  'x', 'y', '...'.
+Default, 100.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>When 'margins = FALSE' a data frame with the (raw, normalized and linearized) estimated seasonal-ageing
+indexes (SAI) corresponding to the set of integer ages determined by 'min.age' and 'max.age' and the exposed-at-risk
+in the mx crude estimates for each combination of age and calendar quarter.
+The data frame has the following components:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>age</code></td>
+<td>
+<p> Integer age to which the SAIs corresponds.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>quarter.age</code></td>
+<td>
+<p> Age quarter to which the SAIs corresponds.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>quarter.calendar</code></td>
+<td>
+<p> Calendar (time, season) quarter to which the SAIs corresponds.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>SAI.raw</code></td>
+<td>
+<p> Estimates of raw seasonal-ageing indexes for each combination of 'age', 'quarter.age' and 'quarter.calendar'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>SAI.norm</code></td>
+<td>
+<p> Estimates of seasonal-ageing indexes, attained after normalizing raw SAIs estimates, for each  combination of 'age', 'quarter.age' and 'quarter.calendar'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>SAI.lin</code></td>
+<td>
+<p> Final estimates of seasonal-ageing indexes, attained after linearizing normalized SAIs estimates,  for each combination of 'age', 'quarter.age' and 'quarter.calendar'.</p>
+</td>
+</tr>
+</table>
+<p>When 'margins = TRUE' the output is a list with three data frames 'SAI', 'SAI.age' and 'SAI.quarter'.
+'SAI' is defined as just described above. 'SAI.age' and  'SAI.quarter' contains, in a similar vein than 'SAI',
+the estimated marginal SAIs, corresponding to, respectively, the age quarter and the calendar (time, season)
+quarter.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jose M. Pavia <a href="mailto:pavia@uv.es">pavia@uv.es</a>
+</p>
+<p>Josep Lledo <a href="mailto:josep.lledo@uv.es">josep.lledo@uv.es</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Pavia, JM and Lledo, J (2022). Estimation of the Combined Effects of Ageing and Seasonality on Mortality Risk. An application to Spain. *Journal of the Royal Statistical Society, Series A (Statistics in Society)*, 185(2), 471-497. <a href="https://doi.org/10.1111/rssa.12769">doi:10.1111/rssa.12769</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+# This can take a while
+ t.stock &lt;- time_exposed_stock(pop_2006$date.birth, 2006, "forward")
+ t.stock &lt;- t.stock[t.stock$age &lt;= 100, ]
+ temp &lt;- quarterly_variables(death_2006$date.birth, death_2006$date.death)
+ e.death &lt;- count_events_quarter(temp)
+ e.death &lt;- e.death[e.death$age &lt;= 100, ]
+ t.birth &lt;- time_exposed_newborns(birth_2006$date.birth)
+ out &lt;- crude_mx(t.stock, e.death, time.birth = t.birth)
+ SAI.example &lt;- compute_SAI(out, out)
+
+
+# Fast example
+dates.b &lt;- c("2017-05-13", "2018-04-12", "2018-12-01")
+t.stock &lt;- time_exposed_stock(dates.b, year = 2020, type = "backward")
+dates.bd &lt;- c("2018-04-12")
+dates.d &lt;- c("2020-05-23")
+x &lt;- quarterly_variables(dates.bd, dates.d)
+e.death &lt;- count_events_quarter(x)
+t.death &lt;- time_exposed_outs(x)
+out &lt;- crude_mx(t.stock, e.death, t.death)
+SAI.example &lt;- compute_SAI(out, out)
+</code></pre>
+
+
+</div>

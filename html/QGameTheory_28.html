@@ -1,0 +1,68 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>QPennyFlip</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Quantum Penny Flip game</h2>
+
+<h3>Description</h3>
+
+<p>This function simulates the Quantum Penny Flip game by taking in the initial state of the game that is set by Alice and the strategies available to Alice and Bob. It returns the final state of the game along with the plot of the probability distribution of the qubits after measurement of the final state.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">QPennyFlip(initial_state, strategies_Alice, strategies_Bob)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>initial_state</code></td>
+<td>
+<p>a vector representing the initial quantum state</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>strategies_Alice</code></td>
+<td>
+<p>a matrix lying in SU(2)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>strategies_Bob</code></td>
+<td>
+<p>a matrix lying in SU(2)</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>The final state of the game along with the plot of the probability distribution of the qubits after measurement of the final state by taking in the initial state of the game that is set by Alice and the strategies available to Alice and Bob as the inputs.
+</p>
+
+
+<h3>References</h3>
+
+<p><a href="https://arxiv.org/pdf/quant-ph/0506219.pdf">https://arxiv.org/pdf/quant-ph/0506219.pdf</a><br><a href="https://arxiv.org/pdf/quant-ph/0208069.pdf">https://arxiv.org/pdf/quant-ph/0208069.pdf</a><br><a href="https://arxiv.org/pdf/quant-ph/9804010.pdf">https://arxiv.org/pdf/quant-ph/9804010.pdf</a><br></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">init()
+psi &lt;- (u+d)/sqrt(2)
+S1 &lt;- sigmaX(Q$I2)
+S2 &lt;- Q$I2
+H &lt;- Hadamard(Q$I2)
+SA &lt;- list(S1, S2)
+SB &lt;- list(H)
+QPennyFlip(psi, SA,SB)
+
+</code></pre>
+
+
+</div>

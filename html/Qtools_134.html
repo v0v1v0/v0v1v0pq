@@ -1,0 +1,555 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>tsrq</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Quantile Regression Transformation Models
+</h2>
+
+<h3>Description</h3>
+
+<p>These functions are used to fit quantile regression transformation models.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">tsrq(formula, data = sys.frame(sys.parent()), tsf = "mcjI", symm = TRUE,
+	dbounded = FALSE, lambda = NULL, conditional = FALSE, tau = 0.5,
+	subset,	weights, na.action,	contrasts = NULL, method = "fn")
+tsrq2(formula, data = sys.frame(sys.parent()), dbounded = FALSE, lambda = NULL,
+	delta = NULL, conditional = FALSE, tau = 0.5, subset, weights, na.action,
+	contrasts = NULL, method = "fn")
+rcrq(formula, data = sys.frame(sys.parent()), tsf = "mcjI", symm = TRUE,
+	dbounded = FALSE, lambda = NULL, tau = 0.5, subset, weights, na.action,
+	contrasts = NULL, method = "fn")
+nlrq1(formula, data = sys.frame(sys.parent()), tsf = "mcjI", symm = TRUE,
+	dbounded = FALSE, start = NULL, tau = 0.5,
+	subset,	weights, na.action, contrasts = NULL, control = list())
+nlrq2(formula, data = sys.frame(sys.parent()), dbounded = FALSE,
+	start = NULL, tau = 0.5, subset, weights, na.action, contrasts = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>formula</code></td>
+<td>
+
+<p>an object of class "<code>formula</code>" (or one that can be coerced to that class): a symbolic description of the model to be fitted. The details of model specification are given under ‘Details’.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+
+<p>an optional data frame, list or environment (or object coercible by as.data.frame to a data frame) containing the variables in the model. By default the variables are taken from the environment from which the call is made.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tsf</code></td>
+<td>
+
+<p>transformation to be used. Possible options are <code>mcjI</code> for Proposal I transformation models (default), <code>bc</code> for Box-Cox and <code>ao</code> for Aranda-Ordaz transformation models.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>symm</code></td>
+<td>
+
+<p>logical flag. If <code>TRUE</code> (default) a symmetric transformation is used.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dbounded</code></td>
+<td>
+
+<p>logical flag. If <code>TRUE</code> the response is assumed to be doubly bounded on [a,b]. If <code>FALSE</code> (default) the response is assumed to be singly bounded (ie, strictly positive).
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lambda, delta</code></td>
+<td>
+
+<p>values of transformation parameters for grid search.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>conditional</code></td>
+<td>
+
+<p>logical flag. If <code>TRUE</code>, the transformation parameter is assumed to be known and this must be provided via the arguments <code>lambda</code>, <code>delta</code> in vectors of the same length as <code>tau</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>start</code></td>
+<td>
+
+<p>vector of length <code>1 + p</code> (nlrq1) or <code>2 + p</code> (nlrq2) of initial values for the parameters to be optimized over. The first one (nlrq1) or two (nlrq2) values for the transformation parameter <code>lambda</code>, or <code>lambda</code> and <code>delta</code>, while the last <code>p</code> values are for the regression coefficients. These initial values are passed to <code>nl.fit.rqt</code> or to <code>optim</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>control</code></td>
+<td>
+
+<p>list of control parameters of the fitting process (nlrq1). See <code>nlControl</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tau</code></td>
+<td>
+
+<p>the quantile(s) to be estimated. See <code>rq</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>subset</code></td>
+<td>
+
+<p>an optional vector specifying a subset of observations to be used in the fitting process.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>weights</code></td>
+<td>
+
+<p>an optional vector of weights to be used in the fitting process. Should be NULL or a numeric vector. 
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>na.action</code></td>
+<td>
+
+<p>a function which indicates what should happen when the data contain <code>NA</code>s.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>contrasts</code></td>
+<td>
+
+<p>an optional list. See the <code>contrasts.arg</code> of <code>model.matrix.default</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+
+<p>fitting algorithm for <code>rq</code> (default is Frisch-Newton interior point method "<code>fn</code>").
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>These functions implement quantile regression transformation models as discussed by Geraci and Jones (see references). The general model is assumed to be <code class="reqn">Q_{h(Y)|X}(\tau) = \eta = Xb</code>, where <code class="reqn">Q</code> denotes the conditional quantile function, <code class="reqn">Y</code> is the response variable, <code class="reqn">X</code> a design matrix, and <code class="reqn">h</code> is a monotone one- or two-parameter transformation. A typical model specified in <code>formula</code> has the form <code>response ~ terms</code> where <code>response</code> is the (numeric) response vector and <code>terms</code> is a series of terms which specifies a linear predictor for the quantile of the transformed response. The <code>response</code>, which is singly or doubly bounded, i.e. <code>response &gt; 0</code> or <code>0 &lt;= response &lt;= 1</code> respectively, undergoes the transformation specified in <code>tsf</code>. If the response is bounded in the generic <code class="reqn">[a,b]</code> interval, the latter is automatically mapped to <code class="reqn">[0,1]</code> and no further action is required. If, however, the response is singly bounded and contains negative values, it is left to the user to offset the response or the code will produce an error.
+</p>
+<p>The functions <code>tsrq</code> and <code>tsrq2</code> use a two-stage (TS) estimator (Fitzenberger et al, 2010) for, respectively, one- and two-parameter transformations. The function <code>rcrq</code> (one-parameter tranformations) is based on the residual cusum process estimator proposed by Mu and He (2007). The functions <code>nlrq1</code> (one-parameter tranformations) and <code>nlrq2</code> (two-parameter tranformations) are based on, respectively, gradient search and Nelder-Mead optimization.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>tsrq</code>, <code>tsrq2</code>, <code>rcrq</code>, <code>nlrq2</code> return an object of <code>class</code> <code>rqt</code>. This is a list that contains as typical components:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>the first <code>nt = length(tau)</code> elements of the list store the results from fitting linear quantile models on the tranformed scale of the response.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>call</code></td>
+<td>
+<p>the matched call.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+<p>the fitting algorithm for <code>rq</code> or <code>optim</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>the response – untransformed scale.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>theta</code></td>
+<td>
+<p>if <code>dbounded = TRUE</code>, the response mapped to the unit interval.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>the model matrix.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>weights</code></td>
+<td>
+<p>the weights used in the fitting process (a vector of 1's if <code>weights</code> is missing or <code>NULL</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tau</code></td>
+<td>
+<p>the order of the estimated quantile(s).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lambda</code></td>
+<td>
+<p>the estimated parameter lambda.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>eta</code></td>
+<td>
+<p>the estimated parameters lambda and delta in the two-parameter Proposal II tranformation.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lambda.grid</code></td>
+<td>
+<p>grid of lambda values used for estimation.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>delta.grid</code></td>
+<td>
+<p>grid of delta values used for estimation.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tsf</code></td>
+<td>
+<p>tranformation used (see also <code>attributes(tsf)</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>objective</code></td>
+<td>
+<p>values of the objective function minimised over the tranformation parameter(s). This is an array of dimension <code>c(nl,nt)</code> or <code>c(nl,nd,nt)</code>, where <code>nl = length(lambda.grid)</code>, <code>nd = length(delta.grid)</code> and <code>nt = length(tau)</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>optimum</code></td>
+<td>
+<p>value of the objective function at solution.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>coefficients</code></td>
+<td>
+<p>quantile regression coefficients – transformed scale.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fitted.values</code></td>
+<td>
+<p>fitted values.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rejected</code></td>
+<td>
+<p>proportion of inadmissible observations (Fitzenberger et al, 2010).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>terms</code></td>
+<td>
+<p>the <code>terms</code> used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>term.labels</code></td>
+<td>
+<p>names of coefficients.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rdf</code></td>
+<td>
+<p>residual degrees of freedom.</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Marco Geraci
+</p>
+
+
+<h3>References</h3>
+
+<p>Aranda-Ordaz FJ. On two families of transformations to additivity for binary response data. Biometrika 1981;68(2):357-363.
+</p>
+<p>Box GEP, Cox DR. An analysis of transformations. Journal of the Royal Statistical Society Series B-Statistical Methodology 1964;26(2):211-252.
+</p>
+<p>Dehbi H-M, Cortina-Borja M, and Geraci M. Aranda-Ordaz quantile regression for student performance assessment. Journal of Applied Statistics. 2016;43(1):58-71.
+</p>
+<p>Fitzenberger B, Wilke R, Zhang X. Implementing Box-Cox quantile regression. Econometric Reviews 2010;29(2):158-181.
+</p>
+<p>Geraci M and Jones MC. Improved transformation-based quantile regression. Canadian Journal of Statistics 2015;43(1):118-132.
+</p>
+<p>Jones MC. Connecting distributions with power tails on the real line, the half line and the interval. International Statistical Review 2007;75(1):58-69.
+</p>
+<p>Koenker R. quantreg: Quantile Regression. 2016. R package version 5.29.
+</p>
+<p>Mu YM, He XM. Power transformation toward a linear regression quantile. Journal of the American Statistical Association 2007;102(477):269-279.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>predict.rqt</code>, <code>summary.rqt</code>, <code>coef.rqt</code>, <code>maref.rqt</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+###########################################################
+## Example 1 - singly bounded (from Geraci and Jones, 2014)
+
+## Not run: 
+
+data(trees)
+require(MASS)
+
+dx &lt;- 0.01
+
+lambda0 &lt;- boxcox(Volume ~ log(Height), data = trees,
+	lambda = seq(-0.9, 0.5, by = dx))
+lambda0 &lt;- lambda0$x[which.max(lambda0$y)]
+trees$z &lt;- bc(trees$Volume,lambda0)
+trees$y &lt;- trees$Volume
+trees$x &lt;- log(trees$Height)
+trees$x &lt;- trees$x - mean(log(trees$Height))
+
+fit.lm &lt;- lm(z ~ x, data = trees)
+newd &lt;- data.frame(x = log(seq(min(trees$Height),
+	max(trees$Height), by = 0.1)))
+newd$x &lt;- newd$x - mean(log(trees$Height))
+ylm &lt;- invbc(predict(fit.lm, newdata = newd), lambda0)
+
+lambdas &lt;- list(bc = seq(-10, 10, by=dx),
+	mcjIs = seq(0,10,by = dx), mcjIa = seq(0,20,by = dx))
+
+taus &lt;- 1:3/4
+fit0 &lt;- tsrq(y ~ x, data = trees, tsf = "bc", symm = FALSE,
+	lambda = lambdas$bc, tau = taus)
+fit1 &lt;- tsrq(y ~ x, data = trees, tsf = "mcjI", symm = TRUE,
+	dbounded = FALSE, lambda = lambdas$mcjIs, tau = taus)
+fit2 &lt;- tsrq(y ~ x, data = trees, tsf = "mcjI", symm = FALSE,
+	dbounded = FALSE, lambda = lambdas$mcjIa, tau = taus)
+
+
+par(mfrow = c(1,3), mar = c(7.1, 7.1, 5.1, 2.1), mgp = c(5, 2, 0))
+
+cx.lab &lt;- 2.5
+cx.ax &lt;- 2
+lw &lt;- 2
+cx &lt;- 2
+xb &lt;- "log(Height)"
+yb &lt;- "Volume"
+xl &lt;- range(trees$x)
+yl &lt;- c(5,80)
+
+yhat &lt;- predict(fit0, newdata = newd)
+plot(y ~ x, data = trees, xlim = xl, ylim = yl, main = "Box-Cox",
+	cex.lab = cx.lab, cex.axis = cx.ax, cex.main = cx.lab,
+	cex = cx, xlab = xb, ylab = yb)
+lines(newd$x, yhat[,1], lwd = lw)
+lines(newd$x, yhat[,2], lwd = lw)
+lines(newd$x, yhat[,3], lwd = lw)
+lines(newd$x, ylm, lwd = lw, lty = 2)
+
+yhat &lt;- predict(fit1, newdata = newd)
+plot(y ~ x, data = trees, xlim = xl, ylim = yl, main = "Proposal I (symmetric)",
+	cex.lab = cx.lab, cex.axis = cx.ax, cex.main = cx.lab,
+	cex = cx, xlab = xb, ylab = yb)
+lines(newd$x, yhat[,1], lwd = lw)
+lines(newd$x, yhat[,2], lwd = lw)
+lines(newd$x, yhat[,3], lwd = lw)
+lines(newd$x, ylm, lwd = lw, lty = 2)
+
+yhat &lt;- predict(fit2, newdata = newd)
+plot(y ~ x, data = trees, xlim = xl, ylim = yl, main = "Proposal I (asymmetric)",
+	cex.lab = cx.lab, cex.axis = cx.ax, cex.main = cx.lab,
+	cex = cx, xlab = xb, ylab = yb)
+lines(newd$x, yhat[,1], lwd = lw)
+lines(newd$x, yhat[,2], lwd = lw)
+lines(newd$x, yhat[,3], lwd = lw)
+lines(newd$x, ylm, lwd = lw, lty = 2)
+
+## End(Not run)
+
+###########################################################
+## Example 2 - doubly bounded
+
+## Not run: 
+
+data(Chemistry)
+
+Chemistry$gcse_gr &lt;- cut(Chemistry$gcse, c(0,seq(4,8,by=0.5)))
+with(Chemistry, plot(score ~ gcse_gr, xlab = "GCSE score",
+	ylab = "A-level Chemistry score"))
+
+
+# The dataset has &gt; 31000 observations and computation can be slow
+set.seed(178)
+chemsub &lt;- Chemistry[sample(1:nrow(Chemistry), 2000), ]
+
+# Fit symmetric Aranda-Ordaz quantile 0.9
+tsrq(score ~ gcse, data = chemsub, tsf = "ao", symm = TRUE,
+	lambda = seq(0,2,by=0.01), tau = 0.9)
+
+# Fit symmetric Proposal I quantile 0.9
+tsrq(score ~ gcse, data = chemsub, tsf = "mcjI", symm = TRUE,
+	dbounded = TRUE, lambda = seq(0,2,by=0.01), tau = 0.9)
+
+# Fit Proposal II quantile 0.9 (Nelder-Mead)
+nlrq2(score ~ gcse, data = chemsub, dbounded = TRUE, tau = 0.9)
+
+# Fit Proposal II quantile 0.9 (grid search)
+# This is slower than nlrq2 but more stable numerically
+tsrq2(score ~ gcse, data = chemsub, dbounded = TRUE,
+	lambda = seq(0, 2, by = 0.1), delta = seq(0, 2, by = 0.1),
+	tau = 0.9)
+
+
+## End(Not run)
+
+###########################################################
+## Example 3 - doubly bounded
+
+data(labor)
+
+new &lt;- labor
+new$y &lt;- new$pain
+new$x &lt;- (new$time-30)/30
+new$x_gr &lt;- as.factor(new$x)
+
+par(mfrow = c(2,2))
+
+cx.lab &lt;- 1
+cx.ax &lt;- 2.5
+cx &lt;- 2.5
+yl &lt;- c(0,0.06)
+
+hist(new$y[new$treatment == 1], xlab = "Pain score", main = "Medication group",
+	freq = FALSE, ylim = yl)
+
+plot(y ~ x_gr, new, subset = new$treatment == 1, xlab = "Time (min)",
+	ylab = "Pain score", axes = FALSE, range = 0)
+axis(1, at = 1:6, labels = c(0:5)*30 + 30)
+axis(2)
+box()
+
+hist(new$y[new$treatment == 0], xlab = "Pain score", main = "Placebo group",
+	freq = FALSE, ylim = yl)
+
+plot(y ~ x_gr, new, subset = new$treatment == 0, xlab = "Time (min)",
+	ylab = "Pain score", axes = FALSE, range = 0)
+axis(1, at = 1:6, labels = (0:5)*30 + 30)
+axis(2)
+box()
+
+#
+
+## Not run: 
+
+taus &lt;- c(1:3/4)
+ls &lt;- seq(0,3.5,by=0.1)
+
+fit.aos &lt;- tsrq(y ~ x*treatment, data = new, tsf = "ao", symm = TRUE,
+	dbounded = TRUE, tau = taus, lambda = ls)
+fit.aoa &lt;- tsrq(y ~ x*treatment, data = new, tsf = "ao", symm = FALSE,
+	dbounded = TRUE, tau = taus, lambda = ls)
+fit.mcjs &lt;- tsrq(y ~ x*treatment, data = new, tsf = "mcjI", symm = TRUE,
+	dbounded = TRUE, tau = taus, lambda = ls)
+fit.mcja &lt;- tsrq(y ~ x*treatment, data = new, tsf = "mcjI", symm = FALSE,
+	dbounded = TRUE, tau = taus, lambda = ls)
+fit.mcj2 &lt;- tsrq2(y ~ x*treatment, data = new, dbounded = TRUE, tau = taus,
+	lambda = seq(0,2,by=0.1), delta = seq(0,1.5,by=0.3))
+fit.nlrq &lt;- nlrq2(y ~ x*treatment, data = new, start = coef(fit.mcj2, all = TRUE)[,1],
+	dbounded = TRUE, tau = taus)
+
+sel &lt;- 0 # placebo (change to sel == 1 for medication group)
+x &lt;- new$x
+nd &lt;- data.frame(x = seq(min(x), max(x), length=200), treatment = sel)
+xx &lt;- nd$x+1
+
+par(mfrow = c(2,2))
+
+fit &lt;- fit.aos
+yhat &lt;- predict(fit, newdata = nd)
+
+plot(y ~ x_gr, new, subset = new$treatment == sel, xlab = "",
+	ylab = "Pain score", axes = FALSE, main = "Aranda-Ordaz (s)",
+	range = 0, col = grey(4/5))
+apply(yhat, 2, function(y,x) lines(x, y, lwd = 2), x = xx)
+axis(1, at = 1:6, labels = (0:5)*30 + 30)
+axis(2, at = c(0, 25, 50, 75, 100))
+box()
+
+fit &lt;- fit.aoa
+yhat &lt;- predict(fit, newdata = nd)
+
+plot(y ~ x_gr, new, subset = new$treatment == sel, xlab = "", ylab = "",
+	axes = FALSE, main = "Aranda-Ordaz (a)", range = 0, col = grey(4/5))
+apply(yhat, 2, function(y,x) lines(x, y, lwd = 2), x = xx)
+axis(1, at = 1:6, labels = (0:5)*30 + 30)
+axis(2, at = c(0, 25, 50, 75, 100))
+box()
+
+fit &lt;- fit.mcjs
+yhat &lt;- predict(fit, newdata = nd)
+
+plot(y ~ x_gr, new, subset = new$treatment == sel, xlab = "Time (min)",
+	ylab = "Pain score", axes = FALSE, main = "Proposal I (s)",
+	range = 0, col = grey(4/5))
+apply(yhat, 2, function(y,x) lines(x, y, lwd = 2), x = xx)
+axis(1, at = 1:6, labels = (0:5)*30 + 30)
+axis(2, at = c(0, 25, 50, 75, 100))
+box()
+
+fit &lt;- fit.mcj2
+yhat &lt;- predict(fit, newdata = nd)
+
+plot(y ~ x_gr, new, subset = new$treatment == sel, xlab = "Time (min)",
+	ylab = "", axes = FALSE, main = "Proposal II", range = 0, col = grey(4/5))
+apply(yhat, 2, function(y,x) lines(x, y, lwd = 2), x = xx)
+axis(1, at = 1:6, labels = (0:5)*30 + 30)
+axis(2, at = c(0, 25, 50, 75, 100))
+box()
+
+## End(Not run)
+
+</code></pre>
+
+
+</div>

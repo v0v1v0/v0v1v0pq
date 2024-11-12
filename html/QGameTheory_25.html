@@ -1,0 +1,69 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>QMontyHall</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Quantum Monty Hall Problem</h2>
+
+<h3>Description</h3>
+
+<p>This function simulates the quantum version of the Monty Hall problem, by taking in <code>Psi_in</code> as the initial quantum state of the game, <code>gamma</code> lying in 0 to pi/2, <code>Ahat</code> and <code>Bhat</code> as the choice operators in SU(3) for Alice and Bob respectively as the inputs. It returns the expected payoffs to Alice and Bob after the end of the game.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">QMontyHall(Psi_in, gamma, Ahat, Bhat)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>Psi_in</code></td>
+<td>
+<p>a vector representing the initial quantum state</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gamma</code></td>
+<td>
+<p>a number between 0 and pi/2 including the end points</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Ahat</code></td>
+<td>
+<p>a matrix lying in SU(3)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Bhat</code></td>
+<td>
+<p>a matrix lying in SU(3)</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A vector consisting of the expected payoffs to Alice and Bob as its elements depending on the input parameters.
+</p>
+
+
+<h3>References</h3>
+
+<p><a href="https://arxiv.org/pdf/quant-ph/0506219.pdf">https://arxiv.org/pdf/quant-ph/0506219.pdf</a><br><a href="https://arxiv.org/pdf/quant-ph/0208069.pdf">https://arxiv.org/pdf/quant-ph/0208069.pdf</a><br><a href="https://arxiv.org/pdf/quant-ph/0109035.pdf">https://arxiv.org/pdf/quant-ph/0109035.pdf</a><br></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">init()
+Psi_in &lt;- kronecker(Q$Qt0, (Q$Qt00+Q$Qt11+Q$Qt22)/sqrt(3))
+QMontyHall(Psi_in, pi/4, Q$Identity3, Q$Hhat)
+
+</code></pre>
+
+
+</div>

@@ -1,0 +1,364 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>rm_bracket</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Remove/Replace/Extract Brackets</h2>
+
+<h3>Description</h3>
+
+<p>Remove/replace/extract bracketed strings.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">rm_bracket(
+  text.var,
+  pattern = "all",
+  trim = TRUE,
+  clean = TRUE,
+  replacement = "",
+  extract = FALSE,
+  include.markers = ifelse(extract, FALSE, TRUE),
+  dictionary = getOption("regex.library"),
+  ...
+)
+
+rm_round(
+  text.var,
+  pattern = "(",
+  trim = TRUE,
+  clean = TRUE,
+  replacement = "",
+  extract = FALSE,
+  include.markers = ifelse(extract, FALSE, TRUE),
+  dictionary = getOption("regex.library"),
+  ...
+)
+
+rm_square(
+  text.var,
+  pattern = "[",
+  trim = TRUE,
+  clean = TRUE,
+  replacement = "",
+  extract = FALSE,
+  include.markers = ifelse(extract, FALSE, TRUE),
+  dictionary = getOption("regex.library"),
+  ...
+)
+
+rm_curly(
+  text.var,
+  pattern = "{",
+  trim = TRUE,
+  clean = TRUE,
+  replacement = "",
+  extract = FALSE,
+  include.markers = ifelse(extract, FALSE, TRUE),
+  dictionary = getOption("regex.library"),
+  ...
+)
+
+rm_angle(
+  text.var,
+  pattern = "&lt;",
+  trim = TRUE,
+  clean = TRUE,
+  replacement = "",
+  extract = FALSE,
+  include.markers = ifelse(extract, FALSE, TRUE),
+  dictionary = getOption("regex.library"),
+  ...
+)
+
+rm_bracket_multiple(
+  text.var,
+  trim = TRUE,
+  clean = TRUE,
+  pattern = "all",
+  replacement = "",
+  extract = FALSE,
+  include.markers = FALSE,
+  merge = TRUE
+)
+
+ex_bracket(
+  text.var,
+  pattern = "all",
+  trim = TRUE,
+  clean = TRUE,
+  replacement = "",
+  extract = TRUE,
+  include.markers = ifelse(extract, FALSE, TRUE),
+  dictionary = getOption("regex.library"),
+  ...
+)
+
+ex_bracket_multiple(
+  text.var,
+  trim = TRUE,
+  clean = TRUE,
+  pattern = "all",
+  replacement = "",
+  extract = TRUE,
+  include.markers = FALSE,
+  merge = TRUE
+)
+
+ex_angle(
+  text.var,
+  pattern = "&lt;",
+  trim = TRUE,
+  clean = TRUE,
+  replacement = "",
+  extract = TRUE,
+  include.markers = ifelse(extract, FALSE, TRUE),
+  dictionary = getOption("regex.library"),
+  ...
+)
+
+ex_round(
+  text.var,
+  pattern = "(",
+  trim = TRUE,
+  clean = TRUE,
+  replacement = "",
+  extract = TRUE,
+  include.markers = ifelse(extract, FALSE, TRUE),
+  dictionary = getOption("regex.library"),
+  ...
+)
+
+ex_square(
+  text.var,
+  pattern = "[",
+  trim = TRUE,
+  clean = TRUE,
+  replacement = "",
+  extract = TRUE,
+  include.markers = ifelse(extract, FALSE, TRUE),
+  dictionary = getOption("regex.library"),
+  ...
+)
+
+ex_curly(
+  text.var,
+  pattern = "{",
+  trim = TRUE,
+  clean = TRUE,
+  replacement = "",
+  extract = TRUE,
+  include.markers = ifelse(extract, FALSE, TRUE),
+  dictionary = getOption("regex.library"),
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>text.var</code></td>
+<td>
+<p>The text variable.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pattern</code></td>
+<td>
+<p>The type of bracket (and encased text) to remove.  This is one 
+or more of the strings <code>"curly"</code>/<code>"{"</code>, <code>"square"</code>/<code>"["</code>, 
+<code>"round"</code>/<code>"("</code>, <code>"angle"</code>/<code>"&lt;"</code> and <code>"all"</code>.  These 
+strings correspond to: {, [, (, &lt; or all four types.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>trim</code></td>
+<td>
+<p>logical.  If <code>TRUE</code> removes leading and trailing white 
+spaces.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>clean</code></td>
+<td>
+<p>trim logical.  If <code>TRUE</code> extra white spaces and escaped 
+character will be removed.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>replacement</code></td>
+<td>
+<p>Replacement for matched <code>pattern</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>extract</code></td>
+<td>
+<p>logical.  If <code>TRUE</code> the bracketed text is extracted into 
+a list of vectors.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>include.markers</code></td>
+<td>
+<p>logical.  If <code>TRUE</code> and <code>extract = TRUE</code> returns 
+the markers (left/right) and the text between.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dictionary</code></td>
+<td>
+<p>A dictionary of canned regular expressions to search within 
+if <code>pattern</code> begins with <code>"@rm_"</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Other arguments passed to <code>gsub</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>merge</code></td>
+<td>
+<p>logical.  If <code>TRUE</code> the results of each bracket type will 
+be merged by string.  <code>FALSE</code> returns a named list of lists of vectors 
+of bracketed text per bracket type.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p><code>rm_bracket</code> - returns a character string with 
+multiple brackets removed.  If <code>extract = TRUE</code> the results are 
+optionally merged and named by bracket type.  This is more flexible than 
+<code>rm_bracket</code> but slower.
+</p>
+<p><code>rm_round</code> - returns a character string with round brackets removed.
+</p>
+<p><code>rm_square</code> - returns a character string with square brackets 
+removed.
+</p>
+<p><code>rm_curly</code> - returns a character string with curly brackets 
+removed.
+</p>
+<p><code>rm_angle</code> - returns a character string with angle brackets 
+removed.
+</p>
+<p><code>rm_bracket_multiple</code> - returns a character string with 
+multiple brackets removed.  If <code>extract = TRUE</code> the results are 
+optionally merged and named by bracket type.  This is more flexible than 
+<code>rm_bracket</code> but slower.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Martin Morgan and Tyler Rinker &lt;tyler.rinker@gmail.com&gt;.
+</p>
+
+
+<h3>References</h3>
+
+<p><a href="https://stackoverflow.com/q/8621066/1000343">https://stackoverflow.com/q/8621066/1000343</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>gsub</code>,
+<code>rm_between</code>,
+<code>stri_extract_all_regex</code>
+</p>
+<p>Other rm_ functions: 
+<code>rm_abbreviation()</code>,
+<code>rm_between()</code>,
+<code>rm_caps_phrase()</code>,
+<code>rm_caps()</code>,
+<code>rm_citation_tex()</code>,
+<code>rm_citation()</code>,
+<code>rm_city_state_zip()</code>,
+<code>rm_city_state()</code>,
+<code>rm_date()</code>,
+<code>rm_default()</code>,
+<code>rm_dollar()</code>,
+<code>rm_email()</code>,
+<code>rm_emoticon()</code>,
+<code>rm_endmark()</code>,
+<code>rm_hash()</code>,
+<code>rm_nchar_words()</code>,
+<code>rm_non_ascii()</code>,
+<code>rm_non_words()</code>,
+<code>rm_number()</code>,
+<code>rm_percent()</code>,
+<code>rm_phone()</code>,
+<code>rm_postal_code()</code>,
+<code>rm_repeated_characters()</code>,
+<code>rm_repeated_phrases()</code>,
+<code>rm_repeated_words()</code>,
+<code>rm_tag()</code>,
+<code>rm_time()</code>,
+<code>rm_title_name()</code>,
+<code>rm_url()</code>,
+<code>rm_white()</code>,
+<code>rm_zip()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">examp &lt;- structure(list(person = structure(c(1L, 2L, 1L, 3L),
+    .Label = c("bob", "greg", "sue"), class = "factor"), text =
+    c("I love chicken [unintelligible]!",
+    "Me too! (laughter) It's so good.[interrupting]",
+    "Yep it's awesome {reading}.", "Agreed. {is so much fun}")), .Names =
+    c("person", "text"), row.names = c(NA, -4L), class = "data.frame")
+
+examp
+rm_bracket(examp$text, pattern = "square")
+rm_bracket(examp$text, pattern = "curly")
+rm_bracket(examp$text, pattern = c("square", "round"))
+rm_bracket(examp$text)
+
+ex_bracket(examp$text, pattern = "square")
+ex_bracket(examp$text, pattern = "curly")
+ex_bracket(examp$text, pattern = c("square", "round"))
+ex_bracket(examp$text, pattern = c("square", "round"), merge = FALSE)
+ex_bracket(examp$text)
+ex_bracket(examp$tex, include.markers=TRUE)
+
+## Not run: 
+library(qdap)
+ex_bracket(examp$tex, pattern="curly") %&gt;% 
+  unlist() %&gt;% 
+  na.omit() %&gt;% 
+  paste2()
+
+## End(Not run)
+
+x &lt;- "I like [bots] (not). And &lt;likely&gt; many do not {he he}"
+
+rm_round(x)
+ex_round(x)
+ex_round(x, include.marker = TRUE)
+
+rm_square(x)
+ex_square(x)
+
+rm_curly(x)
+ex_curly(x)
+
+rm_angle(x)
+ex_angle(x)
+
+lapply(ex_between('She said, "I am!" and he responded..."Am what?".', 
+    left='"', right='"'), "[", c(TRUE, FALSE))
+</code></pre>
+
+
+</div>

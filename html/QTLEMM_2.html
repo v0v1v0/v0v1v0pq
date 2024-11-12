@@ -1,0 +1,223 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>EM.MIM</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>EM Algorithm for QTL MIM</h2>
+
+<h3>Description</h3>
+
+<p>Expectation-maximization algorithm for QTL multiple interval mapping.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">EM.MIM(
+  D.matrix,
+  cp.matrix,
+  y,
+  E.vector0 = NULL,
+  X = NULL,
+  beta0 = NULL,
+  variance0 = NULL,
+  crit = 10^-5,
+  stop = 1000,
+  conv = TRUE,
+  console = TRUE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>D.matrix</code></td>
+<td>
+<p>matrix. The design matrix of QTL effects is a g*p
+matrix, where g is the number of possible QTL genotypes, and p is the
+number of effects considered in the MIM model. This design matrix can
+be conveniently generated using the function D.make().</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cp.matrix</code></td>
+<td>
+<p>matrix. The conditional probability matrix is an n*g
+matrix, where n is the number of individuals, and g is the number of
+possible genotypes of QTLs. This conditional probability matrix can
+be easily generated using the function Q.make().</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>vector. A vector with n elements that contain the phenotype
+values of individuals.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>E.vector0</code></td>
+<td>
+<p>vector. The initial value for QTL effects. The
+number of elements corresponds to the column dimension of the design
+matrix. If E.vector0=NULL, the initial value for all effects will be
+set to 0.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>X</code></td>
+<td>
+<p>matrix. The design matrix of the fixed factors except for
+QTL effects. It is an n*k matrix, where n is the number of
+individuals, and k is the number of fixed factors. If X=NULL,
+the matrix will be an n*1 matrix where all elements are 1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>beta0</code></td>
+<td>
+<p>vector. The initial value for effects of the fixed
+factors. The number of elements corresponds to the column dimension
+of the fixed factor design matrix.  If beta0=NULL, the initial value
+will be set to the average of y.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>variance0</code></td>
+<td>
+<p>numeric. The initial value for variance. If
+variance0=NULL, the initial value will be set to the variance of
+phenotype values.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>crit</code></td>
+<td>
+<p>numeric. The convergence criterion of EM algorithm.
+The E and M steps will iterate until a convergence criterion is met.
+It must be a value between 0 and 1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>stop</code></td>
+<td>
+<p>numeric. The stopping criterion of EM algorithm. The E and
+M steps will halt when the iteration number reaches the stopping
+criterion, treating the algorithm as having failed to converge.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>conv</code></td>
+<td>
+<p>logical. If set to False, it will disregard the failure to
+converge and output the last result obtained during the EM algorithm
+before reaching the stopping criterion.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>console</code></td>
+<td>
+<p>logical. Determines whether the process of the algorithm
+will be displayed in the R console or not.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>E.vector</code></td>
+<td>
+<p>The QTL effects are calculated by the EM algorithm.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>beta</code></td>
+<td>
+<p>The effects of the fixed factors are calculated by the EM
+algorithm.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>variance</code></td>
+<td>
+<p>The error variance is calculated by the EM algorithm.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>PI.matrix</code></td>
+<td>
+<p>The posterior probabilities matrix after the
+process of the EM algorithm.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>log.likelihood</code></td>
+<td>
+<p>The log-likelihood value of this model.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>LRT</code></td>
+<td>
+<p>The LRT statistic of this model.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>R2</code></td>
+<td>
+<p>The coefficient of determination of this model. This
+can be used as an estimate of heritability.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y.hat</code></td>
+<td>
+<p>The fitted values of trait values are calculated by
+the estimated values from the EM algorithm.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>iteration.number</code></td>
+<td>
+<p>The iteration number of the EM algorithm.</p>
+</td>
+</tr>
+</table>
+<h3>References</h3>
+
+<p>KAO, C.-H. and Z.-B. ZENG 1997 General formulas for obtaining the maximum
+likelihood estimates and the asymptotic variance-covariance matrix in QTL
+mapping when using the EM algorithm. Biometrics 53, 653-665. &lt;doi: 10.2307/2533965.&gt;
+</p>
+<p>KAO, C.-H., Z.-B. ZENG and R. D. TEASDALE 1999 Multiple interval mapping
+for Quantitative Trait Loci. Genetics 152: 1203-1216. &lt;doi: 10.1093/genetics/152.3.1203&gt;
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>D.make</code>
+<code>Q.make</code>
+<code>EM.MIM2</code>
+<code>EM.MIMv</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># load the example data
+load(system.file("extdata", "exampledata.RDATA", package = "QTLEMM"))
+
+# run and result
+D.matrix &lt;- D.make(3, type = "RI", aa = c(1, 3, 2, 3), dd = c(1, 2, 1, 3), ad = c(1, 2, 2, 3))
+cp.matrix &lt;- Q.make(QTL, marker, geno, type = "RI", ng = 2)$cp.matrix
+result &lt;- EM.MIM(D.matrix, cp.matrix, y)
+result$E.vector
+</code></pre>
+
+
+</div>

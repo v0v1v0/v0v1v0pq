@@ -1,0 +1,119 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>bounds</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>bounds</h2>
+
+<h3>Description</h3>
+
+<p><code>bounds</code> estimates bounds for the Quantile Treatment
+Effect on the
+Treated (QTET) using the method of Fan and Yu (2012).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">bounds(
+  formla,
+  xformla = NULL,
+  t,
+  tmin1,
+  tname,
+  data,
+  idname,
+  probs = seq(0.05, 0.95, 0.05)
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>formla</code></td>
+<td>
+<p>The formula y ~ d where y is the outcome and d is the
+treatment indicator (d should be binary), d should be equal to one
+in all time periods for individuals that are eventually treated</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xformla</code></td>
+<td>
+<p>A optional one sided formula for additional covariates that
+will be adjusted for.  E.g ~ age + education.  Additional covariates can
+also be passed by name using the x paramater.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>t</code></td>
+<td>
+<p>The 3rd time period in the sample.  Treated individuals should
+be treated in this time period and untreated individuals should not be
+treated.  The code attempts to enforce this condition, but it is good
+try to handle this outside the panel.qtet method.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tmin1</code></td>
+<td>
+<p>The 2nd time period in the sample.  This should be a
+pre-treatment period for all individuals in the sample.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tname</code></td>
+<td>
+<p>The name of the column containing the time periods</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>A data.frame containing all the variables used</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>idname</code></td>
+<td>
+<p>The individual (cross-sectional unit) id name</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>probs</code></td>
+<td>
+<p>A vector of values between 0 and 1 to compute the QTET at</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A <code>BoundsObj</code> object
+</p>
+
+
+<h3>References</h3>
+
+<p>Fan, Yanqin and Zhengfei Yu.  “Partial Identification of Distributional
+and Quantile Treatment Effects in Difference-in-Differences Models.”
+Economics Letters 115.3, pp.511-515, 2012.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## load the data
+data(lalonde)
+
+## Run the bounds method with no covariates
+b1 &lt;- bounds(re ~ treat, t=1978, tmin1=1975, data=lalonde.psid.panel,
+  idname="id", tname="year")
+summary(b1)
+
+</code></pre>
+
+
+</div>

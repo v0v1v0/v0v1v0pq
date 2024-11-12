@@ -1,0 +1,156 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>splitTable</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Construct sparse matrices from a nominal matrix/dataframe
+</h2>
+
+<h3>Description</h3>
+
+<p>This function splits a matrix or dataframe into two sparse matrices: an incidence and an index matrix. The incidence matrix links the observations (rows) to all possible values that occur in the original matrix. The index matrix links the values to the attributes (columns). This encoding allows for highly efficient calculations on nominal data.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">splitTable(data, 
+    attributes = colnames(data), observations = rownames(data),
+		name.binder = ":", split = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+
+<p>a matrix (or data.frame) with observations as rows and nominal attributes as columns. Numerical values in the data will be interpreted as classes (i.e. as nominal data, aka categorical data). 
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>attributes, observations</code></td>
+<td>
+
+<p>The row names and column names of the data will by default be extracted from the input matrix. However, in special situations they can be added separately. Note that names of the attributes (‘column names’) are needed for the production of unique value names. In case of absent column names, new column names of the form ‘X1’ are automatically generated.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>name.binder</code></td>
+<td>
+
+<p>Character string to be added between attribute names and value names. Defaults to colon ‘:’.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>split</code></td>
+<td>
+
+<p>Character string to split values in each cell of the table, e.g. a comma or semicolon.
+</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list containing the various row and column names, and the two sparse pattern matrices of format <code>ngCMatrix</code>:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>attributes</code></td>
+<td>
+<p>vector of attribute names</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>values</code></td>
+<td>
+<p>vector of unique value names</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>observations</code></td>
+<td>
+<p>vector of observation names</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>OV</code></td>
+<td>
+<p>sparse pattern matrix with observations as rows (O) and values as columns (V)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>AV</code></td>
+<td>
+<p>sparse pattern matrix with attributes as rows (A) and values as columns (V)</p>
+</td>
+</tr>
+</table>
+<h3>Note</h3>
+
+<p>Input of data as a matrix or as a data.frame might lead to different ordering of the values because collation differs per locale (see the discussion at <code>ttMatrix</code>, which does the heavy lifting here).
+</p>
+<p>The term ‘attribute’ is used in instead of the more common term ‘variable’ to allow  for the capital A to uniquely identify attributes and V to identify values.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Michael Cysouw
+</p>
+
+
+<h3>See Also</h3>
+
+<p>More methods to use such split tables can be found at <code>sim.nominal</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+# start with a simple example from the MASS library
+# compare the original data with the encoding as sparse matrices
+library(MASS)
+farms
+splitTable(farms)
+
+# As a more involved example, consider the WALS data included in this package
+# Transforming the reasonably large WALS data.frame \code{wals$data} is fast
+# (2566 observations, 131 attributes, 630 unique values)
+# The function `str' gives a useful summary of the result of the splitting
+data(wals)
+system.time(W &lt;- splitTable(wals$data))
+str(W) 
+
+# Some basic use examples on the complete WALS data.
+# The OV-matrix can be used to quickly count the number of similarities 
+# between all pairs of observations. Note that with the large amount of missing values
+# the resulting numbers are not really meaningfull. Some normalisation is necessary.
+system.time( O &lt;- tcrossprod(W$OV*1) )
+O[1:10,1:10]
+
+# The number of comparisons available for each pair of attributes
+system.time( N &lt;- crossprod(tcrossprod(W$OV*1, W$AV*1)) )
+N[1:10,1:10]
+
+
+# compute the number of available datapoints per observation (language) in WALS
+# once the sparse matrices W are computed, such calculations are much quicker than 'apply'
+system.time( avail1 &lt;- rowSums(W$OV) )
+system.time( avail2 &lt;- apply(wals$data,1,function(x){sum(!is.na(x))}))
+names(avail2) &lt;- NULL
+all.equal(avail1, avail2)
+
+</code></pre>
+
+
+</div>

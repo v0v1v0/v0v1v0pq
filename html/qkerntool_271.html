@@ -1,0 +1,104 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qtSNE-class</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Class "qtSNE"</h2>
+
+<h3>Description</h3>
+
+<p>An S4 Class for qtSNE.
+</p>
+
+
+<h3>Details</h3>
+
+<p>The qtSNE is a method that uses Qkernel t-Distributed Stochastic Neighborhood Embedding between the distance matrices in high and low-dimensional space to embed the data. The method is very well suited to visualize complex structures in low dimensions.
+</p>
+
+
+<h3>Objects from the Class</h3>
+
+<p>Objects can be created by calls of the form <code>new("qtSNE", ...)</code>.
+or by calling the function <code>qtSNE</code>.
+</p>
+
+
+<h3>Slots</h3>
+
+
+<dl>
+<dt><code>dimRed</code></dt>
+<dd>
+<p> Matrix containing the new representations for the objects after qtSNE</p>
+</dd>
+<dt><code>cndkernf</code></dt>
+<dd>
+<p> The kernel function used</p>
+</dd>
+</dl>
+<h3>Method</h3>
+
+
+<dl>
+<dt><code>dimRed</code></dt>
+<dd>
+<p><code>signature(object="qtSNE")</code>: return a new representation matrix</p>
+</dd>
+<dt><code>cndkernf</code></dt>
+<dd>
+<p><code>signature(object="qtSNE")</code>: return the kernel used</p>
+</dd>
+</dl>
+<h3>Author(s)</h3>
+
+<p>Yusen Zhang <br><a href="mailto:yusenzhang@126.com">yusenzhang@126.com</a></p>
+
+
+<h3>References</h3>
+
+<p>Maaten, L. van der, 2014. Accelerating t-SNE using Tree-Based
+Algorithms. Journal of Machine Learning Research 15, 3221-3245.
+</p>
+<p>van der Maaten, L., Hinton, G., 2008. Visualizing Data using
+t-SNE. J. Mach. Learn. Res. 9, 2579-2605.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>qtSNE</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+#use iris data set
+data(iris)
+testset &lt;- sample(1:150,20)
+train &lt;- as.matrix(iris[,1:4])
+
+colors = rainbow(length(unique(iris$Species)))
+names(colors) = unique(iris$Species)
+#for matrix
+ecb = function(x,y){
+  plot(x,t='n');
+  text(x,labels=iris$Species, col=colors[iris$Species])
+}
+kpc2 &lt;- qtSNE(train, kernel = "rbfbase", qpar = list(sigma=1,q=0.8),
+              epoch_callback = ecb, perplexity=10, max_iter = 500)
+
+#cndernf
+cndkernf(kpc2)
+
+#dimRed
+plot(dimRed(kpc2),col=train)
+
+
+## End(Not run)
+</code></pre>
+
+
+</div>

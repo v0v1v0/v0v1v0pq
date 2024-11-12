@@ -1,0 +1,114 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>mqmplot.directedqtl</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Plot LOD*Effect curves of a multiple-QTL model </h2>
+
+<h3>Description</h3>
+
+<p>Plot the LOD*Effect curve for a genome scan with a multiple-QTL model (the
+output of <code>mqmscan</code>).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">mqmplot.directedqtl(cross, mqmresult, pheno.col=1, draw = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>cross</code></td>
+<td>
+
+<p>An object of class <code>cross</code>. See <code>read.cross</code> for details. 
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mqmresult</code></td>
+<td>
+<p> Results from mqmscan of type <code>scanone</code> </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pheno.col</code></td>
+<td>
+<p> From which phenotype in the crossobject are the result calculated </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>draw</code></td>
+<td>
+<p> If TRUE, draw the figure. </p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Returns a scanone object, with added the effectsign calculated
+internally by the function effect.scan. For more info on the
+scanone object see: <code>scanone</code>
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Danny Arends <a href="mailto:danny.arends@gmail.com">danny.arends@gmail.com</a> 
+</p>
+
+
+<h3>See Also</h3>
+
+
+
+<ul>
+<li>
+<p> The MQM tutorial: <a href="https://rqtl.org/tutorials/MQM-tour.pdf">https://rqtl.org/tutorials/MQM-tour.pdf</a>
+</p>
+</li>
+<li> <p><code>MQM</code> - MQM description and references
+</p>
+</li>
+<li> <p><code>mqmscan</code> - Main MQM single trait analysis
+</p>
+</li>
+<li> <p><code>mqmscanall</code> - Parallellized traits analysis
+</p>
+</li>
+<li> <p><code>mqmaugment</code> - Augmentation routine for estimating missing data
+</p>
+</li>
+<li> <p><code>mqmautocofactors</code> - Set cofactors using marker density
+</p>
+</li>
+<li> <p><code>mqmsetcofactors</code> - Set cofactors at fixed locations
+</p>
+</li>
+<li> <p><code>mqmpermutation</code> - Estimate significance levels
+</p>
+</li>
+<li> <p><code>scanone</code> - Single QTL scanning
+
+</p>
+</li>
+</ul>
+<h3>Examples</h3>
+
+<pre><code class="language-R">#Simulated F2 Population
+f2qtl &lt;- c(3,15,1,0)                                    # QTL at chromosome 3
+data(map10)                                             # Mouse genetic map
+
+f2cross &lt;- sim.cross(map10,f2qtl,n=100,type="f2")       # Simulate a F2 Cross
+f2cross &lt;- fill.geno(f2cross)                           # Fill in missing genotypes
+f2result &lt;- mqmscan(f2cross)                        # Do a MQM scan of the genome
+mqmplot.directedqtl(f2cross,f2result)
+</code></pre>
+
+
+</div>

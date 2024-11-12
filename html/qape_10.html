@@ -1,0 +1,57 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>corrRanef</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Correction of predicted random effects</h2>
+
+<h3>Description</h3>
+
+<p>The function computes the corrected predicted random effects as presented in Carpenter, Goldstein and Rasbash (2003) in Section 3.2 to avoid the problem of underdispersion of residual bootstrap distributions.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">corrRanef(model)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>model</code></td>
+<td>
+ <p><em>lmer</em> object.
+</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>a list of corrected predicted random effects (of the same form as <em>ranef(model)</em>).</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Tomasz Zadlo</p>
+
+
+<h3>References</h3>
+
+<p>Carpenter, J.R., Goldstein, H. and Rasbash, J. (2003), A novel bootstrap procedure for assessing the relationship between class size and achievement. Journal of the Royal Statistical Society: Series C (Applied Statistics), 52, 431-443. <br></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(lme4)
+data(invData)
+attach(invData)
+model &lt;- lmer(investments ~ newly_registered + ((1|NUTS2) + 
+((newly_registered - 1)|NUTS2) + ((newly_registered)|NUTS4)))
+corrRanef(model)
+detach(invData)
+</code></pre>
+
+
+</div>

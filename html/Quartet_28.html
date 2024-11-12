@@ -1,0 +1,86 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>PairSharedQuartetStatus</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Status of quartets that exist in two trees</h2>
+
+<h3>Description</h3>
+
+<p>Removes all tips that do not occur in both <code>tree1</code> and <code>tree2</code>, then calculates
+the status of the remaining quartets.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">PairSharedQuartetStatus(tree1, tree2)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>tree1, tree2</code></td>
+<td>
+<p>Trees of class <code>phylo</code>
+to compare.</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>Returns a named array of six integers corresponding to the quantities of Estabrook <em>et al</em>. (1985):
+</p>
+
+<dl>
+<dt>N</dt>
+<dd>
+<p>The total number of quartet <em>statements</em> for two trees of <em>n</em> leaves,
+i.e. 2 <em>Q</em>.</p>
+</dd>
+<dt>Q</dt>
+<dd>
+<p>The total number of quartets for <em>n</em> leaves.</p>
+</dd>
+<dt>s</dt>
+<dd>
+<p>The number of quartets that are resolved identically in both trees.</p>
+</dd>
+<dt>d</dt>
+<dd>
+<p>The number of quartets that are resolved differently in each tree.</p>
+</dd>
+<dt>r1</dt>
+<dd>
+<p>The number of quartets that are resolved in tree 1, but not in tree 2.</p>
+</dd>
+<dt>r2</dt>
+<dd>
+<p>The number of quartets that are resolved in tree 2, but not in tree 1.</p>
+</dd>
+<dt>u</dt>
+<dd>
+<p>The number of quartets that are unresolved in both trees.</p>
+</dd>
+</dl>
+<h3>Author(s)</h3>
+
+<p><a href="https://orcid.org/0000-0001-5660-1727">Martin R. Smith</a>
+(<a href="mailto:martin.smith@durham.ac.uk">martin.smith@durham.ac.uk</a>)
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Other element-by-element comparisons: 
+<code>CompareQuartetsMulti()</code>,
+<code>CompareQuartets()</code>,
+<code>CompareSplits()</code>,
+<code>QuartetState()</code>,
+<code>SharedQuartetStatus()</code>,
+<code>SplitStatus()</code>
+</p>
+
+
+</div>

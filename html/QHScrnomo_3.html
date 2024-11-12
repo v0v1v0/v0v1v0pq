@@ -1,0 +1,183 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>crr.fit</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Fit A Competing Risks Regression Model</h2>
+
+<h3>Description</h3>
+
+<p>Fits a competing risks regression model using the <code>crr</code> function from an existing <code>cph</code>
+object which can then be used to construct a nomogram.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">crr.fit(fit, cencode = 0, failcode = 1)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>fit</code></td>
+<td>
+<p>A Cox proportional hazards regression model constructed from <code>cph</code> (by Frank Harrell)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cencode</code></td>
+<td>
+<p>The value of the status column that indicates a censored observation</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>failcode</code></td>
+<td>
+<p>The value of the status column that indicates the event of interest</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Returns a list of class <code>cmprsk</code>, with components:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>coef </code></td>
+<td>
+<p>the estimated regression coefficients</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>loglik </code></td>
+<td>
+<p>log pseudo-liklihood evaluated at coef</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lscore </code></td>
+<td>
+<p>derivitives of the log pseudo-likelihood evaluated at coef</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>inf</code></td>
+<td>
+<p>-second derivatives of the log pseudo-likelihood</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>var</code></td>
+<td>
+<p>estimated variance covariance matrix of coef</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>res</code></td>
+<td>
+<p>matrix of residuals giving the contribution to each score
+(columns) at each unique failure time (rows)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>uftime</code></td>
+<td>
+<p>vector of unique failure times</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bfitj</code></td>
+<td>
+<p>jumps in the Breslow-type estimate of the underlying
+sub-distribution cumulative hazard (used by predict.crr())</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tfs</code></td>
+<td>
+<p>the tfs matrix (output of  tf(), if used)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>converged</code></td>
+<td>
+<p>TRUE if the iterative algorithm converged.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cencode </code></td>
+<td>
+<p>the value of the status indicator that indicates
+a censored observation</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>failcode</code></td>
+<td>
+<p>the value of the status indicator that indicates an
+event of interest</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cph.f</code></td>
+<td>
+<p>regular survival model fitted by cph which is saved for
+function <code>nomogram.crr</code> to adjust lp for
+competing risks</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cphdat</code></td>
+<td>
+<p>data used for cph model, where all
+predictors are represented in numeric format, which is used by function
+<code>tenf.crr</code> to do ten fold cross-validation</p>
+</td>
+</tr>
+</table>
+<h3>Note</h3>
+
+<p>This function requires that the <code>rms</code> package is attached
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Michael W. Kattan, Ph.D. and Changhong Yu. Department of
+Quantitative Health Sciences, Cleveland Clinic
+</p>
+
+
+<h3>References</h3>
+
+<p>Michael W. Kattan, Glenn Heller and Murray F. Brennan (2003). A
+competing-risks nomogram for sarcoma-specific death following local
+recurrence. Statistics in Medicine. <code>Stat Med</code>. 2003;22:3515-3525.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>cph</code> <code>crr</code>
+<code>nomogram.crr</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">dd &lt;- datadist(prostate.dat)
+options(datadist = "dd")
+prostate.f &lt;- cph(Surv(TIME_EVENT,EVENT_DOD == 1) ~ TX  + rcs(PSA,3) +
+           BX_GLSN_CAT +  CLIN_STG + rcs(AGE,3) +
+           RACE_AA, data = prostate.dat,
+           x = TRUE, y = TRUE, surv = TRUE,time.inc = 144)
+prostate.crr &lt;- crr.fit(prostate.f, cencode = 0, failcode = 1)
+prostate.crr
+</code></pre>
+
+
+</div>

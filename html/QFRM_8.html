@@ -1,0 +1,82 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>BinaryBS</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Binary option valuation with Black-Scholes (BS) model</h2>
+
+<h3>Description</h3>
+
+<p>S3 object pricing model for a binary option.
+Two types of binary options are priced: <code>'cash-or-nothing'</code> and <code>'asset-or-nothing'</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">BinaryBS(o = OptPx(Opt(Style = "Binary")), Q = 1,
+  Type = c("cash-or-nothing", "asset-or-nothing"))
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>o</code></td>
+<td>
+<p>An object of class <code>OptPx</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Q</code></td>
+<td>
+<p>A fixed amount of payoff</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Type</code></td>
+<td>
+<p>Binary option type: 'Cash or Nothing' or 'Asset or Nothing'.
+Partial names are allowed, eg. <code>'C'</code> or <code>'A'</code></p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list of class <code>Binary.BS</code> consisting of the input object <code>OptPx</code> and the appended new parameters and option price.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Xinnan Lu, Department of Statistics, Rice University, Spring 2015
+</p>
+
+
+<h3>References</h3>
+
+<p>Hull, John C., <em>Options, Futures and Other Derivatives</em>, 9ed, 2014. Prentice Hall.
+ISBN 978-0-13-345631-8, <a href="http://www-2.rotman.utoronto.ca/~hull/ofod/index.html">http://www-2.rotman.utoronto.ca/~hull/ofod/index.html</a>.
+pp.606-607
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">(o = BinaryBS())$PxBS
+
+#This example should produce price 4.33 (see Derivagem, DG201.xls)
+o = Opt(Style="Binary", Right='Call', S0=50, ttm=5/12, K=52)
+o = OptPx(o, r=.1, vol=.40, NSteps=NA)
+(o = BinaryBS(o, Q = 10, Type='cash-or-nothing'))$PxBS
+
+BinaryBS(OptPx(Opt(Style="Binary"), q=.01), Type='asset-or-nothing')
+BinaryBS(OptPx(Opt(Style="Binary", S0=100, K=80),q=.01))
+o = Opt(Style="Binary", Right="Put", S0=50, K=60)
+BinaryBS(OptPx(o,q=.04), Type='asset-or-nothing')
+</code></pre>
+
+
+</div>

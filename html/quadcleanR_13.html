@@ -1,0 +1,126 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>keep_rm</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Keep or remove rows and columns from data frame</h2>
+
+<h3>Description</h3>
+
+<p>Using a character, or part of character select rows or columns
+of the data frame to either keep or remove. A more customizable way to
+subset your data as you can keep or remove based on partial matches, or
+cells containing select characters.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">keep_rm(
+  data,
+  values,
+  select,
+  keep = TRUE,
+  drop_levels = TRUE,
+  exact = TRUE,
+  colname
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>A data frame.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>values</code></td>
+<td>
+<p>A vector containing the characters or parts of characters to base
+selection off of.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>select</code></td>
+<td>
+<p>If <code>select = "row"</code>, rows containing the <code>values</code> will be selected
+for either being kept, or being removed, as specified by <code>keep</code>. If
+<code>select = "col"</code>, columns with names containing the <code>values</code> will either be
+kept or removed, as specified by <code>keep</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>keep</code></td>
+<td>
+<p>If <code>keep = TRUE</code> the presence of the <code>values</code> will cause the
+selected rows or columns to be kept. If <code>keep = FALSE</code> the presence of
+the <code>values</code> will cause the selected rows or columns to be removed.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>drop_levels</code></td>
+<td>
+<p>If <code>drop_levels = TRUE</code>, factor levels that have been
+removed will be dropped. Only applicable when <code>select = "row"</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>exact</code></td>
+<td>
+<p>If <code>exact = TRUE</code> only exact matches will be selected. If
+<code>exact = FALSE</code> matches will be selected if they contain the characters in the
+<code>values</code> vector and will not be limited to exact matches only.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>colname</code></td>
+<td>
+<p>If <code>select = "row"</code>, <code>colname</code> will specify the column to
+select rows from.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A data frame containing new selection of data.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># create data frame
+Sites &lt;- as.factor(c("One", "One", "One", "Two", "Two", "Three"))
+Transect &lt;- as.factor(c("1-Deep", "1-Shallow", "2-Shallow", "1-Shallow", "1-Deep", "1-Deep"))
+Acropora.sp &lt;- c(0.1, 0.6, 0.4, 0.9, 0.2, 0.5)
+Gardineroseris.sp &lt;- c(0.4, 0.9, 0.5, 0.23, 0.5, NA)
+Psammocora.sp &lt;- c(0.9, 0.6, 0.5, 0.8, 0.1, 0.4)
+Leptastrea.sp &lt;- c(0.5, 0.7, 0.4, 0.8, 0.2, NA)
+Notes &lt;- c(NA, NA, "saw octopus", NA, "white balance corrected", NA)
+coral_cover &lt;- data.frame(Sites, Transect, Acropora.sp, Gardineroseris.sp,
+                         Psammocora.sp, Leptastrea.sp, Notes)
+
+#Removing Notes column
+keep_rm(data = coral_cover, values = c("Notes") , select = "col",
+   keep = FALSE, drop_levels = FALSE, exact = TRUE)
+
+#Selecting site One and dropping extra levels
+Site_One &lt;- keep_rm(data = coral_cover, values = c("One") , select = "row",
+   keep = TRUE, drop_levels = TRUE, exact = TRUE, "Sites")
+levels(Site_One$Sites)
+
+#Removing Deep sites
+Shallow_Sites &lt;- keep_rm(data = coral_cover, values = c("-Shallow") , select ="row",
+   keep = FALSE, drop_levels = TRUE, exact = FALSE, "Transect")
+
+#Selecting only species data
+Species &lt;- keep_rm(data = coral_cover, values = c(".sp") , select ="col",
+   keep = TRUE, drop_levels = TRUE, exact = FALSE)
+</code></pre>
+
+
+</div>

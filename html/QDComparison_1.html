@@ -1,0 +1,42 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>QDComparison-package</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Modern Nonparametric Tools for Two-Sample Quantile and Distribution Comparisons</h2>
+
+<h3>Description</h3>
+
+<p>Allows practitioners to determine (i) if two univariate distributions (which can be continuous, discrete, or even mixed) are equal, (ii) how two distributions differ (shape differences, e.g., location, scale, etc.), and (iii) where two distributions differ (at which quantiles), all using nonparametric LP statistics.</p>
+
+
+<h3>Author(s)</h3>
+
+<p>David Jungreis, Subhadeep Mukhopadhyay
+</p>
+<p>Maintainer: David Jungreis &lt;dbjungreis@gmail.com&gt;
+</p>
+
+
+<h3>References</h3>
+
+ 
+<p>Jungreis, D., (2019) "Unification of Continuous, Discrete, and Mixed Distribution Two-Sample Testing with Inferences in the Quantile Domain"
+</p>
+<p>Mukhopadhyay, S., (2013) "Nonparametric  Inference  for  High  Dimensional  Data,""  Ph.D.  diss., Texas A&amp;M University, College Station, Texas.
+</p>
+<p>Mukhopadhyay, S. and Parzen, E. (2014), "LP Approach to Statistical Modeling", arXiv:1405.2601.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">x &lt;- c(rep(0,200),rep(1,200))
+y &lt;- c(rnorm(200,0,1),rnorm(200,1,1))
+L &lt;- LP.QDC(x,y)
+L$pval
+</code></pre>
+
+
+</div>

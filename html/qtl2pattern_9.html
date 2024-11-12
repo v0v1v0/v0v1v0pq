@@ -1,0 +1,79 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>genoprob_to_patternprob</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Collapse genoprob according to pattern</h2>
+
+<h3>Description</h3>
+
+<p>Collapse genoprob according to pattern
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">genoprob_to_patternprob(probs1, sdp, alleles = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>probs1</code></td>
+<td>
+<p>object of class <code>calc_genoprob</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sdp</code></td>
+<td>
+<p>SNP distribution pattern</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>alleles</code></td>
+<td>
+<p>use allele string if <code>TRUE</code></p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>object of class <code>calc_genoprob</code>
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Brian S Yandell, <a href="mailto:brian.yandell@wisc.edu">brian.yandell@wisc.edu</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">dirpath &lt;- "https://raw.githubusercontent.com/rqtl/qtl2data/master/DOex"
+
+# Read DOex example cross from 'qtl2data'
+DOex &lt;- subset(qtl2::read_cross2(file.path(dirpath, "DOex.zip")), chr = "2")
+
+
+# Download genotype probabilities
+tmpfile &lt;- tempfile()
+download.file(file.path(dirpath, "DOex_genoprobs_2.rds"), tmpfile, quiet=TRUE)
+pr &lt;- readRDS(tmpfile)
+unlink(tmpfile)
+
+# Convert genotype probabilities to pattern probabilities for pattern 1.
+pattern_pr &lt;- genoprob_to_patternprob(pr, 7, TRUE)
+
+str(pr)
+str(pattern_pr)
+
+
+</code></pre>
+
+
+</div>

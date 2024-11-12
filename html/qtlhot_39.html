@@ -1,0 +1,212 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>sim.hotspot</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Wrapper routine for simulations.</h2>
+
+<h3>Description</h3>
+
+<p>Wrapper routine for simulations
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">sim.hotspot(nSim, cross, n.pheno, latent.eff, res.var = 1, n.quant, n.perm,
+  alpha.levels, lod.thrs, drop.lod = 1.5, verbose = FALSE)
+mySimulations(...)
+sim.null.cross(chr.len = rep(400, 16), n.mar = 185, n.ind = 112,
+  type = "bc", n.pheno = 6000, latent.eff = 1.5, res.var = 1,
+  init.seed = 92387475)
+sim.null.pheno.data(cross, n.pheno, latent.eff, res.var)
+include.hotspots(cross, hchr, hpos, hsize, Q.eff, latent.eff,
+  lod.range.1, lod.range.2, lod.range.3, res.var=1, n.pheno, init.seed)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>nSim</code></td>
+<td>
+<p>Number of simulated sets of phenotypes to create. See details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cross</code></td>
+<td>
+<p>Object of class <code>cross</code>. See <code>read.cross</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n.pheno</code></td>
+<td>
+<p>Number of traits, or phenotypes, to simulate for cross object.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>latent.eff</code></td>
+<td>
+<p>Strength of latent effect, which is included in all traits. See <code>sim.null.cross</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>res.var</code></td>
+<td>
+<p>Residual variance for traits. Should not affect results.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n.quant</code></td>
+<td>
+<p>maximum size of hotspots examined; ideally large enough to exceed the largest Breitling alpha critical value.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n.perm</code></td>
+<td>
+<p>Number of permutations to perform per realization. Good idea to do 1000,
+but this takes time.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>alpha.levels</code></td>
+<td>
+<p>Vector of significance levels.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lod.thrs</code></td>
+<td>
+<p>Vector of LOD thresholds, typically single-trait
+permutation thresholds for various significance levels.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>drop.lod</code></td>
+<td>
+<p>Drop in LOD score examined. LODs below this drop from the maximum for a
+chromosome will not be scored.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>init.seed</code></td>
+<td>
+<p>initial seed for pseudo-random number generation</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>chr.len</code></td>
+<td>
+<p>vector of chromosome lengths</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n.mar</code></td>
+<td>
+<p>number of markers</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n.ind</code></td>
+<td>
+<p>number of individuals</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>type</code></td>
+<td>
+<p>type of cross</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>hchr,hpos,hsize</code></td>
+<td>
+<p>vectors for hotspot chromosomes, positions, and
+sizes</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Q.eff</code></td>
+<td>
+<p>QTL effect</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lod.range.1,lod.range.2,lod.range.3</code></td>
+<td>
+<p>2-vectors of LOD ranges for
+multiple purposes</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p>Verbose output if <code>TRUE</code>. More detailed output if <code>2</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Arguments passed directly to <code>sim.hotspot</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Simulate <code>nSim</code> realizations of cross object with <code>n.pheno</code> phenotypes with correlation
+<code>latent.eff</code>. All simulations use the same genotypes in the
+<code>cross</code> object.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>sim.null.cross</code> simulates an object of class <code>cross</code>.
+<code>sim.null.pheno.data</code> simulates a data frame of phenotypes.
+<code>sim.hotspot</code> uses these other routines to simulate a hotspot,
+returning an list object.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Elias Chaibub Neto and Brian S. Yandell
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>sim.null.cross</code>, <code>read.cross</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">ncross1 &lt;- sim.null.cross(chr.len = rep(100, 4),
+                          n.mar = 51,
+                          n.ind = 100,
+                          type = "bc",
+                          n.phe = 1000,
+                          latent.eff = 3,
+                          res.var = 1,
+                          init.seed = 123457)
+cross1 &lt;- include.hotspots(cross = ncross1,
+                           hchr = c(2, 3, 4),
+                           hpos = c(25, 75, 50),
+                           hsize = c(100, 50, 20),
+                           Q.eff = 2,
+                           latent.eff = 3,
+                           lod.range.1 = c(2.5, 2.5),
+                           lod.range.2 = c(5, 8),
+                           lod.range.3 = c(10, 15),
+                           res.var = 1,
+                           n.phe = 1000,
+                           init.seed = 12345)
+</code></pre>
+
+
+</div>

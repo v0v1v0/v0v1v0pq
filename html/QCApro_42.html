@@ -1,0 +1,94 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>mintermMatrix</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Create Minterm Matrices</h2>
+
+<h3>Description</h3>
+
+<p>This function creates minterm and implicant matrices. It is mainly used for 
+internal and demonstration purposes.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">mintermMatrix(noflevels, logical = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>noflevels</code></td>
+<td>
+<p>The number of levels for each exogenous factor.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>logical</code></td>
+<td>
+<p>Logical, return the matrix in logical values (only bivalent data).</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Minterm matrices contain all unique and complete conjunctions that can 
+be formed from all levels of <code class="reqn">k</code> factors (Dusa and Thiem 2015). The total 
+number of minterms <code class="reqn">d</code> is given by 
+<code class="reqn">d = \prod_{j = 1}^{k}{p_{j}}</code>, where 
+<code class="reqn">p_{j}</code> is the number of levels for exogenous factor <code class="reqn">j</code> and 
+<code class="reqn">k</code> is the total number of exogenous factors. A minterm matrix is an essential 
+part of a truth table.
+</p>
+
+
+<h3>Contributors</h3>
+
+
+<table>
+<tr>
+<td style="text-align: left;">
+Dusa, Adrian</td>
+<td style="text-align: left;">: development, programming</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+Thiem, Alrik</td>
+<td style="text-align: left;">: development, documentation, testing
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Alrik Thiem (<a href="http://www.alrik-thiem.net">Personal Website</a>; <a href="https://www.researchgate.net/profile/Alrik_Thiem">ResearchGate Website</a>)
+</p>
+
+
+<h3>References</h3>
+
+<p>Dusa, Adrian, and Alrik Thiem. 2015. “Enhancing the Minimization of Boolean and Multivalue Output Functions with <em>e</em>QMC.” <em>Journal of Mathematical Sociology</em> <strong>39</strong> (2):92-108. DOI: <a href="http://dx.doi.org/10.1080/0022250X.2014.897949">10.1080/0022250X.2014.897949</a>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>implicantMatrix</code>, <code>truthTable</code></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># a minterm matrix with three bivalent exogenous factors
+noflevels &lt;- rep(2, 3)
+mintermMatrix(noflevels)
+
+# with logical values
+mintermMatrix(noflevels, logical = TRUE)
+</code></pre>
+
+
+</div>

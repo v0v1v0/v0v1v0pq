@@ -1,0 +1,236 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>QC_histogram</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Histogram(s) of expected and observed data distribution</h2>
+
+<h3>Description</h3>
+
+<p><code>QC_histogram</code> creates two histograms: one showing the
+observed data distribution of a numeric variable, and one
+showing the expected distribution.
+It includes the option to filter the data with the
+high-quality filter. <code>histogram_series</code> generates a
+series of such histograms for multiple filter settings.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">QC_histogram(dataset, data_col = 1,
+             save_name = "dataset", save_dir = getwd(),
+             export_outliers = FALSE,
+             filter_FRQ = NULL, filter_cal = NULL,
+             filter_HWE = NULL, filter_imp = NULL,
+             filter_NA = TRUE,
+             filter_NA_FRQ = filter_NA, filter_NA_cal = filter_NA,
+             filter_NA_HWE = filter_NA, filter_NA_imp = filter_NA,
+             breaks = "Sturges",
+             graph_name = colnames(dataset)[data_col],
+             header_translations, check_impstatus = FALSE,
+             ignore_impstatus = FALSE,
+             T_strings = c("1", "TRUE", "yes", "YES", "y", "Y"),
+             F_strings = c("0", "FALSE", "no", "NO", "n", "N"),
+             NA_strings = c(NA, "NA", ".", "-"), ...)
+histogram_series(dataset, data_col = 1,
+   save_name = paste0("dataset_F", 1:nrow(plot_table)),
+   save_dir = getwd(), export_outliers = FALSE,
+   filter_FRQ = NULL, filter_cal = NULL,
+   filter_HWE = NULL, filter_imp = NULL,
+   filter_NA = TRUE,
+   filter_NA_FRQ = filter_NA, filter_NA_cal = filter_NA,
+   filter_NA_HWE = filter_NA, filter_NA_imp = filter_NA,
+   breaks = "Sturges",
+   header_translations, ignore_impstatus = FALSE,
+   check_impstatus = FALSE,
+   T_strings = c("1", "TRUE", "yes", "YES", "y", "Y"),
+   F_strings = c("0", "FALSE", "no", "NO", "n", "N"),
+   NA_strings = c(NA, "NA", ".", "-"),
+   ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>dataset</code></td>
+<td>
+<p>vector or table containing the variable of interest.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data_col</code></td>
+<td>
+<p>name or number of the column of <code>dataset</code>
+containing the variable of interest.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>save_name</code></td>
+<td>
+<p>for <code>QC_histogram</code>, a character string;
+for <code>histogram_series</code>, a vector of character strings;
+specifying the filename(s) of the graph, <em>without</em>
+extension.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>save_dir</code></td>
+<td>
+<p>character string; the directory where the
+output files are saved. Note that R uses <em>forward</em>
+slash (/) where Windows uses the backslash (\).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>export_outliers</code></td>
+<td>
+<p>logical or numeric value; should outlying
+entries (which are excluded from the plot) be exported to an
+output file? If numeric, the number specifies the max.
+number of entries that is exported.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>filter_FRQ, filter_cal, filter_HWE, filter_imp</code></td>
+<td>
+
+<p>Filter threshold-values for allele-frequency, callrate,
+HWE p-value and imputation quality, respectively. Passed to
+<code>HQ_filter</code>. <code>QC_histogram</code> takes only
+single values, but  <code>histogram_series</code> accepts vectors
+as well (see 'details').</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>filter_NA</code></td>
+<td>
+<p>logical; if <code>TRUE</code>, then missing filter
+variables will be excluded; if <code>FALSE</code>, they will be
+ignored. <code>QC_histogram</code> takes only single values, but 
+<code>histogram_series</code> accepts vectors as well (see
+'Details'). <code>filter_NA</code> is the default setting for all
+variables; variable-specific settings can be specified with
+the following arguments.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>filter_NA_FRQ, filter_NA_cal, filter_NA_HWE, filter_NA_imp</code></td>
+<td>
+
+<p>logical; variable-specific settings for <code>filter_NA</code>.
+These arguments are passed to <code>HQ_filter</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>breaks</code></td>
+<td>
+<p>argument passed to <code>hist</code>; determines
+the cell-borders in the histogram.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>graph_name</code></td>
+<td>
+<p>character string; used in the title of the plot.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>header_translations</code></td>
+<td>
+<p>translation table for column names.
+See <code>translate_header</code> for more information. If
+the argument is left empty, <code>dataset</code> is assumed to use
+the standard column-names used by <code>QC_GWAS</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>check_impstatus</code></td>
+<td>
+<p>logical; should
+<code>convert_impstatus</code> be called to convert the
+imputation-status column into standard values?</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ignore_impstatus</code></td>
+<td>
+<p>logical; if <code>FALSE</code>, HWE p-value
+and callrate filters are applied only to genotyped SNPs, and
+imputation quality filters only to imputed SNPs. If
+<code>TRUE</code>, the filters are applied to all SNPs regardless
+of the imputation status.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>T_strings, F_strings, NA_strings</code></td>
+<td>
+<p>arguments passed to
+<code>convert_impstatus</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>in <code>histogram_series</code>: arguments passed to
+<code>QC_histogram</code>; in <code>QC_histogram</code>, arguments passed
+to <code>hist</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p><code>histogram_series</code> accepts multiple filter-values, and
+passes these one by one to <code>QC_histogram</code> to generate a
+series of histograms. For example, specifying:
+</p>
+<p><code>filter_FRQ = c(0.05, 0.10), filter_cal = c(0.90, 0.95)</code>
+</p>
+<p>will generate two histograms. The first excludes SNPs with
+allele frequency &lt; 0.05 or callrate &lt; 0.90; the second allele 
+frequency &lt; 0.10 or callrate &lt; 0.95. The same principle
+applies to the <code>NA_filter</code> settings. If the vectors
+submitted to the filter arguments are of unequal length, the
+shorter vector will be recycled until it equals the length of
+the longer (if possible). To filter missing values only, set
+the filter to <code>NA</code> and the corresponding NA-filter
+argument to <code>TRUE</code>. Setting the filter argument to
+<code>NULL</code> will disable the filter entirely, regardless of
+the NA filter setting.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Both functions return an invisible value <code>NULL</code>.</p>
+
+
+<h3>See Also</h3>
+
+<p>For creating QQ plots: <code>QQ_plot</code>.</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+  data("gwa_sample")
+
+  QC_histogram(dataset = gwa_sample, data_col = "EFFECT",
+             save_name = "sample_histogram",
+             filter_FRQ = 0.01, filter_cal = 0.95,
+             filter_NA = FALSE,
+             graph_name = "Effect size histogram")
+
+  histogram_series(dataset = gwa_sample, data_col = "EFFECT",
+             save_name = "sample_histogram",
+             filter_FRQ = c(NA, 0.01, 0.01),
+             filter_cal = c(NA, 0.95, 0.95),
+             filter_NA = c(FALSE, FALSE, TRUE))
+
+## End(Not run)</code></pre>
+
+
+</div>

@@ -1,0 +1,37 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>data_char_ukimmig2010</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Immigration-related sections of 2010 UK party manifestos</h2>
+
+<h3>Description</h3>
+
+<p>Extracts from the election manifestos of 9 UK political parties from 2010, related
+to immigration or asylum-seekers.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">data_char_ukimmig2010
+</code></pre>
+
+
+<h3>Format</h3>
+
+<p>A named character vector of plain ASCII texts
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data_corpus_ukimmig2010 &lt;- 
+    corpus(data_char_ukimmig2010, 
+           docvars = data.frame(party = names(data_char_ukimmig2010)))
+summary(data_corpus_ukimmig2010, showmeta = TRUE)
+</code></pre>
+
+
+</div>

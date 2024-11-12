@@ -1,0 +1,116 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>wtrunc</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Weighting Function for <code>Qest</code>, <code>Qlm</code>, and <code>Qcoxph</code>.</h2>
+
+<h3>Description</h3>
+
+<p>This function can be used within a call to <code>Qest</code>, <code>Qlm</code>, or <code>Qcoxph</code> to assign a different weight to each quantile.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">wtrunc(tau, delta.left = 0.05, delta.right = 0.05, smooth = FALSE, sigma = 0.01)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>tau</code></td>
+<td>
+<p>a vector of quantiles.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>delta.left, delta.right</code></td>
+<td>
+<p>proportion of quantiles to be removed from the left and righ tail. The weighting function is <code>1</code> in the interval <code>(delta.left, 1 - delta.right)</code>, and zero elsewhere. Default is <code>delta.left = 0.05</code> and <code>delta.right = 0.05</code>. When a weighting function is used to counteract the effect of extreme observations, <code>delta.left</code> is a guess for the proportion of outliers on the left tail; and <code>delta.right</code> is a guess for the proportion of outliers on the right tail.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>smooth</code></td>
+<td>
+<p>if <code>smooth = TRUE</code> the indicator functions used to construct <code>wtrunc(tau)</code> are replaced by integrated Gaussian kernels. Default <code>smooth = FALSE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sigma</code></td>
+<td>
+<p>the bandwith of a Gaussian kernel. This parameter controls the smoothness of the weighting function, and is ignored if <code>smooth = FALSE</code>. Default <code>sigma = 0.01</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Within a call to <code>Qest</code>, <code>Qlm</code>, or <code>Qcoxph</code>, one may want to assign a different weight to each quantile through the optional argument <code>wtau</code>. This can be done for reasons of efficiency, or to counteract the presence of outliers. While <code>wtau</code> can be any user-defined function, one can use <code>wtrunc</code> as a shortcut to construct a weighting function that truncates a certain subset of quantiles in the tails of the distribution. For instance, the estimator defined by <code>Qest(..., wtau = wtrunc, delta.left = 0.05, delta.right = 0.1)</code> only uses quantiles in the interval (0.05, 0.90) to fit the model. In this example, <code>delta.left = 0.05</code> is a guess for the proportion of outliers on the left tail; and <code>delta.right</code> is a guess for the proportion of outliers on the right tail.
+Use <code>smooth = TRUE</code> to replace the indicator functions involved in <code>wtrunc</code> with smooth functions. Introducing a weighting function that only assigns a positive weight to the quantiles that correspond to the “healthy” part of the distribution allows to deal with any level of contamination by outliers.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A vector of weights assigned to each quantile.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Gianluca Sottile &lt;gianluca.sottile@unipa.it&gt;, Paolo Frumento &lt;paolo.frumento@unipi.it&gt;
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>Qest</code>, <code>Qlm</code>, <code>Qcoxph</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+## Not run: 
+taus &lt;- seq(0, 1, length.out = 1000)
+
+### zero weight to quantiles above 0.95
+plot(taus, wtrunc(taus, delta.left = 0, delta.right = 0.05),
+  type = "l", lwd = 1.5)
+# smooth counterpart
+lines(taus, wtrunc(taus, delta.left = 0, delta.right = 0.05,
+  smooth = TRUE, sigma = .01), col = 2, lwd = 1.5)
+lines(taus, wtrunc(taus, delta.left = 0, delta.right = 0.05,
+  smooth = TRUE, sigma = .05), col = 3, lwd = 1.5)
+
+### zero weight to quantiles below 0.05
+plot(taus, wtrunc(taus, delta.left = 0.05, delta.right = 0),
+  type = "l", lwd = 1.5)
+# smooth counterpart
+lines(taus, wtrunc(taus, delta.left = 0.05, delta.right = 0,
+  smooth = TRUE, sigma = .01), col = 2, lwd = 1.5)
+lines(taus, wtrunc(taus, delta.left = 0.05, delta.right = 0,
+  smooth = TRUE, sigma = .05), col = 3, lwd = 1.5)
+
+
+### zero weight to quantiles below 0.05 and above 0.90
+plot(taus, wtrunc(taus, delta.left = 0.05, delta.right = 0.10),
+  type = "l", lwd = 1.5)
+# smooth counterpart
+lines(taus, wtrunc(taus, delta.left = 0.05, delta.right = 0.10,
+  smooth = TRUE, sigma = .01), col = 2, lwd = 1.5)
+lines(taus, wtrunc(taus, delta.left = 0.05, delta.right = 0.10,
+  smooth = TRUE, sigma = .05), col = 3, lwd = 1.5)
+
+
+### Use wtrunc in Qest, Qlm, Qcoxph
+# Qest(..., wtau = wtrunc, delta.left = 0.05, delta.right = 0.1)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

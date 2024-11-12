@@ -1,0 +1,70 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>sim.MQ</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Simulate mis-specifications</h2>
+
+<h3>Description</h3>
+
+<p>simulate certen <code class="reqn">rate</code> mis-specifications in the Q-matrix.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">sim.MQ(Q, rate, verbose = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>Q</code></td>
+<td>
+<p>The Q-matrix (<code>sim.Q</code>) that need to simulate mis-specifications.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rate</code></td>
+<td>
+<p>The pecentage of mis-specifications in the<code class="reqn">Q</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p>Logical indicating to print information or not. Default is <code>TRUE</code></p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>An object of class <code class="reqn">matrix</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Haijiang Qin &lt;Haijiang133@outlook.com&gt;
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(Qval)
+
+set.seed(123)
+
+Q &lt;- sim.Q(5, 10)
+print(Q)
+
+MQ &lt;- sim.MQ(Q, 0.1)
+print(MQ)
+
+</code></pre>
+
+
+</div>

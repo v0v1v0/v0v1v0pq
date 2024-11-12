@@ -1,0 +1,56 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>world</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Boundary of the World fitting all Glottolog languages
+</h2>
+
+<h3>Description</h3>
+
+<p>A polygon representing a worldmap tailored to be not too detailed, but still fitting all glottolog languages inside the polygons.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">data("world")</code></pre>
+
+
+<h3>Format</h3>
+
+<p>The format is a <code>sfc_POLYGON</code> of length 475 with an EPSG:4326 projection.
+</p>
+
+
+<h3>Details</h3>
+
+<p>Some trickery was needed to produce a lightweight polygon to represent the worldmap in reasonably accuracy without becoming too large and unwiedly. The polygons are such that all coordinates for languages as listed in the glottolog (version 5) are inside these polygons.
+</p>
+<p>The map has a basic EPSG:4326 projection, so longitude-latitude coordinates can immediately be added to it. However, this does not look very nice, because the polygon from Eurasia wraps around. Consider more suitable projections, see examples. To allow for a nice pacific-centered projection Greenland has been clipped.
+</p>
+
+
+<h3>Source</h3>
+
+<p>Polygons are based on the data from <a href="https://www.naturalearthdata.com">https://www.naturalearthdata.com</a> with adjustments. Glottolog coordinates to select and adjust the polygons are from <a href="https://glottolog.org">https://glottolog.org</a>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(world)
+plot(world)
+
+# use different projections
+azimuth_equaldist &lt;- "+proj=aeqd +lat_0=90 +lon_0=45"
+mollweide_atlantic &lt;- "+proj=moll +lon_0=11.5"
+mollweide_pacific &lt;- "+proj=moll +lon_0=151"
+
+plot(sf::st_transform(world, crs = azimuth_equaldist))
+</code></pre>
+
+
+</div>

@@ -1,0 +1,123 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>genoprob_to_alleleprob_fst</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Convert genotype probabilities to allele probabilities and write to fst database</h2>
+
+<h3>Description</h3>
+
+<p>Reduce genotype probabilities (as calculated by
+<code>qtl2::calc_genoprob()</code>) to allele probabilities, writing them to an fst database.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">genoprob_to_alleleprob_fst(
+  probs,
+  fbase,
+  fdir = ".",
+  quiet = TRUE,
+  cores = 1,
+  compress = 0,
+  overwrite = FALSE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>probs</code></td>
+<td>
+<p>Genotype probabilities, as calculated from
+<code>qtl2::calc_genoprob()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fbase</code></td>
+<td>
+<p>Base of filename for fst database.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fdir</code></td>
+<td>
+<p>Directory for fst database.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>quiet</code></td>
+<td>
+<p>IF <code>FALSE</code>, print progress messages.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cores</code></td>
+<td>
+<p>Number of CPU cores to use, for parallel calculations.
+(If <code>0</code>, use <code>parallel::detectCores()</code>.)
+Alternatively, this can be links to a set of cluster sockets, as
+produced by <code>parallel::makeCluster()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>compress</code></td>
+<td>
+<p>Amount of compression to use (value in the range 0-100; lower values mean larger file sizes)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>overwrite</code></td>
+<td>
+<p>If FALSE (the default), refuse to overwrite any files that already exist.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>This is like calling <code>qtl2::genoprob_to_alleleprob()</code> and then
+<code>fst_genoprob()</code>, but in a way that hopefully saves memory by
+doing it one chromosome at a time.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Link to fst database for the <code>probs</code> input with probabilities
+collapsed to alleles rather than genotypes.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>qtl2::genoprob_to_alleleprob()</code>, <code>fst_genoprob()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(qtl2)
+iron &lt;- read_cross2(system.file("extdata", "iron.zip", package="qtl2"))
+gmap_w_pmar &lt;- insert_pseudomarkers(iron$gmap, step=1)
+
+# genotype probabilities
+fst_dir &lt;- file.path(tempdir(), "iron_genoprob")
+dir.create(fst_dir)
+probs_fst &lt;- calc_genoprob_fst(iron, "iron", fst_dir, gmap_w_pmar, error_prob=0.002)
+
+# allele probabilities
+fst_dir_apr &lt;- file.path(tempdir(), "iron_alleleprob")
+dir.create(fst_dir_apr)
+aprobs_fst &lt;- genoprob_to_alleleprob_fst(probs_fst, "iron", fst_dir_apr)
+
+# clean up: remove all the files we created
+unlink(fst_files(probs_fst))
+unlink(fst_files(aprobs_fst))
+</code></pre>
+
+
+</div>

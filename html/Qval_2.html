@@ -1,0 +1,142 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>fit</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Calculate data fit indeces</h2>
+
+<h3>Description</h3>
+
+<p>Calculate relative fit indices (-2LL, AIC, BIC, CAIC, SABIC) and absolute fit indices (<code class="reqn">M_2</code> test)
+using the <code>testfit</code> function in the <code>GDINA</code> package.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">fit(Y, Q, model = "GDINA")
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>Y</code></td>
+<td>
+<p>A required <code>N</code> × <code>I</code> matrix or data.frame consisting of the responses of <code>N</code>
+individuals to <code>I</code> items. Missing values should be coded as NA.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Q</code></td>
+<td>
+<p>A required binary <code>I</code> × <code>K</code> matrix containing the attributes not required or required
+, coded as 0 or 1, to master the items. The <code>i</code>th row of the matrix is a binary indicator vector
+indicating which attributes are not required (coded as 0) and which attributes are required
+(coded as 1) to master item <code>i</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>model</code></td>
+<td>
+<p>Type of model to be fitted; can be <code>"GDINA"</code>, <code>"LCDM"</code>, <code>"DINA"</code>, <code>"DINO"</code>,
+<code>"ACDM"</code>, <code>"LLM"</code>, or <code>"rRUM"</code>. Default = <code>"GDINA"</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>An object of class <code>list</code>. The list contains various fit indices:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>npar</code></td>
+<td>
+<p>The number of parameters.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>-2LL</code></td>
+<td>
+<p>The Deviance.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>AIC</code></td>
+<td>
+<p>The Akaike information criterion.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>BIC</code></td>
+<td>
+<p>The Bayesian information criterion.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>CAIC</code></td>
+<td>
+<p>The consistent Akaike information criterion.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>SABIC</code></td>
+<td>
+<p>The Sample size Adjusted BIC.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>M2</code></td>
+<td>
+<p>A vector consisting of <code class="reqn">M_2</code> statistic, degrees of freedom, significance level, and <code class="reqn">RMSEA_2</code> (Liu, Tian, &amp; Xin, 2016).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>SRMSR</code></td>
+<td>
+<p>The standardized root mean squared residual (SRMSR; Ravand &amp; Robitzsch, 2018).</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Haijiang Qin &lt;Haijiang133@outlook.com&gt;
+</p>
+
+
+<h3>References</h3>
+
+<p>Khaldi, R., Chiheb, R., &amp; Afa, A.E. (2018). Feed-forward and Recurrent Neural Networks for Time Series Forecasting: Comparative Study. In: Proceedings of the International Conference on Learning and Optimization Algorithms: Theory and Applications (LOPAL 18). Association for Computing Machinery, New York, NY, USA, Article 18, 1–6. DOI: 10.1145/3230905.3230946.
+</p>
+<p>Liu, Y., Tian, W., &amp; Xin, T. (2016). An application of M2 statistic to evaluate the fit of cognitive diagnostic models. Journal of Educational and Behavioral Statistics, 41, 3–26. DOI: 10.3102/1076998615621293.
+</p>
+<p>Ravand, H., &amp; Robitzsch, A. (2018). Cognitive diagnostic model of best choice: a study of reading comprehension. Educational Psychology, 38, 1255–1277. DOI: 10.1080/01443410.2018.1489524.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">set.seed(123)
+
+library(Qval)
+
+## generate Q-matrix and data to fit
+K &lt;- 5
+I &lt;- 30
+example.Q &lt;- sim.Q(K, I)
+IQ &lt;- list(
+  P0 = runif(I, 0.0, 0.2),
+  P1 = runif(I, 0.8, 1.0)
+)
+example.data &lt;- sim.data(Q = example.Q, N = 500, IQ = IQ, model = "GDINA", distribute = "horder")
+
+## calculate fit indices
+fit.indices &lt;- fit(Y = example.data$dat, Q = example.Q, model = "GDINA")
+print(fit.indices)
+
+</code></pre>
+
+
+</div>

@@ -1,0 +1,88 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>streamParserFromString</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Creates a streamParser from a string
+</h2>
+
+<h3>Description</h3>
+
+<p>Creates a list of functions which allow streamParser manipulation (when defined from a character string)
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">streamParserFromString(string) 
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>string</code></td>
+<td>
+<p>string to be recognised</p>
+</td>
+</tr></table>
+<h3>Details</h3>
+
+<p>See streamParser
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list of four functions which allow stream manipulation:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>streamParserNextChar</code></td>
+<td>
+<p>Functions which takes a streamParser as argument ant returns a <code>list(status,char,stream)</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>streamParserNextCharSeq</code></td>
+<td>
+<p>Function which takes a streamParser as argument and returns a <code>list(status,char,stream)</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>streamParserPosition</code></td>
+<td>
+<p>Function which takes a streamParser as argument and returns position of next character to be read</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>streamParserClose</code></td>
+<td>
+<p>Function which closes the stream</p>
+</td>
+</tr>
+</table>
+<h3>Examples</h3>
+
+<pre><code class="language-R"># reads one character
+streamParserNextChar(streamParserFromString("\U00B6"))
+
+# reads a string
+stream  &lt;- streamParserFromString("Hello world")
+
+cstream &lt;- streamParserNextChar(stream)
+
+while( cstream$status == "ok" ) {
+    print(streamParserPosition(cstream$stream))
+    print(cstream$char)
+    cstream &lt;- streamParserNextCharSeq(cstream$stream)
+
+streamParserClose(stream)
+}
+
+</code></pre>
+
+
+</div>

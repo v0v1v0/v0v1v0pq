@@ -1,0 +1,51 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>featnames</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Get the feature labels from a dfm</h2>
+
+<h3>Description</h3>
+
+<p>Get the features from a document-feature matrix, which are stored as the
+column names of the dfm object.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">featnames(x)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>the dfm whose features will be extracted</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>character vector of the feature labels
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">dfmat &lt;- dfm(tokens(data_corpus_inaugural))
+
+# first 50 features (in original text order)
+head(featnames(dfmat), 50)
+
+# first 50 features alphabetically
+head(sort(featnames(dfmat)), 50)
+
+# contrast with descending total frequency order from topfeatures()
+names(topfeatures(dfmat, 50))
+</code></pre>
+
+
+</div>

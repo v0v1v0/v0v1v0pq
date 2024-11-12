@@ -1,0 +1,73 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>get_app_events</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Get app events</h2>
+
+<h3>Description</h3>
+
+<p>Get a tibble of events that can be triggered based on
+data or user actions in this application, includes: Email notification,
+Reminders, Subscriptions, QB Actions, Webhooks, record change triggered
+Automations (does not include scheduled).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">get_app_events(subdomain, auth, app_id, agent = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>subdomain</code></td>
+<td>
+<p>Character vector with one element. Found at the beginning of
+the Quickbase URL. Realm specific.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>auth</code></td>
+<td>
+<p>Character vector with one element. The Quickbase authentication
+scheme you are using to authenticate the request (e.g., user token).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>app_id</code></td>
+<td>
+<p>Character vector with one element. Unique identifier of an app.
+Found in the URL of the app's homepage after /db/</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>agent</code></td>
+<td>
+<p>Optional. Character vector with one element. Describes
+user/agent making API call.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A tibble.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+   get_app_events(subdomain = "abc",
+                  auth = keyring::key_get("qb_example"),
+                  app_id = "bn9d8f78g")
+
+## End(Not run)
+</code></pre>
+
+
+</div>

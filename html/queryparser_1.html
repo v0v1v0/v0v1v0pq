@@ -1,0 +1,74 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>column_references</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Return the column references in a parsed SQL query</h2>
+
+<h3>Description</h3>
+
+<p>Returns a character vector containing all the column references
+in the clauses of a parsed SQL <code>SELECT</code> statement
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">column_references(tree, from = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>tree</code></td>
+<td>
+<p>a list returned by <code>parse_query</code> containing named
+elements representing the clauses of a SQL <code>SELECT</code> statement</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>from</code></td>
+<td>
+<p>a logical value indicating whether to include the column
+references from the join conditions in the <code>FROM</code> clause</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The returned character vector includes only <em>column</em>
+references, not table references. Column aliases assigned in the
+<code>SELECT</code> list are not included unless they are used in other clauses.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A character vector containing all the unique column references found
+in the <code>SELECT</code>, <code>FROM</code> (if <code>from = TRUE</code>), <code>WHERE</code>,
+<code>GROUP BY</code>, <code>HAVING</code>, and <code>ORDER BY</code> clauses of the
+<code>SELECT</code> statement
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>parse_query</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">my_query &lt;- "SELECT f.flight,
+    manufacturer, p.model
+  FROM flights f
+    JOIN planes p USING (tailnum);"
+
+column_references(parse_query(my_query), from = FALSE)
+</code></pre>
+
+
+</div>

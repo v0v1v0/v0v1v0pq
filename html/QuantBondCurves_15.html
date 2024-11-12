@@ -1,0 +1,278 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>valuation.bonds</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Bond valuation</h2>
+
+<h3>Description</h3>
+
+<p>Function that values various asset types with varying payment frequencies.
+It covers fixed-coupon assets, spread income assets, floating notes and fixed legs of
+interest rate swaps.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">valuation.bonds(
+  maturity,
+  coupon.rate,
+  rates,
+  principal = 1,
+  analysis.date = Sys.Date(),
+  asset.type = "TES",
+  freq = NULL,
+  rate.type = 1,
+  spread = 0,
+  daycount = "NL/365",
+  dirty = 1,
+  convention = "F",
+  trade.date = NULL,
+  coupon.schedule = "SF",
+  spread.only = FALSE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>maturity</code></td>
+<td>
+<p>Last day of the contract: YYYY-MM-DD.
+Alternatively, it can be a numeric value that represents the duration of the contract in years.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>coupon.rate</code></td>
+<td>
+<p>Coupon rate of the asset. Can be an unique numeric
+value or a vector corresponding to each coupon payment date.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rates</code></td>
+<td>
+<p>Discount rates given by the zero coupon rate curve.
+Can also be a unique discount rate.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>principal</code></td>
+<td>
+<p>Notional amount for the asset.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>analysis.date</code></td>
+<td>
+<p>Date in which the asset is valued. By default, the
+current date.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>asset.type</code></td>
+<td>
+<p>String that determines the asset type to value. See also
+'Details'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>freq</code></td>
+<td>
+<p>Frequency of payments of a given asset in a year. For LIBOR and
+IBR the default frequency is four (quarterly payments). TES has a default
+frequency of one (annual payments).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rate.type</code></td>
+<td>
+<p>(1) for annual compounded discount rates and (0) for continuosly
+compounded discount rates. By default, rates are assumed to be the former.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>spread</code></td>
+<td>
+<p>Decimal value of spread added to coupon payment rate. By
+default, <code>0</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>daycount</code></td>
+<td>
+<p>Day count convention. See also 'Details'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dirty</code></td>
+<td>
+<p>Numeric value to determine if the calculated price is dirty or
+clean. To calculate dirty price, set <code>dirty = 1</code>. Otherwise,
+<code>dirty = 0</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>convention</code></td>
+<td>
+<p>String that establishes if the effective dates are
+calculated using Following, Modified Following, Backward or Backward Following.
+See also 'Details'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>trade.date</code></td>
+<td>
+<p>The date on which the transaction occurs. It is used to calculate
+maturity as a date, when given in years. Also required for non-trivial cases such as
+bonds with long first coupon.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>coupon.schedule</code></td>
+<td>
+<p>String that establishes if a bond first coupon period is a long
+first coupon or a short first coupon. On the contrary, establishes if last coupon period
+is long last coupon or a short last coupon. See also 'Details'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>spread.only</code></td>
+<td>
+<p>Logical condition that establishes if the output should just include
+the spread or the complete bond value. By default, <code>FALSE</code>, referring to the
+output being bond value.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p><code>asset.type</code> makes reference to the following type of assets:
+</p>
+
+<ul>
+<li>
+<p> "TES" for Colombian Treasury Bonds (default).
+</p>
+</li>
+<li>
+<p> "FixedIncome" for assets that are indexed to a fixed income with
+different frequency of payments.
+</p>
+</li>
+<li>
+<p> "IBR" for bonds and assets indexed to 3M IBR rate.
+</p>
+</li>
+<li>
+<p> "LIBOR" for bonds and assets indexed to 3M LIBOR.
+</p>
+</li>
+</ul>
+<p><code>daycount</code> convention accepts the following values:
+</p>
+
+<ul>
+<li>
+<p> 30/360.
+</p>
+</li>
+<li>
+<p> ACT/365.
+</p>
+</li>
+<li>
+<p> ACT/360 (Default).
+</p>
+</li>
+<li>
+<p> ACT/365L.
+</p>
+</li>
+<li>
+<p> NL/365.
+</p>
+</li>
+<li>
+<p> ACT/ACT-ISDA
+</p>
+</li>
+<li>
+<p> ACT/ACT-AFB
+</p>
+</li>
+</ul>
+<p><code>convention</code> makes reference to the following type of business day conventions:
+</p>
+
+<ul>
+<li>
+<p> "F" for Following business day convention.
+</p>
+</li>
+<li>
+<p> "MF" for Modified Following business day convention.
+</p>
+</li>
+<li>
+<p> "B" for Backward business day convention.
+</p>
+</li>
+<li>
+<p> "MB" for Modified Backward business day convention.
+</p>
+</li>
+</ul>
+<p><code>coupon.schedule</code> makes reference to the following type of coupon payment schedule
+of a bond:
+</p>
+
+<ul>
+<li>
+<p> "LF" for Long First coupon payment.
+</p>
+</li>
+<li>
+<p> "LL" for Long Last coupon payment.
+</p>
+</li>
+<li>
+<p> "SF" for Short First coupon payment.
+</p>
+</li>
+<li>
+<p> "SL" for Short Last coupon payment.
+</p>
+</li>
+</ul>
+<h3>Value</h3>
+
+<p>Bond value.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">valuation.bonds(maturity = "2026-06-01", coupon.rate = 0.06, rates = 0.08,
+                analysis.date = "2022-06-01")
+valuation.bonds(maturity = "2026-06-01", coupon.rate = 0.06, rates = rep(0.08,4),
+                analysis.date = "2022-06-01", rate.type = 0)
+valuation.bonds(maturity = "2026-06-01", analysis.date= "2025-02-27",
+                coupon.rate = c(0.06, 0.062, 0.063, 0.065, 0.066, 0.068),
+                rates = c(0.08, 0.082, 0.078, 0.09, 0.077, 0.085),
+                asset.type = "IBR")
+valuation.bonds(maturity = "2026-06-01", coupon.rate = 0.06,
+                rates = 0.08, asset.type = "IBR", freq = 4,
+                spread = 0.03)
+valuation.bonds(maturity = 4.58, coupon.rate = 0.1256, rates = seq(0.05, 0.14, by = 0.005),
+                analysis.date = "2019-07-14", asset.type = "FixedIncome", freq = 4,
+                principal = 567, daycount = "ACT/360", rate.type = 0, trade.date = "2019-07-14",
+                coupon.schedule = "LL")
+</code></pre>
+
+
+</div>

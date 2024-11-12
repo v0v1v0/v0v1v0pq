@@ -1,0 +1,220 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>corpus_segment</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Segment texts on a pattern match</h2>
+
+<h3>Description</h3>
+
+<p>Segment corpus text(s) or a character vector, splitting
+on a pattern match.  This is useful for breaking the texts into smaller
+documents based on a regular pattern (such as a speaker identifier in a
+transcript) or a user-supplied annotation.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">corpus_segment(
+  x,
+  pattern = "##*",
+  valuetype = c("glob", "regex", "fixed"),
+  case_insensitive = TRUE,
+  extract_pattern = TRUE,
+  pattern_position = c("before", "after"),
+  use_docvars = TRUE
+)
+
+char_segment(
+  x,
+  pattern = "##*",
+  valuetype = c("glob", "regex", "fixed"),
+  case_insensitive = TRUE,
+  remove_pattern = TRUE,
+  pattern_position = c("before", "after")
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>character or corpus object whose texts will be segmented</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pattern</code></td>
+<td>
+<p>a character vector, list of character vectors, dictionary,
+or collocations object.  See pattern for details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>valuetype</code></td>
+<td>
+<p>the type of pattern matching: <code>"glob"</code> for "glob"-style
+wildcard expressions; <code>"regex"</code> for regular expressions; or <code>"fixed"</code> for
+exact matching. See valuetype for details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>case_insensitive</code></td>
+<td>
+<p>logical; if <code>TRUE</code>, ignore case when matching a
+<code>pattern</code> or dictionary values</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>extract_pattern</code></td>
+<td>
+<p>extracts matched patterns from the texts and save in docvars if
+<code>TRUE</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pattern_position</code></td>
+<td>
+<p>either <code>"before"</code> or <code>"after"</code>, depending
+on whether the pattern precedes the text (as with a user-supplied tag, such
+as <code style="white-space: pre;">⁠##INTRO⁠</code> in the examples below) or follows the text (as with
+punctuation delimiters)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>use_docvars</code></td>
+<td>
+<p>if <code>TRUE</code>, repeat the docvar values for each
+segmented text; if <code>FALSE</code>, drop the docvars in the segmented corpus.
+Dropping the docvars might be useful in order to conserve space or if these
+are not desired for the segmented corpus.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>remove_pattern</code></td>
+<td>
+<p>removes matched patterns from the texts if <code>TRUE</code></p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>For segmentation into syntactic units defined by the locale (such as
+sentences), use <code>corpus_reshape()</code> instead.  In cases where more
+fine-grained segmentation is needed, such as that based on commas or
+semi-colons (phrase delimiters within a sentence),
+<code>corpus_segment()</code> offers greater user control than
+<code>corpus_reshape()</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>corpus_segment</code> returns a corpus of segmented texts
+</p>
+<p><code>char_segment</code> returns a character vector of segmented texts
+</p>
+
+
+<h3>Boundaries and segmentation explained</h3>
+
+<p>The <code>pattern</code> acts as a
+boundary delimiter that defines the segmentation points for splitting a
+text into new "document" units.  Boundaries are always defined as the
+pattern matches, plus the end and beginnings of each document.  The new
+"documents" that are created following the segmentation will then be the
+texts found between boundaries.
+</p>
+<p>The pattern itself will be saved as a new document variable named
+<code>pattern</code>.  This is most useful when segmenting a text according to
+tags such as names in a transcript, section titles, or user-supplied
+annotations.  If the beginning of the file precedes a pattern match, then
+the extracted text will have a <code>NA</code> for the extracted <code>pattern</code>
+document variable (or when <code>pattern_position = "after"</code>, this will be
+true for the text split between the last pattern match and the end of the
+document).
+</p>
+<p>To extract syntactically defined sub-document units such as sentences and
+paragraphs, use <code>corpus_reshape()</code> instead.
+</p>
+
+
+<h3>Using patterns</h3>
+
+<p>One of the most common uses for
+<code>corpus_segment</code> is to partition a corpus into sub-documents using
+tags.  The default pattern value is designed for a user-annotated tag that
+is a term beginning with double "hash" signs, followed by a whitespace, for
+instance as <code style="white-space: pre;">⁠##INTRODUCTION The text⁠</code>.
+</p>
+<p>Glob and fixed pattern types use a whitespace character to signal the end
+of the pattern.
+</p>
+<p>For more advanced pattern matches that could include whitespace or
+newlines, a regex pattern type can be used, for instance a text such as
+</p>
+<p><code style="white-space: pre;">⁠Mr. Smith: Text⁠</code> <br><code style="white-space: pre;">⁠Mrs. Jones: More text⁠</code>
+</p>
+<p>could have as <code>pattern = "\\b[A-Z].+\\.\\s[A-Z][a-z]+:"</code>, which
+would catch the title, the name, and the colon.
+</p>
+<p>For custom boundary delimitation using punctuation characters that come
+come at the end of a clause or sentence (such as <code style="white-space: pre;">⁠,⁠</code> and<code>.</code>,
+these can be specified manually and <code>pattern_position</code> set to
+<code>"after"</code>. To keep the punctuation characters in the text (as with
+sentence segmentation), set <code>extract_pattern = FALSE</code>.  (With most tag
+applications, users will want to remove the patterns from the text, as they
+are annotations rather than parts of the text itself.)
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>corpus_reshape()</code>, for segmenting texts into pre-defined
+syntactic units such as sentences, paragraphs, or fixed-length chunks
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## segmenting a corpus
+
+# segmenting a corpus using tags
+corp1 &lt;- corpus(c("##INTRO This is the introduction.
+                  ##DOC1 This is the first document.  Second sentence in Doc 1.
+                  ##DOC3 Third document starts here.  End of third document.",
+                 "##INTRO Document ##NUMBER Two starts before ##NUMBER Three."))
+corpseg1 &lt;- corpus_segment(corp1, pattern = "##*")
+cbind(corpseg1, docvars(corpseg1))
+
+# segmenting a transcript based on speaker identifiers
+corp2 &lt;- corpus("Mr. Smith: Text.\nMrs. Jones: More text.\nMr. Smith: I'm speaking, again.")
+corpseg2 &lt;- corpus_segment(corp2, pattern = "\\b[A-Z].+\\s[A-Z][a-z]+:",
+                           valuetype = "regex")
+cbind(corpseg2, docvars(corpseg2))
+
+# segmenting a corpus using crude end-of-sentence segmentation
+corpseg3 &lt;- corpus_segment(corp1, pattern = ".", valuetype = "fixed",
+                           pattern_position = "after", extract_pattern = FALSE)
+cbind(corpseg3, docvars(corpseg3))
+
+## segmenting a character vector
+
+# segment into paragraphs and removing the "- " bullet points
+cat(data_char_ukimmig2010[4])
+char_segment(data_char_ukimmig2010[4],
+             pattern = "\\n\\n(-\\s){0,1}", valuetype = "regex",
+             remove_pattern = TRUE)
+
+# segment a text into clauses
+txt &lt;- c(d1 = "This, is a sentence?  You: come here.", d2 = "Yes, yes okay.")
+char_segment(txt, pattern = "\\p{P}", valuetype = "regex",
+             pattern_position = "after", remove_pattern = FALSE)
+</code></pre>
+
+
+</div>

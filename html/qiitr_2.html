@@ -1,0 +1,82 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qiita_api</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Send A Request To Qiita API</h2>
+
+<h3>Description</h3>
+
+<p>An httr Wrapper for Qiita API.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qiita_api(
+  verb,
+  path,
+  payload = NULL,
+  query = NULL,
+  per_page = 100L,
+  page_offset = 0L,
+  page_limit = 1L,
+  .expect204 = FALSE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>verb</code></td>
+<td>
+<p>Method type (e.g. GET, POST, DELETE).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>path</code></td>
+<td>
+<p>Path of API.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>payload</code></td>
+<td>
+<p>JSON payload.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>query</code></td>
+<td>
+<p>Query strings.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>per_page</code></td>
+<td>
+<p>Number of entries (e.g. items, tags, users) in one page.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>page_offset</code></td>
+<td>
+<p>Number of offset pages.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>page_limit</code></td>
+<td>
+<p>Max number of pages to retrieve.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>.expect204</code></td>
+<td>
+<p>If <code>TRUE</code>, return <code>TRUE</code> for status code 204 and <code>FALSE</code> for status code 404.</p>
+</td>
+</tr>
+</table>
+</div>

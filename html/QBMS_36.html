@@ -1,0 +1,52 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>gigwa_list_runs</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Get the List of the Run Names Available in the Selected GIGWA Project</h2>
+
+<h3>Description</h3>
+
+<p>Retrieve the list of available runs in the currently active GIGWA project, set using
+'gigwa_set_project()'. If no project is selected, an error will be raised.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">gigwa_list_runs()
+</code></pre>
+
+
+<h3>Value</h3>
+
+<p>A list of run names associated with the selected project.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Khaled Al-Shamaa, <a href="mailto:k.el-shamaa@cgiar.org">k.el-shamaa@cgiar.org</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>set_qbms_config</code>, <code>gigwa_set_project</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">if (interactive()) {
+  set_qbms_config("https://gigwa.southgreen.fr/gigwa/", 
+                  time_out = 300, engine = "gigwa", no_auth = TRUE)
+  gigwa_set_db("Sorghum-JGI_v1")
+  gigwa_set_project("Nelson_et_al_2011")
+  gigwa_list_runs()
+}
+</code></pre>
+
+
+</div>

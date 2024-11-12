@@ -1,0 +1,246 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>QRISK3_2017</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Cardiovascular Disease 10-year Risk Calculation (QRISK3 2017)</h2>
+
+<h3>Description</h3>
+
+<p>This function allows you to calculate 10-year individual CVD risk using QRISK3-2017.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">QRISK3_2017(
+  data,
+  patid,
+  gender,
+  age,
+  atrial_fibrillation,
+  atypical_antipsy,
+  regular_steroid_tablets,
+  erectile_disfunction,
+  migraine,
+  rheumatoid_arthritis,
+  chronic_kidney_disease,
+  severe_mental_illness,
+  systemic_lupus_erythematosis,
+  blood_pressure_treatment,
+  diabetes1,
+  diabetes2,
+  weight,
+  height,
+  ethiniciy,
+  heart_attack_relative,
+  cholesterol_HDL_ratio,
+  systolic_blood_pressure,
+  std_systolic_blood_pressure,
+  smoke,
+  townsend
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>Specifiy your data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>patid</code></td>
+<td>
+<p>Specifiy the patient identifier.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gender</code></td>
+<td>
+<p>1: women 0: men.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>age</code></td>
+<td>
+<p>Specify the age of the patient in year (e.g. 64 years-old)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>atrial_fibrillation</code></td>
+<td>
+<p>Atrial fibrillation? (0: No, 1:Yes)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>atypical_antipsy</code></td>
+<td>
+<p>On atypical antipsychotic medication? (0: No, 1:Yes)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>regular_steroid_tablets</code></td>
+<td>
+<p>On regular steroid tablets? (0: No, 1:Yes)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>erectile_disfunction</code></td>
+<td>
+<p>A diagnosis of or treatment for erectile disfunction? (0: No, 1:Yes)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>migraine</code></td>
+<td>
+<p>Do patients have migraines? (0: No, 1:Yes)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rheumatoid_arthritis</code></td>
+<td>
+<p>Rheumatoid arthritis? (0: No, 1:Yes)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>chronic_kidney_disease</code></td>
+<td>
+<p>Chronic kidney disease (stage 3, 4 or 5)? (0: No, 1:Yes)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>severe_mental_illness</code></td>
+<td>
+<p>Severe mental illness? (0: No, 1:Yes)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>systemic_lupus_erythematosis</code></td>
+<td>
+<p>Systemic lupus erythematosis (SLE)? (0: No, 1:Yes)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>blood_pressure_treatment</code></td>
+<td>
+<p>On blood pressure treatment? (0: No, 1:Yes)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>diabetes1</code></td>
+<td>
+<p>Diabetes status: type 1? (0: No, 1:Yes)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>diabetes2</code></td>
+<td>
+<p>Diabetes status: type 2? (0: No, 1:Yes)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>weight</code></td>
+<td>
+<p>Weight of patients (kg)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>height</code></td>
+<td>
+<p>Height of patients (cm)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ethiniciy</code></td>
+<td>
+<p>Ethic group must be coded as the same as QRISK3 <br></p>
+<p>1 White or not stated <br>
+2 Indian <br>
+3 Pakistani <br>
+4 Bangladeshi <br>
+5 Other Asian <br>
+6 Black Caribbean <br>
+7 Black African <br>
+8 Chinese <br>
+9 Other ethnic group <br></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>heart_attack_relative</code></td>
+<td>
+<p>Angina or heart attack in a 1st degree relative &lt; 60? (0: No, 1:Yes)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cholesterol_HDL_ratio</code></td>
+<td>
+<p>Cholesterol/HDL ratio? (range from 1 to 11, e.g. 4)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>systolic_blood_pressure</code></td>
+<td>
+<p>Systolic blood pressure (mmHg, e.g. 180 mmHg)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>std_systolic_blood_pressure</code></td>
+<td>
+<p>Standard deviation of at least two most recent systolic blood pressure readings (mmHg)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>smoke</code></td>
+<td>
+<p>Smoke status must be coded as the same as QRISK3 <br></p>
+<p>1 non-smoker <br>
+2 ex-smoker <br>
+3 light smoker (less than 10) <br>
+4 moderate smoker (10 to 19) <br>
+5 heavy smoker (20 or over) <br></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>townsend</code></td>
+<td>
+<p>Townsend deprivation scores</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Return a dataset with three columns: patient identifier, caculated QRISK3 score,  caculated QRISK3 score with only 1 digit
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(QRISK3_2019_test)
+test_all &lt;- QRISK3_2019_test
+
+test_all_rst &lt;- QRISK3_2017(data=test_all, patid="ID", gender="gender", age="age",
+atrial_fibrillation="b_AF", atypical_antipsy="b_atypicalantipsy",
+regular_steroid_tablets="b_corticosteroids", erectile_disfunction="b_impotence2",
+migraine="b_migraine", rheumatoid_arthritis="b_ra", 
+chronic_kidney_disease="b_renal", severe_mental_illness="b_semi",
+systemic_lupus_erythematosis="b_sle",
+blood_pressure_treatment="b_treatedhyp", diabetes1="b_type1",
+diabetes2="b_type2", weight="weight", height="height",
+ethiniciy="ethrisk", heart_attack_relative="fh_cvd", 
+cholesterol_HDL_ratio="rati", systolic_blood_pressure="sbp",
+std_systolic_blood_pressure="sbps5", smoke="smoke_cat", townsend="town")
+
+test_all_rst$"QRISK_C_algorithm_score" &lt;- test_all$"QRISK_C_algorithm_score"
+test_all_rst$"diff" &lt;- test_all_rst$"QRISK3_2017_1digit" - test_all_rst$"QRISK_C_algorithm_score"
+print(test_all_rst$"diff")
+print(identical(test_all_rst$"QRISK3_2017_1digit", test_all_rst$"QRISK_C_algorithm_score"))
+
+</code></pre>
+
+
+</div>

@@ -1,0 +1,56 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>Shor</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Shor</h2>
+
+<h3>Description</h3>
+
+<p>Implements Shor's algorithm by applying the quantum oracle, performing a QFT, measuring the output, and using continued fractions algorithm to find period. Period is then used with Euclidean algorithm to check if factors are legitimate prime factors. Is probabilistic and may fail. Factors 15 with ease and 21 occassionally. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">Shor(N,trials=150,random=FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+	
+<table>
+<tr style="vertical-align: top;">
+<td><code>N</code></td>
+<td>
+<p>Number that Shor's algorithm is to factor</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>trials</code></td>
+<td>
+<p>Number of times to attempt before giving up</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>random</code></td>
+<td>
+<p>Boolean which determines whether seed is random or not</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Vector containing prime factors
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"> Shor(15,trials=2)
+</code></pre>
+
+
+</div>

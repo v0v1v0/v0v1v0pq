@@ -1,0 +1,147 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>GetAnalysis</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Perform Statistical Analysis on Calculations</h2>
+
+<h3>Description</h3>
+
+<p>This function performs statistical analysis on a list of calculation spreads,
+comparing each column to a control column using various statistical tests.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">GetAnalysis(
+  calculation_spread,
+  control,
+  test = "wilcox",
+  alternative = "two.sided",
+  adjust_p = FALSE,
+  alpha = 0.05
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>calculation_spread</code></td>
+<td>
+<p>A list of data frames, each representing a calculation spread.
+</p>
+<p>Output of <code>SpreadCaculation()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>control</code></td>
+<td>
+<p>The name or pattern of the control column in each data frame.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>test</code></td>
+<td>
+<p>The statistical test to use. Options are:
+</p>
+
+<ul>
+<li>
+<p> "t-test": Student's t-test, suitable for normally distributed data.
+For more information, run: <code>?stats::t.test</code>
+</p>
+</li>
+<li>
+<p> "wilcox": Wilcoxon rank-sum test (also known as Mann-Whitney U test), a non-parametric test.
+For more information, run: <code>?stats::wilcox.test</code>
+</p>
+</li>
+<li>
+<p> "yuen": Yuen's test for trimmed means, robust against outliers and non-normality.
+For more information, run: <code>?WRS2::yuen</code>
+</p>
+</li>
+</ul>
+<p>Default is "wilcox".</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>alternative</code></td>
+<td>
+<p>Options are "two.sided", "less", or "greater". Default is "two.sided".</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>adjust_p</code></td>
+<td>
+<p>Logical. Whether to adjust p-values for multiple comparisons. Default is FALSE.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>alpha</code></td>
+<td>
+<p>The significance level for determining significance stars. Default is 0.05.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list of data frames containing the results of the statistical analysis for selected metrics.
+</p>
+
+
+<h3>References</h3>
+
+<p>Mair, P., &amp; Wilcox, R. (2020). WRS2: A Collection of Robust Statistical Methods.
+https://CRAN.R-project.org/package=WRS2
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># Define the path to the plate data file
+plate_path &lt;- system.file("extdata/20240716_p3", 
+                          file = '20240716_p3_plate.xlsx', 
+                          package = "QuICSeedR")
+  
+# Read the plate data
+plate &lt;- readxl::read_xlsx(plate_path)
+
+# Define the path to the raw data file
+raw_path &lt;- system.file("extdata/20240716_p3", 
+                        file = '20240716_p3_raw.xlsx', 
+                        package = "QuICSeedR")
+# Read the raw data
+raw &lt;- readxl::read_xlsx(raw_path)
+
+# Get replicate data
+replicate &lt;- GetReplicate(plate)
+
+# Ensure time displayed as decimal hours
+plate_time = ConvertTime(raw)
+
+#Get metadata and display the few rows 
+meta = CleanMeta(raw, plate, replicate)
+
+#Clean data 
+cleanraw &lt;- CleanRaw(meta, raw, plate_time)
+
+#Get calculations using positive controls to normalize values. 
+calculation = GetCalculation(raw = cleanraw, meta, sd_fold = 10)
+
+#Formatting calculations for analysis (also compatible with graphing 
+#softwares used in F-SAA research)
+calculation_spread = SpreadCalculation(calculation)
+
+analysis &lt;- GetAnalysis(calculation_spread, control = "Neg", test = "wilcox", 
+                        alternative = 'greater')
+head(analysis)
+
+</code></pre>
+
+
+</div>

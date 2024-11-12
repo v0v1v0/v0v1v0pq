@@ -1,0 +1,137 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>autopal</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Optimize color palette for color vision deficiency</h2>
+
+<h3>Description</h3>
+
+<p>This function adapts color palettes to color vision deficiency (CVD) by
+optimizing the CVD severity to try reach a target color difference (DIN99d
+<code class="reqn">\delta E</code>) of the user's choosing. Basically, it will choose a color
+palette that is as close as possible to the target <code class="reqn">\delta E</code> by
+tweaking the CVD severity option in <code>qualpal</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">autopal(
+  n,
+  colorspace = "pretty",
+  cvd = c("protan", "deutan", "tritan"),
+  target = 20
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p>Number of colors to generate.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>colorspace</code></td>
+<td>
+<p>Either 1) a list of three named numeric vectors: <code>h</code>
+(hue), <code>s</code> (saturation), and <code>l</code> (lightness), all of length 2
+specifying a min and max value for the range. The values has to be in the
+range -360 to 360 for <code>h</code>, and 0 to 1 for <code>s</code> and <code>l</code> 2), or
+2) a <em>character vector</em> specifying one of the predefined color spaces
+(see below).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cvd</code></td>
+<td>
+<p>Color vision deficiency adaptation to adapt the color palette to.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>target</code></td>
+<td>
+<p>Target color difference.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The rationale for this function is that when there are few colors in a color
+palette, there is no cost involved in adapting colors to CVD – the colors
+will still remain distinct. As more an more colors are added to the palette,
+however, adapting the color palette to CVD will eventually lead to colors
+that are too similar. This function gradually loosens the adaptation to CVDs
+by lowering the severity of CVD to simulate to before picking colors (the
+<code>cvd_severity</code> argument in <code>qualpal</code>)
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list of class <code>qualpal</code> with the following
+components.
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>HSL</code></td>
+<td>
+
+<p>A matrix of the colors in the HSL color space.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>DIN99d</code></td>
+<td>
+
+<p>A matrix of the colors in the DIN99d color space (after power
+transformations).
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>RGB</code></td>
+<td>
+
+<p>A matrix of the colors in the sRGB color space.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>hex</code></td>
+<td>
+<p>A
+character vector of the colors in hex notation.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>de_DIN99d</code></td>
+<td>
+<p>A
+distance matrix of color differences according to delta E DIN99d.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>min_de_DIN99d</code></td>
+<td>
+
+<p>The smallest pairwise DIN99d color difference.
+</p>
+</td>
+</tr>
+</table>
+<h3>Examples</h3>
+
+<pre><code class="language-R">pal &lt;- autopal(3, cvd = "protan", target = 15)
+plot(pal)
+
+</code></pre>
+
+
+</div>

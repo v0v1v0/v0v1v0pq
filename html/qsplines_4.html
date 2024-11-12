@@ -1,0 +1,156 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>KochanekBartels</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Kochanek-Bartels quaternions spline</h2>
+
+<h3>Description</h3>
+
+<p>Constructs a quaternions spline by the Kochanek-Bartels
+algorithm.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">KochanekBartels(
+  keyRotors,
+  keyTimes = NULL,
+  tcb = c(0, 0, 0),
+  times,
+  n_intertimes,
+  endcondition = "natural",
+  constantSpeed = FALSE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>keyRotors</code></td>
+<td>
+<p>a vector of unit quaternions (rotors) to be interpolated</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>keyTimes</code></td>
+<td>
+<p>the times corresponding to the key rotors; must be an
+increasing vector of the same length a <code>keyRotors</code> if
+<code>endcondition = "natural"</code> or of length one more than number of key
+rotors if <code>endcondition = "closed"</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tcb</code></td>
+<td>
+<p>a vector of three numbers respectively corresponding to tension,
+continuity and bias</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>times</code></td>
+<td>
+<p>the times of interpolation; each time must lie within the range
+of the key times; this parameter can be missing if <code>keyTimes</code> is
+<code>NULL</code> and <code>n_intertimes</code> is not missing, and it is ignored if
+<code>constantSpeed=TRUE</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n_intertimes</code></td>
+<td>
+<p>if given, this argument has precedence over <code>times</code>;
+<code>keyTimes</code> can be <code>NULL</code> and <code>times</code> is constructed by
+linearly interpolating the key times such that there are
+<code>n_intertimes - 1</code> between two key times (so the times are the key
+times if <code>n_intertimes = 1</code>)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>endcondition</code></td>
+<td>
+<p>start/end conditions, can be <code>"closed"</code> or
+<code>"natural"</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>constantSpeed</code></td>
+<td>
+<p>Boolean, whether to re-parameterize the spline to
+have constant speed; in this case, <code>"times"</code> is ignored and you 
+must set the interpolating times with the help of <code>n_intertimes</code></p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A vector of quaternions having the same length as the <code>times</code>
+vector.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(qsplines)
+# Using a Kochanek-Bartels quaternions spline to construct 
+#   a spherical curve interpolating some key points on the 
+#     sphere of radius 5
+    
+# helper function: spherical to Cartesian coordinates
+sph2cart &lt;- function(rho, theta, phi){
+  return(c(
+    rho * cos(theta) * sin(phi),
+    rho * sin(theta) * sin(phi),
+    rho * cos(phi)
+  ))
+}
+
+# construction of the key points on the sphere
+keyPoints &lt;- matrix(nrow = 0L, ncol = 3L)
+theta_ &lt;- seq(0, 2*pi, length.out = 9L)[-1L]
+phi &lt;- 1.3
+for(theta in theta_){
+  keyPoints &lt;- rbind(keyPoints, sph2cart(5, theta, phi))
+  phi = pi - phi
+}
+n_keyPoints &lt;- nrow(keyPoints)
+
+# construction of the key rotors; the first key rotor 
+#   is the identity quaternion and rotor i sends the 
+#     first key point to the i-th key point
+keyRotors &lt;- quaternion(length.out = n_keyPoints)
+rotor &lt;- keyRotors[1L] &lt;- H1
+for(i in seq_len(n_keyPoints - 1L)){
+  keyRotors[i+1L] &lt;- rotor &lt;-
+    quaternionFromTo(
+      keyPoints[i, ]/5, keyPoints[i+1L, ]/5
+    ) * rotor
+}
+
+# Kochanek-Bartels quaternions spline
+rotors &lt;- KochanekBartels(
+  keyRotors, n_intertimes = 25L, 
+  endcondition = "closed", tcb = c(-1, 5, 0)
+)
+
+# construction of the interpolating points on the sphere
+points &lt;- matrix(nrow = 0L, ncol = 3L)
+keyPoint1 &lt;- rbind(keyPoints[1L, ])
+for(i in seq_along(rotors)){
+  points &lt;- rbind(points, rotate(keyPoint1, rotors[i]))
+}
+
+# visualize the result with the 'rgl' package
+library(rgl)
+spheres3d(0, 0, 0, radius = 5, color = "lightgreen")
+spheres3d(points, radius = 0.2, color = "midnightblue")
+spheres3d(keyPoints, radius = 0.25, color = "red")
+</code></pre>
+
+
+</div>

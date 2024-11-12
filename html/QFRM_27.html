@@ -1,0 +1,92 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>HolderExtendibleBS</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Holder Extendible option valuation via Black-Scholes (BS) model</h2>
+
+<h3>Description</h3>
+
+<p>Computes the price of exotic option (via BS model)
+which gives the holder the right to extend the option's maturity at an additional premium.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">HolderExtendibleBS(o = OptPx(Opt(Style = "HolderExtendible")), k = 105,
+  t1 = 0.5, t2 = 0.75, A = 1)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>o</code></td>
+<td>
+<p>An object of class <code>OptPx</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>k</code></td>
+<td>
+<p>The exercise price of the option at t2, a numeric value.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>t1</code></td>
+<td>
+<p>The time to maturity of the call option, measured in years.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>t2</code></td>
+<td>
+<p>The time to maturity of the put option, measured in years.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>A</code></td>
+<td>
+<p>The corresponding asset price has exceeded the exercise price X.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>The original <code>OptPx</code> object
+and the option pricing parameters <code>t1</code>, <code>t2</code>,<code>k</code>,<code>A</code>, and computed price <code>PxBS</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Le You, Department of Statistics, Rice University, Spring 2015
+</p>
+
+
+<h3>References</h3>
+
+<p>Hull, J.C., <em>Options, Futures and Other Derivatives</em>, 9ed, 2014. Prentice Hall. ISBN 978-0-13-345631-8,
+<a href="http://www-2.rotman.utoronto.ca/~hull/ofod/index.html">http://www-2.rotman.utoronto.ca/~hull/ofod/index.html</a>
+<br> Haug, Espen G.,<em>Option Pricing Formulas</em>, 2ed.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">(o = HolderExtendibleBS())$PxBS
+
+o = Opt(Style='HolderExtendible',Right='Call', S0=100, ttm=0.5, K=100)
+o = OptPx(o,r=0.08,q=0,vol=0.25)
+(o = HolderExtendibleBS(o,k=105,t1=0.5,t2=0.75,A=1))$PxBS
+
+o = Opt("HolderExtendible","Put", S0=100, ttm=0.5, K=100)
+o = OptPx(o,r=0.08,q=0,vol=0.25)
+(o = HolderExtendibleBS(o,k=90,t1=0.5,t2=0.75,A=1))$PxBS
+</code></pre>
+
+
+</div>

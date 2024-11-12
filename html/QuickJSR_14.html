@@ -1,0 +1,49 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qjs_eval</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>qjs_eval</h2>
+
+<h3>Description</h3>
+
+<p>Evaluate a single Javascript expression.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qjs_eval(eval_string)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>eval_string</code></td>
+<td>
+<p>A single string of the expression to evaluate</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>The result of the provided expression
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># Return the sum of two numbers:
+qjs_eval("1 + 2")
+
+# Concatenate strings:
+qjs_eval("'1' + '2'")
+
+# Create lists from objects:
+qjs_eval("var t = {'a' : 1, 'b' : 2}; t")
+
+</code></pre>
+
+
+</div>

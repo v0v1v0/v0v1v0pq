@@ -1,0 +1,193 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>ambiguity</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Analyze the Degree of Ambiguity across Research Design Variations</h2>
+
+<h3>Description</h3>
+
+<p>This evaluation function computes the degree of ambiguity across variations of a
+reference research design. It has initially been programmed for <a href="http://dx.doi.org/10.1177/0049124115610351">Baumgartner and Thiem (2017)</a>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">ambiguity(data, outcome = c(""), neg.out = c(FALSE), exo.facs = c(""),
+          tuples = c(), incl.cut1 = c(1), incl.cut0 = c(1), sol.type = c("ps"), 
+          row.dom = c(FALSE), min.dis = c(FALSE))
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>A set of configurational data as processable by the 
+<code>eQMC</code> function.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>outcome</code></td>
+<td>
+<p>A character vector of outcomes.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>neg.out</code></td>
+<td>
+<p>A logical vector specifying whether to negate outcomes.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>exo.facs</code></td>
+<td>
+<p>A character vector with the names of the exogenous factors.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tuples</code></td>
+<td>
+<p>A numeric vector of tuples of exogenous factors to be created 
+from <code>exof.cols</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>incl.cut1</code></td>
+<td>
+<p>The minimum sufficiency inclusion score for an output function 
+value of "1".</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>incl.cut0</code></td>
+<td>
+<p>The maximum sufficiency inclusion score for an output function 
+value of "0".</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sol.type</code></td>
+<td>
+<p>A character vector specifying the solution types to be generated.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>row.dom</code></td>
+<td>
+<p>A logical vector imposing row dominance as a constraint on the solution to
+eliminate dominated inessential prime implicants.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>min.dis</code></td>
+<td>
+<p>A logical vector imposing minimal disjunctivity as a constraint 
+on the solution to eliminate models with more prime implicants than the 
+model(s) with the fewest prime implicants.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>This evaluation function computes the degree of ambiguity across variations of a
+reference design by recording the number of models for each design solution. It has initially been programmed for <a href="http://dx.doi.org/10.1177/0049124115610351">Baumgartner and Thiem (2015)</a>.
+</p>
+<p>The argument <code>data</code> requires a set of configurational data as processable by 
+the <code>eQMC</code> function.  
+</p>
+<p>The argument <code>outcome</code> is a character vector, specifying the outcome(s) to be analyzed, either in curly-bracket notation (e.g., <code>O{value}</code>) if the outcome is from a multivalent (or a bivalent) factor, or in upper-case notation if the outcome is from a bivalent factor (e.g., <code>O</code> as a short-cut for <code>O{1}</code>). Outcomes from multivalent crisp-set factors always require curly-bracket notation. Outcomes can be single levels of factors not simultaneously passed to <code>exo.facs</code>. At least one outcome has to be specified.
+</p>
+<p>The argument <code>neg.out</code> requires a logical vector of length one or two, whose values, which must not be duplicated, specify whether to negate the outcomes determined by <code>outcome</code>. If an element in <code>outcome</code> is a level from a multivalent factor, <code>neg.out = TRUE</code> makes the disjunction of all remaining levels the outcome. Possible values for <code>neg.out</code> include <code>FALSE</code>, <code>TRUE</code>, <code>FALSE, TRUE</code> and <code>TRUE, FALSE</code>.
+</p>
+<p>The argument <code>exo.facs</code> is a character vector with the names of the exogenous factors. If omitted, all factors in <code>data</code> are used except that/those of the outcome/s given in <code>outcome</code>. and <code>tuples</code> specifies a numeric vector of tuples of exogenous factors to be created from <code>exo.facs</code>.
+</p>
+<p>Minterms with an inclusion score of at least <code>incl.cut1</code> are coded positive (<code>OUT = "1"</code>), minterms with an inclusion score below <code>incl.cut1</code> but with at least <code>incl.cut0</code> are coded as a contradiction (<code>OUT = "C"</code>), and minterms with an inclusion score below <code>incl.cut0</code> are coded negative (<code>OUT = "0"</code>). If <code>inc .cut0</code> is not explicitly changed, it is set equal to <code>incl.cut1</code>.
+</p>
+<p>The argument <code>sol.type</code> requires a character vector specifying the solution types to be generated. For example, <code>c("ps", "cs")</code> means parsimonious and conservative solution type.
+</p>
+<p>The argument <code>row.dom</code> requires a logical vector, and controls whether the principle of row dominance is imposed as a constraint on the solution. An inessential prime implicant <code class="reqn">P</code> dominates another <code class="reqn">Q</code> if all configurations covered by <code class="reqn">Q</code> are also covered by <code class="reqn">P</code>, but they are not interchangeable (cf. <a href="http://dx.doi.org/10.1002/j.1538-7305.1956.tb03835.x">McCluskey 1956, 1425</a>; McCluskey 1965, 164-152). If row dominance is operative, models that contain dominated prime implicants will not be returned.
+</p>
+<p>The argument <code>min.dis</code> requires a logical vector, and controls whether the principle of minimal disjunctivity is imposed as a constraint on the solution (McCluskey 1965, 12 -126). If minimal disjunctivity is operative, models that contain more than the number of prime implicants of the model(s) with the fewest prime implicants will not be returned.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list with the following two main components:<br></p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>tuples</code></td>
+<td>
+<p>A list of all tuples of exogenous factors of the respective size 
+taken from all factors given in <code>exo.facs</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n.models</code></td>
+<td>
+<p>A list of matrices giving the number of models in each solution
+for each design. The coding of labels has the following structure: 
+<code>O.1234</code>, where <code>O</code> is the outcome, <code>1</code> specifies the value 
+at the respective index of the argument <code>neg.out</code>, <code>2</code> the value 
+at the respective common index of the arguments <code>incl.cut1</code> and 
+<code>incl.cut0</code>, <code>3</code> the value at the respective index of the argument
+<code>sol.type</code>, and <code>4</code> the value at the respective common index of 
+the arguments <code>row.dom</code> and <code>min.dis</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Contributors (alphabetical)</h3>
+
+
+<table><tr>
+<td style="text-align: left;">
+Thiem, Alrik        </td>
+<td style="text-align: left;">: development, documentation, programming, testing
+</td>
+</tr></table>
+<h3>Author(s)</h3>
+
+<p>Alrik Thiem (<a href="http://www.alrik-thiem.net">Personal Website</a>; <a href="https://www.researchgate.net/profile/Alrik_Thiem">ResearchGate Website</a>)
+</p>
+
+
+<h3>References</h3>
+
+<p>Baumgartner, Michael, and Alrik Thiem. 2017. “Model Ambiguities in Configurational Comparative Research.” <em>Sociological Methods &amp; Research</em> <strong>46</strong> (4):954-87. DOI: <a href="http://dx.doi.org/10.1177/0049124115610351">10.1177/0049124115610351</a>.
+</p>
+<p>McCluskey, Edward J. 1956. “Minimization of Boolean Functions.” 
+<em>Bell Systems Technical Journal</em> <strong>35</strong> (6):1417-44. DOI: <a href="http://dx.doi.org/10.1002/j.1538-7305.1956.tb03835.x">10.1002/j.1538-7305.1956.tb03835.x</a>.
+</p>
+<p>McCluskey, Edward J. 1965. <em>Introduction to the Theory of Switching Circuits</em>.
+Princeton: Princeton University Press.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>eQMC</code></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+# load dataset
+data(d.tumorscreen)
+
+# designs: outcomes HPF and LPF; all 3 to 5-tuples of exogenous factors
+designs &lt;- ambiguity(d.tumorscreen, outcome = c("HPF", "LPF"), 
+  neg.out = c(FALSE, TRUE), tuples = 3:5)
+
+# share of solutions with ambiguities
+mapply(function (x) round(colSums((x &gt; 1)) / nrow(x), 2), designs$n.models)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

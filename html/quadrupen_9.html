@@ -1,0 +1,141 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>plot,quadrupen-method</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Plot method for a quadrupen object</h2>
+
+<h3>Description</h3>
+
+<p>Produce a plot of the solution path of a <code>quadrupen</code> fit.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">\S4method{plot}{quadrupen}(x, y, xvar = "lambda",
+        main = paste(slot(x, "penalty")," path", sep=""),
+        log.scale = TRUE, standardize=TRUE, reverse=FALSE,
+        labels = NULL, plot = TRUE, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>output of a fitting procedure of the <span class="pkg">quadrupen</span>
+package (<code>elastic.net</code> or <code>bounded.reg</code>
+for the moment). Must be of class <code>quadrupen</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>used for S4 compatibility.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xvar</code></td>
+<td>
+<p>variable to plot on the X-axis: either <code>"lambda"</code>
+(<code class="reqn">\lambda_1</code> penalty level) or <code>"fraction"</code>
+(<code class="reqn">\ell_1</code>-norm of the coefficients). Default is set to
+<code>"lambda"</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>main</code></td>
+<td>
+<p>the main title. Default is set to the model name followed
+by what is on the Y-axis.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>log.scale</code></td>
+<td>
+<p>logical; indicates if a log-scale should be used
+when <code>xvar="lambda"</code>. Default is <code>TRUE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>standardize</code></td>
+<td>
+<p>logical; standardize the coefficients before
+plotting (with the norm of the predictor). Default is <code>TRUE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>reverse</code></td>
+<td>
+<p>logical; should the X-axis be reversed when
+<code>xvar="lambda"</code>? Default is <code>FALSE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>labels</code></td>
+<td>
+<p>vector indicating the names associated to the plotted
+variables. When specified, a legend is drawn in order to identify
+each variable. Only relevant when the number of predictor is
+small. Remind that the intercept does not count. Default is
+<code>NULL</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>plot</code></td>
+<td>
+<p>logical; indicates if the graph should be plotted on
+call. Default is <code>TRUE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Not used</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>a <span class="pkg">ggplot2</span> object which can be plotted via the
+<code>print</code> method.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>quadrupen</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Simulating multivariate Gaussian with blockwise correlation
+## and piecewise constant vector of parameters
+beta &lt;- rep(c(0,1,0,-1,0), c(25,10,25,10,25))
+cor &lt;- 0.75
+Soo &lt;- toeplitz(cor^(0:(25-1))) ## Toeplitz correlation for irrelevant variables
+Sww  &lt;- matrix(cor,10,10) ## bloc correlation between active variables
+Sigma &lt;- bdiag(Soo,Sww,Soo,Sww,Soo)
+diag(Sigma) &lt;- 1
+n &lt;- 50
+x &lt;- as.matrix(matrix(rnorm(95*n),n,95) %*% chol(Sigma))
+y &lt;- 10 + x %*% beta + rnorm(n,0,10)
+
+## Plot the Lasso path
+plot(elastic.net(x,y, lambda2=0), main="Lasso solution path")
+## Plot the Elastic-net path
+plot(elastic.net(x,y, lambda2=10), xvar = "lambda")
+## Plot the Elastic-net path (fraction on X-axis, unstandardized coefficient)
+plot(elastic.net(x,y, lambda2=10), standardize=FALSE, xvar="fraction")
+## Plot the Bounded regression path (fraction on X-axis)
+plot(bounded.reg(x,y, lambda2=10), xvar="fraction")
+
+</code></pre>
+
+
+</div>

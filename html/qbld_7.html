@@ -1,0 +1,73 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>locust</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Dataset</h2>
+
+<h3>Description</h3>
+
+<p>This data set was presented by MacDonald and Raubenheimer (1995) 
+and analyze the effect of hunger on locomotory behaviour of 24 locust (<em>Locusta migratoria</em>) 
+observed at 161 time points. The subjects were divided in two treatment groups ("fed" and "not fed"), 
+and within each of the two groups, the subjects were alternatively "male" and "female". 
+For the purpose of this analysis the categories of the response variable 
+were "moving" and "not moving". During the observation period, the behavior of each of the subjects was 
+registered every thirty seconds.</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">data(locust)</code></pre>
+
+
+<h3>Format</h3>
+
+<p>A data frame with 3864 observations on the following 7 variables.
+</p>
+
+<dl>
+<dt><code>id</code></dt>
+<dd>
+<p>a numeric vector that identifies de number of the individual profile.</p>
+</dd>
+<dt><code>move</code></dt>
+<dd>
+<p>a numeric vector representing the response variable.</p>
+</dd>
+<dt><code>sex</code></dt>
+<dd>
+<p>a factor with levels <code>1</code> for "male" and <code>0</code> for "female". </p>
+</dd>
+<dt><code>time</code></dt>
+<dd>
+<p>a numeric vector that identifies de number of the time points observed. 
+The <code>time</code> vector considered was obtained dividing (1:161) by 120 (number of observed periods in 1 hour).</p>
+</dd>
+<dt><code>feed</code></dt>
+<dd>
+<p>a factor with levels <code>0</code> "no" and <code>1</code> "yes".</p>
+</dd>
+</dl>
+<h3>Details</h3>
+
+<p>The response variable, <code>move</code> is the binary type coded as <code>1</code> for "moving" and <code>0</code> for "not moving". 
+The <code>sex</code> covariate was coded as <code>1</code> for "male" and <code>0</code> for "female". The <code>feed</code> covariate indicating the treatment group,  
+was coded as <code>1</code> for "fed" and <code>0</code> for "not fed". Azzalini and Chiogna (1997) also have analyze this 
+data set using their <code>S-plus</code> package <code>rm.tools</code>. </p>
+
+
+<h3>Source</h3>
+
+<p>MacDonald, I. and Raubenheimer, D. (1995). Hidden Markov models and animal behaviour. 
+<em>Biometrical Journal</em>, 37, 701-712</p>
+
+
+<h3>References</h3>
+
+<p>Azzalini, A. and Chiogna, M. (1997). S-Plus Tools for the Analysis of Repeated Measures Data. 
+<em>Computational Statistics</em>, 12, 53-66</p>
+
+
+</div>

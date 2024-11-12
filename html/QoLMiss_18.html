@@ -1,0 +1,98 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>surv_br23</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Dataset contains survival outcomes and quality of life for breast cancer patients</h2>
+
+<h3>Description</h3>
+
+<p>Creates a dataset containing the domain-based relative hazard ratio (95
+the arm-wise data from QLQ-BR23
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">surv_br23(x)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>A data frame with ID, time, event, arm, BR_Q31,BR_Q32,...,BR_Q53 columns along with other columns if data is available.</p>
+</td>
+</tr></table>
+<h3>Details</h3>
+
+<p>Calculates the domain-wise relative hazard ratio (95
+</p>
+<p>surv_br23 function inputs either a dataset containing missing information, represented as,
+9 or 99 or NA or a data not containing any missing information. It passes the data to the brc_qol()
+function, which in turn gives the domain-wise scale scores. These domain-wise scale scores are used
+for calculating the relative hazard ratio (95
+the data arm-wise.
+</p>
+<p>The surv_br23 function includes the brc_qol() function which will consider the arm-wise data and
+calculate the domain-wise scale scores. Hence, two set of domain-wise scale scores will be obtained,
+one for each arm.
+</p>
+<p>Each of the domain-wise scales, 'BRBI','BRSEF','BRSEE','BRFU','BRST','BRBS','BRAS','BRHL', are considered
+as the covariates. Using these columns, Cox-Proportional model will be used for univariate analysis for
+each of the covariates. The hazard ratio (95
+</p>
+<p>Thus, the output will contain three columns, Hazard Ratio(HR), Lower 95
+</p>
+<p>surv_br23(x)
+</p>
+<p>1) Subject ID column should be named as 'ID'.
+</p>
+<p>2) Each question column should be named as 'BR_Q31' for data from question 31,'BR_Q32' for data from question 32, and so on until 'BR_Q53' for data from question 53.
+</p>
+<p>3) Data must contain columns for 'time', 'event' and 'arm'.
+</p>
+<p>4) Data may contain more variables, such as, Age, Gender, etc.
+</p>
+<p>x - A data frame with ID, time, event, arm, BR_Q31,BR_Q32,...,BR_Q53 columns along with other columns if data is available.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A data frame containing the Hazard Ratio(HR), Lower 95
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Atanu Bhattacharjee and Ankita Pal
+</p>
+
+
+<h3>References</h3>
+
+<p>QoLMiss: Package for Repeatedly measured Quality of Life of Cancer Patients Data
+</p>
+
+
+<h3>See Also</h3>
+
+<p>https://github.com/apstat/QoLMiss-Package
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">##
+data(brc_df)
+surv_br23(brc_df)
+##
+
+</code></pre>
+
+
+</div>

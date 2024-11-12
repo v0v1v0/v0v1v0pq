@@ -1,0 +1,873 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qe-Series Predictive Functions</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Quick-and-Easy Machine Learning Wrappers</h2>
+
+<h3>Description</h3>
+
+<p>Quick access to machine learning methods, with a very simple
+interface.  "Works right out of the box!":
+Just one call needed to fit, no preliminary
+setup of model etc.  The simplicity also makes the series useful
+for teaching.  
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qeLogit(data,yName,holdout=floor(min(1000,0.1*nrow(data))),yesYVal=NULL)
+qeLin(data,yName,noBeta0=FALSE,holdout=floor(min(1000,0.1*nrow(data))))
+qeKNN(data,yName,k,scaleX=TRUE,smoothingFtn=mean,yesYVal=NULL,
+   expandVars=NULL,expandVals =NULL,holdout=floor(min(1000,0.1*nrow(data))))
+qeRF(data,yName,nTree=500,minNodeSize=10,mtry=floor(sqrt(ncol(data)))+1,
+   holdout=floor(min(1000,0.1*nrow(data))))
+qeRFranger(data,yName,nTree=500,minNodeSize=10,
+   mtry=floor(sqrt(ncol(data)))+1,deweightPars=NULL,
+   holdout=floor(min(1000,0.1*nrow(data))),yesYVal="") 
+qeRFgrf(data,yName,nTree=2000,minNodeSize=5,mtry=floor(sqrt(ncol(data)))+1,
+   ll=FALSE,lambda=0.1,splitCutoff=sqrt(nrow(data)),
+   holdout=floor(min(1000,0.1*nrow(data))))
+qeSVM(data,yName,gamma=1.0,cost=1.0,kernel='radial',degree=2,
+   allDefaults=FALSE,holdout=floor(min(1000,0.1*nrow(data))))
+qeGBoost(data,yName,nTree=100,minNodeSize=10,learnRate=0.1,
+   holdout=floor(min(1000,0.1*nrow(data))))
+qeAdaBoost(data, yName, treeDepth = 3, nRounds = 100, rpartControl = NULL, 
+    holdout = floor(min(1000, 0.1 * nrow(data)))) 
+qeLightGBoost(data,yName,nTree=100,minNodeSize=10,learnRate=0.1,
+   holdout=floor(min(1000,0.1*nrow(data))))
+qeNeural(data,yName,hidden=c(100,100),nEpoch=30,
+   acts=rep("relu",length(hidden)),learnRate=0.001,
+   conv=NULL,xShape=NULL,
+   holdout=floor(min(1000,0.1*nrow(data))))
+qeLASSO(data,yName,alpha=1,holdout=floor(min(1000,0.1*nrow(data))))
+qePolyLin(data,yName,deg=2,maxInteractDeg = deg,
+   holdout=floor(min(1000,0.1*nrow(data))))
+qePolyLog(data,yName,deg=2,maxInteractDeg = deg,
+   holdout=floor(min(1000,0.1*nrow(data))))
+qePCA(data,yName,qeName,opts=NULL,pcaProp,
+   holdout=floor(min(1000,0.1*nrow(data))))
+qeUMAP(data,yName,qeName,opts=NULL,
+   holdout=floor(min(1000,0.1*nrow(data))),scaleX=FALSE,
+   nComps=NULL,nNeighbors=NULL)
+qeDT(data,yName,alpha=0.05,minsplit=20,minbucket=7,maxdepth=0,mtry=0,
+   holdout=floor(min(1000,0.1*nrow(data))))
+qeFOCI(data,yName,numCores=1,parPlat="none",
+   yesYLevel=NULL)
+qeFOCIrand(data,yName,xSetSize,nXSets)
+qeFOCImult(data,yName,numCores=1,
+   parPlat="none",coalesce='union')
+qeLinKNN(data,yName,k=25,scaleX=TRUE,smoothingFtn=mean,
+   expandVars=NULL,expandVals=NULL,
+   holdout=floor(min(1000,0.1*nrow(data))))
+qePolyLASSO(data,yName,deg=2,maxInteractDeg=deg,alpha=0,
+   holdout=floor(min(1000,0.1*nrow(data))))
+qeROC(dataIn,qeOut,yLevelName)
+qeXGBoost(data,yName,nRounds=250,
+   params=list(eta=0.3,max_depth=6,alpha=0),
+   holdout=floor(min(1000,0.1*nrow(data))))
+qeDeepnet(data,yName,hidden=c(10),activationfun="sigm",
+   learningrate=0.8,momentum=0.5,learningrate_scale=1,
+   numepochs=3,batchsize=100,hidden_dropout=0,yesYVal=NULL,
+   holdout=floor(min(1000,0.1*nrow(data))))
+qeRpart(data,yName,minBucket=10,holdout=floor(min(1000,
+   0.1*nrow(data)))) 
+qeParallel(data,yName,qeFtnName,dataName,opts=NULL,cls=1,
+   libs=NULL,holdout=NULL)
+checkPkgLoaded(pkgName,whereObtain='CRAN') 
+## S3 method for class 'qeParallel'
+predict(object,newx,...)
+## S3 method for class 'qeLogit'
+predict(object,newx,...)
+## S3 method for class 'qeLin'
+predict(object,newx,useTrainRow1=TRUE,...)
+## S3 method for class 'qeKNN'
+predict(object,newx,newxK=1,...)
+## S3 method for class 'qeRF'
+predict(object,newx,...)
+## S3 method for class 'qeRFranger'
+predict(object,newx,...)
+## S3 method for class 'qeRFgrf'
+predict(object,newx,...)
+## S3 method for class 'qeSVM'
+predict(object,newx,...)
+## S3 method for class 'qeGBoost'
+predict(object,newx,newNTree=NULL,...)
+## S3 method for class 'qeLightGBoost'
+predict(object,newx,...)
+## S3 method for class 'qeNeural'
+predict(object,newx,k=NULL,...)
+## S3 method for class 'qeLASSO'
+predict(object,newx,...)
+## S3 method for class 'qePoly'
+predict(object,newx)
+## S3 method for class 'qePCA'
+predict(object,newx,...)
+## S3 method for class 'qeUMAP'
+predict(object,newx,...)
+## S3 method for class 'qeDeepnet'
+predict(object,newx,...)
+## S3 method for class 'qeRpart'
+predict(object,newx,...)
+## S3 method for class 'qeLASSO'
+plot(x,...)
+## S3 method for class 'qeRF'
+plot(x,...)
+## S3 method for class 'qeRpart'
+plot(x,boxPalette=c("red","yellow","green","blue"),...) 
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Further arguments.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cls</code></td>
+<td>
+<p>Cluster in the sense of <span class="pkg">parallel</span> package.  If not of 
+class <code>cluster</code>, this is either a positive integer, indicating the
+desired number of cores, or a character vector, indicating the
+machines on which the cluster is to be formed.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>libs</code></td>
+<td>
+<p>Character vector listing libraries needed to be loaded for 
+<code>qeFtnName</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dataName</code></td>
+<td>
+<p>Name of the <code>data</code> argument.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>hidden_dropout</code></td>
+<td>
+<p>Drop out fraction for hidden layer.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>batchsize</code></td>
+<td>
+<p>Batch size.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>numepochs</code></td>
+<td>
+<p>Number of iterations to conduct.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>learningrate</code></td>
+<td>
+<p>Learning rate.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>momentum</code></td>
+<td>
+<p>Momemtum</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>learningrate_scale</code></td>
+<td>
+<p>Learning rate will be multiplied by this at
+each iteration, allowing for decay.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>activationfun</code></td>
+<td>
+<p>Can be 'sigm', 'tanh' or 'linear'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>newNTree</code></td>
+<td>
+<p>Number of trees to use in prediction.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>newxK</code></td>
+<td>
+<p>If predicting new cases, number of nearest neighbors to
+smooth in the object returned by <code>qeKNN</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>useTrainRow1</code></td>
+<td>
+<p>If TRUE, take names in <code>newx</code> from row 1 in
+the training data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>newx</code></td>
+<td>
+<p>New data to be predicted.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>An object returned by a qe-series function.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>minsplit</code></td>
+<td>
+<p>Minimum number of data points in a node.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>minbucket</code></td>
+<td>
+<p>Minimum number of data points in a terminal node.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>minBucket</code></td>
+<td>
+<p>Minimum number of data points in a terminal node.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>maxdepth</code></td>
+<td>
+<p>Maximum number of levels in a tree.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qeName</code></td>
+<td>
+<p>Name of qe-series predictive function.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qeFtnName</code></td>
+<td>
+<p>Name of qe-series predictive function.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>conv</code></td>
+<td>
+<p>R list specifying the convolutional layers, if any.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>deweightPars</code></td>
+<td>
+<p>Values for de-emphasizing variables in a 
+tree node split, e.g. 'list(age=0.2,gender=0.5)'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>allDefaults</code></td>
+<td>
+<p>Use all default values of the wrapped function.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>expandVars</code></td>
+<td>
+<p>Columns to be emphasized.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>expandVals</code></td>
+<td>
+<p>Emphasis values; a value less than 1 means de-emphasis.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mtry</code></td>
+<td>
+<p>Number of variables randomly tried at each split.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>yesYVal</code></td>
+<td>
+<p>Y value to be considered "yes," to be coded 1 rather than 0.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>yesYLevel</code></td>
+<td>
+<p>Y value to be considered "yes," to be coded 1 rather than 0.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>noBeta0</code></td>
+<td>
+<p>No intercept term.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pcaProp</code></td>
+<td>
+<p>Desired proportion of overall variance for the PCs.'</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>Dataframe, training set. Classification case is signaled
+via labels column being an R factor.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dataIn</code></td>
+<td>
+<p>See <code>data</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qeOut</code></td>
+<td>
+<p>Output from a qe-series function.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>yName</code></td>
+<td>
+<p>Name of the class labels column.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>holdout</code></td>
+<td>
+<p>If not NULL, form a holdout set of the specified size.
+After fitting to the remaining data, evaluate accuracy on the test set.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>k</code></td>
+<td>
+<p>Number of nearest neighbors. In functions other than
+<code>qeKNN</code> for which this is an argument, it is the number of 
+neighbors to use in finding conditional probabilities via 
+<code>knnCalib</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>smoothingFtn</code></td>
+<td>
+<p>As in <code>kNN</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>scaleX</code></td>
+<td>
+<p>Scale the features.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nTree</code></td>
+<td>
+<p>Number of trees.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>minNodeSize</code></td>
+<td>
+<p>Minimum number of data points in a tree node.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>learnRate</code></td>
+<td>
+<p>Learning rate.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>hidden</code></td>
+<td>
+<p>Vector of units per hidden layer.  Fractional values
+indicated dropout proportions.  Can be specified as a string, e.g.
+'100,50', for use with <code>qeFT</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nEpoch</code></td>
+<td>
+<p>Number of iterations in neural net.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>acts</code></td>
+<td>
+<p>Vector of names of the activation functions, one per
+hidden layer.  Choices inclde 'relu', 'sigmoid', 'tanh', 'softmax',
+'elu', 'selu'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>alpha</code></td>
+<td>
+<p>In the case of <code>qeDT</code>, a p-value cutoff criterion.
+Otherwise 1 for LASSO, 2 for ridge.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gamma</code></td>
+<td>
+<p>Scale parameter in <code>e1071::svm</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cost</code></td>
+<td>
+<p>Cost parameter in <code>e1071::svm</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>kernel</code></td>
+<td>
+<p>In the case of <code>qeSVM</code>, this is 
+One of 'linear','radial','polynomial' and 'sigmoid'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>degree</code></td>
+<td>
+<p>Degree of SVM polynomial kernel, if any.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>opts</code></td>
+<td>
+<p>R list of optional arguments for none, some or all of th
+functions in <code>qeFtnList</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nComps</code></td>
+<td>
+<p>Number of UMAP components to extract.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nNeighbors</code></td>
+<td>
+<p>Number of nearest neighbors to use in UMAP.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ll</code></td>
+<td>
+<p>If TRUE, use local linear forest.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lambda</code></td>
+<td>
+<p>Ridge lambda for local linear forest.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>splitCutoff</code></td>
+<td>
+<p>For leaves smaller than this value, do not fit
+linear model.  Just use the linear model fit to the entire dataset.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xShape</code></td>
+<td>
+<p>Input X data shape, e.g. c(28,28) for 28x28 grayscale
+images.  Must be non-NULL if <code>conv</code> is.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>treeDepth</code></td>
+<td>
+<p>Number of levels in each tree.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nRounds</code></td>
+<td>
+<p>Number of boosting rounds.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rpartControl</code></td>
+<td>
+<p>An R list specifying properties of fitted trees.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>numCores</code></td>
+<td>
+<p>Number of cores to use in parallel computation.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>parPlat</code></td>
+<td>
+<p>Parallel platforParallel platform.  Valid values are
+'none', 'cluster' (output of <code>parallel::makeCluster</code>), and 
+'locThreads' (local cores).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xSetSize</code></td>
+<td>
+<p>Size of subsets of the predictor variables.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nXSets</code></td>
+<td>
+<p>Number of subsets of the predictor variables.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>coalesce</code></td>
+<td>
+<p>Method for combining variable sets.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>deg</code></td>
+<td>
+<p>Degree of a polynomial.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>maxInteractDeg</code></td>
+<td>
+<p>Maximul degree of interaction terms in
+a polynomial.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>yLevelName</code></td>
+<td>
+<p>Name of the class to be considered a positive
+response in a classification problem.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>params</code></td>
+<td>
+<p>Tuning parameters for <code>xgboost</code>, e.g. 
+<code>params=list(eta=0.1,max_depth=8)</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>boxPalette</code></td>
+<td>
+<p>Color palette.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pkgName</code></td>
+<td>
+<p>Name of wrapped package.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>whereObtain</code></td>
+<td>
+<p>Location.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>A qe-series function return object.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>As noted, these functions are intended for quick, first-level analysis
+of regression/machine learning problems.  Emphasis here is
+on convenience and simplicity.  
+</p>
+<p>The idea is that, given a new dataset, the analyst can quickly and
+easily try fitting a number of models in succession, say first k-NN,
+then random forests: 
+</p>
+<pre>
+# built-in data on major league baseball players
+&gt; data(mlb)  
+&gt; mlb &lt;- mlb[,3:6]  # position, height, weight, age
+
+# fit models
+&gt; knnout &lt;- qeKNN(mlb,'Weight',k=25)
+&gt; rfout &lt;- qeRF(mlb,'Weight')
+
+# mean abs. pred. error on holdout set, in pounds
+&gt; knnout$testAcc
+[1] 11.75644
+&gt; rfout$testAcc
+[1] 12.6787
+
+# predict a new case
+&gt; newx &lt;- data.frame(Position='Catcher',Height=73.5,Age=26)
+&gt; predict(knnout,newx)
+       [,1]
+[1,] 204.04
+&gt; predict(rfout,newx)
+      11 
+199.1714
+
+# many of the functions include algorithm-specific output
+&gt; lassout &lt;- qeLASSO(mlb,'Weight')
+holdout set has  101 rows
+&gt; lassout$testAcc
+[1] 14.27337
+&gt; lassout$coefs  # sparse result?
+10 x 1 sparse Matrix of class "dgCMatrix"
+                                    s1
+(Intercept)               -109.2909416
+Position.Catcher             0.4408752
+Position.First_Baseman       4.8308437
+Position.Outfielder          .        
+Position.Relief_Pitcher      .        
+Position.Second_Baseman     -0.7846501
+Position.Shortstop          -4.2291338
+Position.Starting_Pitcher    .        
+Height                       4.0039114
+Age                          0.5352793
+
+</pre>
+<p>The <code>holdout</code> argument triggers formation of a holdout set
+and the corresponding cross-validation evaluation of predictive power.
+Note that if a holdout is formed, the return value will consist of the
+fit on the training set, not on the full original dataset.
+</p>
+<p>The <code>qe*</code> functions do model fit.  Each of them has a
+<code>predict</code> method, and some also have a <code>plot</code> method.
+</p>
+<p>Arguments for <code>qe*</code> are at least: 
+</p>
+
+<ul>
+<li> <p><code>data</code> 
+</p>
+</li>
+<li> <p><code>yName</code> 
+</p>
+</li>
+<li> <p><code>holdout</code>
+</p>
+</li>
+</ul>
+<p>Typically there are also algorithm-specific hyperparameter arguments.
+</p>
+<p>Arguments for <code>predict</code> are at least:
+</p>
+
+<ul>
+<li> <p><code>object</code>, the return value from <code>qe*</code>
+</p>
+</li>
+<li> <p><code>newx</code>, a data frame of points to be predicted
+</p>
+</li>
+</ul>
+<p>For both the fitting function and the prediction function, there may be
+additional algorithm-specific parameters; default values are provided.
+</p>
+<p>Some notes on specific functions:
+</p>
+
+<ul>
+<li>
+<p> The function <code>qeLin</code> handles not only the usual OLS models
+but also classification problems as multivariate-outcome linear
+models. If one's goal is prediction, it can be much faster than
+<code>qeLogit</code>, often with comparable accuracy.
+</p>
+</li>
+<li>
+<p> Regularization in linear/generalized linear models is
+implemented in <code>qeLASSO</code> and other functions with names
+containing 'LASSO', as well as <code>qeNCVregCV</code>.  The latter,
+wrappping the MCP and other regularization methods, wraps the package
+of the same name.
+</p>
+</li>
+<li>
+<p> Several functions fit polynomial models.  The <code>qePolyLin</code>
+function does polynomial regression of the indicated degree. In the
+above example degree 3 means all terms through degree 3, e.g.
+<code>Height * Age^2</code>.  Dummy variables are handled properly, e.g.
+no powers of a dummy are generatd.  The logistic polynomial
+regression version is <code>qePolyLog</code>, and there is a LASSO version,
+<code>qePolyLASSO</code>.
+</p>
+</li>
+<li>
+<p> Several random forests implementations are offered:
+<code>qeRF</code> wraps <code>randomForest</code> in the package of the same name; 
+<code>qeRFranger</code> wraps <code>ranger</code> in the package of the same name; 
+<code>qeRFgrf</code> wraps <code>regression_forest</code> and 
+<code>ll_regression_forest</code> in <span class="pkg">grf</span> (the latter does local
+linear smoothing).  There is also <code>qeDT</code>, using 
+the <span class="pkg">party</span> package.
+</p>
+</li>
+<li>
+<p> Several implementations of gradient boosting are offered,
+including <code>qeGBoost</code> using the <span class="pkg">gbm</span> package, 
+<code>qelightGBoost</code> using <span class="pkg">lightgbm</span>, and <code>qeXGBoost</code>
+wrapping <span class="pkg">xgboost</span>.
+</p>
+</li>
+<li>
+<p> Several functions involve dimension reduction/feature
+selection.  Pre-mapping to lower-dimensional manifolds can be done via
+<code>qePCA</code> and <code>qeUMAP</code>.  For instance, the former will first
+extract the specified number of principal components, then fit the
+user's desired ML model, say k-NN (<code>qeKNN</code>) or gradient boosting
+(<code>qeGBoost</code>).  
+</p>
+</li>
+<li>
+<p> The <code>qeFOCI</code> function does feature selection
+in a basically assumption-free manner.  It handles numeric and binary
+Y (the latter coded 1,0).  For categorical Y, use <code>qeFOCImult</code>.
+The function <code>qeFOCIrand</code> applies FOCI to many subsets of the
+input dataset, eventually returning the union of the outputs; this is
+useful if the dataset has many NA values.
+</p>
+</li>
+<li>
+<p> Neural network models are implemented by <code>qeNeural</code>
+and <code>qeDeepnet</code>, based on <span class="pkg">keras</span> and <span class="pkg">deepnet</span>.
+</p>
+</li>
+<li>
+<p> The <code>qeLinKNN</code> function offers a hybrid approach.  It
+first fits a linear model, then applies k-Nearest Neighbors to the
+residuals.  The <code>qePolyLinKNN</code> function does the same in with a
+polynomial fit.
+</p>
+</li>
+<li>
+<p> The <code>qeIso</code> function is intended mainly for use as a
+smoothing method in calibration actions.  
+</p>
+</li>
+</ul>
+<p>In most cases, the full basket of options in the wrapped function is not
+reflected.  Use of arguments not presented in the qe function requires
+direct use the relevant packages.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The value returned by <code>qe*</code> functions depends on the algorithm, but
+with some commonality, e.g. <code>classif</code>, a logical value indicating
+whether the problem was of classification type.  
+</p>
+<p>If a holdout set was requested, an additional returned component will be
+<code>testAcc</code>, the accuracy on the holdout set.  This will be Mean
+Absolute Prediction Error in the regression case, and proportion of
+misclassified cases in the classification case.
+</p>
+<p>The value returned by the <code>predict</code> functions is an
+R list with components as follows:
+</p>
+<p>Classification case:
+</p>
+
+<ul>
+<li> <p><code>predClasses</code>:  R factor instance of predicted class labels 
+</p>
+</li>
+<li> <p><code>probs</code>:  vector/matrix of class probabilities; in the 2-class
+case, a vector, the probabilities of Y = 1
+</p>
+</li>
+</ul>
+<p>Regression case: vector of predicted values
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Norm Matloff
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+# see also 'details' above
+
+## Not run: 
+
+data(peFactors)  
+pef &lt;- peFactors[,c(1,3,5,7:9)]  
+# most people in the dataset have at least a Bachelor's degree; so let's
+# just consider Master's (code 14) and PhD (code 16) as special
+pef$educ &lt;- toSubFactor(pef$educ,c('14','16'))  
+
+# predict occupation; 6 classes, 100, 101, 102, 106, 140, 141, using SVM
+svmout &lt;- qeSVM(pef,'occ',holdout=NULL) 
+# as example of prediction, take the 8th case, but change the gender and
+# age to female and 25; note that by setting k to non-null, we are
+# requesting that conditional probabilities be calculated, via
+# knnCalib(), here using 25 nearest neighbors
+newx &lt;- pef[8,-3] 
+newx$sex &lt;- '2'
+newx$age &lt;- 25
+predict(svmout,newx,k=25)
+# $predClasses
+#   8 
+# 100 
+# Levels: 100 101 102 106 140 141
+# $dvals
+#      102/101    102/100   102/141  102/140  102/106    101/100  101/141
+# 8 -0.7774038 -0.5132022 0.9997894 1.003251 0.999688 -0.4023077 1.000419
+#    101/140   101/106  100/141  100/140  100/106   141/140    141/106   140/106
+# 8 1.000474 0.9997371 1.000088 1.000026 1.000126 0.9460703 -0.4974625 -1.035721
+# 
+# $probs
+#       100  101  102  106 140  141
+# [1,] 0.24 0.52 0.12 0.08   0 0.04
+#
+# so, occupation code 100 is predicted, with a 0.36 conditional
+# probability
+
+# if holdout evaluation is desired as well, say 1000 cases, seed 9999:
+&gt; svmout &lt;- qeSVM(pef,'occ',holdout=c(1000,9999)) 
+&gt; svmout$testAcc
+[1] 0.622  # 62
+
+# linear
+# lm() doesn't like numeric factor levels, so prepend an 'a'
+pef$occ &lt;- prepend('a',pef$occ)
+lmout &lt;- qeLin(pef,'occ')
+predict(lmout,pef[1,-3])  # occ 100, prob 0.3316
+lmout &lt;- qeLin(pef,'wageinc')
+predict(lmout,pef[1,-5])  # 70857.79
+
+
+## End(Not run)
+
+</code></pre>
+
+
+</div>

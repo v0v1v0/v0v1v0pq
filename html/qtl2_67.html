@@ -1,0 +1,61 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>get_x_covar</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Get X chromosome covariates</h2>
+
+<h3>Description</h3>
+
+<p>Get the matrix of covariates to be used for the null hypothesis when
+performing QTL analysis with the X chromosome.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">get_x_covar(cross)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>cross</code></td>
+<td>
+<p>Object of class <code>"cross2"</code>. For details, see the
+<a href="https://kbroman.org/qtl2/assets/vignettes/developer_guide.html">R/qtl2 developer guide</a>.</p>
+</td>
+</tr></table>
+<h3>Details</h3>
+
+<p>For most crosses, the result is either <code>NULL</code>
+(indicating no additional covariates are needed) or a
+matrix with a single column containing sex indicators (1 for males
+and 0 for females).
+</p>
+<p>For an intercross, we also consider cross direction. There are
+four cases: (1) All male or all female but just one direction: no
+covariate; (2) All female but both directions: covariate indicating
+cross direction; (3) Both sexes, one direction: covariate
+indicating sex; (4) Both sexes, both directions: a covariate
+indicating sex and a covariate that is 1 for females from the
+reverse direction and 0 otherwise.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A matrix of size individuals x no. covariates.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">iron &lt;- read_cross2(system.file("extdata", "iron.zip", package="qtl2"))
+xcovar &lt;- get_x_covar(iron)
+</code></pre>
+
+
+</div>

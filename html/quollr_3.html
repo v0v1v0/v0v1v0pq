@@ -1,0 +1,78 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>calc_bins</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Calculate the effective number of bins along x-axis and y-axis</h2>
+
+<h3>Description</h3>
+
+<p>This function calculates the effective number of bins along the x and y axes
+of a hexagonal grid.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">calc_bins(data, x, y, hex_size = NA, buffer_x = NA, buffer_y = NA)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>A tibble or data frame.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>The name of the column that contains values along the x-axis.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>The name of the column that contains values along the y-axis.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>hex_size</code></td>
+<td>
+<p>A numeric value that initializes the radius of the outer
+circle surrounded by the hexagon.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>buffer_x</code></td>
+<td>
+<p>The buffer size along the x-axis.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>buffer_y</code></td>
+<td>
+<p>The buffer size along the y-axis.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list of numeric values that represents the effective number of
+bins along the x and y axes of a hexagonal grid.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">calc_bins(data = s_curve_noise_umap_scaled, x = "UMAP1", y = "UMAP2",
+hex_size = NA, buffer_x = NA, buffer_y = NA)
+
+</code></pre>
+
+
+</div>

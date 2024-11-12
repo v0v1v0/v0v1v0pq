@@ -1,0 +1,182 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>scan1max</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Maximum LOD score from genome scan with a single-QTL model</h2>
+
+<h3>Description</h3>
+
+<p>Maximum LOD score from genome scan with a single-QTL model by
+Haley-Knott regression or a linear mixed model, with possible
+allowance for covariates.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">scan1max(
+  genoprobs,
+  pheno,
+  kinship = NULL,
+  addcovar = NULL,
+  Xcovar = NULL,
+  intcovar = NULL,
+  weights = NULL,
+  reml = TRUE,
+  model = c("normal", "binary"),
+  hsq = NULL,
+  by_chr = FALSE,
+  cores = 1,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>genoprobs</code></td>
+<td>
+<p>Genotype probabilities as calculated by
+<code>calc_genoprob()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pheno</code></td>
+<td>
+<p>A numeric matrix of phenotypes, individuals x phenotypes.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>kinship</code></td>
+<td>
+<p>Optional kinship matrix, or a list of kinship matrices (one
+per chromosome), in order to use the LOCO (leave one chromosome
+out) method.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>addcovar</code></td>
+<td>
+<p>An optional numeric matrix of additive covariates.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Xcovar</code></td>
+<td>
+<p>An optional numeric matrix with additional additive covariates used for
+null hypothesis when scanning the X chromosome.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>intcovar</code></td>
+<td>
+<p>An numeric optional matrix of interactive covariates.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>weights</code></td>
+<td>
+<p>An optional numeric vector of positive weights for the
+individuals. As with the other inputs, it must have <code>names</code>
+for individual identifiers.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>reml</code></td>
+<td>
+<p>If <code>kinship</code> provided: if <code>reml=TRUE</code>, use
+REML; otherwise maximum likelihood.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>model</code></td>
+<td>
+<p>Indicates whether to use a normal model (least
+squares) or binary model (logistic regression) for the phenotype.
+If <code>model="binary"</code>, the phenotypes must have values in <code class="reqn">[0, 1]</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>hsq</code></td>
+<td>
+<p>Considered only if <code>kinship</code> is provided, in which case
+this is taken as the assumed value for the residual
+heritability. It should be a vector with length corresponding
+to the number of columns in <code>pheno</code>, or (if <code>kinship</code>
+corresponds to a list of LOCO kinship matrices) a matrix with dimension
+<code style="white-space: pre;">⁠length(kinship) x ncol(pheno)⁠</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>by_chr</code></td>
+<td>
+<p>If TRUE, save the individual chromosome maxima.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cores</code></td>
+<td>
+<p>Number of CPU cores to use, for parallel calculations.
+(If <code>0</code>, use <code>parallel::detectCores()</code>.)
+Alternatively, this can be links to a set of cluster sockets, as
+produced by <code>parallel::makeCluster()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Additional control parameters; see Details.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Equivalent to running <code>scan1()</code> and then saving the column
+maxima, with some savings in memory usage.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Either a vector of genome-wide maximum LOD scores, or if
+<code>by_chr</code> is TRUE, a matrix with the chromosome-specific maxima,
+with the rows being the chromosomes and the columns being the
+phenotypes.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>scan1()</code>, <code>scan1perm()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># read data
+iron &lt;- read_cross2(system.file("extdata", "iron.zip", package="qtl2"))
+
+
+# insert pseudomarkers into map
+map &lt;- insert_pseudomarkers(iron$gmap, step=1)
+
+# calculate genotype probabilities
+probs &lt;- calc_genoprob(iron, map, error_prob=0.002)
+
+# grab phenotypes and covariates; ensure that covariates have names attribute
+pheno &lt;- iron$pheno
+covar &lt;- match(iron$covar$sex, c("f", "m")) # make numeric
+names(covar) &lt;- rownames(iron$covar)
+Xcovar &lt;- get_x_covar(iron)
+
+# perform genome scan
+out &lt;- scan1max(probs, pheno, addcovar=covar, Xcovar=Xcovar)
+
+</code></pre>
+
+
+</div>

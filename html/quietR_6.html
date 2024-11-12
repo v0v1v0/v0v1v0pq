@@ -1,0 +1,72 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>enable_cat</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Getting and Setting Verbosity</h2>
+
+<h3>Description</h3>
+
+<p>Use the 'is_verbose', 'enable_verbose' and 'disable_verbose' to toggle
+console output functions.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">enable_cat()
+
+disable_cat()
+
+enable_message()
+
+disable_message()
+
+enable_print()
+
+disable_print()
+
+is_verbose(func = c("print", "cat", "message"))
+
+enable_verbose(func = c("print", "cat", "message"))
+
+disable_verbose(func = c("print", "cat", "message"))
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>func</code></td>
+<td>
+<p>character - which function(s) to enable</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>logical, whether or not to output specified function
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># Returns FALSE:
+is_verbose("print") #FALSE
+
+enable_verbose()
+# Now it returns TRUE:
+is_verbose("print") #TRUE
+
+disable_verbose()
+# Now it returns FALSE:
+is_verbose() #FALSE
+is_verbose("print") #FALSE
+
+enable_verbose("print")
+print("Hi there!") # Outputs
+cat("I won't output") # Doesn't output
+</code></pre>
+
+
+</div>

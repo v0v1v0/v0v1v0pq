@@ -1,0 +1,199 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>mice.impute.leftcenslognorm</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Imputation for limits of detection problems</h2>
+
+<h3>Description</h3>
+
+<p>This function integrates with <code>mice</code> to impute values below the LOD using a left
+censored log-normal distribution. Note that "tobit" is an alias that uses a familiar term for this model.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">mice.impute.leftcenslognorm(
+  y,
+  ry,
+  x,
+  wy = NULL,
+  lod = NULL,
+  debug = FALSE,
+  ...
+)
+
+mice.impute.tobit(y, ry, x, wy = NULL, lod = NULL, debug = FALSE, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>Vector to be imputed</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ry</code></td>
+<td>
+<p>Logical vector of length length(y) indicating the the subset of elements in y to which the imputation model is fitted. The ry generally distinguishes the observed (TRUE) and missing values (FALSE) in y.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>Numeric design matrix with length(y) rows with predictors for y. Matrix x may have no missing values.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>wy</code></td>
+<td>
+<p>Logical vector of length length(y). A TRUE value indicates locations in y for which imputations are created.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lod</code></td>
+<td>
+<p>numeric vector of limits of detection (must correspond to index in original data) OR list in which each element corresponds to observation level limits of detection for each variable (list index must correspond to index in original data)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>debug</code></td>
+<td>
+<p>logical, print extra info</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>arguments to <code>survreg</code></p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>While this function has utility far beyond qgcomp,
+it is included in the qgcomp package because it will be useful for a variety of
+settings in which qgcomp is useful. Note that LOD problems where the LOD is small,
+and the <code>q</code> parameter from <code>qgcomp.glm.noboot</code> or
+<code>qgcomp.glm.boot</code> is not large, the LOD may be below the lowest
+quantile cutpoint which will yield identical datasets from the MICE procedure in terms
+of quantized exposure data. If only exposures are missing, and they have low LODs, then
+there will be no benefit in qgcomp from using MICE rather than imputing some small value
+below the LOD.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Vector with imputed data, same type as y, and of length sum(wy)
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">N = 100
+set.seed(123)
+dat &lt;- data.frame(y=runif(N), x1=runif(N), x2=runif(N), z=runif(N))
+true = qgcomp.glm.noboot(f=y ~ z + x1 + x2, expnms = c('x1', 'x2'),
+        data=dat, q=2, family=gaussian())
+mdat &lt;- dat
+mdat$x1 = ifelse(mdat$x1&gt;0.5, mdat$x1, NA)
+mdat$x2 = ifelse(mdat$x2&gt;0.75, mdat$x2, NA)
+cc &lt;- qgcomp.glm.noboot(f=y ~ z + x1 + x2, expnms = c('x1', 'x2'),
+       data=mdat[complete.cases(mdat),], q=2, family=gaussian())
+
+## Not run: 
+# note the following example imputes from the wrong parametric model and is expected to be biased
+# as a result (but it demonstrates how to use qgcomp and mice together)
+library("mice")
+library("survival")
+set.seed(1231)
+impdat = mice(data = mdat,
+  method = c("", "leftcenslognorm", "leftcenslognorm", ""),
+  lod=c(NA, 0.5, 0.75, NA), debug=FALSE, m=10)
+qc.fit.imp &lt;- list(
+  call = call("qgcomp.glm.noboot(y~., expnms = c('x1', 'x2'), family=gaussian())"),
+  call1 = impdat$call,
+  nmis = impdat$nmis,
+  analyses = lapply(1:10, function(x) qgcomp.glm.noboot(y~., expnms = c("x1", "x2"),
+    data=complete(impdat, x), family=gaussian(), bayes=TRUE))
+ )
+#alternative way to specify limits of detection (useful if not all observations have same limit)
+lodlist = list(rep(NA, N), rep(0.5, N), rep(0.75, N), rep(NA, N))
+#lodlist = data.frame(rep(NA, N), rep(0.5, N), rep(0.75, N), rep(NA, N)) # also works
+set.seed(1231)
+impdat_alt = mice(data = mdat,
+  method = c("", "leftcenslognorm", "leftcenslognorm", ""),
+  lod=lodlist, debug=FALSE, m=10)
+qc.fit.imp_alt &lt;- list(
+  call = call("qgcomp.glm.noboot(y~., expnms = c('x1', 'x2'), family=gaussian())"),
+  call1 = impdat_alt$call,
+  nmis = impdat_alt$nmis,
+  analyses = lapply(1:10, function(x) qgcomp.glm.noboot(y~., expnms = c("x1", "x2"),
+    data=complete(impdat_alt, x), family=gaussian(), bayes=TRUE))
+)
+obj = pool(as.mira(qc.fit.imp))
+obj_alt = pool(as.mira(qc.fit.imp_alt))
+# true values
+true
+# complete case analysis
+cc
+# MI based analysis (identical answers for different ways to specify limits of detection)
+summary(obj)
+summary(obj_alt)
+
+# summarizing weights (note that the weights should *not* be pooled 
+#    because they mean different things depending on their direction)
+expnms = c("x1", "x2")
+wts = as.data.frame(t(sapply(qc.fit.imp$analyses, 
+      function(x) c(-x$neg.weights, x$pos.weights)[expnms])))
+eachwt = do.call(c, wts)
+expwts = data.frame(Exposure = rep(expnms, each=nrow(wts)), Weight=eachwt)
+library(ggplot2)
+ggplot(data=expwts)+ theme_classic() +
+  geom_point(aes(x=Exposure, y=Weight)) +
+  geom_hline(aes(yintercept=0))
+  
+# this function can be used to impute from an intercept only model
+# but you need to "trick" mice to bypass checks for collinearity by including
+# a variable that does not need to have values imputed (here, y).
+# The internal collinearity checks by the mice package remove collinear variables
+# and then throws an error if no predictor variabls are retained. Here, the 
+# trick is to use the "predictorMatrix" parameter to "impute" the non-missing
+# variable y using x1 (which does nothing), and remove all predictors from the model for x1.
+# This function only imputes x1 from a log normal distribution.
+
+impdat2 = mice(data = mdat[,c("y","x1")],
+  method = c("", "tobit"), remove.collinear=FALSE,
+  lod=c(NA, 0.5), debug=FALSE, m=1, 
+  maxit=1, # maxit=1 because there is only 1 variable to impute
+  predictorMatrix = as.matrix(rbind(c(0,1), c(0,0))))
+plot(density(complete(impdat2, 1)$x1))
+
+# now with survival data (very similar)
+impdat = mice(data = mdat,
+  method = c("", "tobit", "tobit", ""),
+  lod=c(NA, 0.5, 0.75, NA), debug=FALSE)
+qc.fit.imp &lt;- list(
+  call = call("qgcomp.cox.noboot(Surv(y)~., expnms = c('x1', 'x2'))"),
+  call1 = impdat$call,
+  nmis = impdat$nmis,
+  analyses = lapply(1:5, function(x) qgcomp.cox.noboot(Surv(y)~., expnms = c("x1", "x2"),
+    data=complete(impdat, x)))
+)
+obj = pool(as.mira(qc.fit.imp))
+# MI based analysis
+summary(obj)
+
+
+## End(Not run)
+</code></pre>
+
+
+</div>

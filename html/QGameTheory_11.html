@@ -1,0 +1,69 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>PayoffMatrix_QHawkDove</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Quantum Hawk and Dove game: Payoff Matrix</h2>
+
+<h3>Description</h3>
+
+<p>This function generates the payoff matrix for the Quantum Hawk and Dove game for all the four combinations of <code>p</code> and <code>q</code>. <code>moves</code> is a list of two possible strategies for each of the players and <code>v, j, D</code> are the value of resource, cost of injury and cost of displaying respectively.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">PayoffMatrix_QHawkDove(moves, v, j, D)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>moves</code></td>
+<td>
+<p>a list of matrices</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>v</code></td>
+<td>
+<p>a number</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>j</code></td>
+<td>
+<p>a number</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>D</code></td>
+<td>
+<p>a number</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>The payoff matrices for the two players as two elements of a list.
+</p>
+
+
+<h3>References</h3>
+
+<p><a href="https://arxiv.org/pdf/quant-ph/0506219.pdf">https://arxiv.org/pdf/quant-ph/0506219.pdf</a><br><a href="https://arxiv.org/pdf/quant-ph/0208069.pdf">https://arxiv.org/pdf/quant-ph/0208069.pdf</a><br><a href="https://arxiv.org/pdf/quant-ph/0108075.pdf">https://arxiv.org/pdf/quant-ph/0108075.pdf</a><br></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">init()
+moves &lt;- list(Q$I2, sigmaX(Q$I2))
+PayoffMatrix_QHawkDove(moves, 50, -100, -10)
+
+</code></pre>
+
+
+</div>

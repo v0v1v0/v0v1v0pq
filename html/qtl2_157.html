@@ -1,0 +1,66 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>sdp2char</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Convert strain distribution patterns to character strings</h2>
+
+<h3>Description</h3>
+
+<p>Convert a vector of numeric codes for strain distribution patterns to character strings.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">sdp2char(sdp, n_strains = NULL, strains = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>sdp</code></td>
+<td>
+<p>Vector of strain distribution patterns (integers between
+1 and <code class="reqn">2^n-2</code> where <code class="reqn">n</code> is the number of strains.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n_strains</code></td>
+<td>
+<p>Number of founder strains (if missing but
+<code>strains</code> is provided, we use the length of <code>strains</code>)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>strains</code></td>
+<td>
+<p>Vector of single-letter codes for the strains</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Vector of character strings with the two groups of alleles
+separated by a vertical bar (|).
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>invert_sdp()</code>, <code>calc_sdp()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">sdp &lt;- c(m1=1, m2=12, m3=240)
+sdp2char(sdp, 8)
+sdp2char(sdp, strains=c("A", "B", "1", "D", "Z", "C", "P", "W"))
+</code></pre>
+
+
+</div>

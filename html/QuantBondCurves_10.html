@@ -1,0 +1,64 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>discount.time</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Quantil's discount time convention</h2>
+
+<h3>Description</h3>
+
+<p>Function to count the number of years between dates according
+to Quantil's discount convention. A year is defined as the difference in one year,
+between two dates with the exact month and day. Meanwhile, partial years are defined as the
+quotient between the number of elapsed days within a year and the total number of days that
+make up that year. Total number of years between the two dates is then the sum between complete full
+years and the partial portion.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">discount.time(tinitial, tfinal)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>tinitial</code></td>
+<td>
+<p>Initial date of analysis.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tfinal</code></td>
+<td>
+<p>Final date of analysis.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>There is an exception. For example, for initial date 29-February, a year is defined as the
+28 of February of the next year. Meanwhile four years, is defined as 29 of February four years after.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Number of years between the specified dates.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">discount.time(tinitial = "2024-07-13", tfinal = "2025-03-01")
+discount.time(tinitial = "2024-02-29", tfinal = "2025-02-28")
+discount.time(tinitial = "2024-02-29", tfinal = "2028-02-29")
+
+</code></pre>
+
+
+</div>

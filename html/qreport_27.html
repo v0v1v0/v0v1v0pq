@@ -1,0 +1,67 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>putQcap</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>putQcap</h2>
+
+<h3>Description</h3>
+
+<p>Create Quarto Figure Caption
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">putQcap(..., scap = NULL, label = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>one or more character strings to form the caption</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>scap</code></td>
+<td>
+<p>a character string subcaption</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>label</code></td>
+<td>
+<p>figure label</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Creates a Quarto label and caption and uses <code>addCap()</code> to add to running list of figures
+</p>
+
+
+<h3>Value</h3>
+
+<p>string vector with YAML components <code>label</code>, <code>fig-cap</code>, <code>fig-scap</code>
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Frank Harrell
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">putQcap('First part of caption', 'second part', scap='subcaption', label='xx')
+</code></pre>
+
+
+</div>

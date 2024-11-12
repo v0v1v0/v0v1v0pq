@@ -1,0 +1,103 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>yesNoBool</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Convert Yes/No to Binary or Logical</h2>
+
+<h3>Description</h3>
+
+<p>Seamlessly convert a yes or no to either a binary or logical output
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">yesNoBool(
+  table,
+  fldname,
+  out = c("change", "append", "vector"),
+  type = c("bin", "log")
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>table</code></td>
+<td>
+<p>data frame</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fldname</code></td>
+<td>
+<p>field name in the data frame</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>out</code></td>
+<td>
+<p>output form, choices - change, append, vector</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>type</code></td>
+<td>
+<p>output type, choices - bin, log</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>type - "bin" for binary, and "log" for logical
+</p>
+
+
+<h3>Value</h3>
+
+<p>converted Yes/No entries into 1/0 or TRUE/FALSE
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+# Declare data for example
+usedata &lt;- data.frame(ID = 1:32)
+usedata #view the dataset
+
+usedata$yess = rep(c("yes","n","no","YES","No","NO","yES","Y"),4) #create a new column
+usedata #view the modified dataset
+
+# Set all yess field as standardize boolean
+# Task: convert the "yess" column content to 1/0 or TRUE/FALSE
+# Notice that you have add the column name with or without quotes
+yesNoBool(usedata,yess, type="bin") #set all as binary 1/0
+yesNoBool(usedata,"yess", type="log") #set all as logical TRUE/FALSE
+
+
+# Task: By default, the 'out' argument is set to "change"
+# means that the original data field will be
+# replaced with the results as above
+
+# In this example, set the out variable to
+# append data frame with a new column name containing the result
+
+yesNoBool(usedata,yess,"append")
+#or yesNoBool(usedata,"yess","append")
+
+# In this example, return as vector
+yesNoBool(usedata,yess,"vector")
+#or yesNoBool(usedata,"yess","vector")
+
+# Task: Return result as logical
+yesNoBool(usedata,"yess",type = "log")
+
+</code></pre>
+
+
+</div>

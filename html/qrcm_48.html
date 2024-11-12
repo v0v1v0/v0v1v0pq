@@ -1,0 +1,99 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>plf</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Basis of a Piecewise Linear Function
+</h2>
+
+<h3>Description</h3>
+
+<p>Generates <code class="reqn">b_1(p), b_2(p), \ldots</code> such that, for <kbd>0 &lt; p &lt; 1</kbd>,
+</p>
+<p style="text-align: center;"><code class="reqn">\theta_1*b_1(p) + \theta_2*b_2(p) + \ldots</code>
+</p>
+
+<p>is a piecewise linear function with slopes 
+<code class="reqn">(\theta_1, \theta_2, \ldots)</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">plf(p, knots)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>p</code></td>
+<td>
+
+<p>a numeric vector of values between <kbd>0</kbd> and <kbd>1</kbd>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>knots</code></td>
+<td>
+
+<p>a set of <em>internal</em> knots between <kbd>0</kbd> and <kbd>1</kbd>.
+It can be <kbd>NULL</kbd> for no internal knots. 
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>This function permits computing a piecewise linear function on the unit interval. 
+A different slope holds between each pair of knots, and the function
+is continuous at the knots.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A matrix with one row for each element of <kbd>p</kbd>, and <code>length(knots) + 1</code> columns. 
+The knots are returned as <code>attr(, "knots")</code>.
+Any linear combination of the basis matrix is a piecewise linear function where
+each coefficient represents the slope in the corresponding sub-interval (see ‘Examples’). 
+</p>
+
+
+<h3>Note</h3>
+
+<p>This function is typically used within a call to <code>iqr</code>.
+A piecewise linear function can be used to describe how quantile regression coefficients
+depend on the order of the quantile.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Paolo Frumento <a href="mailto:paolo.frumento@unipi.it">paolo.frumento@unipi.it</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>slp</code>, for shifted Legendre polynomials.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">  p &lt;- seq(0,1, 0.1)
+
+  a1 &lt;- plf(p, knots = NULL) # returns p
+
+  a2 &lt;- plf(p, knots = c(0.2,0.7))
+  plot(p, 3 + 1*a2[,1] - 1*a2[,2] + 2*a2[,3], type = "l") 
+    # intercept = 3; slopes = (1,-1,2)
+</code></pre>
+
+
+</div>

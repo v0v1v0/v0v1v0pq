@@ -1,0 +1,265 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>summary_ucfa</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Summary of a Unidimensional Confirmatory Factor Analysis</h2>
+
+<h3>Description</h3>
+
+<p><code>summary_ucfa</code> provides a summary of a unidimensional confirmatory
+factor analysis on a set of variables/items. Unidimensional meaning a
+one-factor model where all variables/items load on that factor. The function
+is a wrapper for <code>cfa</code> and returns a list with four
+vectors/matrices: 1) model info, 2) fit measures, 3) factor loadings, 4)
+covariance/correlation residuals. For details on all the
+<code>cfa</code> arguments see <code>lavOptions</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">summary_ucfa(
+  data,
+  vrb.nm,
+  std.ov = FALSE,
+  std.lv = TRUE,
+  ordered = FALSE,
+  meanstructure = TRUE,
+  estimator = "ML",
+  se = "standard",
+  test = "standard",
+  missing = "fiml",
+  fit.measures = c("chisq", "df", "tli", "cfi", "rmsea", "srmr"),
+  std.load = TRUE,
+  resid.type = "cor.bollen",
+  add.class = TRUE,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>data.frame of data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vrb.nm</code></td>
+<td>
+<p>character vector of colnames from <code>data</code> providing the
+variables/items</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>std.ov</code></td>
+<td>
+<p>logical vector of length 1 specifying if the variables/items
+should be standardized</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>std.lv</code></td>
+<td>
+<p>logical vector of length 1 specifying if the latent factor
+should be standardized resulting in all factor loadings being estimated. If
+FALSE, then the first variable/item in <code>data[vrb.nm]</code> is fixed to a
+factor loading of 1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ordered</code></td>
+<td>
+<p>logical vector of length 1 specifying if the variables/items
+should be treated as ordered categorical items where polychoric
+correlations are used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>meanstructure</code></td>
+<td>
+<p>logical vector of length 1 specifying if the mean
+structure of the factor model should be estimated. This would be the
+variable/item intercepts (and latent factor mean if <code>std.lv</code> = FALSE).
+Note, this must be true to use Full Information Maximum Likelihood (FIML)
+to handle missing data via <code>missing</code> = "fiml".</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>estimator</code></td>
+<td>
+<p>character vector of length 1 specifying the estimator to use
+for parameter estimation. Popular options are 1) "ML" = maximum likelihood
+estimation based on the multivariate normal distribution, 2) "DWLS" =
+diagonally weighted least squares which uses the diagnonal of the weight
+matrix, 3) "WLS" for weighted least squares whiches uses the full weight
+matrix (often results in computational problems), 4) "ULS" for unweighted
+least squares that doesn't use a weight matrix. "DWLS", "WLS", and "ULS"
+can each be used with ordered categorical items when <code>ordered</code> = TRUE.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>se</code></td>
+<td>
+<p>character vector of length 1 specifying how standard errors should
+be calculated. Popular options are 1) "standard" for conventional standard
+errors from inverting the information matrix, 2) "robust.sem" for robust
+standard errors, 3) "robust.huber.white" for sandwich standard errors.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>test</code></td>
+<td>
+<p>character vector of length 1 specifying how the omnibus test
+statistic should be calculated. Popular options are 1) "standard" for the
+conventional chi-square statistic, 2) "Satorra-Bentler" for the
+Satorra-Bentler test statistic, 3) "Yaun.Bentler.Mplus" for the version of
+the Yuan-Bentler test statistic that Mplus uses, 4) "mean.var.adjusted" for
+a mean and variance adjusted test statistic, 5) "scaled.shifted" for the
+version of the mean and variance adjusted test statistic Mplus uses.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>missing</code></td>
+<td>
+<p>character vector of length 1 specifying how to handle missing
+data. Popular options are 1) "fiml" = Full Information Maximum Likelihood
+(FIML), 2) "pairwise" = pairwise deletion, 3) "listwise" = listwise
+deletion.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fit.measures</code></td>
+<td>
+<p>character vector specifying which model fit indices to
+include in the return object. The default option includes the chi-square
+test statistic ("chisq"), degrees of freedom ("df"), tucker-lewis index
+("tli"), comparative fit index ("cfi"), root mean square error of
+approximation ("rmsea"), and standardized root mean residual ("srmr").
+Note, if using robust corrections for <code>se</code> and <code>test</code>, you will
+probably want to call the scaled versions of model fit indices (e.g.,
+"chisq.scaled"). See <code>fitMeasures</code> for details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>std.load</code></td>
+<td>
+<p>logical vector of length 1 specifying whether the factor
+loadings included in the return object should be standardized (TRUE) or not
+(FALSE).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>resid.type</code></td>
+<td>
+<p>character vector of length 1 specifying the type of
+covariance/correlation residuals to include in the return object. Popular
+options are 1) "raw" for conventional covariance residuals, 2) "cor.bollen"
+for conventional correlation residuals, 3) "cor.bentler" for correlation
+residuals that standardizes the model-implied covariance matrix with the
+observed variances, 4) "standardized" for conventional z-scores of the
+covariance residuals.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>add.class</code></td>
+<td>
+<p>logical vector of length 1 specifying whether the lavaan
+classes should be added to the returned vectors/matrices (TRUE) or not
+(FALSE). These classes do not change the underlying vector/matrix and only
+affect printing.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>any other named arguments available in the
+<code>cfa</code> function. See <code>lavOptions</code>
+for the list of arguments.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>list of vectors/matrices providing statistical information about
+the unidimensional confirmatory factor analysis. If <code>add.class</code> = TRUE,
+then the elements have lavaan classes which affect printing (except for the
+first "model_info" element which always is just an integer vector). The four
+elements are:
+</p>
+
+<dl>
+<dt>model_info</dt>
+<dd>
+<p>integer vector providing model information. The first element
+"converged" is 1 if the model converged and 0 if not. The second element
+"admissible" is 1 if the model is admissible (e.g., no negative variances)
+and 0 if not. The third element "nobs" is the number of observations used
+in the analysis. The fourth element "npar" is the number of parameter estimates.</p>
+</dd>
+<dt>fit_measures</dt>
+<dd>
+<p>double vector providing model fit indices. The number
+and names of the fit indices is determined by the <code>fit.measures</code> argument.</p>
+</dd>
+<dt>factor_load</dt>
+<dd>
+<p>1-column double matrix providing factor loadings. The colname
+is "latent" and the rownames are the <code>vrb.nm</code> argument.</p>
+</dd>
+<dt>cov_resid</dt>
+<dd>
+<p>covariance/correlation residuals for the model. Note, even
+though the name has "cov" in it, the residuals can be "cor" if the argument
+<code>resid.type</code> = "cor.bollen" or "cor.bentler".</p>
+</dd>
+</dl>
+<h3>See Also</h3>
+
+<p><code>ucfa</code>
+<code>cfa</code>
+<code>lavaan</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+# types of models
+dat &lt;- psych::bfi[1:250, 16:20] # nueroticism items
+summary_ucfa(data = dat, vrb.nm = names(dat)) # default
+summary_ucfa(data = dat, vrb.nm = names(dat), estimator = "ML", # MLR
+   se = "robust.huber.white", test = "yuan.bentler.mplus", missing = "fiml",
+   fit.measures = c("chisq.scaled","df.scaled","tli.scaled","cfi.scaled",
+      "rmsea.scaled","srmr"))
+summary_ucfa(data = dat, vrb.nm = names(dat), estimator = "ML", # MLM
+   se = "robust.sem", test = "satorra.bentler", missing = "listwise",
+   fit.measures = c("chisq.scaled","df.scaled","tli.scaled","cfi.scaled",
+      "rmsea.scaled","srmr"))
+summary_ucfa(data = dat, vrb.nm = names(dat), ordered = TRUE, estimator = "DWLS", # WLSMV
+   se = "robust", test = "scaled.shifted", missing = "listwise",
+   fit.measures = c("chisq.scaled","df.scaled","tli.scaled","cfi.scaled",
+      "rmsea.scaled","wrmr"))
+
+# types of info
+dat &lt;- psych::bfi[1:250, 16:20] # nueroticism items
+w &lt;- summary_ucfa(data = dat, vrb.nm = names(dat))
+x &lt;- summary_ucfa(data = dat, vrb.nm = names(dat), add.class = FALSE)
+y &lt;- summary_ucfa(data = dat, vrb.nm = names(dat),
+   std.load = FALSE, resid.type = "raw")
+z &lt;- summary_ucfa(data = dat, vrb.nm = names(dat),
+   std.load = FALSE, resid.type = "raw", add.class = FALSE)
+lapply(w, class)
+lapply(x, class)
+lapply(y, class)
+lapply(z, class)
+
+</code></pre>
+
+
+</div>

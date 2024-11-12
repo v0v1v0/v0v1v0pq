@@ -1,0 +1,189 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>top_snps_pattern</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Top SNPs organized by allele pattern</h2>
+
+<h3>Description</h3>
+
+<p>Separate fine mapping scans by allele pattern.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">top_snps_pattern(
+  scan1_output,
+  snpinfo,
+  drop = 1.5,
+  show_all_snps = TRUE,
+  haplos
+)
+
+## S3 method for class 'top_snps_pattern'
+summary(object, sum_type = c("range", "best", "peak"), ...)
+
+## S3 method for class 'top_snps_pattern'
+subset(x, start_val = 0, end_val = max(x$pos), pheno = NULL, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>scan1_output</code></td>
+<td>
+<p>output of linear mixed model for <code>phename</code> (see <code>scan1</code>)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>snpinfo</code></td>
+<td>
+<p>Data frame with SNP information with the following
+columns (the last three are generally derived from with
+<code>index_snps</code>):
+</p>
+
+<ul>
+<li> <p><code>chr</code> - Character string or factor with chromosome
+</p>
+</li>
+<li> <p><code>pos</code> - Position (in same units as in the <code>"map"</code>
+attribute in <code>genoprobs</code>.
+</p>
+</li>
+<li> <p><code>sdp</code> - Strain distribution pattern: an integer, between
+1 and <code class="reqn">2^n - 2</code> where <code class="reqn">n</code> is the number of strains, whose
+binary encoding indicates the founder genotypes
+</p>
+</li>
+<li> <p><code>snp_id</code> - Character string with SNP identifier (if
+missing, the rownames are used).
+</p>
+</li>
+<li> <p><code>index</code> - Indices that indicate equivalent
+groups of SNPs.
+</p>
+</li>
+<li> <p><code>intervals</code> - Indexes that indicate which marker
+intervals the SNPs reside.
+</p>
+</li>
+<li> <p><code>on_map</code> - Indicate whether SNP coincides with a marker
+in the <code>genoprobs</code>
+</p>
+</li>
+</ul>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>drop</code></td>
+<td>
+<p>include all SNPs within <code>drop</code> of max LOD (default 1.5)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>show_all_snps</code></td>
+<td>
+<p>show all SNPs if <code>TRUE</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>haplos</code></td>
+<td>
+<p>optional argument identify codes for haplotypes</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>object of class <code>top_snps_tbl</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sum_type</code></td>
+<td>
+<p>type of summary (one of "range","best")</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>additional parameters ignored</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>tbl of feature information from <code>get_feature_snp</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>start_val, end_val</code></td>
+<td>
+<p>start and end positions for subset</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pheno</code></td>
+<td>
+<p>phenotype name(s) for subset</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>table of top_snps at maximum lod for <code>pattern</code>
+</p>
+<p>table summary
+</p>
+<p>subset of <code>x</code>
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Brian S Yandell, <a href="mailto:brian.yandell@wisc.edu">brian.yandell@wisc.edu</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">dirpath &lt;- "https://raw.githubusercontent.com/rqtl/qtl2data/master/DOex"
+
+# Read DOex example cross from 'qtl2data'
+DOex &lt;- subset(qtl2::read_cross2(file.path(dirpath, "DOex.zip")), chr = "2")
+
+
+# Download genotype probabilities
+tmpfile &lt;- tempfile()
+download.file(file.path(dirpath, "DOex_genoprobs_2.rds"), tmpfile, quiet=TRUE)
+pr &lt;- readRDS(tmpfile)
+unlink(tmpfile)
+
+# Download SNP info for DOex from web and read as RDS.
+tmpfile &lt;- tempfile()
+download.file(file.path(dirpath, "c2_snpinfo.rds"), tmpfile, quiet=TRUE)
+snpinfo &lt;- readRDS(tmpfile)
+unlink(tmpfile)
+snpinfo &lt;- dplyr::rename(snpinfo, pos = pos_Mbp)
+
+# Convert to SNP probabilities
+snpinfo &lt;- qtl2::index_snps(DOex$pmap, snpinfo)
+snppr &lt;- qtl2::genoprob_to_snpprob(pr, snpinfo)
+
+# Scan SNPs.
+scan_snppr &lt;- qtl2::scan1(snppr, DOex$pheno)
+
+# Collect top SNPs
+top_snps_tbl &lt;- top_snps_pattern(scan_snppr, snpinfo)
+summary(top_snps_tbl)
+
+
+</code></pre>
+
+
+</div>

@@ -1,0 +1,95 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>query_uniprot</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Retrieve data from UniProt using UniProt's REST API.</h2>
+
+<h3>Description</h3>
+
+<p>Retrieve data from UniProt using UniProt's REST API.
+To avoid non-responsive queries, they are split into
+smaller queries with at most <code>max_keys</code> items per query field.
+Not that it works only with queries where items within query fields are
+collapsed with '+OR+' and different
+query fields are collapsed with '+AND+' (see <code>query_uniprot()</code>)
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">query_uniprot(
+  query = NULL,
+  base_url = "https://rest.uniprot.org/uniprotkb/",
+  columns = c("accession", "id", "gene_names", "organism_id", "reviewed"),
+  max_keys = 200,
+  updateProgress = NULL,
+  show_progress = TRUE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>query</code></td>
+<td>
+<p>list of keys corresponding to UniProt's query fields.
+For example :
+query = list("gene_exact" = c("Pik3r1", "Pik3r2"),
+"organism_id" = c("10090", "9606"), "reviewed" = "true").
+See 'query_fields' for available query fields.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>base_url</code></td>
+<td>
+<p>The base url for the UniProt REST API</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>columns</code></td>
+<td>
+<p>names of UniProt data columns to retrieve.
+Examples include "accession", "id", "genes", "keywords", "sequence".
+See 'return_fields' for available return fields.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>max_keys</code></td>
+<td>
+<p>maximum number of field items submitted</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>updateProgress</code></td>
+<td>
+<p>used to display progress in shiny apps</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>show_progress</code></td>
+<td>
+<p>Show progress bar</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>a data.frame
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># Get the UniProt entries of all proteins encoded by gene Pik3r1
+ids &lt;- c("P22682", "P47941")
+query = list("accession_id" = ids)
+df &lt;-  query_uniprot(query = query)
+head(df)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,76 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>runInterface</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Q methodology: Graphical User Interface (GUI)</h2>
+
+<h3>Description</h3>
+
+<p>Launch an interactive interface to run Q methodology analysis using the basic features.
+The interface is also [available online](https://azabala.shinyapps.io/qmethod-gui/).</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">runInterface()</code></pre>
+
+
+<h3>Details</h3>
+
+<p>This GUI allows the user to conduct a full Q methodology analysis, choosing:
+</p>
+
+<ul>
+<li> <p>either PCA or centroid extraction method
+</p>
+</li>
+<li> <p>varimax or no rotation method (for PCA and centroid) and other uncommon rotation methods (for PCA)
+</p>
+</li>
+<li> <p>selecting from 2 to 7 factors/components.
+</p>
+</li>
+</ul>
+<p>The GUI conducts analysis with forced distribution and automatic flagging. See Note.
+</p>
+<p>The GUI shows the full results from the analysis, and also:
+</p>
+
+<ul>
+<li>
+<p>Plot of z-scores
+</p>
+</li>
+<li>
+<p>Automatically flagged Q-sorts
+</p>
+</li>
+<li>
+<p>Information to explore how many factors to extract (including a screeplot)
+</p>
+</li>
+<li>
+<p>Plot of z-scores
+</p>
+</li>
+</ul>
+<h3>Note</h3>
+
+<p>This GUI has limited functionality in comparison to that through the command-line. For full functionality (such as specifying non-forced analysis, manual flagging, and much more), use the command-line directly in the R console. See, for example, a tutorial for <a href="http://aiorazabala.github.io/qmethod/Advanced-analysis">manual manipulation of Q-sort loadings and/or manual flagging</a>.
+</p>
+<p>To run this same analysis directly in R, see the code generated in the GUI in <em>Run the analysis directly in R</em>. 
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Only run this example in interactive R sessions
+if (interactive()) {
+  runInterface()
+}
+</code></pre>
+
+
+</div>

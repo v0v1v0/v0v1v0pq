@@ -1,0 +1,93 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>rowMeans_if</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Row Means Conditional on Frequency of Observed Values</h2>
+
+<h3>Description</h3>
+
+<p><code>rowMean_if</code> calculates the mean of every row in a numeric or logical
+matrix conditional on the frequency of observed data. If the frequency of
+observed values in that row is less than (or equal to) that specified by
+<code>ov.min</code>, then NA is returned for that row.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">rowMeans_if(x, ov.min = 1, prop = TRUE, inclusive = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>numeric or logical matrix. If not a matrix, it will be coerced to
+one.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ov.min</code></td>
+<td>
+<p>minimum frequency of observed values required per row. If
+<code>prop</code> = TRUE, then this is a decimal between 0 and 1. If <code>prop</code>
+= FALSE, then this is a integer between 0 and <code>ncol(x)</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>prop</code></td>
+<td>
+<p>logical vector of length 1 specifying whether <code>ov.min</code>
+should refer to the proportion of observed values (TRUE) or the count of
+observed values (FALSE).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>inclusive</code></td>
+<td>
+<p>logical vector of length 1 specifying whether the mean
+should be calculated if the frequency of observed values in a row is
+exactly equal to <code>ov.min</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Conceptually this function does: <code>apply(X = x, MARGIN = 1, FUN =
+mean_if, ov.min = ov.min, prop = prop, inclusive = inclusive)</code>. But for
+computational efficiency purposes it does not because then the observed
+values conditioning would not be vectorized. Instead, it uses <code>rowMeans</code>
+and then inserts NAs for rows that have too few observed values
+</p>
+
+
+<h3>Value</h3>
+
+<p>numeric vector of length = <code>nrow(x)</code> with names =
+<code>rownames(x)</code> providing the mean of each row or NA depending on the
+frequency of observed values.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>rowSums_if</code>
+<code>colMeans_if</code>
+<code>colSums_if</code>
+<code>rowMeans</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">rowMeans_if(airquality)
+rowMeans_if(x = airquality, ov.min = 5, prop = FALSE)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,357 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>piqr</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Penalized Quantile Regression Coefficients Modeling
+</h2>
+
+<h3>Description</h3>
+
+<p>This package implements a penalized Frumento and Bottai's (2016) method for quantile regression coefficient modeling (qrcm), in which quantile regression coefficients are described by (flexible) parametric functions of the order of the quantile.
+This package fits lasso qrcm using pathwise coordinate descent algorithm.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">piqr(formula, formula.p = ~ slp(p, 3), weights, data, s, nlambda=100,
+     lambda.min.ratio=ifelse(nobs&lt;nvars, 0.01, 0.0001), lambda,
+     tol=1e-6, maxit=100, display=TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>formula</code></td>
+<td>
+
+<p>a two-sided formula of the form <code>y ~ x1 + x2 + ...</code>:
+a symbolic description of the quantile regression model.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>formula.p</code></td>
+<td>
+
+<p>a one-sided formula of the form <code>~ b1(p, ...) + b2(p, ...) + ...</code>, describing how
+quantile regression coefficients depend on <kbd>p</kbd>, the order of the quantile.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>weights</code></td>
+<td>
+
+<p>an optional vector of weights to be used in the fitting process.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+
+<p>an optional data frame, list or environment containing the variables in <code>formula</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>s</code></td>
+<td>
+
+<p>an optional 0/1 matrix that permits excluding some model coefficients
+(see ‘Examples’).
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nlambda</code></td>
+<td>
+
+<p>the number of lambda values - default is 100.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lambda.min.ratio</code></td>
+<td>
+
+<p>Smallest value for lambda, as a fraction of lambda.max. The default depends on the sample size nobs relative to the number of variables nvars. If nobs &gt; nvars, the default is 0.0001, close to zero. If nobs &lt; nvars, the default is 0.01.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lambda</code></td>
+<td>
+
+<p>A user supplied lambda sequence.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>display</code></td>
+<td>
+
+<p>if TRUE something is printed - default is TRUE.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tol</code></td>
+<td>
+
+<p>convergence criterion for numerical optimization - default is 1e-6.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>maxit</code></td>
+<td>
+
+<p>maximum number of iterations - default is 100.
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Quantile regression permits modeling conditional quantiles of a response variabile,
+given a set of covariates. A linear model is used to describe the conditional
+quantile function:
+</p>
+<p style="text-align: center;"><code class="reqn">Q(p | x) = \beta_0(p) + \beta_1(p)x_1 + \beta_2(p)x_2 + \ldots.</code>
+</p>
+
+<p>The model coefficients <code class="reqn">\beta(p)</code> describe the effect of covariates on the <code class="reqn">p</code>-th
+quantile of the response variable. Usually, one or more
+quantiles  are estimated, corresponding to different values of <code class="reqn">p</code>.
+</p>
+<p>Assume that each coefficient can be expressed as a parametric function of <code class="reqn">p</code> of the form:
+</p>
+<p style="text-align: center;"><code class="reqn">\beta(p | \theta) = \theta_{0} + \theta_1 b_1(p) + \theta_2 b_2(p) + \ldots</code>
+</p>
+
+<p>where <code class="reqn">b_1(p), b_2(p, \ldots)</code> are known functions of <code class="reqn">p</code>.
+If <code class="reqn">q</code> is the dimension of
+<code class="reqn">x = (1, x_1, x_2, \ldots)</code>
+and <code class="reqn">k</code> is that of
+<code class="reqn">b(p) = (1, b_1(p), b_2(p), \ldots)</code>,
+the entire conditional quantile function is described by a
+<code class="reqn">q \times k</code> matrix <code class="reqn">\theta</code> of model parameters.
+</p>
+<p>Users are required to specify two formulas: <code>formula</code> describes the regression model,
+while <code>formula.p</code> identifies the 'basis' <code class="reqn">b(p)</code>.
+By default, <code>formula.p = ~ slp(p, k = 3)</code>, a 3rd-degree shifted
+Legendre polynomial (see <code>slp</code>). Any user-defined function <code class="reqn">b(p, \ldots)</code>
+can be used, see ‘Examples’.
+</p>
+<p>Estimation of penalized <code class="reqn">\theta</code> is carried out by minimizing a penalized integrated loss function,
+corresponding to the integral, over <code class="reqn">p</code>, of the penalized loss function of standard quantile regression. This
+motivates the acronym <code>piqr</code> (penalized integrated quantile regression).
+</p>
+<p>See details in <code>iqr</code>
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class “<code>piqr</code>”, a list containing the following items:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>call</code></td>
+<td>
+<p>the matched call.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lambda</code></td>
+<td>
+<p>The actual sequence of lambda values used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>coefficients</code></td>
+<td>
+<p>a list of estimated model parameters describing the fitted quantile function along the path.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>minimum</code></td>
+<td>
+<p>the value of the minimized integrated loss function for each value of lambda.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dl</code></td>
+<td>
+<p>a matrix of gradient values along the path.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>df</code></td>
+<td>
+<p>The number of nonzero coefficients for each value of lambda.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>seqS</code></td>
+<td>
+<p>a list containg each matrix s for each value of lambda.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>internal</code></td>
+<td>
+<p>a list containing some initial object.</p>
+</td>
+</tr>
+</table>
+<h3>Note</h3>
+
+<p>By expressing quantile regression coefficients as functions of <code class="reqn">p</code>, a parametric model for the conditional
+quantile function is specified. The induced <abbr><span class="acronym">PDF</span></abbr> and <abbr><span class="acronym">CDF</span></abbr> can be used as diagnostic tools.
+Negative values of <code>PDF</code> indicate quantile crossing, i.e., the conditional quantile function is not
+monotonically increasing. Null values of <code>PDF</code> indicate observations that lie outside the
+estimated support of the data, defined by quantiles of order 0 and 1. If null or negative <code>PDF</code>
+values occur for a relatively large proportion of data, the model is probably misspecified or ill-defined.
+If the model is correct, the fitted <code>CDF</code> should approximately follow a Uniform(0,1) distribution.
+This idea is used to implement a goodness-of-fit test, see <code>summary.iqr</code>
+and <code>test.fit</code>.
+</p>
+<p>The intercept can be excluded from <code>formula</code>, e.g.,
+<code>iqr(y ~ -1 + x)</code>. This, however, implies that when <code>x = 0</code>,
+<code>y</code> is always <code>0</code>. See example 5 in ‘Examples’.
+The intercept can also be removed from <code>formula.p</code>.
+This is recommended if the data are bounded. For example, for strictly positive data,
+use <code>iqr(y ~ 1, formula.p = -1 + slp(p,3))</code> to force the smallest quantile
+to be zero. See example 6 in ‘Examples’.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Gianluca Sottile <a href="mailto:gianluca.sottile@unipa.it">gianluca.sottile@unipa.it</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Sottile G, Frumento P, Chiodi M, Bottai M. (2020). <em>A penalized approach to covariate selection through quantile regression coefficient models</em>. Statistical Modelling, 20(4), pp 369-385. doi:10.1177/1471082X19825523.
+</p>
+<p>Frumento, P., and Bottai, M. (2016). <em>Parametric modeling of quantile regression coefficient functions</em>. Biometrics, 72(1), pp 74-84, doi:10.1111/biom.12410.
+</p>
+<p>Friedman, J., Hastie, T. and Tibshirani, R. (2008). <em>Regularization Paths for Generalized Linear Models via Coordinate Descent</em>. Journal of Statistical Software, Vol. 33(1), pp 1-22 Feb 2010.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>summary.piqr</code>, <code>plot.piqr</code>, <code>predict.piqr</code>,
+for summary, plotting, and prediction.
+<code>gof.piqr</code> to select the best value of the tuning parameter though AIC, BIC, GIC, GCV criteria.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+  ##### Using simulated data in all examples
+
+  ##### Example 1
+  set.seed(1234)
+  n &lt;- 300
+  x1 &lt;- rexp(n)
+  x2 &lt;- runif(n, 0, 5)
+  x &lt;- cbind(x1,x2)
+
+  b &lt;- function(p){matrix(cbind(1, qnorm(p), slp(p, 2)), nrow=4, byrow=TRUE)}
+  theta &lt;- matrix(0, nrow=3, ncol=4); theta[, 1] &lt;- 1; theta[1,2] &lt;- 1; theta[2:3,3] &lt;- 2
+  qy &lt;- function(p, theta, b, x){rowSums(x * t(theta %*% b(p)))}
+
+  y &lt;- qy(runif(n), theta, b, cbind(1, x))
+
+  s &lt;- matrix(1, nrow=3, ncol=4); s[1,3:4] &lt;- 0; s[2:3, 2] &lt;- 0
+  obj &lt;- piqr(y ~ x1 + x2, formula.p = ~ I(qnorm(p)) + slp(p, 2), s=s, nlambda=50)
+
+  best &lt;- gof.piqr(obj, method="AIC", plot=FALSE)
+  best2 &lt;- gof.piqr(obj, method="BIC", plot=FALSE)
+
+  summary(obj, best$posMinLambda)
+  summary(obj, best2$posMinLambda)
+
+  ## Not run: 
+  ##### other examples
+  set.seed(1234)
+  n &lt;- 1000
+  q &lt;- 5
+  k &lt;- 3
+  X &lt;- matrix(abs(rnorm(n*q)), n, q)
+  rownames(X) &lt;- 1:n
+  colnames(X) &lt;- paste0("X", 1:q)
+  theta &lt;- matrix(c(3, 1.5, 1, 1,
+                    2, 1, 1, 1,
+                    0, 0, 0, 0,
+                    0, 0, 0, 0,
+                    1.5, 1, 1, 1,
+                    0, 0, 0, 0),
+                  ncol=(k+1), byrow=TRUE)
+  rownames(theta) &lt;- c("(intercept)", paste0("X", 1:q))
+  colnames(theta) &lt;- c("(intercept)", "slp(p,1)", "slp(p,2)", "slp(p,3)")
+  B &lt;- function(p, k){matrix(cbind(1, slp(p, k)), nrow=(k+1), byrow=TRUE)}
+  Q &lt;- function(p, theta, B, k, X){rowSums(X * t(theta %*% B(p, k)))}
+
+  pp &lt;- runif(n)
+  y &lt;- Q(p=pp, theta=theta, B=B, k=k, X=cbind(1, X))
+  m1 &lt;- piqr(y ~ X, formula.p = ~ slp(p, k))
+  best1 &lt;- gof.piqr(m1, method="AIC", plot=FALSE)
+  best2 &lt;- gof.piqr(m1, method="BIC", plot=FALSE)
+  summary(m1, best1$posMinLambda)
+  summary(m1, best2$posMinLambda)
+  par(mfrow = c(1,3)); plot(m1, xvar="lambda");
+                       plot(m1, xvar="objective"); plot(m1, xvar="grad")
+
+  set.seed(1234)
+  n &lt;- 1000
+  q &lt;- 6
+  k &lt;- 4
+  # x &lt;- runif(n)
+  X &lt;- matrix(abs(rnorm(n*q)), n, q)
+  rownames(X) &lt;- 1:n
+  colnames(X) &lt;- paste0("X", 1:q)
+  theta &lt;- matrix(c(1, 2, 0, 0, 0,
+                    2, 0, 1, 0, 0,
+                    0, 0, 0, 0, 0,
+                    1, 0, 0, 1, -1.2,
+                    0, 0, 0, 0, 0,
+                    1.5, 0, .5, 0, 0,
+                    0, 0, 0, 0, 0),
+                  ncol=(k+1), byrow=TRUE)
+  rownames(theta) &lt;- c("(intercept)", paste0("X", 1:q))
+  colnames(theta) &lt;- c("(intercept)", "qnorm(p)", "p", "log(p)", "log(1-p)")
+  B &lt;- function(p, k){matrix(cbind(1, qnorm(p), p, log(p), log(1-p)), nrow=(k+1), byrow=TRUE)}
+  Q &lt;- function(p, theta, B, k, X){rowSums(X * t(theta %*% B(p, k)))}
+
+  pp &lt;- runif(n)
+  y &lt;- Q(p=pp, theta=theta, B=B, k=k, X=cbind(1, X))
+  s &lt;- matrix(1, q+1, k+1); s[2:(q+1), 2] &lt;- 0; s[1, 3:(k+1)] &lt;- 0; s[2:3, 4:5] &lt;- 0
+  s[4:5, 3] &lt;- 0; s[6:7, 4:5] &lt;- 0
+  m2 &lt;- piqr(y ~ X, formula.p = ~ qnorm(p) + p + I(log(p)) + I(log(1-p)), s=s)
+  best1 &lt;- gof.piqr(m2, method="AIC", plot=FALSE)
+  best2 &lt;- gof.piqr(m2, method="BIC", plot=FALSE)
+  summary(m2, best1$posMinLambda)
+  summary(m2, best2$posMinLambda)
+  par(mfrow = c(1,3)); plot(m2, xvar="lambda");
+                       plot(m2, xvar="objective"); plot(m2, xvar="grad")
+  
+## End(Not run)
+  # see the documentation for 'summary.piqr', and 'plot.piqr'
+</code></pre>
+
+
+</div>

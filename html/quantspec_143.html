@@ -1,0 +1,117 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>getValues-QuantilePG</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Get values from a quantile periodogram.</h2>
+
+<h3>Description</h3>
+
+<p>For vectors <code>frequencies</code>, <code>levels.1</code> and <code>levels.2</code> the
+values from an <code>object</code> of type <code>QuantilePG</code> are returned.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S4 method for signature 'QuantilePG'
+getValues(
+  object,
+  frequencies = 2 * pi * (0:(lenTS(object@freqRep@Y) - 1))/lenTS(object@freqRep@Y),
+  levels.1 = getLevels(object, 1),
+  levels.2 = getLevels(object, 2),
+  d1 = 1:(dim(object@freqRep@Y)[2]),
+  d2 = 1:(dim(object@freqRep@Y)[2])
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p><code>QuantilePG</code> of which to get the values</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>frequencies</code></td>
+<td>
+<p>a vector of frequencies for which to get the values</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>levels.1</code></td>
+<td>
+<p>the first vector of levels for which to get the values</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>levels.2</code></td>
+<td>
+<p>the second vector of levels for which to get the values</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>d1</code></td>
+<td>
+<p>optional parameter that determine for which j1 to return the
+data; may be a vector of elements 1, ..., D</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>d2</code></td>
+<td>
+<p>same as d1, but for j2</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Fetching of the periodogram values basically happens by passing
+<code>frequencies</code> and the union of <code>levels.1</code> and <code>levels.2</code> to
+<code>getValues</code>. Therefore,
+the parameters <code>frequencies</code>, <code>levels.1</code> and <code>levels.1</code> are
+expected to be vectors of reals; an error is thrown otherwise. If any of the
+<code>frequencies</code>, <code>levels.1</code> and <code>levels.2</code> requested is not
+available from <code>object</code> a warning is issued. Note that the frequencies
+are transformed to <code class="reqn">[0,\pi]</code> using <code>frequenciesValidator</code>
+when checking if they are available in <code>object</code>.
+</p>
+<p>The returned array of <code>values</code> is of dimension <code>[J,K1,K2,B+1]</code>,
+where <code>J=length(frequencies)</code>, <code>K1=length(levels.1)</code>,
+<code>K2=length(levels.2))</code>, and <code>B</code> denotes the
+value stored in slot <code>B</code> of <code>freqRep</code> that's a slot of <code>object</code>.
+At position <code>(j,k1,k2,b)</code>
+the returned value is the one corresponding to <code>frequencies[j]</code>,
+<code>levels.1[k1]</code> and <code>levels.2[k2]</code> that are closest to the
+<code>frequencies</code>, <code>levels.1</code> and <code>levels.2</code>
+available in <code>object</code>; <code>closest.pos</code> is used to determine
+what closest to means.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns data from the array <code>values</code> that's a slot of
+<code>object</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">Y        &lt;- rnorm(32)
+freq     &lt;- 2*pi*c(0:31)/32
+levels   &lt;- c(0.25,0.5,0.75)
+qPG      &lt;- quantilePG(Y, levels.1=levels)
+V.all    &lt;- getValues(qPG)
+V.coarse &lt;- getValues(qPG, frequencies = 2*pi*c(0:15)/16)
+V.fine   &lt;- getValues(qPG, frequencies = 2*pi*c(0:63)/64)
+V.part   &lt;- getValues(qPG, frequencies = 2*pi*c(0:16)/32,
+                           levels.1 = c(0.25), levels.2 = c(0.5,0.75))
+</code></pre>
+
+
+</div>

@@ -1,0 +1,148 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>getSymbols.csv</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2> Load Data from csv File </h2>
+
+<h3>Description</h3>
+
+<p>Downloads <code>Symbols</code> to specified <code>env</code>
+from local comma seperated file.  This method is
+not to be called directly, instead a call to
+<code>getSymbols(Symbols,src='csv')</code> will in
+turn call this method. It is documented for the
+sole purpose of highlighting the arguments
+accepted, and to serve as a guide to creating
+additional getSymbols ‘methods’.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">getSymbols.csv(Symbols,
+                 env,
+                 dir="",
+                 return.class = "xts",
+                 extension="csv",
+                 col.names=c("Open","High","Low","Close","Volume","Adjusted"),
+                  ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>Symbols</code></td>
+<td>
+<p> a character vector specifying
+the names of each symbol to be loaded</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>env</code></td>
+<td>
+<p> where to create objects. (.GlobalEnv) </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dir</code></td>
+<td>
+<p> directory of csv file </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>return.class</code></td>
+<td>
+<p> class of returned object </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>extension</code></td>
+<td>
+<p> extension of csv file </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>col.names</code></td>
+<td>
+<p> data column names </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p> additional parameters </p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Meant to be called internally by <code>getSymbols</code> (see also).
+</p>
+<p>One of a few currently defined methods for loading
+data for use with <span class="pkg">quantmod</span>.  Essentially a
+simple wrapper to the underlying <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> <code>read.csv</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A call to getSymbols.csv will load into the specified
+environment one object for each
+<code>Symbol</code> specified, with class defined 
+by <code>return.class</code>. Presently this may be <code>ts</code>,
+<code>zoo</code>, <code>xts</code>, or <code>timeSeries</code>.
+</p>
+
+
+<h3>Note</h3>
+
+<p>This has yet to be tested on a windows platform. It <em>should</em> work
+though file seperators may be an issue.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Jeffrey A. Ryan </p>
+
+
+<h3>See Also</h3>
+
+ <p><code>getSymbols</code>,
+<code>read.csv</code>,
+<code>setSymbolLookup</code> </p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+# All 3 getSymbols calls return the same
+# MSFT to the global environment
+# The last example is what NOT to do!
+
+## Method #1
+getSymbols('MSFT',src='csv')
+
+
+## Method #2
+setDefaults(getSymbols,src='csv')
+  # OR
+setSymbolLookup(MSFT='csv')
+
+getSymbols('MSFT')
+
+#########################################
+##  NOT RECOMMENDED!!!
+#########################################
+## Method #3
+getSymbols.csv('MSFT',verbose=TRUE,env=globalenv())
+
+## End(Not run)
+</code></pre>
+
+
+</div>

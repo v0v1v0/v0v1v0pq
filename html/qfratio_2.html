@@ -1,0 +1,62 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>a1_pk</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Recursion for a_{p,k}</h2>
+
+<h3>Description</h3>
+
+<p><code>a1_pk()</code> is an internal function to calculate <code class="reqn">a_{p,k}</code>
+(<code class="reqn">a_{r,l}</code> in Hillier et al. 2014; eq. 24), which is used in the
+calculation of the moment of such a ratio of quadratic forms in normal
+variables where the denominator matrix is identity.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">a1_pk(L, mu = rep.int(0, n), m = 10L)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>L</code></td>
+<td>
+<p>Eigenvalues of the argument matrix; vector of <code class="reqn">\lambda_i</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mu</code></td>
+<td>
+<p>Mean vector <code class="reqn">\bm{\mu}</code> for <code class="reqn">\mathbf{x}</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>m</code></td>
+<td>
+<p>Scalar to specify the desired order</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>This function implements the super-short recursion described in
+Hillier et al. (2014  eqs. 31–32).  Note that
+<code class="reqn">w_{r,i}</code> there should be understood as <code class="reqn">w_{r,l,i}</code> with
+the index <code class="reqn">l</code> fixed for each <code class="reqn">a_{r,l}</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>qfrm_ApIq_int()</code>, in which this function is used
+(for noncentral cases only)
+</p>
+
+
+</div>

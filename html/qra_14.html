@@ -1,0 +1,186 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>graphSum</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Draw graphs of insect mortality or other exposure-response data</h2>
+
+<h3>Description</h3>
+
+<p>Datasets that are in mind hold, for each replicate of
+each combination of each of a several factors (e.g.,
+species, lifestages, temperatures), mortalities for
+each of a number of values of "dose".  See for example
+the dataset help page <code>codling1989</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">graphSum(
+  df,
+  subSet = NULL,
+  link = "cloglog",
+  logScale = FALSE,
+  dead = "Dead",
+  tot = "Tot",
+  dosevar = "logCT",
+  Rep = "Rep",
+  fitRep = NULL,
+  fitPanel = NULL,
+  byFacet = ~Species,
+  layout = NULL,
+  maint = "Codling Moth, MeBr",
+  ptSize = 2,
+  xzeroOffsetFrac = 0.08,
+  yzeroOneOffsets = c(-0.08, 0.08),
+  yEps = 0.005,
+  xlab = expression(bold("CT ") * "(gm.h." * m^{     -3 } * ")"),
+  ylabel = NULL,
+  ytiklab = c(0.01, 0.05, 0.1, 0.25, 0.5, 0.75, 0.9, 0.99)
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>df</code></td>
+<td>
+<p>Data frame from which data will be taken</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>subSet</code></td>
+<td>
+<p>NULL, or an expression, such  as for example
+<code>expression(LifeStage=='Eggs')</code>) that evaluates to a logical that
+specifies the required data subset.  If not NULL then the subsetting
+information is pasted on after the main title</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>link</code></td>
+<td>
+<p>Link function. If character, obtain from <code>make.link</code>.
+Alternatively, a function may be supplied as argument.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>logScale</code></td>
+<td>
+<p>Logical, indicating whether the dose ($x$-variable)
+is on a log scale.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dead</code></td>
+<td>
+<p>Character; name of column holding number dead</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tot</code></td>
+<td>
+<p>Character; column holding total number</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dosevar</code></td>
+<td>
+<p>Character; column holding "dose" values</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Rep</code></td>
+<td>
+<p>Character; NULL, or column holding replicate number, within panel</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fitRep</code></td>
+<td>
+<p>Character; NULL, or column holding replicate fitted values</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fitPanel</code></td>
+<td>
+<p>Character; NULL, or column holding panel fitted values</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>byFacet</code></td>
+<td>
+<p>Graphics formula specifying factor combination that
+determines panel</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>layout</code></td>
+<td>
+<p>Graphics formula that can be supplied to <code>grid_facet</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>maint</code></td>
+<td>
+<p>Main title</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ptSize</code></td>
+<td>
+<p>Pointsize, by default 2</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xzeroOffsetFrac</code></td>
+<td>
+<p>$x$-axis zero offset fraction, required when
+scale is logarithmic</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>yzeroOneOffsets</code></td>
+<td>
+<p>Length two vector, giving 0
+100
+mortalities, on the scale of the link function.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>yEps</code></td>
+<td>
+<p>Fractional increase at bottom and top of $y$ user range
+to accommodate points for mortalities of 0 and 1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xlab</code></td>
+<td>
+<p>Expression specifying x-axis label</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ylabel</code></td>
+<td>
+<p>If not <code>NULL</code>, $y$-axis label</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ytiklab</code></td>
+<td>
+<p>Place $y$ axis tiks and labels at these mortalities</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>No return value, called for side effects
+</p>
+
+
+</div>

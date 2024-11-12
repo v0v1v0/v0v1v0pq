@@ -1,0 +1,135 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>LOD.QTLdetect</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>QTL Detect by LOD</h2>
+
+<h3>Description</h3>
+
+<p>Detect QTL by the likelihood of odds (LOD) matrix.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">LOD.QTLdetect(LOD, bin, thre = 3, QTLdist = 20, console = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>LOD</code></td>
+<td>
+<p>matrix. The LOD matrix, which is a t*p matrix, where t is
+the number of traits and p is the number of bins on the chromosomes.
+Missing values should be denoted as NA in the matrix.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bin</code></td>
+<td>
+<p>matrix. An n*2 matrix that represents the number of bins on
+each chromosome, where n is the number of chromosomes. The first column
+denotes the chromosome number, and the second column denotes the number
+of bins on that chromosome. It's important to ensure that chromosomes
+are divided in order.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>thre</code></td>
+<td>
+<p>numeric. The LOD threshold. Any LOD score under this
+threshold will be calculated as 0.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>QTLdist</code></td>
+<td>
+<p>numeric. The minimum distance (in bins) among different
+linked significant QTL.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>console</code></td>
+<td>
+<p>logical. Determines whether the process of the algorithm
+will be displayed in the R console or not.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>detect.QTL.number</code></td>
+<td>
+<p>The number of detected QTL in each trait.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>QTL.matrix</code></td>
+<td>
+<p>The QTL position matrix. Where the elements 1
+donates the position of QTL; elements 0 donate the bins whose LOD
+score is under the LOD threshold; other positions are shown as NA.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>EQF.matrix</code></td>
+<td>
+<p>The matrix denotes the EQF value of each bin.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>linkage.QTL.number</code></td>
+<td>
+<p>The linkage QTL number of all detected
+QTL. In other words, it is the table that denote how many QTL are
+on one chromosome.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>LOD.threshold</code></td>
+<td>
+<p>The LOD threshold used in this analysis.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bin</code></td>
+<td>
+<p>The bin information matrix used in this analysis.</p>
+</td>
+</tr>
+</table>
+<h3>References</h3>
+
+<p>Wu, P.-Y., M.-.H. Yang, and C.-H. KAO 2021 A Statistical Framework
+for QTL Hotspot Detection. G3: Genes, Genomes, Genetics: jkab056. &lt;doi: 10.1093/g3journal/jkab056&gt;
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>EQF.permu</code>
+<code>EQF.plot</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># load the example data
+load(system.file("extdata", "LODexample.RDATA", package = "QTLEMM"))
+dim(LODexample) # 100 traits, 633 bins on chromosome
+
+# run and result
+result &lt;- LOD.QTLdetect(LODexample, bin, thre = 3, QTLdist = 10)
+result$detect.QTL.number
+
+</code></pre>
+
+
+</div>

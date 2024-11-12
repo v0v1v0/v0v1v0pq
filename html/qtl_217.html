@@ -1,0 +1,69 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>pull.draws</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Pull out the genotype imputations from a cross</h2>
+
+<h3>Description</h3>
+
+<p>Pull out the results of <code>sim.geno</code> from a cross as an array.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">pull.draws(cross, chr)</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>cross</code></td>
+<td>
+<p>An object of class <code>cross</code>.  See
+<code>read.cross</code> for details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>chr</code></td>
+<td>
+<p>Optional vector indicating the chromosomes to consider.
+This should be a vector of character strings referring to chromosomes
+by name; numeric values are converted to strings.  Refer to
+chromosomes with a preceding <code>-</code> to have all chromosomes but
+those considered.  A logical (TRUE/FALSE) vector may also be used.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>An array containing numeric indicators of the imputed genotypes.
+Multiple chromosomes are pasted together.  The dimensions are
+individuals by positions by imputations
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Karl W Broman, <a href="mailto:broman@wisc.edu">broman@wisc.edu</a> </p>
+
+
+<h3>See Also</h3>
+
+ <p><code>pull.geno</code>, <code>pull.genoprob</code>,
+<code>pull.argmaxgeno</code>, <code>sim.geno</code> </p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(listeria)
+listeria &lt;- sim.geno(listeria, step=5, stepwidth="max", n.draws=8)
+dr &lt;- pull.draws(listeria, chr=c(5,13))
+dr[1:20,1:10,1]
+</code></pre>
+
+
+</div>

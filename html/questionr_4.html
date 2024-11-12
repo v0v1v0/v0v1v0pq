@@ -1,0 +1,76 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>chisq.residuals</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Return the chi-squared residuals of a two-way frequency table.</h2>
+
+<h3>Description</h3>
+
+<p>Return the raw, standardized or Pearson's residuals (the default) of a chi-squared test on a two-way frequency table.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">chisq.residuals(tab, digits = 2, std = FALSE, raw = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>tab</code></td>
+<td>
+<p>frequency table</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>digits</code></td>
+<td>
+<p>number of digits to display</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>std</code></td>
+<td>
+<p>if <code>TRUE</code>, returns the standardized residuals. Otherwise, returns the Pearson residuals. Incompatible with <code>raw</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>raw</code></td>
+<td>
+<p>if <code>TRUE</code>, returns the raw (<code>observed - expected</code>) residuals. Otherwise, returns the Pearson residuals. Incompatible with <code>std</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>This function is just a wrapper around the <code>chisq.test</code> base R function. See this function's help page
+for details on the computation.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>chisq.test</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Sample table
+data(Titanic)
+tab &lt;- apply(Titanic, c(1,4), sum)
+## Pearson residuals
+chisq.residuals(tab)
+## Standardized residuals
+chisq.residuals(tab, std = TRUE)
+## Raw residuals
+chisq.residuals(tab, raw = TRUE)
+</code></pre>
+
+
+</div>

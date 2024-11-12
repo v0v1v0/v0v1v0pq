@@ -1,0 +1,91 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>clean.scantwo</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Clean up scantwo output</h2>
+
+<h3>Description</h3>
+
+<p>In an object output from <code>scantwo</code>, replaces negative
+and missing LOD scores with 0, and replaces LOD scores for pairs of
+positions that are not separated by <code>n.mar</code> markers, or that are
+less than <code>distance</code> cM apart, with 0.  Further, if the LOD
+for full model is less than the LOD for the additive model, the
+additive LOD is pasted over the full LOD.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'scantwo'
+clean(object, n.mar=1, distance=0, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>An object of class <code>scantwo</code>.  See
+<code>scantwo</code> for details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n.mar</code></td>
+<td>
+<p>Pairs of positions not separated by at least this many
+markers have LOD scores set to 0.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>distance</code></td>
+<td>
+<p>Pairs of positions not separated by at least this
+distance have LOD scores set to 0.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Ignored at this point.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>The input scantwo object, with any negative or missing LOD scores
+replaced by 0, and LOD scores for pairs of positions separated by
+fewer than <code>n.mar</code> markers, or less than <code>distance</code> cM, are
+set to 0.
+Also, if the LOD for the full model is less than the LOD for the
+additive model, the additive LOD is used in place of the full LOD.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Karl W Broman, <a href="mailto:broman@wisc.edu">broman@wisc.edu</a> </p>
+
+
+<h3>See Also</h3>
+
+ <p><code>scantwo</code>,
+<code>summary.scantwo</code> </p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(fake.f2)
+
+fake.f2 &lt;- calc.genoprob(fake.f2, step=5)
+out2 &lt;- scantwo(fake.f2, method="hk")
+out2 &lt;- clean(out2)
+out2cl2 &lt;- clean(out2, n.mar=2, distance=5)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,66 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>multiply</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Multiple a vector of numeric values</h2>
+
+<h3>Description</h3>
+
+<p>Multiple all the content of a vector
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">multiply(..., na.rm = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>the numeric values to multiply</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>na.rm</code></td>
+<td>
+<p>remove NAs</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>multiple of all content
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># multiply 1 number
+# returns error
+# multiply(0)
+
+# vector of numbers
+numvec &lt;- number(10, max.digits = 3)
+numvec
+
+# multiply 2 numbers
+multiply(numvec[1:2])
+multiply(numvec[4], numvec[5])
+multiply(a = 4, b = 5)
+
+# multiply 5 numbers
+multiply(numvec[1:5])
+multiply(11, 15, 12, 14, 13)
+multiply(a = 4, b = 22, c = 44, d = 9, u = 10)
+
+</code></pre>
+
+
+</div>

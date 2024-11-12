@@ -1,0 +1,118 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>emp_c_copula</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>The empirical checkerboard copula</h2>
+
+<h3>Description</h3>
+
+<p>The function <code>emp_c_copula()</code> computes the mass distribution of the
+empirical (checkerboard) copula, given a bivariate sample. <code>emp_c_copula_eval()</code> evaluates the
+the empirical (checkerboard) copula at given points.
+If <code>smoothing</code> = FALSE, the empirical copula is computed (if there are ties in the sample an adjusted empirical copula is computed),
+otherwise the empirical checkerboard copula - a smoothed version of the empirical copula - is computed. For more information of the calculations, see details.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">emp_c_copula(X, smoothing = TRUE, resolution)
+
+emp_c_copula_eval(X, u, smoothing = TRUE, resolution)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>X</code></td>
+<td>
+<p>a data frame with two columns containing the observations of the sample. Each row contains
+one observation.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>smoothing</code></td>
+<td>
+<p>a logial indicating whether the checkerboard aggregation is computed (default = TRUE).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>resolution</code></td>
+<td>
+<p>an integer indicating the resolution of the checkerboard aggregation, i.e.
+the number of vertical/horizontal strips of the checkerboard copula.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>u</code></td>
+<td>
+<p>a data.frame with two columns containing the evaluation points. Each row consists of a x and y value.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>If the observations come from a distribution with continuous margins,
+i.e. there are no ties in the sample, the function <code>emp_c_copula()</code> gives the same result
+as the function <code>C.n()</code> in the <code>copula</code> package.
+If there are ties in the sample, the empirical copula is adjusted and calculated in the following way: <br>
+Let (u_i,v_i) := (F_n(x_i),G_n(y_i)) be the pseudo-observations for i in {1,...,n} and (u_1',v_1'),..., (u_m',v_m') the distinct pairs of pseudo-observations with m leq n. Moreover set S_1:={0, u_1, ..., u_m_1} and S_2:={0, v_1,..., v_m_2} and define the quantities t_i,r_i and s_i for i=1,..., m by
+</p>
+<p style="text-align: center;"><code class="reqn">t_i := sum_{j=1}^n 1_{(u_i',v_i')}(u_j,v_j)</code>
+</p>
+
+<p style="text-align: center;"><code class="reqn">r_i := sum_{j=1}^n 1_{u_i}(u_j)</code>
+</p>
+
+<p style="text-align: center;"><code class="reqn">s_i := sum_{j=1}^n 1_{v_i}(v_j)</code>
+</p>
+
+<p>where 1 defines the indicator function.
+Define the empirical subcopula A'_n: S_1 x S_2 to {0,1/n, ..., (n-1)/n,1} by
+</p>
+<p style="text-align: center;"><code class="reqn">A'_n(s_1,s_2)= 1/n  sum_{i=1}^m t_i * 1_{[0,s_1] x [0,s_2]} (u_i', v_i')=1/n sum_{i=1}^n 1_{[0,s_1] x [0,s_2]} (u_i, v_i)</code>
+</p>
+
+<p>for all s_1 in S_1 and s_2 in S_2. <br>
+We extend the subcopula A'_n to a copula by defining the transformations w_i:[0,1]^2 to [u_i'-r_i/n,u_i'] x [v_i'-s_i/n,v_i'] by
+</p>
+<p style="text-align: center;"><code class="reqn">w_i(x,y)=(u_i'-r_i/n+r_i*x/n, v_i'-s_i/n + s_iy/n)</code>
+</p>
+
+<p>and set the measure of the empirical copula mu_A_n^B := 1/n sum_i=1^m t_i mu_B^w_i, where B denotes the product copula.
+</p>
+<p>The checkerboard aggregation is computed as usual (see references).
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>emp_c_copula()</code> returns a matrix with the mass distribution of the empirical
+(checkerboard) copula.
+</p>
+<p><code>emp_c_copula_eval()</code> returns a vector of evaluations of the empirical
+(checkerboard) copula.
+</p>
+
+
+<h3>Note</h3>
+
+<p>The calculation of the empirical copula with a high sample size (and resolution rate) can take time.
+</p>
+
+
+<h3>References</h3>
+
+<p>Deheuvels, P. (1979). La fonction de dependance empirique et ses proprietas: un test non parametrique d'independance, Acad. Roy. Belg. Bull. Cl. Sci., 5th Ser. 65, 274-292.
+</p>
+<p>Li, X., Mikusinski, P. and Taylor, M.D. (1998). Strong approximation of copulas, Journal of Mathematical Analysis and Applications, 255, 608-623.
+</p>
+<p>Genest, C., Neshlehova J.G. and Remillard, B. (2014). On the empirical multilinear copula process for count data. Bernoulli, 20 (3), 1344-1371.
+</p>
+
+
+</div>

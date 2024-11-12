@@ -1,0 +1,94 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>BarrierMC</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Barrier option valuation via Monte Carlo (MC) simulation.</h2>
+
+<h3>Description</h3>
+
+<p>Calculates the price of a Barrier Option using 10000 Monte Carlo simulations.
+The helper function BarrierCal() aims to calculate expected payout for each stock prices.
+</p>
+<p>Important Assumptions:
+The option follows a General Brownian Motion (GBM)
+<code class="reqn">ds = mu * S * dt + sqrt(vol) * S * dW</code> where <code class="reqn">dW ~ N(0,1)</code>.
+The value of <code class="reqn">mu</code> (the expected percent price increase) is assumed to be <code>o$r-o$q</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">BarrierMC(o = OptPx(o = Opt(Style = "Barrier")), knock = c("In", "Out"),
+  B = 60, NPaths = 5)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>o</code></td>
+<td>
+<p>The <code>OptPx</code> Barrier option to price.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>knock</code></td>
+<td>
+<p>Defines the Barrier option to be "<code>In</code>" or "<code>Out</code>"</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>B</code></td>
+<td>
+<p>The Barrier price level</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>NPaths</code></td>
+<td>
+<p>The number of simulation paths to use in calculating the price</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>The option <code>o</code> with the price in the field <code>PxMC</code> based on MC simulations and the Barrier option
+properties set by the users themselves
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Huang Jiayao, Risk Management and Business Intelligence at Hong Kong University of Science and Technology,
+Exchange student at Rice University, Spring 2015
+</p>
+
+
+<h3>References</h3>
+
+<p>Hull, John C., <em>Options, Futures and Other Derivatives</em>, 9ed, 2014. Prentice Hall.
+ISBN 978-0-13-345631-8, <a href="http://www-2.rotman.utoronto.ca/~hull/ofod/index.html">http://www-2.rotman.utoronto.ca/~hull/ofod/index.html</a>.
+Also,
+<a href="http://stackoverflow.com/questions/25946852/r-monte-carlo-simulation-price-path-converging-volatility-issue">http://stackoverflow.com/questions/25946852/r-monte-carlo-simulation-price-path-converging-volatility-issue</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">(o = BarrierMC())$PxMC #Price =~ $11
+
+ o = OptPx(o=Opt(Style='Barrier'),NSteps = 10)
+ (o = BarrierMC(o))$PxMC #Price =~ $14.1
+
+ (o = BarrierMC(NPaths = 5))$PxMC # Price =~ $11
+
+ (o = BarrierMC(B=65))$PxMC # Price =~ $10
+
+ (o = BarrierMC(knock="Out"))$PxMC #Price =~ $1
+</code></pre>
+
+
+</div>

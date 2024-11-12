@@ -1,0 +1,57 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>.parseArgs</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Parse arguments and find environments</h2>
+
+<h3>Description</h3>
+
+<p>Internal function used within <code>objectNames</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">.parseArgs(y, e, eminus1)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>A character representation of the arguments passed to a function, e.g., <code>Plot</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>e</code></td>
+<td>
+<p>Environment in which the function (e.g., <code>Plot</code>) was called.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>eminus1</code></td>
+<td>
+<p>The parent environment of <code>e</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list of length 2, with names <code>objs</code> and <code>envs</code> giving the
+standardized representation (i.e., replacing <code style="white-space: pre;">⁠[[]]⁠</code> with <code>$</code> notation for objects) of objects
+and their layers (if <code>RasterStack</code>s).
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Eliot McIntire and Alex Chubaty
+</p>
+
+
+</div>

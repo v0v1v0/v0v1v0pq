@@ -1,0 +1,95 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>set_values</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Change values of <code>Quadtree</code> cells</h2>
+
+<h3>Description</h3>
+
+<p>Given a <code>Quadtree</code>, a set of points, and a vector of
+new values, changes the value of the quadtree cells containing the points
+to the corresponding value.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S4 method for signature 'Quadtree,ANY,numeric'
+set_values(x, y, z)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>A <code>Quadtree</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>A two-column matrix representing point coordinates. First column
+contains the x-coordinates, second column contains the y-coordinates.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>z</code></td>
+<td>
+<p>A numeric vector the same length as the number of rows of
+<code>y</code>. The values of the cells containing <code>y</code> will be changed
+to the corresponding value in <code>z</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Note that it is entirely possible for <code>y</code> to contain multiple points
+that all fall within the same cell. The values are changed in the order
+given, so the cell will take on the <em>last</em> value given for that cell.
+</p>
+<p>It's important to note that this modifies the original quadtree. If you wish
+to maintain a version of the original quadtree, use <code>copy</code>
+beforehand to make a copy of the quadtree.
+</p>
+
+
+<h3>Value</h3>
+
+<p>no return value
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>transform_values()</code> can be used to transform the
+existing values of all cells using a function.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(quadtree)
+habitat &lt;- terra::rast(system.file("extdata", "habitat.tif", package="quadtree"))
+
+# create a quadtree
+qt &lt;- quadtree(habitat, split_threshold = .1)
+
+# generate some random points, then change the values at those points
+ext &lt;- extent(qt)
+pts &lt;- cbind(runif(100, ext[1], ext[2]), runif(100, ext[3], ext[4]))
+set_values(qt, pts, rep(10, 100))
+
+# plot it out to see what happened
+old_par &lt;- par(mfrow = c(1, 2))
+plot(qt, main = "original")
+plot(qt, main = "after modification")
+par(old_par)
+</code></pre>
+
+
+</div>

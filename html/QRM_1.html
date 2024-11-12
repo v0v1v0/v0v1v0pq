@@ -1,0 +1,62 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>QRM-package</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Quantitative Risk Modelling</h2>
+
+<h3>Description</h3>
+
+<p>This package is designed to accompany the book Quantitative
+Risk Management: Concepts, Techniques and Tools by Alexander
+J. McNeil, Rudiger Frey and Paul Embrechts.
+</p>
+
+
+<h3>Overview</h3>
+
+<p>This package provides functions for quantitative risk management as
+introduced in the book “Quantitative Risk Management: Concepts,
+Techniques and Tools” (henceforth: QRM). The S-Plus package
+“QRMlib” has been made available the first author of the book
+and can be obtained by following the instructions on
+<a href="https://www.qrmtutorial.org/books">https://www.qrmtutorial.org/books</a>. A R port of
+this package has been made available on CRAN by Scott Ulmann. However,
+the package failed the checks and hence has been moved to the
+CRAN archive (<span class="pkg">QRMlib</span>, version 1.4.5.1 as of 04/25/2011). This
+package is based on <span class="pkg">QRMlib</span>, but (i), not all functions have been
+ported from <span class="pkg">QRMlib</span> to <span class="pkg">QRM</span>, (ii) the arguments of some
+functions have been modified, and (iii) the manual pages have been
+re-ordered by topic.<br>
+A list of the not ported functions is provided in
+<code>QRM-defunct</code> with pointers to their replacements. This 
+was achieved by the inclusion of dependencies to the packages
+<span class="pkg">gsl</span>, <span class="pkg">numDeriv</span> and <span class="pkg">timeSeries</span> and/or resorting to
+functions contained in the base installation of R. Second, in
+particular with respect to passing down arguments to the routines used
+in optimizations and/or argument matching, modifications to the
+functions' closures were necessary. In addition, the names of
+arguments in similar functions have been unified. Third, to provide
+the user a faster access to the manual pages of certain risk concepts,
+the functions' documentation are now ordered by concept rather than by
+the name of the functions.<br> 
+Without modifying the existing functions of <span class="pkg">QRMlib</span> too much,
+neither S3- nor S4-classes and methods have been included completely
+by now in <span class="pkg">QRM</span>, but the characteristic of the former package as a
+collection of functions pertinent to quantitative risk modelling have
+been kept intact. However, this might change in future releases of
+<span class="pkg">QRM</span>. By now, the current package can be used almost alike
+<span class="pkg">QRMlib</span>, but with the stated modifications. 
+</p>
+
+
+<h3>References</h3>
+
+<p>McNeil, A., Frey, R. and Embrechts, P., <em>Quantitative Risk
+Management: Concepts, Techniques and Tools</em>, 2005, Princeton:
+Princeton University Press.
+</p>
+
+
+</div>

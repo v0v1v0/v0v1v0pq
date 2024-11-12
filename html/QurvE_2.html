@@ -1,0 +1,77 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>biosensor.eq</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Internal function used to fit a biosensor response model with <code>nlsLM</code>
+</h2>
+
+<h3>Description</h3>
+
+<p>Calculates the values of biosensor response model for given time points and response parameters.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">biosensor.eq(x, y.min, y.max, K, n)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>A vector of concentration values</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y.min</code></td>
+<td>
+<p>The minimum fluorescence value</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y.max</code></td>
+<td>
+<p>The maximum fluorescence value</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>K</code></td>
+<td>
+<p>Sensitivity parameter</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p>Cooperativity parameter</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A vector of fluorescence values
+</p>
+
+
+<h3>References</h3>
+
+<p>Meyer, A.J., Segall-Shapiro, T.H., Glassey, E. et al. <em>Escherichia coli “Marionette” strains with 12 highly optimized small-molecule sensors.</em> Nat Chem Biol 15, 196–204 (2019). DOI: 10.1038/s41589-018-0168-3
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">n &lt;- seq(1:10)
+conc &lt;- rev(10*(1/2)^n)
+fit &lt;- biosensor.eq(conc, 300, 82000, 0.85, 2)
+
+</code></pre>
+
+
+</div>

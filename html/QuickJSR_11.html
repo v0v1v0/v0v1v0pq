@@ -1,0 +1,63 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>JSContext-method-source</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Evaluate JS string or file in the current context</h2>
+
+<h3>Description</h3>
+
+<p>Evaluate a provided JavaScript file or string within the initialised context.
+Note that this method should only be used for initialising functions or values
+within the context, no values are returned from this function. See the <code style="white-space: pre;">⁠$call()⁠</code>
+method for returning values.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">source(file = NULL, code = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>file</code></td>
+<td>
+<p>A path to the JavaScript file to load</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>code</code></td>
+<td>
+<p>A single string of JavaScript to evaluate</p>
+</td>
+</tr>
+</table>
+<h3>Format</h3>
+
+<p>An object of class <code>NULL</code> of length 0.
+</p>
+
+
+<h3>Value</h3>
+
+<p>No return value, called for side effects
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+ctx &lt;- JSContext$new()
+ctx$source(file = "path/to/file.js")
+ctx$source(code = "1 + 2")
+
+## End(Not run)
+</code></pre>
+
+
+</div>

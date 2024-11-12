@@ -1,0 +1,52 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>weibull_fun</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Weibull function</h2>
+
+<h3>Description</h3>
+
+<p>Weibull function of the form <code class="reqn"> (1 - exp(-(x/\alpha)^\beta)</code>
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">weibull_fun(x, p)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>Vector of values of the explanatory variable.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p</code></td>
+<td>
+<p>Vector of parameters <code class="reqn">p = c(\alpha, \beta)</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Probability at each <code>x</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">xseq &lt;- seq(0, 4, .01)
+yseq &lt;- weibull_fun(xseq, c(2, 4))
+curve &lt;- data.frame(x = xseq, y = yseq)
+ggplot(curve, aes(x = x, y = y)) + geom_line()
+</code></pre>
+
+
+</div>

@@ -1,0 +1,103 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>Gauss</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Multivariate Gauss Distribution  
+</h2>
+
+<h3>Description</h3>
+
+<p>Functions for evaluating multivariate normal density, generating
+random variates, fitting and testing. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">dmnorm(x, mu, Sigma, log = FALSE)
+fit.norm(data)
+rmnorm(n, mu = 0, Sigma)
+MardiaTest(data)
+jointnormalTest(data, dist = c("chisquare", "beta"), plot = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p><code>matrix</code>, data set.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dist</code></td>
+<td>
+<p><code>character</code>, “chisquare” performs test against
+<code class="reqn">\chi^2</code> distribution, which is an approximation;
+“beta” performs a test against a scaled beta distribution.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>log</code></td>
+<td>
+<p><code>logical</code>, whether log density values shall be
+returned.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p><code>integer</code>, count of random variates.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mu</code></td>
+<td>
+<p><code>numeric</code>, location parameters.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>plot</code></td>
+<td>
+<p><code>logical</code>, whether test result shall be plotted.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Sigma</code></td>
+<td>
+<p><code>matrix</code>, covariance matrix.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p><code>matrix</code>, density is evaluated per row.</p>
+</td>
+</tr>
+</table>
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(QRM)
+BiDensPlot(func = dmnorm, mu = c(0, 0), Sigma = equicorr(2, -0.7))
+S &lt;- equicorr(d = 3, rho = 0.7)
+data &lt;- rmnorm(1000, Sigma = S)
+fit.norm(data)
+S &lt;- equicorr(d = 10, rho = 0.6)
+data &lt;- rmnorm(1000, Sigma = S) 
+MardiaTest(data)
+## Dow Jones Data
+data(DJ)
+r &lt;- returns(DJ) 
+stocks &lt;- c("AXP","EK","BA","C","KO","MSFT",
+            "HWP","INTC","JPM","DIS")
+ss &lt;- window(r[, stocks], "1993-01-01", "2000-12-31")
+jointnormalTest(ss) 
+</code></pre>
+
+
+</div>

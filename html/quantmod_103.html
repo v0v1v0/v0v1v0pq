@@ -1,0 +1,82 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>options.expiry</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2> Calculate Contract Expirations </h2>
+
+<h3>Description</h3>
+
+<p>Return the index of the contract expiration date.  The third Friday of the
+month for options, the last third Friday of the quarter for futures.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">options.expiry(x)
+futures.expiry(x)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p> a time-indexed zoo object </p>
+</td>
+</tr></table>
+<h3>Details</h3>
+
+<p>Designed to be used within a charting context via <code>addExpiry</code>, the values returned
+are based on the description above. Exceptions, though rare, are not accounted for.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A numeric vector of values to index on.
+</p>
+
+
+<h3>Note</h3>
+
+ 
+<p>There is currently no accounting for holidays that may interfere with
+the general rule. Additionally all efforts have been focused on
+US equity and futures markets.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Jeffrey A. Ryan </p>
+
+
+<h3>References</h3>
+
+<p> ~put references to the literature/web site here ~ </p>
+
+
+<h3>See Also</h3>
+
+ <p><code>addExpiry</code> </p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+getSymbols("AAPL")
+
+options.expiry(AAPL)
+futures.expiry(AAPL)
+
+AAPL[options.expiry(AAPL)]
+
+## End(Not run)
+</code></pre>
+
+
+</div>

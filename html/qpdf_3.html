@@ -1,0 +1,137 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qpdf</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Split, Combine and Compress PDF Files</h2>
+
+<h3>Description</h3>
+
+<p>Content-preserving transformations transformations of PDF files. Note qpdf does
+not read actual content from PDF files: to extract text and data you need the
+pdftools package.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">pdf_split(input, output = NULL, password = "")
+
+pdf_length(input, password = "")
+
+pdf_subset(input, pages = 1, output = NULL, password = "")
+
+pdf_combine(input, output = NULL, password = "")
+
+pdf_compress(input, output = NULL, linearize = FALSE, password = "")
+
+pdf_overlay_stamp(input, stamp, output = NULL, password = "")
+
+pdf_rotate_pages(
+  input,
+  pages,
+  angle = 90,
+  relative = FALSE,
+  output = NULL,
+  password = ""
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>input</code></td>
+<td>
+<p>path or url to the input pdf file</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>output</code></td>
+<td>
+<p>base path of the output file(s)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>password</code></td>
+<td>
+<p>string with password to open pdf file</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pages</code></td>
+<td>
+<p>a vector with page numbers to rotate</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>linearize</code></td>
+<td>
+<p>enable pdf linearization (streamable pdf)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>stamp</code></td>
+<td>
+<p>pdf file of which the first page is overlayed into each page of input</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>angle</code></td>
+<td>
+<p>rotation angle in degrees (positive = clockwise)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>relative</code></td>
+<td>
+<p>if <code>TRUE</code>, pages are rotated relative to their current orientation. If <code>FALSE</code>, rotation is absolute (0 = portrait, 90 = landscape, rotated 90 degrees clockwise from portrait)</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Currently the package provides the following wrappers:
+</p>
+
+<ul>
+<li> <p>pdf_length: show the number of pages in a pdf
+</p>
+</li>
+<li> <p>pdf_split: split a single pdf into separate files, one for each page
+</p>
+</li>
+<li> <p>pdf_subset: create a new pdf with a subset of the input pages
+</p>
+</li>
+<li> <p>pdf_combine: join several pdf files into one
+</p>
+</li>
+<li> <p>pdf_compress: compress or linearize a pdf file
+</p>
+</li>
+<li> <p>pdf_rotate_pages: rotate selected pages
+</p>
+</li>
+</ul>
+<p>These functions do not modify the <code>input</code> file: they create new output file(s)
+and return the path(s) to these newly created files.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+# extract some pages
+pdf_file &lt;- file.path(tempdir(), "output.pdf")
+pdf_subset('https://cran.r-project.org/doc/manuals/r-release/R-intro.pdf',
+  pages = 1:3, output = pdf_file)
+pdf_length(pdf_file)
+unlink(pdf_file)
+
+</code></pre>
+
+
+</div>

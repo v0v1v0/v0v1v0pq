@@ -1,0 +1,72 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>getstrateffects</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Calculate mixture effect at a set value of effect measure modifier</h2>
+
+<h3>Description</h3>
+
+<p>A standard qgcomp fit with effect measure modification
+only estimates effects at the referent (0) level of the modifier (psi1).
+This function can be used to estimate effects at arbitrary levels of the modifier
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">getstrateffects(x, emmval = 1, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>"qgcompemmfit" object from qgcomp.emm.noboot
+function</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>emmval</code></td>
+<td>
+<p>numerical: value of effect measure modifier at which weights are generated</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>unused</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>An object of class "qgcompemmeffects", which inherits from "qgcompemmfit" and "list"
+</p>
+<p>This class contains the <code>emmval</code>-stratum specific effect estimates of the mixture. By default, this prints a coefficient table, similar to objects of type "qgcompemmfit" which displays the stratum specific joint effects from a "qgcompemmfit" model.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>qgcomp.emm.noboot</code> <code>getstratweights</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">dat &lt;- data.frame(y=runif(50), x1=runif(50), x2=runif(50),
+  z=rbinom(50,1,0.5), r=rbinom(50,1,0.5))
+(qfit &lt;- qgcomp.emm.noboot(f=y ~ z + x1 + x2, emmvar="z",
+  expnms = c('x1', 'x2'), data=dat, q=2, family=gaussian()))
+getstrateffects(qfit, emmval = 0)
+strateffects = getstrateffects(qfit, emmval = 1)
+
+</code></pre>
+
+
+</div>

@@ -1,0 +1,84 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>mixing_matrix.ctqwalk</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>The Mixing Matrix of a Continuous-Time Quantum Walk</h2>
+
+<h3>Description</h3>
+
+<p>The Mixing Matrix of a Continuous-Time Quantum Walk
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'ctqwalk'
+mixing_matrix(object, t, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>an instance of class <code>ctqwalk</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>t</code></td>
+<td>
+<p>it will be returned the mixing matrix at time <code>t</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>further arguments passed to or from other methods.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Let <code class="reqn">U(t)</code> be the time evolution operator of the quantum walk at
+time <code class="reqn">t</code>, then the mixing matrix is given by
+</p>
+<p style="text-align: center;"><code class="reqn">M(t) = U(t) \circ \overline{U(t)}</code>
+</p>
+
+<p><code class="reqn">M(t)</code> is a doubly stochastic real symmetric matrix, which encodes the
+probability density of the quantum system at time <code class="reqn">t</code>.
+</p>
+<p>More precisely, the <code class="reqn">(M(t))_{ab}</code> entry gives us the probability
+of measuring the standard basis state <code class="reqn">|b \rangle</code> at time <code class="reqn">t</code>, given that
+the quantum walk started at <code class="reqn">|a \rangle</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>mixing_matrix()</code> returns the  mixing matrix of the CTQW
+evaluated at time <code>t</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>ctqwalk()</code>, <code>mixing_matrix()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">walk &lt;- ctqwalk(matrix(c(0,1,0,1,0,1,0,1,0), nrow=3))
+
+# Returns the mixing matrix at time t = 2*pi, M(2pi)
+mixing_matrix(walk, t = 2*pi)
+
+</code></pre>
+
+
+</div>

@@ -1,0 +1,207 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>partition_min</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Generation of conservative or parsimonious solution for individual
+partitions</h2>
+
+<h3>Description</h3>
+
+<p><code>partition_min</code> decomposes clustered data into individual
+partitions. For panel data, for example, these can be cross sections,
+time series or both. The function derives an individual solution for
+each partition and the pooled data to assess the robustness of the
+solutions in a comparative perspective.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">partition_min(
+  dataset,
+  units,
+  time,
+  cond,
+  out,
+  n_cut,
+  incl_cut,
+  solution,
+  BE_cons,
+  WI_cons,
+  BE_ncut,
+  WI_ncut
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>dataset</code></td>
+<td>
+<p>Calibrated pooled dataset that is partitioned and minimized for
+deriving the pooled solution.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>units</code></td>
+<td>
+<p>Units defining the within-dimension of data (time series). If no
+units are specified, the data is assumed to lack a dimension and be
+hierarchical.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>time</code></td>
+<td>
+<p>Periods defining the between-dimension of data (cross sections).
+This should be specified because it does not make sense to partition a
+time series into individual data points.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cond</code></td>
+<td>
+<p>Conditions used for minimization</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>out</code></td>
+<td>
+<p>Outcome used for minimization</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n_cut</code></td>
+<td>
+<p>Frequency cut-off for designating truth table rows as observed
+as opposed to designating them as remainders for the <em>pooled</em> data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>incl_cut</code></td>
+<td>
+<p>Inclusion (a.k.a. consistency) cut-off for designating
+truth table rows as consistent for the <em>pooled</em> data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>solution</code></td>
+<td>
+<p>A character specifying the type of solution that should
+be derived. <code>C</code> produces the conservative (or complex) solution,
+<code>P</code> for the parsimonious solution. See <code>partition_min_inter</code>
+for a separate function for the intermediate solution.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>BE_cons</code></td>
+<td>
+<p>Inclusion thresholds for creating an individual truth table
+for each cross section.
+They must be specified as a numeric vector. Its length should be
+equal the number of cross sections. The order of thresholds corresponds
+to the order of the cross sections in the data defined by the cross-section
+ID in the dataset (such as years in ascending order).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>WI_cons</code></td>
+<td>
+<p>Inclusion thresholds for creating an individual truth table
+for each time series.
+They must be specified as a numeric vector. Its length should be
+equal the number of time series. The order of thresholds corresponds
+to the order of the of the time-series (unit) ID
+in the dataset (such as countries in alphabetical order).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>BE_ncut</code></td>
+<td>
+<p>For <em>cross sections</em>, the minimum number of members needed
+for declaring a truth table row
+as relevant as opposed to designating it as a remainder.
+Must be specified as a numeric vector. Its length should be
+equal the number of cross sections. The order of thresholds corresponds
+to the order of the cross sections in the data defined by the cross-section
+ID in the dataset (such as years in ascending order).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>WI_ncut</code></td>
+<td>
+<p>For <em>time series</em>, the minimum number of members needed
+for declaring a truth table row
+as relevant as opposed to designating it as a remainder.
+Must be specified as a numeric vector. Its length should be
+equal the number of time series. The order of thresholds corresponds
+to the order of the of the time-series (unit) ID
+in the dataset (such as countries in alphabetical order).</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A dataframe summarizing the partition-specific and pooled solutions
+with the following columns:
+</p>
+
+<ul>
+<li> <p><code>type</code>: The type of the partition. <code>pooled</code> are rows with information
+on the pooled data; <code>between</code> is for cross-section partitions;
+<code>within</code> is for time-series partitions.
+</p>
+</li>
+<li> <p><code>partition</code>: Specific dimension of the partition at hand. For
+between-dimension, the unit identifiers are included here  (argument <code>units</code>).
+For the within-dimension, the time identifier are listed (argument <code>time</code>).
+The entry is <code>-</code> for the pooled data without partitions.
+</p>
+</li>
+<li> <p><code>solution</code>: The solution derived for the partition or the pooled data.
+Absence of a condition is denoted by the <code>~</code> sign.
+</p>
+</li>
+<li> <p><code>model</code>: Running ID for models. In the presence of model ambiguity, each
+model has its own row with its individual solution and parameters. The rest of
+the information in the row is duplicated, for example by having two rows for
+the within-partition 1996. The column <code>model</code> highlights the presence of
+model ambiguity by numbering all models belonging to the same solution. For
+example, if three consecutive rows are numbered 1, 2 and 3, then these rows
+belong to the same solution and represent model ambiguity. If a 1 in a row
+is followed by another 1, then there is no model ambiguity.
+</p>
+</li>
+<li> <p><code>consistency</code>: The consistency score (a.k.a. inclusion score)
+for the partition of the data or the pooled data.
+</p>
+</li>
+<li> <p><code>coverage</code>: The coverage score for the partition of the data
+or the pooled data.
+</p>
+</li>
+</ul>
+<h3>Examples</h3>
+
+<pre><code class="language-R"># loading data from Thiem (EPSR, 2011; see data documentation)
+data(Thiem2011)
+
+# running function for parsimonious solution
+Thiem_pars &lt;- partition_min(
+  dataset = Thiem2011,
+  units = "country", time = "year",
+  cond = c("fedismfs", "homogtyfs", "powdifffs", "comptvnsfs", "pubsupfs", "ecodpcefs"),
+  out = "memberfs",
+  n_cut = 1, incl_cut = 0.8,
+  solution = "P",
+  BE_cons = c(0.9, 0.8, 0.7, 0.8, 0.6, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8),
+  WI_cons = c(0.5, 0.8, 0.7, 0.8, 0.6, rep(0.8, 10)))
+
+</code></pre>
+
+
+</div>

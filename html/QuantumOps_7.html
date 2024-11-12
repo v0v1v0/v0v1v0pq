@@ -1,0 +1,49 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>checkCases</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>checkCases</h2>
+
+<h3>Description</h3>
+
+<p>Takes in a matrix of clauses and determines what percentage of the clauses each possible value satisfies.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">checkCases(clauses,colorCode=FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>clauses</code></td>
+<td>
+<p> Matrix that specifies the clauses. Each row is a clause. Each row must contain the same number of columns as qubits, the bit length of the clauses. 0 and 1 are values which are added to clause, ignored bits should be set to any other value. </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>colorCode</code></td>
+<td>
+<p>Boolean which specifies if data should be returned as list of colors rather than numerical data</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Array of numbers or string color names
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"> checkCases( rbind(c(1,-1),c(1,1) ) )
+</code></pre>
+
+
+</div>

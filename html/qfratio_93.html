@@ -1,0 +1,95 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>hyperg_1F1_vec_b</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Internal C++ wrappers for GSL</h2>
+
+<h3>Description</h3>
+
+<p>These are internal C++ functions which wrap hypergeometric
+functions from GSL with vectorization.  These are for
+particular use cases in this package, and direct access by the user is
+<strong>not</strong> assumed.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">hyperg_1F1_vec_b(a, bvec, x)
+
+hyperg_2F1_mat_a_vec_c(Amat, b, cvec, x)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>a, b</code></td>
+<td>
+<p>Parameters of hypergeometric functions; passed as <code>double</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bvec, cvec</code></td>
+<td>
+<p>Parameters of hypergeometric functions; passed as
+<code>Rcpp::NumericVector</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>Argument of hypergeometric functions; passed as <code>double</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Amat</code></td>
+<td>
+<p>Parameter of hypergeometric functions; passed as
+<code>Rcpp::NumericMatrix</code>.  Dimension must be square of the length of
+<code>cvec</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Return a list via <code>Rcpp::List</code> of the following:
+</p>
+
+<dl>
+<dt><code>$val</code></dt>
+<dd>
+<p>Evaluation result, numeric</p>
+</dd>
+<dt><code>$err</code></dt>
+<dd>
+<p>Absolute error, numeric</p>
+</dd>
+<dt><code>$status</code></dt>
+<dd>
+<p>Error code, integer</p>
+</dd>
+</dl>
+<p>In <code>hyperg_1F1_vec_b</code>, these are vectors from
+<code>Rcpp::NumericVector</code> and <code>Rcpp::IntegerVector</code>, whereas in
+<code>hyperg_2F1_mat_a_vec_c</code>, they are matrices
+from <code>Rcpp::NumericMatrix</code> and <code>Rcpp::IntegerMatrix</code>.
+</p>
+
+
+<h3>Functions</h3>
+
+
+<ul>
+<li> <p><code>hyperg_1F1_vec_b()</code>: wrapper of <code>gsl_hyperg_1F1_e()</code>, looping along <code>bvec</code>
+</p>
+</li>
+<li> <p><code>hyperg_2F1_mat_a_vec_c()</code>: wrapper of <code>gsl_hyperg_2F1_e()</code>, looping along <code>Amat</code> and
+recycling <code>cvec</code>
+</p>
+</li>
+</ul>
+</div>

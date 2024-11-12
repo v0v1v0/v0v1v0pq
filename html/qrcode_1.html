@@ -1,0 +1,83 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>add_logo</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Add a logo to a QR code</h2>
+
+<h3>Description</h3>
+
+<p>First generate a <code>qr_code</code> with a higher <code>ecl</code> level.
+Then add the logo.
+The maximum area of logo depends on the difference in <code>ecl</code> level between the
+version with and without logo.
+The size of the logo is further restricted by its image ratio.
+We shrink very wide or tall logos to make sure it still fits on the logo.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">add_logo(
+  code,
+  logo,
+  ecl = c("L", "M", "Q", "H"),
+  hjust = c("c", "l", "r"),
+  vjust = c("c", "b", "t")
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>code</code></td>
+<td>
+<p>A <code>qr_code</code> object</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>logo</code></td>
+<td>
+<p>the path to a logo image file.
+Must be either <code>png</code>, <code>svg</code> or <code>jpeg</code> format.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ecl</code></td>
+<td>
+<p>the required error correction level for the QR code
+after overlaying the logo.
+Must be lower than the <code>ecl</code> in the <code>code</code>.
+Defaults to <code>"L"</code>.
+The difference between the <code>ecl</code> set here and the <code>ecl</code> in <code>code</code> determines
+the maximum area of the logo.
+For the largest logo, generate <code>code</code> with <code>ecl = "H"</code> and add the logo with
+<code>ecl = "L"</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>hjust</code></td>
+<td>
+<p>Horizontal position of the logo.
+The default of <code>"c"</code> indicates the centre of the QR code.
+Use <code>"r"</code> to align the right side of the logo with the right side of the QR
+code.
+Use <code>"l"</code> to align the left side of the logo with the right side of the two
+vertical finder patterns.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vjust</code></td>
+<td>
+<p>Vertical position of the logo.
+The default of <code>"c"</code> indicates the centre of the QR code..
+Use <code>"b"</code> to align the bottom of the logo with the bottom of the QR code.
+Use <code>"t"</code> to align the top of the logo with the bottom side of the two
+horizontal finder patterns.</p>
+</td>
+</tr>
+</table>
+</div>

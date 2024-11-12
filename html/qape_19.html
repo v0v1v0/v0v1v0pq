@@ -1,0 +1,940 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>mcBootMis</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Monte Carlo simulation study of accuracy of estimators of accuracy measures
+</h2>
+
+<h3>Description</h3>
+
+<p>The function computes in the Monte Carlo simulation study values of accuracy measures of estimators of accuracy measures of two predictors under the model defined by the first of them.</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">mcBootMis(Ypop, predictorLMM, predictorLMMmis, K, B1, B2, p, q)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>Ypop</code></td>
+<td>
+<p>population values of the variable of interest (already transformed if necessary) which are used as the dependent variable in the population model.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>predictorLMM</code></td>
+<td>
+<p>plugInLMM object, the predictor used to define the model assumed in the simulation study.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>predictorLMMmis</code></td>
+<td>
+<p>plugInLMM object, the second predictor, the properties of which are assessed under the misspecified model used in <em>predictorLMM</em>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>K</code></td>
+<td>
+<p>the number of Monte Carlo iterations.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>B1</code></td>
+<td>
+<p>the number of first-level bootstrap iterations.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>B2</code></td>
+<td>
+<p>the number of second-level bootstrap iterations.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p</code></td>
+<td>
+<p>orders of quantiles in the QAPE.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>q</code></td>
+<td>
+<p>estimator bounds assumed for <em>estMSE_db_1_EF</em> and <em>estMSE_db_telesc_EF</em> (which are corrected versions of <em>estMSE_db_1</em> and <em>estMSE_db_telesc</em>, respectively).
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>In the model-based simulation study population values of the dependent variable are generated based on the (possibly transformed) Linear Mixed Model used in <em>predictorLMM</em> and the accuracy of predictors <em>predictorLMM</em> and <em>predictorLMMmis</em> is assessed. What is more, the the accuracy of parametric, residual and double bootstrap estimators of accuracy measures is studied under the model used in <em>predictorLMM</em>. Values of some MSE estimators can be negative, the number of negative values of MSE estimators obtained in the simulation study are presented in objects <em>neg_estMSE_LMM</em> and <em>neg_estMSE_LMMmis</em>. Hence, some RMSE estimators computed as square roots of MSE estimators can produce NaNs - see warnings.</p>
+
+
+<h3>Value</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>QAPElmm</code></td>
+<td>
+<p>value/s of the QAPE of <em>predictorLMM</em> assessed in the Monte Carlo study - the number of rows is equal to the number of orders of quantiles to be considered (declared in <em>p</em>), the number of columns is equal to the number of predicted characteristics (declared in <em>thetaFun</em>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>RMSElmm</code></td>
+<td>
+<p>value/s of the RMSE of <em>predictorLMM</em> assessed in the Monte Carlo study (more than one value is computed if in <em>thetaFun</em> more than one population characteristic is defined).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rRMSElmm</code></td>
+<td>
+<p>value/s of the rRMSE (in percentages) of <em>predictorLMM</em> assessed in the Monte Carlo study (more than one value is computed if in <em>thetaFun</em> more than one population characteristic is defined).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rBlmm</code></td>
+<td>
+<p>value/s of the relative bias (in percentages) of <em>predictorLMM</em> assessed in the Monte Carlo study (more than one value is computed if in <em>thetaFun</em> more than one population characteristic is defined).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>QAPElmmMis</code></td>
+<td>
+<p>value/s of the QAPE of <em>predictorLMM2</em> assessed in the Monte Carlo study - the number of rows is equal to the number of orders of quantiles to be considered (declared in <em>p</em>), the number of columns is equal to the number of predicted characteristics (declared in <em>thetaFun</em>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>RMSElmmMis</code></td>
+<td>
+<p>value/s of the RMSE of <em>predictorLMM2</em> assessed in the Monte Carlo study (more than one value is computed if in <em>thetaFun</em> more than one population characteristic is defined).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rRMSElmmMis</code></td>
+<td>
+<p>value/s of the rRMSE (in percentages) of <em>predictorLMM2</em> assessed in the Monte Carlo study (more than one value is computed if in <em>thetaFun</em> more than one population characteristic is defined).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rBlmmMis</code></td>
+<td>
+<p>value/s of the relative bias (in percentages) of <em>predictorLMMmis</em> assessed in the Monte Carlo study (more than one value is computed if in <em>thetaFun</em> more than one population characteristic is defined).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rB.estRMSE_rbF_LMM</code></td>
+<td>
+<p>relative bias (in percentages) of estimated value/s of RMSE of <em>predictorLMM</em> without correction to avoid the problem of underdispersion of residual bootstrap distributions  (more than one value is computed if in <em>thetaFun</em> more than one population characteristic is defined).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rRMSE.estRMSE_rbF_LMM</code></td>
+<td>
+<p>relative RMSE (in percentages) of estimated value/s of RMSE of <em>predictorLMM</em> without correction to avoid the problem of underdispersion of residual bootstrap distributions  (more than one value is computed if in <em>thetaFun</em> more than one population characteristic is defined).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rB.estRMSE_rbF_LMMmis</code></td>
+<td>
+<p>relative bias (in percentages) of estimated value/s of RMSE of <em>predictorLMMmis</em> without correction to avoid the problem of underdispersion of residual bootstrap distributions  (more than one value is computed if in <em>thetaFun</em> more than one population characteristic is defined).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rRMSE.estRMSE_rbF_LMMmis</code></td>
+<td>
+<p>relative RMSE (in percentages) of estimated value/s of RMSE of <em>predictorLMMmis</em> without correction to avoid the problem of underdispersion of residual bootstrap distributions  (more than one value is computed if in <em>thetaFun</em> more than one population characteristic is defined).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rB.estMSE_rbF_LMM</code></td>
+<td>
+<p>relative bias (in percentages) of estimated value/s of MSE of <em>predictorLMM</em> without correction to avoid the problem of underdispersion of residual bootstrap distributions  (more than one value is computed if in <em>thetaFun</em> more than one population characteristic is defined).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rRMSE.estMSE_rbF_LMM</code></td>
+<td>
+<p>relative RMSE (in percentages) of estimated value/s of MSE of <em>predictorLMM</em> without correction to avoid the problem of underdispersion of residual bootstrap distributions  (more than one value is computed if in <em>thetaFun</em> more than one population characteristic is defined).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rB.estMSE_rbF_LMMmis</code></td>
+<td>
+<p>relative bias (in percentages) of estimated value/s of MSE of <em>predictorLMMmis</em> without correction to avoid the problem of underdispersion of residual bootstrap distributions  (more than one value is computed if in <em>thetaFun</em> more than one population characteristic is defined).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rRMSE.estMSE_rbF_LMMmis</code></td>
+<td>
+<p>relative RMSE (in percentages) of estimated value/s of MSE of <em>predictorLMMmis</em> without correction to avoid the problem of underdispersion of residual bootstrap distributions  (more than one value is computed if in <em>thetaFun</em> more than one population characteristic is defined).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rB.estQAPE_rbF_LMM</code></td>
+<td>
+<p>relative bias (in percentages) of estimated value/s of QAPE of <em>predictorLMM</em> without correction to avoid the problem of underdispersion of residual bootstrap distributions, the number of rows is equal to the number of orders of quantiles to be considered (declared in <em>p</em>), the number of columns is equal to the number of predicted characteristics (declared in <em>thetaFun</em>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rRMSE.estQAPE_rbF_LMM</code></td>
+<td>
+<p>relative RMSE (in percentages) of estimated value/s of QAPE of <em>predictorLMM</em> without correction to avoid the problem of underdispersion of residual bootstrap distributions, the number of rows is equal to the number of orders of quantiles to be considered (declared in <em>p</em>), the number of columns is equal to the number of predicted characteristics (declared in <em>thetaFun</em>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rB.estQAPE_rbF_LMMmis</code></td>
+<td>
+<p>relative bias (in percentages) of estimated value/s of QAPE of <em>predictorLMMmis</em> without correction to avoid the problem of underdispersion of residual bootstrap distributions, the number of rows is equal to the number of orders of quantiles to be considered (declared in <em>p</em>), the number of columns is equal to the number of predicted characteristics (declared in <em>thetaFun</em>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rRMSE.estQAPE_rbF_LMMmis</code></td>
+<td>
+<p>relative RMSE (in percentages) of estimated value/s of QAPE of <em>predictorLMMmis</em> without correction to avoid the problem of underdispersion of residual bootstrap distributions, the number of columns is equal to the number of predicted characteristics (declared in <em>thetaFun</em>) .</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rB.estRMSE_rbT_LMM</code></td>
+<td>
+<p>relative bias (in percentages) of estimated value/s of RMSE of <em>predictorLMM</em> with correction to avoid the problem of underdispersion of residual bootstrap distributions  (more than one value is computed if in <em>thetaFun</em> more than one population characteristic is defined).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rRMSE.estRMSE_rbT_LMM</code></td>
+<td>
+<p>relative RMSE (in percentages) of estimated value/s of RMSE of <em>predictorLMM</em> with correction to avoid the problem of underdispersion of residual bootstrap distributions  (more than one value is computed if in <em>thetaFun</em> more than one population characteristic is defined).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rB.estRMSE_rbT_LMMmis</code></td>
+<td>
+<p>relative bias (in percentages) of estimated value/s of RMSE of <em>predictorLMMmis</em> with correction to avoid the problem of underdispersion of residual bootstrap distributions  (more than one value is computed if in <em>thetaFun</em> more than one population characteristic is defined).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rRMSE.estRMSE_rbT_LMMmis</code></td>
+<td>
+<p>relative RMSE (in percentages) of estimated value/s of RMSE of <em>predictorLMMmis</em> with correction to avoid the problem of underdispersion of residual bootstrap distributions  (more than one value is computed if in <em>thetaFun</em> more than one population characteristic is defined).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rB.estMSE_rbT_LMM</code></td>
+<td>
+<p>relative bias (in percentages) of estimated value/s of MSE of <em>predictorLMM</em> with correction to avoid the problem of underdispersion of residual bootstrap distributions  (more than one value is computed if in <em>thetaFun</em> more than one population characteristic is defined).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rRMSE.estMSE_rbT_LMM</code></td>
+<td>
+<p>relative RMSE (in percentages) of estimated value/s of MSE of <em>predictorLMM</em> with correction to avoid the problem of underdispersion of residual bootstrap distributions  (more than one value is computed if in <em>thetaFun</em> more than one population characteristic is defined).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rB.estMSE_rbT_LMMmis</code></td>
+<td>
+<p>relative bias (in percentages) of estimated value/s of MSE of <em>predictorLMMmis</em> with correction to avoid the problem of underdispersion of residual bootstrap distributions  (more than one value is computed if in <em>thetaFun</em> more than one population characteristic is defined).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rRMSE.estMSE_rbT_LMMmis</code></td>
+<td>
+<p>relative RMSE (in percentages) of estimated value/s of MSE of <em>predictorLMMmis</em> with correction to avoid the problem of underdispersion of residual bootstrap distributions  (more than one value is computed if in <em>thetaFun</em> more than one population characteristic is defined).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rB.estQAPE_rbT_LMM</code></td>
+<td>
+<p>relative bias (in percentages) of estimated value/s of QAPE of <em>predictorLMM</em> with correction to avoid the problem of underdispersion of residual bootstrap distributions  (more than one value is computed if in <em>thetaFun</em> more than one population characteristic is defined).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rRMSE.estQAPE_rbT_LMM</code></td>
+<td>
+<p>relative RMSE (in percentages) of estimated value/s of QAPE of <em>predictorLMM</em> with correction to avoid the problem of underdispersion of residual bootstrap distributions  (more than one value is computed if in <em>thetaFun</em> more than one population characteristic is defined).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rB.estQAPE_rbT_LMMmis</code></td>
+<td>
+<p>relative bias (in percentages) of estimated value/s of QAPE of <em>predictorLMMmis</em> with correction to avoid the problem of underdispersion of residual bootstrap distributions  (more than one value is computed if in <em>thetaFun</em> more than one population characteristic is defined).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rRMSE.estQAPE_rbT_LMMmis</code></td>
+<td>
+<p>relative RMSE (in percentages) of estimated value/s of QAPE of <em>predictorLMMmis</em> with correction to avoid the problem of underdispersion of residual bootstrap distributions  (more than one value is computed if in <em>thetaFun</em> more than one population characteristic is defined).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>neg_estMSE_LMM</code></td>
+<td>
+<p>the number of negative values of MSE estimators of <em>predictorLMM</em> obtained in the simulaton study out of K iterations, the number of rows is equal to 10 - the number of considered parametric and double bootstrap MSE estimators, the number of columns is equal to the number of predicted characteristics (declared in <em>thetaFun</em>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>neg_estMSE_LMMmis</code></td>
+<td>
+<p>the number of negative values of MSE estimators of <em>predictorLMMmis</em> obtained in the simulaton study out of K iterations, the number of rows is equal to 10 - the number of considered parametric and double bootstrap MSE estimators, the number of columns is equal to the number of predicted characteristics (declared in <em>thetaFun</em>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rB.estMSE_param_LMMmis</code></td>
+<td>
+<p>relative bias (in percentages) of <em>estMSE_param</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMMmis</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rRMSE.estMSE_param_LMMmis</code></td>
+<td>
+<p>relative RMSE (in percentages) of <em>estMSE_param</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMMmis</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rB.estMSE_db_B2_LMMmis</code></td>
+<td>
+<p>relative bias (in percentages) of <em>estMSE_db_B2</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMMmis</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rRMSE.estMSE_db_B2_LMMmis</code></td>
+<td>
+<p>relative RMSE (in percentages) of <em>estMSE_db_B2</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMMmis</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rB.estMSE_db_B2_WDZ_LMMmis</code></td>
+<td>
+<p>relative bias (in percentages) of <em>estMSE_db_B2_WDZ</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMMmis</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rRMSE.estMSE_db_B2_WDZ_LMMmis</code></td>
+<td>
+<p>relative RMSE (in percentages) of <em>estMSE_db_B2_WDZ</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMMmis</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rB.estMSE_db_B2_HM_LMMmis</code></td>
+<td>
+<p>relative bias (in percentages) of <em>estMSE_db_B2_HM</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMMmis</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rRMSE.estMSE_db_B2_HM_LMMmis</code></td>
+<td>
+<p>relative RMSE (in percentages) of <em>estMSE_db_B2_HM</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMMmis</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rB.estMSE_db_1_LMMmis</code></td>
+<td>
+<p>relative bias (in percentages) of <em>estMSE_db_1</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMMmis</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rRMSE.estMSE_db_1_LMMmis</code></td>
+<td>
+<p>relative RMSE (in percentages) of <em>estMSE_db_1</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMMmis</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rB.estMSE_db_1_WDZ_LMMmis</code></td>
+<td>
+<p>relative bias (in percentages) of <em>estMSE_db_1_WDZ</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMMmis</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rRMSE.estMSE_db_1_WDZ_LMMmis</code></td>
+<td>
+<p>relative RMSE (in percentages) of <em>estMSE_db_1_WDZ</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMMmis</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rB.estMSE_db_1_EF_LMMmis</code></td>
+<td>
+<p>relative bias (in percentages) of <em>estMSE_db_1_EF</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMMmis</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rRMSE.estMSE_db_1_EF_LMMmis</code></td>
+<td>
+<p>relative RMSE (in percentages) of <em>estMSE_db_1_EF</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMMmis</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rB.estMSE_db_telesc_LMMmis</code></td>
+<td>
+<p>relative bias (in percentages) of <em>estMSE_db_telesc</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMMmis</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rRMSE.estMSE_db_telesc_LMMmis</code></td>
+<td>
+<p>relative RMSE (in percentages) of <em>estMSE_db_telesc</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMMmis</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rB.estMSE_db_telesc_WDZ_LMMmis</code></td>
+<td>
+<p>relative bias (in percentages) of <em>estMSE_db_telesc_WDZ</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMMmis</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rRMSE.estMSE_db_telesc_WDZ_LMMmis</code></td>
+<td>
+<p>relative RMSE (in percentages) of <em>estMSE_db_telesc_WDZ</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMMmis</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rB.estMSE_db_telesc_EF_LMMmis</code></td>
+<td>
+<p>relative bias (in percentages) of <em>estMSE_db_telesc_EF</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMMmis</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rRMSE.estMSE_db_telesc_EF_LMMmis</code></td>
+<td>
+<p>relative RMSE (in percentages) of <em>estMSE_db_telesc_EF</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMMmis</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rB.estRMSE_param_LMMmis</code></td>
+<td>
+<p>relative bias (in percentages) of <em>estRMSE_param</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMMmis</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rRMSE.estRMSE_param_LMMmis</code></td>
+<td>
+<p>relative RMSE (in percentages) of <em>estRMSE_param</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMMmis</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rB.estRMSE_db_B2_LMMmis</code></td>
+<td>
+<p>relative bias (in percentages) of <em>estRMSE_db_B2</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMMmis</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rRMSE.estRMSE_db_B2_LMMmis</code></td>
+<td>
+<p>relative RMSE (in percentages) of <em>estRMSE_db_B2</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMMmis</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rB.estRMSE_db_B2_WDZ_LMMmis</code></td>
+<td>
+<p>relative bias (in percentages) of <em>estRMSE_db_B2_WDZ</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMMmis</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rRMSE.estRMSE_db_B2_WDZ_LMMmis</code></td>
+<td>
+<p>relative RMSE (in percentages) of <em>estRMSE_db_B2_WDZ</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMMmis</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rB.estRMSE_db_B2_HM_LMMmis</code></td>
+<td>
+<p>relative bias (in percentages) of <em>estRMSE_db_B2_HM</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMMmis</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rRMSE.estRMSE_db_B2_HM_LMMmis</code></td>
+<td>
+<p>relative RMSE (in percentages) of <em>estRMSE_db_B2_HM</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMMmis</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rB.estRMSE_db_1_LMMmis</code></td>
+<td>
+<p>relative bias (in percentages) of <em>estRMSE_db_1</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMMmis</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rRMSE.estRMSE_db_1_LMMmis</code></td>
+<td>
+<p>relative RMSE (in percentages) of <em>estRMSE_db_1</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMMmis</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rB.estRMSE_db_1_WDZ_LMMmis</code></td>
+<td>
+<p>relative bias (in percentages) of <em>estRMSE_db_1_WDZ</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMMmis</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rRMSE.estRMSE_db_1_WDZ_LMMmis</code></td>
+<td>
+<p>relative RMSE (in percentages) of <em>estRMSE_db_1_WDZ</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMMmis</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rB.estRMSE_db_1_EF_LMMmis</code></td>
+<td>
+<p>relative bias (in percentages) of <em>estRMSE_db_1_EF</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMMmis</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rRMSE.estRMSE_db_1_EF_LMMmis</code></td>
+<td>
+<p>relative RMSE (in percentages) of <em>estRMSE_db_1_EF</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMMmis</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rB.estRMSE_db_telesc_LMMmis</code></td>
+<td>
+<p>relative bias (in percentages) of <em>estRMSE_db_telesc</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMMmis</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rRMSE.estRMSE_db_telesc_LMMmis</code></td>
+<td>
+<p>relative RMSE (in percentages) of <em>estRMSE_db_telesc</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMMmis</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rB.estRMSE_db_telesc_WDZ_LMMmis</code></td>
+<td>
+<p>relative bias (in percentages) of <em>estRMSE_db_telesc_WDZ</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMMmis</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rRMSE.estRMSE_db_telesc_WDZ_LMMmis</code></td>
+<td>
+<p>relative RMSE (in percentages) of <em>estRMSE_db_telesc_WDZ</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMMmis</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rB.estRMSE_db_telesc_EF_LMMmis</code></td>
+<td>
+<p>relative bias (in percentages) of <em>estRMSE_db_telesc_EF</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMMmis</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rRMSE.estRMSE_db_telesc_EF_LMMmis</code></td>
+<td>
+<p>relative RMSE (in percentages) of <em>estRMSE_db_telesc_EF</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMMmis</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rB.estQAPE_param_LMMmis</code></td>
+<td>
+<p>relative bias (in percentages) of <em>estQAPE_param</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMMmis</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rRMSE.estQAPE_param_LMMmis</code></td>
+<td>
+<p>relative RMSE (in percentages) of <em>estQAPE_param</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMMmis</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rB.estQAPE_db_B2_LMMmis</code></td>
+<td>
+<p>relative bias (in percentages) of <em>estQAPE_db_B2</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMMmis</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rRMSE.estQAPE_db_B2_LMMmis</code></td>
+<td>
+<p>relative RMSE (in percentages) of <em>estQAPE_db_B2</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMMmis</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rB.estQAPE_db_1_LMMmis</code></td>
+<td>
+<p>relative bias (in percentages) of <em>estQAPE_db_1</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMMmis</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rRMSE.estQAPE_db_1_LMMmis</code></td>
+<td>
+<p>relative RMSE (in percentages) of <em>estQAPE_db_1</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMMmis</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rB.estQAPE_db_telesc_LMMmis</code></td>
+<td>
+<p>relative bias (in percentages) of <em>estQAPE_db_telesc</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMMmis</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rRMSE.estQAPE_db_telesc_LMMmis</code></td>
+<td>
+<p>relative RMSE (in percentages) of <em>estQAPE_db_telesc</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMMmis</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rB.estMSE_param_LMM</code></td>
+<td>
+<p>relative bias (in percentages) of <em>estMSE_param</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMM</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rRMSE.estMSE_param_LMM</code></td>
+<td>
+<p>relative RMSE (in percentages) of <em>estMSE_param</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMM</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rB.estMSE_db_B2_LMM</code></td>
+<td>
+<p>relative bias (in percentages) of <em>estMSE_db_B2</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMM</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rRMSE.estMSE_db_B2_LMM</code></td>
+<td>
+<p>relative RMSE (in percentages) of <em>estMSE_db_B2</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMM</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rB.estMSE_db_B2_WDZ_LMM</code></td>
+<td>
+<p>relative bias (in percentages) of <em>estMSE_db_B2_WDZ</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMM</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rRMSE.estMSE_db_B2_WDZ_LMM</code></td>
+<td>
+<p>relative RMSE (in percentages) of <em>estMSE_db_B2_WDZ</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMM</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rB.estMSE_db_B2_HM_LMM</code></td>
+<td>
+<p>relative bias (in percentages) of <em>estMSE_db_B2_HM</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMM</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rRMSE.estMSE_db_B2_HM_LMM</code></td>
+<td>
+<p>relative RMSE (in percentages) of <em>estMSE_db_B2_HM</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMM</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rB.estMSE_db_1_LMM</code></td>
+<td>
+<p>relative bias (in percentages) of <em>estMSE_db_1</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMM</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rRMSE.estMSE_db_1_LMM</code></td>
+<td>
+<p>relative RMSE (in percentages) of <em>estMSE_db_1</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMM</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rB.estMSE_db_1_WDZ_LMM</code></td>
+<td>
+<p>relative bias (in percentages) of <em>estMSE_db_1_WDZ</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMM</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rRMSE.estMSE_db_1_WDZ_LMM</code></td>
+<td>
+<p>relative RMSE (in percentages) of <em>estMSE_db_1_WDZ</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMM</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rB.estMSE_db_1_EF_LMM</code></td>
+<td>
+<p>relative bias (in percentages) of <em>estMSE_db_1_EF</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMM</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rRMSE.estMSE_db_1_EF_LMM</code></td>
+<td>
+<p>relative RMSE (in percentages) of <em>estMSE_db_1_EF</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMM</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rB.estMSE_db_telesc_LMM</code></td>
+<td>
+<p>relative bias (in percentages) of <em>estMSE_db_telesc</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMM</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rRMSE.estMSE_db_telesc_LMM</code></td>
+<td>
+<p>relative RMSE (in percentages) of <em>estMSE_db_telesc</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMM</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rB.estMSE_db_telesc_WDZ_LMM</code></td>
+<td>
+<p>relative bias (in percentages) of <em>estMSE_db_telesc_WDZ</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMM</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rRMSE.estMSE_db_telesc_WDZ_LMM</code></td>
+<td>
+<p>relative RMSE (in percentages) of <em>estMSE_db_telesc_WDZ</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMM</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rB.estMSE_db_telesc_EF_LMM</code></td>
+<td>
+<p>relative bias (in percentages) of <em>estMSE_db_telesc_EF</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMM</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rRMSE.estMSE_db_telesc_EF_LMM</code></td>
+<td>
+<p>relative RMSE (in percentages) of <em>estMSE_db_telesc_EF</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMM</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rB.estRMSE_param_LMM</code></td>
+<td>
+<p>relative bias (in percentages) of <em>estRMSE_param</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMM</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rRMSE.estRMSE_param_LMM</code></td>
+<td>
+<p>relative RMSE (in percentages) of <em>estRMSE_param</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMM</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rB.estRMSE_db_B2_LMM</code></td>
+<td>
+<p>relative bias (in percentages) of <em>estRMSE_db_B2</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMM</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rRMSE.estRMSE_db_B2_LMM</code></td>
+<td>
+<p>relative RMSE (in percentages) of <em>estRMSE_db_B2</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMM</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rB.estRMSE_db_B2_WDZ_LMM</code></td>
+<td>
+<p>relative bias (in percentages) of <em>estRMSE_db_B2_WDZ</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMM</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rRMSE.estRMSE_db_B2_WDZ_LMM</code></td>
+<td>
+<p>relative RMSE (in percentages) of <em>estRMSE_db_B2_WDZ</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMM</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rB.estRMSE_db_B2_HM_LMM</code></td>
+<td>
+<p>relative bias (in percentages) of <em>estRMSE_db_B2_HM</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMM</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rRMSE.estRMSE_db_B2_HM_LMM</code></td>
+<td>
+<p>relative RMSE (in percentages) of <em>estRMSE_db_B2_HM</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMM</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rB.estRMSE_db_1_LMM</code></td>
+<td>
+<p>relative bias (in percentages) of <em>estRMSE_db_1</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMM</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rRMSE.estRMSE_db_1_LMM</code></td>
+<td>
+<p>relative RMSE (in percentages) of <em>estRMSE_db_1</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMM</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rB.estRMSE_db_1_WDZ_LMM</code></td>
+<td>
+<p>relative bias (in percentages) of <em>estRMSE_db_1_WDZ</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMM</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rRMSE.estRMSE_db_1_WDZ_LMM</code></td>
+<td>
+<p>relative RMSE (in percentages) of <em>estRMSE_db_1_WDZ</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMM</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rB.estRMSE_db_1_EF_LMM</code></td>
+<td>
+<p>relative bias (in percentages) of <em>estRMSE_db_1_EF</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMM</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rRMSE.estRMSE_db_1_EF_LMM</code></td>
+<td>
+<p>relative RMSE (in percentages) of <em>estRMSE_db_1_EF</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMM</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rB.estRMSE_db_telesc_LMM</code></td>
+<td>
+<p>relative bias (in percentages) of <em>estRMSE_db_telesc</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMM</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rRMSE.estRMSE_db_telesc_LMM</code></td>
+<td>
+<p>relative RMSE (in percentages) of <em>estRMSE_db_telesc</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMM</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rB.estRMSE_db_telesc_WDZ_LMM</code></td>
+<td>
+<p>relative bias (in percentages) of <em>estRMSE_db_telesc_WDZ</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMM</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rRMSE.estRMSE_db_telesc_WDZ_LMM</code></td>
+<td>
+<p>relative RMSE (in percentages) of <em>estRMSE_db_telesc_WDZ</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMM</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rB.estRMSE_db_telesc_EF_LMM</code></td>
+<td>
+<p>relative bias (in percentages) of <em>estRMSE_db_telesc_EF</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMM</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rRMSE.estRMSE_db_telesc_EF_LMM</code></td>
+<td>
+<p>relative RMSE (in percentages) of <em>estRMSE_db_telesc_EF</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMM</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rB.estQAPE_param_LMM</code></td>
+<td>
+<p>relative bias (in percentages) of <em>estQAPE_param</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMM</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rRMSE.estQAPE_param_LMM</code></td>
+<td>
+<p>relative RMSE (in percentages) of <em>estQAPE_param</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMM</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rB.estQAPE_db_B2_LMM</code></td>
+<td>
+<p>relative bias (in percentages) of <em>estQAPE_db_B2</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMM</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rRMSE.estQAPE_db_B2_LMM</code></td>
+<td>
+<p>relative RMSE (in percentages) of <em>estQAPE_db_B2</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMM</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rB.estQAPE_db_1_LMM</code></td>
+<td>
+<p>relative bias (in percentages) of <em>estQAPE_db_1</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMM</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rRMSE.estQAPE_db_1_LMM</code></td>
+<td>
+<p>relative RMSE (in percentages) of <em>estQAPE_db_1</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMM</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rB.estQAPE_db_telesc_LMM</code></td>
+<td>
+<p>relative bias (in percentages) of <em>estQAPE_db_telesc</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMM</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rRMSE.estQAPE_db_telesc_LMM</code></td>
+<td>
+<p>relative RMSE (in percentages) of <em>estQAPE_db_telesc</em> estimator (see <em>doubleBoot</em> function) of <em>predictorLMM</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>MCpositiveDefiniteEstGlev1</code></td>
+<td>
+<p>number of cases ouf of K with postive definite estimated covariance matrix of random effects used to generate bootstrap realizations of the dependent variable at the first level of the double bootstrap.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>MCpositiveDefiniteEstGlev2</code></td>
+<td>
+<p>number of cases ouf of K*B1 with positive definite estimated covariance matrix of random effects used to generate bootstrap realizations of the dependent variable at the second level of the double bootstrap.</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Tomasz Zadlo</p>
+
+
+<h3>References</h3>
+
+<p>1. Chatterjee, S., Lahiri, P. Li, H. (2008) Parametric bootstrap approximation to the distribution of EBLUP and related prediction intervals in linear mixed models, Annals of Statistics, Vol. 36 (3), pp. 1221?1245.<br></p>
+<p>2. Rao, J.N.K. and Molina, I. (2015) Small Area Estimation. Second edition, John Wiley &amp; Sons, New Jersey.<br></p>
+<p>3. Zadlo T. (2017), On asymmetry of prediction errors in small area estimation, Statistics in Transition, 18 (3), 413-432. <br></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(lme4)
+library(Matrix)
+library(mvtnorm)
+library(matrixcalc) 
+library(qape)
+
+data(invData) 
+# data from one period are considered: 
+invData2018 &lt;- invData[invData$year == 2018,] 
+attach(invData2018)
+
+N &lt;- nrow(invData2018) # population size
+
+con &lt;- rep(1,N) 
+con[c(379,380)] &lt;- 0 # last two population elements are not observed 
+
+YS &lt;- log(investments[con == 1]) # log-transformed values
+backTrans &lt;- function(x) exp(x) # back-transformation of the variable of interest
+fixed.part &lt;- 'log(newly_registered)'
+random.part &lt;- '(1|NUTS2)'
+random.part.mis &lt;- '(1|NUTS4type)'
+
+reg &lt;- invData2018[, -which(names(invData2018) == 'investments')]
+weights &lt;- rep(1,N) # homoscedastic random components
+
+# Characteristics to be predicted:
+# values of the variable for last two population elements  
+thetaFun &lt;- function(x) {x[c(379,380)]}
+
+predictorLMM &lt;- plugInLMM(YS, fixed.part, random.part, reg, con, weights, backTrans, thetaFun)
+predictorLMMmis &lt;- plugInLMM(YS, fixed.part, random.part.mis, reg, con,weights,backTrans,thetaFun)
+
+Ypop &lt;- log(invData2018$investments)
+
+# Monte Carlo simulation study under the model defined in predictorLMM
+# correctly specified for predictorLMM and misspecified for predictorLMMmis
+set.seed(211)
+mcBootMis(Ypop, predictorLMM, predictorLMMmis, 2, 2, 2, c(0.5, 0.9), 0.77) 
+
+detach(invData2018)
+
+</code></pre>
+
+
+</div>

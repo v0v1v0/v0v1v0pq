@@ -1,0 +1,102 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>zscore</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Calculates Z-Scores of a distribution</h2>
+
+<h3>Description</h3>
+
+<p>Calculates Z-Scores based on data
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">zscore(.data, round, na.rm = TRUE)
+
+zscoreGrowthCurve(Xi, Mi, Si, Li = !0)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>.data</code></td>
+<td>
+<p>data object</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>round</code></td>
+<td>
+<p>round output to how many decimal place description</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>na.rm</code></td>
+<td>
+<p>remove NA values before calculating z-scores</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Xi</code></td>
+<td>
+<p>physical measurement (e.g. weight, length, head circumference, stature or calculated BMI value)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Mi</code></td>
+<td>
+<p>values from the table (see reference) corresponding to the age in months of the child</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Si</code></td>
+<td>
+<p>values from the table (see reference) corresponding to the age in months of the child</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Li</code></td>
+<td>
+<p>values from the table (see reference) corresponding to the age in months of the child</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>zscore calculated based on data object or parameters
+</p>
+
+
+<h3>References</h3>
+
+<p>CDC growth chart Z score calculation: https://www.cdc.gov/growthcharts/cdc-data-files.htm
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># Capture z-score from the following distribution x
+x = c(6, 7, 7, 12, 13, 13, 15, 16, 19, 22)
+z_scores = zscore(x, round = 2) # limit to 2 decimal place
+z_scores = zscore(x) # no decimal place limit
+
+df = data.frame(val = x, zscore = z_scores)
+head(df)
+#EXAMPLE for zscore based on CDC growth chart
+
+# Calculate the zscore for a patient weighing 50kg
+Li=-0.1600954
+Mi=9.476500305
+Si=0.11218624
+Xi=50
+zscoreGrowthCurve(Xi,Mi,Si,Li)
+
+</code></pre>
+
+
+</div>

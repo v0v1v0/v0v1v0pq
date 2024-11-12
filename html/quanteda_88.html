@@ -1,0 +1,73 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>corpus_subset</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Extract a subset of a corpus</h2>
+
+<h3>Description</h3>
+
+<p>Returns subsets of a corpus that meet certain conditions, including direct
+logical operations on docvars (document-level variables).  <code>corpus_subset</code>
+functions identically to <code>subset.data.frame()</code>, using non-standard
+evaluation to evaluate conditions based on the docvars in the corpus.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">corpus_subset(x, subset, drop_docid = TRUE, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>corpus object to be subsetted.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>subset</code></td>
+<td>
+<p>logical expression indicating the documents to keep: missing
+values are taken as false.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>drop_docid</code></td>
+<td>
+<p>if <code>TRUE</code>, <code>docid</code> for documents are removed as the result
+of subsetting.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>not used</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>corpus object, with a subset of documents (and docvars) selected according to arguments
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>subset.data.frame()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">summary(corpus_subset(data_corpus_inaugural, Year &gt; 1980))
+summary(corpus_subset(data_corpus_inaugural, Year &gt; 1930 &amp; President == "Roosevelt"))
+</code></pre>
+
+
+</div>

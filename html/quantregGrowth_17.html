@@ -1,0 +1,100 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>summary.gcrq</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Summarizing model fits for growth charts regression quantiles
+</h2>
+
+<h3>Description</h3>
+
+<p>summary and print methods for class <code>gcrq</code>
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'gcrq'
+summary(object, type=c("sandw","boot"), digits = max(3, getOption("digits") - 3), 
+    signif.stars =getOption("show.signif.stars"), ...)
+
+
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+
+<p>An object of class <code>"gcrq"</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>type</code></td>
+<td>
+
+<p>Which covariance matrix should be used to compute the estimate standard errors? <code>'boot'</code> means case-resampling bootstrap (see <code>n.boot</code> in <code>gcrq()</code>), <code>'sandw'</code> mean via the sandwich formula.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>digits</code></td>
+<td>
+
+<p>controls number of digits printed in output.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>signif.stars</code></td>
+<td>
+
+<p>Should significance stars be printed? 
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+
+<p>further arguments.
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p><code>summary.gcrq</code> returns some information on the fitted quantile curve at different probability values, such as the estimates, standard errors, values of check (objective) function values at solution. Currently there is no <code>print.summary.gcrq</code> method, so 
+<code>summary.gcrq</code> itself prints results.
+</p>
+<p>The SIC returned by <code>print.gcrq</code> and <code>summary.gcrq</code> is computed as <code class="reqn">\log(\rho_\tau/n) + \log(n)  edf/(2 n)</code>, where <code class="reqn">\rho_tau</code> is the usual asymmetric sum of residuals (in absolute value). For multiple <code class="reqn">J</code> quantiles it is <code class="reqn">\log(\sum_\tau\rho_\tau/(n J)) + \log(n J)  edf/(2 n J)</code>. Note that computation of SIC in <code>AIC.gcrq</code> relies on the Laplace assumption for the response. 
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Vito M.R. Muggeo
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>gcrq</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## see ?gcrq
+##summary(o)
+
+</code></pre>
+
+
+</div>

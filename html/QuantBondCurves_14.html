@@ -1,0 +1,83 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>spot2forward</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Spot curve conversion</h2>
+
+<h3>Description</h3>
+
+<p>Uses a recursive method to calculate the instantaneous forward
+rates of a given spot curve. Calculations and formulas based on the
+definition of forward rates where <code class="reqn">\exp{-rT} = \exp{-\int{f(t)dt}}</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">spot2forward(dates, spot, approximation = "constant")
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>dates</code></td>
+<td>
+<p>Term structure of rates.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>spot</code></td>
+<td>
+<p>Vector of spot rates to be converted.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>approximation</code></td>
+<td>
+<p>String that establish the approximation. Set
+<code>'linear'</code> for a piecewise linear approximation, or <code>'constant'</code> for a
+piecewise constant curve.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Requires continuous rates. Recommended that the input spot curve
+starts with maturity 0, if not, input function will approximate zero node
+as equal to node 1 (first term structure). The time partition and available
+data affects calculation and precision of resulting forward curve. Output
+forward curve slightly differs from empirical curve as it calculates an
+implied instantaneous forward curve.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Instantaneous forward curve based on the input spot and the input term
+structure.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># Inputs for calibration of spot curve
+yield.curve &lt;- c(0.015,0.0175, 0.0225, 0.0275, 0.0325, 0.0375,0.04,0.0425,0.045,0.0475,0.05)
+names(yield.curve) &lt;- c(0.5,1,2,3,4,5,6,7,8,9,10)
+nodes &lt;- seq(0,10,0.001)
+# Calibration
+spot &lt;- curve.calibration (yield.curve = yield.curve, market.assets = NULL,
+                           analysis.date = "2019-01-03", asset.type = "IBRSwaps",
+                           freq = 4, rate.type = 0, fwd = 0, npieces = NULL,
+                           obj = "Price", nodes = nodes, approximation = "linear")
+# Spot to Forward
+dates &lt;- names(spot)
+spot2forward(dates, spot, approximation = "linear")
+
+</code></pre>
+
+
+</div>

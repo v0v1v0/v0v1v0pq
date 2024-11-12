@@ -1,0 +1,135 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>ggplot_peaks</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Plot QTL peak locations</h2>
+
+<h3>Description</h3>
+
+<p>Plot QTL peak locations (possibly with intervals) for multiple traits.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">ggplot_peaks(
+  peaks,
+  map,
+  chr = NULL,
+  tick_height = 0.3,
+  gap = 25,
+  bgcolor = "gray90",
+  altbgcolor = "gray85",
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>peaks</code></td>
+<td>
+<p>Data frame such as that produced by
+<code>find_peaks</code>) containing columns
+<code>chr</code>, <code>pos</code>, <code>lodindex</code>, and <code>lodcolumn</code>.
+May also contain columns <code>ci_lo</code> and <code>ci_hi</code>, in
+which case intervals will be plotted.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>map</code></td>
+<td>
+<p>Marker map, used to get chromosome lengths (and start
+and end positions).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>chr</code></td>
+<td>
+<p>Selected chromosomes to plot; a vector of character
+strings.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tick_height</code></td>
+<td>
+<p>Height of tick marks at the peaks (a number between 0 and 1).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gap</code></td>
+<td>
+<p>Gap between chromosomes.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bgcolor</code></td>
+<td>
+<p>Background color for the plot.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>altbgcolor</code></td>
+<td>
+<p>Background color for alternate chromosomes.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Additional graphics parameters</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>None.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>find_peaks</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># load qtl2 package for data and genoprob calculation
+library(qtl2)
+
+# read data
+iron &lt;- read_cross2(system.file("extdata", "iron.zip", package="qtl2"))
+
+# insert pseudomarkers into map
+map &lt;- insert_pseudomarkers(iron$gmap, step=1)
+
+# calculate genotype probabilities
+probs &lt;- calc_genoprob(iron, map, error_prob=0.002)
+
+# grab phenotypes and covariates; ensure that covariates have names attribute
+pheno &lt;- iron$pheno
+covar &lt;- match(iron$covar$sex, c("f", "m")) # make numeric
+names(covar) &lt;- rownames(iron$covar)
+Xcovar &lt;- get_x_covar(iron)
+
+# perform genome scan
+out &lt;- scan1(probs, pheno, addcovar=covar, Xcovar=Xcovar)
+
+# find peaks above lod=3.5 (and calculate 1.5-LOD support intervals)
+peaks &lt;- find_peaks(out, map, threshold=3.5, drop=1.5)
+
+# color peaks above 6 red; only show chromosomes with peaks
+plot_peaks(peaks, map)
+peaks$col &lt;- (peaks$lod &gt; 6)
+
+ggplot_peaks(peaks, map[names(map) %in% peaks$chr], col = c("blue","red"),
+           legend.title = "LOD &gt; 6")
+</code></pre>
+
+
+</div>

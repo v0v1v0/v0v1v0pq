@@ -1,0 +1,105 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>rsync_remote</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Rsync files between machines</h2>
+
+<h3>Description</h3>
+
+<p>A wrapper around the rsync shell command that allows copying between remote hosts via the local machine.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">rsync_remote(
+  remote_src,
+  path_src,
+  remote_dest,
+  path_dest,
+  compress = TRUE,
+  delete = "no",
+  exclude = NULL,
+  verbose = FALSE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>remote_src</code></td>
+<td>
+<p>Remote machine for the source, see the section below 'Specifying a remote'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>path_src</code></td>
+<td>
+<p>Path of the source file.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>remote_dest</code></td>
+<td>
+<p>Remote machine for the destination, see the section below 'Specifying a remote'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>path_dest</code></td>
+<td>
+<p>Path for the source file; can be a directory.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>compress</code></td>
+<td>
+<p>Whether or not to compress the data being transferred.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>delete</code></td>
+<td>
+<p>Whether or not to delete files at the target remote. Use <code>"yes"</code> to delete files at the remote.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>exclude</code></td>
+<td>
+<p>A vector of files / regexs to be excluded.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p>Prints elapsed time if TRUE.</p>
+</td>
+</tr>
+</table>
+<h3>Specifying a remote</h3>
+
+<p>A remote can be specified in one of the following ways:
+</p>
+
+<ul>
+<li>
+<p>A character vector in format <code>user@ipaddress:port</code>,
+</p>
+</li>
+<li>
+<p>The name of a Host in the <code>~/.ssh/config</code> file,
+</p>
+</li>
+<li>
+<p><code>FALSE</code> for the local machine,
+</p>
+</li>
+<li>
+<p><code>TRUE</code> for the default remote specified as <code>get_default_qsub_config()$remote</code>.
+</p>
+</li>
+</ul>
+</div>

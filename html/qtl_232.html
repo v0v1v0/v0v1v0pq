@@ -1,0 +1,77 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>replace.map</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Replace the genetic map of a cross</h2>
+
+<h3>Description</h3>
+
+<p>Replace the map portion of a cross object.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">replace.map(cross, map)
+## S3 method for class 'cross'
+replacemap(object, map)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>cross</code></td>
+<td>
+<p>An object of class <code>cross</code>.  See
+<code>read.cross</code> for details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>Same as <code>cross</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>map</code></td>
+<td>
+<p>A list containing the new genetic map.  This must be the
+same length and with the same marker names as that contained in
+<code>cross</code>. </p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>The input <code>cross</code> object with the genetic map replaced by
+the input <code>map</code>.  Maps for results from
+<code>calc.genoprob</code>, <code>sim.geno</code> and
+<code>argmax.geno</code> are also replaced, using interpolation if
+necessary.</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Karl W Broman, <a href="mailto:broman@wisc.edu">broman@wisc.edu</a> </p>
+
+
+<h3>See Also</h3>
+
+ <p><code>pull.map</code>, <code>est.map</code> </p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(fake.f2)
+
+newmap &lt;- est.map(fake.f2)
+plotMap(fake.f2, newmap)
+fake.f2 &lt;- replace.map(fake.f2, newmap)
+</code></pre>
+
+
+</div>

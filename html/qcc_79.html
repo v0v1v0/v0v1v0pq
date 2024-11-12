@@ -1,0 +1,74 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>shewhart.rules</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Functions specifying rules for Shewhart charts</h2>
+
+<h3>Description</h3>
+
+<p>These functions are used to signal out of control points in Shewhart charts.</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">shewhart.rules(object, limits = object$limits, run.length = qcc.options("run.length"))
+beyond.limits(object, limits = object$limits)
+violating.runs(object, run.length = qcc.options("run.length"))
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>an object of class 'qcc'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>limits</code></td>
+<td>
+<p>control limits</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>run.length</code></td>
+<td>
+<p>the maximum value of a run before to signal a
+point as out of control.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The function <code>shewhart.rules</code> simply calls the <code>beyond.limits</code> and <code>violating.runs</code> functions which actually do the real calculations.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The <code>shewhart.rules</code> function returns a list with components:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>beyond.limits</code></td>
+<td>
+<p>the indices of points beyond control limits.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>violating.runs</code></td>
+<td>
+<p>the indices of points violating runs.</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Luca Scrucca</p>
+
+
+</div>

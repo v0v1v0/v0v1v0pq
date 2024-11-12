@@ -1,0 +1,261 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>rm_between</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Remove/Replace/Extract Strings Between 2 Markers</h2>
+
+<h3>Description</h3>
+
+<p>Remove/replace/extract strings bounded between a left and right marker.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">rm_between(
+  text.var,
+  left,
+  right,
+  fixed = TRUE,
+  trim = TRUE,
+  clean = TRUE,
+  replacement = "",
+  extract = FALSE,
+  include.markers = ifelse(extract, FALSE, TRUE),
+  dictionary = getOption("regex.library"),
+  ...
+)
+
+rm_between_multiple(
+  text.var,
+  left,
+  right,
+  fixed = TRUE,
+  trim = TRUE,
+  clean = TRUE,
+  replacement = "",
+  extract = FALSE,
+  include.markers = FALSE,
+  merge = TRUE
+)
+
+ex_between(
+  text.var,
+  left,
+  right,
+  fixed = TRUE,
+  trim = TRUE,
+  clean = TRUE,
+  replacement = "",
+  extract = TRUE,
+  include.markers = ifelse(extract, FALSE, TRUE),
+  dictionary = getOption("regex.library"),
+  ...
+)
+
+ex_between_multiple(
+  text.var,
+  left,
+  right,
+  fixed = TRUE,
+  trim = TRUE,
+  clean = TRUE,
+  replacement = "",
+  extract = TRUE,
+  include.markers = FALSE,
+  merge = TRUE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>text.var</code></td>
+<td>
+<p>The text variable.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>left</code></td>
+<td>
+<p>A vector of character or numeric symbols as the left edge to 
+extract.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>right</code></td>
+<td>
+<p>A vector of character or numeric symbols as the right edge to 
+extract.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fixed</code></td>
+<td>
+<p>logical.  If <code>TRUE</code> regular expression special characters 
+(<code>c(".", "|", "(", ")", "[", "]", "{", "}", "^", "$", "*", "+", "?")</code>)
+will be treated as typical characters.  If the user wants to pass a regular 
+expression with special characters then <code>fixed = FALSE</code> should be used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>trim</code></td>
+<td>
+<p>logical.  If <code>TRUE</code> removes leading and trailing white 
+spaces.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>clean</code></td>
+<td>
+<p>trim logical.  If <code>TRUE</code> extra white spaces and escaped 
+character will be removed.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>replacement</code></td>
+<td>
+<p>Replacement for matched <code>pattern</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>extract</code></td>
+<td>
+<p>logical.  If <code>TRUE</code> the strings are extracted into a 
+list of vectors.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>include.markers</code></td>
+<td>
+<p>logical.  If <code>TRUE</code> and <code>extract = TRUE</code> returns 
+the markers (left/right) and the text between.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dictionary</code></td>
+<td>
+<p>A dictionary of canned regular expressions to search within 
+if <code>pattern</code> begins with <code>"@rm_"</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Other arguments passed to <code>gsub</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>merge</code></td>
+<td>
+<p>logical.  If <code>TRUE</code> the results of each bracket type will 
+be merged by string.  <code>FALSE</code> returns a named list of lists of vectors 
+of markered text per marker type.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Returns a character string with markers removed.  If 
+<code>rm_between</code> returns merged strings and is significantly faster.  If
+<code>rm_between_multiple</code> the strings are optionally merged by 
+<code>left</code>/<code>right</code> symbols.  The latter approach is more flexible and
+names extracted strings by symbol boundaries, however, it is slower than 
+<code>rm_between</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>gsub</code>,
+<code>rm_bracket</code>,
+<code>stri_extract_all_regex</code>
+</p>
+<p>Other rm_ functions: 
+<code>rm_abbreviation()</code>,
+<code>rm_bracket()</code>,
+<code>rm_caps_phrase()</code>,
+<code>rm_caps()</code>,
+<code>rm_citation_tex()</code>,
+<code>rm_citation()</code>,
+<code>rm_city_state_zip()</code>,
+<code>rm_city_state()</code>,
+<code>rm_date()</code>,
+<code>rm_default()</code>,
+<code>rm_dollar()</code>,
+<code>rm_email()</code>,
+<code>rm_emoticon()</code>,
+<code>rm_endmark()</code>,
+<code>rm_hash()</code>,
+<code>rm_nchar_words()</code>,
+<code>rm_non_ascii()</code>,
+<code>rm_non_words()</code>,
+<code>rm_number()</code>,
+<code>rm_percent()</code>,
+<code>rm_phone()</code>,
+<code>rm_postal_code()</code>,
+<code>rm_repeated_characters()</code>,
+<code>rm_repeated_phrases()</code>,
+<code>rm_repeated_words()</code>,
+<code>rm_tag()</code>,
+<code>rm_time()</code>,
+<code>rm_title_name()</code>,
+<code>rm_url()</code>,
+<code>rm_white()</code>,
+<code>rm_zip()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">x &lt;-  "I like [bots] (not)."
+
+rm_between(x, "(", ")")
+ex_between(x, "(", ")")
+rm_between(x, c("(", "["), c(")", "]"))
+ex_between(x, c("(", "["), c(")", "]"))
+
+rm_between(x, c("(", "["), c(")", "]"), include.markers=FALSE)
+ex_between(x, c("(", "["), c(")", "]"), include.markers=TRUE) 
+
+## multiple (naming and ability to keep separate bracket types but slower)
+x &lt;- c("Where is the /big dog#?",
+    "I think he's @arunning@b with /little cat#.")
+
+rm_between_multiple(x, "@a", "@b")
+ex_between_multiple(x, "@a", "@b")
+rm_between_multiple(x, c("/", "@a"), c("#", "@b"))
+ex_between_multiple(x, c("/", "@a"), c("#", "@b"))
+
+x2 &lt;- c("Where is the L1big dogL2?",
+    "I think he's 98running99 with L1little catL2.")
+rm_between_multiple(x2, c("L1", 98), c("L2", 99))
+ex_between_multiple(x2, c("L1", 98), c("L2", 99))
+
+state &lt;- c("Computer is fun. Not too fun.", "No it's not, it's dumb.", 
+    "What should we do?", "You liar, it stinks!", "I am telling the truth!", 
+    "How can we be certain?", "There is no way.", "I distrust you.", 
+    "What are you talking about?", "Shall we move on?  Good then.", 
+    "I'm hungry.  Let's eat.  You already?")
+
+rm_between_multiple(state, c("is", "we"), c("too", "on"))
+
+## Use Grouping
+s &lt;- "something before stuff $some text$ in between $1$ and after"
+rm_between(s, "$", "$", replacement="&lt;B&gt;\\2&lt;E&gt;")
+
+## Using regular expressions as boundaries (fixed =FALSE)
+x &lt;-  c(
+    "There are 2.3 million species in the world",
+    "There are 2.3 billion species in the world"
+)
+
+ex_between(x, left='There', right = '[mb]illion', fixed = FALSE, include=TRUE)
+</code></pre>
+
+
+</div>

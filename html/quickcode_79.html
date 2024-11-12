@@ -1,0 +1,97 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>not.image</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>File name extension(s) is Not an image</h2>
+
+<h3>Description</h3>
+
+<p>Check if one or multiple file name entry is not an image
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">not.image(x)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>vector entry</p>
+</td>
+</tr></table>
+<h3>Details</h3>
+
+<p>This current function tests if the extension of the file name provided does NOT belongs to any of the image extensions listed below <br>
+AI - Adobe Illustrator <br>
+BMP - Bitmap Image <br>
+CDR - Corel Draw Picture <br>
+CGM - Computer Graphics Metafile <br>
+CR2 - Canon Raw Version 2 <br>
+CRW - Canon Raw <br>
+CUR - Cursor Image <br>
+DNG - Digital Negative <br>
+EPS - Encapsulated PostScript <br>
+FPX - FlashPix <br>
+GIF - Graphics Interchange Format <br>
+HEIC - High-Efficiency Image File Format <br>
+HEIF - High-Efficiency Image File Format <br>
+ICO - Icon Image <br>
+IMG - GEM Raster Graphics <br>
+JFIF - JPEG File Interchange Format <br>
+JPEG - Joint Photographic Experts Group <br>
+JPG - Joint Photographic Experts Group <br>
+MAC - MacPaint Image <br>
+NEF - Nikon Electronic Format <br>
+ORF - Olympus Raw Format <br>
+PCD - Photo CD <br>
+PCX - Paintbrush Bitmap Image <br>
+PNG - Portable Network Graphics <br>
+PSD - Adobe Photoshop Document <br>
+SR2 - Sony Raw Version 2 <br>
+SVG - Scalable Vector Graphics <br>
+TIF - Tagged Image File <br>
+TIFF - Tagged Image File Format <br>
+WebP - Web Picture Format <br>
+WMF - Windows Metafile <br>
+WPG - WordPerfect Graphics
+</p>
+
+
+<h3>Value</h3>
+
+<p>a boolean value to indicate if entry is not an image
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">img.1 &lt;- "fjk.jpg"
+not.image(img.1)
+
+img.2 &lt;- "fjk.bmp"
+not.image(img.2)
+
+img.3 &lt;- "fjk.SVG"
+not.image(img.3)
+
+# a vector of file names
+v &lt;- c("logo.png", "business process.pdf",
+"front_cover.jpg", "intro.docx",
+"financial_future.doc", "2022 buybacks.xlsx")
+not.image(v)
+
+# when the file name has no extension
+# the function returns NA
+v2 &lt;- c("img2.jpg",NA,"northbound.xlsx","landimg")
+not.image(v2)
+</code></pre>
+
+
+</div>

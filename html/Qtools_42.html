@@ -1,0 +1,104 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>GOFTest</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Goodness-of-Fit Tests for Quantile Regression Models
+</h2>
+
+<h3>Description</h3>
+
+<p>This function calculates a goodness-of-fit test for quantile regression models.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">GOFTest(object, type = "cusum", alpha = 0.05, B = 100, seed = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+
+<p>an object of <code>class</code> "rq","rqs", "rqt", "rrq", or "rq.counts".
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>type</code></td>
+<td>
+
+<p>the type of the test. See details.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>alpha</code></td>
+<td>
+
+<p>the significance level for the test. This argument is relevant for <code>type = "cusum"</code> only.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>B</code></td>
+<td>
+
+<p>the number of Monte Carlo samples. This argument is relevant for <code>type = "cusum"</code> only.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>seed</code></td>
+<td>
+
+<p>see for random numbers. This argument is relevant for <code>type = "cusum"</code> only.
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>This function provides goodness-of-fit tests for quantile regression. Currently, there is only one method available (<code>type = "cusum"</code>), for a test based on the cusum process of the gradient vector (He and Zhu, 2013). The critical value at level <code>alpha</code> is obtained by resampling. Other methods will be implemented in future versions of the package.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>GOFTest</code> returns an object of <code>class</code> <code>GOFtest</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Marco Geraci
+</p>
+
+
+<h3>References</h3>
+
+<p>He XM, Zhu LX. A lack-of-fit test for quantile regression. Journal of the American Statistical Association (2003);98:1013-1022. 
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+## Not run: 
+data(barro, package = "quantreg")
+fit &lt;- quantreg::rq(y.net ~ lgdp2 + fse2 + gedy2 + Iy2 + gcony2, data = barro, tau = c(.1,.5,.9))
+GOFTest(fit)
+
+## End(Not run)
+
+</code></pre>
+
+
+</div>

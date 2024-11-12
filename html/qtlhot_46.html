@@ -1,0 +1,128 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>ww.perm</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Conduct West-Wu (Q) permutation tests</h2>
+
+<h3>Description</h3>
+
+<p>Conduct West-Wu (Q) permutation tests.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">ww.perm(highobj, n.perm, lod.thrs, alpha.levels, verbose = FALSE)
+## S3 method for class 'ww.perm'
+print(x, ...)
+## S3 method for class 'ww.perm'
+summary(object, alpha.levels, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>highobj</code></td>
+<td>
+<p>object of class <code>highlod</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n.perm</code></td>
+<td>
+<p>number of permutations</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lod.thrs</code></td>
+<td>
+<p>vector of LOD thresholds</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>alpha.levels</code></td>
+<td>
+<p>vector of significance levels</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x,object</code></td>
+<td>
+<p>object of class <code>ww.perm</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>ignored</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p>verbose output if <code>TRUE</code></p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Perform permutation tests to assess the statistical significance of the
+hotspots detected using the West-Wu <code>Q</code>-method permutations. The
+<code>ww.perm</code> function implements the <code>Q</code>-method's permutation
+scheme (see the Method's section of Chaibub Neto et a. 2012, for
+details). The <code>n.perm</code> parameter specifies the number of
+simulations. Here we set it to 100 in order to save time. In practice,
+we recommend at least 1,000 permutations. The function's output is a
+matrix with 100 rows representing the permutations, and 10 columns
+representing the QTL mapping thresholds. Each entry <code>ij</code>, represents the
+maximum number of significant linkages across the entire genome detected
+at permutation <code>i</code>, using the LOD threshold <code>j</code>. The
+<code>ww.summary</code> function computes the Q-method's hotspot size
+permutation thresholds, that is, the <code>1-alpha</code> quantiles for each
+one of the QTL mapping LOD thrsholds in <code>lod.thrs</code>. For instance,
+the entry at row 10 and column 1 of the <code>Q.1.thr</code> matrix tells us
+that the 99% percentile of the permutation distribution of genome wide
+maximum hotspot size based on a QTL mapping threshold of 2.11 is
+27.00. In other words, any hotspot greater than 27 is considered
+statistically significant at a 0.01 significance level when QTL mapping
+is done using a 2.11 LOD threshold. 
+In general, we are often interested in using the same error rates for
+the QTL mapping and hotspot analysis. That is, if we adopt a QTL mapping
+threshold that controls GWER at a 1% level (in our case, 3.11) we will
+also want to consider <code>alpha = 0.01</code> for the hotspot analysis,
+leading to a hotspot threshold of 12.00. Therefore, we are usually more
+interested in the diagonal of <code>Q.1.thr</code>. We adopted a GWER of 5%,
+and the corresponding <code>Q</code>-method's permutation threshold is
+18. According to this threshold, all hotspots are significant. 
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Elias Chaibub Neto and Brian S Yandell
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+## All unspecified objects come from vignette qtlhot.
+set.seed(12345)
+Q.1 &lt;- ww.perm(high1, n.perm = 100, lod.thrs, alphas)
+Q.1.thr &lt;- summary(Q.1, alphas)
+Q.1.thr
+diag(Q.1.thr)
+
+set.seed(12345)
+Q.2 &lt;- ww.perm(high2, 100, lod.thrs, alphas)
+Q.2.thr &lt;- summary(Q.2, alphas)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

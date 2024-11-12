@@ -1,0 +1,83 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>compare_geno</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Compare individuals' genotype data</h2>
+
+<h3>Description</h3>
+
+<p>Count the number of matching genotypes between all pairs of
+individuals, to look for unusually closely related individuals.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">compare_geno(cross, omit_x = FALSE, proportion = TRUE, quiet = TRUE, cores = 1)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>cross</code></td>
+<td>
+<p>Object of class <code>"cross2"</code>. For details, see the
+<a href="https://kbroman.org/qtl2/assets/vignettes/developer_guide.html">R/qtl2 developer guide</a>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>omit_x</code></td>
+<td>
+<p>If TRUE, only use autosomal genotypes</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>proportion</code></td>
+<td>
+<p>If TRUE (the default), the upper triangle of the
+result contains the proportions of matching genotypes. If
+FALSE, the upper triangle contains counts of matching
+genotypes.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>quiet</code></td>
+<td>
+<p>IF <code>FALSE</code>, print progress messages.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cores</code></td>
+<td>
+<p>Number of CPU cores to use, for parallel calculations.
+(If <code>0</code>, use <code>parallel::detectCores()</code>.)
+Alternatively, this can be links to a set of cluster sockets, as
+produced by <code>parallel::makeCluster()</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A square matrix; diagonal is number of observed genotypes
+for each individual. The values in the lower triangle are the
+numbers of markers where both of a pair were genotyped. The
+values in the upper triangle are either proportions or counts
+of matching genotypes for each pair (depending on whether
+<code>proportion=TRUE</code> or <code style="white-space: pre;">⁠=FALSE⁠</code>). The object is given
+class <code>"compare_geno"</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">grav2 &lt;- read_cross2(system.file("extdata", "grav2.zip", package="qtl2"))
+cg &lt;- compare_geno(grav2)
+summary(cg)
+</code></pre>
+
+
+</div>

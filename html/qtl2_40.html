@@ -1,0 +1,150 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>compare_genoprob</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Compare two sets of genotype probabilities</h2>
+
+<h3>Description</h3>
+
+<p>Compare two sets of genotype probabilities for one individual on a single chromosome.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">compare_genoprob(
+  probs1,
+  probs2,
+  cross,
+  ind = 1,
+  chr = NULL,
+  minprob = 0.95,
+  minmarkers = 10,
+  minwidth = 0,
+  annotate = FALSE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>probs1</code></td>
+<td>
+<p>Genotype probabilities (as produced by <code>calc_genoprob()</code>)
+or allele dosages (as produced by <code>genoprob_to_alleleprob()</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>probs2</code></td>
+<td>
+<p>A second set of genotype probabilities, just like <code>probs1</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cross</code></td>
+<td>
+<p>Object of class <code>"cross2"</code>. For details, see the
+<a href="https://kbroman.org/qtl2/assets/vignettes/developer_guide.html">R/qtl2 developer guide</a>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ind</code></td>
+<td>
+<p>Individual to plot, either a numeric index or an ID.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>chr</code></td>
+<td>
+<p>Selected chromosome; a single character string.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>minprob</code></td>
+<td>
+<p>Minimum probability for inferring genotypes (passed to <code>maxmarg()</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>minmarkers</code></td>
+<td>
+<p>Minimum number of markers in results.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>minwidth</code></td>
+<td>
+<p>Minimum width in results.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>annotate</code></td>
+<td>
+<p>If TRUE, add some annotations to the <code>geno1</code> and
+<code>geno2</code> columns to indicate, where they differ, which one
+matches what appears to be the best genotype. (<code>*</code> = matches
+the best genotype; <code>-</code> = lower match).</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The function does the following:
+</p>
+
+<ul>
+<li>
+<p> Reduce the probabilities to a set of common locations that also appear in <code>cross</code>.
+</p>
+</li>
+<li>
+<p> Use <code>maxmarg()</code> to infer the genotype at every position using each set of probabilities.
+</p>
+</li>
+<li>
+<p> Identify intervals where the two inferred genotypes are constant.
+</p>
+</li>
+<li>
+<p> Within each segment, compare the observed SNP genotypes to the founders' genotypes.
+</p>
+</li>
+</ul>
+<h3>Value</h3>
+
+<p>A data frame with each row corresponding to an interval over which
+<code>probs1</code> and <code>probs2</code> each have a fixed inferred genotype. Columns
+include the two inferred genotypes, the start and end points and
+width of the interval, and when founder genotypes are in <code>cross</code>,
+the proportions of SNPs where the individual matches each possible
+genotypes.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>plot_genoprobcomp()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">iron &lt;- read_cross2(system.file("extdata", "iron.zip", package="qtl2"))
+iron &lt;- iron[1,"2"]   # subset to first individual on chr 2
+map &lt;- insert_pseudomarkers(iron$gmap, step=1)
+
+# in presence of a genotyping error, how much does error_prob matter?
+iron$geno[[1]][1,3] &lt;- 3
+pr_e &lt;- calc_genoprob(iron, map, error_prob=0.002)
+pr_ne &lt;- calc_genoprob(iron, map, error_prob=1e-15)
+
+compare_genoprob(pr_e, pr_ne, iron, minmarkers=1, minprob=0.5)
+
+</code></pre>
+
+
+</div>

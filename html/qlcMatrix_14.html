@@ -1,0 +1,138 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>cosNominal</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Associations-measures for sparsely encoded nominal variables
+</h2>
+
+<h3>Description</h3>
+
+<p>Nominal variables can be encoded as a combination of a sparse incidence and index matrix. Various functions to compute variations of <code>assocSparse</code> and <code>cosSparse</code> for such data are described here.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">cosCol(X, colGroupX, Y = NULL, colGroupY = NULL, norm = norm2 )
+assocCol(X, colGroupX, Y = NULL, colGroupY = NULL, method = res, sparse = TRUE)
+
+cosRow(X, rowGroup, Y = NULL, norm = norm2 , weight = NULL)
+assocRow(X, rowGroup, Y = NULL, method = res)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>X,Y</code></td>
+<td>
+
+<p>sparse matrices in a format of the <code>Matrix</code> package, typically <code>dgCMatrix</code> . When <code>Y = NULL</code>, then the similarity between the columns of X and itself will be taken. If Y is specified, the similarity between the columns of X and the columns of Y will be calculated.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>colGroupX, colGroupY</code></td>
+<td>
+
+<p>sparse matrices (typically pattern matrices) with the same number of columns as X and Y, respectively, indicating which columns belong to the same group. Each row of these matrices represents a group. 
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rowGroup</code></td>
+<td>
+
+<p>sparse matrix (typically pattern matrices) with the same number of rows as X (and Y when not NULL), indicating which rows belong to the same group. Each column of these matrices represents a group.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>norm</code></td>
+<td>
+
+<p>norm to be used. See <code>cosSparse</code> for details.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>weight</code></td>
+<td>
+
+<p>weighting of rows. See <code>cosSparse</code> for details. Note that row-weighting only makes sense with <code>cosRow</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+
+<p>method to be used. See <code>assocSparse</code> for details.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sparse</code></td>
+<td>
+
+<p>All methods try to be as sparse as possible. Specifically, when there are no observed co-occurrence, then nothing is computed. This might lead to slight deviations in the results for some methods. Set <code>sparse=F</code> to force computation for all cells. This leads to non-sparse results, so use with caution with large datasets.
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The approaches <code>assoc</code> and <code>cos</code> are described in detail in <code>assocSparse</code> and <code>cosSparse</code>, respectively. Those methods are extended here in case either the columns (<code>.col</code>) or the rows (<code>.row</code>) form groups. Specifically, this occurs with sparse encoding of nominal variables (see <code>splitTable</code>). In such encoding, the different values of a nominal variable are encoded in separate columns. However, these columns cannot be treated independently, but have to be treated as groups.
+</p>
+<p>The <code>.col</code> methods should be used when similarities between the different values of nominal variables are to be computed. The <code>.row</code> methods should be used when similarities between the observations of nominal variables are to be computed.
+</p>
+<p>Note that the calculations of the <code>assoc</code> functions really only makes sense for binary data (i.e. matrices with only ones and zeros). Currently, all input is coerced to such data by <code>as(X, "nMatrix")*1</code>, meaning that all values that are not one or zero are turned into one (including negative values!).
+</p>
+
+
+<h3>Value</h3>
+
+<p>When <code>Y = NULL</code>, then all methods return symmetric similarity matrices in the form <code>dsCMatrix</code>, only specifying the upper triangle. The only exception is when <code>sparse=T</code> is chose, then the result will be in the form <code>dsyMatrix</code>.
+</p>
+<p>When a second matrix Y is specified, the result will be of the kind <code>dgCMatrix</code> or <code>dgeMatrix</code>, respectively.
+</p>
+
+
+<h3>Note</h3>
+
+<p>Note that these methods automatically take missing data into account. They also work with large amount of missing data, but of course the validity of any similarity with much missing data is problematic.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Michael Cysouw
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>sim.att, sim.obs</code> for convenient shortcuts around these methods.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># convenience functions are easiest to use
+# first a simple example using the farms-dataset from MASS
+library(MASS)
+
+# to investigate the relation between the individual values
+# This is similar to Multiple Correspondence Analysis (see mca in MASS)
+f &lt;- splitTable(farms)
+s &lt;- assocCol(f$OV,f$AV)
+rownames(s) &lt;- f$values
+plot(hclust(as.dist(-s)))
+</code></pre>
+
+
+</div>

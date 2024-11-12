@@ -1,0 +1,65 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>censored.mean</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+A hybrid mean/median function for left censored variables
+</h2>
+
+<h3>Description</h3>
+
+<p>Returns the median if the majority of values are censored and the mean otherwise.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">censored.mean(x, lower, trim=0)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+
+<p>numeric vector.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lower</code></td>
+<td>
+
+<p>left censoring point.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>trim</code></td>
+<td>
+
+<p>fraction of observations to be trimmed from each end of <code>x</code> before the mean is computed.
+</p>
+</td>
+</tr>
+</table>
+<h3>See Also</h3>
+
+<p><code>qrnn.fit</code>, <code>qrnn.predict</code></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">x &lt;- c(0, 0, 1, 2, 3)
+print(censored.mean(x, lower=0))
+x.cens &lt;- c(0, 0, 0, 1, 2)
+print(censored.mean(x.cens, lower=0))
+</code></pre>
+
+
+</div>

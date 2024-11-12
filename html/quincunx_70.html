@@ -1,0 +1,97 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>request_all</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Request a paginated resource from the PGS REST API</h2>
+
+<h3>Description</h3>
+
+<p>Performs a GET request on the specified <code>resource_url</code> and all its
+pages.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">request_all(
+  resource_url = "/",
+  base_url = pgs_server(),
+  limit = 20L,
+  verbose = FALSE,
+  warnings = TRUE,
+  progress_bar = TRUE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>resource_url</code></td>
+<td>
+<p>Endpoint URL. The endpoint is internally appended to the
+<code>base_url</code>. It should start with a forward slash (<code>/</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>base_url</code></td>
+<td>
+<p>The PGS REST API base URL (one should not need to change its
+default value).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>limit</code></td>
+<td>
+<p>number of results per page.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p>whether to print information about each API request.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>warnings</code></td>
+<td>
+<p>whether to print warnings related to API requests.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>progress_bar</code></td>
+<td>
+<p>whether to show a progress bar as the paginated resources
+are retrieved.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list four named elements:
+</p>
+
+<dl>
+<dt>resource</dt>
+<dd>
+<p>The URL endpoint.</p>
+</dd>
+<dt>code</dt>
+<dd>
+<p><a href="https://tinyurl.com/8yqvhwf">HTTP
+status code</a>.</p>
+</dd>
+<dt>message</dt>
+<dd>
+<p>A string describing the status of the response obtained. It is
+"OK" if everything went OK or some other string describing the problem.</p>
+</dd>
+<dt>json</dt>
+<dd>
+<p>A list of JSON responses (each response is a string).</p>
+</dd>
+</dl>
+</div>

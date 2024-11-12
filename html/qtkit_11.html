@@ -1,0 +1,119 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>write_kbl</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Write a kable object to a file</h2>
+
+<h3>Description</h3>
+
+<p>This function is a wrapper around <code>save_kable</code> from the
+<code>kableExtra</code> package that allows you to write a kable object as part of
+a knitr document as an output for later use. It is designed to be used
+in a code block. The file name, if not specified, will be the label of
+the code block.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">write_kbl(
+  kbl_obj,
+  file = NULL,
+  target_dir = NULL,
+  device = "pdf",
+  bs_theme = "bootstrap",
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>kbl_obj</code></td>
+<td>
+<p>The knitr_kable object to be written.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>file</code></td>
+<td>
+<p>The name of the file to be written. If not specified,
+the name will be based on the current knitr code block label.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>target_dir</code></td>
+<td>
+<p>The directory where the file will be written. If not
+specified, the current working directory will be used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>device</code></td>
+<td>
+<p>The device to be used for saving the file. Options
+include "pdf" (default), "html", "latex", "png", and "jpeg". Note that
+a Chromium-based browser (e.g., Google Chrome, Chromium, Microsoft Edge or
+Brave) is required on your system for all options except "latex'. If a
+suitable browser is not available, the function will stop and return an
+error message.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bs_theme</code></td>
+<td>
+<p>The Bootstrap theme to be applied to the kable object
+(only applicable for HTML output). Default is "bootstrap".</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Additional arguments to be passed to the <code>save_kable</code>
+function from the <code>kableExtra</code> package.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>The path of the written file.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+library(knitr)
+
+table_dir &lt;- file.path(tempdir(), "table")
+
+mtcars_kbl &lt;- kable(
+ x = mtcars[1:5, ],
+ format = "html")
+
+# Write a kable object as a PDF file
+write_kbl(
+ kbl_obj = mtcars_kbl,
+ file = "kable_pdf",
+ target_dir = table_dir,
+ device = "pdf")
+
+# Write a kable as an HTML file with a custom Bootstrap theme
+write_kbl(
+ kbl_obj = mtcars_kbl,
+ file = "kable_html",
+ target_dir = table_dir,
+ device = "html",
+ bs_theme = "flatly")
+
+unlink(table_dir)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

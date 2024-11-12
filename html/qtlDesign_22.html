@@ -1,0 +1,133 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>mma</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Selective phenotyping with similarity measure 2</h2>
+
+<h3>Description</h3>
+
+<p>Selective phenotyping with similarity measure 2 to select the most
+dissimilar subset of individuals.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">mma(genof, p, sequent = FALSE, exact = FALSE, dismat = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>genof</code></td>
+<td>
+<p>Genotype matrix.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p</code></td>
+<td>
+<p>Sample size to select.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sequent</code></td>
+<td>
+<p>Perform sequential optimization if TRUE (see below).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>exact</code></td>
+<td>
+<p>Count allele differences if <code>FALSE</code>; binary 0 = same
+number of alleles, 1 = different if <code>TRUE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dismat</code></td>
+<td>
+<p>Return dissimilarity matrix if TRUE.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Sequentially minimize 1st moment and then 2nd moment, swapping one
+subject at a time.
+<code>op</code> finds all the samples with same 1st moment similarity with mma
+results. <code>op2</code> finds all the samples with the same 1st moment
+similarity with every list from op result. A combination of <code>op</code>
+and <code>op2</code> comes very close to exhaustive search in
+practice. <code>moment2</code> find the best list with minimum 2nd moments
+from the output of <code>op2</code>. Note that some warnings occurs
+accompanying our return statement. The results are not affected though.
+</p>
+<p>This function combines several functions in Jin's original code.
+<code>mma(genof,p,sequent=TRUE</code> is identical to the depricated
+<code>mmasequent(genof,p</code>.
+<code>mma(genof,p,exact=TRUE</code> is identical to the depricated
+<code>mmaM1(genof,p</code> (actually, <code>mma</code> uses dissimilarity while
+<code>mmaM1</code> used similarity = 1 - dissimilarity).
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list containing <code>cList</code>, <code>dismat</code> if that option is
+<code>TRUE</code> and further optimized lists (<code>op</code>, <code>op2</code>,
+<code>moment2</code>) if <code>sequent</code> is <code>TRUE</code>. 
+vector as the first item. The list of items includes:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>cList</code></td>
+<td>
+<p>vector of selected subjects by function mma</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>op</code></td>
+<td>
+<p>list containing vector of selection and update flag from
+function op</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>op2</code></td>
+<td>
+<p>matrix of selection by function op2</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>moment2</code></td>
+<td>
+<p>vector of second moment calculations</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dismat</code></td>
+<td>
+<p>dissimilarity matrix</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Brian S. Yandell (<a href="mailto:byandell@wisc.edu">mailto:byandell@wisc.edu</a>)</p>
+
+
+<h3>References</h3>
+
+<p>Jin C, Lan H, Attie AD, Churchill GA, Bulutuglo D, Yandell BS (2004) Selective phenotyping for increased efficiency in genetic mapping studies. Genetics 168: 2285-2293.</p>
+
+
+<h3>See Also</h3>
+
+<p><code>K1</code>, <code>read.cross</code></p>
+
+
+</div>

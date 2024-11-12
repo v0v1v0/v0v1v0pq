@@ -1,0 +1,629 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>eQMC</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Minimization with Enhanced Quine-McCluskey Algorithm</h2>
+
+<h3>Description</h3>
+
+<p>This function performs the minimization. Although it is called '<em>e</em>QMC', the 
+implemented algorithm is different from the classical Quine-McCluskey (QMC) 
+algorithm. Instead of QMC's approach of using positive minterms and remainders
+to perform minimization, <em>e</em>QMC uses positive and negative minterms, but no 
+remainders. See <a href="http://dx.doi.org/10.1080/0022250X.2014.897949">Dusa and Thiem (2015)</a> and <a href="http://dx.doi.org/10.1177/0049124115589032">Thiem (2015)</a> for more details.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">eQMC(data, outcome = c(""), neg.out = FALSE, exo.facs = c(""), 
+     relation = "suf", n.cut = 1, incl.cut1 = 1, incl.cut0 = 1, 
+     minimize = c("1"), sol.type = "ps", row.dom = FALSE, 
+     min.dis = FALSE, omit = c(), dir.exp = c(), details = FALSE,
+     show.cases = FALSE, inf.test = c(""), use.tilde = FALSE, 
+     use.letters = FALSE, ...)
+
+is.qca(x)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>A truth table object or a set of configurational data (of class 
+'matrix' or 'data.frame').</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>outcome</code></td>
+<td>
+<p>A character vector of outcomes.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>neg.out</code></td>
+<td>
+<p>Logical, use negation of <code>outcome</code> (ignored if <code>data</code>
+is a truth table object).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>exo.facs</code></td>
+<td>
+<p>A character vector with the names of the exogenous factors.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>relation</code></td>
+<td>
+<p>The required relation of a model antecendent to the 
+<code>outcome</code>; either <code>"suf"</code> (only sufficiency required) 
+or <code>"sufnec"</code> (both sufficiency and necessity required).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n.cut</code></td>
+<td>
+<p>The minimum number of cases with set membership score above 0.5 
+for an output function value of "0", "1" or "C"; an integer between 1 and
+the maximum number of cases for all non-remainder minterms.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>incl.cut1</code></td>
+<td>
+<p>The minimum sufficiency inclusion score for an output function 
+value of "1".</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>incl.cut0</code></td>
+<td>
+<p>The maximum sufficiency inclusion score for an output function 
+value of "0".</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>minimize</code></td>
+<td>
+<p>A vector of output function values for which a solution is sought.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sol.type</code></td>
+<td>
+<p>A character scalar specifying the QCA solution type that should 
+be applied; either "ps" (parsimonious solution), "ps+" (parsimonious 
+solution including both positive and contradiction minterms), "cs" (
+conservative solution) or "cs+" (conservative solution including both 
+positive and contradiction minterms). Note that only "ps" and "ps+" 
+generate correct solutions.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>row.dom</code></td>
+<td>
+<p>Logical, impose row dominance as a constraint on the solution to
+eliminate dominated inessential prime implicants. For causal data analysis,
+this argument must be set to <code>FALSE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>min.dis</code></td>
+<td>
+<p>Logical, impose minimal disjunctivity as a constraint on the 
+solution to eliminate models with more prime implicants than the model(s) 
+with the fewest prime implicants. For causal data analysis, this argument 
+must be set to <code>FALSE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>omit</code></td>
+<td>
+<p>A vector of minterm index values or a matrix of minterms to be 
+omitted from minimization.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dir.exp</code></td>
+<td>
+<p>A vector of directional expectations for deriving intermediate 
+solutions; can only be used in conjunction with <code>sol.type = "ps"</code>
+or <code>sol.type = "ps+"</code>. Note that neither conservative nor intermediate
+solutions produce correct solutions. This argument is only retained for
+purposes of method evaluation.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>details</code></td>
+<td>
+<p>Logical, present solution details (inclusion, raw coverage and
+unique coverage scores).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>show.cases</code></td>
+<td>
+<p>Logical, also print case names as part of a solution's details;
+<code>details</code> must be set to <code>TRUE</code> (do not use this option with many
+cases and/or long case names).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>inf.test</code></td>
+<td>
+<p>A vector of length two specifying the inference-statistical 
+test to be performed (currently only <code>"binom"</code>) and the critical
+significance level.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>use.tilde</code></td>
+<td>
+<p>Logical, use tilde operator ("~") for negation with bivalent
+(crisp-set and fuzzy-set) factors.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>use.letters</code></td>
+<td>
+<p>Logical, use single letters (in alphabetical order) instead 
+of original variable names.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Other arguments.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>An object of class 'qca'.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The argument <code>data</code> can be a truth table object (an object of class 'tt' 
+returned by the <code>truthTable</code> function) or a suitable data set. Suitable data
+sets have the following structure: values of 0 and 1 for bivalent crisp-set factors, 
+values between 0 and 1 for bivalent fuzzy-set factors, and values beginning 
+with 0 at increments of 1 for multivalent crisp-set factors. The placeholders 
+"-" and "dc" indicate "don't cares" in auxiliary factors that specify temporal 
+order between other substantive factors in tQCA. These values lead to the 
+exclusion of the auxiliary factor from the computation of parameters of fit.
+</p>
+<p>The argument <code>outcome</code> specifies the outcome to be analyzed, either in
+curly-bracket notation (e.g., <code>O{value}</code>) if the outcome is from a multivalent
+(or a bivalent) factor, or in upper-case notation if the outcome is from a bivalent
+factor (e.g., <code>O</code> as a short-cut for <code>O{1}</code>). Outcomes from multivalent crisp-set factors always require curly-bracket notation. Outcomes can be single 
+levels of factors not simultaneously passed to <code>exo.facs</code>, or levels from 
+any subset of the factors specified in <code>exo.facs</code> if <code>data</code> is not a 
+truth table object. At least one outcome has to be specified.
+</p>
+<p>If multiple outcomes are specified, their factors must also be specified in 
+<code>exo.facs</code>. In this case, solution details will not be printed by default 
+(see the example on mimicking Coincidence Analysis below).
+</p>
+<p>The logical argument <code>neg.out</code> controls whether <code>outcome</code> is to be 
+analyzed or its negation. If <code>outcome</code> is a level from a multivalent factor, 
+<code>neg.out = TRUE</code> makes the disjunction of all remaining levels the outcome.
+</p>
+<p>The argument <code>exo.facs</code> specifies the exogenous factors. If omitted, all 
+factors in <code>data</code> are used except that of the <code>outcome</code>. With multiple outcomes, all factors in <code>data</code> are used. Please note that computation times 
+may increase significantly beyond 17 exogenous factors, and that the computation 
+of a solution may not be possible at all depending on end-user machine constraints.
+</p>
+<p>The argument <code>relation</code> specifies the relation between the antecedent of a
+model and the outcome. It accepts either the value <code>"suf"</code> or <code>"sufnec"</code>. 
+If <code>relation = "suf"</code> (default), only sufficiency is used as a criterion in 
+identifying a model. If <code>relation = "sufnec"</code>, models must be sufficient and 
+necessary for the outcome to be identified. The argument <code>incl.cut1</code> then 
+acts as the cut-off for the sufficiency inclusion of a minterm as well as the 
+necessity inclusion of the final model(s).
+</p>
+<p>Minterms that contain fewer than <code>n.cut</code> cases with membership scores above 
+0.5 are coded as remainders (<code>OUT = "?"</code>). If the number of such cases is at 
+least <code>n.cut</code>, minterms with an inclusion score of at least <code>incl.cut1</code> 
+are coded positive (<code>OUT = "1"</code>), minterms with an inclusion score below 
+<code>incl.cut1</code> but with at least <code>incl.cut0</code> are coded as a contradiction 
+(<code>OUT = "C"</code>), and minterms with an inclusion score below <code>incl.cut0</code> 
+are coded negative (<code>OUT = "0"</code>). If <code>incl.cut0</code> is not explicitly 
+changed, it is set equal to <code>incl.cut1</code>.
+</p>
+<p>The argument <code>minimize</code> specifies a vector of suitable values of the output
+function for which a solution is sought. Vectors of such values are <code>"1"</code>
+(default; positive minterms), <code>"C"</code> (contradictions), <code>"0"</code> (negative
+minterms), <code>c("1", "C")</code> and <code>c("0", "C")</code>, but not <code>c("1", "0")</code> 
+and <code>c("1", "0", "C")</code>. Note that for <code>"0"</code>, <code>"C"</code> and 
+<code>c("0", "C")</code>, the respective minterms will be processed but no solution 
+details will be printed. Also note that <code>minimize = "0"</code> is not the same
+as using <code>neg.out = TRUE</code>.
+</p>
+<p>The argument <code>sol.type</code> specifies the QCA solution type that should be 
+generated. It accepts either <code>"ps"</code> (default, parsimonious solution), 
+<code>"ps+"</code> (parsimonious solution including both positive minterms and 
+contradictions), <code>"cs"</code> (conservative solution) or <code>"cs+"</code> (conservative 
+solution including both positive minterms and contradictions). As only the 
+parsimonious search strategy generates methodologically correct solutions (<a href="http://dx.doi.org/10.1177/0049124117701487">Baumgartner 
+and Thiem 2017a</a>), <code>sol.type</code> should not normally be changed to generate conservative or intermediate solutions.
+</p>
+<p>The logical argument <code>row.dom</code> controls whether the principle of row dominance
+is imposed as a constraint on the solution. An inessential prime implicant <code class="reqn">P</code>
+dominates another <code class="reqn">Q</code> if all configurations covered by <code class="reqn">Q</code> are also
+covered by <code class="reqn">P</code>, but they are not interchangeable (cf. <a href="http://dx.doi.org/10.1002/j.1538-7305.1956.tb03835.x">McCluskey 1956, 1425</a>;
+McCluskey 1965, 164-152). If row dominance is operative, models that contain
+dominated prime implicants will not be returned. For purposes of causal data
+analysis, <code>row.dom</code> must be set to <code>FALSE</code>.
+</p>
+<p>The logical argument <code>min.dis</code> controls whether the principle of minimal
+disjunctivity is imposed as a constraint on the solution (McCluskey 1965, 123-126).
+If minimal disjunctivity is operative, models that contain more than the number
+of prime implicants of the model(s) with the fewest prime implicants will not be
+returned. <em>For purposes of causal data analysis, both</em> <code>row.dom</code> 
+<em>and</em> <code>min.dis</code> <em>must be set to</em> <code>FALSE</code> (<a href="http://dx.doi.org/10.1177/0049124115610351">Baumgartner and Thiem 2017b</a>; <a href="http://dx.doi.org/10.1177/0193841x14550863">Thiem 2014b</a>).
+</p>
+<p>The argument <code>omit</code> can be used to omit minterms from the minimization 
+process <em>ex ante</em>. It accepts a vector of row numbers from the truth table 
+or a matrix of minterms of the same order as passed to the <code>truthTable</code> 
+function (if the argument <code>data</code> is a truth table object) or as specified
+in the argument <code>exo.facs</code>.
+</p>
+<p>Neither the conservative nor the intermediate search strategy of QCA produce 
+correct solutions (<a href="http://dx.doi.org/10.1177/0049124117701487">Baumgartner and Thiem 2017a</a>). The <code>dir.exp</code> argument is retained only for purposes of method evaluation in 
+relation to intermediate solutions. It specifies directional expectations for 
+separating easy from difficult counterfactuals in simplifying assumptions. For 
+bivalent crisp and fuzzy-set factors, expectations should be specified as a vector 
+of the same length and the same order of condition variables as provided in 
+<code>exo.facs</code>. For bivalent factors, a value of either "0" or "1" indicates
+that the corresponding factor is expected to contribute to a positive output
+function value, while a dash, "-", indicates that one or the other level of the
+corresponding factor does so. For multivalent factors, multiple levels have to 
+be enclosed by double quotes and separated by a semicolon (see mvQCA example using 
+<a href="http://dx.doi.org/10.1080/13510347.2010.491189">Hartmann and Kemmerzell (2010)</a> 
+below). In some situations, directional expectations in mvQCA generate easy 
+counterfactuals that do not contribute to parsimony 
+(<a href="http://dx.doi.org/10.1007/s11135-014-0015-x">Thiem 2014a</a>).
+</p>
+<p>If <code>details = TRUE</code>, parameters of fit (inclusion, raw coverage, and unique 
+coverage) will be printed for each solution and its respective prime implicants. 
+Essential prime implicants are listed first in the solution output and in the top 
+part of the parameters-of-fit table. Inessential prime implicants are listed in 
+brackets in the solution output and in the middle part of the parameters-of-fit 
+table, together with their unique coverage scores under each individual model.
+Inclusion and coverage scores for each model are provided in the bottom part
+of the parameters-of-fit table.
+</p>
+<p>The logical argument <code>show.cases</code> controls whether case names are displayed
+next to their corresponding prime implicants (do not use with many cases and/or 
+long case names!). In the parameters-of-fit table, semicolons separate cases from 
+different minterms, whereas commas separate cases from the same minterm.
+</p>
+<p>The argument <code>inf.test</code> provides functionality for basing output function
+value codings on inference-statistical tests. Currently, only an exact binomial
+test (<code>"binom"</code>) is available, which requires the data to contain only
+bivalent or multivalent crisp-set factors. The argument requires a vector of
+length two, comprising the test and a critical significance level. If the
+empirical inclusion score of a minterm is not significantly lower than 
+<code>incl.cut1</code>, it will be coded positive (<code>OUT = "1"</code>). If it is 
+significantly lower than <code>incl.cut1</code> yet still significantly higher than 
+<code>incl.cut0</code>, it will be coded as a contradiction (<code>OUT = "C"</code>). If it
+is not significantly higher than <code>incl.cut0</code>, it will be coded negative
+(<code>OUT = "0"</code>).
+</p>
+<p>The argument <code>use.tilde</code> should only be used for bivalent factors. If the exogenous factors are already named with single letters, the argument 
+<code>use.letters</code> will have no effect when set to <code>TRUE</code>. Otherwise, 
+upper-case letters will replace original factor names in alphabetical order.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class 'qca' for single outcomes and 'mqca' for multiple
+outcomes. Objects of class 'qca' are lists with the following 
+ten main components:<br></p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>tt</code></td>
+<td>
+<p>The truth table object.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>excluded</code></td>
+<td>
+<p>The line numbers of the negative minterms.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>initials</code></td>
+<td>
+<p>The positive (non-remainder) minterms.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>PIs</code></td>
+<td>
+<p>The prime implicants.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>PIchart</code></td>
+<td>
+<p>The list of prime implicant charts.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>solution</code></td>
+<td>
+<p>The list of solutions.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>essential</code></td>
+<td>
+<p>The list of essential prime implicants.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pims</code></td>
+<td>
+<p>The list of model prime implicant set membership scores.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>SA</code></td>
+<td>
+<p>The list of simplifying assumptions that would have been used by 
+Quine-McCluskey minimization.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>i.sol</code></td>
+<td>
+<p>A list of components specific to intermediate solution(s), 
+including the prime implicant chart, model prime implicant membership 
+scores, (non-simplifying) easy counterfactuals and difficult 
+counterfactuals.</p>
+</td>
+</tr>
+</table>
+<h3>Contributors</h3>
+
+
+<table>
+<tr>
+<td style="text-align: left;">
+Dusa, Adrian</td>
+<td style="text-align: left;">: development, programming</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+Thiem, Alrik</td>
+<td style="text-align: left;">: development, documentation, testing
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Alrik Thiem (<a href="http://www.alrik-thiem.net">Personal Website</a>; <a href="https://www.researchgate.net/profile/Alrik_Thiem">ResearchGate Website</a>)
+</p>
+
+
+<h3>References</h3>
+
+<p>Baumgartner, Michael. 2009. “Inferring Causal Complexity.” 
+<em>Sociological Methods &amp; Research</em> <strong>38</strong> (1):71-101.
+DOI: <a href="http://dx.doi.org/10.1177/0049124109339369">10.1177/0049124109339369</a>.
+</p>
+<p>Baumgartner, Michael, and Alrik Thiem. 2017a. “Often Trusted but Never 
+(Properly) Tested: Evaluating Qualitative Comparative Analysis.” <em>Sociological Methods &amp; Research</em>. Advance online publication. DOI: <a href="http://dx.doi.org/10.1177/0049124117701487">10.1177/0049124117701487</a>.
+</p>
+<p>Baumgartner, Michael, and Alrik Thiem. 2017b. “Model Ambiguities in Configurational Comparative Research.” <em>Sociological Methods &amp; Research</em> <strong>46</strong> (4):954-87. DOI: <a href="http://dx.doi.org/10.1177/0049124115610351">10.1177/0049124115610351</a>.
+</p>
+<p>Dusa, Adrian, and Alrik Thiem. 2015. “Enhancing the Minimization of Boolean 
+and Multivalue Output Functions with eQMC.” <em>Journal of Mathematical Sociology</em> 
+<strong>39</strong> (2):92-108. DOI: 
+<a href="http://dx.doi.org/10.1080/0022250X.2014.897949">10.1080/0022250X.2014.897949</a>.
+</p>
+<p>Emmenegger, Patrick. 2011. “Job Security Regulations in Western Democracies: 
+A Fuzzy Set Analysis.” <em>European Journal of Political Research</em> <strong>50</strong> (3):336-64.
+DOI: <a href="http://dx.doi.org/10.1111/j.1475-6765.2010.01933.x">10.1111/j.1475-6765.2010.01933.x</a>.
+</p>
+<p>Hartmann, Christof, and Joerg Kemmerzell. 2010. “Understanding Variations 
+in Party Bans in Africa.” <em>Democratization</em> <strong>17</strong> (4):642-65.
+DOI: <a href="http://dx.doi.org/10.1080/13510347.2010.491189">10.1080/13510347.2010.491189</a>.
+</p>
+<p>McCluskey, Edward J. 1956. “Minimization of Boolean Functions.” 
+<em>Bell Systems Technical Journal</em> <strong>35</strong> (6):1417-44. DOI: <a href="http://dx.doi.org/10.1002/j.1538-7305.1956.tb03835.x">10.1002/j.1538-7305.1956.tb03835.x</a>.
+</p>
+<p>McCluskey, Edward J. 1965. <em>Introduction to the Theory of Switching Circuits</em>.
+Princeton: Princeton University Press.
+</p>
+<p>Krook, Mona Lena. 2010. “Women's Representation in Parliament: A Qualitative 
+Comparative Analysis.” <em>Political Studies</em> <strong>58</strong> (5):886-908.
+DOI: <a href="http://dx.doi.org/10.1111/j.1467-9248.2010.00833.x">10.1111/j.1467-9248.2010.00833.x</a>.
+</p>
+<p>Ragin, Charles C. 2008. <em>Redesigning Social Inquiry: Fuzzy Sets and Beyond</em>. Chicago: University of Chicago Press. <a href="http://press.uchicago.edu/ucp/books/book/chicago/R/bo5973952.html">Link</a>.
+</p>
+<p>Schneider, Carsten Q., and Claudius Wagemann. 2012. <em>Set-Theoretic Methods for the Social Sciences: A Guide to Qualitative Comparative Analysis (QCA)</em>. Cambridge: Cambridge University Press. <a href="http://www.cambridge.org/ch/academic/subjects/politics-international-relations/research-methods-politics/set-theoretic-methods-social-sciences-guide-qualitative-comparative-analysis?format=PB">Link</a>.
+</p>
+<p>Thiem, Alrik. 2014a. “Parameters of Fit and Intermediate Solutions in Multi-Value
+Qualitative Comparative Analysis.” <em>Quality &amp; Quantity</em> <strong>49</strong> (2):657-74.
+DOI: <a href="http://dx.doi.org/10.1007/s11135-014-0015-x">10.1007/s11135-014-0015-x</a>.
+</p>
+<p>Thiem, Alrik. 2014b. “Navigating the Complexities of Qualitative Comparative 
+Analysis: Case Numbers, Necessity Relations, and Model Ambiguities.” <em>Evaluation Review</em> <strong>38</strong> (6):487-513. 
+DOI: <a href="http://dx.doi.org/10.1177/0193841x14550863">10.1177/0193841x14550863</a>.
+</p>
+<p>Thiem, Alrik. 2015. “Using Qualitative Comparative Analysis for Identifying 
+Causal Chains in Configurational Data: A Methodological Commentary on Baumgartner 
+and Epple (2014).” <em>Sociological Methods &amp; Research</em> <strong>44</strong> (4):723-36.
+DOI: <a href="http://dx.doi.org/10.1177/0049124115589032">10.1177/0049124115589032</a>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>pof</code>, <code>truthTable</code></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># csQCA using Krook (2010)
+#-------------------------
+data(d.represent)
+head(d.represent)
+
+# solution with details and case names
+KRO &lt;- eQMC(d.represent, outcome = "WNP", details = TRUE, show.cases = TRUE)
+KRO
+
+# check PI chart
+KRO$PIchart
+
+# solution with truth table object
+KRO.tt &lt;- truthTable(d.represent, outcome = "WNP")
+KRO &lt;- eQMC(KRO.tt)
+KRO
+
+# simplifying assumptions (SAs) that would have been used with Quine-McCluskey 
+# optimization
+KRO$SA
+
+# fsQCA using Emmenegger (2011)
+#------------------------------
+data(d.jobsecurity)
+head(d.jobsecurity)
+
+# solution with details
+EMM &lt;- eQMC(d.jobsecurity, outcome = "JSR", incl.cut1 = 0.9, details = TRUE)
+EMM
+
+# are the model prime implicants also sufficient for the negation of the outcome?
+pof(EMM$pims, outcome = "JSR", d.jobsecurity, neg.out = TRUE, relation = "suf")
+
+# are the negations of the model prime implicants also sufficient for the outcome?
+pof(1 - EMM$pims, outcome = "JSR", d.jobsecurity, relation = "suf")
+
+# plot all three prime implicants of the solution
+PIsc &lt;- EMM$pims
+par(mfrow = c(1, 3))
+for(i in 1:3){
+ plot(PIsc[, i], d.jobsecurity$JSR, pch = 19, ylab = "JSR",
+  xlab = names(PIsc)[i], xlim = c(0, 1), ylim = c(0, 1),
+  main = paste("Prime Implicant", print(i)))
+ mtext(paste(
+  "Inclusion = ", round(EMM$IC$overall$incl.cov$incl[i], 3),
+  "; Coverage = ", round(EMM$IC$overall$incl.cov$cov.r[i], 3)), 
+  cex = 0.7, line = 0.4)
+ abline(h = 0.5, lty = 2, col = gray(0.5))
+ abline(v = 0.5, lty = 2, col = gray(0.5))
+ abline(0, 1)
+}
+
+# mvQCA using Hartmann and Kemmerzell (2010)
+#-------------------------------------------
+data(d.partybans)
+head(d.partybans)
+
+# specify exogenous factors beforehand
+exo.facs &lt;- c("C", "F", "T", "V")
+
+# parsimonious solution with contradictions included
+HK.sol &lt;- eQMC(d.partybans, outcome = "PB{1}", exo.facs = exo.facs,
+  incl.cut0 = 0.4, sol.type = "ps+", details = TRUE)
+HK.sol
+
+# which are the two countries in T{2} but not PB{1}?
+rownames(d.partybans[d.partybans$T == 2 &amp; d.partybans$PB != 1, ])
+
+# QCA with multiple outcomes from multivalent variables
+#------------------------------------------------------
+d.mmv &lt;- data.frame(A = c(2,0,0,1,1,1,2,2), B = c(2,2,2,2,1,1,0,0), 
+                    C = c(0,1,0,0,0,2,1,0), D = c(2,1,2,2,3,1,3,0), 
+                    E = c(3,2,3,3,0,1,3,2), 
+  row.names = letters[1:8])
+head(d.mmv)
+
+mmv.s &lt;- eQMC(d.mmv, outcome = c("D{2}", "E{3}"))
+mmv.s
+
+# use quotes with curly-bracket notation to access solution component
+print(mmv.s$"E{3}", details = TRUE, show.cases = TRUE)
+
+# negation of outcome from multivalent factor is disjunction of all other
+# levels; high under-determination (18 models)
+mmv.s &lt;- eQMC(d.mmv, outcome = "E{3}", neg.out = TRUE)
+mmv.s
+
+# causal chains with QCA (Thiem 2015); data from Baumgartner (2009)
+#-----------------------------------------------------------------------------
+d.Bau &lt;- data.frame(
+  U = c(1,1,1,1,0,0,0,0), D = c(1,1,0,0,1,1,0,0),
+  L = c(1,1,1,1,1,1,0,0), G = c(1,0,1,0,1,0,1,0),
+  E = c(1,1,1,1,1,1,1,0),
+  row.names = letters[1:8])
+head(d.Bau)
+
+# with multiple outcomes, no solution details are printed;
+# "causal-chain structure": (D + U &lt;=&gt; L) * (G + L &lt;=&gt; E)
+# "common-cause structure": (D + U &lt;=&gt; L) * (G + D + U &lt;=&gt; E)
+Bau.cna &lt;- eQMC(d.Bau, outcome = names(d.Bau), relation = "sufnec")
+Bau.cna
+
+# get the truth table, solution details and case names for outcome "E"
+print(Bau.cna$E, details = TRUE, show.cases = TRUE)
+
+# examples relating to QCA method evaluation
+#-------------------------------------------
+#
+# is the conservative solution (QCA-CS) really "conservative"?
+#-------------------------------------------------------------
+# Ragin (2008, 173): "The complex [conservative] solution [...] does not 
+# permit any counterfactual cases and thus no simplifying assumptions 
+# regarding combinations of conditions that do not exist in the data.";
+# the conservative solution is "[c]onservative because [...] the
+# researcher [...] is exclusively guided by the empirical information 
+# at hand" (Schneider and Wagemann 2012, 162)
+#
+# in fact, QCA-CS makes extremely strong assumptions on ALL remainders;
+# QCA-CS assumes every remainder exists at least 'freq.cut' times, 
+# and occurs with the negation of the outcome more than 
+# 'freq.cut' * (1 - 'incl.cut1') times
+
+# create a test data-set 'CS' with 32 cases and randomly assign values 
+# on the endogenous factor 'Z'
+CS &lt;- data.frame(mintermMatrix(rep(2,5)))
+CS$Z &lt;- sample(0:1, 2^5, replace = TRUE)
+
+# randomly draw 20 cases to create a limitedly diverse data-set 'CS.LD'
+# and turn all 12 remainder minterms into observations that occur with 
+# 'Z = 0' in original data-set 'CS'
+CS.LD &lt;- CS[sample(1:2^5, 20), ]
+change &lt;- as.numeric(setdiff(rownames(CS), rownames(CS.LD)))
+CS$Z[change] &lt;- 0
+
+# create the (conservative) solutions for 'CS' and 'CS.LD'
+CS.sol &lt;- eQMC(CS, outcome = "Z")
+CS.LD.sol &lt;- eQMC(CS.LD, outcome = "Z", sol.type = "cs")
+
+# test whether the two solutions are identical
+identical(unlist(CS.LD.sol$solution), unlist(CS.sol$solution))
+
+# both solutions are identical, for two datasets that do not allow the same
+# causal inferences to be made; this indicates that QCA-CS draws causal inferences 
+# beyond what the data warrants; the lower the diversity index (ratio of non-remainder
+# minterms to all minterms), the stronger the assumptions QCA-CS makes
+
+</code></pre>
+
+
+</div>

@@ -1,0 +1,95 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>predict.rqt</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Predictions from Quantile Regression Transformation Models
+</h2>
+
+<h3>Description</h3>
+
+<p>This function computes predictions based on fitted quantile regression transformation models.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'rqt'
+predict(object, newdata, na.action = na.pass,
+type = "response", namevec = NULL, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+
+<p>an object of <code>class</code> <code>rqt</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>newdata</code></td>
+<td>
+
+<p>an optional data frame in which to look for variables with which to predict. If omitted, the fitted values are used.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>na.action</code></td>
+<td>
+
+<p>function determining what should be done with missing values in <code>newdata</code>. The default is to predict <code>NA</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>type</code></td>
+<td>
+
+<p>the type of prediction required. The default <code>"response"</code> is on the scale of the response variable, i.e. the values are back-transformed using the inverse of the transformation <code class="reqn">h^{-1}(Xb)</code>; the alternative <code>"link"</code> is on the scale of the linear predictors <code class="reqn">h(y) = Xb</code>; finally, predictions for marginal effects are given with <code>"maref"</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>namevec</code></td>
+<td>
+
+<p>character giving the name of the covariate with respect to which the marginal effect is to be computed. If <code>type = "maref"</code>, this argument is required. See <code>maref.rqt</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+
+<p>not used.
+</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>a vector or a matrix or an array of predictions.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Marco Geraci
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>residuals.rqt</code>, <code>tsrq</code>, <code>coef.rqt</code>, <code>maref.rqt</code>
+</p>
+
+
+</div>

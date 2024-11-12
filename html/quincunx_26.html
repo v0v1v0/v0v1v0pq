@@ -1,0 +1,46 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>is_pubmed_id</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Is a string a PubMed ID?</h2>
+
+<h3>Description</h3>
+
+<p>Find which strings are valid PubMed IDs (returns <code>TRUE</code>). PubMed IDs are
+tested against the following regular expression: <code>^\\d+$</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">is_pubmed_id(str, convert_NA_to_FALSE = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>str</code></td>
+<td>
+<p>A character vector of strings.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>convert_NA_to_FALSE</code></td>
+<td>
+<p>Whether to treat <code>NA</code> as <code>NA</code>
+(<code>convert_NA_to_FALSE = FALSE</code>) or whether to return <code>FALSE</code> when
+an <code>NA</code> is found (<code>convert_NA_to_FALSE = TRUE</code>).</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A logical vector.
+</p>
+
+
+</div>

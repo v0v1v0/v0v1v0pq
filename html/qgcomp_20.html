@@ -1,0 +1,190 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>plot.qgcompfit</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Default plotting method for a qgcompfit object</h2>
+
+<h3>Description</h3>
+
+<p>Plot a quantile g-computation object. For qgcomp.glm.noboot, this function will
+create a butterfly plot of weights. For qgcomp.glm.boot, this function will create
+a box plot with smoothed line overlaying that represents a non-parametric
+fit of a model to the expected outcomes in the population at each quantile
+of the joint exposures (e.g. '1' represents 'at the first quantile for
+every exposure')
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'qgcompfit'
+plot(
+  x,
+  suppressprint = FALSE,
+  pointwisebars = TRUE,
+  modelfitline = TRUE,
+  modelband = TRUE,
+  flexfit = TRUE,
+  pointwiseref = ceiling(x$q/2),
+  ...
+)
+
+## S3 method for class 'qgcompmultfit'
+plot(
+  x,
+  suppressprint = FALSE,
+  pointwisebars = TRUE,
+  modelfitline = TRUE,
+  modelband = TRUE,
+  flexfit = TRUE,
+  pointwiseref = ceiling(x$q/2),
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>"qgcompfit" object from <code>qgcomp.glm.noboot</code>,  <code>qgcomp.glm.boot</code>,
+<code>qgcomp.cox.noboot</code>,  <code>qgcomp.cox.boot</code>, <code>qgcomp.zi.noboot</code> or <code>qgcomp.zi.boot</code> functions</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>suppressprint</code></td>
+<td>
+<p>If TRUE, suppresses the plot, rather than printing it
+by default (it can be saved as a ggplot2 object (or list of ggplot2 objects if x is from a zero-
+inflated model) and used programmatically)
+(default = FALSE)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pointwisebars</code></td>
+<td>
+<p>(boot.gcomp only) If TRUE, adds 95%  error bars for pointwise comparisons
+of E(Y|joint exposure) to the smooth regression line plot</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>modelfitline</code></td>
+<td>
+<p>(boot.gcomp only) If TRUE, adds fitted (MSM) regression line
+of E(Y|joint exposure) to the smooth regression line plot</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>modelband</code></td>
+<td>
+<p>If TRUE, adds 95% prediction bands for E(Y|joint exposure) (the MSM fit)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>flexfit</code></td>
+<td>
+<p>(boot.gcomp only) if TRUE, adds flexible interpolation of predictions from
+underlying (conditional) model</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pointwiseref</code></td>
+<td>
+<p>(boot.gcomp only) integer: which category of exposure (from 1 to q)
+should serve as the referent category for pointwise comparisons? (default=1)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>unused</p>
+</td>
+</tr>
+</table>
+<h3>Functions</h3>
+
+
+<ul><li> <p><code>plot(qgcompmultfit)</code>: Plot method for qgcomp multinomial fits
+</p>
+</li></ul>
+<h3>See Also</h3>
+
+<p><code>qgcomp.glm.noboot</code>, <code>qgcomp.glm.boot</code>, and <code>qgcomp</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">set.seed(12)
+dat &lt;- data.frame(x1=(x1 &lt;- runif(100)), x2=runif(100), x3=runif(100), z=runif(100),
+                  y=runif(100)+x1+x1^2)
+ft &lt;- qgcomp.glm.noboot(y ~ z + x1 + x2 + x3, expnms=c('x1','x2','x3'), data=dat, q=4)
+ft
+# display weights
+plot(ft)
+# examining fit
+plot(ft$fit, which=1) # residual vs. fitted is not straight line!
+## Not run: 
+
+# using non-linear outcome model
+ft2 &lt;- qgcomp.glm.boot(y ~ z + x1 + x2 + x3 + I(x1*x1), expnms=c('x1','x2','x3'), 
+data=dat, q=4, B=10)
+ft2
+plot(ft2$fit, which=1) # much better looking fit diagnostics suggests
+# it is better to include interaction term for x
+plot(ft2) # the msm predictions don't match up with a smooth estimate
+# of the expected outcome, so we should consider a non-linear MSM
+
+# using non-linear marginal structural model
+ft3 &lt;- qgcomp.glm.boot(y ~ z + x1 + x2 + x3 + I(x1*x1), expnms=c('x1','x2','x3'), 
+data=dat, q=4, B=10, degree=2)
+# plot(ft3$fit, which=1) - not run - this is identical to ft2 fit
+plot(ft3) # the MSM estimates look much closer to the smoothed estimates
+# suggesting the non-linear MSM fits the data better and should be used
+# for inference about the effect of the exposure
+
+# binary outcomes, logistic model with or without a log-binomial marginal 
+structural model
+dat &lt;- data.frame(y=rbinom(100,1,0.5), x1=runif(100), x2=runif(100), z=runif(100))
+fit1 &lt;- qgcomp.glm.boot(y ~ z + x1 + x2, family="binomial", expnms = c('x1', 'x2'), 
+         data=dat, q=9, B=100, rr=FALSE)
+fit2 &lt;- qgcomp.glm.boot(y ~ z + x1 + x2, family="binomial", expnms = c('x1', 'x2'), 
+         data=dat, q=9, B=100, rr=TRUE)
+plot(fit1)
+plot(fit2)
+# Using survival data ()
+set.seed(50)
+N=200
+dat &lt;- data.frame(time=(tmg &lt;- pmin(.1,rweibull(N, 10, 0.1))), 
+                d=1.0*(tmg&lt;0.1), x1=runif(N), x2=runif(N), z=runif(N))
+expnms=paste0("x", 1:2)
+f = survival::Surv(time, d)~x1 + x2
+(fit1 &lt;- survival::coxph(f, data = dat))
+# non-bootstrap method to get a plot of weights
+(obj &lt;- qgcomp.cox.noboot(f, expnms = expnms, data = dat))
+plot(obj)
+
+# bootstrap method to get a survival curve
+# this plots the expected survival curve for the underlying (conditional) model
+# as well as the expected survival curve for the MSM under the following scenarios:
+#  1) highest joint exposure category
+#  2) lowest joint exposure category
+#  3) average across all exposure categories 
+# differences between the MSM and conditional fit suggest that the MSM is not flexible
+# enough to accomodate non-linearities in the underlying fit (or they may simply signal that
+# MCSize should be higher). Note that if linearity
+# is assumed in the conditional model, the MSM will typically also appear linear and
+# will certainly appear linear if no non-exposure covariates are included in the model
+# not run (slow when using boot version to proper precision)
+(obj2 &lt;- qgcomp.cox.boot(f, expnms = expnms, data = dat, B=10, MCsize=2000))
+plot(obj2)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

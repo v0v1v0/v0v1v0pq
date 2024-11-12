@@ -1,0 +1,58 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>get_study_info</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Get the Details/Metadata of the Current Active Study</h2>
+
+<h3>Description</h3>
+
+<p>Retrieves detailed metadata for the currently active study. The study must be 
+set using the <code>set_study</code> function, and its details will be fetched 
+from the BrAPI server.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">get_study_info()
+</code></pre>
+
+
+<h3>Value</h3>
+
+<p>A data frame containing the metadata of the active study. Returns <code>NULL</code> 
+if no study metadata is available.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Khaled Al-Shamaa, <a href="mailto:k.el-shamaa@cgiar.org">k.el-shamaa@cgiar.org</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>login_bms</code>, <code>set_crop</code>, <code>set_program</code>, 
+<code>set_trial</code>, <code>set_study</code> for related crop and study management.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">if (interactive()) {
+  set_qbms_config("https://bms.icarda.org/ibpworkbench")
+  login_bms()
+  set_crop("wheat")
+  set_program("Wheat International Nurseries")
+  set_trial("IDYT39")
+  set_study("IDYT39 Environment Number 9")
+  info &lt;- get_study_info()
+}
+
+</code></pre>
+
+
+</div>

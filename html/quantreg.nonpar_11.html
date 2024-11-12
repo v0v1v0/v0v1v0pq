@@ -1,0 +1,316 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>npqr</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Nonparametric Series Quantile Regression
+</h2>
+
+<h3>Description</h3>
+
+<p>Implements the nonparametric quantile regression methods developed by Belloni, Chernozhukov, and Fernandez-Val (2011) to partially linear quantile models, <code class="reqn">Y=g(w,u)+v'\gamma(u)</code>, <code class="reqn">u|v,w~U[0,1]</code>. Provides point estimates of the conditional quantile function and its derivatives based on series approximations to the nonparametric part of the model, <code class="reqn">g(w,u)</code>, approximated by <code class="reqn">Z(w)'\beta(u)</code>. Provides pointwise and uniform confidence intervals using analytic and resampling methods.</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">npqr(formula, data, basis = NULL, var, taus = c(0.25, 0.5, 0.75), 
+	print.taus = NULL, B = 200, nderivs = 1, average = T, 
+	load = NULL, alpha = 0.05, process = "pivotal", rearrange = F, 
+	rearrange.vars="quantile", uniform = F, se = "unconditional", 
+	printOutput = T, method = "fn")
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>formula</code></td>
+<td>
+
+<p>a formula object, with the response Y on the left of a ~ operator, and the covariate terms, separated by + operators on the right, not including the regressor whose effect is to be estimated nonparametrically. Operators such as '*', ':', 'log()', and 'I()' are allowable. However, factor variables should be constructed prior to entry in the formula: the 'factor()' operator is not allowable.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+
+<p>a data.frame in which to interpret the variables named in the <code>formula</code> and <code>var</code> arguments.  Observations in <code>data</code> used to construct the loading vector (either manually or automatically) will be hereafter referred to as w.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>basis</code></td>
+<td>
+
+<p>a nonparametric basis object (created with the package <code>fda</code>), an orthogonal polynomial basis of class <code>"poly"</code>, or a factor variable that will be used to estimate the effect of <code>var</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>var</code></td>
+<td>
+
+<p>a column name within <code>data</code> whose values will be used, in combination with <code>basis</code>, to create the vectors used in the nonparametric part of the model.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>taus</code></td>
+<td>
+
+<p>a vector of quantiles of interest.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>print.taus</code></td>
+<td>
+
+<p>a vector of quantiles (which must be a subset of <code>taus</code>), estimates for which will be printed as output.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>B</code></td>
+<td>
+
+<p>the number of simulations (for the pivotal and gaussian methods) or bootstrap repetitions (for the weighted bootstrap and gradient bootstrap methods) to be performed.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nderivs</code></td>
+<td>
+
+<p>if <code>load</code> is not input, the number of derivatives of the conditional quantile function upon which inference should be performed.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>average</code></td>
+<td>
+
+<p>if <code>load</code> is not input, if <code>average=TRUE</code>, specifies that inference should be performed on the average value of a derivative (as specified by <code>nderivs</code>) of the conditional quantile function (inference cannot be performed when <code>average=TRUE</code> and <code>nderivs=0</code>). If <code>average=FALSE</code>, inference will be run at each unique value of the variable of interest in the dataset.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>load</code></td>
+<td>
+
+<p>optional manual input of loading vector (or matrix of loading vectors) that will be used as data points at which inference will be performed and over which hypothesis tests will be conducted. Each vector of <code>load</code> should be input as the concatenation of vectors whose entries correspond to the entries of <code class="reqn">v</code> and <code class="reqn">Z(w)</code>, respectively (for example, the average values of each variable for the parametric part of the model, <code class="reqn">v</code>, and a specific point for the nonparametric part of the model, <code class="reqn">Z(w)</code>).
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>alpha</code></td>
+<td>
+
+<p>a real number between 0 and 1: the desired significance level (e.g., 0.05).
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>process</code></td>
+<td>
+
+<p>either "pivotal", "gaussian", "wbootstrap", "gbootstrap", or "none": specifies the process used to estimate confidence intervals and p-values of hypothesis tests (or, if <code>process = "none"</code>, specifies that inference should not be performed).
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rearrange</code></td>
+<td>
+
+<p>a boolean specifiying whether estimates will be monotonized prior to performing inference (requires that <code>average=FALSE</code> and <code>nderivs=0</code>).
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rearrange.vars</code></td>
+<td>
+
+<p>if <code>rearrange = TRUE</code>, specifies whether monotonization will occur over "quantile", "var" (the variable of interest), or "both".
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>uniform</code></td>
+<td>
+
+<p>a boolean specifying whether inference will be done uniformly across observations and quantiles or in a pointwise manner.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>se</code></td>
+<td>
+
+<p>either "conditional" or "unconditional". Specifies whether standard errors, for pivotal and gaussian methods, will be conditional on the sample or not.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>printOutput</code></td>
+<td>
+
+<p>a boolean specifying whether or not output will be printed.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+
+<p>method to be implemented in quantile regressions: passed to function <code>rq</code>.
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The loading vector may be specified in one of two ways: it may be input manually with <code>load</code>. If <code>load</code> is not specified, the loading vector will be calculated automatically using <code>average</code> and <code>nderivs</code> as parameters.
+</p>
+<p>Note that derivatives calculated automatically will always be with respect to the nonparametric variable of interest, <code>var</code>. This means that, for example, if <code>var=logprice</code>, where <code>logprice</code> is the natural logarithm of price, then the derivative will be taken with respect to <code>logprice</code>, not with respect to <code>price</code>.  Specification of <code>var</code> will not admit mathematical functions such as <code>log</code>.  Specification of <code>formula</code> will admit some functions (e.g., <code>log</code>, multiplication of covariates, interaction of covariates). However, formula will not admit some formula operators; in particular, factor variables must be saved as new variables prior to entry into formula. See the vignette for more information.
+</p>
+
+
+<h3>Value</h3>
+
+<p>returns a list of results
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>CI</code></td>
+<td>
+<p>an array containing the two-sided confidence interval for each pair of loading vectors and <code>taus</code>.  The array is j by i by 2, where j is the number of loading vectors specified (i.e., the number of observations in the dataset if <code>average=FALSE</code> and 1 if <code>average=TRUE</code>) and i is the number of <code>taus</code> specified. The final dimension  indexes the lower and upper bounds of the confidence interval, respectively.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>CI.oneSided</code></td>
+<td>
+<p>an array containing the one-sided confidence bounds for each pair of loading vectors and <code>taus</code>.  The array is j by i by 2, where j is the number of loading vectors specified (i.e., the number of observations in the dataset if <code>average=FALSE</code> and 1 if <code>average=TRUE</code>) and i is the number of <code>taus</code> specified. The final dimension  indexes the lower and upper confidence bounds, respectively.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>point.est</code></td>
+<td>
+<p>a matrix containing the point estimates of interest (e.g., the average derivative of the conditional quantile function) for each pair of loading vectors and <code>taus</code>.  The matrix is j by i, where j is the number of loading vectors specified (i.e., the number of observations in the dataset if <code>average=FALSE</code> and 1 if <code>average=TRUE</code>) and i is the number of <code>taus</code> specified.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>std.error</code></td>
+<td>
+<p>a matrix containing estimated standard errors for the point estimates for each pair of loading vectors and <code>taus</code>.  Depending on user selections, these may be conditional on the sample or unconditional. The array is j by i, where j is the number of loading vectors specified (i.e., the number of observations in the dataset if <code>average=FALSE</code> and 1 if <code>average=TRUE</code>) and i is the number of <code>taus</code> specified.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pvalues</code></td>
+<td>
+<p>a vector containing the p-values for hypothesis tests of three null hypotheses. First, that theta(tau,w) &lt;= 0 for all (tau,w) pairs, where theta is the quantity of interest (e.g., the derivative of the function at each quantile and at each observation). Second, that theta(tau,w) &gt;= 0 for all (tau,w) pairs. Third, that theta(tau,w) = 0 for all (tau,w) pairs.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>taus</code></td>
+<td>
+<p>This is the input vector of quantile indexes.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>coefficients</code></td>
+<td>
+<p>a list of length equal to the number of <code>taus</code> specified.  Each element of the list contains the coefficients from the nonparametric quantile regression performed at the corresponding <code>taus</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>var.unique</code></td>
+<td>
+<p>a vector containing all values of the covariate of interest with no repeated values.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>load</code></td>
+<td>
+<p>the loading vector or matrix of loading vectors used as data points at which inference was performed and over which hypothesis tests were conducted. If <code>load</code> was not input by the user, <code>load</code> is generated based on <code>average</code> and <code>nderivs</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Michael Lipsitz, Alexandre Belloni, Victor Chernozhukov, Ivan Fernandez-Val
+</p>
+
+
+<h3>References</h3>
+
+<p>Belloni, A., Chernozhukov, V., and I. Fernandez-Val (2011), "Conditional quantile processes based on series or many regressors," arXiv: 1105:6154.
+</p>
+<p>Koenker, R. (2011), "Additive models for quantile regression: Model selection and confidence bandaids," Brazilian Journal of Probability and Statistics 25(3), pp. 239-262.
+</p>
+<p>Koenker, R. and G. Bassett (1978): "Regression Quantiles," Econometrica 46, pp. 33-50.
+</p>
+<p>Ramsay, J.O., Wickham, H., Graves, S., and G. Hooker (2013), "fda: Functional Data Analysis," R package version 2.3.6, http://CRAN.R-project.org/package=fda
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>rq</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(india)
+
+## Subset the data for speed
+india.subset&lt;-india[1:1000,]
+
+formula=cheight~mbmi+breastfeeding+mage+medu+edupartner
+  
+basis.bsp &lt;- create.bspline.basis(breaks=quantile(india$cage,c(0:10)/10))
+  
+n=length(india$cage)
+B=500
+alpha=.95
+taus=c(1:24)/25
+print.taus=c(1:4)/5
+
+## Inference on average growth rate
+
+piv.bsp &lt;- npqr(formula=formula, data=india.subset, basis=basis.bsp, 
+	var="cage", taus=taus, print.taus=print.taus, B=B, nderivs=1, 
+	average=1, alpha=alpha, process="pivotal", rearrange=FALSE, 
+	uniform=TRUE, se="unconditional", printOutput=TRUE, method="fn")
+
+yrange&lt;-range(piv.bsp$CI)
+xrange&lt;-c(0,1)
+plot(xrange,yrange,type="n",xlab="",ylab="Average Growth (cm/month)")
+lines(piv.bsp$taus,piv.bsp$point.est)
+lines(piv.bsp$taus,piv.bsp$CI[1,,1],col="blue")
+lines(piv.bsp$taus,piv.bsp$CI[1,,2],col="blue")
+title("Average Growth Rate")
+
+## Estimation on average growth acceleration with no inference
+
+piv.bsp.secondderiv &lt;- npqr(formula=formula, data=india.subset, 
+	basis=basis.bsp, var="cage", taus=taus, print.taus=print.taus, 
+	B=B, nderivs=2, average=0, alpha=alpha, process="none", 
+	se="conditional", rearrange=FALSE, printOutput=FALSE, method="fn")
+
+xsurf&lt;-as.vector(piv.bsp.secondderiv$taus)
+ysurf&lt;-as.vector(piv.bsp.secondderiv$var.unique)
+zsurf&lt;-t(piv.bsp.secondderiv$point.est)
+
+persp(xsurf, ysurf, zsurf, xlab="Quantile", ylab="Age (months)",
+	zlab="Growth Acceleration", ticktype="detailed", phi=30, 
+	theta=120, d=5, col="green", shade=0.75, main="Growth Acceleration")
+
+</code></pre>
+
+
+</div>

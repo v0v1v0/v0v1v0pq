@@ -1,0 +1,79 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>hgs</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Calculate hypergeometric series</h2>
+
+<h3>Description</h3>
+
+<p>These internal functions calculate (summands of) hypergeometric series.
+</p>
+<p><code>hgs_1d()</code> calculates the hypergeometric series
+<code class="reqn">c \frac{(a_1)_i}{(b)_i} d_{i}</code>
+</p>
+<p><code>hgs_2d()</code> calculates the hypergeometric series
+<code class="reqn">c \frac{(a_1)_i (a_2)_j}{(b)_{i+j}} d_{i, j}</code>
+</p>
+<p><code>hgs_3d()</code> calculates the hypergeometric series
+<code class="reqn">c \frac{(a_1)_i (a_2)_j (a_3)_k}{(b)_{i+j+k}} d_{i, j, k}</code>
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">hgs_1d(dks, a1, b, lconst = 0)
+
+hgs_2d(dks, a1, a2, b, lconst = 0)
+
+hgs_3d(dks, a1, a2, a3, b, lconst = 0)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>dks</code></td>
+<td>
+<p><code>(m + 1)</code> vector for <code class="reqn">d_{i}</code>,
+<code>(m + 1) * (m + 1)</code> square matrix for <code class="reqn">d_{i,j}</code>, or
+<code>(m + 1) * (m + 1) * (m + 1)</code> array for <code class="reqn">d_{i,j,k}</code>
+(<code class="reqn">i, j, k = 0, 1, \dots m</code>)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>a1, a2, a3</code></td>
+<td>
+<p>Numerator parameters</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>b</code></td>
+<td>
+<p>Denominator parameter</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lconst</code></td>
+<td>
+<p>Scalar <code class="reqn">\log c</code></p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The denominator parameter <code>b</code> is assumed positive,
+whereas the numerator parameters can be positive or negative.  The signs
+of the latter will be reflected in the result.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Numeric with the same dimension with <code>dks</code>
+</p>
+
+
+</div>

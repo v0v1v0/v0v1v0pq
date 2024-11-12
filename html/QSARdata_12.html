@@ -1,0 +1,85 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>AquaticTox</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Fathead Minnow Acute Aquatic Toxicity</h2>
+
+<h3>Description</h3>
+
+<p>These data were compiled and described by He and Jurs (2005). The data set consists of 322 compounds that were experimentally assessed for toxicity. The outcome is the negative log of activity (but is labled as "activity"). The structures and outcomes were obtained from <a href="http://www.qsarworld.com/index.php">http://www.qsarworld.com/index.php</a>.
+</p>
+<p>The package contains none sets of molecular descriptors: atom pair distances, Daylight fingerprints (<a href="http://www.daylight.com/dayhtml/doc/theory/theory.finger.html">http://www.daylight.com/dayhtml/doc/theory/theory.finger.html</a>), Dragon descriptors (<a href="http://www.talete.mi.it/products/dragon_plus.htm">http://www.talete.mi.it/products/dragon_plus.htm</a>), MOE2D, MOE2D fingerprints, MOE3D, PipelinePilot fingerprints (<a href="http://accelrys.com/products/pipeline-pilot/">http://accelrys.com/products/pipeline-pilot/</a>) and QuickProp descriptors (<a href="http://www.schrodinger.com/products/14/17/">http://www.schrodinger.com/products/14/17/</a>).
+</p>
+<p>For fingerprints, the 500 most variable bits were selected whenever possible.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">data(AquaticTox)</code></pre>
+
+
+<h3>Format</h3>
+
+<p>The data consist of several data frames. The first column of the descriptor data frames is called "Molecule" representing the compounds.
+</p>
+
+<dl>
+<dt>AquaticTox_AtomPair</dt>
+<dd>
+<p>Atom pair descriptors</p>
+</dd>
+<dt>AquaticTox_Daylight_FP</dt>
+<dd>
+<p>Daylight fingerprints (<a href="http://www.daylight.com/dayhtml/doc/theory/theory.finger.html">http://www.daylight.com/dayhtml/doc/theory/theory.finger.html</a>)</p>
+</dd>   
+<dt>AquaticTox_Dragon</dt>
+<dd>
+<p>Dragon descriptors (<a href="http://www.talete.mi.it/products/dragon_plus.htm">http://www.talete.mi.it/products/dragon_plus.htm</a>)</p>
+</dd> 
+<dt>AquaticTox_Lcalc</dt>
+<dd>
+<p>LCALC descriptors</p>
+</dd>
+<dt>AquaticTox_moe2D</dt>
+<dd>
+<p>2 dimensional MOE descriptors</p>
+</dd>
+<dt>AquaticTox_moe2D_FP</dt>
+<dd>
+<p>2 dimensional MOE fingerprints</p>
+</dd>
+<dt>AquaticTox_moe3D</dt>
+<dd>
+<p>3 dimensional MOE descriptors</p>
+</dd>
+<dt>AquaticTox_PipelinePilot_FP</dt>
+<dd>
+<p>PipelinePilot fingerprints (<a href="http://accelrys.com/products/pipeline-pilot/">http://accelrys.com/products/pipeline-pilot/</a>)</p>
+</dd>
+<dt>AquaticTox_QuickProp</dt>
+<dd>
+<p>QuickProp descriptors</p>
+</dd>
+<dt>AquaticTox_Outcome</dt>
+<dd>
+<p>a data frame with columns for the molecule name and the outcome (for merging)</p>
+</dd>
+</dl>
+<h3>References</h3>
+
+<p>He and Jurs. Assessing the reliability of a QSAR model's predictions. Journal of Molecular Graphics and Modelling (2005) vol. 23 (6) pp. 503-523
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(AquaticTox)
+head(AquaticTox_Outcome)
+</code></pre>
+
+
+</div>

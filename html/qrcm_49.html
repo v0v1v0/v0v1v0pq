@@ -1,0 +1,122 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>plot.iqr</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Plot Quantile Regression Coefficients
+</h2>
+
+<h3>Description</h3>
+
+<p>Plots quantile regression coefficients 
+<code class="reqn">\beta(p)</code> as a function of <code class="reqn">p</code>,
+based on a fitted model of class “<code>iqr</code>”.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'iqr'
+plot(x, conf.int = TRUE, polygon = TRUE, which = NULL, ask = TRUE, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+
+<p>an object of class “<code>iqr</code>”, typically the result of a call to <code>iqr</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>conf.int</code></td>
+<td>
+
+<p>logical. If <kbd>TRUE</kbd>, asymptotic 95% confidence intervals are added to the plot.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>polygon</code></td>
+<td>
+
+<p>logical. If <kbd>TRUE</kbd>, confidence intervals are represented by shaded areas via <code>polygon</code>.
+Otherwise, dashed lines are used.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>which</code></td>
+<td>
+
+<p>an optional numerical vector indicating which coefficient(s) to plot. If <kbd>which = NULL</kbd>, 
+all coefficients are plotted.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ask</code></td>
+<td>
+<p>logical. If <kbd>which = NULL</kbd> and <kbd>ask = TRUE</kbd> (the default), you will be asked
+interactively which coefficients to plot.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>additional graphical parameters, that can include <kbd>xlim, ylim, xlab, ylab, col, lwd, cex.lab, cex.axis, axes, frame.plot</kbd>. 
+See <code>par</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Using <code>iqr</code>, each quantile regression coefficient <code class="reqn">\beta(p)</code> is described by a linear
+combination of known parametric functions of <code class="reqn">p</code>. With this command, a plot of
+<code class="reqn">\beta(p)</code> versus <code class="reqn">p</code> is created. If <kbd>ask = TRUE</kbd>, an additional option permits
+plotting a Q-Q plot of the fitted cumulative distribution function (<abbr><span class="acronym">CDF</span></abbr>), that should follow
+a U(0,1) distribution if the model is correctly specified. If the data are censored or truncated,
+this is assessed applying the Kaplan-Meier estimator to the fitted <abbr><span class="acronym">CDF</span></abbr> values.
+See also <code>test.fit</code> for a formal test of uniformity.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Paolo Frumento <a href="mailto:paolo.frumento@unipi.it">paolo.frumento@unipi.it</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>iqr</code> for model fitting; <code>summary.iqr</code> and <code>predict.iqr</code>
+for model summary and prediction.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">  
+  # using simulated data
+  
+  n &lt;- 1000
+  x &lt;- runif(n)
+  qy &lt;- function(p,x){p^2 + x*log(p)}
+  # true quantile function: Q(p | x) = beta0(p) + beta1(p)*x, with
+     # beta0(p) = p^2
+     # beta1(p) = log(p)
+  y &lt;- qy(runif(n), x) # to generate y, plug uniform p in qy(p,x)
+  
+  par(mfrow = c(1,2))
+  plot(iqr(y ~ x, formula.p = ~ slp(p,3)), ask = FALSE) 
+  # flexible fit with shifted Legendre polynomials
+</code></pre>
+
+
+</div>

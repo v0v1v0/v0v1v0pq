@@ -1,0 +1,206 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>augX</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Generate Pseudo-Responses Based on Conditional Quantile Regression
+Models</h2>
+
+<h3>Description</h3>
+
+<p>This function supports the <code>DR_Qopt</code> function.
+For every observation, we generate pseudo-observations corresponding
+to treatment 0 and 1 respectively based on working conditional quantile models.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">augX(raw.data, length.out = 200, txVec, moCondQuant_0, moCondQuant_1,
+  nlCondQuant_0 = FALSE, nlCondQuant_1 = FALSE, start_0 = NULL,
+  start_1 = NULL, clnodes)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>raw.data</code></td>
+<td>
+<p>A data frame, must contain all the variables that appear in 
+<code>moCondQuant_0</code> and <code>moCondQuant_1</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>length.out</code></td>
+<td>
+<p>an integer greater than 1.  If one of the conditional quantile
+model is set to be nonlinear, this argument will be triggered and we will fit 
+<code>length.out</code> models across quantiles equally spaced between 0.001 and 0.999.
+The larger this value, the more refined the performance of this method.
+Default is 200.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>txVec</code></td>
+<td>
+<p>a numeric vector of observed treatment levels coded 0L and 1L.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>moCondQuant_0</code></td>
+<td>
+<p>A formula, used to specify the formula for the conditional
+quantile function when treatment = 0.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>moCondQuant_1</code></td>
+<td>
+<p>A formula, used to specify the formula for the conditional
+quantile function when treatment = 1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nlCondQuant_0</code></td>
+<td>
+<p>logical.
+When <code>nlCondQuant_0 = TRUE</code>, it is indicated that <code>moCondQuant_0</code> is nonlinear.
+The default value of this variable is <code>FALSE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nlCondQuant_1</code></td>
+<td>
+<p>logical.
+When <code>nlCondQuant_1 = TRUE</code>, it is indicated that <code>moCondQuant_1</code> is nonlinear.
+The default value of this variable is <code>FALSE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>start_0</code></td>
+<td>
+<p>either a list object, providing the starting value in estimating 
+the parameters in the nonlinear conditional quantile model, given that treatment=0. 
+Default is <code>NULL</code>, corresponding to the case when <code>nlCondQuant_0=FALSE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>start_1</code></td>
+<td>
+<p>either a list object, providing the starting value in estimating 
+the parameters in the nonlinear conditional quantile model, given that treatment=0. 
+Default is <code>NULL</code>, corresponding to the case when <code>nlCondQuant_1=FALSE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>clnodes</code></td>
+<td>
+<p>Either a cluster object to enable parallel computation or 
+<code>NULL</code>. If <code>NULL</code>, no parallel computation will be used.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>This function implements the algorithm to generate individual level pseudo responses 
+for two treatment levels respectively.
+</p>
+<p>For each observation, two independent random variables from 
+<code class="reqn">{unif}[0,1]</code> are generated. Denote them by <code class="reqn">u_0</code> 
+and <code class="reqn">u_1</code>. Approximately, this function then estimates the <code class="reqn">u_0</code>th quantile
+of this observation were treatment level 0 is applied via the conditional <code class="reqn">u_0</code>th quantile regression. 
+This estimated quantile will be the pseudo-response for treatment 0. 
+Similarly, this function the pseudo-response for treatment 1 will be estimated and returned.
+</p>
+<p>See the reference paper for a more formal explanation.
+</p>
+
+
+<h3>Value</h3>
+
+<p>It returns a list object, consisting of the following elements:
+</p>
+
+<ol>
+<li> <p><code>y.a.0</code>, the vector of estimated individual level pseudo outcomes,
+given the treatment is 0;
+</p>
+</li>
+<li> <p><code>y.a.1</code>, the vector of estimated individual level pseudo outcomes, 
+given the treatment is 1;
+</p>
+</li>
+<li> <p><code>nlCondQuant_0</code>, logical, indicating whether the <code>y.a.0</code>
+is generated based on a nonlinear conditional quantile model.
+</p>
+</li>
+<li> <p><code>nlCondQuant_1</code>, logical, indicating whether the <code>y.a.1</code>
+is generated based on a nonlinear conditional quantile model.
+</p>
+</li>
+</ol>
+<h3>References</h3>
+
+<p>Wang L, Zhou Y, Song R and Sherwood B (2017).
+“Quantile-Optimal Treatment Regimes.”
+<em>Journal of the American Statistical Association</em>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">ilogit &lt;- function(x) exp(x)/(1 + exp(x))
+GenerateData.DR &lt;- function(n)
+{
+  x1 &lt;- runif(n,min=-1.5,max=1.5)
+  x2 &lt;- runif(n,min=-1.5,max=1.5)
+  tp &lt;- ilogit( 1 - 1*x1^2 - 1* x2^2)
+  a &lt;-rbinom(n,1,tp)
+  y &lt;- a * exp(0.11 - x1- x2) + x1^2 + x2^2 +  a*rgamma(n, shape=2*x1+3, scale = 1) +
+       (1-a)*rnorm(n, mean = 2*x1 + 3, sd = 0.5)
+  return(data.frame(x1=x1,x2=x2,a=a,y=y))
+}
+regimeClass = as.formula(a ~ x1+x2)
+moCondQuant_0 = as.formula(y ~ x1+x2+I(x1^2)+I(x2^2))
+moCondQuant_1 = as.formula(y ~ exp( 0.11 - x1 - x2)+ x1^2 + p0 + p1*x1
++ p2*x1^2 + p3*x1^3 +p4*x1^4 )
+start_1 = list(p0=0, p1=1.5, p2=1, p3 =0,p4=0)
+
+## Not run: 
+n&lt;-200
+testdata &lt;- GenerateData.DR(n)
+fit1 &lt;- augX(raw.data=testdata, txVec = testdata$a,
+             moCondQuant_0=moCondQuant_0, moCondQuant_1=moCondQuant_1,
+             nlCondQuant_0=FALSE,   nlCondQuant_1=TRUE,
+             start_1=start_1, 
+             clnodes=NULL)  
+ 
+# How to use parallel computing in AugX(): ##
+ 
+# on Mac OSX/linux
+ clnodes &lt;- parallel::makeForkCluster(nnodes =getOption("mc.cores",2))
+ fit2 &lt;- augX(raw.data=testdata, length.out = 5, txVec = testdata$a,
+             moCondQuant_0=moCondQuant_0, moCondQuant_1=moCondQuant_1,
+             nlCondQuant_0=FALSE,   nlCondQuant_1=TRUE,
+             start_1=start_1, 
+             clnodes=clnodes)  
+  
+# on Windows
+ clnodes &lt;- parallel::makeCluster(2, type="PSOCK")
+ fit3 &lt;- augX(raw.data=testdata, length.out = 5, txVec = testdata$a,
+             moCondQuant_0=moCondQuant_0, moCondQuant_1=moCondQuant_1,
+             nlCondQuant_0=FALSE,   nlCondQuant_1=TRUE,
+             start_1=start_1, 
+             clnodes=clnodes)  
+ 
+## End(Not run)
+ 
+ 
+ 
+</code></pre>
+
+
+</div>

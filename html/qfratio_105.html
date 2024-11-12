@@ -1,0 +1,669 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>dqfr</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Probability distribution of ratio of quadratic forms</h2>
+
+<h3>Description</h3>
+
+<p><code>dqfr()</code>: Density of the (power of) ratio of quadratic forms,
+<code class="reqn">\left( \frac{ \mathbf{x^{\mathit{T}} A x} }{
+                   \mathbf{x^{\mathit{T}} B x} } \right) ^ p
+</code>, where
+<code class="reqn">\mathbf{x} \sim N_n(\bm{\mu}, \mathbf{\Sigma})</code>.
+</p>
+<p><code>pqfr()</code>: Distribution function of the same.
+</p>
+<p><code>qqfr()</code>: Quantile function of the same.
+</p>
+<p><code>dqfr_A1I1()</code>: internal for <code>dqfr()</code>,
+exact series expression of Hillier (2001).  Only accommodates
+the simple case where <code class="reqn">\mathbf{B} = \mathbf{I}_n</code> and
+<code class="reqn">\bm{\mu} = \mathbf{0}_n</code>.
+</p>
+<p><code>dqfr_broda()</code>: internal for <code>dqfr()</code>,
+exact numerical inversion algorithm of Broda &amp; Paolella (2009).
+</p>
+<p><code>dqfr_butler()</code>: internal for <code>dqfr()</code>,
+saddlepoint approximation of Butler &amp; Paolella (2007, 2008).
+</p>
+<p><code>pqfr_A1B1()</code>: internal for <code>pqfr()</code>,
+exact series expression of Forchini (2002, 2005).
+</p>
+<p><code>pqfr_imhof()</code>: internal for <code>pqfr()</code>,
+exact numerical inversion algorithm of Imhof (1961).
+</p>
+<p><code>pqfr_davies()</code>: internal for <code>pqfr()</code>,
+exact numerical inversion algorithm of Davies (1973, 1980).
+This is <strong>experimental</strong> and may be removed in the future.
+</p>
+<p><code>pqfr_butler()</code>: internal for <code>pqfr()</code>,
+saddlepoint approximation of Butler &amp; Paolella (2007, 2008).
+</p>
+<p>The user is supposed to use the exported functions <code>dqfr()</code>,
+<code>pqfr()</code>, and <code>qqfr()</code>, which are (pseudo-)vectorized with respect
+to <code>quantile</code> or <code>probability</code>.  The actual calculations are done
+by one of the internal functions, which only accommodate a length-one
+<code>quantile</code>.  The internal functions skip most checks on argument
+structures and do not accommodate <code>Sigma</code>
+to reduce execution time.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">dqfr(
+  quantile,
+  A,
+  B,
+  p = 1,
+  mu = rep.int(0, n),
+  Sigma = diag(n),
+  log = FALSE,
+  method = c("broda", "hillier", "butler"),
+  trim_values = TRUE,
+  normalize_spa = FALSE,
+  return_abserr_attr = FALSE,
+  m = 100L,
+  tol_zero = .Machine$double.eps * 100,
+  tol_sing = tol_zero,
+  ...
+)
+
+pqfr(
+  quantile,
+  A,
+  B,
+  p = 1,
+  mu = rep.int(0, n),
+  Sigma = diag(n),
+  lower.tail = TRUE,
+  log.p = FALSE,
+  method = c("imhof", "davies", "forchini", "butler"),
+  trim_values = TRUE,
+  return_abserr_attr = FALSE,
+  m = 100L,
+  tol_zero = .Machine$double.eps * 100,
+  tol_sing = tol_zero,
+  ...
+)
+
+qqfr(
+  probability,
+  A,
+  B,
+  p = 1,
+  mu = rep.int(0, n),
+  Sigma = diag(n),
+  lower.tail = TRUE,
+  log.p = FALSE,
+  trim_values = FALSE,
+  return_abserr_attr = FALSE,
+  stop_on_error = FALSE,
+  m = 100L,
+  tol_zero = .Machine$double.eps * 100,
+  tol_sing = tol_zero,
+  epsabs_q = .Machine$double.eps^(1/2),
+  maxiter_q = 5000,
+  ...
+)
+
+dqfr_A1I1(
+  quantile,
+  LA,
+  m = 100L,
+  check_convergence = c("relative", "strict_relative", "absolute", "none"),
+  use_cpp = TRUE,
+  tol_conv = .Machine$double.eps^(1/4),
+  thr_margin = 100
+)
+
+dqfr_broda(
+  quantile,
+  A,
+  B,
+  mu = rep.int(0, n),
+  autoscale_args = 1,
+  stop_on_error = TRUE,
+  use_cpp = TRUE,
+  tol_zero = .Machine$double.eps * 100,
+  epsabs = epsrel,
+  epsrel = 1e-06,
+  limit = 10000
+)
+
+dqfr_butler(
+  quantile,
+  A,
+  B,
+  mu = rep.int(0, n),
+  order_spa = 2,
+  stop_on_error = FALSE,
+  use_cpp = TRUE,
+  tol_zero = .Machine$double.eps * 100,
+  epsabs = .Machine$double.eps^(1/2),
+  epsrel = 0,
+  maxiter = 5000
+)
+
+pqfr_A1B1(
+  quantile,
+  A,
+  B,
+  m = 100L,
+  mu = rep.int(0, n),
+  check_convergence = c("relative", "strict_relative", "absolute", "none"),
+  stop_on_error = FALSE,
+  use_cpp = TRUE,
+  cpp_method = c("double", "long_double", "coef_wise"),
+  nthreads = 1,
+  tol_conv = .Machine$double.eps^(1/4),
+  tol_zero = .Machine$double.eps * 100,
+  thr_margin = 100
+)
+
+pqfr_imhof(
+  quantile,
+  A,
+  B,
+  mu = rep.int(0, n),
+  autoscale_args = 1,
+  stop_on_error = TRUE,
+  use_cpp = TRUE,
+  tol_zero = .Machine$double.eps * 100,
+  epsabs = epsrel,
+  epsrel = 1e-06,
+  limit = 10000
+)
+
+pqfr_davies(
+  quantile,
+  A,
+  B,
+  mu = rep.int(0, n),
+  autoscale_args = 1,
+  stop_on_error = NULL,
+  tol_zero = .Machine$double.eps * 100,
+  ...
+)
+
+pqfr_butler(
+  quantile,
+  A,
+  B,
+  mu = rep.int(0, n),
+  order_spa = 2,
+  stop_on_error = FALSE,
+  use_cpp = TRUE,
+  tol_zero = .Machine$double.eps * 100,
+  epsabs = .Machine$double.eps^(1/2),
+  epsrel = 0,
+  maxiter = 5000
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>quantile</code></td>
+<td>
+<p>Numeric vector of quantiles <code class="reqn">q</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>A, B</code></td>
+<td>
+<p>Argument matrices.  Should be square.  <code>B</code> should be nonnegative
+definite.  Will be automatically symmetrized in <code>dqfr()</code> and
+<code>pqfr()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p</code></td>
+<td>
+<p>Positive exponent of the ratio, default <code>1</code>.  Unlike in
+<code>qfrm()</code>, the numerator and denominator cannot have
+different exponents.  When <code>p</code> is non-integer, <code>A</code> must be
+nonnegative definite.  For details, see vignette
+<code>vignette("qfratio_distr")</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mu</code></td>
+<td>
+<p>Mean vector <code class="reqn">\bm{\mu}</code> for <code class="reqn">\mathbf{x}</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Sigma</code></td>
+<td>
+<p>Covariance matrix <code class="reqn">\mathbf{\Sigma}</code> for
+<code class="reqn">\mathbf{x}</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>log, lower.tail, log.p</code></td>
+<td>
+<p>Logical; as in regular probability distribution functions.  But these are
+for convenience only, and not meant for accuracy.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+<p>Method to specify an internal function (see “Details”).  In
+<code>dqfr()</code>, options are:
+</p>
+
+<dl>
+<dt><code>"broda"</code></dt>
+<dd>
+<p>default; uses <code>dqfr_broda()</code>, numerical
+inversion of Broda &amp; Paolella (2009)</p>
+</dd>
+<dt><code>"hillier"</code></dt>
+<dd>
+<p>uses <code>dqfr_A1I1()</code>, series expression
+of Hillier (2001)</p>
+</dd>
+<dt><code>"butler"</code></dt>
+<dd>
+<p>uses <code>dqfr_butler()</code>, saddlepoint
+approximation of Butler &amp; Paolella (2007, 2008)</p>
+</dd>
+</dl>
+<p>In <code>pqfr()</code>, options are:
+</p>
+
+<dl>
+<dt><code>"imhof"</code></dt>
+<dd>
+<p>default; uses <code>pqfr_imhof()</code>, numerical
+inversion of Imhof (1961)</p>
+</dd>
+<dt><code>"davies"</code></dt>
+<dd>
+<p>uses <code>pqfr_davies()</code>, numerical inversion
+of Davies (1973, 1980)</p>
+</dd>
+<dt><code>"forchini"</code></dt>
+<dd>
+<p>uses <code>pqfr_A1B1()</code>, series expression
+of Forchini (2002, 2005)</p>
+</dd>
+<dt><code>"butler"</code></dt>
+<dd>
+<p>uses <code>pqfr_butler()</code>, saddlepoint
+approximation of Butler &amp; Paolella (2007, 2008)</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>trim_values</code></td>
+<td>
+<p>If <code>TRUE</code> (default), numerical values outside the mathematically
+permissible support are trimmed in (see “Details”)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>normalize_spa</code></td>
+<td>
+<p>If <code>TRUE</code> and <code>method == "butler"</code>, result is normalized so that
+the density integrates to unity (see “Details”)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>return_abserr_attr</code></td>
+<td>
+<p>If <code>TRUE</code>, absolute error of numerical evaluation is returned
+as an attribute <code>"abserr"</code> (see “Value”)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>m</code></td>
+<td>
+<p>Order of polynomials at which the series expression is truncated.  <code class="reqn">M</code>
+in Hillier et al. (2009, 2014).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tol_zero</code></td>
+<td>
+<p>Tolerance against which numerical zero is determined.  Used to determine,
+e.g., whether <code>mu</code> is a zero vector, <code>A</code> or <code>B</code> equals
+the identity matrix, etc.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tol_sing</code></td>
+<td>
+<p>Tolerance against which matrix singularity and rank are determined.  The
+eigenvalues smaller than this are considered zero.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Additional arguments passed to internal functions.  In <code>qqfr()</code>,
+these are passed to <code>pqfr()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>probability</code></td>
+<td>
+<p>Numeric vector of probabilities</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>stop_on_error</code></td>
+<td>
+<p>If <code>TRUE</code>, execution is stopped upon an error (including
+non-convergence) in evaluation of hypergeometric function,
+numerical integration, or root finding.  If
+<code>FALSE</code>, further execution is attempted regardless.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>LA</code></td>
+<td>
+<p>Eigenvalues of <code class="reqn">\mathbf{A}</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>check_convergence</code></td>
+<td>
+<p>Specifies how numerical convergence is checked for series expression (see
+<code>qfrm</code>)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>use_cpp</code></td>
+<td>
+<p>Logical to specify whether the calculation is done with C++
+functions via <code>Rcpp</code>.  <code>TRUE</code> by default.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tol_conv</code></td>
+<td>
+<p>Tolerance against which numerical convergence of series is checked.  Used
+with <code>check_convergence</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>thr_margin</code></td>
+<td>
+<p>Optional argument to adjust the threshold for scaling (see “Scaling”
+in <code>d1_i</code>).  Passed to internal functions (<code>d1_i</code>,
+<code>d2_ij</code>, <code>d3_ijk</code>) or their C++ equivalents.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>autoscale_args</code></td>
+<td>
+<p>Numeric; if <code>&gt; 0</code> (default), arguments are scaled to avoid failure in
+numerical integration (see <code>vignette("qfratio_distr")</code>).  If
+<code>&lt;= 0</code>, the scaling is skipped.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>epsabs, epsrel, limit, maxiter, epsabs_q, maxiter_q</code></td>
+<td>
+<p>Optional arguments used in numerical integration or root-finding
+algorithm (see vignette:
+<code>vignette("qfratio_distr")</code>).  In <code>qqfr()</code>, <code>epsabs_q</code>
+and <code>maxiter_q</code> are used in root-finding for quantiles whereas
+<code>epsabs</code> and <code>maxiter</code> are passed to <code>pqfr()</code> internally.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>order_spa</code></td>
+<td>
+<p>Numeric to determine order of saddlepoint approximation.  More accurate
+second-order approximation is used for any <code>order &gt; 1</code> (default);
+otherwise, (very slightly) faster first-order approximation is used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cpp_method</code></td>
+<td>
+<p>Method used in C++ calculations to avoid numerical
+overflow/underflow (see “Details” in <code>qfrm</code>)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nthreads</code></td>
+<td>
+<p>Number of threads used in OpenMP-enabled C++
+functions (see “Multithreading” in <code>qfrm</code>)</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p><code>qqfr()</code> is based on numerical root-finding with <code>pqfr()</code> using
+<code>uniroot()</code>, so its result can be affected by the
+numerical errors in both the algorithm used in <code>pqfr()</code> and
+root-finding.
+</p>
+<p><code>dqfr_A1I1()</code> and <code>pqfr_A1B1()</code> evaluate the probability density
+and (cumulative) distribution function, respectively,
+as a partial sum of infinite series involving top-order zonal or
+invariant polynomials (Hillier 2001; Forchini 2002, 2005).  As in other
+functions of this package, these are evaluated with the recursive algorithm
+<code>d1_i</code>.
+</p>
+<p><code>pqfr_imhof()</code> and <code>pqfr_davies()</code> evaluate the distribution
+function by numerical inversion of the characteristic function based on
+Imhof (1961) or Davies (1973, 1980), respectively.  The latter calls
+<code>davies()</code>, and the former with
+<code>use_cpp = FALSE</code> calls <code>imhof()</code>,
+from the package <span class="pkg">CompQuadForm</span>.  Additional arguments for
+<code>davies()</code> can be passed via <code>...</code>,
+except for <code>sigma</code>, which is not applicable.
+</p>
+<p><code>dqfr_broda()</code> evaluates the probability density by numerical inversion
+of the characteristic function using Geary's formula based on
+Broda &amp; Paolella (2009).  Parameters for numerical integration
+can be controlled via the arguments <code>epsabs</code>, <code>epsrel</code>, and
+<code>limit</code> (see vignette: <code>vignette("qfratio_distr")</code>).
+</p>
+<p><code>dqfr_butler()</code> and <code>pqfr_butler()</code> evaluate saddlepoint
+approximations of the density and distribution function, respectively,
+based on Butler &amp; Paolella (2007, 2008).  These are fast but not exact.  They
+conduct numerical root-finding for the saddlepoint by the Brent method,
+parameters for which can be controlled by the arguments
+<code>epsabs</code>, <code>epsrel</code>, and <code>maxiter</code>
+(see vignette: <code>vignette("qfratio_distr")</code>).  The saddlepoint
+approximation density does not integrate to unity, but can be normalized by
+<code>dqfr(..., method = "butler", normalize_spa = TRUE)</code>.  Note that
+this is usually slower than <code>dqfr(..., method = "broda")</code> for
+a small number of quantiles.
+</p>
+<p>The density is undefined, and the distribution function has points of
+nonanalyticity, at the eigenvalues of
+<code class="reqn">\mathbf{B}^{-1} \mathbf{A}</code> (assuming nonsingular
+<code class="reqn">\mathbf{B}</code>).  Around these points,
+the series expressions tends to fail.  Avoid using the series expression
+methods for these cases.
+</p>
+<p>Algorithms based on numerical integration can yield spurious results
+that are outside the mathematically permissible support; e.g.,
+<code class="reqn">[0, 1]</code> for <code>pqfr()</code>.  By default, <code>dqfr()</code> and <code>pqfr()</code>
+trim those values into the permissible range with a warning; e.g.,
+negative p-values are
+replaced by ~<code>2.2e-14</code> (default <code>tol_zero</code>).  Turn
+<code>trim_values = FALSE</code> to skip these trimming and warning, although
+<code>pqfr_imhof()</code> and <code>pqfr_davies()</code> can still throw a warning
+from <span class="pkg">CompQuadForm</span> functions.  Note that, on the other hand,
+all these functions try to return exact <code>0</code> or <code>1</code>
+when <code class="reqn">q</code> is outside the possible range of the statistic.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>dqfr()</code> and <code>pqfr()</code> give the density and distribution
+(or <code class="reqn">p</code>-values) functions, respectively, corresponding to
+<code>quantile</code>, whereas <code>qqfr()</code> gives the quantile function
+corresponding to <code>probability</code>.
+</p>
+<p>When <code>return_abserr_attr = TRUE</code>, an absolute
+error bound of numerical evaluation is returned as an attribute; this
+feature is currently available with <code>dqfr(..., method = "broda")</code>,
+<code>pqfr(..., method = "imhof")</code>, and <code>qqfr(..., method = "imhof")</code>
+(all default) only.  This error bound is automatically transformed when
+trimming happens with <code>trim_values</code> (above) or when
+<code>log</code>/<code>log.p = TRUE</code>.  See vignette for details
+(<code>vignette("qfratio_distr")</code>).
+</p>
+<p>The internal functions return a list containing <code>$d</code> or <code>$p</code>
+(for density and lower <code class="reqn">p</code>-value, respectively), and only this is passed
+to the external function by default.  Other components may be inspected
+for debugging purposes:
+</p>
+
+<dl>
+<dt>
+<code>dqfr_A1I1()</code> and <code>pqfr_A1B1()</code>
+</dt>
+<dd>
+<p>have <code>$terms</code>,
+a vector of <code class="reqn">0</code>th to <code class="reqn">m</code>th order terms.</p>
+</dd>
+<dt>
+<code>pqfr_imhof()</code> and <code>dqfr_broda()</code>
+</dt>
+<dd>
+<p>have <code>$abserr</code>,
+absolute error of numerical integration; the one returned from
+<code>CompQuadForm::imhof()</code> is divided by
+<code>pi</code>, as the integration result itself is (internally).  This is
+passed to the external functions when <code>return_abserr_attr = TRUE</code>
+(above).</p>
+</dd>
+<dt><code>pqfr_davies()</code></dt>
+<dd>
+<p>has the same components as
+<code>CompQuadForm::davies()</code> apart from <code>Qq</code>
+which is replaced by <code>p = 1 - Qq</code>.</p>
+</dd>
+</dl>
+<h3>References</h3>
+
+<p>Broda, S. and Paolella, M. S. (2009) Evaluating the density of ratios of
+noncentral quadratic forms in normal variables.
+<em>Computational Statistics and Data Analysis</em>, <strong>53</strong>, 1264–1270.
+<a href="https://doi.org/10.1016/j.csda.2008.10.035">doi:10.1016/j.csda.2008.10.035</a>
+</p>
+<p>Butler, R. W. and Paolella, M. S. (2007) Uniform saddlepoint approximations
+for ratios of quadratic forms. Technical Reports, Department of Statistical
+Science, Southern Methodist University, no. <strong>351</strong>.
+[Available on <em>arXiv</em> as a preprint.]
+<a href="https://doi.org/10.48550/arXiv.0803.2132">doi:10.48550/arXiv.0803.2132</a>
+</p>
+<p>Butler, R. W. and Paolella, M. S. (2008) Uniform saddlepoint approximations
+for ratios of quadratic forms. <em>Bernoulli</em>, <strong>14</strong>, 140–154.
+<a href="https://doi.org/10.3150/07-BEJ6169">doi:10.3150/07-BEJ6169</a>
+</p>
+<p>Davis, R. B. (1973) Numerical inversion of a characteristic function.
+<em>Biometrika</em>, <strong>60</strong>, 415–417.
+<a href="https://doi.org/10.1093/biomet/60.2.415">doi:10.1093/biomet/60.2.415</a>.
+</p>
+<p>Davis, R. B. (1980) Algorithm AS 155: The distribution of a linear
+combination of <code class="reqn">\chi^2</code> random variables.
+<em>Journal of the Royal Statistical Society, Series C—Applied Statistics</em>,
+<strong>29</strong>, 323–333.
+<a href="https://doi.org/10.2307/2346911">doi:10.2307/2346911</a>.
+</p>
+<p>Forchini, G. (2002) The exact cumulative distribution function of
+a ratio of quadratic forms in normal variables, with application to
+the AR(1) model. <em>Econometric Theory</em>, <strong>18</strong>, 823–852.
+<a href="https://doi.org/10.1017/S0266466602184015">doi:10.1017/S0266466602184015</a>.
+</p>
+<p>Forchini, G. (2005) The distribution of a ratio of quadratic forms in
+noncentral normal variables.
+<em>Communications in Statistics—Theory and Methods</em>, <strong>34</strong>, 999–1008.
+<a href="https://doi.org/10.1081/STA-200056855">doi:10.1081/STA-200056855</a>.
+</p>
+<p>Hillier, G. (2001) The density of quadratic form in a vector uniformly
+distributed on the <code class="reqn">n</code>-sphere.
+<em>Econometric Theory</em>, <strong>17</strong>, 1–28.
+<a href="https://doi.org/10.1017/S026646660117101X">doi:10.1017/S026646660117101X</a>.
+</p>
+<p>Imhof, J. P. (1961) Computing the distribution of quadratic forms in normal
+variables.
+<em>Biometrika</em>, <strong>48</strong>, 419–426.
+<a href="https://doi.org/10.1093/biomet/48.3-4.419">doi:10.1093/biomet/48.3-4.419</a>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>rqfr</code>, a Monte Carlo random number generator
+</p>
+<p><code>vignette("qfratio_distr")</code> for theoretical details
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Some symmetric matrices and parameters
+nv &lt;- 4
+A &lt;- diag(nv:1)
+B &lt;- diag(sqrt(1:nv))
+mu &lt;- 0.2 * nv:1
+Sigma &lt;- matrix(0.5, nv, nv)
+diag(Sigma) &lt;- 1
+
+## density and p-value for (x^T A x) / (x^T x) where x ~ N(0, I)
+dqfr(1.5, A)
+pqfr(1.5, A)
+
+## 95 percentile for the same
+qqfr(0.95, A)
+qqfr(0.05, A, lower.tail = FALSE) # same
+
+## P{ (x^T A x) / (x^T B x) &lt;= 1.5} where x ~ N(mu, Sigma)
+pqfr(1.5, A, B, mu = mu, Sigma = Sigma)
+
+## These are (pseudo-)vectorized
+qs &lt;- 0:nv + 0.5
+dqfr(qs, A, B, mu = mu)
+(pres &lt;- pqfr(qs, A, B, mu = mu))
+
+## Quantiles for above p-values
+## Results equal qs, except that those for prob = 0 and 1
+## are replaced by mininum and maximum of the ratio
+qqfr(pres, A, B, mu = mu) # = qs
+
+## Various methods for density
+dqfr(qs, A, method = "broda")   # default
+dqfr(qs, A, method = "hillier") # series; B, mu, Sigma not permitted
+## Saddlepoint approximations (fast but inexact):
+dqfr(qs, A, method = "butler")  # 2nd order by default
+dqfr(qs, A, method = "butler", normalize_spa = TRUE) # normalized
+dqfr(qs, A, method = "butler", normalize_spa = TRUE,
+     order_spa = 1) # 1st order, normalized
+
+## Various methods for distribution function
+pqfr(qs, A, method = "imhof")    # default
+pqfr(qs, A, method = "davies")   # very similar
+pqfr(qs, A, method = "forchini") # series expression
+pqfr(qs, A, method = "butler")   # saddlepoint approximation (2nd order)
+pqfr(qs, A, method = "butler", order_spa = 1) # 1st order
+
+## To see error bounds
+dqfr(qs, A, return_abserr_attr = TRUE)
+pqfr(qs, A, return_abserr_attr = TRUE)
+qqfr(pres, A, return_abserr_attr = TRUE)
+
+</code></pre>
+
+
+</div>

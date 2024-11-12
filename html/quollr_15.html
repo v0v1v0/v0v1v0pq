@@ -1,0 +1,118 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>gen_centroids</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Generate centroid coordinate</h2>
+
+<h3>Description</h3>
+
+<p>This function generates all possible centroids in the hexagonal grid.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">gen_centroids(
+  data,
+  x,
+  y,
+  num_bins_x,
+  num_bins_y,
+  x_start = NA,
+  y_start = NA,
+  buffer_x = NA,
+  buffer_y = NA,
+  hex_size = NA
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>A tibble or data frame.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>The name of the column that contains values along the x-axis.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>The name of the column that contains values along the y-axis.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>num_bins_x</code></td>
+<td>
+<p>Number of bins along the x-axis.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>num_bins_y</code></td>
+<td>
+<p>Number of bins along the y-axis.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x_start</code></td>
+<td>
+<p>Starting point along the x-axis for hexagonal binning.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y_start</code></td>
+<td>
+<p>Starting point along the y-axis for hexagonal binning.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>buffer_x</code></td>
+<td>
+<p>The buffer size along the x-axis.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>buffer_y</code></td>
+<td>
+<p>The buffer size along the y-axis.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>hex_size</code></td>
+<td>
+<p>A numeric value that initializes the radius of the outer
+circle surrounding the hexagon.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list contains hexIDs, x and y coordinates (hexID, c_x, c_y respectively)
+of all hexagon bin centroids.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">num_bins_list &lt;- calc_bins(data = s_curve_noise_umap_scaled, x = "UMAP1",
+y = "UMAP2", hex_size = NA, buffer_x = NA, buffer_y = NA)
+num_bins_x &lt;- num_bins_list$num_x
+num_bins_y &lt;- num_bins_list$num_y
+gen_centroids(data = s_curve_noise_umap_scaled,
+x = "UMAP1", y = "UMAP2", num_bins_x = num_bins_x,
+num_bins_y = num_bins_y, x_start = NA, y_start = NA, buffer_x = NA,
+buffer_y = NA, hex_size = NA)
+
+</code></pre>
+
+
+</div>

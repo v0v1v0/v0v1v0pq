@@ -1,0 +1,119 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>calc_kinship</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Calculate kinship matrix</h2>
+
+<h3>Description</h3>
+
+<p>Calculate genetic similarity among individuals (kinship matrix)
+from conditional genotype probabilities.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">calc_kinship(
+  probs,
+  type = c("overall", "loco", "chr"),
+  omit_x = FALSE,
+  use_allele_probs = TRUE,
+  quiet = TRUE,
+  cores = 1
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>probs</code></td>
+<td>
+<p>Genotype probabilities, as calculated from
+<code>calc_genoprob()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>type</code></td>
+<td>
+<p>Indicates whether to calculate the overall kinship
+(<code>"overall"</code>, using all chromosomes), the kinship matrix
+leaving out one chromosome at a time (<code>"loco"</code>), or the
+kinship matrix for each chromosome (<code>"chr"</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>omit_x</code></td>
+<td>
+<p>If <code>TRUE</code>, only use the autosomes; ignored when
+<code>type="chr"</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>use_allele_probs</code></td>
+<td>
+<p>If <code>TRUE</code>, assess similarity with
+allele probabilities (that is, first run
+<code>genoprob_to_alleleprob()</code>); otherwise use the genotype
+probabilities.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>quiet</code></td>
+<td>
+<p>IF <code>FALSE</code>, print progress messages.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cores</code></td>
+<td>
+<p>Number of CPU cores to use, for parallel calculations.
+(If <code>0</code>, use <code>parallel::detectCores()</code>.)
+Alternatively, this can be links to a set of cluster sockets, as
+produced by <code>parallel::makeCluster()</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>If <code>use_allele_probs=TRUE</code> (the default), we first
+convert the genotype probabilities to allele
+probabilities (using <code>genoprob_to_alleleprob()</code>).
+</p>
+<p>We then calculate
+<code class="reqn">\sum_{kl}(p_{ikl} p_{jkl})</code>
+where <code class="reqn">k</code> = position, <code class="reqn">l</code> = allele, and <code class="reqn">i,j</code>
+are two individuals.
+</p>
+<p>For crosses with just two possible genotypes (e.g., backcross), we
+don't convert to allele probabilities but just use the original
+genotype probabilities.
+</p>
+
+
+<h3>Value</h3>
+
+<p>If <code>type="overall"</code> (the default), a matrix of
+proportion of matching alleles. Otherwise a list with one matrix
+per chromosome.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">grav2 &lt;- read_cross2(system.file("extdata", "grav2.zip", package="qtl2"))
+map &lt;- insert_pseudomarkers(grav2$gmap, step=1)
+probs &lt;- calc_genoprob(grav2, map, error_prob=0.002)
+K &lt;- calc_kinship(probs)
+
+# using only markers/pseudomarkers on the grid
+grid &lt;- calc_grid(grav2$gmap, step=1)
+probs_sub &lt;- probs_to_grid(probs, grid)
+K_grid &lt;- calc_kinship(probs_sub)
+</code></pre>
+
+
+</div>

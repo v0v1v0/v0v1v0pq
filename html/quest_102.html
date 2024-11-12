@@ -1,0 +1,121 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>reorders</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Reorder Levels of Factor Data</h2>
+
+<h3>Description</h3>
+
+<p><code>reorders</code> re-orders the levels of factor data. The factors are columns
+in a data.frame where the same reordering scheme is desired. This is often
+useful before using factor data in a statistical analysis (e.g., <code>lm</code>)
+or a graph (e.g., <code>ggplot</code>). It is essentially a vectorized version of
+<code>reorder.default</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">reorders(data, fct.nm, ord.nm = NULL, fun, ..., suffix = "_r")
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>data.frame of data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fct.nm</code></td>
+<td>
+<p>character vector of colnames in <code>data</code> that specify the
+factor columns. If any of the columns specified by <code>fct.nm</code> are not
+factors, then an error is returned.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ord.nm</code></td>
+<td>
+<p>character vector of length 1 or <code>NULL</code>. If a character
+vector of length 1, it is a colname in <code>data</code> specifying the column in
+<code>data</code> that will be used in conjunction with <code>fun</code> to re-order
+the factor columns. If <code>NULL</code> (default), it is assumed that each
+factor column itself will be used in conjunction with <code>fun</code> to
+re-order the factor columns.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fun</code></td>
+<td>
+<p>function that will be used to re-order the factor columns. The
+function is expected to input an atomic vector of length =
+<code>nrow(data)</code> and return an atomic vector of length 1. <code>fun</code> is
+applied to <code>data[[ord.nm]]</code> if <code>ord.nm</code> is a character vector of
+length 1 or applied to each column in <code>data[fct.nm]</code> if <code>ord.nm</code>
+= <code>NULL</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>additional named arguments used by <code>fun</code>. For example, if
+<code>fun</code> is <code>mean</code>, the user might specify an argument <code>na.rm =
+TRUE</code> to set the <code>na.rm</code> argument in the <code>mean</code> function.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>suffix</code></td>
+<td>
+<p>character vector of length 1 specifying the string that will be
+appended to the end of the colnames in the return object.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>data.frame of re-ordered factor columns with colnames =
+<code>paste0(fct.nm, suffix)</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>reorder.default</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+# factor vector
+reorder(x = state.region, X = state.region,
+   FUN = length) # least frequent to most frequent
+reorder(x = state.region, X = state.region,
+   FUN = function(vec) {-1 * length(vec)}) # most frequent to least frequent
+
+# data.frame of factors
+infert_fct &lt;- infert
+fct_nm &lt;- c("education","parity","induced","case","spontaneous")
+infert_fct[fct_nm] &lt;- lapply(X = infert[fct_nm], FUN = as.factor)
+x &lt;- reorders(data = infert_fct, fct.nm = fct_nm,
+   fun = length) # least frequent to most frequent
+lapply(X = x, FUN = levels)
+y &lt;- reorders(data = infert_fct, fct.nm = fct_nm,
+   fun = function(vec) {-1 * length(vec)}) # most frequent to least frequent
+lapply(X = y, FUN = levels)
+# ord.nm specified as a different column in data.frame
+z &lt;- reorders(data = infert_fct, fct.nm = fct_nm, ord.nm = "pooled.stratum",
+   fun = mean) # category with highest mean for pooled.stratum to
+   # category with lowest mean for pooled.stratum
+lapply(X = z, FUN = levels)
+
+</code></pre>
+
+
+</div>

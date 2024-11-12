@@ -1,0 +1,124 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>crossqreg.sb</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Stationary Bootstrap for the Cross-Quantilogram</h2>
+
+<h3>Description</h3>
+
+<p>Returns critical values for the cross-quantilogram, based on the stationary bootstrap.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">crossqreg.sb(DATA1, DATA2, vecA, k, gamma, Bsize, sigLev)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>DATA1</code></td>
+<td>
+<p>The original data matrix (T x p1)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>DATA2</code></td>
+<td>
+<p>The original data matrix (T x p2)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vecA</code></td>
+<td>
+<p>A pair of two probability values at which sample quantiles are estimated</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>k</code></td>
+<td>
+<p>A lag order</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gamma</code></td>
+<td>
+<p>A parameter for the stationary bootstrap</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Bsize</code></td>
+<td>
+<p>The number of repetition of bootstrap</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sigLev</code></td>
+<td>
+<p>The statistical significance level</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>This function generates critical values for for the cross-quantilogram,
+using the stationary bootstrap in Politis and Romano (1994).
+</p>
+
+
+<h3>Value</h3>
+
+<p>The boostrap critical values
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Heejoon Han, Oliver Linton, Tatsushi Oka and Yoon-Jae Whang
+</p>
+
+
+<h3>References</h3>
+
+<p>Han, H., Linton, O., Oka, T., and Whang, Y. J. (2016).
+"The cross-quantilogram: Measuring quantile dependence and testing directional predictability between time series." <em>Journal of Econometrics</em>, 193(1), 251-270.
+</p>
+<p>Politis, Dimitris N., and Joseph P. Romano.
+"The stationary bootstrap."
+<em>Journal of the American Statistical Association</em> 89.428 (1994): 1303-1313.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(sys.risk) 
+
+## sample size
+T = nrow(sys.risk)
+
+## matrix for quantile regressions
+## - 1st column: dependent variables
+## - the rest:   regressors or predictors 
+D1 = cbind(sys.risk[2:T,"Market"], sys.risk[1:(T-1),"Market"])
+D2 = cbind(sys.risk[2:T,"JPM"], sys.risk[1:(T-1),"JPM"])
+
+## probability levels
+vecA = c(0.1, 0.2)
+
+## setup for stationary bootstrap
+gamma  = 1/10 ## bootstrap parameter depending on data
+Bsize  = 5    ## small size 10 for test 
+sigLev = 0.05 ## significance level
+
+## cross-quantilogram with the lag of 5, after quantile regression 
+crossqreg.sb(D1, D2, vecA, 5, gamma, Bsize, sigLev)
+
+</code></pre>
+
+
+</div>

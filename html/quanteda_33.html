@@ -1,0 +1,59 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>tokens_xptr</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Methods for tokens_xptr objects</h2>
+
+<h3>Description</h3>
+
+<p>Methods for creating and testing for <code>tokens_xptr</code> objects, which are
+tokens objects containing pointers to memory locations that can be passed
+by reference for efficient processing in <code style="white-space: pre;">⁠tokens_*()⁠</code> functions that modify
+them, or for constructing a document-feature matrix without requiring a deep
+copy to be passed to <code>dfm()</code>.
+</p>
+<p><code>is.tokens_xptr()</code> tests whether an object is of class
+<code>tokens_xtpr</code>.
+</p>
+<p><code>as.tokens_xptr()</code> coerces a <code>tokens</code> object to an external
+pointer-based tokens object, or returns a deep copy of a <code>tokens_xtpr</code> when
+<code>x</code> is already a <code>tokens_xtpr</code> object.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">is.tokens_xptr(x)
+
+as.tokens_xptr(x)
+
+## S3 method for class 'tokens'
+as.tokens_xptr(x)
+
+## S3 method for class 'tokens_xptr'
+as.tokens_xptr(x)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a tokens object to convert or a <code>tokens_xptr</code> class object to deep
+copy.</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p><code>is.tokens_xptr()</code> returns <code>TRUE</code> if the object is a external
+pointer-based tokens object, <code>FALSE</code> otherwise.
+</p>
+<p><code>as.tokens_xptr()</code> returns a (deep copy of a) <code>tokens_xtpr</code> class
+object.
+</p>
+
+
+</div>

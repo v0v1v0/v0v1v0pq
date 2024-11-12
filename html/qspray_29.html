@@ -1,0 +1,50 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>HallInnerProduct</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Hall inner product</h2>
+
+<h3>Description</h3>
+
+<p>Hall inner product of two symmetric polynomials. It has a 
+parameter <code>alpha</code> and the standard Hall inner product is the case 
+when <code>alpha=1</code>. It is possible to get the Hall inner product with 
+a symbolic <code>alpha</code> parameter.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">HallInnerProduct(qspray1, qspray2, alpha = 1)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>qspray1, qspray2</code></td>
+<td>
+<p>two symmetric <code>qspray</code> polynomials</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>alpha</code></td>
+<td>
+<p>parameter equal to <code>1</code> for the usual Hall inner product, 
+otherwise this is the "Jack parameter"; it must be either a single value 
+coercible to a <code>bigq</code> number, e.g. <code>"2/5"</code>, or <code>NULL</code> to 
+get the Hall product with a symbolic <code>alpha</code></p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A <code>bigq</code> number if <code>alpha</code> is not <code>NULL</code>, otherwise 
+a univariate <code>qspray</code> polynomial.
+</p>
+
+
+</div>

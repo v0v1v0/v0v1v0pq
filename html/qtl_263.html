@@ -1,0 +1,67 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>subset.map</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Subsetting chromosomes for a genetic map</h2>
+
+<h3>Description</h3>
+
+<p>Pull out a specified set of chromosomes from a
+<code>map</code> object.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'map'
+subset(x, ...)
+## S3 method for class 'map'
+x[...]
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>A list whose components are vectors of marker locations.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Vector of chromosome indices.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>The input <code>map</code> object, but with only the specified subset
+of chromosomes.</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Karl W Broman, <a href="mailto:broman@wisc.edu">broman@wisc.edu</a> </p>
+
+
+<h3>See Also</h3>
+
+ <p><code>subset.cross</code> </p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(map10)
+map10 &lt;- subset(map10, chr=1:5)
+
+# you can also use brackets
+map10 &lt;- map10[2:3]
+</code></pre>
+
+
+</div>

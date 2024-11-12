@@ -1,0 +1,58 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>drop_markers</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Drop markers from a cross2 object</h2>
+
+<h3>Description</h3>
+
+<p>Drop a vector of markers from a cross2 object.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">drop_markers(cross, markers)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>cross</code></td>
+<td>
+<p>Object of class <code>"cross2"</code>. For details, see the
+<a href="https://kbroman.org/qtl2/assets/vignettes/developer_guide.html">R/qtl2 developer guide</a>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>markers</code></td>
+<td>
+<p>A vector of marker names.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>The input <code>cross</code> with the specified markers removed.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>pull_markers()</code>, <code>drop_nullmarkers()</code>, <code>reduce_markers()</code>, <code>find_dup_markers()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">grav2 &lt;- read_cross2(system.file("extdata", "grav2.zip", package="qtl2"))
+markers2drop &lt;- c("BH.342C/347L-Col", "GH.94L", "EG.357C/359L-Col", "CD.245L", "ANL2")
+grav2_rev &lt;- drop_markers(grav2, markers2drop)
+</code></pre>
+
+
+</div>

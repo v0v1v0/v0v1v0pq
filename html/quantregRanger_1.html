@@ -1,0 +1,74 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>predict.quantregRanger</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>quantregRanger prediction</h2>
+
+<h3>Description</h3>
+
+<p>Predicts quantiles for a quantile regression forest trained with quantregRanger.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'quantregRanger'
+predict(object, data = NULL, quantiles = c(0.1,
+  0.5, 0.9), all = TRUE, obs = 1, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p><code>quantregRanger</code> object.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>New test data of class <code>data.frame</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>quantiles</code></td>
+<td>
+<p>Numeric vector of quantiles that should be estimated</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>all</code></td>
+<td>
+<p>A logical value. all=TRUE uses all observations for prediction. 
+all=FALSE uses only a certain number of observations per node for prediction 
+(set with argument obs). The default is all=TRUE</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>obs</code></td>
+<td>
+<p>An integer number. Determines the maximal number of observations per node</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Currently ignored.
+to use for prediction. The input is ignored for all=TRUE. The default is obs=1</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A matrix. The first column contains the conditional quantile 
+estimates for the first entry in the vector quantiles. The second 
+column contains the estimates for the second entry of quantiles and so on.
+</p>
+
+
+</div>

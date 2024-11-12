@@ -1,0 +1,262 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>gp_label</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Create a general-purpose (gp) label with text aligned in a landscape orientation.</h2>
+
+<h3>Description</h3>
+
+<p>This is a wrapper that gives more flexibility to the user to design 
+any general-purpose label affixed with QR codes. It gives nine(9) text 
+positions in landscape orientation that can be filled with human-readable text
+items as specified by the user. Arguments are passed to the 'create_label()' function.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">gp_label(
+  dat,
+  get_unique_id = c("uuid", "custom"),
+  unique_id = NULL,
+  filename = "PlotLabel",
+  top_left_txt1 = NULL,
+  top_left_txt2 = NULL,
+  top_right_txt1 = NULL,
+  top_right_txt2 = NULL,
+  center_right_txt1 = NULL,
+  center_right_txt2 = NULL,
+  center_right_txt3 = NULL,
+  bottom_left_txt1 = NULL,
+  bottom_left_txt2 = NULL,
+  top_left_id1 = NULL,
+  top_left_id2 = NULL,
+  top_right_id1 = NULL,
+  top_right_id2 = NULL,
+  center_right_id1 = NULL,
+  center_right_id2 = NULL,
+  center_right_id3 = NULL,
+  bottom_left_id1 = NULL,
+  bottom_left_id2 = NULL,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>dat</code></td>
+<td>
+<p>An input data frame or field book that contains plot or label attributes.
+The order of the columns is not important, and the columns can be any name 
+the user desires.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>get_unique_id</code></td>
+<td>
+<p>Set to 'uuid' if universal unique ids are to be generated.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>unique_id</code></td>
+<td>
+<p>The column identifier in <code>dat</code> containing unique identifiers or strings to generate QR codes.
+Set to 'custom' if imported field book already has unique IDs for each plot.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>filename</code></td>
+<td>
+<p>A character prefix or path for the pdf file to be created. Default path
+is working directory.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>top_left_txt1</code></td>
+<td>
+<p>The prefix text for top-left row 1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>top_left_txt2</code></td>
+<td>
+<p>The prefix text for top-left row 2.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>top_right_txt1</code></td>
+<td>
+<p>The prefix text for the top-right row 1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>top_right_txt2</code></td>
+<td>
+<p>The prefix text for the top-right row 2.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>center_right_txt1</code></td>
+<td>
+<p>The prefix text for center-right row 1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>center_right_txt2</code></td>
+<td>
+<p>The prefix text for center-right row 2.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>center_right_txt3</code></td>
+<td>
+<p>The prefix text for center-right row 3.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bottom_left_txt1</code></td>
+<td>
+<p>The column identifier in <code>dat</code> containing text for bottom-left row 1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bottom_left_txt2</code></td>
+<td>
+<p>The column identifier in <code>dat</code> containing text for bottom-left row 2.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>top_left_id1</code></td>
+<td>
+<p>The column identifier in <code>dat</code> containing text for top-left row 1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>top_left_id2</code></td>
+<td>
+<p>The column identifier in <code>dat</code> containing text for top-left row 2.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>top_right_id1</code></td>
+<td>
+<p>The column identifier in <code>dat</code> containing text for top-right row 1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>top_right_id2</code></td>
+<td>
+<p>The column identifier in <code>dat</code> containing text for top-right row 2.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>center_right_id1</code></td>
+<td>
+<p>The column identifier in <code>dat</code> containing text for center-right row 1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>center_right_id2</code></td>
+<td>
+<p>The column identifier in <code>dat</code> containing text for center-right row 2.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>center_right_id3</code></td>
+<td>
+<p>The column identifier in <code>dat</code> containing text for center-right row 3.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bottom_left_id1</code></td>
+<td>
+<p>The column identifier in <code>dat</code> containing text for bottom-left row 1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bottom_left_id2</code></td>
+<td>
+<p>The column identifier in <code>dat</code> containing text for bottom-left row 2.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Additional arguments passed to the <code>create_label</code> function.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A PDF file containing plot labels affixed with QR codes, and a data frame of
+an updated field book; all saved to the default or working directory.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>create_label</code> and <code>field_label</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(qrlabelr)
+df &lt;- data.frame(LOCATION = rep("BAMBEY", 5),
+                 PLOT = 1001:1005,
+                 ROW = c(rep(1, 3), rep(2, 2)),
+                 COLUMN = c(1:3, 1:2),
+                 REP = rep(1, 5),
+                 IBLOCK = c(rep(1, 3), rep(2, 2)),
+                 TREATMENT = paste0("G-", 1:5),
+                 SEED_SOURCE = rep("OFF_NUR", 5))
+
+df$ids &lt;- paste0(df$LOCATION,'2023', '_PYT', '_', df$PLOT, '_', df$ROW, '_',
+                 df$COLUMN)
+file &lt;- tempfile()
+
+if(file.exists(file)) 
+gp_label(dat = df,
+         wdt = 5,
+         hgt = 2,
+         page_wdt = 8.5,
+         page_hgt = 11,
+         top_mar = 0.75,
+         bot_mar = 0.75,
+         left_mar = 1.75,
+         right_mar = 1.75,
+         numrow = 4L,
+         numcol = 1L,
+         filename = file,
+         font_sz = 20,
+         rname = "Adoma",
+         get_unique_id = "custom",
+         unique_id = 'ids',
+         family = "sans",
+         top_left_txt1 = 'Plot:',
+         top_left_txt2 = 'Row:',
+         top_right_txt1 = 'Rep:',
+         top_right_txt2 = 'Col:',
+         center_right_txt1 = 'iBlock:',
+         center_right_txt2 = 'Seed:',
+         center_right_txt3 = 'Adoma',
+         top_left_id1 = 'PLOT',
+         top_left_id2 = 'ROW',
+         top_right_id1 = 'REP',
+         top_right_id2 = 'COLUMN',
+         center_right_id1 = 'IBLOCK',
+         center_right_id2 = 'SEED_SOURCE',
+         bottom_left_id1 = 'ids',
+         bottom_left_id2 = 'TREATMENT',
+         ec_level = 1)
+
+
+</code></pre>
+
+
+</div>

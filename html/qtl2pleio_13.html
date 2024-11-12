@@ -1,0 +1,71 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>convert_to_scan1_output</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Convert 'scan_multi_oneqtl' output of 'qtl2::scan1' output</h2>
+
+<h3>Description</h3>
+
+<p>We convert output of 'scan_multi_oneqtl' into format outputted by 'qtl2::scan1'.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">convert_to_scan1_output(sm_output, trait_name)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>sm_output</code></td>
+<td>
+<p>tibble output from scan_multi_oneqtl for one chromosome only</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>trait_name</code></td>
+<td>
+<p>character vector (of length one) specifying the trait names</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>object of class 'scan1'
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># read data
+iron &lt;- qtl2::read_cross2(system.file("extdata", "iron.zip", package="qtl2"))
+
+
+# insert pseudomarkers into map
+map &lt;- qtl2::insert_pseudomarkers(iron$gmap, step=1)
+
+# calculate genotype probabilities
+probs &lt;- qtl2::calc_genoprob(iron, map, error_prob=0.002)
+
+# grab phenotypes and covariates; ensure that covariates have names attribute
+pheno &lt;- iron$pheno
+covar &lt;- match(iron$covar$sex, c("f", "m")) # make numeric
+names(covar) &lt;- rownames(iron$covar)
+Xcovar &lt;- qtl2::get_x_covar(iron)
+
+aprobs &lt;- qtl2::genoprob_to_alleleprob(probs)
+sm_out &lt;- scan_multi_oneqtl(probs = aprobs, pheno = pheno)
+sm_to_s1 &lt;- convert_to_scan1_output(sm_out[[1]], trait_name = "tr1and2")
+
+# 95% Bayes credible interval for QTL on chr 7, first phenotype
+qtl2::bayes_int(sm_to_s1, map)
+
+</code></pre>
+
+
+</div>

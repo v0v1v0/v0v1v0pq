@@ -1,0 +1,75 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>pull_genoprobint</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Pull genotype probabilities for an interval</h2>
+
+<h3>Description</h3>
+
+<p>Pull out the genotype probabilities for a given genomic interval
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">pull_genoprobint(genoprobs, map, chr, interval)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>genoprobs</code></td>
+<td>
+<p>Genotype probabilities as calculated by
+<code>calc_genoprob()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>map</code></td>
+<td>
+<p>The marker map for the genotype probabilities</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>chr</code></td>
+<td>
+<p>Chromosome ID (single character sting)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>interval</code></td>
+<td>
+<p>Interval (pair of numbers)</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list containing a single 3d array of genotype probabilities, like the input <code>genoprobs</code>
+but for the designated interval.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>find_marker()</code>, <code>pull_genoprobpos()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">iron &lt;- read_cross2(system.file("extdata", "iron.zip", package="qtl2"))
+
+gmap &lt;- insert_pseudomarkers(iron$gmap, step=1)
+pr &lt;- calc_genoprob(iron, gmap, error_prob=0.002)
+
+pr_sub &lt;- pull_genoprobint(pr, gmap, "8", c(25, 35))
+
+</code></pre>
+
+
+</div>

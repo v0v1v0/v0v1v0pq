@@ -1,0 +1,71 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>nrow_ml</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Multilevel Number of Rows</h2>
+
+<h3>Description</h3>
+
+<p><code>nrow_ml</code> computes the number rows in the data as well as the number of
+groups in the data. This corresponds to the within-group sample size and
+between-group sample size (ignoring any missing data). This is simply a
+combination of <code>nrow</code> + <code>ngrp</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">nrow_ml(data, grp.nm)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>data.frame of data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>grp.nm</code></td>
+<td>
+<p>character vector of colnames from <code>data</code> specifying the
+grouping variables.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>list with two elements providing the sample sizes (ignoring missing
+data). The first element is named "within" and contains the number of rows
+in the data. The second element is named "between" and contains the number
+of groups in the data.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>ncases_ml</code>
+<code>nrow_by</code>
+<code>ncases_by</code>
+<code>ngrp</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+# one grouping variable
+nrow_ml(data = as.data.frame(ChickWeight), grp.nm = "Chick")
+
+# multiple grouping variables
+nrow_ml(data = mtcars, grp.nm = c("vs","am"))
+
+</code></pre>
+
+
+</div>

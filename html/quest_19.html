@@ -1,0 +1,102 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>centers</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Centering and/or Standardizing Numeric Data</h2>
+
+<h3>Description</h3>
+
+<p><code>centers</code> centers and/or standardized data. It is an alternative to
+<code>scale.default</code> that returns a data.frame rather than a numeric matrix.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">centers(data, vrb.nm, center = TRUE, scale = FALSE, suffix)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>data.frame of data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vrb.nm</code></td>
+<td>
+<p>character vector of colnames from <code>data</code> specifying the
+variables.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>center</code></td>
+<td>
+<p>logical vector with length 1 specifying whether grand-mean
+centering should be done.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>scale</code></td>
+<td>
+<p>logical vector with length 1 specifying whether grand-SD scaling
+should be done.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>suffix</code></td>
+<td>
+<p>character vector with a single element specifying the string to
+append to the end of the colnames of the return object. The default depends
+on the <code>center</code> and <code>scale</code> arguments: 1)if <code>center</code> = TRUE
+and <code>scale</code> = FALSE, then <code>suffix</code> = "_c", 2) if <code>center</code> =
+FALSE and <code>scale</code> = TRUE, then <code>suffix</code> = "_s", 3) if
+<code>center</code> = TRUE and <code>scale</code> = TRUE, then <code>suffix</code> = "_z", 4)
+if <code>center</code> = FALSE and <code>scale</code> = FALSE, then <code>suffix</code> = "".</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p><code>centers</code> first coerces <code>data[vrb.nm]</code> to a matrix in preparation
+for the call to <code>scale.default</code>. If the coercion results in a
+non-numeric matrix (e.g., any columns in <code>data[vrb.nm]</code> are character
+vectors or factors), then an error is returned.
+</p>
+
+
+<h3>Value</h3>
+
+<p>data.frame of centered and/or standardized variables with colnames
+specified by <code>paste0(vrb.nm, suffix)</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>center</code>
+<code>centers_by</code>
+<code>center_by</code>
+<code>scale.default</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">centers(data = mtcars, vrb.nm = c("disp","hp","drat","wt","qsec"))
+centers(data = mtcars, vrb.nm = c("disp","hp","drat","wt","qsec"),
+   scale = TRUE)
+centers(data = mtcars, vrb.nm = c("disp","hp","drat","wt","qsec"),
+   center = FALSE, scale = TRUE)
+centers(data = mtcars, vrb.nm = c("disp","hp","drat","wt","qsec"),
+   scale = TRUE, suffix = "_std")
+</code></pre>
+
+
+</div>

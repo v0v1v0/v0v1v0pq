@@ -1,0 +1,59 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>force_conformance</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Internal function to match a dfm features to a target set</h2>
+
+<h3>Description</h3>
+
+<p>Takes a dfm and a set of features, and makes them match the features listed
+in the set.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">force_conformance(x, features, force = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>input dfm</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>features</code></td>
+<td>
+<p>character; a vector of feature names</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>force</code></td>
+<td>
+<p>logical; if <code>TRUE</code>, make the new dfm conform to the vector of
+features, otherwise return an error message</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>a dfm from the <span class="pkg">quanteda</span> package containing
+only <code>features</code> as columns, in the same order as <code>features</code>.  A warning message
+is printed if some feature names from <code>features</code> are not matched in <code>x</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">quanteda.textmodels:::force_conformance(quanteda::data_dfm_lbgexample, c("C", "B", "Z"))
+</code></pre>
+
+
+</div>

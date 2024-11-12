@@ -1,0 +1,97 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>export2qiskit</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>export2qiskit</h2>
+
+<h3>Description</h3>
+
+<p>export a circuit to IBM's qiskit python format. Note that only
+gates can be exported where the correspondence in qiskit is known
+and well defined. Qiskit can then be used for IBM's QASM to run on
+real hardware.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">export2qiskit(object, varname = "qc", filename = "circuit.py",
+  append = FALSE, import = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>a qstate object</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>varname</code></td>
+<td>
+<p>character. The name of the circuit variable</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>filename</code></td>
+<td>
+<p>character. The filename of the textfile where to store the circuit</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>append</code></td>
+<td>
+<p>boolean. Whether or not to append to the file. For this the file has to exist.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>import</code></td>
+<td>
+<p>boolean. Shall numpy and qiskit be loaded explicitly?</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Export to IBM's Qiskit
+</p>
+<p>Currently the following gates can be exported: H, X, Y, Z, S,
+Tgate, Rz, Rx, Ry, CNOT, SWAP, CCNOT, CSWAP, measure.
+</p>
+<p>note that only standard gates can be exported, not self defined ones.
+The function will draw a warning in case a gate cannot be exported
+and indicate it in the output file.
+</p>
+
+
+<h3>Value</h3>
+
+<p>nothing is returned, but a file is created.
+</p>
+
+
+<h3>References</h3>
+
+<p>https://qiskit.org/documentation/
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">x &lt;- qstate(2)
+x &lt;- H(1) * x
+x &lt;- X(2) * x
+x &lt;- CNOT(c(1,2)) * x
+export2qiskit(measure(x,1)$psi)
+cat(readLines("circuit.py"), sep = '\n')
+file.remove("circuit.py")
+
+</code></pre>
+
+
+</div>

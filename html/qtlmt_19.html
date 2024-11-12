@@ -1,0 +1,219 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>mtcmimStep</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+MTCMIM model selection
+</h2>
+
+<h3>Description</h3>
+
+<p>Model selection for multiple-trait composite multiple-interval mapping.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">mtcmimAdd1(object, y, x, xid, mpos, mdat, pp=1, len=1, type=1,
+   iter=10000, tol=1e-12, ext=FALSE)
+
+mtcmimDrop1(object, y, x, xid, mpos, mdat, pp=1, len=1, type=1,
+   iter=10000, tol=1e-12, ext=FALSE)
+
+mtcmimStep(object, y, x, xid, mpos, mdat, cv=0,
+   direction=c("both","backward","forward"), pp=1, len=1,
+   type=1, iter=10000, tol=1e-12, ext=FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+
+<p>an object of class <code>mtcmim</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+
+<p>a n by p matrix, whose columns are dependent variables.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+
+<p>covariates; n by m numerical matrix.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xid</code></td>
+<td>
+
+<p>a list of length p; xid[[j]] specifies columns of x as covariates for y[,j] .
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mpos</code></td>
+<td>
+
+<p>a data frame (id=marker index, ch=chromosome id, m=marker index on the chromosome, dist=genetic position in cM on the chromosome).  Chromosome id should be an integer.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mdat</code></td>
+<td>
+
+<p>a matrix of n rows; marker genotypes (1 or 0). columns should correspond to markers in the order.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pp</code></td>
+<td>
+
+<p>mapping population: BC-1, RIL-selfing-2, RIL-brother-sister-mating-3.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>len</code></td>
+<td>
+
+<p>step length in search.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>type</code></td>
+<td>
+
+<p>1 if traits can have the different sets of covariates and QTL, 2 if all have the same set of covariates and QTL.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ext</code></td>
+<td>
+
+<p>whether to perform an extensive search for an "optimal" model with the same number of QTL per phenotype.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cv</code></td>
+<td>
+
+<p>critical value used in the likelihood ratio test to determine adding/dropping a QTL.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>direction</code></td>
+<td>
+
+<p>forward selection, backward elimination or both directions.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>iter</code></td>
+<td>
+
+<p>maximum number of iterations in a numerical process to estimate model parameters.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tol</code></td>
+<td>
+
+<p>convergence tolerance.
+</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>a list with the following components:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>loglik</code></td>
+<td>
+<p>log-likelihood of the final model</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>a</code></td>
+<td>
+<p>covariate effects</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>b</code></td>
+<td>
+<p>QTL effects</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sigma</code></td>
+<td>
+<p>residual variance-covariance</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qtl</code></td>
+<td>
+<p>QTL for each trait</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dists</code></td>
+<td>
+<p>QTL locations</p>
+</td>
+</tr>
+</table>
+<h3>Note</h3>
+
+<p>Currently, not able to include epistatic effects.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>mtcmim</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(etrait)
+y&lt;- traits[,1:5]
+qtl&lt;- vector("list",5); qtl[[1]]&lt;- c(1,2)
+dists&lt;- dists[c(4,11),]
+x&lt;- mdat - 3/2
+## Not run: 
+o&lt;- mtcmim(y, mpos, mdat, dists=dists, qtl=qtl, eps=NULL,
+   win=5, range=-1, pp=2, len=1)
+of&lt;- mtcmimAdd1(o, y=y, mpos=mpos, mdat=mdat, pp=2, len=3)
+os&lt;- mtcmimStep(of, y=y, mpos=mpos, mdat=mdat, cv=25,
+   direction="both", pp=2, len=3)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

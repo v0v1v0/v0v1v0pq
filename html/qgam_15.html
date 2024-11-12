@@ -1,0 +1,72 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>sigmoid</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Sigmoid function and its derivatives</h2>
+
+<h3>Description</h3>
+
+<p>Calculates the sigmoid function and its derivatives.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">sigmoid(y, deriv = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>a numeric vector.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>deriv</code></td>
+<td>
+<p>if <code>TRUE</code> alse the first three derivatives of the sigmoid function will be computed.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>If <code>deriv==FALSE</code>, it returns a numeric vector equal to <code>1/(1+exp(-x))</code>. If
+<code>deriv==TRUE</code> it returns a list where the slot <code>$D0</code> contains <code>1/(1+exp(-x))</code>, 
+while <code>$D1</code>, <code>$D2</code> and <code>$D3</code> contain its first three derivatives.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Matteo Fasiolo &lt;matteo.fasiolo@gmail.com&gt;.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(qgam)
+set.seed(90)
+h &lt;- 1e-6
+p &lt;- rnorm(1e4, 0, 1e6)
+sigmoid(p[1:50]) - 1/(1+exp(-p[1:50]))
+
+##### Testing sigmoid derivatives
+e1 &lt;- abs((sigmoid(p+h) - sigmoid(p-h)) / (2*h) - sigmoid(p, TRUE)[["D1"]]) / (2*h)
+e2 &lt;- abs((sigmoid(p+h, TRUE)$D1 - sigmoid(p-h, TRUE)$D1) / 
+      (2*h) - sigmoid(p, TRUE)[["D2"]]) / (2*h)
+e3 &lt;- abs((sigmoid(p+h, TRUE)$D2 - sigmoid(p-h, TRUE)$D2) / 
+      (2*h) - sigmoid(p, TRUE)[["D3"]]) / (2*h)
+
+if( any(c(e1, e2, e3) &gt; 1) ) stop("Sigmoid derivatives are not estimated accurately")
+
+
+</code></pre>
+
+
+</div>

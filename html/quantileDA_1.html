@@ -1,0 +1,93 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>ais</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Australian Institute of Sport data</h2>
+
+<h3>Description</h3>
+
+<p>Data on 102 male and 100 female athletes collected at the Australian Institute of Sport, courtesy of Richard Telford and Ross Cunningham.</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">data(ais)</code></pre>
+
+
+<h3>Format</h3>
+
+<p>A data frame with 202 observations on the following 13 variables.
+</p>
+
+<dl>
+<dt><code>sex</code></dt>
+<dd>
+<p>A factor with levels <code>female</code> <code>male</code></p>
+</dd>
+<dt><code>sport</code></dt>
+<dd>
+<p>A factor with levels <code>B_Ball</code> <code>Field</code> <code>Gym</code> <code>Netball</code> <code>Row</code> <code>Swim</code> <code>T_400m</code> <code>T_Sprnt</code> <code>Tennis</code> <code>W_Polo</code></p>
+</dd>
+<dt><code>rcc</code></dt>
+<dd>
+<p>A numeric vector: red cell count</p>
+</dd>
+<dt><code>wcc</code></dt>
+<dd>
+<p>A numeric vector: white cell count</p>
+</dd>
+<dt><code>Hc</code></dt>
+<dd>
+<p>A numeric vector: Hematocrit</p>
+</dd>
+<dt><code>Hg</code></dt>
+<dd>
+<p>A numeric vector: Hemoglobin</p>
+</dd>
+<dt><code>Fe</code></dt>
+<dd>
+<p>A numeric vector: plasma ferritin concentration</p>
+</dd>
+<dt><code>bmi</code></dt>
+<dd>
+<p>A numeric vector: body mass index</p>
+</dd>
+<dt><code>ssf</code></dt>
+<dd>
+<p>A numeric vector: sum of skin folds</p>
+</dd>
+<dt><code>Bfat</code></dt>
+<dd>
+<p>A numeric vector: body fat percentage</p>
+</dd>
+<dt><code>lbm</code></dt>
+<dd>
+<p>A numeric vector:  lean body mass</p>
+</dd>
+<dt><code>Ht</code></dt>
+<dd>
+<p>A numeric vector: height (cm)</p>
+</dd>
+<dt><code>Wt</code></dt>
+<dd>
+<p>A numeric vector: weight (kg)</p>
+</dd>
+</dl>
+<h3>Source</h3>
+
+<p>Cook and Weisberg (1994), An Introduction to Regression Graphics. John Wiley &amp; Sons, New York. 
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(ais)
+attach(ais)
+pairs(ais[,c(3:4,10:13)], main = "AIS data")
+plot(Wt~sport)
+</code></pre>
+
+
+</div>

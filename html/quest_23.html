@@ -1,0 +1,118 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>changes</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Change Scores from Numeric Data</h2>
+
+<h3>Description</h3>
+
+<p><code>changes</code> creates change scores (aka difference scores) from numeric
+data. It is assumed that the data is already sorted by time such that the
+first row is earliest in time and the last row is the latest in time.
+<code>changes</code> is a multivariate version of <code>change</code> that operates
+on multiple variabes rather than just one.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">changes(data, vrb.nm, n, undefined = NA, suffix)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>data.frame of data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vrb.nm</code></td>
+<td>
+<p>character vector of colnames from <code>data</code> specifying the
+variables.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p>integer vector with length 1. Specifies how the change score is
+calculated. If <code>n</code> is positive, then the change score is calculated
+from lead - original; if <code>n</code> is negative, then the change score is
+calculated from original - lag. The magnitude of <code>n</code> determines how
+many rows are shifted for the lead/lag within the calculation. See details
+of <code>shifts</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>undefined</code></td>
+<td>
+<p>atomic vector with length 1 (probably makes sense to be the
+same typeof as <code>x</code>). Specifies what to insert for undefined values
+after the shifting takes place. See details of <code>shifts</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>suffix</code></td>
+<td>
+<p>character vector of length 1 specifying the string to append to
+the end of the colnames of the return object. The default depends on the
+<code>n</code> argument: 1) if <code>n</code> &lt; 0, then <code>suffix</code> =
+<code>paste0("_hg", -n)</code>, 2) if <code>n</code> &gt; 0, then <code>suffix</code> =
+<code>paste0("_hd", +n)</code>, 3) if <code>n</code> = 0, then <code>suffix</code> = "".</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>It is recommended to use <code>L</code> when specifying <code>n</code> to prevent
+problems with floating point numbers. <code>shifts</code> tries to circumvent this
+issue by a call to <code>round</code> within <code>shifts</code> if <code>n</code> is not an
+integer; however that is not a complete fail safe. The problem is that
+<code>as.integer(n)</code> implicit in <code>shifts</code> truncates rather than rounds.
+See details of <code>shifts</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>data.frame of change scores with colnames specified by
+<code>paste0(vrb.nm, suffix)</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>change</code>
+<code>changes_by</code>
+<code>change_by</code>
+<code>shifts</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">changes(attitude, vrb.nm = names(attitude),
+   n = -1L) # use L to prevent problems with floating point numbers
+changes(attitude, vrb.nm = names(attitude),
+   n = -2L) # can specify any integer up to the length of `x`
+changes(attitude, vrb.nm = names(attitude),
+   n = +1L) # can specify negative or positive integers
+changes(attitude, vrb.nm = names(attitude),
+   n = +2L, undefined = -999) # user-specified indefined value
+changes(attitude, vrb.nm = names(attitude),
+   n = -2L, undefined = -999) # user-specified indefined value
+## Not run: 
+changes(str2str::d2d(InsectSprays), names(InsectSprays),
+  n = 3L) # character vector returns an error
+
+## End(Not run)
+</code></pre>
+
+
+</div>

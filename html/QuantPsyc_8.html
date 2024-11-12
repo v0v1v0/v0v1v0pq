@@ -1,0 +1,125 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>graph.mod</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2> Moderation Graph </h2>
+
+<h3>Description</h3>
+
+<p>x-y plot containing the simple slopes conditioned on z.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">graph.mod(ssmod, x, y, data, title = "", xlab = "Centered X", 
+  ylab = "Raw Y", ylimit = 1.5, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>ssmod</code></td>
+<td>
+<p> Results of <code>sim.slopes</code>; Simple Slopes to be graphed </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p> Explanatory variable to be used in xyplot </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p> Outcome variable to be used in xyplot </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p> data.frame containing x, z, y </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>title</code></td>
+<td>
+<p> Optional 'main' title for the plot </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xlab</code></td>
+<td>
+<p> x-axis label </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ylab</code></td>
+<td>
+<p> y-axis label </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ylimit</code></td>
+<td>
+<p> used as a multiple of SDy to define the limits of the y-axis </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p> to be determined ... </p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Given <code>moderate.lm</code> and <code>sim.slopes</code>, this function plots x,y and adds the simple slopes corresponding to arbitrary values of z defined in <code>sim.slopes</code>. Users must 'click' on an area to add the legend.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A plot object.
+</p>
+
+
+<h3>Warning </h3>
+
+<p>This is based on a simple 3 variable moderation model with continuous variables. Users must modify the functions to accomodate other models (e.g., categorical moderators, covariates)</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Thomas D. Fletcher <a href="mailto:t.d.fletcher05@gmail.com">t.d.fletcher05@gmail.com</a> </p>
+
+
+<h3>References</h3>
+
+ 
+<p>Aiken, L. S., &amp; West, S. G. (1991). <em>Multiple regression: Testing and interpreting interactions.</em> Newbury Park: Sage Publications.<br></p>
+<p>Cohen, J., Cohen, P., West, S. G., &amp; Aiken, L. S. (2003). <em>Applied multiple regression/correlation analysis for the behavioral sciences, 3rd ed.</em> Mahwah, NJ: Lawrence Erlbaum Associates.<br></p>
+
+
+<h3>See Also</h3>
+
+<p><code>moderate.lm</code>, <code>sim.slopes </code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(tra)
+lm.mod1 &lt;- moderate.lm(beliefs, values, attitudes, tra)
+ss.mod1 &lt;- sim.slopes(lm.mod1, tra$values)
+## requires user interaction 
+## graph.mod(ss.mod1,beliefs,attitudes,tra,"Interaction Example")
+</code></pre>
+
+
+</div>

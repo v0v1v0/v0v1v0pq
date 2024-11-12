@@ -1,0 +1,186 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>rm_date</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Remove/Replace/Extract Dates</h2>
+
+<h3>Description</h3>
+
+<p>Remove/replace/extract dates from a string in the form of (1) XX/XX/XXXX, 
+XX/XX/XX, XX-XX-XXXX, XX-XX-XX, XX.XX.XXXX, or XX.XX.XX OR 
+(2) March XX, XXXX or Mar XX, XXXX OR (3) both forms.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">rm_date(
+  text.var,
+  trim = !extract,
+  clean = TRUE,
+  pattern = "@rm_date",
+  replacement = "",
+  extract = FALSE,
+  dictionary = getOption("regex.library"),
+  ...
+)
+
+ex_date(
+  text.var,
+  trim = !extract,
+  clean = TRUE,
+  pattern = "@rm_date",
+  replacement = "",
+  extract = TRUE,
+  dictionary = getOption("regex.library"),
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>text.var</code></td>
+<td>
+<p>The text variable.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>trim</code></td>
+<td>
+<p>logical.  If <code>TRUE</code> removes leading and trailing white 
+spaces.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>clean</code></td>
+<td>
+<p>trim logical.  If <code>TRUE</code> extra white spaces and escaped 
+character will be removed.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pattern</code></td>
+<td>
+<p>A character string containing a regular expression (or 
+character string for <code>fixed = TRUE</code>) to be matched in the given 
+character vector (see <b>Details</b> for additional information).  Default,
+<code>@rm_date</code> uses the <code>rm_date</code> regex from the regular expression 
+dictionary from the <code>dictionary</code> argument.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>replacement</code></td>
+<td>
+<p>Replacement for matched <code>pattern</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>extract</code></td>
+<td>
+<p>logical.  If <code>TRUE</code> the dates are extracted into a 
+list of vectors.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dictionary</code></td>
+<td>
+<p>A dictionary of canned regular expressions to search within 
+if <code>pattern</code> begins with <code>"@rm_"</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Other arguments passed to <code>gsub</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The default regular expression used by <code>rm_date</code> finds numeric 
+representations not word/abbreviations.  This means that 
+<code>"June 13, 2002"</code> is not matched.  This behavior can be altered (to 
+include month names/abbreviations) by using a secondary regular expression 
+from the <code>regex_usa</code> data (or other dictionary) via 
+(<code>pattern = "@rm_date2"</code>, <code>pattern = "@rm_date3"</code>, or 
+<code>pattern = "@rm_date4"</code>). See 
+<b>Examples</b> for example usage.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns a character string with dates removed.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>gsub</code>,
+<code>stri_extract_all_regex</code>
+</p>
+<p>Other rm_ functions: 
+<code>rm_abbreviation()</code>,
+<code>rm_between()</code>,
+<code>rm_bracket()</code>,
+<code>rm_caps_phrase()</code>,
+<code>rm_caps()</code>,
+<code>rm_citation_tex()</code>,
+<code>rm_citation()</code>,
+<code>rm_city_state_zip()</code>,
+<code>rm_city_state()</code>,
+<code>rm_default()</code>,
+<code>rm_dollar()</code>,
+<code>rm_email()</code>,
+<code>rm_emoticon()</code>,
+<code>rm_endmark()</code>,
+<code>rm_hash()</code>,
+<code>rm_nchar_words()</code>,
+<code>rm_non_ascii()</code>,
+<code>rm_non_words()</code>,
+<code>rm_number()</code>,
+<code>rm_percent()</code>,
+<code>rm_phone()</code>,
+<code>rm_postal_code()</code>,
+<code>rm_repeated_characters()</code>,
+<code>rm_repeated_phrases()</code>,
+<code>rm_repeated_words()</code>,
+<code>rm_tag()</code>,
+<code>rm_time()</code>,
+<code>rm_title_name()</code>,
+<code>rm_url()</code>,
+<code>rm_white()</code>,
+<code>rm_zip()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Numeric Date Representation
+x &lt;- paste0("Format dates as 04/12/2014, 04-12-2014, 04.12.2014. or",
+    " 04/12/14 but leaves mismatched: 12.12/2014")
+rm_date(x)
+ex_date(x)
+
+## Word/Abbreviation Date Representation
+x2 &lt;- paste0("Format dates as Sept 09, 2002 or October 22, 1887",
+  "but not 04-12-2014 and may match good 00, 9999")
+rm_date(x2, pattern="@rm_date2")
+ex_date(x2, pattern="@rm_date2")
+
+
+## Year-Month-Day Representation
+x3 &lt;- sprintf("R uses time in this format %s.", Sys.time())
+rm_date(x3, pattern="@rm_date3")
+
+## Grab all types
+ex_date(c(x, x2, x3), pattern="@rm_date4")
+</code></pre>
+
+
+</div>

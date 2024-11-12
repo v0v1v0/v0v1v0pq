@@ -1,0 +1,64 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>layerNames</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Extract the layer names of Spatial Objects</h2>
+
+<h3>Description</h3>
+
+<p>There are already methods for <code style="white-space: pre;">⁠Raster*⁠</code> objects. This adds methods for
+<code style="white-space: pre;">⁠SpatialPoints*⁠</code>, <code style="white-space: pre;">⁠SpatialLines*⁠</code>, and <code style="white-space: pre;">⁠SpatialPolygons*⁠</code>,
+returning an empty character vector of length 1.
+This function was created to give consistent, meaningful results for all
+classes of objects plotted by <code>Plot</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">layerNames(object)
+
+## S4 method for signature 'ANY'
+layerNames(object)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>A <code style="white-space: pre;">⁠Raster*⁠</code>, <code style="white-space: pre;">⁠SpatialPoints*⁠</code>, <code style="white-space: pre;">⁠SpatialLines*⁠</code>,
+or <code style="white-space: pre;">⁠SpatialPolygons*⁠</code> object; or list of these.</p>
+</td>
+</tr></table>
+<h3>Author(s)</h3>
+
+<p>Eliot McIntire
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(terra)
+
+## RasterLayer objects
+files &lt;- system.file("maps", package = "quickPlot")
+files &lt;- dir(files, full.names = TRUE, pattern = "tif")
+maps &lt;- lapply(files, function(x) terra::rast(x))
+names(maps) &lt;- sapply(basename(files), function(x) {
+  strsplit(x, split = "\\.")[[1]][1]
+})
+layerNames(maps)
+
+## SpatVector objects
+caribou &lt;- terra::vect(cbind(x = stats::runif(1e2, -50, 50),
+                             y = stats::runif(1e2, -50, 50)))
+layerNames(caribou)
+
+</code></pre>
+
+
+</div>

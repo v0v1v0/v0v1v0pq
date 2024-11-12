@@ -1,0 +1,91 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>read_align</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Reading different versions of linguistic multialignments.
+</h2>
+
+<h3>Description</h3>
+
+<p>Multialignments of strings are a central step for historical linguistics (quite similar to multialignments in bioinformatics). There is no consensus (yet) about the file-structure for multialignments in linguistics. Currently, this functions offers to read various flavours of multialignment, trying to harmonize the internal R-structure.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">read_align(file, flavor)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>file</code></td>
+<td>
+
+<p>Multialignment to be read
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>flavor</code></td>
+<td>
+
+<p>Currently two flavours are implemented <code>"PAD"</code> and <code>"BDPA"</code>
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The flavor <code>"PAD"</code> refers to the Phonetische Atlas Deutschlands, which provides multialignments for german dialects. The flavor <code>"BDPA"</code> refers to the Benchmark Database for Phonetic Alignments.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Multialignment-files often contain various different kinds of information. An attempt is made to turn the data into a list with the following elements:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>meta</code></td>
+<td>
+<p>: Metadata</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>align</code></td>
+<td>
+<p>: The actual alignments as a dataframe. When IDs are present in the original file, they are used as rownames. Some attempt is made to add useful column names.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>doculects</code></td>
+<td>
+<p>: The rows of the alignment normally are some kind of doculects ("languages", "dialects"). However, because these doculects might occur more than once (when two different, but cognate words from a languages are included) these names are not used as rownames of <code>$align</code>, but presented separately here.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>annotations</code></td>
+<td>
+<p>: The columns of a multialignment can have annotations, e.g. metathesis or orthographic standard. These annotations are saved here as a dataframe with the same number of columns as the <code>$align</code> dataframe. The name of the annotation is put in the rownames.</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Michael Cysouw &lt;cysouw@mac.com&gt;
+</p>
+
+
+<h3>References</h3>
+
+<p>BDPA is available at <a href="https://alignments.lingpy.org">https://alignments.lingpy.org</a>. PAD is available at <a href="https://github.com/cysouw/PAD/">https://github.com/cysouw/PAD/</a>
+</p>
+
+
+</div>

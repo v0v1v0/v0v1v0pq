@@ -1,0 +1,754 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>p_A1B1_Ed</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Internal C++ functions</h2>
+
+<h3>Description</h3>
+
+<p>These are internal C++ functions called from corresponding <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span>
+functions when <code>use_cpp = TRUE</code>.  Direct access by the user is <strong>not</strong>
+assumed.  All parameters are assumed to be appropriately structured.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">p_A1B1_Ed(
+  quantile,
+  A,
+  B,
+  mu,
+  m,
+  stop_on_error,
+  thr_margin = 100,
+  nthreads = 0L,
+  tol_zero = 2.2e-14
+)
+
+p_A1B1_El(
+  quantile,
+  A,
+  B,
+  mu,
+  m,
+  stop_on_error,
+  thr_margin = 100L,
+  nthreads = 0L,
+  tol_zero = 2.2e-14
+)
+
+p_A1B1_Ec(
+  quantile,
+  A,
+  B,
+  mu,
+  m,
+  stop_on_error,
+  thr_margin = 100,
+  nthreads = 0L,
+  tol_zero = 2.2e-14
+)
+
+d_A1I1_Ed(quantile, LA, m, thr_margin = 100)
+
+p_imhof_Ed(
+  quantile,
+  A,
+  B,
+  mu,
+  autoscale_args,
+  stop_on_error,
+  tol_zero,
+  epsabs,
+  epsrel,
+  limit
+)
+
+d_broda_Ed(
+  quantile,
+  A,
+  B,
+  mu,
+  autoscale_args,
+  stop_on_error,
+  tol_zero,
+  epsabs,
+  epsrel,
+  limit
+)
+
+d_butler_Ed(
+  quantile,
+  A,
+  B,
+  mu,
+  order_spa,
+  stop_on_error,
+  tol_zero,
+  epsabs,
+  epsrel,
+  maxiter
+)
+
+p_butler_Ed(
+  quantile,
+  A,
+  B,
+  mu,
+  order_spa,
+  stop_on_error,
+  tol_zero,
+  epsabs,
+  epsrel,
+  maxiter
+)
+
+Ap_int_E(A, mu, p_ = 1, thr_margin = 100, tol_zero = 2.2e-14)
+
+ABpq_int_E(A, LB, mu, p_ = 1, q_ = 1, thr_margin = 100, tol_zero = 2.2e-14)
+
+ABDpqr_int_E(
+  A,
+  LB,
+  D,
+  mu,
+  p_ = 1,
+  q_ = 1,
+  r_ = 1,
+  thr_margin = 100,
+  tol_zero = 2.2e-14
+)
+
+ApIq_int_cE(A, p_ = 1, q_ = 1, thr_margin = 100)
+
+ApIq_int_nE(A, mu, p_ = 1, q_ = 1, thr_margin = 100)
+
+ApIq_npi_cE(
+  LA,
+  bA,
+  p_ = 1,
+  q_ = 1,
+  m = 100L,
+  error_bound = TRUE,
+  thr_margin = 100
+)
+
+ApIq_npi_nEd(
+  LA,
+  bA,
+  mu,
+  p_ = 1,
+  q_ = 1,
+  m = 100L,
+  thr_margin = 100,
+  nthreads = 1L
+)
+
+ApBq_int_E(
+  A,
+  LB,
+  bB,
+  mu,
+  p_ = 1,
+  q_ = 1,
+  m = 100L,
+  error_bound = TRUE,
+  thr_margin = 100,
+  tol_zero = 2.2e-14
+)
+
+ApBq_npi_Ed(
+  A,
+  LB,
+  bA,
+  bB,
+  mu,
+  p_ = 1,
+  q_ = 1,
+  m = 100L,
+  thr_margin = 100,
+  nthreads = 0L,
+  tol_zero = 2.2e-14
+)
+
+ApBIqr_int_cEd(
+  A,
+  LB,
+  bB,
+  p_ = 1,
+  q_ = 1,
+  r_ = 1,
+  m = 100L,
+  error_bound = TRUE,
+  thr_margin = 100,
+  tol_zero = 2.2e-14
+)
+
+ApBIqr_int_nEd(
+  A,
+  LB,
+  bB,
+  mu,
+  p_ = 1,
+  q_ = 1,
+  r_ = 1,
+  m = 100L,
+  error_bound = TRUE,
+  thr_margin = 100,
+  nthreads = 0L,
+  tol_zero = 2.2e-14
+)
+
+ApBIqr_npi_Ed(
+  A,
+  LB,
+  bA,
+  bB,
+  mu,
+  p_ = 1,
+  q_ = 1,
+  r_ = 1,
+  m = 100L,
+  thr_margin = 100,
+  nthreads = 0L,
+  tol_zero = 2.2e-14
+)
+
+IpBDqr_gen_Ed(
+  LB,
+  D,
+  bB,
+  bD,
+  mu,
+  p_ = 1,
+  q_ = 1,
+  r_ = 1,
+  m = 100L,
+  thr_margin = 100,
+  nthreads = 0L,
+  tol_zero = 2.2e-14
+)
+
+ApBDqr_int_Ed(
+  A,
+  LB,
+  D,
+  bB,
+  bD,
+  mu,
+  p_ = 1,
+  q_ = 1,
+  r_ = 1,
+  m = 100L,
+  thr_margin = 100,
+  nthreads = 0L,
+  tol_zero = 2.2e-14
+)
+
+ApBDqr_npi_Ed(
+  A,
+  LB,
+  D,
+  bA,
+  bB,
+  bD,
+  mu,
+  p_ = 1,
+  q_ = 1,
+  r_ = 1,
+  m = 100L,
+  thr_margin = 100,
+  nthreads = 0L,
+  tol_zero = 2.2e-14
+)
+
+ApIq_npi_nEc(
+  LA,
+  bA,
+  mu,
+  p_ = 1,
+  q_ = 1,
+  m = 100L,
+  thr_margin = 100,
+  nthreads = 1L
+)
+
+ApBq_npi_Ec(
+  A,
+  LB,
+  bA,
+  bB,
+  mu,
+  p_ = 1,
+  q_ = 1,
+  m = 100L,
+  thr_margin = 100,
+  nthreads = 0L,
+  tol_zero = 2.2e-14
+)
+
+ApBIqr_int_nEc(
+  A,
+  LB,
+  bB,
+  mu,
+  p_ = 1,
+  q_ = 1,
+  r_ = 1,
+  m = 100L,
+  error_bound = TRUE,
+  thr_margin = 100,
+  nthreads = 0L,
+  tol_zero = 2.2e-14
+)
+
+ApBIqr_npi_Ec(
+  A,
+  LB,
+  bA,
+  bB,
+  mu,
+  p_ = 1,
+  q_ = 1,
+  r_ = 1,
+  m = 100L,
+  thr_margin = 100,
+  nthreads = 0L,
+  tol_zero = 2.2e-14
+)
+
+IpBDqr_gen_Ec(
+  LB,
+  D,
+  bB,
+  bD,
+  mu,
+  p_ = 1,
+  q_ = 1,
+  r_ = 1,
+  m = 100L,
+  thr_margin = 100,
+  nthreads = 0L,
+  tol_zero = 2.2e-14
+)
+
+ApBDqr_int_Ec(
+  A,
+  LB,
+  D,
+  bB,
+  bD,
+  mu,
+  p_ = 1,
+  q_ = 1,
+  r_ = 1,
+  m = 100L,
+  thr_margin = 100,
+  nthreads = 0L,
+  tol_zero = 2.2e-14
+)
+
+ApBDqr_npi_Ec(
+  A,
+  LB,
+  D,
+  bA,
+  bB,
+  bD,
+  mu,
+  p_ = 1,
+  q_ = 1,
+  r_ = 1,
+  m = 100L,
+  thr_margin = 100,
+  nthreads = 0L,
+  tol_zero = 2.2e-14
+)
+
+ApIq_npi_nEl(
+  LA,
+  bA,
+  mu,
+  p_ = 1L,
+  q_ = 1L,
+  m = 100L,
+  thr_margin = 100L,
+  nthreads = 1L
+)
+
+ApBq_npi_El(
+  A,
+  LB,
+  bA,
+  bB,
+  mu,
+  p_ = 1L,
+  q_ = 1L,
+  m = 100L,
+  thr_margin = 100L,
+  nthreads = 0L,
+  tol_zero = 2.2e-14
+)
+
+ApBIqr_int_nEl(
+  A,
+  LB,
+  bB,
+  mu,
+  p_ = 1L,
+  q_ = 1L,
+  r_ = 1L,
+  m = 100L,
+  error_bound = TRUE,
+  thr_margin = 100L,
+  nthreads = 0L,
+  tol_zero = 2.2e-14
+)
+
+ApBIqr_npi_El(
+  A,
+  LB,
+  bA,
+  bB,
+  mu,
+  p_ = 1L,
+  q_ = 1L,
+  r_ = 1L,
+  m = 100L,
+  thr_margin = 100L,
+  nthreads = 0L,
+  tol_zero = 2.2e-14
+)
+
+IpBDqr_gen_El(
+  LB,
+  D,
+  bB,
+  bD,
+  mu,
+  p_ = 1L,
+  q_ = 1L,
+  r_ = 1L,
+  m = 100L,
+  thr_margin = 100L,
+  nthreads = 0L,
+  tol_zero = 2.2e-14
+)
+
+ApBDqr_int_El(
+  A,
+  LB,
+  D,
+  bB,
+  bD,
+  mu,
+  p_ = 1L,
+  q_ = 1L,
+  r_ = 1L,
+  m = 100L,
+  thr_margin = 100L,
+  nthreads = 0L,
+  tol_zero = 2.2e-14
+)
+
+ApBDqr_npi_El(
+  A,
+  LB,
+  D,
+  bA,
+  bB,
+  bD,
+  mu,
+  p_ = 1L,
+  q_ = 1L,
+  r_ = 1L,
+  m = 100L,
+  thr_margin = 100L,
+  nthreads = 0L,
+  tol_zero = 2.2e-14
+)
+
+rqfpE(nit, A, B, D, p_, q_, r_, mu, Sigma)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>quantile</code></td>
+<td>
+<p>Scalar of quantile <code class="reqn">q</code>, passed as <code>double</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>A, B, D</code></td>
+<td>
+<p>Argument matrices passed as <code>Eigen::Matrix</code>.
+Symmetry is assumed.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mu</code></td>
+<td>
+<p>Mean vector <code class="reqn">\bm{\mu}</code> for <code class="reqn">\mathbf{x}</code>
+passed as <code>Eigen::Array</code>.  For <code>d_broda_Ed()</code>,
+assumed to be rotated by the eigenvectors of
+<code class="reqn">\mathbf{A} - q \mathbf{B}</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>m</code></td>
+<td>
+<p>Integer to specify the order of polynomials at which the series
+expression is truncated.  Passed as <code>Eigen::Index</code>
+(aka <code>std::ptrdiff_t</code> or <code>long long int</code>)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>stop_on_error</code></td>
+<td>
+<p><code>bool</code> to specify whether execution is stopped upon error in
+numerical integration or root finding</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>thr_margin</code></td>
+<td>
+<p>Optional argument to adjust the threshold for scaling.  See
+“Scaling” in <code>d1_i</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nthreads</code></td>
+<td>
+<p><code>int</code> to specify the number of threads in OpenMP-enabled
+functions.  See “Multithreading” in <code>qfrm</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tol_zero</code></td>
+<td>
+<p>Tolerance against which numerical zero is determined</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>LA, LB</code></td>
+<td>
+<p>Eigenvalues of the argument matrices passed as <code>Eigen::Array</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>autoscale_args</code></td>
+<td>
+<p>Factor to which the largest absolute eigenvalue of
+<code class="reqn">\mathbf{A} - q \mathbf{B}</code> is scaled, passed as <code>double</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>epsrel, epsabs, limit, maxiter</code></td>
+<td>
+<p>Optional arguments passed to <code>gsl_integration_qagi()</code> or
+<code>gsl_root_test_delta()</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>order_spa</code></td>
+<td>
+<p><code>int</code> to specify order of saddlepoint approximation</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p_, q_, r_</code></td>
+<td>
+<p>Exponents for <code class="reqn">\mathbf{A}</code>, <code class="reqn">\mathbf{B}</code>, and
+<code class="reqn">\mathbf{D}</code>.
+Passed as <code>double</code> or <code>long double</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bA, bB, bD</code></td>
+<td>
+<p>Scaling coefficients for <code class="reqn">\mathbf{A}</code>, <code class="reqn">\mathbf{B}</code>,
+and <code class="reqn">\mathbf{D}</code>.  Passed as <code>double</code> or <code>long double</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>error_bound</code></td>
+<td>
+<p><code>bool</code> to specify whether the error bound is returned</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nit</code></td>
+<td>
+<p><code>int</code> to specify the number of iteration or sample size</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Sigma</code></td>
+<td>
+<p>Covariance matrix <code class="reqn">\mathbf{\Sigma}</code> for <code class="reqn">\mathbf{x}</code>.
+Passed as <code>Eigen::Matrix</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p><code>ApIq_int_nmE()</code> calls the C function
+<code>gsl_sf_hyperg_1F1()</code> from GSL via <span class="pkg">RcppGSL</span>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>All return a list via <code>Rcpp::List</code> of the following (as appropriate):
+</p>
+
+<dl>
+<dt><code>$ans</code></dt>
+<dd>
+<p>Exact moment, from <code>double</code> or
+<code>long double</code></p>
+</dd>
+<dt><code>$ansseq</code></dt>
+<dd>
+<p>Series for the moment, from
+<code>Eigen::Array</code></p>
+</dd>
+<dt><code>$errseq</code></dt>
+<dd>
+<p>Series of errors, from <code>Eigen::Array</code></p>
+</dd>
+<dt><code>$twosided</code></dt>
+<dd>
+<p>Logical, from <code>bool</code></p>
+</dd>
+<dt><code>$dimnished</code></dt>
+<dd>
+<p>Logical, from <code>bool</code></p>
+</dd>
+</dl>
+<h3>Functions</h3>
+
+
+<ul>
+<li> <p><code>p_A1B1_Ed()</code>: <code>pqfm_A1B1()</code>, double
+</p>
+</li>
+<li> <p><code>p_A1B1_El()</code>: <code>pqfm_A1B1()</code>, long double
+</p>
+</li>
+<li> <p><code>p_A1B1_Ec()</code>: <code>pqfm_A1B1()</code>, coefficient-wise scaling
+</p>
+</li>
+<li> <p><code>d_A1I1_Ed()</code>: <code>dqfm_A1I1()</code>
+</p>
+</li>
+<li> <p><code>p_imhof_Ed()</code>: <code>pqfm_imhof()</code>
+</p>
+</li>
+<li> <p><code>d_broda_Ed()</code>: <code>dqfm_broda()</code>
+</p>
+</li>
+<li> <p><code>d_butler_Ed()</code>: <code>dqfm_butler()</code>
+</p>
+</li>
+<li> <p><code>p_butler_Ed()</code>: <code>pqfm_butler()</code>
+</p>
+</li>
+<li> <p><code>Ap_int_E()</code>: <code>qfm_Ap_int()</code>
+</p>
+</li>
+<li> <p><code>ABpq_int_E()</code>: <code>qfpm_ABpq_int()</code>
+</p>
+</li>
+<li> <p><code>ABDpqr_int_E()</code>: <code>qfpm_ABDpqr_int()</code>
+</p>
+</li>
+<li> <p><code>ApIq_int_cE()</code>: <code>qfrm_ApIq_int()</code>, central
+</p>
+</li>
+<li> <p><code>ApIq_int_nE()</code>: <code>qfrm_ApIq_int()</code>, noncentral
+</p>
+</li>
+<li> <p><code>ApIq_npi_cE()</code>: <code>qfrm_ApIq_npi()</code>, central
+</p>
+</li>
+<li> <p><code>ApIq_npi_nEd()</code>: <code>qfrm_ApIq_npi()</code>, noncentral, double
+</p>
+</li>
+<li> <p><code>ApBq_int_E()</code>: <code>qfrm_ApBq_int()</code>
+</p>
+</li>
+<li> <p><code>ApBq_npi_Ed()</code>: <code>qfrm_ApBq_npi()</code>, double
+</p>
+</li>
+<li> <p><code>ApBIqr_int_cEd()</code>: <code>qfmrm_ApBIqr_int()</code>, central
+</p>
+</li>
+<li> <p><code>ApBIqr_int_nEd()</code>: <code>qfmrm_ApBIqr_int()</code>, noncentral, double
+</p>
+</li>
+<li> <p><code>ApBIqr_npi_Ed()</code>: <code>qfmrm_ApBIqr_npi()</code>, double
+</p>
+</li>
+<li> <p><code>IpBDqr_gen_Ed()</code>: <code>qfmrm_IpBDqr_gen()</code>, double
+</p>
+</li>
+<li> <p><code>ApBDqr_int_Ed()</code>: <code>qfmrm_ApBDqr_int()</code>, double
+</p>
+</li>
+<li> <p><code>ApBDqr_npi_Ed()</code>: <code>qfmrm_ApBDqr_npi()</code>, double
+</p>
+</li>
+<li> <p><code>ApIq_npi_nEc()</code>: <code>qfrm_ApIq_npi()</code>, noncentral, coefficient-wise scaling
+</p>
+</li>
+<li> <p><code>ApBq_npi_Ec()</code>: <code>qfrm_ApBq_npi()</code>, coefficient-wise scaling
+</p>
+</li>
+<li> <p><code>ApBIqr_int_nEc()</code>: <code>qfmrm_ApBIqr_int()</code>, noncentral, coefficient-wise scaling
+</p>
+</li>
+<li> <p><code>ApBIqr_npi_Ec()</code>: <code>qfmrm_ApBIqr_npi()</code>, coefficient-wise scaling
+</p>
+</li>
+<li> <p><code>IpBDqr_gen_Ec()</code>: <code>qfmrm_IpBDqr_gen()</code>, double
+</p>
+</li>
+<li> <p><code>ApBDqr_int_Ec()</code>: <code>qfmrm_ApBDqr_int()</code>, coefficient-wise scaling
+</p>
+</li>
+<li> <p><code>ApBDqr_npi_Ec()</code>: <code>qfmrm_ApBDqr_npi()</code>, coefficient-wise scaling
+</p>
+</li>
+<li> <p><code>ApIq_npi_nEl()</code>: <code>qfrm_ApIq_npi()</code>, noncentral, long double
+</p>
+</li>
+<li> <p><code>ApBq_npi_El()</code>: <code>qfrm_ApBq_npi()</code>, long double
+</p>
+</li>
+<li> <p><code>ApBIqr_int_nEl()</code>: <code>qfmrm_ApBIqr_int()</code>, noncentral, long double
+</p>
+</li>
+<li> <p><code>ApBIqr_npi_El()</code>: <code>qfmrm_ApBIqr_npi()</code>, long double
+</p>
+</li>
+<li> <p><code>IpBDqr_gen_El()</code>: <code>qfmrm_IpBDqr_gen()</code>, long double
+</p>
+</li>
+<li> <p><code>ApBDqr_int_El()</code>: <code>qfmrm_ApBDqr_int()</code>, long double
+</p>
+</li>
+<li> <p><code>ApBDqr_npi_El()</code>: <code>qfmrm_ApBDqr_npi()</code>, long double
+</p>
+</li>
+<li> <p><code>rqfpE()</code>: <code>rqfp()</code>
+</p>
+</li>
+</ul>
+</div>

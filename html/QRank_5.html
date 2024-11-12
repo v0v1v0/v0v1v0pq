@@ -1,0 +1,116 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>QRank</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+A new Quantile Rank-score (QRank) based test for the eQTL identification. 
+</h2>
+
+<h3>Description</h3>
+
+<p>A function to obtain the p-value on the association between a gene expression and a genetic variant based on quantile rank-score test.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">QRank(gene, snp, cov = NULL, tau)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>gene</code></td>
+<td>
+
+<p>a gene expression level from a selected gene. No parametric assumption is needed for underlying distribution.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>snp</code></td>
+<td>
+
+<p>a selected SNP. 
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cov</code></td>
+<td>
+
+<p>a vector or matrix of covariates. Default is NULL. 
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tau</code></td>
+<td>
+
+<p>the quantile levels to be estimated. Tau can be a single value or a vector of quantile levels. 
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>This function conducts Quantile Rank-score (QRank) based test for the continuous traits. It can be used to identify expression quantitative trait loci (eQTLs) that are associated with the conditional quantile functions of gene expression.  
+</p>
+
+
+<h3>Value</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>composite.pvalue </code></td>
+<td>
+<p>a single p-value for across all quantile levels under consideration, testing H0:
+No genetic association at the selected quantile levels.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>quantile.specific.pvalue </code></td>
+<td>
+<p>p-values of each quantile level, testing <code class="reqn">H_0</code>: The genetic variant and gene expression are not associated at this quantile level.</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Xiaoyu Song
+</p>
+
+
+<h3>References</h3>
+
+<p>Xiaoyu Song, Gen Li, Zhenwei Zhou, Xianling Wang, Iuliana Ionita-Laza and Ying Wei (2016). QRank: A Novel Quantile Regression Tool for eQTL Discovery. <em>Under revision for Bioinformatics.</em> 
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">set.seed(123)                                                                        #
+n=300                                                                                #
+x=rbinom(n, 2, 0.2)                                                                  #
+y=rnorm(n, mean=0, sd=1)                                                             #
+z=cbind(rbinom(n, 1, 0.3), rnorm(n, mean=2, sd=2))                                   # 
+taus=c( 0.25, 0.5, 0.75)                                                             # 
+
+# - run the proposed QRank approach                                                  #
+QRank(gene=y, snp=x, cov=z, tau=taus)                                                #
+
+# - output                                                                           #
+#Composite.pvalue:                                                                   #
+#[1] 0.2241873                                                                       #
+
+#Quantile.specific.pvalue:                                                           #
+#    0.25       0.5      0.75                                                        #
+#0.5452044 0.1821452 0.5938421                                                       #
+</code></pre>
+
+
+</div>

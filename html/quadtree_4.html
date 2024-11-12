@@ -1,0 +1,94 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>as_data_frame</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Convert a <code>Quadtree</code> to a data frame</h2>
+
+<h3>Description</h3>
+
+<p>Creates a data frame with information on each quadtree cell.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S4 method for signature 'Quadtree'
+as_data_frame(x, terminal_only = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a <code>Quadtree</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>terminal_only</code></td>
+<td>
+<p>boolean; if <code>TRUE</code> (the default) only information
+on terminal cells is returned. If <code>FALSE</code>, information on all cells is
+returned.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A data frame with one row for each quadtree cell. The columns are as
+follows:
+</p>
+
+<ul>
+<li> <p><code>id</code>: the id of the cell
+</p>
+</li>
+<li> <p><code>hasChildren</code>: 1 if the cell has children, 0 otherwise
+</p>
+</li>
+<li> <p><code>level</code>: integer; the depth of this cell/node in the quadtree,
+where the root of the quadtree is considered to be level 0
+</p>
+</li>
+<li> <p><code>xmin</code>, <code>xmax</code>, <code>ymin</code>, <code>ymax</code>: the x and y
+limits of the cell
+</p>
+</li>
+<li> <p><code>value</code>: the value of the cell
+</p>
+</li>
+<li> <p><code>smallestChildLength</code>: the smallest cell length among all of
+this cell's descendants
+</p>
+</li>
+<li> <p><code>parentID</code>: the ID of the cell's parent. The root, which has
+no parent, has a value of -1 for this column
+</p>
+</li>
+</ul>
+<h3>See Also</h3>
+
+<p><code>as_vector()</code> returns all the cell values as a numeric
+vector.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(quadtree)
+
+mat &lt;- rbind(c(1, 1, 0, 1),
+             c(1, 1, 1, 0),
+             c(1, 0, 1, 1),
+             c(0, 1, 1, 1))
+qt &lt;- quadtree(mat, .1)
+plot(qt)
+as_data_frame(qt)
+</code></pre>
+
+
+</div>

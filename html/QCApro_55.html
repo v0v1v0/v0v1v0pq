@@ -1,0 +1,143 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>randomDGS</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Build a Random Data-Generating Structure
+</h2>
+
+<h3>Description</h3>
+
+<p>This evaluation function can be used to randomly build data-generating structures. It has initially been programmed for <a href="http://dx.doi.org/10.1177/0049124117701487">Baumgartner and Thiem (2017)</a> to test the correctness of QCA's three search strategies (conservative/complex, intermediate, parsimonious).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">randomDGS(n.DGS = 1, exo.facs = c(""), seed.1 = NULL, seed.2 = NULL, 
+          prob = 0.5, diversity = 1, delete.trivial = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>n.DGS</code></td>
+<td>
+<p>The number of random data-generating structures to be built.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>exo.facs</code></td>
+<td>
+<p>A character vector with the names of the exogenous factors.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>seed.1</code></td>
+<td>
+<p>The seed for the random generation of output function values.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>seed.2</code></td>
+<td>
+<p>The seed for the random selection of a DGS in cases of structural
+ambiguities.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>prob</code></td>
+<td>
+<p>The probability of assigning a positive output function value to a minterm.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>diversity</code></td>
+<td>
+<p>The diversity index value.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>delete.trivial</code></td>
+<td>
+<p>Logical, delete "TRUE" and "FALSE" from set of structures.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The argument <code>n.DGS</code> specifies the number of random data-generating structures to be built. 
+</p>
+<p>The argument <code>exo.facs</code> is a character vector with the names of the exogenous factors. 
+</p>
+<p>The argument <code>seed.1</code> sets the seed for the random generation of output function values, whereas <code>seed.2</code> sets the seed for the random selection of a DGS in cases of structural ambiguities. 
+</p>
+<p>The argument <code>prob</code> is the probability of assigning a positive output function value to a minterm. 
+The argument <code>diversity</code> specifies the diversity index value. It must be a number between 0 and 1.
+</p>
+<p>The argument <code>delete.trivial</code> is logical, and specifies whether "TRUE" and "FALSE" should be deleted from the set of structures.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list with the following two components:<br></p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>DGS</code></td>
+<td>
+<p>A vector of the data-generating structure(s).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tt</code></td>
+<td>
+<p>The corresponding truth table(s).</p>
+</td>
+</tr>
+</table>
+<h3>Contributors</h3>
+
+
+<table><tr>
+<td style="text-align: left;">
+Thiem, Alrik        </td>
+<td style="text-align: left;">: development, documentation, programming, testing
+</td>
+</tr></table>
+<h3>Author(s)</h3>
+
+<p>Alrik Thiem (<a href="http://www.alrik-thiem.net">Personal Website</a>; <a href="https://www.researchgate.net/profile/Alrik_Thiem">ResearchGate Website</a>)
+</p>
+
+
+<h3>References</h3>
+
+<p>Baumgartner, Michael, and Alrik Thiem. 2017. “Often Trusted but Never 
+(Properly) Tested: Evaluating Qualitative Comparative Analysis.” <em>Sociological Methods &amp; Research</em>. Advance online publication. DOI: <a href="http://dx.doi.org/10.1177/0049124117701487">10.1177/0049124117701487</a>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>submodels</code></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># randomly generate three data-generating structures on the basis of four
+# exogenous factors
+str &lt;- randomDGS(n.DGS = 3, exo.facs = LETTERS[1:4], seed.1 = 1375, seed.2 = 3917)
+str$DGS
+
+# all correctness-preserving submodels of DGS 2, bd + abC, can then be found with the 
+# 'submodels' function
+submodels(str$DGS[2])$submodels
+</code></pre>
+
+
+</div>

@@ -1,0 +1,114 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>centers_by</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Centering and/or Standardizing Numeric Data by Group</h2>
+
+<h3>Description</h3>
+
+<p><code>centers_by</code> centers and/or standardized data by group. This is sometimes
+called group-mean centering and/or group-SD standardizing. The groups can be
+specified by multiple columns in <code>data</code> (e.g., <code>grp.nm</code> with length
+&gt; 1), and <code>interaction</code> will be implicitly called to create the groups.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">centers_by(data, vrb.nm, grp.nm, center = TRUE, scale = FALSE, suffix)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>data.frame of data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vrb.nm</code></td>
+<td>
+<p>character vector of colnames from <code>data</code> specifying the
+variables.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>grp.nm</code></td>
+<td>
+<p>character vector of colnames from <code>data</code> specifying the
+groups.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>center</code></td>
+<td>
+<p>logical vector with length 1 specifying whether group-mean
+centering should be done.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>scale</code></td>
+<td>
+<p>logical vector with length 1 specifying whether group-SD scaling
+should be done.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>suffix</code></td>
+<td>
+<p>character vector with a single element specifying the string to
+append to the end of the colnames of the return object. The default depends
+on the <code>center</code> and <code>scale</code> arguments: 1)if <code>center</code> = TRUE
+and <code>scale</code> = FALSE, then <code>suffix</code> = "_cw", 2) if <code>center</code> =
+FALSE and <code>scale</code> = TRUE, then <code>suffix</code> = "_sw", 3) if
+<code>center</code> = TRUE and <code>scale</code> = TRUE, then <code>suffix</code> = "_zw",
+4) if <code>center</code> = FALSE and <code>scale</code> = FALSE, then <code>suffix</code> =
+"".</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p><code>centers_by</code> first coerces <code>data[vrb.nm]</code> to a matrix in preparation
+for the core of the function, which is essentially <code>lapply(X = split(x =
+data[vrb.nm], f = data[grp.nm]), FUN = scale.default)</code> If the coercion
+results in a non-numeric matrix (e.g., any columns in <code>data[vrb.nm]</code> are
+character vectors or factors), then an error is returned.
+</p>
+
+
+<h3>Value</h3>
+
+<p>data.frame of centered and/or standardized variables by group with
+colnames specified by <code>paste0(vrb.nm, suffix)</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>center_by</code>
+<code>centers</code>
+<code>center</code>
+<code>scale.default</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">ChickWeight2 &lt;- as.data.frame(ChickWeight) # because the "groupedData" class calls
+   # `[.groupedData`, which is different than `[.data.frame`
+row.names(ChickWeight2) &lt;- as.numeric(row.names(ChickWeight)) / 1000
+centers_by(data = ChickWeight2, vrb.nm = c("weight","Time"), grp.nm = "Chick")
+centers_by(data = ChickWeight2, vrb.nm = c("weight","Time"), grp.nm = "Chick",
+   scale = TRUE, suffix = "_within")
+centers_by(data = as.data.frame(CO2), vrb.nm = c("conc","uptake"),
+   grp.nm = c("Type","Treatment"), scale = TRUE) # multiple grouping columns
+</code></pre>
+
+
+</div>

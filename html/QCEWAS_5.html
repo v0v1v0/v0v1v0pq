@@ -1,0 +1,125 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>P_correlation</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Testing P-value distribution</h2>
+
+<h3>Description</h3>
+
+<p>A sub-function of <code>EWAS_QC</code> that
+tests if the reported p-values match the p-value that can be
+derived from the effect-size and standard error values.
+Aberrations between these indicate that the p-values have been
+adjusted, or that there is some other problem with the data.
+It also creates a plot of reported vs. expected p-values that
+shows the correlation.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">  P_correlation(dataset,
+                plot_correlation = TRUE,
+                plot_if_threshold = FALSE,
+                threshold_r = 0.99,
+                high_quality_plots = FALSE,
+                save_name = "dataset",
+                header_translations, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>dataset</code></td>
+<td>
+
+<p>a data frame with the columns <code>BETA</code> (effect size),
+<code>SE</code> (standard error), and <code>P_VAL</code> (p value). If
+the column names differ from the above, the argument
+header_translations can be used to translate them.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>plot_correlation</code></td>
+<td>
+
+<p>logical, determines whether a graph is made of reported vs.
+expected p values.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>plot_if_threshold</code></td>
+<td>
+
+<p>logical. If <code>TRUE</code>, the plot is only generated if the
+p-value correlation is below the specified threshold.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>threshold_r</code></td>
+<td>
+
+<p>numeric. If the p-value correlation is below this, a warning
+is generated.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>high_quality_plots</code></td>
+<td>
+
+<p>logical. Setting this to TRUE will save the graph as a 
+high-resolution tiff image.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>save_name</code></td>
+<td>
+
+<p>character string used for the output file. Do not add an
+extension; <code>P_correlation</code> will do so automatically.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>header_translations</code></td>
+<td>
+
+<p>a translation table for the header of <code>dataset</code>. See
+<code>translate_header</code> for details.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+
+<p>arguments passed to the generic <code>plot</code> function.
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p><code>P_correlation</code> is primarly a subfunction of
+<code>EWAS_QC</code>, but it can be used separately.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>P_correlation</code> returns a single numeric value,
+representing the correlation between reported and expected
+p-values.
+</p>
+
+
+</div>

@@ -1,0 +1,112 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>pattern2id</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Match patterns against token types</h2>
+
+<h3>Description</h3>
+
+<p>Developer function to match regex, fixed or glob patterns against token
+types. This allows C++ function to perform fast searches in tokens object.
+C++ functions use a list of type IDs to construct a hash table, against which
+sub-vectors of tokens object are matched. This function constructs an index
+of glob patterns for faster matching.
+</p>
+<p><code>pattern2fixed</code> converts regex and glob patterns to fixed patterns.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">pattern2id(
+  pattern,
+  types,
+  valuetype = c("glob", "fixed", "regex"),
+  case_insensitive = TRUE,
+  keep_nomatch = FALSE,
+  use_index = TRUE
+)
+
+pattern2fixed(
+  pattern,
+  types,
+  valuetype = c("glob", "fixed", "regex"),
+  case_insensitive = TRUE,
+  keep_nomatch = FALSE,
+  use_index = TRUE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>pattern</code></td>
+<td>
+<p>a character vector, list of character vectors, dictionary,
+or collocations object.  See pattern for details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>types</code></td>
+<td>
+<p>token types against which patterns are matched</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>valuetype</code></td>
+<td>
+<p>the type of pattern matching: <code>"glob"</code> for "glob"-style
+wildcard expressions; <code>"regex"</code> for regular expressions; or <code>"fixed"</code> for
+exact matching. See valuetype for details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>case_insensitive</code></td>
+<td>
+<p>logical; if <code>TRUE</code>, ignore case when matching a
+<code>pattern</code> or dictionary values</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>keep_nomatch</code></td>
+<td>
+<p>keep patterns that did not match</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>use_index</code></td>
+<td>
+<p>construct index of types for quick search</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>a list of integer vectors containing indices of matched types
+</p>
+<p><code>pattern2fixed</code> returns a list of character vectors containing
+types
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">types &lt;- c("A", "AA", "B", "BB", "BBB", "C", "CC")
+
+pats_regex &lt;- list(c("^a$", "^b"), c("c"), c("d"))
+pattern2id(pats_regex, types, "regex", case_insensitive = TRUE)
+
+pats_glob &lt;- list(c("a*", "b*"), c("c"), c("d"))
+pattern2id(pats_glob, types, "glob", case_insensitive = TRUE)
+
+pattern &lt;- list(c("^a$", "^b"), c("c"), c("d"))
+types &lt;- c("A", "AA", "B", "BB", "BBB", "C", "CC")
+pattern2fixed(pattern, types, "regex", case_insensitive = TRUE)
+</code></pre>
+
+
+</div>

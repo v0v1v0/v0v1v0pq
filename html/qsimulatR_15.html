@@ -1,0 +1,48 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>ccqgate</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>A twice controlled single qubit gate</h2>
+
+<h3>Description</h3>
+
+<p>This class represents a generic controlled gate
+</p>
+
+
+<h3>Details</h3>
+
+<p>The qubits are counted from 1 to <code>nbits</code> starting with the least
+significant bit.
+</p>
+
+
+<h3>Slots</h3>
+
+
+<dl>
+<dt><code>bits</code></dt>
+<dd>
+<p>Integer. Integer vector of bits. The first two are the control bits, the third the target bit.</p>
+</dd>
+<dt><code>gate</code></dt>
+<dd>
+<p>sqgate. The single qubit gate.</p>
+</dd>
+</dl>
+<h3>Examples</h3>
+
+<pre><code class="language-R">x &lt;- H(1) * qstate(nbits=3)
+## application of the CCX (CCNOT) gate to bit 1,2,3
+z &lt;- ccqgate(bits=c(1L, 2L, 3L), gate=X(3L)) * x
+z
+## the same, but differently implemented
+z &lt;- CCNOT(c(1,2,3)) * x
+z
+
+</code></pre>
+
+
+</div>

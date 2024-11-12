@@ -1,0 +1,51 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>field_system</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Shortcut functions to access or assign metadata</h2>
+
+<h3>Description</h3>
+
+<p>Internal functions to access or replace an object metadata field without
+going through attribute trees. <code>field_system()</code>, <code>field_object()</code> and
+<code>field_user()</code> correspond to the system, object and user meta fields,
+respectively.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">field_system(x, field = NULL)
+
+field_system(x, field = NULL) &lt;- value
+
+field_object(x, field = NULL)
+
+field_object(x, field = NULL) &lt;- value
+
+field_user(x, field = NULL)
+
+field_user(x, field = NULL) &lt;- value
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a list of attributes extracted from a <code>dfm</code>, <code>tokens</code>, or <code>corpus</code>
+object by <code>attributes(x)</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>field</code></td>
+<td>
+<p>name of the sub-field to access or assign values</p>
+</td>
+</tr>
+</table>
+</div>

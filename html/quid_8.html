@@ -1,0 +1,66 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>plotEffects</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Plot a BFBayesFactorConstraint object</h2>
+
+<h3>Description</h3>
+
+<p>Plots observed vs estimated individual effects for each level of the effect
+for which constraints are defined.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">plotEffects(x, .raw = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>an object of class <code>BFBayesFactorConstraint-class</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>.raw</code></td>
+<td>
+<p>if <code>FALSE</code>, outputs the plot. If <code>TRUE</code> returns the
+<code>data.frame</code> that is used for making the plot.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A <code>ggplot</code> object if <code>.raw = FALSE</code>. A
+<code>data.frame</code> otherwise, with columns for ID, type of effect,
+specified constraint, estimates, and ordering of estimate from smallest
+to largest.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+data(stroop)
+
+resStroop &lt;- constraintBF(rtS ~ ID*cond,
+                          data = stroop,
+                          whichRandom = "ID",
+                          ID = "ID",
+                          whichConstraint = c(cond = "2 &gt; 1"),
+                          rscaleEffects = c("ID" = 1, "cond" = 1/6, "ID:cond" = 1/10))
+
+plotEffects(resStroop)
+
+
+</code></pre>
+
+
+</div>

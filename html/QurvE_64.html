@@ -1,0 +1,61 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>summary.drFitFLModel</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Generic summary function for drFitFLModel objects</h2>
+
+<h3>Description</h3>
+
+<p>Generic summary function for drFitFLModel objects
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'drFitFLModel'
+summary(object, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>object of class <code>drFitModel</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Additional arguments. This has currently no effect and is only meant to fulfill the requirements of a generic function.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A dataframe with biosensor response parameters.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># Create concentration values via a serial dilution
+conc &lt;- c(0, rev(unlist(lapply(1:18, function(x) 10*(2/3)^x))),10)
+
+# Simulate response values via biosensor equation
+response &lt;- biosensor.eq(conc, y.min = 110, y.max = 6000, K = 0.5, n = 2) +
+            0.01*6000*rnorm(10)
+
+# Perform fit
+TestRun &lt;- fl.drFitModel(conc, response, drID = 'test', control = fl.control())
+
+print(summary(TestRun))
+
+</code></pre>
+
+
+</div>

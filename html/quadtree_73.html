@@ -1,0 +1,75 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>summary.LcpFinder</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Show a summary of a <code>LcpFinder</code>
+</h2>
+
+<h3>Description</h3>
+
+<p>Prints out information about the <code>LcpFinder</code>.
+Information shown is:
+</p>
+
+<ul>
+<li>
+<p> class of object
+</p>
+</li>
+<li>
+<p> start point
+</p>
+</li>
+<li>
+<p> search limits
+</p>
+</li>
+<li>
+<p> number of paths found
+</p>
+</li>
+</ul>
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S4 method for signature 'LcpFinder'
+summary(object)
+
+## S4 method for signature 'LcpFinder'
+show(object)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>a <code>LcpFinder</code></p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>no return value
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(quadtree)
+habitat &lt;- terra::rast(system.file("extdata", "habitat.tif", package="quadtree"))
+
+qt &lt;- quadtree(habitat, .1)
+
+start_point &lt;- c(6989, 34007)
+end_point &lt;- c(33015, 38162)
+
+lcpf &lt;- lcp_finder(qt, start_point)
+lcp &lt;- find_lcp(lcpf, end_point)
+
+summary(lcpf)
+</code></pre>
+
+
+</div>

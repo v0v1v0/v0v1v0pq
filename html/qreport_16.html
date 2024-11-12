@@ -1,0 +1,92 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>makecallout</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>makecallout</h2>
+
+<h3>Description</h3>
+
+<p>General Case Handling of Quarto Callouts
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">makecallout(...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>can be any of the following
+</p>
+
+<ul>
+<li>
+<p> x object to print (if <code>type='print'</code>), or one or more formulas whose right hand sides are to be run.  Left side provides labels if needed by the particular callout, and if <code>raw</code> is included on the right side any R code chunk run will have <code>results='asis'</code> in the chunk header.
+</p>
+</li>
+<li>
+<p> callout character string giving the Quarto callout
+</p>
+</li>
+<li>
+<p> label character string label if needed and if not obtained from the left side of a formula
+</p>
+</li>
+<li>
+<p> type defaults to <code>'print'</code> to print an object.  Set to <code>'run'</code> to run a chunk or <code>'cat'</code> to use <code>cat()</code> to render.
+</p>
+</li>
+<li>
+<p> now set to <code>FALSE</code> to return code instead of running it
+</p>
+</li>
+<li>
+<p> results if not using formulas, specifies the formatting option to code in the code header, either <code>'asis'</code> (the default) or <code>'markup'</code>
+</p>
+</li>
+<li>
+<p> close specifies whether to close the callout or to leave it open for future calls
+</p>
+</li>
+<li>
+<p> parameters passed to <code>print</code>
+</p>
+</li>
+</ul>
+</td>
+</tr></table>
+<h3>Details</h3>
+
+<p>This function generates and optionally runs markdown/R code that runs Quarto callouts such as collapsible notes or marginal notes.  Before rendering <code>x</code>, <code>options(rawmarkup=TRUE)</code> is set so that <code>Hmisc::rendHTML</code> will not try to protect html in things like margins.  Quarto doesn't like the surrounding html protection lines in that context.  The option is set back to its original value after rendering.
+</p>
+
+
+<h3>Value</h3>
+
+<p>if code is not executed, returns a character vector with the code to run
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Frank Harrell
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">x &lt;- 1:3
+co &lt;- '.callout-note collapse="true'
+makecallout(x, callout=co, label='# thislabel', type='print')
+makecallout(thislabel ~ x, callout=co, type='print')
+</code></pre>
+
+
+</div>

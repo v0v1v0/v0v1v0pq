@@ -1,0 +1,140 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>solveqp</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Quadratic Programming</h2>
+
+<h3>Description</h3>
+
+<p>Solves
+</p>
+<p style="text-align: center;"><code class="reqn">argmin 0.5 x' H x + h' x</code>
+</p>
+
+<p>s.t.
+</p>
+<p style="text-align: center;"><code class="reqn">lb_i \leq x_i \leq ub_i</code>
+</p>
+
+<p style="text-align: center;"><code class="reqn">Alb_i \leq (A x)_i \leq Aub_i</code>
+</p>
+
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">solveqp(
+  H,
+  h = NULL,
+  lb = NULL,
+  ub = NULL,
+  A = NULL,
+  Alb = NULL,
+  Aub = NULL,
+  pars = list()
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>H</code></td>
+<td>
+<p>Symmetric positive definite matrix, n*n. Can also be a (inverse) Cholesky factor cf.
+<code>qpmadParameters</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>h</code></td>
+<td>
+<p><em>Optional</em>, vector of length n.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lb, ub</code></td>
+<td>
+<p><em>Optional</em>, lower/upper bounds of <code>x</code>. Will be repeated n times if length is one.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>A</code></td>
+<td>
+<p><em>Optional</em>, constraints matrix of dimension p*n, where each row corresponds to a constraint. For equality constraints let corresponding elements in <code>Alb</code> equal those in <code>Aub</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Alb, Aub</code></td>
+<td>
+<p><em>Optional</em>, lower/upper bounds for <code class="reqn">Ax</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pars</code></td>
+<td>
+<p><em>Optional</em>, qpmad-solver parameters, conveniently set with <code>qpmadParameters</code></p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>At least one of <code>lb</code>, <code>ub</code> or <code>A</code> must be specified. If <code>A</code> has been
+specified then also at least one of <code>Alb</code> or <code>Aub</code>. Returns a list with elements <code>solution</code> (the solution vector),
+<code>status</code> (a status code) and <code>message</code> (a human readable message). If <code>status</code> = <code>0</code> the algorithm has converged.
+Possible status codes:
+</p>
+
+<ul>
+<li>
+<p><code>0</code>: Ok
+</p>
+</li>
+<li>
+<p><code>-1</code>: Numerical issue, matrix (probably) not positive definite
+</p>
+</li>
+<li>
+<p><code>1</code>: Inconsistent
+</p>
+</li>
+<li>
+<p><code>2</code>: Infeasible equality
+</p>
+</li>
+<li>
+<p><code>3</code>: Infeasible inequality
+</p>
+</li>
+<li>
+<p><code>4</code>: Maximal number of iterations
+</p>
+</li>
+</ul>
+<h3>See Also</h3>
+
+<p><code>qpmadParameters</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Assume we want to minimize: -(0 5 0) %*% b + 1/2 b^T b
+## under the constraints:      A^T b &gt;= b0
+## with b0 = (-8,2,0)^T
+## and      (-4  2  0)
+##      A = (-3  1 -2)
+##          ( 0  0  1)
+## we can use solveqp as follows:
+##
+Dmat       &lt;- diag(3)
+dvec       &lt;- c(0,-5,0)
+Amat       &lt;- t(matrix(c(-4,-3,0,2,1,0,0,-2,1),3,3))
+bvec       &lt;- c(-8,2,0)
+solveqp(Dmat,dvec,A=Amat,Alb=bvec)
+</code></pre>
+
+
+</div>

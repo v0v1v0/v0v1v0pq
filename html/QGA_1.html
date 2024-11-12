@@ -1,0 +1,229 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>QGA</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Quantum Genetic Algorithm</h2>
+
+<h3>Description</h3>
+
+<p>Main function to execute a Quantum Genetic Algorithm
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">QGA(
+  popsize = 20,
+  generation_max = 200,
+  nvalues_sol,
+  Genome,
+  thetainit = 3.1415926535 * 0.05,
+  thetaend = 3.1415926535 * 0.025,
+  pop_mutation_rate_init = NULL,
+  pop_mutation_rate_end = NULL,
+  mutation_rate_init = NULL,
+  mutation_rate_end = NULL,
+  mutation_flag = TRUE,
+  plotting = TRUE,
+  verbose = TRUE,
+  progress = TRUE,
+  eval_fitness,
+  eval_func_inputs,
+  stop_limit = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>popsize</code></td>
+<td>
+<p>the number of generated solutions (population) to be evaluated at each iteration
+(default is 20)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>generation_max</code></td>
+<td>
+<p>the number of iterations to be performed
+(default is 200)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nvalues_sol</code></td>
+<td>
+<p>the number of possible integer values contained in each element (gene) of the solution</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Genome</code></td>
+<td>
+<p>the length of the genome (or chromosome), representing a possible solution</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>thetainit</code></td>
+<td>
+<p>the angle (expressed in radiants) to be used when applying the rotation gate
+when starting the iterations 
+(default is pi * 0.05, where pi = 3.1415926535)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>thetaend</code></td>
+<td>
+<p>the angle (expressed in radiants) to be used when applying the rotation gate 
+at the end of the iterations
+(default is pi * 0.025, where pi = 3.1415926535)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pop_mutation_rate_init</code></td>
+<td>
+<p>initial mutation rate to be used when applying the X-Pauli gate, applied 
+to each individual in the population (default is 1/(popsize+1))</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pop_mutation_rate_end</code></td>
+<td>
+<p>final mutation rate to be used when applying the X-Pauli gate, applied 
+to each individual in the population (default is 1/(popsize+1))</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mutation_rate_init</code></td>
+<td>
+<p>initial mutation rate to be used when applying the X-Pauli gate, applied 
+to each element of the chromosome  (default is 1/(Genome+1)))</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mutation_rate_end</code></td>
+<td>
+<p>final mutation rate to be used when applying the X-Pauli gate, applied 
+to each element of the chromosome (default is 1/(Genome+1))</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mutation_flag</code></td>
+<td>
+<p>flag indicating if the mutation gate is to be applied or not (default is TRUE)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>plotting</code></td>
+<td>
+<p>flag indicating plotting during iterations</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p>flag indicating printing fitness during iterations</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>progress</code></td>
+<td>
+<p>flag indicating progress bar during iterations</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>eval_fitness</code></td>
+<td>
+<p>name of the function that will be used to evaluate the fitness of each solution</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>eval_func_inputs</code></td>
+<td>
+<p>specific inputs required by the eval_fitness function</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>stop_limit</code></td>
+<td>
+<p>value to stop the iterations if the fitness is higher</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>This function is the 'engine', which performs the quantum genetic algorithm calling
+the function for the evaluation of the fitness that is specific for the particulare
+problem to be optmized.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A numeric vector (positive integers) giving the best solution obtained by the QGA
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+#----------------------------------------
+# Fitness evaluation for Knapsack Problem
+#----------------------------------------
+KnapsackProblem &lt;- function(solution,
+                            eval_func_inputs) {
+  solution &lt;- solution - 1
+  items &lt;- eval_func_inputs[[1]]
+  maxweight &lt;- eval_func_inputs[[2]]
+  tot_items &lt;- sum(solution)
+  # Penalization
+  if (sum(items$weight[solution]) &gt; maxweight) {
+    tot_items &lt;- tot_items - (sum(items$weight[solution]) - maxweight)  
+  }
+  return(tot_items)
+}
+#----------------------------------------
+# Prepare data for fitness evaluation
+items &lt;- as.data.frame(list(Item = paste0("item",c(1:300)),
+                            weight = rep(NA,300)))
+set.seed(1234)
+items$weight &lt;- rnorm(300,mean=50,sd=20)
+hist(items$weight)
+sum(items$weight)
+maxweight = sum(items$weight) / 2
+maxweight
+#----------------------
+# Perform optimization
+popsize = 20
+Genome = nrow(items)
+solutionQGA &lt;- QGA(popsize = 20,
+                generation_max = 500,
+                nvalues_sol = 2,
+                Genome = nrow(items),
+                thetainit = 3.1415926535 * 0.05,
+                thetaend = 3.1415926535 * 0.025,
+                pop_mutation_rate_init = 1/(popsize + 1),
+                pop_mutation_rate_end = 1/(popsize + 1),
+                mutation_rate_init = 1,
+                mutation_rate_end = 1,
+                mutation_flag = TRUE,
+                plotting = TRUE,
+                verbose = FALSE,
+                progress = TRUE,
+                eval_fitness = KnapsackProblem,
+                eval_func_inputs = list(items,
+                                        maxweight))
+#----------------------
+# Analyze results
+solution &lt;- solutionQGA[[1]]
+solution &lt;- solution - 1
+sum(solution)
+sum(items$weight[solution])
+maxweight
+
+</code></pre>
+
+
+</div>

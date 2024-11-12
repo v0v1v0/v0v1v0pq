@@ -1,0 +1,94 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>mean_if</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Mean Conditional on Minimum Frequency of Observed Values</h2>
+
+<h3>Description</h3>
+
+<p><code>mean_if</code> calculates the mean of a numeric or logical vector conditional
+on a specified minimum frequency of observed values. If the frequency of
+observed values is less than (or equal to) <code>ov.min</code>, then <code>NA</code> is
+returned rather than the mean.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">mean_if(x, trim = 0, ov.min = 1, prop = TRUE, inclusive = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>numeric or logical vector.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>trim</code></td>
+<td>
+<p>numeric vector of length 1 specifying the proportion of values
+from each end of <code>x</code> to trim. Trimmed values are recoded to their
+endpoint for calculation of the mean. See <code>mean.default</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ov.min</code></td>
+<td>
+<p>minimum frequency of observed values required. If <code>prop</code> =
+TRUE, then this is a decimal between 0 and 1. If <code>prop</code> = FALSE, then
+this is a integer between 0 and <code>length(x)</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>prop</code></td>
+<td>
+<p>logical vector of length 1 specifying whether <code>ov.min</code>
+should refer to the proportion of observed values (TRUE) or the count of
+observed values (FALSE).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>inclusive</code></td>
+<td>
+<p>logical vector of length 1 specifying whether the mean
+should be calculated if the frequency of observed values is exactly equal
+to <code>ov.min</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>numeric vector of length 1 providing the mean of <code>x</code> or
+<code>NA</code> conditional on if the frequency of observed data is greater than
+(or equal to) <code>ov.min</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>mean.default</code>
+<code>sum_if</code>
+<code>make.fun_if</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">mean_if(x = airquality[[1]], ov.min = .75) # proportion of observed values
+mean_if(x = airquality[[1]], ov.min = 116,
+   prop = FALSE) # count of observe values
+mean_if(x = airquality[[1]], ov.min = 116, prop = FALSE,
+   inclusive = FALSE) # not include ov.min value itself
+mean_if(x = c(TRUE, NA, FALSE, NA),
+   ov.min = .50) # works with logical vectors as well as numeric
+</code></pre>
+
+
+</div>

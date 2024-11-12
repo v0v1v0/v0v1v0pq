@@ -1,0 +1,52 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>isSymmetricQspray</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Check symmetry of a polynomial</h2>
+
+<h3>Description</h3>
+
+<p>Check whether a <code>qspray</code> polynomial is symmetric.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">isSymmetricQspray(qspray)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>qspray</code></td>
+<td>
+<p>a <code>qspray</code> polynomial</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>A Boolean value indicating whether the polynomial defined by 
+<code>qspray</code> is symmetric.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>MSPcombination</code>, <code>compactSymmetricQspray</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">e1 &lt;- ESFpoly(3, 1)
+e2 &lt;- ESFpoly(3, 2)
+e3 &lt;- ESFpoly(3, 3)
+q &lt;- e1 + 2*e2 + 3*e3 + 4*e1*e3
+isSymmetricQspray(q)
+</code></pre>
+
+
+</div>

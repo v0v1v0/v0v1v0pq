@@ -1,0 +1,82 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>dist_sigs_2_mean</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Distance between fatty acid signatures and their mean</h2>
+
+<h3>Description</h3>
+
+<p>The utility function <code>dist_sigs_2_mean</code> computes the summed and mean
+distance between a collection of fatty acid signatures and their mean
+signature.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">dist_sigs_2_mean(sig_data, dist_meas = 1, gamma = 1)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>sig_data</code></td>
+<td>
+<p>A numeric matrix of fatty acid signatures in column-major
+format.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dist_meas</code></td>
+<td>
+<p>An integer indicator of the distance measure to compute.
+Default value 1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gamma</code></td>
+<td>
+<p>The power parameter of the chi-square distance measure. Default
+value 1.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list containing the following elements:</p>
+
+<dl>
+<dt>dist_sum</dt>
+<dd>
+<p>The summed distance between each signature and the mean
+signature.</p>
+</dd>
+<dt>dist_mean</dt>
+<dd>
+<p>The mean distance between each signature and the mean
+signature.</p>
+</dd>
+</dl>
+<h3>Details</h3>
+
+<p>This is an internal utility function.  The signature data in <code>sig_data</code>
+are presumed to be ready for analysis, which is best accomplished by a call
+to the function <code>prep_sig</code>.  Consequently, to increase execution
+speed during simulations, no numeric error checking is performed.  Please
+refer to the documentation for <code>prep_sig</code> for additional
+information.
+</p>
+<p>Please refer to the documentation for <code>dist_between_2_sigs</code> for
+additional information regarding distance measures.
+</p>
+<p>Utility functions called by <code>dist_sigs_2_mean</code>:
+</p>
+
+<ul><li> <p><code>dist_between_2_sigs</code>
+</p>
+</li></ul>
+</div>

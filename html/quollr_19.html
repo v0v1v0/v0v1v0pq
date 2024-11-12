@@ -1,0 +1,70 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>gen_summary</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Generate evaluation metrics</h2>
+
+<h3>Description</h3>
+
+<p>This function generates an evaluation data frame based on the provided data and predictions.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">gen_summary(test_data, prediction_df, df_bin, col_start = "x")
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>test_data</code></td>
+<td>
+<p>The data set containing high-dimensional data along with an unique identifier.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>prediction_df</code></td>
+<td>
+<p>The data set with 2D embeddings, IDs, and predicted hexagonal IDs.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>df_bin</code></td>
+<td>
+<p>The data set with averaged/weighted high-dimensional data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>col_start</code></td>
+<td>
+<p>The text that begin the column name of the high-dimensional data.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list contains MSE and AIC values.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">model &lt;- fit_highd_model(training_data = s_curve_noise_training, x = "UMAP1", y = "UMAP2",
+nldr_df_with_id = s_curve_noise_umap_scaled, col_start_2d = "UMAP", col_start_highd = "x")
+df_bin_centroids &lt;- model$df_bin_centroids
+df_bin &lt;- model$df_bin
+pred_emb_list &lt;- predict_emb(test_data = s_curve_noise_training,
+df_bin_centroids = df_bin_centroids, df_bin = df_bin, type_NLDR = "UMAP")
+pred_df_test &lt;- as.data.frame(do.call(cbind, pred_emb_list))
+gen_summary(test_data = s_curve_noise_training, prediction_df = pred_df_test,
+df_bin = df_bin, col_start = "x")
+
+</code></pre>
+
+
+</div>

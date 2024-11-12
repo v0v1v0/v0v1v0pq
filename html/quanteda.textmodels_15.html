@@ -1,0 +1,90 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>predict.textmodel_lr</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Prediction from a fitted textmodel_lr object</h2>
+
+<h3>Description</h3>
+
+<p><code>predict.textmodel_lr()</code> implements class predictions from a fitted
+logistic regression model.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'textmodel_lr'
+predict(
+  object,
+  newdata = NULL,
+  type = c("class", "probability"),
+  force = TRUE,
+  ...
+)
+
+## S3 method for class 'textmodel_lr'
+coef(object, ...)
+
+## S3 method for class 'textmodel_lr'
+coefficients(object, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>a fitted logistic regression textmodel</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>newdata</code></td>
+<td>
+<p>dfm on which prediction should be made</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>type</code></td>
+<td>
+<p>the type of predicted values to be returned; see Value</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>force</code></td>
+<td>
+<p>make newdata's feature set conformant to the model terms</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>not used</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p><code>predict.textmodel_lr()</code> returns either a vector of class
+predictions for each row of <code>newdata</code> (when <code>type = "class"</code>), or
+a document-by-class matrix of class probabilities (when 'type =
+"probability"“).
+</p>
+<p><code>coef.textmodel_lr()</code> returns a (sparse) matrix of coefficients for
+each feature, computed at the value of the penalty parameter fitted in the
+model.  For binary outcomes, results are returned only for the class
+corresponding to the second level of the factor response; for multinomial
+outcomes, these are computed for each class.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>textmodel_lr()</code>
+</p>
+
+
+</div>

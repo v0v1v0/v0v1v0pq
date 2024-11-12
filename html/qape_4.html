@@ -1,0 +1,202 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>bootParMis</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Parametric bootstrap estimators of prediction accuracy under the misspecified model
+</h2>
+
+<h3>Description</h3>
+
+<p>The function computes values of parametric bootstrap estimators of RMSE and QAPE prediction accuracy measures of two predictors under the model assumed for one of them.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">bootParMis(predictorLMM, predictorLMMmis, B, p)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>predictorLMM</code></td>
+<td>
+<p>plugInLMM object, the first predictor used to define the bootstrap model.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>predictorLMMmis</code></td>
+<td>
+<p>plugInLMM object, the second predictor.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>B</code></td>
+<td>
+<p>number of iterations in the bootstrap procedure.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p</code></td>
+<td>
+<p>orders of quantiles in the QAPE.
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>We use bootstrap model presented by Chatterjee, Lahiri and  Li (2008) p. 1229 but assumed for all population elements. We use model specification used in <em>predictorLMM</em>. Vectors of random effects and random components are generated from the multivariate normal distribution where REML estimates of model parameters are used. Random effects are generated for all population elements even for subsets with zero sample sizes (for which random effects are not estimated). We use the MSE estimator defined as the mean of squared bootstrap errors considered by Rao and Molina (2015) p. 141 and given by equation (6.2.22). The QAPE is a quantile of absolute prediction error which means that at least p100% of realizations of absolute prediction errors are smaller or equal to QAPE. It is estimated as a quantile of absolute bootstrap errors as proposed by Zadlo (2017) in Section 2. The prediction accuracy of two predictors <em>predictorLMM</em> and <em>predictorLMMmis</em> is estimated under the model specified in <em>predictorLMM</em>.   
+</p>
+
+
+<h3>Value</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>estQAPElmm</code></td>
+<td>
+<p>estimated value/s of QAPE of <em>predictorLMM</em> - number of rows is equal the number of orders of quantiles to be considered (declared in <em>p</em>), number of columns is equal the number of predicted characteristics (declared in <em>thetaFun</em>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>estRMSElmm</code></td>
+<td>
+<p>estimated value/s of RMSE of <em>predictorLMM</em> (more than one value is computed if in
+<em>thetaFun</em> more than one population characteristic is defined).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>estQAPElmmMis</code></td>
+<td>
+<p>estimated value/s of QAPE of <em>predictorLMMmis</em> - number of rows is equal the number of orders of quantiles to be considered (declared in <em>p</em>), number of columns is equal the number of predicted characteristics (declared in <em>thetaFun</em>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>estRMSElmmMis</code></td>
+<td>
+<p>estimated value/s of RMSE of <em>predictorLMMmis</em> (more than one value is computed if in <em>thetaFun</em> more than one population characteristic is defined).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>predictorLMMSim</code></td>
+<td>
+<p>bootstrapped values of <em>predictorLMM</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>predictorLMMmisSim</code></td>
+<td>
+<p>bootstrapped values of <em>predictorLMMmis</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>thetaSim</code></td>
+<td>
+<p>bootstrapped values of the predicted population or subpopulation characteristic/s.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Ysim</code></td>
+<td>
+<p>simulated values of the (possibly tranformed) variable of interest.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>errorLMM</code></td>
+<td>
+<p>differences between bootstrapped values of <em>predictorLMM</em> and bootstrapped values of the predicted characteristic/s.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>errorLMMmis</code></td>
+<td>
+<p>differences between bootstrapped values of <em>predictorLMMmis</em> and bootstrapped values of the predicted characteristic/s.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>positiveDefiniteEstG</code></td>
+<td>
+<p>logical indicating if the estimated covariance matrix of random effects, used to generate bootstrap realizations of the dependent variable, is positive definite.</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Alicja Wolny-Dominiak, Tomasz Zadlo</p>
+
+
+<h3>References</h3>
+
+<p>1. Butar, B. F., Lahiri, P. (2003) On measures of uncertainty of empirical Bayes small-area estimators, Journal of Statistical Planning and Inference, Vol. 112, pp. 63-76.<br></p>
+<p>2. Chatterjee, S., Lahiri, P. Li, H. (2008) Parametric bootstrap approximation to the distribution of EBLUP and related prediction intervals in linear mixed models, Annals of Statistics, Vol. 36 (3), pp. 1221?1245.<br></p>
+<p>3. Rao, J.N.K. and Molina, I. (2015) Small Area Estimation. Second edition, John Wiley &amp; Sons, New Jersey.<br></p>
+<p>4. Zadlo T. (2017), On asymmetry of prediction errors in small area estimation, Statistics in Transition, 18 (3), 413-432. <br></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+library(lme4)
+library(Matrix)
+library(mvtnorm)
+library(matrixcalc) 
+
+
+data(invData) 
+# data from one period are considered: 
+invData2018 &lt;- invData[invData$year == 2018,] 
+attach(invData2018)
+
+N &lt;- nrow(invData2018) # population size
+
+con &lt;- rep(1,N) 
+con[c(379,380)] &lt;- 0 # last two population elements are not observed 
+
+YS &lt;- log(investments[con == 1]) # log-transformed values
+backTrans &lt;- function(x) exp(x) # back-transformation of the variable of interest
+fixed.part &lt;- 'log(newly_registered)'
+random.part &lt;- '(1|NUTS2)'
+random.part.mis &lt;- '(1|NUTS4type)'
+
+reg &lt;- invData2018[, -which(names(invData2018) == 'investments')]
+weights &lt;- rep(1,N) # homoscedastic random components
+
+# Characteristics to be predicted:
+# values of the variable for last two population elements  
+thetaFun &lt;- function(x) {x[c(379,380)]}
+
+
+predictorLMM&lt;-plugInLMM(YS, fixed.part, random.part, reg, con, weights,backTrans,thetaFun)
+predictorLMM$thetaP
+predictorLMMmis &lt;- plugInLMM(YS, fixed.part, random.part.mis, reg, con,weights,backTrans,thetaFun)
+predictorLMMmis$thetaP
+
+set.seed(123456)
+### Estimation of prediction accuracy under the model used to define predictorLMM
+est_accuracy &lt;- bootParMis(predictorLMM, predictorLMMmis, 10, c(0.75,0.9))
+
+# Estimation of prediction RMSE of predictorLMM 
+est_accuracy$estRMSElmm
+
+# Estimation of prediction RMSE of predictorLMMmis
+est_accuracy$estRMSElmmMis
+
+# Estimation of prediction QAPE of predictorLMM 
+est_accuracy$estQAPElmm
+
+# Estimation of prediction QAPE of predictorLMMmis
+est_accuracy$estQAPElmmMis
+
+detach(invData2018)
+</code></pre>
+
+
+</div>

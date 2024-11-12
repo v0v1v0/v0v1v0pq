@@ -1,0 +1,174 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>ucfa</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Unidimensional Confirmatory Factor Analysis</h2>
+
+<h3>Description</h3>
+
+<p><code>ucfa</code> conducts a unidimensional confirmatory factor analysis on a set
+of variables/items. Unidimensional meaning a one-factor model where all
+variables/items load on that factor. The function is a wrapper for
+<code>cfa</code> and returns an object of class "lavaan":
+<code>lavaan</code>. This then allows the user to extract
+statistical information from the object (e.g.,
+<code>lavInspect</code>). For details on all the arguments see
+<code>lavOptions</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">ucfa(
+  data,
+  vrb.nm,
+  std.ov = FALSE,
+  std.lv = TRUE,
+  ordered = FALSE,
+  meanstructure = TRUE,
+  estimator = "ML",
+  se = "standard",
+  test = "standard",
+  missing = "fiml",
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>data.frame of data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vrb.nm</code></td>
+<td>
+<p>character vector of colnames from <code>data</code> providing the
+variables/items</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>std.ov</code></td>
+<td>
+<p>logical vector of length 1 specifying if the variables/items
+should be standardized</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>std.lv</code></td>
+<td>
+<p>logical vector of length 1 specifying if the latent factor
+should be standardized resulting in all factor loadings being estimated. If
+FALSE, then the first variable/item in <code>data[vrb.nm]</code> is fixed to a
+factor loading of 1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ordered</code></td>
+<td>
+<p>logical vector of length 1 specifying if the variables/items
+should be treated as ordered categorical items where polychoric
+correlations are used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>meanstructure</code></td>
+<td>
+<p>logical vector of length 1 specifying if the mean
+structure of the factor model should be estimated. This would be the
+variable/item intercepts (and latent factor mean if <code>std.lv</code> = FALSE).
+Note, this must be true to use Full Information Maximum Likelihood (FIML)
+to handle missing data via <code>missing</code> = "fiml".</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>estimator</code></td>
+<td>
+<p>character vector of length 1 specifying the estimator to use
+for parameter estimation. Popular options are 1) "ML" = maximum likelihood
+estimation based on the multivariate normal distribution, 2) "DWLS" =
+diagonally weighted least squares which uses the diagnonal of the weight
+matrix, 3) "WLS" for weighted least squares whiches uses the full weight
+matrix (often results in computational problems), 4) "ULS" for unweighted
+least squares that doesn't use a weight matrix. "DWLS", "WLS", and "ULS"
+can each be used with ordered categorical items when <code>ordered</code> = TRUE.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>se</code></td>
+<td>
+<p>character vector of length 1 specifying how standard errors should
+be calculated. Popular options are 1) "standard" for conventional standard
+errors from inverting the information matrix, 2) "robust.sem" for robust
+standard errors, 3) "robust.huber.white" for sandwich standard errors.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>test</code></td>
+<td>
+<p>character vector of length 1 specifying how the omnibus test
+statistic should be calculated. Popular options are 1) "standard" for the
+conventional chi-square statistic, 2) "Satorra-Bentler" for the
+Satorra-Bentler test statistic, 3) "Yaun.Bentler.Mplus" for the version of
+the Yuan-Bentler test statistic that Mplus uses, 4) "mean.var.adjusted" for
+a mean and variance adjusted test statistic, 5) "scaled.shifted" for the
+version of the mean and variance adjusted test statistic Mplus uses.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>missing</code></td>
+<td>
+<p>character vector of length 1 specifying how to handle missing
+data. Popular options are 1) "fiml" = Full Information Maximum Likelihood
+(FIML), 2) "pairwise" = pairwise deletion, 3) "listwise" = listwise
+deletion.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>any other named arguments available in the
+<code>cfa</code> function. See <code>lavOptions</code>
+for the list of arguments.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>object of class "lavaan" <code>lavaan</code>
+providing the return object from a call to <code>cfa</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>summary_ucfa</code>
+<code>cfa</code>
+<code>lavaan</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+dat &lt;- psych::bfi[1:250, 16:20] # nueroticism items
+ucfa(data = dat, vrb.nm = names(dat))
+ucfa(data = dat, vrb.nm = names(dat), std.ov = TRUE)
+ucfa(data = dat, vrb.nm = names(dat), meanstructure = FALSE, missing = "pairwise")
+ucfa(data = dat, vrb.nm = names(dat), estimator = "ML", # MLR
+   se = "robust.huber.white", test = "yuan.bentler.mplus", missing = "fiml")
+ucfa(data = dat, vrb.nm = names(dat), estimator = "ML", # MLM
+   se = "robust.sem", test = "satorra.bentler", missing = "listwise")
+ucfa(data = dat, vrb.nm = names(dat), ordered = TRUE, estimator = "DWLS", # WLSMV
+   se = "robust", test = "scaled.shifted", missing = "listwise")
+
+</code></pre>
+
+
+</div>

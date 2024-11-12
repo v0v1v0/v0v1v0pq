@@ -1,0 +1,70 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>summary.corpus</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Summarize a corpus</h2>
+
+<h3>Description</h3>
+
+<p>Displays information about a corpus, including attributes and metadata such
+as date of number of texts, creation and source.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'corpus'
+summary(object, n = 100, tolower = FALSE, showmeta = TRUE, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>corpus to be summarized</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p>maximum number of texts to describe, default=100</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tolower</code></td>
+<td>
+<p>convert texts to lower case before counting types</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>showmeta</code></td>
+<td>
+<p>set to <code>TRUE</code> to include document-level
+meta-data</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>additional arguments passed through to <code>tokens()</code></p>
+</td>
+</tr>
+</table>
+<h3>Examples</h3>
+
+<pre><code class="language-R">summary(data_corpus_inaugural)
+summary(data_corpus_inaugural, n = 10)
+corp &lt;- corpus(data_char_ukimmig2010,
+               docvars = data.frame(party=names(data_char_ukimmig2010)))
+summary(corp, showmeta = TRUE) # show the meta-data
+sumcorp &lt;- summary(corp) # (quietly) assign the results
+sumcorp$Types / sumcorp$Tokens # crude type-token ratio
+</code></pre>
+
+
+</div>

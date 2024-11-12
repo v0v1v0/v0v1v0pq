@@ -1,0 +1,259 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>XYplot</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Create an XY plot</h2>
+
+<h3>Description</h3>
+
+<p>This function creates an XY plot from the first two columns of a dataframe/matrix, or from
+two separate vectors of numeric values.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">XYplot(x, y, data, relation = "sufficiency", mguides = TRUE,
+       jitter = FALSE, clabels, enhance = FALSE, model = FALSE, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>Character, the name of the column from the <b><code>data</code></b> for the X axis,
+or the coordinates of points in the plot (either a matrix/dataframe with at least
+two columns, or a vector of numerical values for the X axis), or a valid SOP
+expression.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>Character, the name of the column from the <b><code>data</code></b> for the Y axis,
+or the Y coordinates of points in the plot, optional if <b><code>x</code></b>
+is a matrix/dataframe.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>A calibrated dataset, only if <b><code>x</code></b> and <b><code>y</code></b> are names.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>relation</code></td>
+<td>
+<p>The set relation to Y, either <b><code>"sufficiency"</code></b> (default) or
+<b><code>"necessity"</code></b>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mguides</code></td>
+<td>
+<p>Logical, print the middle guides.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>jitter</code></td>
+<td>
+<p>Logical, jitter the points.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>clabels</code></td>
+<td>
+<p>A vector of case labels with the same length as <b><code>x</code></b> and
+<b><code>y</code></b>, or a logical vector of the same length as the number of rows
+in the <code>data</code> (if provided).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>enhance</code></td>
+<td>
+<p>Logical, if <b><code>TRUE</code></b> print the points using different characters for each
+of the five significant regions for process tracing.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>model</code></td>
+<td>
+<p>Logical, for an enhanced plot specify if the SOP expression in argument
+<b><code>x</code></b> is a solution model.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Other graphical parameters from <b><code>?par</code></b></p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>If <b><code>x</code></b> is a dataframe or a matrix, the axes labels will be taken
+from the column names of <b><code>x</code></b>, otherwise they will be inferred from
+the names of the <b><code>x</code></b> and <b><code>y</code></b> objects that are passed to
+this function.
+</p>
+<p><b><code>x</code></b> can also be a string containing either the name of the column
+for the X axis, or two column names separated by a comma, referring to the X
+and Y axis respectively. When <b><code>x</code></b> contains both X and Y column names,
+the next argument will be considered as the <b><code>data</code></b>.
+</p>
+<p>If <b><code>data</code></b> is provided, and the names of the X and Y columns are valid
+R statements, quoting them is not even necessary and they can be negated using
+either a tilde <b><code>"~"</code></b> or <b><code>"1 - "</code></b>.
+</p>
+<p>The numeric values should be restricted between 0 and 1, otherwise an error is
+generated.
+</p>
+<p>The XY plot will also provide inclusion and coverage scores for a sufficiency
+(along with <b><code>PRI</code></b>) or a necessity relation (along with <b><code>RoN</code></b>).
+</p>
+<p>The argument <b><code>x</code></b> can also be a SOP - sum of products expression, in which
+case the relation is determined by the usual forward arrow <b><code>"=&gt;"</code></b> for
+sufficiency and backward arrow <b><code>"&lt;="</code></b> for necessity.
+</p>
+<p>The argument <b><code>...</code></b> is used to pass arguments to the various graphical
+parameters from <code>?par</code>, and also to the settings from <code>?jitter</code>.
+</p>
+<p>The points have a default <b><code>cex</code></b> (character expansion) value of 0.8, and
+a default <b><code>pch</code></b> value of 21 (filled points), which can be modified
+accordingly (for example with value 1 of empty points). When <b><code>pch = 21</code></b>,
+the color for the margins of the points can be specified via the argument
+<b><code>col</code></b>, while the argument <b><code>bg</code></b> will determine the fill color
+of the points.
+</p>
+<p>The axes' labels have a default <b><code>cex.axis</code></b> value of 0.8, which affects
+both the tickmarks labels and the axis labels.
+</p>
+<p>When jittering the points, default values of 0.01 are used for the parameters
+<b><code>factor</code></b> and <b><code>amount</code></b>, on both horizontal and vertical axes.
+</p>
+<p>The argument <b><code>enhance</code></b> does all the work for the shape of the points and
+their colors, acording to the five regions specified by Schneider &amp; Rohlfing (2016),
+who augmented the classical XY plot with process tracing.
+</p>
+<p>The default enhanced XY plot has even more settings when the input SOP expression is
+a minimization model (different colors, different regions where to place the labels etc.),
+available by activating the argument <b><code>model</code></b>. The model is automatically
+detected if the input for <b><code>x</code></b> is a minimization object.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list of x and y values, especially useful when the points are jittered. 
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Adrian Dusa
+</p>
+
+
+<h3>References</h3>
+
+<p>Schneider, C.; Wagemann, C. (2012) <em>Set-Theoretic Metods for the Social Sciences.
+A Guide to Qualitative Comparative Analysis</em>. Cambridge: Cambridge University Press.
+</p>
+<p>Cebotari, V.; Vink, M.P. (2013) “A Configurational Analysis of Ethnic
+Protest in Europe”. <em>International Journal of Comparative Sociology</em>
+vol.54, no.4, pp.298-324.
+</p>
+<p>Schneider, C.; Rohlfing, I. (2016) “Case Studies Nested in Fuzzy-set QCA on
+Sufficiency. Formalizing Case Selection and Causal Inference”. <em>Sociological
+Methods and Research</em> vol.45, no.3, pp.536-568, <a href="https://doi.org/10.1177/0049124114532446">doi:10.1177/0049124114532446</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>par</code>, <code>text</code>, <code>jitter</code></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+# Cebotari &amp; Vink (2013)
+# necessity relation between NATPRIDE and PROTEST
+XYplot(CVF[, 5:6])
+
+# same using two numeric vectors
+XYplot(CVF$NATPRIDE, CVF$PROTEST)
+
+# same using two column names
+XYplot(NATPRIDE, PROTEST, data = CVF)
+
+# since they are valid R statements, it works even without quotes
+# (this only works in normal R console, not in the GUI version)
+XYplot(NATPRIDE, PROTEST, data = CVF)
+
+# negating the X axis, using numeric vectors
+XYplot(1 - CVF$NATPRIDE, CVF$PROTEST)
+
+# same thing using quotes
+XYplot(1 - NATPRIDE, PROTEST, data = CVF)
+
+# using tilde for negation
+XYplot(~NATPRIDE, PROTEST, data = CVF)
+
+# different color for the points
+XYplot(~NATPRIDE, PROTEST, data = CVF, col = "blue")
+
+# using a different character expansion for the axes
+XYplot(~NATPRIDE, PROTEST , data = CVF, cex.axis = 0.9)
+
+# custom axis labels
+XYplot(~NATPRIDE, PROTEST, data = CVF, xlab = "Negation of NATPRIDE",
+       ylab = "Outcome: PROTEST")
+
+# necessity relation
+XYplot(~NATPRIDE, PROTEST, data = CVF, relation = "necessity")
+
+# jitter the points
+XYplot(~NATPRIDE, PROTEST, data = CVF, jitter = TRUE)
+
+# jitter with more amount
+XYplot(~NATPRIDE, PROTEST, data = CVF, jitter = TRUE, amount = 0.02)
+
+# adding labels to points
+XYplot(~NATPRIDE, PROTEST, data = CVF, jitter = TRUE, cex = 0.8,
+       clabels = rownames(CVF))
+
+# or just the row numbers, since the row names are too long
+XYplot(~NATPRIDE, PROTEST, data = CVF, jitter = TRUE, cex = 0.8,
+       clabels = seq(nrow(CVF)))
+
+
+# using a SOP expression (necessity relation)
+XYplot(NATPRIDE &lt;- ~PROTEST, data = CVF, jitter = TRUE, cex = 0.8,
+       clabels = seq(nrow(CVF)))
+
+
+#-----
+# enhanced XY plot for process tracing
+XYplot(~NATPRIDE, PROTEST, data = CVF, enhance = TRUE, jitter = TRUE)
+
+
+# enhanced XY plot for a solution model
+ttCVF &lt;- truthTable(CVF, outcome = PROTEST, incl.cut = 0.85)
+pCVF &lt;- minimize(ttCVF, include = "?")
+XYplot(pCVF$solution[[1]], PROTEST, data = CVF, enhance = TRUE)
+
+
+# same plot, using the solution as a SOP expression
+XYplot(~NATPRIDE + DEMOC*GEOCON*POLDIS + DEMOC*ETHFRACT*GEOCON,
+      PROTEST, data = CVF, enhance = TRUE, model = TRUE)
+
+</code></pre>
+
+
+</div>

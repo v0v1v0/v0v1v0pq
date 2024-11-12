@@ -1,0 +1,82 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>ForwardStartMC</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Forward Start option valuation via Monte-Carlo (MC) simulation</h2>
+
+<h3>Description</h3>
+
+<p>S3 object pricing model for a forward start European option using Monte Carlo simulation
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">ForwardStartMC(o = OptPx(Opt(Style = "ForwardStart")), tts = 0.1,
+  NPaths = 5)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>o</code></td>
+<td>
+<p>An object of class <code>OptPx</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tts</code></td>
+<td>
+<p>Time to start of the option, in years.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>NPaths</code></td>
+<td>
+<p>The number of MC simulation paths.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>A standard European option starts at a future time tts.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list of class <code>ForwardStartMC</code> consisting of the input object
+<code>OptPx</code> and the appended new parameters and option price.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Tongyue Luo, Rice University, Spring 2015.
+</p>
+
+
+<h3>References</h3>
+
+<p>Hull, John C., <em>Options, Futures and Other Derivatives</em>, 9ed, 2014. Prentice Hall. ISBN 978-0-13-345631-8,
+<a href="http://www-2.rotman.utoronto.ca/~hull/ofod/index.html">http://www-2.rotman.utoronto.ca/~hull/ofod/index.html</a>.
+<br><a href="http://investexcel.net/forward-start-options/">http://investexcel.net/forward-start-options/</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">(o = ForwardStartMC())$PxMC
+
+o = OptPx(Opt(Style='ForwardStart'), q = 0.03, r = 0.1, vol = 0.15)
+(o = ForwardStartMC(o, tts=0.25))$PxMC
+
+ForwardStartMC(o = OptPx(Opt(Style='ForwardStart', Right='Put')))$PxMC
+</code></pre>
+
+
+</div>

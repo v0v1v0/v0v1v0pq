@@ -1,0 +1,76 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>gigwa_get_markers</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Get Markers Map in the Selected GIGWA Run</h2>
+
+<h3>Description</h3>
+
+<p>Retrieve a filtered list of SNP variants from the selected run. This function allows users to query variants
+based on chromosomal regions and return results in simplified format.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">gigwa_get_markers(start = NULL, end = NULL, chrom = NULL, simplify = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>start</code></td>
+<td>
+<p>Start position of the query region (zero-based, inclusive).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>end</code></td>
+<td>
+<p>End position of the query region (zero-based, exclusive).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>chrom</code></td>
+<td>
+<p>Reference sequence name (e.g., chromosome).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>simplify</code></td>
+<td>
+<p>Logical, if TRUE (default) returns data in a simplified HapMap-like format with columns for rs#, alleles, chromosome, and position.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A data frame of SNP markers, optionally simplified to include rs#, alleles, chromosome, and position.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Khaled Al-Shamaa, <a href="mailto:k.el-shamaa@cgiar.org">k.el-shamaa@cgiar.org</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">if (interactive()) {
+  set_qbms_config("https://gigwa.southgreen.fr/gigwa/", 
+                  time_out = 300, engine = "gigwa", no_auth = TRUE)
+  gigwa_set_db("Sorghum-JGI_v1")
+  gigwa_set_project("Nelson_et_al_2011")
+  gigwa_set_run("run1")
+  chroms &lt;- gigwa_get_sequences()
+  geno_map &lt;- gigwa_get_markers(start = 0, end = 12345678, chrom = chroms[7])
+}
+</code></pre>
+
+
+</div>

@@ -1,0 +1,65 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>lag_step</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Add lag to vector of arrival times.</h2>
+
+<h3>Description</h3>
+
+<p>Add lag to vector of arrival times.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">lag_step(arrivals, service)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>arrivals</code></td>
+<td>
+<p>Either a numeric vector or an object of class <code>queue_list</code>. It represents the arrival times.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>service</code></td>
+<td>
+<p>A vector of service times with the same ordering as arrivals</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A vector of response times for the input of arrival times and service times.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>wait_step</code>, <code>queue_step</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># Create arrival times
+arrivals &lt;- rlnorm(100, meanlog = 3)
+
+# Create service times
+service &lt;- rlnorm(100)
+lag_step(arrivals = arrivals, service = service)
+
+# lag_step is equivalent to queue_step with a large number of queues, but it's faster to compute.
+
+cbind(queue(arrivals, service = service, servers = 100),
+lag_step(arrivals = arrivals, service = service))
+</code></pre>
+
+
+</div>

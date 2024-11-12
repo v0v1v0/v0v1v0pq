@@ -1,0 +1,54 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>scan_qtl_to_qtl2</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Convert R/qtl scanone results to R/qtl2 scan1 format</h2>
+
+<h3>Description</h3>
+
+<p>Convert the results of R/qtl1 <code>qtl::scanone()</code> to the form used by the R/qtl2 <code>qtl2::scan1()</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">scan_qtl_to_qtl2(scanone_output)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>scanone_output</code></td>
+<td>
+<p>Data frame as output by the R/qtl1 function <code>qtl::scanone()</code>.</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>List with two objects: the LOD scores in <code>qtl2::scan1()</code>
+format, and the map (as a list of marker/pseudomarker
+positions).
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>scan_qtl_to_qtl2()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(qtl)
+data(hyper)
+hyper &lt;- calc.genoprob(hyper, step=1, error.prob=0.002)
+out &lt;- scanone(hyper)
+out2 &lt;- scan_qtl_to_qtl2(out)
+
+</code></pre>
+
+
+</div>

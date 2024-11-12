@@ -1,0 +1,64 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>summary.tcc</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Summarise Trellis Control Charts</h2>
+
+<h3>Description</h3>
+
+<p>Summary function for tcc objects.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'tcc'
+summary(object, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>tcc object</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Ignored. Included for compatibility with generic summary function.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A data frame with summary statistics of the tcc object.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># Build data frame for example
+d &lt;- data.frame(x = rep(1:24, 4),
+                mo = (rep(seq(as.Date('2014-1-1'),
+                              length.out = 24,
+                              by = 'month'),
+                          4)),
+                n = rbinom(4 * 24, 100, 0.5),
+                d = round(runif(4 * 24, 90, 110)),
+                g1 = rep(c('a', 'b'), each = 48),
+                g2 = rep(c('A', 'B'), each = 24))
+
+# P chart
+p &lt;- tcc(n, d, mo, g1 = g1, g2 = g2, breaks = 12, data = d, chart = 'p')
+plot(p)
+summary(p)
+</code></pre>
+
+
+</div>

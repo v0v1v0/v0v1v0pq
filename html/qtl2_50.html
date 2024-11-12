@@ -1,0 +1,67 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>drop_nullmarkers</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Drop markers with no genotype data</h2>
+
+<h3>Description</h3>
+
+<p>Drop markers with no genotype data (or no informative genotypes)
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">drop_nullmarkers(cross, quiet = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>cross</code></td>
+<td>
+<p>Object of class <code>"cross2"</code>. For details, see the
+<a href="https://kbroman.org/qtl2/assets/vignettes/developer_guide.html">R/qtl2 developer guide</a>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>quiet</code></td>
+<td>
+<p>If FALSE, print information about how many markers were dropped.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>We omit any markers that have completely missing data, or
+if founder genotypes are present (e.g., for Diversity Outbreds),
+the founder genotypes are missing or are all the same.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The input <code>cross</code> with the uninformative markers removed.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>drop_markers()</code>, <code>pull_markers()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">grav2 &lt;- read_cross2(system.file("extdata", "grav2.zip", package="qtl2"))
+# make a couple of markers missing
+grav2$geno[[2]][,c(3,25)] &lt;- 0
+grav2_rev &lt;- drop_nullmarkers(grav2)
+</code></pre>
+
+
+</div>

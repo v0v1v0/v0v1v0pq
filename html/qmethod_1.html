@@ -1,0 +1,225 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qmethod-package</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Package for Q methodology analysis</h2>
+
+<h3>Description</h3>
+
+<p>Q is a methodology to study distinct perspectives existing within a group on a topic of interest.
+It is used across social, health, and environmental studies.
+See the references below for more details about the methodology.
+</p>
+<p>This package performs the analysis of Q methodology data (both forced and non-forced distributions). The user can choose the extraction method (principal components analysis or centroid factor extraction) and the rotation method (none, varimax or other rotations, uncommon in Q but implemented via <code>principal</code>). The default analysis conducts automatic flagging, and manual flagging is optional.
+</p>
+<p>The following steps of the analysis correspond to separate functions: automatic flagging of Q-sorts (<code>qflag</code>), z-scores and factor scores for statements (<code>qzscores</code>), distinguishing and consensus statements (<code>qdc</code>), and general characteristics of the factors (<code>qfcharact</code>).
+The function <code>qmethod</code> wraps them all.
+</p>
+<p>The functions for each step may be used separately for advanced analysis, for example, for manual flagging (see details in <code>qzscores</code>).
+</p>
+<p>The package also includes additional functions for the following:
+</p>
+
+<ul>
+<li>
+<p> An interactive Graphical User Interface with the basic functionality (<code>runInterface</code>)
+</p>
+</li>
+<li>
+<p> Import data from <a href="http://schmolck.org/qmethod/">PQMethod software</a> (<code>import.pqmethod</code>), both <a href="https://github.com/aproxima/htmlq/">HTMLQ</a> and FlashQ (<code>import.htmlq</code>), and <a href="https://github.com/shawnbanasick/easy-htmlq/">easy-htmlq</a> (<code>import.easyhtmlq</code>) tools for online data collection of Q-sorts.
+</p>
+</li>
+<li>
+<p> Export a plain-text report of the analysis for interpretation in two flavours (<code>export.qm</code>).
+</p>
+</li>
+<li>
+<p> Generic methods to <code>print.QmethodRes</code> and <code>plot.QmethodRes</code> Q method results. The specific dotchart visualisation of Q results in <code>plot.QmethodRes</code> was first developed and introduced in this package, in preparation for the study in <a href="https://www.sciencedirect.com/science/article/abs/pii/S0921800916302683">Zabala et al. (2017)</a>.  
+</p>
+</li>
+<li>
+<p> Functions to explore the analysis and facilitate interpretation:
+</p>
+
+<ul>
+<li> <p>explore automatic pre-flagging,  (<code>loa.and.flags</code>) 
+</p>
+</li>
+<li> <p>to rename the factors in the results, with short, meaningful names (<code>q.fnames</code>).
+</p>
+</li>
+</ul>
+</li>
+<li>
+<p> Generate printable cards for the administration of a Q study. The function <code>make.cards</code> produces a PDF with full item wording and codes, ready for printout on business card templates that can be easily broken into individual Q-cards.
+</p>
+</li>
+<li>
+<p> Several functions to aid reproducible research, by importing the following from raw, separate *.CSV or *.TEX files for each respondent or item:
+</p>
+
+<ul>
+<li>
+<p> Q-sorts (<code>import.q.sorts</code>)
+</p>
+</li>
+<li>
+<p> Participant item feedback (<code>import.q.feedback</code>)
+</p>
+</li>
+<li>
+<p> Complete concourses (<code>import.q.concourse</code>)
+</p>
+</li>
+<li>
+<p> Item samples (<code>build.q.set</code>)
+</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>Use <code>help(package="qmethod")</code> for a list of all the functions.
+</p>
+
+
+<h4>Terminology</h4>
+
+<p>The functions for analysis use the terms standard in Q methodology.
+In addition, the optional functions to import raw data from separate *.CSV files (<code>import.q.sorts</code>, <code>import.q.concourse</code>, <code>build.q.set</code>, <code>import.q.feedback</code>) and the card printing function (<code>make.cards</code>) refer to items in three distinct ways:
+</p>
+
+<ol>
+<li>
+<p> Item <strong>full wording</strong>, is the complete item, such as:
+</p>
+<p>"‘<span class="samp">⁠One small community of indomitable Q-methodologists ...⁠</span>’".
+This item can be read in from individual *.TEX files by using <code>import.q.concourse</code>.
+The wording is not passed on to any other function, but can be readily retrieved from the object returned from <code>import.q.concourse</code>.
+</p>
+</li>
+<li>
+<p> The item <strong>handle</strong> is a shorthand way of referring to an item, which should be <em>meaningful</em> to the researcher (e.g. <code>"life-with-q"</code>).
+Item handles are <em>researcher-facing</em> and can be used to refer to items during data <em>analysis</em>.
+They are read in from the <em>filenames</em> of individual *.TEX files when using <code>import.q.concourse</code>.
+Handles can be used to identify items in other functions and their outputs.
+For example, the resulting array or matrix from <code>import.q.sorts</code> carries these handles as row names.
+</p>
+</li>
+<li>
+<p> The item <strong>ID</strong> is another shorthand way of referring to an item, that should be <em>meaningless</em> to humans (so as not to influence the participants in unintended ways), such as an arbitrary string of characters.
+Item IDs are <em>participant-facing</em> and are used to identify items during data <em>entry</em>.
+The item ID can take two forms, depending on function arguments specified by the user:
+</p>
+
+<ol>
+<li>
+<p> Standard <strong>IDs</strong> (such as <kbd>sta12</kbd>, <kbd>sta13</kbd>) which are generated automatically in <code>qmethod</code> or can be provided by the user using the respective <code>manual.lookup</code> arguments in <code>make.cards</code>, <code>import.q.sorts</code> and <code>import.q.feedback</code>.
+See the documentation of these functions for details.
+</p>
+</li>
+<li>
+<p> A set of hexadecimal <strong>hashed IDs</strong> (such as <kbd>ae128fs</kbd>) can be automatically generated and expected by the functions <code>make.cards</code>, <code>import.q.sorts</code> and <code>import.q.feedback</code> if the argument <code>manual.lookup</code> remains empty and defaults to <code>NULL</code>.
+In that case, IDs are computed by 'summarising' the full item wordings (e.g. 
+</p>
+<p>"‘<span class="samp">⁠Q Method is used by a crazy, but charming community ...⁠</span>’") into a hexadecimal number (e.g. "<kbd>ae128fs</kbd>"), a process known as cryptographic <em>hashing</em> (for more details see <code>digest</code>)).
+These hash values change whenever <em>anything</em> in the full item wordings is changed, and allow a precise identification of different versions of an item.
+This function never exposes users to the hash values.
+Automatic, hashed IDs are generally recommended and easier to use, but some caveats apply (see <code>make.cards</code>).
+</p>
+</li>
+</ol>
+</li>
+</ol>
+<p>For more information on this terminology and the rationale behind it, consider the best practices suggested by Maximilian Held on the <a href="https://github.com/aiorazabala/qmethod/wiki/Data-management/">data management</a> page.
+</p>
+
+
+
+<h4>Suggested File Structure</h4>
+
+<p>For studies in which each Q-sort and item are kept in separate *.CSV files, the import functions <code>import.q.sorts</code>, <code>import.q.concourse</code>, <code>build.q.set</code>, <code>import.q.feedback</code> and the print function <code>make.cards</code> require a nested directory structure in the study folder. An example of such structure can be found in <code>../qmethod/extdata/importexample</code>.
+Although recommended for complex studies, this structure is not necessary for using the data analysis functions or for exploring and exporting results.
+</p>
+<p>If the suggested file structure is followed, the subdirectories for (within-subjects) <em>conditions</em> and <em>languages</em> are optional, and need to be used only if there are more than one condition and language, respectively.
+In such case, the arguments <code>conditions</code> and <code>languages</code> for the above import functions must be specified accordingly.
+</p>
+<p>For more information on the file structure and the rationale behind it, consider the best practices suggested by Maximilian Held on the <a href="https://github.com/aiorazabala/qmethod/wiki/Data-management">data management</a> page.
+</p>
+
+
+
+<h4>Bootstrapping</h4>
+
+<p>A set of functions are available to perform bootstrapping with Q data (see <a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0148087">Zabala and Pascual, 2016, Bootstrapping Q Methodology to Improve the Understanding of Human Perspectives. PLoS ONE</a> for details). The main bootstrap functions are as follows:
+</p>
+
+<ul>
+<li> <p><code>qmboots</code> performs a full bootstrap. It calls internally the functions <code>qbstep</code> (for each bootstrap step), and to either <code>qindtest</code> or <code>qpcrustes</code> in order to correct the <strong>alignment problem</strong>.
+</p>
+</li>
+<li> <p><code>qmb.summary</code> summarises the object resulting from <code>qmboots</code> into two tables: (1) summary of <strong>factor loadings</strong> (standard factor loadings, bootstrapped factor loadings, and flagging frequency) and (2) summary of <strong>statement scores</strong> (bootstrapped and standard z-scores, bootstrapped and standard factor scores, standard error of bootstrapped z-scores, and differences between standard and bootstrapped values).
+</p>
+</li>
+<li> <p><code>qmb.plot</code> plots an object resulting from <code>qmb.summary</code> in a figure designed for bootstrapped Q data (either the factor loadings or the statement z-scores).
+</p>
+</li>
+</ul>
+<h3>Author(s)</h3>
+
+<p>Aiora Zabala<br>
+Main author and maintainer<br><a href="https://aiorazabala.net/">https://aiorazabala.net/</a><br><a href="mailto:aiora.zabala@gmail.com">aiora.zabala@gmail.com</a>
+</p>
+<p>Maximilian Held<br> 
+Author of data management functions: <code>import.q.sorts</code>, <code>import.q.concourse</code>, <code>build.q.set</code>, <code>import.q.feedback</code> and <code>make.cards</code><br><a href="https://maxheld.de/">https://maxheld.de/</a>
+</p>
+<p>Frans Hermans<br> 
+Author of centroid function: <code>centroid</code><br><a href="https://www.researchgate.net/profile/Frans-Hermans-3">https://www.researchgate.net/profile/Frans-Hermans-3</a>
+</p>
+
+
+<h3>References</h3>
+
+
+<ul>
+<li>
+<p> Zabala, A., 2014. qmethod: A Package to Explore Human Perspectives Using Q Methodology. <em>The R Journal</em>, 6(2):163-173.<br> Available from: <a href="https://journal.r-project.org/archive/2014-2/zabala.pdf">https://journal.r-project.org/archive/2014-2/zabala.pdf</a>.
+</p>
+</li>
+<li>
+<p> Zabala A. and Pascual, U., 2016. Bootstrapping Q Methodology to Improve the Understanding of Human Perspectives. <em>PLoS ONE</em>.<br> Available from: <a href="https://doi.org/10.1371/journal.pone.0148087">doi:10.1371/journal.pone.0148087</a>.
+</p>
+</li>
+<li>
+<p> Watts, S., and and P. Stenner, 2012. <em>Doing Q Methodological Research: Theory, Method &amp; Interpretation</em>, London: Sage Publications Ltd.
+</p>
+</li>
+<li>
+<p> Van Exel, J., and G. de Graaf, 2005. <em>Q Methodology: A Sneak Preview</em><br><a href="https://qmethodblog.files.wordpress.com/2016/01/qmethodologyasneakpreviewreferenceupdate.pdf">https://qmethodblog.files.wordpress.com/2016/01/qmethodologyasneakpreviewreferenceupdate.pdf</a>Available at this link.
+</p>
+</li>
+<li>
+<p> Brown, S. R., 1980. <em>Political subjectivity: Applications of Q methodology in political science</em>, New Haven, CT: Yale University Press.<br><a href="https://qmethodblog.files.wordpress.com/2016/01/brown-1980-politicalsubjectivity.pdf">https://qmethodblog.files.wordpress.com/2016/01/brown-1980-politicalsubjectivity.pdf</a>Available at this link.
+</p>
+</li>
+<li> <p><a href="https://qmethod.org/">https://qmethod.org/</a><br>
+The website of the <em>International Society for the Scientific Study of Subjectivity</em>.
+</p>
+</li>
+<li> <p><a href="http://schmolck.org/qmethod/">http://schmolck.org/qmethod/</a><br>
+Peter Schmolck's Q Method Page, with further references, datasets and the PQMethod software.
+</p>
+</li>
+</ul>
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(lipset)
+results &lt;- qmethod(lipset[[1]], nfactors = 3, rotation = "varimax")
+summary(results)
+results
+plot(results)
+</code></pre>
+
+
+</div>

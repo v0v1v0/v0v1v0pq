@@ -1,0 +1,267 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>groupci</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Assess Calibration for a Competing Risks Endpoint</h2>
+
+<h3>Description</h3>
+
+<p>Uses <code>cuminc</code> to estimate the cumulative incidence at a given time point within subgroups of a continuous variable (often predicted failure probabilities from a <code>crr.fit</code> model).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">groupci(
+  x,
+  ftime,
+  fstatus,
+  u,
+  cencode = 0,
+  failcode = 1,
+  ci = TRUE,
+  m = 50,
+  g = NULL,
+  cuts = NULL,
+  pl = TRUE,
+  conf.int = 0.95,
+  xlab = NULL,
+  ylab = NULL,
+  xlim = c(0, 1),
+  ylim = c(0, 1),
+  lty = 1,
+  add = FALSE,
+  cex.subtitle = FALSE,
+  ab = TRUE,
+  a = 0,
+  b = 1,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>A numeric variable to assess calibration for</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ftime</code></td>
+<td>
+<p>The event time variable. See <code>cuminc</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fstatus</code></td>
+<td>
+<p>The event status variable. See <code>cuminc</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>u</code></td>
+<td>
+<p>A single time point to assess calibration at</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cencode</code></td>
+<td>
+<p>The censoring event code. See <code>cuminc</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>failcode</code></td>
+<td>
+<p>The value of <code>fstatus</code> that indicates the event of interest</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ci</code></td>
+<td>
+<p>Should the failure probability be assessed? Defaults to <code>TRUE</code>. If <code>FALSE</code>, the event-free probability is assessed.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>m</code></td>
+<td>
+<p>Minimum number of observations in each group. See <code>cut2</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>g</code></td>
+<td>
+<p>Number of quantile groups. See <code>cut2</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cuts</code></td>
+<td>
+<p>Actual cut points to use for <code>x</code>. See <code>cut2</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pl</code></td>
+<td>
+<p>Should the calibration curve be plotted? Defaults to <code>TRUE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>conf.int</code></td>
+<td>
+<p>Confidence limit on error bars. Defaults to 0.95. Set to <code>FALSE</code> to suppress.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xlab</code></td>
+<td>
+<p>The x-axis label. Uses <code>label</code> or name of calling argument if not specified.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ylab</code></td>
+<td>
+<p>The y-axis label. Uses a default label is none specified.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xlim</code></td>
+<td>
+<p>The x-axis limits. Defaults to c(0, 1).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ylim</code></td>
+<td>
+<p>The y-axis limits. Defaults to c(0, 1).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lty</code></td>
+<td>
+<p>Line type for connecting estimates and error bars</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>add</code></td>
+<td>
+<p>Defaults to <code>FALSE</code>. Set to <code>TRUE</code> to add to an existing plot.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cex.subtitle</code></td>
+<td>
+<p>Character size for subtitle (default 0.7). Defaults to <code>FALSE</code> to suppress.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ab</code></td>
+<td>
+<p>Should a reference line be added? See <code>abline</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>a</code></td>
+<td>
+<p>The intercept for the reference line. See <code>abline</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>b</code></td>
+<td>
+<p>The slope for the reference line. See <code>abline</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Other arguments passed to <code>lines</code> and <code>errbar</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>To divide <code>x</code>, the function first looks for <code>cuts</code>, then <code>g</code>, then <code>m</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A matrix with a row for each group of <code>x</code>:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>Mean value of <code>x</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p>Number of observations</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>events</code></td>
+<td>
+<p>Number of events (of type <code>failcode</code>)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ci</code></td>
+<td>
+<p>Estimated cumulative incidence (or event-free probability if <code>ci=FALSE</code>)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>std.err</code></td>
+<td>
+<p>Estimated standard error for the <code>ci</code> value</p>
+</td>
+</tr>
+</table>
+<p>If <code>pl=TRUE</code>, a calibration plot is also displayed.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Changhong Yu, Michael Kattan, Ph.D <br> Department of Quantitative Health Sciences<br> Cleveland Clinic<br></p>
+
+
+<h3>See Also</h3>
+
+<p><code>cuminc</code> <code>pred.ci</code> <code>cut2</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">dd &lt;- datadist(prostate.dat)
+options(datadist = "dd")
+prostate.f &lt;- cph(Surv(TIME_EVENT,EVENT_DOD == 1) ~ TX  + rcs(PSA,3) +
+           BX_GLSN_CAT +  CLIN_STG + rcs(AGE,3) +
+           RACE_AA, data = prostate.dat,
+           x = TRUE, y = TRUE, surv = TRUE,time.inc = 144)
+prostate.crr &lt;- crr.fit(prostate.f, cencode = 0, failcode = 1)
+
+# Cross-validated predictions
+prostate.dat$preds.cv.prostate.crr.120 &lt;- tenf.crr(prostate.crr, time = 120, fold = 2)
+
+with(prostate.dat,
+     groupci(preds.cv.prostate.crr.120, ftime = TIME_EVENT,
+             fstatus =EVENT_DOD, g = 5, u = 120,
+             xlab = "Nomogram predicted 10-year cancerspecific mortality",
+             ylab = "Observed predicted 10-year cancerspecific mortality")
+)
+
+</code></pre>
+
+
+</div>

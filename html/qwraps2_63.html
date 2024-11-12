@@ -1,0 +1,63 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>deprecated</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Deprecated Functions</h2>
+
+<h3>Description</h3>
+
+<p>Archive of deprecated functions. Some of these might be removed from the
+package in later releases.
+</p>
+<p>Deprecated methods for building the data sets needed for plotting roc and prc
+plots.  use <code>confusion_matrix</code> instead.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qroc_build_data_frame(fit, truth = NULL, n_threshold = 200, ...)
+
+## Default S3 method:
+qroc_build_data_frame(fit, truth = NULL, n_threshold = 200, ...)
+
+## S3 method for class 'glm'
+qroc_build_data_frame(fit, truth = NULL, n_threshold = 200, ...)
+
+qprc_build_data_frame(fit, n_threshold = 200, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>fit</code></td>
+<td>
+<p>a <code>glm</code> fit with <code>family = binomial()</code>, or predicted
+values</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>truth</code></td>
+<td>
+<p>ignored if <code>fit</code> is a <code>glm</code> object.  A vector of
+observations, 0/1 or FALSE/TRUE values, of equal length to <code>fit</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n_threshold</code></td>
+<td>
+<p>number of thresholds to use to estimate auroc or auprc</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>passed to <code>predict</code></p>
+</td>
+</tr>
+</table>
+</div>

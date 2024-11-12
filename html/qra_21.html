@@ -1,0 +1,96 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>varRatio</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>First order approximation to variance of y-ordinate to slope ratio</h2>
+
+<h3>Description</h3>
+
+<p>In contexts where an LD99 estimate will be used as a data value
+in a further analysis step, the inverse of the variance may be
+used as a weight.  The y-ordinate is for the link function
+transformed value of a specified mortality proportion, commonly
+0.50, or 0.90, or 0.99
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">varRatio(phat = 0.99, b, vv, link = "cloglog")
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>phat</code></td>
+<td>
+<p>Mortality proportion</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>b</code></td>
+<td>
+<p>Length 2 vector of intercept and slope</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vv</code></td>
+<td>
+<p>Variance-covariance matrix for intercept and slope</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>link</code></td>
+<td>
+<p>Link function that transforms expected mortalities
+to the scale of the linear predictor</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>This function should only be used, in order to speed up
+calculations that use the function <code>fieller</code>
+(call <code>fieller</code> with (<code>type="Delta"</code>)),
+in a context where it is to be used many times,
+and where a check has been made that its use leads to
+confidence intervals that are a close approximation to those
+given with the default argument (<code>type="Fieller"</code>).
+</p>
+
+
+<h3>Value</h3>
+
+<p>A vector, with elements
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>xhat</code></td>
+<td>
+<p>Estimate</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>var</code></td>
+<td>
+<p>Variance, calculated using the Delta method,  See
+the help page for <code>fieller</code> for further details
+and references.</p>
+</td>
+</tr>
+</table>
+<h3>Examples</h3>
+
+<pre><code class="language-R">redDel &lt;- subset(qra::codling1988, Cultivar=="Red Delicious")
+redDel.glm &lt;- glm(cbind(dead,total-dead)~ct, data=redDel,
+                  family=quasibinomial(link='cloglog'))
+vv &lt;- summary(redDel.glm)$cov.scaled
+qra::varRatio(0.99, b=coef(redDel.glm), vv=vv, link="cloglog")
+</code></pre>
+
+
+</div>

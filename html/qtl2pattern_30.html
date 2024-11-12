@@ -1,0 +1,166 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>summary.feature_tbl</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Summary of features</h2>
+
+<h3>Description</h3>
+
+<p>Show count min and max of features by type
+</p>
+<p>Plot genes as rectangles followed by names.
+Stagger genes for easy reading.
+Written original by Dan Gatti 2013-02-13
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'feature_tbl'
+summary(object, major = TRUE, ...)
+
+## S3 method for class 'feature_tbl'
+subset(x, start_val = 0, stop_val = max(x$stop), ...)
+
+ggplot_feature_tbl(
+  object,
+  rect_col = "grey70",
+  strand_col = c(`-` = "#1b9e77", `+` = "#d95f02"),
+  type_col = c(gene = "black", pseudogene = "#1b9e77", other = "#d95f02"),
+  text_size = 3,
+  xlim = NULL,
+  snp_pos = top_snps_tbl$pos,
+  snp_lod = top_snps_tbl$lod,
+  top_snps_tbl = NULL,
+  snp_col = "grey70",
+  extend = 0.005,
+  ...
+)
+
+## S3 method for class 'feature_tbl'
+autoplot(object, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>tbl of gene information from <code>query_variants</code>; see <code>create_variant_query_func</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>major</code></td>
+<td>
+<p>if <code>TRUE</code> (default), only summarize genes and exons</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>additional arguments (not used)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>tbl of feature information from <code>get_feature_snp</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>start_val, stop_val</code></td>
+<td>
+<p>start and stop positions for subset</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rect_col</code></td>
+<td>
+<p>fill color of rectangle (default "grey70")</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>strand_col</code></td>
+<td>
+<p>edge color of rectangle by strand from <code>object</code> (default -="blue", +="red"; none if NULL)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>type_col</code></td>
+<td>
+<p>color of type from <code>object</code> (default "black" for gene, "blue" for pseudogene; none if NULL)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>text_size</code></td>
+<td>
+<p>size of text (default 3)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xlim</code></td>
+<td>
+<p>horizontal axis limits (default is range of features)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>snp_pos</code></td>
+<td>
+<p>position of SNPs in bp if used (default NULL)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>snp_lod</code></td>
+<td>
+<p>LOD of SNPs (for color plotting)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>top_snps_tbl</code></td>
+<td>
+<p>table from <code>top_snps</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>snp_col</code></td>
+<td>
+<p>color of SNP vertical lines (default "grey70")</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>extend</code></td>
+<td>
+<p>extend region for SNPs in bp (default 0.005)</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>tbl of feature summaries by type
+</p>
+<p>tbl of feature summaries by type
+</p>
+<p>data frame of gene information (invisible)
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Brian S Yandell, <a href="mailto:brian.yandell@wisc.edu">brian.yandell@wisc.edu</a>
+</p>
+<p>Brian S Yandell, <a href="mailto:brian.yandell@wisc.edu">brian.yandell@wisc.edu</a>
+Daniel Gatti, <a href="mailto:Dan.Gatti@jax.org">Dan.Gatti@jax.org</a>
+</p>
+
+
+<h3>References</h3>
+
+<p><a href="https://github.com/dmgatti/DOQTL/blob/master/R/gene.plot.R">https://github.com/dmgatti/DOQTL/blob/master/R/gene.plot.R</a>
+</p>
+
+
+</div>

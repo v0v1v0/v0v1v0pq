@@ -1,0 +1,271 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>plot</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Plot a <code>Quadtree</code>
+</h2>
+
+<h3>Description</h3>
+
+<p>Plots a <code>Quadtree</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S4 method for signature 'Quadtree,missing'
+plot(
+  x,
+  add = FALSE,
+  col = NULL,
+  alpha = NULL,
+  nb_line_col = NULL,
+  border_col = "black",
+  border_lwd = 0.4,
+  xlim = NULL,
+  ylim = NULL,
+  zlim = NULL,
+  crop = FALSE,
+  na_col = "white",
+  adj_mar_auto = 6,
+  legend = TRUE,
+  legend_args = list(),
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a <code>Quadtree</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>add</code></td>
+<td>
+<p>boolean; if <code>FALSE</code> (the default) a new plot is created. If
+<code>TRUE</code>, the plot is added to the existing plot.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>col</code></td>
+<td>
+<p>character vector; the colors that will be used to create the
+color ramp used in the plot. If no argument is provided,
+<code>terrain.colors(100, rev = TRUE)</code> is used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>alpha</code></td>
+<td>
+<p>numeric; transparency of the cell colors. Must be in the range
+0-1, where 0 is fully transparent and 1 is fully opaque. If <code>NULL</code>
+(the default) it sets <code>alpha</code> to 1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nb_line_col</code></td>
+<td>
+<p>character; the color of the lines drawn between
+neighboring cells. If <code>NULL</code> (the default), these lines are not
+plotted.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>border_col</code></td>
+<td>
+<p>character; the color to use for the cell borders. Use
+"transparent" if you don't want borders to be shown. Default is "black".</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>border_lwd</code></td>
+<td>
+<p>numeric; the line width of the cell borders. Default is .4.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xlim</code></td>
+<td>
+<p>two-element numeric vector; defines the minimum and
+maximum values of the x axis. Note that this overrides the <code>crop</code>
+parameter.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ylim</code></td>
+<td>
+<p>two-element numeric vector; defines the minimum and
+maximum values of the y axis. Note that this overrides the <code>crop</code>
+parameter.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>zlim</code></td>
+<td>
+<p>two-element numeric vector; defines how the colors are
+assigned to the cell values.  The first color in <code>col</code> will correspond
+to <code>zlim[1]</code> and the last color in <code>col</code> will correspond to
+<code>zlim[2]</code>. If <code>zlim</code> does not encompass the entire range of cell
+values, cells that have values outside of the range specified by
+<code>zlim</code> will be treated as <code>NA</code> cells. If this value is
+<code>NULL</code> (the default), it uses the min and max cell values.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>crop</code></td>
+<td>
+<p>boolean; if <code>TRUE</code>, only displays the extent of the original
+raster, thus ignoring any of the <code>NA</code> cells that were added to pad the
+raster before making the quadtree. Ignored if either <code>xlim</code> or
+<code>ylim</code> are non-<code>NULL</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>na_col</code></td>
+<td>
+<p>character; the color to use for <code>NA</code> cells. If
+<code>NULL</code>, <code>NA</code> cells are not plotted. Default is "white".</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>adj_mar_auto</code></td>
+<td>
+<p>numeric; checks the size of the right margin
+(<code>par("mar")[4]</code>) - if it is less than the provided value and
+<code>legend</code> is <code>TRUE</code>, then it sets it to be the provided value in
+order to make room for the legend (after plotting, it resets it to its
+original value). If <code>NULL</code>, the margin is not adjusted. Default is 6.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>legend</code></td>
+<td>
+<p>boolean; if <code>TRUE</code> (the default) a legend is plotted in
+the right margin.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>legend_args</code></td>
+<td>
+<p>named list; contains arguments that are sent to the
+<code>add_legend()</code> function. See the help page for
+<code>add_legend()</code> for the parameters. Note that <code>zlim</code>,
+<code>cols</code>, and <code>alpha</code> are supplied automatically, so if the list
+contains elements named <code>zlim</code>, <code>cols</code>, or <code>alpha</code> the
+user-provided values will be ignored.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>arguments passed to the default
+<code>plot()</code> function</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>See 'Examples' for demonstrations of how the various options can be
+used.
+</p>
+
+
+<h3>Value</h3>
+
+<p>no return value
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(quadtree)
+habitat &lt;- terra::rast(system.file("extdata", "habitat.tif", package="quadtree"))
+
+# create quadtree
+qt &lt;- quadtree(habitat, split_threshold = .1, adj_type = "expand")
+
+#####################################
+# DEFAULT
+#####################################
+
+# default - no additional parameters provided
+plot(qt)
+
+#####################################
+# CHANGE PLOT EXTENT
+#####################################
+
+# note that additional parameters like 'main', 'xlab', 'ylab', etc. will be
+# passed to the default 'plot()' function
+
+# crop extent to the original extent of the raster
+plot(qt, crop = TRUE, main = "cropped")
+
+# crop and don't plot NA cells
+plot(qt, crop = TRUE, na_col = NULL, main = "cropped")
+
+# use 'xlim' and 'ylim' to zoom in on an area
+plot(qt, xlim = c(10000, 20000), ylim = c(20000, 30000), main = "zoomed in")
+
+#####################################
+# COLORS AND BORDERS
+#####################################
+
+# change border color and width
+plot(qt, border_col = "transparent") # no borders
+plot(qt, border_col = "gray60") # gray borders
+plot(qt, border_lwd = .3) # change line thickness of borders
+
+# change color palette
+plot(qt, col = c("blue", "yellow", "red"))
+plot(qt, col = hcl.colors(100))
+plot(qt, col = c("black", "white"))
+
+# change color transparency
+plot(qt, alpha = .5)
+plot(qt, col = c("blue", "yellow", "red"), alpha = .5)
+
+# change color of NA cells
+plot(qt, na_col = "lavender")
+
+# don't plot NA cells at all
+plot(qt, na_col = NULL)
+
+# change 'zlim'
+plot(qt, zlim = c(0, 5))
+plot(qt, zlim = c(.2, .7))
+
+#####################################
+# SHOW NEIGHBOR CONNECTIONS
+#####################################
+
+# plot all neighbor connections
+plot(qt, nb_line_col = "black", border_col = "gray60")
+
+# don't plot connections to NA cells
+plot(qt, nb_line_col = "black", border_col = "gray60", na_col = NULL)
+
+#####################################
+# LEGEND
+#####################################
+
+# no legend
+plot(qt, legend = FALSE)
+
+# increase right margin size
+plot(qt, adj_mar_auto = 10)
+
+# use 'legend_args' to customize the legend
+plot(qt, adj_mar_auto = 10,
+     legend_args = list(lgd_ht_pct = .8, bar_wd_pct = .4))
+</code></pre>
+
+
+</div>

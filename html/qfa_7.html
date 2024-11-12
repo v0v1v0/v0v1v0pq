@@ -1,0 +1,116 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qfa.plot</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Quantile-Frequency Plot</h2>
+
+<h3>Description</h3>
+
+<p>This function creates an image plot of quantile spectrum.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qfa.plot(
+  freq,
+  tau,
+  rqper,
+  rg.qper = range(rqper),
+  rg.tau = range(tau),
+  rg.freq = c(0, 0.5),
+  color = colorRamps::matlab.like2(1024),
+  ylab = "QUANTILE LEVEL",
+  xlab = "FREQUENCY",
+  tlab = NULL,
+  set.par = TRUE,
+  legend.plot = TRUE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>freq</code></td>
+<td>
+<p>sequence of frequencies in (0,0.5) at which quantile spectrum is evaluated</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tau</code></td>
+<td>
+<p>sequence of quantile levels in (0,1) at which quantile spectrum is evaluated</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rqper</code></td>
+<td>
+<p>real-valued matrix of quantile spectrum evaluated on the <code>freq</code> x <code>tau</code> grid</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rg.qper</code></td>
+<td>
+<p><code>zlim</code> for <code>qper</code> (default = <code>range(qper)</code>)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rg.tau</code></td>
+<td>
+<p><code>ylim</code> for <code>tau</code> (default = <code>range(tau)</code>)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rg.freq</code></td>
+<td>
+<p><code>xlim</code> for <code>freq</code> (default = <code>c(0,0.5)</code>)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>color</code></td>
+<td>
+<p>colors (default = <code>colorRamps::matlab.like2(1024)</code>)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ylab</code></td>
+<td>
+<p>label of y-axis (default = <code>"QUANTILE LEVEL"</code>)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xlab</code></td>
+<td>
+<p>label of x-axis (default = <code>"FREQUENCY"</code>)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tlab</code></td>
+<td>
+<p>title of plot (default = <code>NULL</code>)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>set.par</code></td>
+<td>
+<p>if <code>TRUE</code>, <code>par()</code> is set internally (single image)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>legend.plot</code></td>
+<td>
+<p>if <code>TRUE</code>, legend plot is added</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>no return value
+</p>
+
+
+</div>

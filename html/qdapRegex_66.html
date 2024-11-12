@@ -1,0 +1,52 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>group_or</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Group Wrap and 'or' Concatenate Elements</h2>
+
+<h3>Description</h3>
+
+<p>A wrapper for <code>group</code> and <code>pastex</code> that wraps each sub-expression 
+element with grouping parenthesis and then concatenate/joins grouped strings 
+with a regex 'or' ("|").  Equivalent to <code>pastex(group(...), sep = "|")</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">group_or(..., group.all = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>group.all</code></td>
+<td>
+<p>logical.  If <code>TRUE</code> the resulting 'or' concatenated 
+elements will be wrapped with grouping parenthesis.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Regular expressions to paste together or a named expression 
+from the default regular expression dictionary prefixed with single at 
+(<code>@</code>) (e.g., <code>"@rm_hash"</code>) or a regular expression from 
+<code>regex_supplement</code> dictionary prefixed with an at 
+(<code>@</code>) (e.g., <code>"@time_12_hours"</code>).</p>
+</td>
+</tr>
+</table>
+<h3>Examples</h3>
+
+<pre><code class="language-R">group_or("@rm_hash", "@rm_tag")
+group_or("them", "those", "that", "these")
+group_or("them", "those", "that", "these", group.all = FALSE)
+</code></pre>
+
+
+</div>

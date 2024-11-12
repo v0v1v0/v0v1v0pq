@@ -1,0 +1,128 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qgisprocess-deprecated</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Deprecated functions</h2>
+
+<h3>Description</h3>
+
+
+<ul>
+<li>
+<p> Instead of <code>qgis_output()</code>, use <code>qgis_extract_output()</code> and related
+functions.
+</p>
+</li>
+<li>
+<p> Instead of <code>qgis_result_single()</code>, use <code>qgis_extract_output()</code> and related
+functions.
+</p>
+</li>
+<li>
+<p> Instead of <code>qgis_detect_windows()</code>, use <code>qgis_detect_windows_paths()</code>.
+</p>
+</li>
+<li>
+<p> Instead of <code>qgis_detect_macos()</code>, use <code>qgis_detect_macos_paths()</code>.
+</p>
+</li>
+<li>
+<p> Instead of <code>qgis_use_json_input()</code>, use <code>qgis_using_json_input()</code>.
+</p>
+</li>
+<li>
+<p> Instead of <code>qgis_use_json_output()</code>, use <code>qgis_using_json_output()</code>.
+</p>
+</li>
+<li>
+<p> Instead of <code>qgis_description()</code>, use <code>qgis_get_description()</code>.
+</p>
+</li>
+<li>
+<p> Instead of <code>qgis_arguments()</code>, use <code>qgis_get_argument_specs()</code>.
+</p>
+</li>
+<li>
+<p> Instead of <code>qgis_outputs()</code>, use <code>qgis_get_output_specs()</code>.
+</p>
+</li>
+<li>
+<p> Instead of <code>qgis_pipe()</code>, use <code>qgis_run_algorithm_p()</code>.
+</p>
+</li>
+<li>
+<p> Instead of <code>qgis_tmp_clean()</code>, use <code>qgis_clean_tmp()</code>.
+</p>
+</li>
+<li>
+<p> Instead of <code>qgis_result_clean()</code>, use <code>qgis_clean_result()</code>.
+</p>
+</li>
+</ul>
+<h3>Usage</h3>
+
+<pre><code class="language-R">qgis_output(x, which)
+
+qgis_result_single(x, what)
+
+qgis_detect_windows(...)
+
+qgis_detect_macos()
+
+qgis_use_json_input()
+
+qgis_use_json_output(...)
+
+qgis_description(...)
+
+qgis_arguments(...)
+
+qgis_outputs(...)
+
+qgis_pipe(...)
+
+qgis_tmp_clean(...)
+
+qgis_result_clean(...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>A <code>qgis_result</code> object returned by <code>qgis_run_algorithm()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>which</code></td>
+<td>
+<p>The index of an output.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>what</code></td>
+<td>
+<p>Character vector of classes.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Arguments passed to the new function.
+This is done for functions where only the function name changed at
+time of deprecation.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A value as described in the documentation of the corresponding new function.
+</p>
+
+
+</div>

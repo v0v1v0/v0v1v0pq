@@ -1,0 +1,394 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>pcAxisCubeMake</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Creates PC-AXIS cube
+</h2>
+
+<h3>Description</h3>
+
+<p>From the constructed syntactical tree, structures in R are generated. These structures contain the PC-AXIS cube information.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">pcAxisCubeMake(cstream) 
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>cstream</code></td>
+<td>
+<p>tree returned by the PC-AXIS file syntactical analysis </p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>It returns a list with the following elements:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>pxCube (data.frame)</code></td>
+<td>
+
+
+<table>
+<tr>
+<td style="text-align: left;">
+      headingLength </td>
+<td style="text-align: left;"> Number of variables in "HEADING".</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+      StubLength    </td>
+<td style="text-align: left;"> Number of variables in "STUB".</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+      frequency     </td>
+<td style="text-align: left;"> Data frequency if "TIMEVAL" is present. </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+ </td>
+</tr>
+</table>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pxCubeVariable (data.frame)</code></td>
+<td>
+
+
+<table>
+<tr>
+<td style="text-align: left;">
+        variableName  </td>
+<td style="text-align: left;"> Variable name.</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+        headingOrStud </td>
+<td style="text-align: left;"> Indicator, whether the variable appears in "HEADING" or "STUB". </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+        codesYesNo    </td>
+<td style="text-align: left;"> Indicator, whether there is "CODES" associated to the variable.</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+        valuesYesNo   </td>
+<td style="text-align: left;"> Indicator, whether there is "VALUES" associated to the variable.</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+        variableOrder </td>
+<td style="text-align: left;"> Variable order number in "HEADING" or "STUB"</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+        valueLength   </td>
+<td style="text-align: left;"> Number of different "CODES" and/or  "VALUES" associated with the variable.</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+ </td>
+</tr>
+</table>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pxCubeVariableDomain (data.frame)</code></td>
+<td>
+
+
+<table>
+<tr>
+<td style="text-align: left;">
+      variableName     </td>
+<td style="text-align: left;"> Variable name.</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+      code             </td>
+<td style="text-align: left;"> Value code when "CODES" is present.</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+      value            </td>
+<td style="text-align: left;"> Value literal when "VALUES" is present.</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+      valueOrder       </td>
+<td style="text-align: left;"> Variable order number in "CODES" and/or "VALUES".</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+      eliminationYesNo </td>
+<td style="text-align: left;"> Indicator, whether the value for the variables is present in "ELIMINATION".</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+ </td>
+</tr>
+</table>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pxCubeAttrN</code></td>
+<td>
+<p>data.frame list, one for each different parameters cardinalities appearing in "keyword" 
+</p>
+
+<ul>
+<li>
+<p>pxCubeAttrN$A0 (data.frame)
+</p>
+
+<table>
+<tr>
+<td style="text-align: left;">
+        keyword  </td>
+<td style="text-align: left;">  Keyword.</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+        language </td>
+<td style="text-align: left;">  Language code o "".</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+        length   </td>
+<td style="text-align: left;">  Number of elements of value list.</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+        value    </td>
+<td style="text-align: left;">  Associated data, keyword[language] = value.</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+   </td>
+</tr>
+</table>
+</li>
+<li>
+<p>pxCubeAttrN$A1 (data.frame)
+</p>
+
+<table>
+<tr>
+<td style="text-align: left;">
+        keyword  </td>
+<td style="text-align: left;"> Keyword.</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+        language </td>
+<td style="text-align: left;"> Language code o "".</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+        arg1     </td>
+<td style="text-align: left;"> Argument value.</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+        length   </td>
+<td style="text-align: left;"> Number of elements of value list.</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+        value    </td>
+<td style="text-align: left;"> Associated data , keyword[language](arg) = value.</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+  </td>
+</tr>
+</table>
+</li>
+<li>
+<p>pxCubeAttrN$A2 (data.frame)
+</p>
+
+<table>
+<tr>
+<td style="text-align: left;">
+        keyword  </td>
+<td style="text-align: left;"> Keyword.</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+        language </td>
+<td style="text-align: left;"> Language code o "".</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+        arg1     </td>
+<td style="text-align: left;"> Argument one value.</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+        arg2     </td>
+<td style="text-align: left;"> Argument to value.</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+        length   </td>
+<td style="text-align: left;"> Value list number of elements.</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+        value    </td>
+<td style="text-align: left;"> Associated data , keyword[language](arg1,arg2) = value.</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+ </td>
+</tr>
+</table>
+</li>
+</ul>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pxCubeData (data.frame)</code></td>
+<td>
+
+
+<table>
+<tr>
+<td style="text-align: left;">
+        StubLength + headingLength columns </td>
+<td style="text-align: left;">, with variables values, ordered according to "STUB" and followed by those appearing in "HEADING".
+        
+        Variables names correspond to variable names.</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+        data </td>
+<td style="text-align: left;"> associated value.</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+  </td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+<p>Returned value short version is:
+</p>
+<pre>
+Value:
+ pxCube              (headingLength, StubLength)
+ pxCubeVariable      (variableName , headingOrStud, codesYesNo, valuesYesNo, variableOrder, valueLength)
+ pxCubeVariableDomain(variableName , code, value, valueOrder, eliminationYesNo)
+ pxCubeAttr          -&gt; list pxCubeAttrN(key, {variableName} , value)
+ pxCubeData          ({variableName}+, data)   varia signatura
+
+</pre>
+
+
+<h3>References</h3>
+
+<p>PC-Axis file format. 
+</p>
+<p><a href="https://www.scb.se/en/services/statistical-programs-for-px-files/px-file-format/">https://www.scb.se/en/services/statistical-programs-for-px-files/px-file-format/</a>
+</p>
+<p>PC-Axis file format manual. Statistics of Finland.
+</p>
+<p><a href="https://tilastokeskus.fi/tup/pcaxis/tiedostomuoto2006_laaja_en.pdf">https://tilastokeskus.fi/tup/pcaxis/tiedostomuoto2006_laaja_en.pdf</a> 
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+  ## Not run: 
+    ## significant time reductions may be achieve by doing:
+    library("compiler")
+    enableJIT(level=3)
+  
+## End(Not run)
+  
+  name     &lt;- system.file("extdata","datInSFexample6_1.px", package = "qmrparser")
+  
+  stream   &lt;- streamParserFromFileName(name,encoding="UTF-8")
+  
+  cstream  &lt;-  pcAxisParser(stream)
+  if ( cstream$status == 'ok' ) {
+    cube &lt;- pcAxisCubeMake(cstream)
+    
+    ## Variables
+    print(cube$pxCubeVariable)
+    
+    ## Data
+    print(cube$pxCubeData)
+
+  }
+  
+  ## Not run: 
+      #
+      # Error messages like
+      #                " ... invalid multibyte string ... "
+      # or warnings
+      #                " input string ...  is invalid in this locale"
+      #
+      # For example, in Linux the error generated by this code:
+       name     &lt;-     "https://www.ine.es/pcaxisdl//t20/e245/p04/a2009/l0/00000008.px" 
+      stream   &lt;- streamParserFromString( readLines( name ) )    
+      cstream  &lt;- pcAxisParser(stream)
+      if ( cstream$status == 'ok' )  cube &lt;- pcAxisCubeMake(cstream)
+      #
+      # is caused by files with a non-readable 'encoding'.
+      # In the case where it could be read, there may also be problems 
+      # with string-handling functions, due to multibyte characters. 
+      # In Windows, according to \code{link{Sys.getlocale}()},
+      # file may be read but accents, ñ, ... may not be correctly recognised.
+      #
+      #
+      # There are, at least, the following options:
+      #  - File conversion to utf-8, from the OS, with
+      # "iconv - Convert encoding of given files from one encoding to another"
+      #
+      #  - File conversion in R:
+      name    &lt;- "https://www.ine.es/pcaxisdl//t20/e245/p04/a2009/l0/00000008.px" 
+      stream   &lt;- streamParserFromString( iconv( readLines( name ), "IBM850", "UTF-8") )
+      cstream  &lt;- pcAxisParser(stream)
+      if ( cstream$status == 'ok' )  cube &lt;- pcAxisCubeMake(cstream)
+      #
+      # In the latter case, latin1 would also work, but accents, ñ, ... would not be
+      # correctly read.
+      #
+      #  - Making the assumption that the file does not contain multibyte characters:
+      #
+      localeOld &lt;- Sys.getlocale("LC_CTYPE")
+      Sys.setlocale(category = "LC_CTYPE", locale = "C")
+      #
+      name     &lt;-
+        "https://www.ine.es/pcaxisdl//t20/e245/p04/a2009/l0/00000008.px" 
+      stream   &lt;- streamParserFromString( readLines( name ) )
+      cstream  &lt;- pcAxisParser(stream)
+      if ( cstream$status == 'ok' )  cube &lt;- pcAxisCubeMake(cstream)
+      #
+      Sys.setlocale(category = "LC_CTYPE", locale = localeOld)
+      #
+      # However, some characters will not be correctly read (accents, ñ, ...)
+
+    
+## End(Not run)
+    
+</code></pre>
+
+
+</div>

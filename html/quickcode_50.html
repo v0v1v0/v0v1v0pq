@@ -1,0 +1,113 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>getWeekSeq</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Convert Dates into Numeric Week Counts</h2>
+
+<h3>Description</h3>
+
+<p>Convert the range of date to number of weeks
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">getWeekSeq(start_date, end_date, dates, in.format = "%m/%d/%y")
+
+is.Date(x)
+
+not.Date(x)
+
+is.leap(yyyy)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>start_date</code></td>
+<td>
+<p>A scaler of class Date (if this argument is populated, the date arg must be empty)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>end_date</code></td>
+<td>
+<p>A scaler of class Date; must be later than the start_date (if this argument is populated, the date arg must be empty)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dates</code></td>
+<td>
+<p>vector of dates that need not be sequential but that reference values of class Date;
+Note that if this argument is populated, the start_date and end_date arguments must be empty</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>in.format</code></td>
+<td>
+<p>date input format</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>date item to check</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>yyyy</code></td>
+<td>
+<p>year numeric value eg 1989</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>data frame of the dates along with their corresponding week
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># simple example with start and end date
+getWeekSeq(start_date="12/29/25",end_date="1/8/26")
+
+# enter specific dates instead
+# specify format
+getWeekSeq(
+dates = c(
+  '2025-12-29',
+  '2025-12-30',
+  '2025-12-31',
+  '2026-01-01',
+  '2026-01-04',
+  '2026-01-05',
+  '2026-01-06',
+  '2026-01-07',
+  '2026-01-08'),
+  in.format = "%Y-%m-%d"
+)
+
+getWeekSeq(
+dates = c(
+  '12/29/25',
+  '12/30/25',
+  '12/31/25',
+  '01/01/26',
+  '01/02/26',
+  '01/03/26',
+  '01/06/26',
+  '01/07/26',
+  '01/08/26'
+  ),
+  in.format = "%m/%d/%y"
+)
+
+</code></pre>
+
+
+</div>

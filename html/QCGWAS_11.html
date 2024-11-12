@@ -1,0 +1,136 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>HQ_filter</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Select high-quality data in GWAS datasets</h2>
+
+<h3>Description</h3>
+
+<p>This function accepts a <code>QC_GWAS</code> dataset and
+returns a vector of logical values indicating which entries
+meet the quality criteria.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">HQ_filter(data,
+          ignore_impstatus = FALSE,
+          FRQ_val = NULL, HWE_val = NULL,
+          cal_val = NULL, imp_val = NULL,
+          filter_NA = TRUE,
+          FRQ_NA = filter_NA, HWE_NA = filter_NA,
+          cal_NA = filter_NA, imp_NA = filter_NA)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>table to be filtered. <code>HQ_filter</code>
+assumes the dataset uses the standard <code>QC_GWAS</code>
+column names.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ignore_impstatus</code></td>
+<td>
+<p>logical; if <code>FALSE</code>, HWE p-value
+and callrate filters are applied only to genotyped SNPs, and
+imputation quality filters only to imputed SNPs. If
+<code>TRUE</code>, the filters are applied to all SNPs regardless
+of the imputation status.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>FRQ_val, HWE_val, cal_val, imp_val</code></td>
+<td>
+
+<p>numeric; the <em>minimal</em> required value for allele frequency,
+HWE p-value, callrate and imputation quality respectively.
+Note that the allele-frequency filter is two-sided: for a
+filter-value of <code>x</code>, it will exclude entries with
+<code>freq &lt; x</code> and <code>freq &gt; 1 - x</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>filter_NA</code></td>
+<td>
+
+<p>logical; if <code>TRUE</code>, then missing filter variables
+will be excluded; if <code>FALSE</code>, they will be ignored.
+<code>filter_NA</code> is the default setting for all variables.
+Variable-specific settings can be specified with the
+following arguments.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>FRQ_NA, HWE_NA, cal_NA, imp_NA</code></td>
+<td>
+<p>logical; variable-specific 
+settings for <code>filter_NA</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>A SNP is considered high-quality if it meets all quality
+criteria. The thresholds are inclusive; i.e. SNPs that have a
+value equal or higher than the threshold will be considered
+high-quality.
+</p>
+<p>To filter missing values only, set the filter argument to
+<code>NA</code>, and the corresponding NA-filter to <code>TRUE</code>.
+</p>
+<p>To disable filtering entirely, set to <code>NULL</code>. This
+disables the filtering of missing values as well.
+</p>
+<p>When imputation status is missing or invalid (and
+<code>ignore_impstatus</code> is <code>FALSE</code>), only the
+allele-frequency filter will be applied.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A vector of logical values, indicating which values in
+<code>data</code> meet (<code>TRUE</code>) or fail (<code>FALSE</code>) the
+quality criteria.
+</p>
+
+
+<h3>Note</h3>
+
+<p>The table entered in the <code>data</code> argument must use the
+standard column names of <code>QC_GWAS</code>. Functions
+using <code>HQ_filter</code> usually allow the user to specify a
+translation table. If not, <code>translate_header</code> can
+be used to translate the header manually.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">  data("gwa_sample")
+
+  selected_SNPs &lt;- HQ_filter(data = gwa_sample,
+                             FRQ_val = 0.01,
+                             cal_val = 0.95,
+                             filter_NA = FALSE)
+  summary(gwa_sample[selected_SNPs, ])
+  
+  selected_SNPs &lt;- HQ_filter(data = gwa_sample,
+                             FRQ_val = 0.01,
+                             cal_val = 0.95,
+                             filter_NA = FALSE,
+                             ignore_impstatus = TRUE)
+  summary(gwa_sample[selected_SNPs, ])
+</code></pre>
+
+
+</div>

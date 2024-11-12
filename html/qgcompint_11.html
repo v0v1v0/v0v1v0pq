@@ -1,0 +1,162 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>simdata_quantized_emm</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Simulate quantized exposures for testing methods</h2>
+
+<h3>Description</h3>
+
+<p>Simulate quantized exposures for testing methods
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">simdata_quantized_emm(
+  outcometype = c("continuous", "logistic", "survival"),
+  n = 100,
+  corr = NULL,
+  b0 = 0,
+  mainterms = c(1, 0, 0, 0),
+  prodterms = c(1, 0, 0, 0),
+  ztype = "binary",
+  q = 4,
+  yscale = 1,
+  shape0 = 3,
+  scale0 = 5,
+  censtime = 4,
+  ncheck = TRUE,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>outcometype</code></td>
+<td>
+<p>Character variable that is one of c("continuous", "logistic", "survival"). Selects what type of outcome should be simulated (or how). continuous = normal, continous outcome, logistic= binary outcome from logistic model, survival = right censored survival outcome from Weibull model.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p>Sample size</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>corr</code></td>
+<td>
+<p>NULL, or vector of correlations between the first exposure and subsequent exposures (if length(corr) &lt; (length(coef)-1), then this will be backfilled with zeros)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>b0</code></td>
+<td>
+<p>(continuous, binary outcomes) model intercept</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mainterms</code></td>
+<td>
+<p>beta coefficients for X in the outcome model at referent (0) level of interacting variable</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>prodterms</code></td>
+<td>
+<p>product term coefficients for interacting variable</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ztype</code></td>
+<td>
+<p>type of interacting variable: "continuous", "binary", "categorical"</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>q</code></td>
+<td>
+<p>Number of levels or "quanta" of each exposure</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>yscale</code></td>
+<td>
+<p>(continuous outcomes) error scale (residual error) for normally distributed outcomes</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>shape0</code></td>
+<td>
+<p>(survival outcomes) baseline shape of weibull distribution rweibull</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>scale0</code></td>
+<td>
+<p>(survival outcomes) baseline scale of weibull distribution rweibull</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>censtime</code></td>
+<td>
+<p>(survival outcomes) administrative censoring time</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ncheck</code></td>
+<td>
+<p>(logical, default=TRUE) adjust sample size if needed so that exposures are exactly evenly distributed (so that qgcomp::quantize(exposure) = exposure)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>unused</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Simulate continuous (normally distributed errors), binary (logistic function), or event-time outcomes as a linear function
+</p>
+
+
+<h3>Value</h3>
+
+<p>a data frame
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>qgcomp.boot</code>, and <code>qgcomp.noboot</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">set.seed(50)
+qdat = simdata_quantized_emm(
+  outcomtype="continuous",
+  n=10000, corr=c(.9,.3,0,0), mainterms=c(1,1,0,0), prodterms=c(1,1,0,0),
+  q = 8
+)
+cor(qdat)
+qdat = simdata_quantized_emm(
+  outcomtype="continuous",
+  n=10000, corr=c(-.9,.3,0,0), mainterms=c(1,2,0,0), prodterms=c(1,1,0,0),
+  q = 4
+)
+cor(qdat)
+table(qdat$x1)
+qgcomp.emm.noboot(y~x1+x2+x3+x4,expnms = c("x1", "x2", "x3", "x4"), emmvar = "z", data=qdat)
+</code></pre>
+
+
+</div>

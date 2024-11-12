@@ -1,0 +1,78 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>LqDist</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Calculation of the distance between two data sets</h2>
+
+<h3>Description</h3>
+
+<p><code>LqDist</code> calculates the Wasserstein metric or Kolmogorov-Smirnov
+distance between two data sets. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">LqDist(E1, E2, q=1) 
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>E1, E2</code></td>
+<td>
+<p>Vectors of data between which a distance is to calculate.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>q</code></td>
+<td>
+<p>Option for the distance measure. If <code>q</code> equals <code class="reqn">1</code>, the Wasserstein metric will be calculated. If <code>q</code> equals <code>Inf</code>, the Kolmogorov-Smirnov distance will be calculated. Default option is <code>1</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A positive number. 
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Yiq Li, <a href="mailto:yiqi.li@web.de">yiqi.li@web.de</a>,<a href="https://www.xing.com/profile/Yiqi_Li3">https://www.xing.com/profile/Yiqi_Li3</a>, Martin Schlather,<a href="mailto:martin.schlather@uni-mannheim.de">martin.schlather@uni-mannheim.de</a>,<a href="https://www.wim.uni-mannheim.de/schlather/">https://www.wim.uni-mannheim.de/schlather/</a></p>
+
+
+<h3>References</h3>
+
+<p>Li, Yiqi (2020) <em>Visual search as a queueing process</em>. Doctoral dissertation, University of Mannheim.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>distance</code>,
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">simdata1 &lt;- sim.ny(par = c(30, 200, 250, 350), esterrorpar = c(-2.67, 0.0094,
+0.0299, 0.0020, 1.13), c = 4, k = 12, N = 10000, pr = TRUE, seed = 0)
+
+simdata2 &lt;- sim.ny(par = c(30, 200, 250, 350), esterrorpar = c(-2.67, 0.0094,
+0.0299, 0.0020, 1.13), c = 4, k = 12, N = 10000, pr = TRUE, seed =
+12345)
+
+simcorrectRT1 &lt;- subset(simdata1, simdata1[,2] == TRUE, select = 1)
+
+simcorrectRT2 &lt;- subset(simdata2, simdata2[,2] == TRUE, select = 1)
+
+LqDist(simcorrectRT1, simcorrectRT2, q=1) 
+</code></pre>
+
+
+</div>

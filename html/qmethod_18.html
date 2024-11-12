@@ -1,0 +1,61 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>print.QmethodRes</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Q Method: print method for results</h2>
+
+<h3>Description</h3>
+
+<p>Takes an object <code>QmethodRes</code> resulting from <code>qmethod</code> and prints it in a synthetic way.</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'QmethodRes'
+print(x, length = 10, digits = 2, ...)</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>an object of class <code>QmethodRes</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>length</code></td>
+<td>
+<p>maximum number of rows to print from the data frames within <code>QmethodRes</code>. Defaults to 10. Set to <code>NULL</code> to see the full results.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>digits</code></td>
+<td>
+<p>minimum number of significant digits, see <code>print.default.</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>further arguments passed to or from other methods.</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Aiora Zabala</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(lipset)
+results &lt;- qmethod(lipset[[1]], nfactors = 3, rotation = "varimax")
+print(results, length = 5, digits = 1)
+</code></pre>
+
+
+</div>

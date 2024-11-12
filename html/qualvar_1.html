@@ -1,0 +1,75 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>ADA</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Average Deviation Analog (ADA)</h2>
+
+<h3>Description</h3>
+
+<p>Computes the average deviation analog (ADA) for a vector of frequencies of
+categories.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">ADA(x, na.rm = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a vector of frequencies</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>na.rm</code></td>
+<td>
+<p>if TRUE, missing values are removed. If FALSE, NA is returned if there is any NA value.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>According to Wilcox (1973, p. 328), the ADA is 'an analog of the average or
+mean deviation'. The formula for the ADA is:
+</p>
+<p style="text-align: center;"><code class="reqn">1 - \frac{\sum_{i=1}^k \left| f_i - \frac{N}{K}\right|}{2 \frac{N}{K}(K-1)}</code>
+</p>
+
+
+
+<h3>Value</h3>
+
+<p>The value of the ADA statistics, which is normalised (varies between 0
+and 1).
+</p>
+
+
+<h3>References</h3>
+
+<p>Wilcox, Allen R. 'Indices of Qualitative Variation and Political
+Measurement.' <em>The Western Political Quarterly</em> 26, no. 2 (1 June
+1973): 325-43. doi:10.2307/446831.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">x &lt;- rmultinom(1, 100, rep_len(0.25, 4))
+x &lt;- as.vector(t(x))
+ADA(x)
+
+df &lt;- rmultinom(10, 100, rep_len(0.25, 4))
+df &lt;- as.data.frame(t(df))
+apply(df, 1, ADA)
+</code></pre>
+
+
+</div>

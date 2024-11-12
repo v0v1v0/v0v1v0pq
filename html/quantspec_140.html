@@ -1,0 +1,76 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>getValues-LagEstimator</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Get values from a lag-window type estimator.</h2>
+
+<h3>Description</h3>
+
+<p>The returned array of <code>values</code> is of dimension <code>[J,K1,K2]</code>,
+where <code>J=length(frequencies)</code>, <code>K1=length(levels.1)</code> and
+<code>K2=length(levels.2))</code>. At position <code>(j,k1,k2)</code>
+the returned value is the one corresponding to <code>frequencies[j]</code>,
+<code>levels.1[k1]</code> and <code>levels.2[k2]</code> that are closest to the
+<code>frequencies</code>, <code>levels.1</code> and <code>levels.2</code>
+available in <code>object</code>; <code>closest.pos</code> is used to determine
+what closest to means.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S4 method for signature 'LagEstimator'
+getValues(
+  object,
+  frequencies = 2 * pi * (0:(length(object@Y) - 1))/length(object@Y),
+  levels.1 = getLevels(object, 1),
+  levels.2 = getLevels(object, 2)
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p><code>LagEstimator</code> of which to get the values</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>frequencies</code></td>
+<td>
+<p>a vector of frequencies for which to get the values</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>levels.1</code></td>
+<td>
+<p>the first vector of levels for which to get the values</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>levels.2</code></td>
+<td>
+<p>the second vector of levels for which to get the values</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Returns data from the array <code>values</code> that's a slot of
+<code>object</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>An example on how to use this function is analogously to the example given in
+<code>getValues-QuantilePG</code>.
+</p>
+
+
+</div>

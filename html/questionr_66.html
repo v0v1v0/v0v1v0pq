@@ -1,0 +1,78 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qscan</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Scan R scripts and load/install all detected packages</h2>
+
+<h3>Description</h3>
+
+<p>This function scans one or more R scripts and tries to quick-load/install 
+the packages mentioned by <code>library</code> or <code>require</code> functions.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qscan(..., load = TRUE, detail = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>the scripts to scan. 
+Defaults to all R scripts in the current working directory.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>load</code></td>
+<td>
+<p>quick-load/install the cited packages (see details). 
+Defaults to <code>TRUE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>detail</code></td>
+<td>
+<p>show the list of packages found in each script. 
+Defaults to <code>TRUE</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The function calls the <code>qload</code> function to quick-load/install the packages.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The result is a list of packages cited in the scripts.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>François Briatte &lt;f.briatte@gmail.com&gt;
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>qload</code>, <code>library</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Scan the working directory.
+## Not run: qscan()
+</code></pre>
+
+
+</div>

@@ -1,0 +1,77 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>mix.cols.btw</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Mix or Blend colors between two or more colors</h2>
+
+<h3>Description</h3>
+
+<p>Mix or blend multiple colors between two colors
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">mix.cols.btw(colors, max = 20, alpha = 1, preview = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>colors</code></td>
+<td>
+<p>the vector of two colors</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>max</code></td>
+<td>
+<p>maximum number of colors to blend between</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>alpha</code></td>
+<td>
+<p>alpha for the new color blends</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>preview</code></td>
+<td>
+<p>LOGICAL. preview all color generated</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>color hex for all generated colors
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># simply mix/blend two colors
+mix.cols.btw(c("red","brown"))
+
+# simply mix/blend two colors, maximum number of colors at the end
+mix.cols.btw(c("red","brown"), max = 8)
+
+# simply mix/blend two colors with alpha=0.2 (opacity=0.2)
+mix.cols.btw(c("yellow","green"),alpha = 0.2)
+
+# also preview after mixing the two colors
+mix.cols.btw(c("red","green"), preview = TRUE)
+mix.cols.btw(c("blue","violet"),alpha = 0.2, preview = TRUE)
+
+mix.cols.btw(c("red","purple","yellow","gray"), preview = TRUE)
+
+mix.cols.btw(c("red","purple","yellow","gray"),alpha = 0.2, preview = TRUE)
+
+</code></pre>
+
+
+</div>

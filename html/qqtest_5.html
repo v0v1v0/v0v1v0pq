@@ -1,0 +1,107 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>pkay</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+<code>pkay</code> The cumulative distribution function K distribution</h2>
+
+<h3>Description</h3>
+
+<p>The cumulative distribution function for the K distribution on <code>df</code> degrees of freedom having non-centrality parameter <code>ncp</code>.
+</p>
+<p>A K distribution is the square root of a chi-square divided by its degrees of freedom.  That is, if x is chi-squared on m degrees of freedom, then y = sqrt(x/m) is K on m degrees of freedom.
+Under standard normal theory, K is the distribution of the pivotal quantity  s/sigma where s is the sample standard deviation and sigma is the standard deviation parameter of the normal density.  K is the natural distribution for tests and confidence intervals about sigma.
+K densities are more nearly symmetric than are chi-squared and concentrate near 1.  As the degrees of freedom increase, they become more symmetric, more concentrated, and more nearly normally distributed.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">pkay(q, df, ncp = 0, upper.tail = FALSE, log.p = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>q</code></td>
+<td>
+<p>A vector of quantiles at which to calculate the cumulative distribution.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>df</code></td>
+<td>
+<p>Degrees of freedom (non-negative, but can be non-integer).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ncp</code></td>
+<td>
+<p>Non-centrality parameter (non-negative).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>upper.tail</code></td>
+<td>
+<p>logical; if <code>TRUE</code>,  instead of returning F(q)  (the default), the upper tail probabilities 1-F(q) = Pr(Q&gt;q) are returned.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>log.p</code></td>
+<td>
+<p>logical; if <code>TRUE</code>, probabilities are given as log(p).</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p><code>pkay</code> returns the value of the K cumulative distribution function, F(q), evaluated at <code>q</code> for the given <code>df</code> and <code>ncp</code>.  If <code>upper.trail = TRUE</code> then the upper tail probabilities 1-F(q) = Pr(Q&gt;q) are returned instead of F(q).
+</p>
+<p>Invalid arguments will result in return value NaN, with a warning.
+</p>
+<p>The length of the result is the maximum of the lengths of the numerical arguments.
+</p>
+<p>The numerical arguments are recycled to the length of the result. Only the first elements of the logical arguments are used.
+</p>
+
+
+<h3>Note</h3>
+
+<p>All calls depend on analogous calls to chi-squared functions.  See <code>pchisq</code> for details on non-centrality parameter calculations.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+pkay(1, 20)
+q &lt;- seq(0.01, 1.8, 0.01)
+#
+# Plot the cdf for K(5)
+u &lt;- pkay(q,5)
+plot(q, u, type="l",
+     xlab="q", ylab="cumulative probability",
+     xlim=range(q), ylim=c(0,1),
+     main="K cdf")
+#
+# Add some other K cdfs
+lines(q, pkay(q,10), lty=2)
+lines(q, pkay(q,20), lty=3)
+lines(q, pkay(q,30), lty=4)
+legend("topleft",
+       legend=c("df = 5", "df = 10", "df = 20", "df = 30"),
+       lty=c(1,2,3,4),
+       title="degrees of freedom",
+       cex=0.75, bty="n")
+
+#
+# See the vignette for more on the "K-distribution"
+#
+</code></pre>
+
+
+</div>

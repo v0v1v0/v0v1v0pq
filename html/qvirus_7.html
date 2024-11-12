@@ -1,0 +1,72 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>pure_qubit2</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Create a normalized pure quantum state for a 2-qubit system.</h2>
+
+<h3>Description</h3>
+
+<p>Create a normalized pure quantum state for a 2-qubit system.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">pure_qubit2(theta1, theta2, phi1, phi2)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>theta1</code></td>
+<td>
+<p>The parameter theta1 in radians for the first qubit.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>theta2</code></td>
+<td>
+<p>The parameter theta2 in radians for the second qubit.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>phi1</code></td>
+<td>
+<p>The phase parameter phi1 in radians for the first qubit.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>phi2</code></td>
+<td>
+<p>The phase parameter phi2 in radians for the second qubit.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A qstate object representing the normalized pure quantum state for a 2-qubit system.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">#' 
+# Quantum simulator
+library(qsimulatR)
+# Define the parameters
+theta1 &lt;- pi/3
+theta2 &lt;- pi/4
+phi1 &lt;- pi/6
+phi2 &lt;- pi/5
+
+# Create the quantum state
+psi_qubit2 &lt;- pure_qubit2(theta1, theta2, phi1, phi2)
+psi_qubit2
+</code></pre>
+
+
+</div>

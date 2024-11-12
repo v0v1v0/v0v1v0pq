@@ -1,0 +1,196 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>pseudo_opt</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Optimal pseudo-target for a given target</h2>
+
+<h3>Description</h3>
+
+<p>Find an optimal pseudo-target in a specified family to approximate
+the given (unnormalized) target (Heiner et al., 2024+). Optimize over the selected utility function.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">pseudo_opt(
+  log_target = NULL,
+  samples = NULL,
+  type = "samples",
+  family = "t",
+  degf = c(1, 5, 20),
+  lb = -Inf,
+  ub = Inf,
+  utility_type = "AUC",
+  nbins = 100,
+  tol_opt = 1e-06,
+  tol_int = 0.001,
+  plot = TRUE,
+  verbose = FALSE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>log_target</code></td>
+<td>
+<p>Function to evaluate the log density of the unnormalized target.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>samples</code></td>
+<td>
+<p>Optional numeric vector providing samples from the target distribution
+(for use as alternative to <code>log_target</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>type</code></td>
+<td>
+<p>String specifying the input type. One of "function", "samples", or "grid".
+Default is to use "samples".
+</p>
+<p>Use of "function" requires specification of <code>log_target</code>.
+</p>
+<p>Use of "samples" requires specification of <code>samples</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>family</code></td>
+<td>
+<p>String specifying the family of distributions for the pseudo-target.
+Can be any of the families accepted by pseudo_list.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>degf</code></td>
+<td>
+<p>Numeric vector of degrees of freedom values to try (only if <code>family = "t"</code>.
+Defaults to <code>c(1, 5, 20)</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lb</code></td>
+<td>
+<p>Numeric scalar giving the value of left truncation. Defaults to <code>-Inf</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ub</code></td>
+<td>
+<p>Numeric scalar giving the value of right truncation. Defaults to <code>Inf</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>utility_type</code></td>
+<td>
+<p>String identifying utility type, either AUC (default) or MSW.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nbins</code></td>
+<td>
+<p>Positive integer specifying the number of histogram bins if using "samples" or "grid".
+Defaults to 100.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tol_opt</code></td>
+<td>
+<p>Positive numeric scalar that passes to <code>reltol</code> in the call
+to optim. Defaults to <code>1.0e-6</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tol_int</code></td>
+<td>
+<p>Positive numeric scalar that passes to <code>abs.tol</code> in the call to integrate.
+Defaults to <code>1.0e-3</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>plot</code></td>
+<td>
+<p>Logical for whether to generate two plots:
+</p>
+
+<ol>
+<li>
+<p> direct comparison of the target and pseudo-target densities, and
+</p>
+</li>
+<li>
+<p> transformed target density.
+</p>
+</li>
+</ol>
+<p>Defaults to <code>TRUE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p>Logical for whether to print intermediate steps of optimization.
+Defaults to <code>FALSE</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Optionally supply samples from the target distribution.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list with named components:
+</p>
+<p><code>pseudo</code>: a list with functions corresponding to the selected pseudo-target;
+output of pseudo_list.
+</p>
+<p><code>utility</code>: value of the utility function using the selected pseudo-target;
+output of utility_pseudo.
+</p>
+<p><code>utility_type</code>: repeats the input specifying the utility type.
+</p>
+<p><code>opt</code>: output of optim.
+</p>
+<p>Other outputs repeating inputs.
+</p>
+
+
+<h3>References</h3>
+
+<p>Heiner, M. J., Johnson, S. B., Christensen, J. R., and Dahl, D. B. (2024+), "Quantile Slice Sampling," <em>arXiv preprint arXiv:###</em>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">(pseu &lt;- pseudo_opt(samples = rnorm(1e3), type = "samples",
+               family = "t", utility_type = "AUC",
+               nbins = 10, plot = TRUE,
+               verbose = FALSE))
+oldpar &lt;- par(mfrow = c(1,2))
+(pseu &lt;- pseudo_opt(log_target = function(x) dnorm(x, log = TRUE),
+                type = "function",
+                family = "logistic", utility_type = "AUC",
+                nbins = 100, plot = TRUE,
+                verbose = FALSE))
+(pseu &lt;- pseudo_opt(log_target = function(x) dbeta(x, 4, 2, log = TRUE),
+                lb = 0, ub = 1,
+                type = "function",
+                family = "cauchy", utility_type = "AUC",
+                nbins = 30, plot = TRUE,
+                verbose = FALSE))
+par(oldpar)
+
+</code></pre>
+
+
+</div>

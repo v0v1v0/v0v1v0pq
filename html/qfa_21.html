@@ -1,0 +1,128 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qspec.sqrlw</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Spline-Quantile-Regression-Lag-Window (SQRLW) Estimator of Quantile Spectrum</h2>
+
+<h3>Description</h3>
+
+<p>This function computes spline-quantile-regression-lag-window (SQRLW) estimate of quantile spectrum/cross-spectrum 
+from time series or spline quantile discrete Fourier transform (SQDFT).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qspec.sqrlw(
+  y,
+  tau,
+  y.sqdft = NULL,
+  M = NULL,
+  c0 = 0.02,
+  d = 4,
+  weighted = FALSE,
+  n.cores = 1,
+  cl = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>vector or matrix of time series (if matrix, <code>nrow(y)</code> = length of time series)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tau</code></td>
+<td>
+<p>sequence of quantile levels in (0,1)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y.sqdft</code></td>
+<td>
+<p>matrix or array of pre-calculated SQDFT (default = <code>NULL</code>: compute from <code>y</code> and <code>tau</code>);
+if <code>y.sqdft</code> is supplied, <code>y</code> and <code>tau</code> can be left unspecified</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>M</code></td>
+<td>
+<p>bandwidth parameter of lag window (default = <code>NULL</code>: quantile periodogram)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>c0</code></td>
+<td>
+<p>penalty parameter for SQDFT</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>d</code></td>
+<td>
+<p>subsampling rate of quantile levels for SQDFT (default = 1)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>weighted</code></td>
+<td>
+<p>if <code>TRUE</code>, SQR penalty function is weighted (default = <code>FALSE</code>)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n.cores</code></td>
+<td>
+<p>number of cores for parallel computing of SQDFT (default = 1)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cl</code></td>
+<td>
+<p>pre-existing cluster for repeated parallel computing of SQDFT (default = <code>NULL</code>)</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list with the following elements:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>spec</code></td>
+<td>
+<p>matrix or array of quantile spectrum/cross-spectrum</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lw</code></td>
+<td>
+<p>lag-window sequence</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sqdft</code></td>
+<td>
+<p>matrix or array of spline quantile discrete Fourier transform if <code>y.sqdft = NULL</code></p>
+</td>
+</tr>
+</table>
+<h3>Examples</h3>
+
+<pre><code class="language-R">y1 &lt;- stats::arima.sim(list(order=c(1,0,0), ar=0.5), n=64)
+y2 &lt;- stats::arima.sim(list(order=c(1,0,0), ar=-0.5), n=64)
+tau &lt;- seq(0.1,0.9,0.05)
+n &lt;- length(y1)
+ff &lt;- c(0:(n-1))/n
+sel.f &lt;- which(ff &gt; 0 &amp; ff &lt; 0.5)
+y.qper.sqrlw &lt;- qspec.sqrlw(cbind(y1,y2),tau,M=5,c0=0.02,d=4)$spec
+qfa.plot(ff[sel.f],tau,Re(y.qper.sqrlw[1,1,sel.f,]))
+</code></pre>
+
+
+</div>

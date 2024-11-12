@@ -1,0 +1,75 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>sittingHeights</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Sitting height in inches of female adults (aged 23-50).</h2>
+
+<h3>Description</h3>
+
+<p>From measurements made by Francis Galton at London's International Health Exhibition in 1884, published in 1885.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">sittingHeights
+</code></pre>
+
+
+<h3>Format</h3>
+
+<p>A data frame with 9 rows and 8 variates, the first 5 of which are as recorded by Galton:
+</p>
+
+<dl>
+<dt>lowerBound</dt>
+<dd>
+<p>Sitting height greater than or equal to this lower bound in inches.</p>
+</dd>
+<dt>upperBound</dt>
+<dd>
+<p>Sitting height strictly less than this upper bound in inches.</p>
+</dd>
+<dt>nCases</dt>
+<dd>
+<p>Number of cases observed with sitting height between the two bounds.</p>
+</dd>
+<dt>nCasesCumulative</dt>
+<dd>
+<p>Number of cases observed with sitting height up to but not including the upper bound.</p>
+</dd>
+<dt>percentCumulative</dt>
+<dd>
+<p>Cumulative number of cases expressed as a percent.</p>
+</dd>
+<dt>binCentre</dt>
+<dd>
+<p>Average of the lower and upper bounds.</p>
+</dd>
+<dt>nCasesCentred</dt>
+<dd>
+<p>Number of cases assigned to the binCentre; half of cases observed with sitting height between the two bounds is assigned to be below the binCentre, half above (avoids producing 100 percent for last entry).</p>
+</dd>
+<dt>proportionCumulativeAdjusted</dt>
+<dd>
+<p>Cumulative proportions using nCasesCentred. </p>
+</dd>
+</dl>
+<h3>Details</h3>
+
+<p><code>with(sittingHeights, plot(percentCumulative,upperBound, type="o", lwd=2, xlim=c(0,100), ylim=c(20,40),xlab="Percentage of women", ylab="Sitting heights in inches"))</code> will effect Galton's Ogive.
+</p>
+<p><code>with(sittingHeights, qqtest(binCentre, dist="normal", p = proportionCumulativeAdjusted, np=775, main="Sitting heights of women in inches"))</code> will effect a normal qqplot for this data.
+</p>
+
+
+<h3>Source</h3>
+
+<p>"The Application of a Graphic Method to Fallible Measures", 
+Francis Galton, (1885), Journal of the Statistical Society of London, Jubilee Volume (June 22-24, 1885), pp. 262-265.
+</p>
+
+
+</div>

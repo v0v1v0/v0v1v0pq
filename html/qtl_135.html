@@ -1,0 +1,80 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>movemarker</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Move a marker to a new chromosome</h2>
+
+<h3>Description</h3>
+
+<p>Move a specified marker to a different chromosome.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">movemarker(cross, marker, newchr, newpos)</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>cross</code></td>
+<td>
+<p>An object of class <code>cross</code>.  See
+<code>read.cross</code> for details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>marker</code></td>
+<td>
+<p>The name of the marker to be moved (a character string).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>newchr</code></td>
+<td>
+<p>The chromosome to which the marker should be moved.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>newpos</code></td>
+<td>
+<p>The position (in cM) at which the marker should be
+placed.  If missing, the marker is placed at the end of the
+chromosome.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>The input <code>cross</code> object, but with the specified marker moved to
+the specified chromosome.
+</p>
+<p>All intermediate calculations (such as the results of
+<code>calc.genoprob</code> and <code>est.rf</code>) are
+removed.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Karl W Broman, <a href="mailto:broman@wisc.edu">broman@wisc.edu</a> </p>
+
+
+<h3>See Also</h3>
+
+ <p><code>switch.order</code> </p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(badorder)
+badorder &lt;- movemarker(badorder, "D2M937", 3, 48.15)
+badorder &lt;- movemarker(badorder, "D3M160", 2, 28.83)
+</code></pre>
+
+
+</div>

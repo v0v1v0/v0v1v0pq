@@ -1,0 +1,59 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>Microfinance</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Informal Borrowing in Neighborhoods of Hyderabad, India</h2>
+
+<h3>Description</h3>
+
+<p>These data come from Banerjee's (2015) informal borrowing observations.</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">data(Microfinance)</code></pre>
+
+
+<h3>Format</h3>
+
+<p>A data frame with 6811 observations on the following 2 variables.
+</p>
+
+<dl>
+<dt><code>x</code></dt>
+<dd>
+<p>A binary indicator variable: 0 for control, 1 for intervention (access to microfinance)</p>
+</dd>
+<dt><code>y</code></dt>
+<dd>
+<p>The response variable: rupees informally borrowed</p>
+</dd>
+</dl>
+<h3>Source</h3>
+
+<p>https://www.aeaweb.org/articles?id=10.1257/app.20130533 </p>
+
+
+<h3>References</h3>
+
+<p>Banerjee, A., Duflo, E., Glennerster, R., and Kinnan, C. (2015), "The miracle of microfinance? Evidence from a randomized evaluation," American Economic Journal: Applied Economics, 7, 22-53. </p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(Microfinance)
+## maybe str(Microfinance)
+y &lt;- Microfinance[,2]
+x &lt;- Microfinance[,1]
+# Remove the 0s (as Banerjee (2015) appears to have done)
+ind &lt;- which(y==0)
+x &lt;- x[-ind]
+y &lt;- y[-ind]
+hist(y[x==0])
+</code></pre>
+
+
+</div>

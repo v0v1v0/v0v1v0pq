@@ -1,0 +1,56 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>tra</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Simulated Theory of Reasoned Action Data</h2>
+
+<h3>Description</h3>
+
+<p>Simulated data loosely based on the Theory of Reasoned Action from Social Psychology. Similar data are frequently used in publications involving moderation and mediation. These data were created for illustrative purposes.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">data(tra)</code></pre>
+
+
+<h3>Format</h3>
+
+<p>A data frame with 1000 observations on the following 4 variables.
+</p>
+
+<dl>
+<dt><code>beliefs</code></dt>
+<dd>
+<p>a numeric vector</p>
+</dd>
+<dt><code>values</code></dt>
+<dd>
+<p>a numeric vector</p>
+</dd>
+<dt><code>attitudes</code></dt>
+<dd>
+<p>a numeric vector</p>
+</dd>
+<dt><code>intentions</code></dt>
+<dd>
+<p>a numeric vector</p>
+</dd>
+</dl>
+<h3>Details</h3>
+
+<p>The data were constructed with the following model(s) in mind. Attitudes are a function of beliefs as moderated by values. Beliefs lead to intentions though their association with attitudes. </p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(tra)
+str(tra)
+eda.uni(tra$intentions)
+</code></pre>
+
+
+</div>

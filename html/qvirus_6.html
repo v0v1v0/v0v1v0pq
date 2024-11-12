@@ -1,0 +1,62 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>pure_qubit1</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Create a normalized pure quantum state for a 1-qubit system.</h2>
+
+<h3>Description</h3>
+
+<p>Create a normalized pure quantum state for a 1-qubit system.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">pure_qubit1(theta, phi, spherical = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>theta</code></td>
+<td>
+<p>The parameter theta in radians.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>phi</code></td>
+<td>
+<p>The parameter phi in radians.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>spherical</code></td>
+<td>
+<p>Whether to return coordinates in spherical form (default is FALSE).</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A qstate object representing the normalized pure quantum state for a 1-qubit system.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># Quantum simulator
+library(qsimulatR)
+# Define the parameters
+theta &lt;- pi/4
+phi &lt;- pi/6
+# Create the quantum state
+psi_qubit1 &lt;- pure_qubit1(theta, phi)
+psi_qubit1
+</code></pre>
+
+
+</div>

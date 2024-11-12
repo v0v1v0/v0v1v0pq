@@ -1,0 +1,74 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>inflect</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Find indices of maxima an minima in a data series</h2>
+
+<h3>Description</h3>
+
+<p>Find indices of maxima an minima in a data series
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">inflect(x, threshold = 1)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>vector of values with minima and maxima</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>threshold</code></td>
+<td>
+<p>Threshold to consider minima or maxima</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>a list with 1. a vector of minima and 2. a vector of maxima.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Evan Friedland
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># Pick a desired threshold to plot up to
+n &lt;- 3
+# Generate Data
+randomwalk &lt;- 100 + cumsum(rnorm(50, 0.2, 1)) # climbs upwards most of the time
+bottoms &lt;- lapply(1:n, function(x) inflect(randomwalk, threshold = x)$minima)
+tops &lt;- lapply(1:n, function(x) inflect(randomwalk, threshold = x)$maxima)
+# Color functions
+cf.1 &lt;- grDevices::colorRampPalette(c('pink','red'))
+cf.2 &lt;- grDevices::colorRampPalette(c('cyan','blue'))
+plot(randomwalk, type = 'l', main = 'Minima &amp; Maxima\nVariable Thresholds')
+for(i in 1:n){
+  points(bottoms[[i]], randomwalk[bottoms[[i]]], pch = 16, col = cf.1(n)[i], cex = i/1.5)
+}
+for(i in 1:n){
+  points(tops[[i]], randomwalk[tops[[i]]], pch = 16, col = cf.2(n)[i], cex = i/1.5)
+}
+legend('topleft', legend = c('Minima',1:n,'Maxima',1:n),
+       pch = rep(c(NA, rep(16,n)), 2), col = c(1, cf.1(n),1, cf.2(n)),
+       pt.cex =  c(rep(c(1, c(1:n) / 1.5), 2)), cex = .75, ncol = 2)
+
+</code></pre>
+
+
+</div>

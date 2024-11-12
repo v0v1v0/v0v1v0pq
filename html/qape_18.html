@@ -1,0 +1,72 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>invData</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Population data - investments in Poland at NUTS 4 level
+</h2>
+
+<h3>Description</h3>
+
+<p>A data frame with 2280 observations on 6 variables presented below.</p>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>year</code></td>
+<td>
+<p>year.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>NUTS4</code></td>
+<td>
+<p>NUTS 4 code (powiats).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>NUTS2</code></td>
+<td>
+<p>NUTS 2 code (voivodships).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>NUTS4type</code></td>
+<td>
+<p>type of NUTS 4 (1 - land counties, 2 - city counties/cities with powiat status).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>investments</code></td>
+<td>
+<p>investment outlays in millions PLN, in current prices; data concern Polish economic entities, including independent health care facilities and cultural institutions with legal personalities in which the number of employed persons exceeds 9 (source of data: Annual survey of the economic activity of enterprises conducted by Statistics Poland).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>newly_registered</code></td>
+<td>
+<p>newly registered entities of the national economy recorded in the REGON register (in thousands).</p>
+</td>
+</tr>
+</table>
+<h3>Source</h3>
+
+<p>Statistics Poland, https://bdl.stat.gov.pl/eng
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(invData)
+hist(invData$newly_registered[invData$year==2018])
+boxplot(invData$investments~invData$year)
+boxplot(invData$investments[invData$year==2018]~invData$NUTS2[invData$year==2018])
+boxplot(invData$investments[invData$year==2018]~invData$NUTS4type[invData$year==2018])
+</code></pre>
+
+
+</div>

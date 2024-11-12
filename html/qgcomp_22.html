@@ -1,0 +1,152 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>pointwisebound.noboot</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Estimating pointwise comparisons for qgcomp.glm.noboot objects</h2>
+
+<h3>Description</h3>
+
+<p>Calculates: expected outcome (on the link scale), mean difference (link scale)
+and the standard error of the mean difference (link scale) for pointwise comparisons
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">pointwisebound.noboot(x, alpha = 0.05, pointwiseref = 1)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>"qgcompfit" object from <code>qgcomp.glm.noboot</code>,</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>alpha</code></td>
+<td>
+<p>alpha level for confidence intervals</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pointwiseref</code></td>
+<td>
+<p>referent quantile (e.g. 1 uses the lowest joint-exposure category as
+the referent category for calculating all mean differences/standard deviations)</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The comparison of interest following a qgcomp fit is often comparisons of model
+predictions at various values of the joint-exposures (e.g. expected outcome at all exposures
+at the 1st quartile vs. the 3rd quartile). The expected outcome at a given joint exposure
+and at a given level of non-exposure covariates (W=w) is
+given as E(Y|S,W=w), where S takes on integer values 0 to q-1. Thus, comparisons are of the type
+E(Y|S=s,W=w) - E(Y|S=s2,W=w) where s and s2 are two different values of the joint exposures (e.g. 0 and 2).
+This function yields E(Y|S,W=w) as well as E(Y|S=s,W=w) - E(Y|S=p,W=w) where s is any value of S and p is
+the value chosen via "pointwise ref" - e.g. for binomial variables this will equal the risk/
+prevalence difference at all values of S, with the referent category S=p-1. For the non-boostrapped
+version of quantile g-computation (under a linear model). Note that w is taken to be the referent level of covariates
+so that if meaningful values of E(Y|S,W=w) and E(Y|S=s,W=w) - E(Y|S=p,W=w) are desired,
+then it is advisable to set the referent levels of W to meaningful values. This
+can be done by, e.g. centering continuous age so that the predictions are made
+at the population mean age, rather than age 0.
+</p>
+<p>Note that function only works with standard "qgcompfit" objects from <code>qgcomp.glm.noboot</code> (so it doesn't work
+with zero inflated, hurdle, or Cox models)
+</p>
+<p>Variance for the overall effect estimate is given by:
+<code class="reqn">transpose(G) Cov(\beta)  G</code>
+</p>
+<p>Where the "gradient vector" G is given by
+</p>
+<p style="text-align: center;"><code class="reqn">G = [\partial(f(\beta))/\partial\beta_1 = 1,
+  ...,
+  \partial(f(\beta))/\partial\beta_3k= 1]
+  </code>
+</p>
+
+<p><code class="reqn">f(\beta) = \sum_i^p \beta_i</code>,  and <code class="reqn">\partial y/ \partial x</code> denotes
+the partial derivative/gradient. The vector G takes on values that equal the difference in quantiles of
+S for each pointwise comparison (e.g. for a comparison of the 3rd vs the 5th category,
+G is a vector of 2s)
+</p>
+<p>This variance is used to create pointwise confidence intervals via a normal approximation:
+(e.g. upper 95% CI = psi + variance*1.96)
+</p>
+
+
+<h3>Value</h3>
+
+<p>A data frame containing
+</p>
+
+<dl>
+<dt>hx: </dt>
+<dd>
+<p>The "partial" linear predictor <code class="reqn">\beta_0 + \psi\sum_j X_j^q w_j</code>, or the effect of the mixture + intercept after
+conditioning out any confounders. This is similar to the h(x) function in bkmr. This is not a full prediction of the outcome, but
+only the partial outcome due to the intercept and the confounders</p>
+</dd>
+<dt>rr/or/mean.diff: </dt>
+<dd>
+<p>The canonical effect measure (risk ratio/odds ratio/mean difference) for the marginal structural model link</p>
+</dd>
+<dt>se....: </dt>
+<dd>
+<p>the stndard error of the effect measure</p>
+</dd>
+<dt>ul..../ll....: </dt>
+<dd>
+<p>Confidence bounds for the effect measure</p>
+</dd>
+</dl>
+<h3>See Also</h3>
+
+<p><code>qgcomp.glm.noboot</code>, <code>pointwisebound.boot</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">set.seed(12)
+## Not run: 
+n = 100
+dat &lt;- data.frame(x1=(x1 &lt;- runif(n)), x2=(x2 &lt;- runif(n)), 
+                  x3=(x3 &lt;- runif(n)), z=(z &lt;- runif(n)),
+                  y=rnorm(n)+x1 + x2 - x3 +z)
+# linear model for continuous outcome
+ft &lt;- qgcomp.glm.noboot(y ~ z + x1 + x2 + x3, 
+       expnms=c('x1','x2','x3'), data=dat, q=10)
+ft2 &lt;- qgcomp.glm.boot(y ~ z + x1 + x2 + x3, 
+        expnms=c('x1','x2','x3'), data=dat, q=10)
+pointwisebound.noboot(ft, alpha=0.05, pointwiseref=3)
+pointwisebound.boot(ft2, alpha=0.05, pointwiseref=3)
+dat &lt;- data.frame(x1=(x1 &lt;- runif(n)), x2=(x2 &lt;- runif(n)), 
+                   x3=(x3 &lt;- runif(n)), z=(z &lt;- runif(n)),
+                  y=rbinom(n, 1, 1/(1+exp(-(x1 + x2 - x3 +z)))))
+# glms for binary outcome, centering covariate to a potentially more meaningful value
+dat$zcen = dat$z - mean(dat$z)
+ft &lt;- qgcomp.glm.noboot(y ~ zcen + x1 + x2 + x3, 
+        expnms=c('x1','x2','x3'), data=dat, q=10, family=binomial())
+ft2 &lt;- qgcomp.glm.boot(y ~ zcen + x1 + x2 + x3, 
+        expnms=c('x1','x2','x3'), data=dat, q=10, family=binomial())
+pointwisebound.noboot(ft, alpha=0.05, pointwiseref=3)
+pointwisebound.boot(ft2, alpha=0.05, pointwiseref=3)
+dat$z = as.factor(sample(1:3, n, replace=TRUE))
+ftf &lt;- qgcomp.glm.noboot(y ~ zcen + x1 + x2 + x3, 
+       expnms=c('x1','x2','x3'), data=dat, q=10, family=binomial())
+pointwisebound.noboot(ftf, alpha=0.05, pointwiseref=3)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

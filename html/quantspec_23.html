@@ -1,0 +1,111 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>frequenciesValidator</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Validates if frequencies are Fourier frequencies from
+<code class="reqn">[0,\pi]</code>.</h2>
+
+<h3>Description</h3>
+
+<p>Validation of the parameter <code>freq</code> is perfomed in six steps:
+</p>
+
+<ol>
+<li>
+<p> Throw an error if parameter is not a vector or not numeric.
+</p>
+</li>
+<li>
+<p> Transform each element <code class="reqn">\omega</code> of the vector to
+<code class="reqn">[0,2\pi)</code>, by replacing it with
+<code class="reqn">\omega \, \mbox{mod} \, 2\pi</code>.
+</p>
+</li>
+<li>
+<p> Check whether all elements <code class="reqn">\omega</code> of the vector are
+Fourier frequency <code class="reqn">2 \pi j / T</code>, <code class="reqn">j \in Z</code>.
+If this is not
+the case issue a warning and round each frequency to the next
+Fourier frequency of the mentioned type; the smaller one, if
+there are two.
+</p>
+</li>
+<li>
+<p> Transform each element <code class="reqn">\omega</code> with
+<code class="reqn">\pi &lt; \omega &lt; 2\pi</code> of the vector to
+<code class="reqn">[0,\pi]</code>, by replacing it with
+<code class="reqn">2\pi - \omega</code>.
+</p>
+</li>
+<li>
+<p> Check for doubles and remove all but the first appearance.
+</p>
+</li>
+<li>
+<p> Sort in ascending order.
+</p>
+</li>
+</ol>
+<p>Any subset of the six steps can be chosen, but 1 should almost always be
+among the steps to be performed.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">frequenciesValidator(freq, N, steps = 1:6)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>freq</code></td>
+<td>
+<p>the vector of frequencies to be validated.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>N</code></td>
+<td>
+<p>the base of the Fourier frequencies against which the values in
+<code>freq</code> will be compared.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>steps</code></td>
+<td>
+<p>a vector containing a subset of <code class="reqn">\{1,2,3,4,5,6\}</code>, indicating
+which of the steps are to be performed.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Returns a vector of Fourier frequencies that is yield by the
+transformations described above.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">freq &lt;- 2*pi*c(3,2,5,8,9)/10
+
+res &lt;- frequenciesValidator(freq, N=10, steps=1:3)
+res * 10 / (2*pi) # Returns: [1] 3 2 5 8 9
+
+res &lt;- frequenciesValidator(freq, N=10, steps=1:4)
+res * 10 / (2*pi) # Returns: [1] 3 2 5 2 1
+
+res &lt;- frequenciesValidator(freq, N=10, steps=1:5)
+res * 10 / (2*pi) # Returns: [1] 3 2 5 1
+
+res &lt;- frequenciesValidator(freq, N=10, steps=1:6)
+res * 10 / (2*pi) # Returns: [1] 1 2 3 5
+</code></pre>
+
+
+</div>

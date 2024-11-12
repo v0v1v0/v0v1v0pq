@@ -1,0 +1,91 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>plot.comparegeno</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Plot genotype comparison</h2>
+
+<h3>Description</h3>
+
+<p>Plot the results of the comparison of all pairs of individuals'
+genotypes. A histogram of the proportion of matching genotypes, with
+tick marks at individual values below, via <code>rug</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'comparegeno'
+plot(x, breaks=NULL, main="",
+     xlab="Proportion matching genotypes", ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>An object of class <code>"comparegeno"</code>, as produced by
+<code>comparegeno</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>breaks</code></td>
+<td>
+<p>Passed to <code>hist</code>, with the default
+<code class="reqn">2 \sqrt{n}</code> where <code class="reqn">n</code> is the number of pairs of individuals.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>main</code></td>
+<td>
+<p>Title for the plot.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xlab</code></td>
+<td>
+<p>x-axis label for the plot.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Passed to <code>hist</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Creates a histogram with <code>hist</code> with ticks at
+individual values using <code>rug</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>None.</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Karl W Broman, <a href="mailto:broman@wisc.edu">broman@wisc.edu</a> </p>
+
+
+<h3>See Also</h3>
+
+ <p><code>comparegeno</code>, <code>summary.comparegeno</code> </p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(fake.f2)
+cg &lt;- comparegeno(fake.f2)
+plot(cg)
+</code></pre>
+
+
+</div>

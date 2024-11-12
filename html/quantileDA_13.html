@@ -1,0 +1,179 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>quantilecl</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+A function that applies the quantile classifier for a given set of quantile probabilities and selects the best quantile classifier in the training set.
+</h2>
+
+<h3>Description</h3>
+
+<p>The function applies the quantile classifier for a set of quantile probabilities and selects the optimal probability that minimize the misclassification rate in the training set. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">quantilecl(train, test, cl, theta = NULL, 
+cl.test = NULL, skew.correct="Galton")
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>train </code></td>
+<td>
+<p>A matrix of data (the training set) with observations in rows and variables in columns. It can be a matrix or a dataframe.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>test </code></td>
+<td>
+<p>A matrix of data (the test set) with observations in rows and variables in columns. It can be a matrix or a dataframe.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cl </code></td>
+<td>
+
+<p>A vector of class labels for each sample of the training set.  It can be factor or numerical.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>theta </code></td>
+<td>
+<p> A vector of quantile probabilities (optional) </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cl.test </code></td>
+<td>
+<p> If available, a vector of class labels for each sample of the test set (optional)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>skew.correct </code></td>
+<td>
+<p> Skewness measures applied to correct the skewness direction of the variables. The possibile choices are: Galton's skewness (default), Kelley's skewness and the conventional skewness index based on the third standardized moment</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p><code>quantile_cl</code> carries out the quantile classifier for a set of quantile probabilities and selects the optimal probability that minimize the misclassification rate in the training set. The values of the quantile probabilities can be given in input or automatically selected in a equispaced range of 49 values between 0 and 1. The data in the training and test samples are preprocessed so that the variables used for the quantile estimator all have the same (positive) direction of skewness according to different measures of skewness: Galton's skewness, Kelley's skewness or conventional skewness index.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list with components
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>train.rates </code></td>
+<td>
+<p>Misclassification errors for each quantile probability in the training set</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>test.rates </code></td>
+<td>
+<p>Misclassification errors for each quantile probability in the test set</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>thetas </code></td>
+<td>
+<p>The list of optimal quantile probabilities for each variable</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>theta.choice </code></td>
+<td>
+<p>The quantile probability that gives the less misclassification error in the training set</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>me.train </code></td>
+<td>
+<p>Misclassification error in the training set</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>me.test </code></td>
+<td>
+<p>Misclassification error in the test set (only if <code>cl.test</code> is available)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>train </code></td>
+<td>
+<p>The matrix of data (training set) with observations in rows and variables in columns</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>test </code></td>
+<td>
+<p>The matrix of data (test set) with observations in rows and variables in columns</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cl.train </code></td>
+<td>
+<p>Predicted classification in the training set</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cl.test </code></td>
+<td>
+<p>Predicted classification in the test set</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cl.train.0 </code></td>
+<td>
+<p>The true classification labels in the training set</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cl.test.0 </code></td>
+<td>
+<p>The true classification labels in the test set (if available)</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Christian Hennig, Cinzia Viroli</p>
+
+
+<h3>See Also</h3>
+
+<p>See Also <code>quantilecl.vw</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(ais)
+x=ais[,3:13]
+cl=as.double(ais[,1])
+set.seed(22)
+index=sample(1:202,152,replace=FALSE)
+train=x[index,]
+test=x[-index,]
+cl.train=cl[index]
+cl.test=cl[-index]
+out.q=quantilecl(train,test,cl.train,cl.test=cl.test)
+out.q$me.test
+print(out.q)
+plot(out.q)
+</code></pre>
+
+
+</div>

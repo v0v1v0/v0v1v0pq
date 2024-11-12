@@ -1,0 +1,136 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>R Factor Utilities</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>R Factor Utilities</h2>
+
+<h3>Description</h3>
+
+<p>Utilities to manipulate R factors, extending the ones in <code>regtools.</code>
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">levelCounts(data)
+dataToTopLevels(data,lowCountThresholds)
+factorToTopLevels(f,lowCountThresh=0)
+cartesianFactor(dataName,factorNames,fNameSep = ".")
+qeRareLevels(x, yName, yesYVal = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>A data frame or equivalent.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>f</code></td>
+<td>
+<p>An R factor.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lowCountThresh</code></td>
+<td>
+<p>Factor levels will counts below this value will
+not be used for this factor.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lowCountThresholds</code></td>
+<td>
+<p>An R list of column names and their
+corresponding values of <code>lowCountThresh</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dataName</code></td>
+<td>
+<p>A quoted name of a data frame or equivalent.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>factorNames</code></td>
+<td>
+<p>A vector of R factor names.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fNameSep</code></td>
+<td>
+<p>A character to be used as a delimiter in the names of
+the levels of the output factor.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>A data frame.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>yName</code></td>
+<td>
+<p>Quoted name of the response variable.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>yesYVal</code></td>
+<td>
+<p>In the case of binary Y, the factor level to 
+be considered positive.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Often one has an R factor in which one or more levels are rare in the
+data.  This could cause problems, say in performing cross-validation; a
+level in the test set might be "new," not having appeared in the
+training set.  Toward this end, <code>factorToTopLevels</code> will remove
+rare levels from a factor; <code>dataToTopLevels</code> applies this to an
+entire data frame.
+</p>
+<p>Also toward this end, the function <code>levelCounts</code> simply applies
+<code>table()</code> to each column of <code>data</code>, returning the result as an
+R list. (If more than 10 levels, it returns NA.
+</p>
+<p>The function <code>cartesianFactor</code> generates a "superfactor" from
+individual ones; e.g. if factors f1 and f2 have n1 and n2 levels, the
+output is a new factor with n1 * n2 levels.
+</p>
+<p>The function <code>qeRareLevels</code> checks all columns in a data frame in
+terms of being an R factor with rare levels.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Norm Matloff
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+data(svcensus)
+levelCounts(svcensus)  # e.g. finds there are 15182 men, 4908 women
+f1 &lt;- svcensus$gender  # 2 levels
+f2 &lt;- svcensus$occ  # 6 levels
+z &lt;- cartesianFactor('svcensus',c('gender','occ'))
+head(z)
+# [1] female.102 male.101   female.102 male.100   female.100 male.100  
+# 12 Levels: female.100 female.101 female.102 female.106 ... male.141
+
+</code></pre>
+
+
+</div>

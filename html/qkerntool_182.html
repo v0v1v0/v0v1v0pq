@@ -1,0 +1,122 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qkLLE-class</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Class "qkLLE"</h2>
+
+<h3>Description</h3>
+
+<p> The qKernel Locally Linear Embedding class</p>
+
+
+<h3>Objects of class "qkLLE"</h3>
+
+<p>Objects can be created by calls of the form <code>new("qkLLE", ...)</code>.
+or by calling the <code>qkLLE</code> function.
+</p>
+
+
+<h3>Slots</h3>
+
+
+<dl>
+<dt>
+<code>prj</code>:</dt>
+<dd>
+<p>Object of class <code>"matrix"</code> containing the reduced input data</p>
+</dd>
+<dt>
+<code>dims</code>:</dt>
+<dd>
+<p>Object of class <code>"numeric"</code> containing the
+dimension of the target space (default 2)</p>
+</dd>
+<dt>
+<code>eVal</code>:</dt>
+<dd>
+<p>Object of class <code>"vector"</code> containing the corresponding eigenvalues</p>
+</dd>
+<dt>
+<code>eVec</code>:</dt>
+<dd>
+<p>Object of class <code>"matrix"</code> containing the corresponding eigenvectors</p>
+</dd>
+</dl>
+<h3>Methods</h3>
+
+
+<dl>
+<dt>prj</dt>
+<dd>
+<p><code>signature(object = "qkLLE")</code>: returns the reduced input data</p>
+</dd>
+<dt>dims</dt>
+<dd>
+<p><code>signature(object = "qkLLE")</code>: returns the 
+dimension </p>
+</dd>
+<dt>eVal</dt>
+<dd>
+<p><code>signature(object = "qkLLE")</code>: returns the 
+eigenvalues</p>
+</dd>
+<dt>eVec</dt>
+<dd>
+<p><code>signature(object = "qkLLE")</code>: returns the 
+eigenvectors </p>
+</dd>
+<dt>xmatrix</dt>
+<dd>
+<p><code>signature(object = "qkLLE")</code>: returns the used
+data matrix </p>
+</dd>  
+<dt>kcall</dt>
+<dd>
+<p><code>signature(object = "qkLLE")</code>: returns the
+performed call</p>
+</dd>
+<dt>cndkernf</dt>
+<dd>
+<p><code>signature(object = "qkLLE")</code>: returns the used
+kernel function</p>
+</dd>
+</dl>
+<h3>Author(s)</h3>
+
+<p>Yusen Zhang<br><a href="mailto:yusenzhang@126.com">yusenzhang@126.com</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code>qkernel-class</code>, 
+<code>cndkernel-class</code> 
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">  ## S4 method for signature 'matrix'
+data(iris)
+testset &lt;- sample(1:150,20)
+train &lt;- as.matrix(iris[-testset,-5])
+labeltrain&lt;- as.integer(iris[-testset,5])
+test &lt;- as.matrix(iris[testset,-5])
+plot(train ,col=labeltrain, xlab="1st Principal Component",ylab="2nd Principal Component")
+# ratibase(c=1,q=0.8)
+d_low &lt;- qkLLE(train, kernel = "ratibase", qpar = list(c=1,q=0.8), dims=2, k=5)
+#plot the data projection on the components
+plot(prj(d_low),col=labeltrain,xlab="1st Principal Component",ylab="2nd Principal Component")
+
+## S4 method for signature 'qkernmatrix'
+# ratibase(c=0.1,q=0.8)
+qkfunc &lt;- ratibase(c=0.1,q=0.8)
+ktrain1 &lt;- qkernmatrix(qkfunc,train)
+d_low &lt;- qkLLE(ktrain1, dims = 2, k=5)
+#plot the data projection on the components
+plot(prj(d_low),col=labeltrain,xlab="1st Principal Component",ylab="2nd Principal Component")
+  </code></pre>
+
+
+</div>

@@ -1,0 +1,89 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qsammon-class</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Class "qsammon"</h2>
+
+<h3>Description</h3>
+
+<p> The qKernel Sammon Mapping class</p>
+
+
+<h3>Objects of class "qsammon"</h3>
+
+<p>Objects can be created by calls of the form <code>new("qsammon", ...)</code>.
+or by calling the <code>qsammon</code> function.
+</p>
+
+
+<h3>Slots</h3>
+
+
+<dl>
+<dt>
+<code>dimRed</code>:</dt>
+<dd>
+<p>Object of class <code>"matrix"</code> containing the
+matrix whose rows are embedded observations </p>
+</dd>
+<dt>
+<code>cndkernf</code>:</dt>
+<dd>
+<p>Object of class <code>"function"</code> containing
+the kernel function used</p>
+</dd>
+<dt>
+<code>kcall</code>:</dt>
+<dd>
+<p>Object of class <code>"ANY"</code> containing the
+function call </p>
+</dd>
+</dl>
+<h3>Methods</h3>
+
+
+<dl>
+<dt>dimRed</dt>
+<dd>
+<p><code>signature(object = "qsammon")</code>: returns the matrix whose rows are embedded observations </p>
+</dd>
+<dt>kcall</dt>
+<dd>
+<p><code>signature(object = "qsammon")</code>: returns the
+performed call</p>
+</dd>
+<dt>cndkernf</dt>
+<dd>
+<p><code>signature(object = "qsammon")</code>: returns the used
+kernel function</p>
+</dd>
+</dl>
+<h3>Author(s)</h3>
+
+<p>Yusen Zhang<br><a href="mailto:yusenzhang@126.com">yusenzhang@126.com</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code>qsammon</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">  data(iris)
+  train &lt;- as.matrix(iris[,1:4])
+  labeltrain&lt;- as.integer(iris[,5])
+  ## S4 method for signature 'matrix'
+  qkpc &lt;- qsammon(train, kernel = "rbfbase", qpar = list(sigma = 0.5, q = 0.9),
+                   dims = 2, Initialisation = 'pca', MaxHalves = 50)
+
+  cndkernf(qkpc)
+  dimRed(qkpc)
+  kcall(qkpc)
+</code></pre>
+
+
+</div>

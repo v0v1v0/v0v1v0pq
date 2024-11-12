@@ -1,0 +1,358 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>fitQmapPTF</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Quantile mapping using parametric transformations
+</h2>
+
+<h3>Description</h3>
+
+<p><code>fitQmapPTF</code> fits a parametric transformations to the
+quantile-quantile relation of observed and modelled
+values. <code>doQmapPTF</code> uses the transformation to adjust the
+distribution of the modelled data to match the distribution of the
+observations. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">fitQmapPTF(obs, mod, ...)
+## Default S3 method:
+fitQmapPTF(obs, mod, transfun=c("power","linear","expasympt",
+"scale","power.x0","expasympt.x0"), wet.day=TRUE,
+cost=c("RSS","MAE"), qstep=0.001,opar,...)
+## S3 method for class 'matrix'
+fitQmapPTF(obs, mod, ...)
+## S3 method for class 'data.frame'
+fitQmapPTF(obs, mod, ...)
+
+doQmapPTF(x,fobj,...)
+## Default S3 method:
+doQmapPTF(x,fobj,...)
+## S3 method for class 'matrix'
+doQmapPTF(x,fobj,...)
+## S3 method for class 'data.frame'
+doQmapPTF(x,fobj,...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>obs</code></td>
+<td>
+
+<p><code>numeric</code> vector, column <code>matrix</code> or <code>data.frame</code>
+with observed time series. 
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mod</code></td>
+<td>
+
+<p><code>numeric</code> vector, column <code>matrix</code> or <code>data.frame</code>
+with modelled time series, corresponding to <code>obs</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>transfun</code></td>
+<td>
+
+<p>either a character string specifying a predefined function used for
+the transformation (see Details) or a function with <code>x</code> as
+first argument e.g. <code>function(x,a,b){a*x^b}</code>
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>wet.day</code></td>
+<td>
+   
+<p><code>logical</code> indicating whether to perform wet day correction or
+not. OR a <code>numeric</code> threshold below which all values are set to
+zero. See Details. 
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cost</code></td>
+<td>
+
+<p>Criterion for optimisation. "RSS" minimises the residual sum of
+squares and produces a least square fit. "MAE" minimises the mean
+absolute error, which is less sensitive to outliers. 
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qstep</code></td>
+<td>
+
+<p><code>NULL</code> or a numeric value between 0 and 1. See Details.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>opar</code></td>
+<td>
+
+<p>a named list with arguments passed to <code>optim</code>. Note that
+<code>method</code> is chosen automatically. If <code>transfun</code> is a
+character string  default values for <code>par</code> are available (but
+can be overwritten). See examples. 
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+
+<p><code>numeric</code> vector or a column <code>matrix</code> of modelled time
+series
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fobj</code></td>
+<td>
+
+<p>output from <code>fitQmapDIST</code>
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+
+<p>Further arguments passed to methods
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Before further computations the empirical cumulative distribution
+functions (CDF) of the observed (<code>obs</code>) and modelled (<code>mod</code>) are
+estimated. If <code>!is.null(qstep)</code> than <code>mod</code> and <code>obs</code>
+are aggregated to quantiles before model identification as:
+<code>quantile(x,probs=seq(0,1,by=qstep)</code>. If <code>!is.null(qstep)</code> 
+than <code>mod</code> and <code>obs</code> are sorted to produce an estimate of
+the empirical CDF. In case of different length of <code>mod</code> and
+<code>obs</code> than <code>quantile(x,probs=seq(0,1,len=n)]</code> is used, where
+<code>n &lt;- min(length(obs),length(mod))</code>. NOTE that large values of
+<code>qstep</code> effectively reduce the sample-size and can be used to
+speedup computations - but may render estimates less reliable.    
+</p>
+<p><code>wet.day</code> is intended for the use for precipitation data. Wet day
+correction  attempts to equalise the fraction of days with
+precipitation between the observed and the modelled data. If
+<code>wet.day=TRUE</code> the empirical probability of nonzero observations
+is found (<code>obs&gt;=0</code>) and the corresponding modelled value is
+selected as a threshold. All modelled  values below this threshold are
+set to zero. If <code>wet.day</code> is <code>numeric</code> the same procedure is
+performed after setting all <code>obs&lt;wet.day</code> to zero. The
+transformations are then only fitted to the portion of the
+distributions corresponding to observed wet days. See Piani et. al
+(2010) for further explanations.
+</p>
+<p><b>Transformations</b> (<code>transfun</code>):
+</p>
+<p>NOTE: If wet day correction is performed (see <code>wet.day</code>), the
+transformations are only fitted to the portion of the empirical CDF
+with nonzero observations. 
+</p>
+<p>A series of predefined transformations are available and can be
+accessed by setting <code>transfun</code> to one of the following options
+(<code class="reqn">P_o</code> refers to observed and <code class="reqn">P_m</code> to modelled CDFs):
+</p>
+<p><code>"power"</code>:
+
+</p>
+<p style="text-align: center;"><code class="reqn">P_o=b*P_m^c</code>
+</p>
+
+
+<p><code>"linear"</code>:
+
+</p>
+<p style="text-align: center;"><code class="reqn">P_o=a+b*P_m</code>
+</p>
+
+
+<p><code>"expasympt"</code> (exponential tendency to an asymptote):
+
+</p>
+<p style="text-align: center;"><code class="reqn">P_o=(a+b*P_m)*(1-exp(-P_m/\tau))</code>
+</p>
+
+
+<p><code>"scale"</code>:
+
+</p>
+<p style="text-align: center;"><code class="reqn">P_o=b*P_m</code>
+</p>
+
+
+<p><code>"power.x0"</code>:
+
+</p>
+<p style="text-align: center;"><code class="reqn">P_o=b*(P_m-x0)^c</code>
+</p>
+
+
+<p><code>"expasympt.x0"</code> (exponential tendency to an asymptote):
+
+</p>
+<p style="text-align: center;"><code class="reqn">P_o=(a+b*P_m)*(1-exp(-(P_m-x0)/\tau))</code>
+</p>
+
+
+
+
+<h3>Value</h3>
+
+ 
+<p><code>fitQmapPTF</code> returns an object of class <code>fitQmapPTF</code>
+containing following elements:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>tfun </code></td>
+<td>
+
+<p>The function used to transform the distribution of the modelled
+values to match the distribution of the observations. 
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>par </code></td>
+<td>
+
+<p>A matrix. The (named) columns correspond to the parameters
+of the transfer function. The rows correspond to pairs of time
+series in <code>obs</code> and <code>mod</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>wet.day</code></td>
+<td>
+
+<p><code>logical</code>, indicating whether to perform wet day correction or
+not. OR a <code>numeric</code> threshold below which all values are set to
+zero. 
+</p>
+</td>
+</tr>
+</table>
+<p><code>doQmapPTF</code> returns a <code>numeric</code> vector, <code>matrix</code> or
+<code>data.frame</code> depending on the format of <code>x</code>. 
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Lukas Gudmundsson
+</p>
+
+
+<h3>References</h3>
+
+<p>The implementation is closely related to the methods published in:
+</p>
+<p>Piani, C.; Weedon, G.; Best, M.; Gomes, S.; Viterbo, P.; Hagemann,
+S. &amp; Haerter, J. Statistical bias correction of global simulated daily
+precipitation and temperature for the application of hydrological
+models. Journal of Hydrology, 2010, 395, 199 -
+215, doi:10.1016/j.jhydrol.2010.10.024.
+</p>
+<p>Dosio, A. &amp; Paruolo, P. Bias correction of the ENSEMBLES
+high-resolution climate change projections for use by impact models:
+Evaluation on the present climate. J. Geophys. Res., AGU, 2011, 116,
+D16106, doi:10.1029/2011JD015934.
+</p>
+<p>For a general assessment of the methods see:
+</p>
+<p>Gudmundsson, L.; Bremnes, J. B.; Haugen, J. E. &amp; Engen-Skaugen,
+T. Technical Note: Downscaling RCM precipitation to the station scale
+using statistical transformations - a comparison of methods. Hydrology
+and Earth System Sciences, 2012, 16, 3383-3390,
+doi:10.5194/hess-16-3383-2012.   
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>fitQmap</code>, <code>optim</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(obsprecip)
+data(modprecip)
+
+## data.frame example
+qm.fit &lt;- fitQmapPTF(obsprecip,modprecip,
+                     transfun="power.x0",
+                     cost="RSS",wet.day=TRUE,
+                     qstep=0.001)
+qm &lt;- doQmapPTF(modprecip,qm.fit)
+
+## application to "single time series"
+qm.b.fit &lt;- fitQmapPTF(obsprecip[,1],modprecip[,1],
+                     transfun="expasympt.x0",
+                     cost="RSS",wet.day=0.1,
+                     qstep=0.001)
+qm.b &lt;- doQmapPTF(modprecip[,1],qm.b.fit)
+qm.c.fit &lt;- fitQmapPTF(obsprecip[,1],modprecip[,1],
+                     transfun="expasympt",
+                     cost="RSS",wet.day=TRUE,
+                     qstep=0.001)
+qm.c &lt;- doQmapPTF(modprecip[,1],qm.c.fit)
+
+## user defined transfer function
+## and usage of the 'opar' argument
+## (same as transfun="power")
+myff &lt;- function(x,a,b) a*x^b
+
+qm3.fit &lt;- fitQmapPTF(obsprecip[,1],modprecip[,1],
+                     transfun=myff,
+                     opar=list(par=c(a=1,b=1)),
+                     cost="RSS",wet.day=TRUE,
+                     qstep=0.001)
+qm3 &lt;- doQmapPTF(modprecip[,1],qm3.fit)
+
+
+sqrtquant &lt;- function(x,qstep=0.01){
+  qq &lt;- quantile(x,prob=seq(0,1,by=qstep))
+  sqrt(qq)
+}
+plot(sqrtquant(modprecip[,1]),
+     sqrtquant(obsprecip[,1]))
+lines(sqrtquant(modprecip[,1]),
+      sqrtquant(qm[,1]),col="red")
+lines(sqrtquant(modprecip[,1]),
+      sqrtquant(qm.b),col="blue")
+lines(sqrtquant(modprecip[,1]),
+      sqrtquant(qm.c),col="green")
+lines(sqrtquant(modprecip[,1]),
+      sqrtquant(qm3),col="orange")
+legend("topleft",
+       legend=c("power.x0","expasympt.x0",
+         "expasympt","myff"),
+       col=c("red","blue","green","orange"),lty=1)
+
+
+</code></pre>
+
+
+</div>

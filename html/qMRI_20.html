@@ -1,0 +1,147 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>MREdisplacement</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Calculate the motion induced signal phase for IR-MRE in biphasic material 
+</h2>
+
+<h3>Description</h3>
+
+<p>The function takes magnitude images and phase images (as NIfTI files) recordet with inversion <code>IT1=Inf</code> 
+and a second inversion time <code>IT2</code> that nulls the fluid signal. Tissue parameters (Relaxation rates)
+are extracted from an object of class <code>"IRmixed"</code> calculated from data of a related IRMRI experiment. </p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">MREdisplacement(MagnFiles1, PhaseFiles1, MagnFiles2, PhaseFiles2, TI2 = 2400,
+                IRmixobj, method = c("full", "approx"),rescale=FALSE,verbose=FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>MagnFiles1</code></td>
+<td>
+
+<p>Filenames of magnitude images recorded with inversion time <code>IT=Inf</code> .
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>PhaseFiles1</code></td>
+<td>
+
+<p>Filenames of phase images recorded with inversion time <code>IT=Inf</code> .
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>MagnFiles2</code></td>
+<td>
+
+<p>Filenames of magnitude images recorded with inversion time <code>IT=IT2</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>PhaseFiles2</code></td>
+<td>
+
+<p>Filenames of phase images recorded with inversion time <code>IT=IT2</code> .
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>TI2</code></td>
+<td>
+
+<p>Inversion time used for <code>MagnFiles2</code> and <code>PhaseFiles2</code>. <code>IT2</code> should be selected to
+extinguish the signal intendity for fluid.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>IRmixobj</code></td>
+<td>
+
+<p>Object of class <code>"IRmixed"</code> obtained from a related IRMRI experiment.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+
+<p>Either <code>"full"</code> or <code>"approx"</code>
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rescale</code></td>
+<td>
+
+<p>Logical, do we need to rescale phase images ? 
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+
+<p>Report scale range of phase images
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The first 4 arguments need to be vectors of filenames of identical length with files containing compatible 3D NIfTI images. Object <code>IRmixobj</code> needs to contain a components <code>segm</code> and <code>Rx</code> of compatible dimension that need to be registered to the MRE images.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list of class <code>"IRMREbiphasic"</code> with components
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>phisolid</code></td>
+<td>
+<p>displacement solid</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>phifluid</code></td>
+<td>
+<p>displacement fluid</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Karsten Tabelow <a href="mailto:tabelow@wias-berlin.de">tabelow@wias-berlin.de</a><br>
+J\"org Polzehl <a href="mailto:polzehl@wias-berlin.de">polzehl@wias-berlin.de</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>J. Polzehl and K. Tabelow (2023), Magnetic Resonance Brain Imaging:
+Modeling and Data Analysis Using R, 2nd Edition, Chapter 7, Springer, Use R! Series.
+&lt;doi:10.1007/978-3-031-38949-8_7&gt;.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>estimateIRfluid</code>, <code>estimateIRsolid</code>, <code>estimateIRsolidfixed</code>,<code>smoothIRSolid</code>
+</p>
+
+
+</div>

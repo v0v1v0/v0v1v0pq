@@ -1,0 +1,100 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>iplotMap</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Interactive genetic map plot</h2>
+
+<h3>Description</h3>
+
+<p>Creates an interactive graph of a genetic marker map.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">iplotMap(
+  map,
+  chr = NULL,
+  shift = FALSE,
+  horizontal = FALSE,
+  chartOpts = NULL,
+  digits = 5
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>map</code></td>
+<td>
+<p>Object of class '"map"', a list with each component
+being a vector of marker positions. You can also provide an object of
+class '"cross"', in which case the map is extracted with
+[qtl::pull.map()].</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>chr</code></td>
+<td>
+<p>(Optional) Vector indicating the chromosomes to plot.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>shift</code></td>
+<td>
+<p>If TRUE, shift each chromsome so that the initial marker
+is at position 0.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>horizontal</code></td>
+<td>
+<p>If TRUE, have chromosomes arranged horizontally</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>chartOpts</code></td>
+<td>
+<p>A list of options for configuring the chart.  Each
+element must be named using the corresponding option.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>digits</code></td>
+<td>
+<p>Round data to this number of significant digits
+before passing to the chart function. (Use NULL to not round.)</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>An object of class 'htmlwidget' that will
+intelligently print itself into HTML in a variety of contexts
+including the R console, within R Markdown documents, and within
+Shiny output bindings.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>[iplotScanone()], [iplotPXG()]
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(qtl)
+data(hyper)
+map &lt;- pull.map(hyper)
+
+iplotMap(map, shift=TRUE)
+
+</code></pre>
+
+
+</div>

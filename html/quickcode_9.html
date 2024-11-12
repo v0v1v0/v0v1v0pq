@@ -1,0 +1,141 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>add_key</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Add index  keys to a vector or data frame or list or matrix</h2>
+
+<h3>Description</h3>
+
+<p>Index a vector or lists and convert to a list of objects
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">add_key(vector)
+
+indexed(vector, key = key, value = value)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>vector</code></td>
+<td>
+<p>vector or data frame to transform</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>key</code></td>
+<td>
+<p>variable name for keys</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>value</code></td>
+<td>
+<p>variable name for values</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>This function takes a vector and turns it into a list containing 'key' and 'value' for each vector.
+This allows the output to be used in loops such as for loops or lapply or other functions to track
+the index of the list content e.g. 1,2,3...<br><br></p>
+<p>This function also contains a validator to ensure that a vector had not been previously 'keyed',
+which prevents the user from inadvertently calling the function twice on a vector. Helps especially
+because the function keys the vector, and sets the new list to the variable name of the original
+vector.
+</p>
+<p>This function takes a vector and turns it into a list containing 'key' and 'value' for each vector.
+This allows the output to be used in loops such as for loops or lapply or other functions to track
+the index of the list content e.g. 1,2,3...<br><br></p>
+<p>This function also contains a validator to ensure that a vector had not been previously 'keyed',
+which prevents the user from inadvertently calling the function twice on a vector. Helps especially
+because the function keys the vector, and sets the new list to the variable name of the original
+vector.
+</p>
+
+
+<h3>Value</h3>
+
+<p>a transformed list containing keys along with vector values
+</p>
+
+
+<h3>Use case</h3>
+
+<p>Efficient for loops and for tracking various steps through a vector contents
+</p>
+
+
+<h3>Note</h3>
+
+<p>add_key - resaves the keys and value pairs to original variable<br><br>
+indexed - return the keys and value pairs
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># EXAMPLES for add_key()
+
+
+#ex1 simple conversion of a vector
+rti2 &lt;- c("rpkg","obinna", "obianom")
+add_key(rti2)
+rti2
+
+#ex2 add keys to a vector content for use in downstream processes
+ver1 &lt;- c("Test 1","Test 2","Test 3")
+add_key(ver1)
+
+#ex3 use keyed ver1 in for loop
+for(i in ver1){
+  message(sprintf("%s is the key for this %s", i$key, i$value))
+}
+
+#ex4 use keyed ver1 in lapply loop
+xl1 &lt;- lapply(ver1,function(i){
+  message(sprintf("lapply - %s is the key for this %s", i$key, i$value))
+})
+
+
+# EXAMPLES for indexed()
+
+#ex1 simple conversion of a vector
+rti2 &lt;- c("rpkg","obinna", "obianom")
+indexed(rti2)
+
+#ex2 add keys to a vector content for use in downstream processes
+ver1 &lt;- c("Test 1","Test 2","Test 3")
+
+
+#ex3 use keyed ver1 in for loop
+for(i in indexed(ver1)){
+  message(sprintf("%s is the key for this %s", i$key, i$value))
+}
+
+#ex4 use keyed ver1 in for loop
+#specify name for key and value
+for(i in indexed(ver1,k,v)){
+  message(
+  sprintf("%s is the new key for this value %s",
+  i$k, i$v))
+}
+
+#ex5 use keyed ver1 in lapply loop
+xl1 &lt;- lapply(indexed(ver1),function(i){
+  message(sprintf("lapply - %s is the key for this %s", i$key, i$value))
+})
+
+
+</code></pre>
+
+
+</div>

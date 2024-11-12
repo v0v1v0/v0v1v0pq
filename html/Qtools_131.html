@@ -1,0 +1,107 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>summary.rrq</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Summary for Restricted Quantile Regression Models
+</h2>
+
+<h3>Description</h3>
+
+<p>This functions gives a summary list for a restricted quantile regression model.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'rrq'
+summary(object, alpha = 0.05, se = "boot", R = 50,
+	sim = "ordinary", stype = "i", ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+
+<p>an object of <code>class</code> <code>rrq</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>alpha</code></td>
+<td>
+
+<p>numeric value to determine the confidence level <code>(1-alpha)</code> of the required interval.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>se</code></td>
+<td>
+
+<p>specifies the method used to compute standard errors. Currently, bootstrap is the only method available.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>R</code></td>
+<td>
+
+<p>number of bootstrap replications.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sim</code></td>
+<td>
+
+<p>see argument <code>sim</code> in <code>boot</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>stype</code></td>
+<td>
+
+<p>see argument <code>stype</code> in <code>boot</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+
+<p>additional arguments for <code>boot</code> in package <code>boot</code>.
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>A bootstrap approach is used for inference. Future developments of this function will include asymptotic standard errors.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Marco Geraci
+</p>
+
+
+<h3>References</h3>
+
+<p>Canty A and Ripley B (2014). boot: Bootstrap R (S-Plus) Functions. R package version 1.3-15.
+</p>
+<p>Davison AC and Hinkley DV (1997). Bootstrap Methods and Their Applications. Cambridge University Press, Cambridge.
+</p>
+<p>He X (1997). Quantile Curves without Crossing. The American Statistician, 51(2), 186-192.
+</p>
+
+
+</div>

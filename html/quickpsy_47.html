@@ -1,0 +1,98 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>plotpar_</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Plot the values of the parameters</h2>
+
+<h3>Description</h3>
+
+<p><code>plotpar_</code> is the standard evaluation SE function associated
+to the non-standard evaluation NSE function <code>plotpar</code>.
+<a href="http://adv-r.had.co.nz/Computing-on-the-language.html">SE functions can be more easily called from other functions.</a>
+In SE functions, you need to quote the names of the variables.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">plotpar_(qp, x = NULL, panel = NULL, xpanel = NULL, ypanel = NULL,
+  color = NULL, geom = "bar", ci = T)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>qp</code></td>
+<td>
+<p>output from quickpsy.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>Name of the variable to displayed in the x-axis.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>panel</code></td>
+<td>
+<p>Name of the variable to be split in panels.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xpanel</code></td>
+<td>
+<p>Name of the variable to be split in horizontal panels.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ypanel</code></td>
+<td>
+<p>Name of the variable to be split in vertical panels.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>color</code></td>
+<td>
+<p>Name of the variable codded by color.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>geom</code></td>
+<td>
+<p>If <code>'bar'</code> displays bars.
+If <code>'point'</code> displays points (default is <code>'bar'</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ci</code></td>
+<td>
+<p>If <code>FALSE</code> confidence intervals are not plotted
+(default is <code>TRUE</code>).</p>
+</td>
+</tr>
+</table>
+<h3>See Also</h3>
+
+<p><code>plotpar</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(MPDiR) # contains the Vernier data
+fit &lt;- quickpsy(Vernier, Phaseshift, NumUpward, N,
+                grouping = .(Direction, WaveForm, TempFreq), bootstrap = 'none')
+
+plotpar_(fit, x = 'WaveForm')
+plotpar_(fit, xpanel = 'Direction')
+plotpar_(fit, color = 'Direction')
+plotpar_(fit, color = 'Direction', ypanel = 'WaveForm', geom = 'point')
+</code></pre>
+
+
+</div>

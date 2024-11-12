@@ -1,0 +1,83 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>startbernexp</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Rough parameter estimate for the Bernoulli-Exponential distribution
+</h2>
+
+<h3>Description</h3>
+
+<p>Estimates rough starting values for the Bernoulli-Exponential distribution
+using the method of moments for the <code>rate</code> parameter. The
+probability of non-zero events is estimated as the fraction of values
+that are larger than zero. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">startbernexp(x)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+
+<p>numeric vector.
+</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>A list containing:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>prob</code></td>
+<td>
+<p>probability of non-zero event.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rate</code></td>
+<td>
+<p>rate parameter of the Exponential distribution.</p>
+</td>
+</tr>
+</table>
+<h3>Note</h3>
+
+<p>In this package <code>startbernexp</code> is intended to be used in
+conjunction with <code>fitQmapDIST</code> (and <code>mledist</code>)
+with parameter <code>distr="bernexp"</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Lukas Gudmundsson
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>fitQmapDIST</code>, <code>bernexp</code>,
+<code>fitdist</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">gg &lt;- rbernexp(n=300, prob=0.2, rate=1)
+startbernexp(gg)
+mledist(gg,"bernexp",startbernexp(gg))
+</code></pre>
+
+
+</div>

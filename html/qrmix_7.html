@@ -1,0 +1,115 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>summary.qrmix</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Summarizing qrmix Fits
+</h2>
+
+<h3>Description</h3>
+
+<p><code>summary</code> method for class <code>"qrmix"</code>
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'qrmix'
+summary(object, fitMethod=NULL, data=NULL, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>an object of class <code>"qrmix"</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fitMethod</code></td>
+<td>
+<p>an optional refitting method if the user wants a method different than the one used to obtain <code>"object"</code> Use <code>"lm"</code> for OLS, <code>"rlm"</code> for robust regression, and <code>"rq"</code> to use fit from quantile regression.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>data used to fit <code>object</code> if it is not contained in <code>object</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>other argumets passed to other methods.
+</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>residuals </code></td>
+<td>
+<p>the residuals, response minus fitted values.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>clusters </code></td>
+<td>
+<p>cluster assignment for each observation.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>call </code></td>
+<td>
+<p>the matched call.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fitMethod </code></td>
+<td>
+<p>the fitting method used to obtain <code>residuals</code> and <code>clusters</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>quantiles </code></td>
+<td>
+<p>the set of k quantiles that minimize the mean loss.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>clusters# </code></td>
+<td>
+<p>generic summary from function <code>fitMethod</code> for data in cluster #.</p>
+</td>
+</tr>
+</table>
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+data(blood.pressure)
+
+#qrmix model using default function values:
+mod1 = qrmix(bmi ~ ., data = blood.pressure, k = 3)
+
+#summary using fitMethod = "rlm" instead of the one used when fitting the model mod1
+summary1 = summary(mod1, fitMethod = "rlm")
+
+#Are the quantiles selected in this case the same as in the original model?
+summary1$quantiles
+mod1$quantiles
+
+
+
+</code></pre>
+
+
+</div>

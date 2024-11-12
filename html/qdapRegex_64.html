@@ -1,0 +1,70 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>grab</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Grab Regular Expressions from Dictionaries</h2>
+
+<h3>Description</h3>
+
+<p>convenience function to
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">grab(pattern, dictionary = getOption("regex.library"))
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>pattern</code></td>
+<td>
+<p>A character string starting with <code>"@"</code> that is a regular 
+expression from a <span class="pkg">qdapRegex</span> dictionary.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dictionary</code></td>
+<td>
+<p>A dictionary of canned regular expressions to search within.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Many R regular expressions contain doubled backslashes that are not 
+used in other regex interpreters.  Using <code>cat</code> can remove 
+backslash escapes (see <b>Examples</b>) or <code>URLencode</code>
+if using in a url.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns a single string regular expression from one of the 
+<span class="pkg">qdapRegex</span> dictionaries.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">grab("@rm_white")
+## Not run: 
+## Throws an error
+grab("@foo")
+
+## End(Not run)
+cat(grab("@pages2"))
+## Not run: 
+cat(grab("@pages2"), file="clipboard")
+
+## End(Not run)
+</code></pre>
+
+
+</div>

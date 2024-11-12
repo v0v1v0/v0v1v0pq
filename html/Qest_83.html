@@ -1,0 +1,265 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>Qlm</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Q-Estimation of Linear Regression Models
+</h2>
+
+<h3>Description</h3>
+
+<p>Use Q-estimation to fit a Normal model in which the mean is a linear function of the predictors, and the variance is constant.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">Qlm(formula, data, subset, weights, na.action, start = NULL, contrasts = NULL,
+  wtau = NULL, control = Qest.control(), ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>formula</code></td>
+<td>
+
+<p>an object of class “formula” (or one that can be coerced to that class): a symbolic description of the model to be fitted.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+
+<p>an optional data frame, list or environment (or object coercible by <code>as.data.frame</code> to a data frame) containing the variables in the model. If not found in data, the variables are taken from <code>environment(formula)</code>, typically the environment from which <code>Qlm</code> is called.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>subset</code></td>
+<td>
+
+<p>an optional vector specifying a subset of observations to be used in the fitting process.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>weights</code></td>
+<td>
+
+<p>an optional vector of weights to be used in the fitting process. The weights will always be normalized to sum to the sample size. This implies that, for example, using double weights will <em>not</em> halve the standard errors.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>na.action</code></td>
+<td>
+
+<p>a function which indicates what should happen when the data contain <code>NA</code>s. See <code>lm</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>start</code></td>
+<td>
+
+<p>optional starting values for the regression coefficients.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>contrasts</code></td>
+<td>
+
+<p>an optional list. See the <code>contrasts.arg</code> of <code>model.matrix.default</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>wtau</code></td>
+<td>
+
+<p>an optional function that assigns a different weight to each quantile. By default, all quantiles in (0,1) have the same weight. Please check the documentation of <code>wtrunc</code> for built-in weighting functions.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>control</code></td>
+<td>
+
+<p>a list of operational parameters. See <code>Qest.control</code> for details.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+
+<p>additional arguments for <code>wtau</code>.
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>This function is used exactly as <code>lm</code>, but estimates the model parameters as in <code>Qest</code>. Using Q-estimation allows to obtain outlier-robust estimators of the regression coefficients. The optional argument <code>wtau</code> permits assigning a different weight to each quantile in (0,1). It is possible to choose <code>wtau</code> to be a discontinuous function (e.g., <code>wtau = function(tau){tau &lt; 0.95}</code>). However, this may occasionally result in poorly estimated of the standard errors.
+</p>
+<p>Note that <code>Qlm</code>, like <code>lm</code>, does not support censored or truncated data.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Qlm returns an object of classes “Qlm”, “lm”, and “Qest”.
+The generic accessor functions <code>summary</code>, <code>coefficients</code>, <code>fitted.values</code>, and <code>residuals</code> can be used to extract infromation from a “Qlm” object.
+</p>
+<p>An object of class “Qlm” is a list containing at least the following elements:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>coefficients</code></td>
+<td>
+<p>a named vector of coefficients.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>std.errs</code></td>
+<td>
+<p>a named vector of standard errors.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>covar</code></td>
+<td>
+<p>the estimated covariance matrix of the estimators.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dispersion</code></td>
+<td>
+<p>the estimated dispersion parameter (residual variance).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>residuals</code></td>
+<td>
+<p>the working residuals.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rank</code></td>
+<td>
+<p>the estimated degrees of freedom.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fitted.values</code></td>
+<td>
+<p>the fitted values.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>df.residual</code></td>
+<td>
+<p>the residual degrees of freedom.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>obj.function</code></td>
+<td>
+<p>the value of the minimized loss function.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gradient</code></td>
+<td>
+<p>the first derivatives of the minimized loss function.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>hessian</code></td>
+<td>
+<p>the matrix of second derivatives of the minimized loss function.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>convergence</code></td>
+<td>
+<p>logical. The convergence status.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n.it</code></td>
+<td>
+<p>the number of iterations.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>control</code></td>
+<td>
+<p>control parameters.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xlevels</code></td>
+<td>
+<p>(only where relevant) a record of the levels of the factors used in fitting.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>call</code></td>
+<td>
+<p>the matched call.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>terms</code></td>
+<td>
+<p>the “terms” object used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>model</code></td>
+<td>
+<p>if requested (the default), the model frame used.</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Gianluca Sottile &lt;gianluca.sottile@unipa.it&gt;, Paolo Frumento &lt;paolo.frumento@unipi.it&gt;
+</p>
+
+
+<h3>References</h3>
+
+<p>Sottile G, and Frumento P (2022). <em>Robust estimation and regression with parametric quantile functions.</em> Computational Statistics and Data Analysis. &lt;doi:10.1016/j.csda.2022.107471&gt;
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>Qest</code>, for general Q-estimation.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">set.seed(1234)
+n &lt;- 100
+x1 &lt;- rnorm(n)
+x2 &lt;- runif(n,0,3)
+theta &lt;- c(1,4,1,2)
+y &lt;- rnorm(n, 4 + x1 + 2*x2, 1)
+
+m1 &lt;- Qlm(y ~ x1 + x2)
+summary(m1)
+</code></pre>
+
+
+</div>

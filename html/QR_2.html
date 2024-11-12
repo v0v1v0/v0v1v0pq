@@ -1,0 +1,110 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>QRcomp</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>QR factorization without pivoting</h2>
+
+<h3>Description</h3>
+
+<p>This function performs QR factorization without pivoting to a complex matrix A.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">QRcomp(A, complete = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>A</code></td>
+<td>
+<p>a complex matrix whose QR decomposition is to be computed.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>complete</code></td>
+<td>
+<p>boolean that indicates if the R matrix should be completed with 0s
+to its full rank.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>This method is an alternative to the default qr function of base R.
+The default function returns a pivoted solution in many cases, which is
+not always the desired solution. In this function, we returned the unpivoted
+solution for the QR factorization using the LAPACK routine ZGEQRF. This function
+works with real and complex matrices.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns a list with the following components:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>qr</code></td>
+<td>
+<p>a matrix with the same dimensions as A. The upper triangle contains
+the <b>R</b> of the decomposition and the lower triangle contains information
+on the <b>Q</b> of the decomposition (stored in compact form).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qraux</code></td>
+<td>
+<p>a vector of length ncol(A) which contains additional
+information on <b>Q</b>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Q</code></td>
+<td>
+<p>an orthogonal matrix such that Q*R is the input matrix.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>R</code></td>
+<td>
+<p>an upper triangular matrix such that Q*R is the input matrix.</p>
+</td>
+</tr>
+</table>
+<h3>Source</h3>
+
+<p>LAPACK routine ZGEQRF is used for the QR factorization without pivoting.
+</p>
+
+
+<h3>References</h3>
+
+<p>Anderson. E. and ten others (1999) LAPACK Users' Guide. Third Edition. SIAM.
+Available on-line at http://www.netlib.org/lapack/lug/lapack_lug.html.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+set.seed(2)
+A&lt;-matrix(c(complex(real=1,imaginary = 1),
+complex(real=3,imaginary = -2), complex(real=2,imaginary = 1),
+complex(real=0,imaginary = 3)),2,2)
+qres&lt;-QRcomp(A)
+
+#Inspect the main results of the factorization:
+qres$Q
+qres$R
+
+</code></pre>
+
+
+</div>

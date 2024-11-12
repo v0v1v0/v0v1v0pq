@@ -1,0 +1,67 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>QAOA_maxcut</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>QAOA_maxcut</h2>
+
+<h3>Description</h3>
+
+<p>Takes a connection matrix as input and converts it to a set of clauses, then runs the Quantum Approximation Optimization Algorithm (Farhi, Goldstone, and Gutmann 2014) &lt;arXiv:1411.4028&gt;. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">QAOA_maxcut(connectionMatrix,p=1,gamma=pi/p,beta=pi/(2*p),displayProgress=FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>connectionMatrix</code></td>
+<td>
+<p> Matrix that specifies the edges between nodes. Rows are source nodes and columns are destination nodes. Value of 0 means no edge, value of 1 means edge. If edge is undirected, an edge should be specified going both directions. </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p</code></td>
+<td>
+<p> Number of iterations that algorithm will run. Each iteration applies U(C,g) and U(B,b)  </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gamma</code></td>
+<td>
+<p>Angle for U(C,g), currently the same for all iterations. Should be between 0 and 2*pi</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>beta</code></td>
+<td>
+<p>Angle for U(B,b), currently the same for all iterations. Should be between 0 and pi</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>displayProgress</code></td>
+<td>
+<p>Boolean which specifies if progress should be shown. If TRUE, a bar plot is continually updated showing the amplitudes</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Ket after algorithm is applied
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"> QAOA_maxcut(randomConnectionMatrix(4,2),p=5)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,326 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qsammon</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>qKernel Sammon Mapping</h2>
+
+<h3>Description</h3>
+
+<p>The qkernel Sammon Mapping is an implementation for Sammon mapping, one of the earliest
+dimension reduction techniques that aims to find low-dimensional embedding
+that preserves pairwise distance structure in high-dimensional data space.
+qsammon is a nonlinear form of Sammon Mapping.</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">
+
+## S4 method for signature 'matrix'
+qsammon(x, kernel = "rbfbase", qpar = list(sigma = 0.5, q = 0.9),
+          dims = 2, Initialisation = 'random', MaxHalves = 20,
+          MaxIter = 500, TolFun = 1e-7, na.action = na.omit, ...)
+
+## S4 method for signature 'cndkernmatrix'
+qsammon(cndkernel, x, k, dims = 2, Initialisation = 'random',
+          MaxHalves = 20,MaxIter = 500, TolFun = 1e-7, ...)
+
+## S4 method for signature 'qkernmatrix'
+qsammon(qkernel, x, k, dims = 2, Initialisation = 'random',
+          MaxHalves = 20, MaxIter = 500, TolFun = 1e-7, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>the data matrix indexed by row or a kernel matrix of <code>cndkernmatrix</code> or <code>qkernmatrix</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>kernel</code></td>
+<td>
+<p>the kernel function used in training and predicting.
+This parameter can be set to any function, of class kernel, which computes a kernel function value between two
+vector arguments. qkerntool provides the most popular kernel functions
+which can be used by setting the kernel parameter to the following
+strings:
+</p>
+
+<ul>
+<li> <p><code>rbfbase</code> Radial Basis qkernel function "Gaussian"
+</p>
+</li>
+<li> <p><code>nonlbase</code> Non Linear qkernel function
+</p>
+</li>
+<li> <p><code>laplbase</code> Laplbase qkernel function
+</p>
+</li>
+<li> <p><code>ratibase</code> Rational Quadratic qkernel function
+</p>
+</li>
+<li> <p><code>multbase</code> Multiquadric qkernel function
+</p>
+</li>
+<li> <p><code>invbase</code> Inverse Multiquadric qkernel function
+</p>
+</li>
+<li> <p><code>wavbase</code> Wave qkernel function
+</p>
+</li>
+<li> <p><code>powbase</code> d qkernel function
+</p>
+</li>
+<li> <p><code>logbase</code> Log qkernel function
+</p>
+</li>
+<li> <p><code>caubase</code> Cauchy qkernel function
+</p>
+</li>
+<li> <p><code>chibase</code> Chi-Square qkernel function
+</p>
+</li>
+<li> <p><code>studbase</code> Generalized T-Student qkernel function
+</p>
+</li>
+<li> <p><code>nonlcnd</code> Non Linear cndkernel function
+</p>
+</li>
+<li> <p><code>polycnd</code> Polynomial cndkernel function
+</p>
+</li>
+<li> <p><code>rbfcnd</code> Radial Basis cndkernel function "Gaussian"
+</p>
+</li>
+<li> <p><code>laplcnd</code> Laplacian cndkernel function
+</p>
+</li>
+<li> <p><code>anocnd</code> ANOVA cndkernel function
+</p>
+</li>
+<li> <p><code>raticnd</code> Rational Quadratic cndkernel function
+</p>
+</li>
+<li> <p><code>multcnd</code> Multiquadric cndkernel function
+</p>
+</li>
+<li> <p><code>invcnd</code> Inverse Multiquadric cndkernel function
+</p>
+</li>
+<li> <p><code>wavcnd</code> Wave cndkernel function
+</p>
+</li>
+<li> <p><code>powcnd</code> d cndkernel function
+</p>
+</li>
+<li> <p><code>logcnd</code> Log cndkernel function
+</p>
+</li>
+<li> <p><code>caucnd</code> Cauchy cndkernel function
+</p>
+</li>
+<li> <p><code>chicnd</code> Chi-Square cndkernel function
+</p>
+</li>
+<li> <p><code>studcnd</code> Generalized T-Student cndkernel function
+</p>
+</li>
+</ul>
+<p>The kernel parameter can also be set to a user defined function of
+class kernel by passing the function name as an argument.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qpar</code></td>
+<td>
+<p>the list of hyper-parameters (kernel parameters).
+This is a list which contains the parameters to be used with the
+kernel function. Valid parameters for existing kernels are :
+</p>
+
+<ul>
+<li> <p><code>sigma, q</code>  for the Radial Basis qkernel function "rbfbase" , the Laplacian qkernel function "laplbase" and the Cauchy qkernel function "caubase".
+</p>
+</li>
+<li> <p><code>alpha, q</code> for the Non Linear qkernel function "nonlbase".
+</p>
+</li>
+<li> <p><code>c, q</code> for the Rational Quadratic qkernel function "ratibase" , the Multiquadric qkernel function "multbase" and the Inverse Multiquadric qkernel function "invbase".
+</p>
+</li>
+<li> <p><code>theta, q</code> for the Wave qkernel function "wavbase".
+</p>
+</li>
+<li> <p><code>d, q</code> for the d qkernel function "powbase" , the Log qkernel function "logbase" and the Generalized T-Student qkernel function "studbase".
+</p>
+</li>
+<li> <p><code>alpha</code> for the Non Linear cndkernel function "nonlcnd".
+</p>
+</li>
+<li> <p><code>d, alpha, c</code> for the Polynomial cndkernel function "polycnd".
+</p>
+</li>
+<li> <p><code>gamma</code> for the Radial Basis cndkernel function "rbfcnd" and the Laplacian cndkernel function "laplcnd" and the Cauchy cndkernel function "caucnd".
+</p>
+</li>
+<li> <p><code>d, sigma</code> for the ANOVA cndkernel function "anocnd".
+</p>
+</li>
+<li> <p><code>c</code> for the Rational Quadratic cndkernel function "raticnd" , the Multiquadric cndkernel function "multcnd" and the Inverse Multiquadric cndkernel function "invcnd".
+</p>
+</li>
+<li> <p><code>theta</code> for the Wave cndkernel function "wavcnd".
+</p>
+</li>
+<li> <p><code>d</code> for the d cndkernel function "powcnd" , the Log cndkernel function "logcnd" and the Generalized T-Student cndkernel function "studcnd".
+</p>
+</li>
+</ul>
+<p>Hyper-parameters for user defined kernels can be passed through the
+qpar parameter as well.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qkernel</code></td>
+<td>
+<p>the kernel function to be used to calculate the qkernel
+matrix.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cndkernel</code></td>
+<td>
+<p>the cndkernel function to be used to calculate the CND kernel
+matrix.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>k</code></td>
+<td>
+<p>the dimension of the original data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dims</code></td>
+<td>
+<p>Number of features to return. (default: 2)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Initialisation</code></td>
+<td>
+<p><code>"random"</code> or <code>"pca"</code>; the former performs
+fast random projection and the latter performs standard PCA  (default : <code>"random") </code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>MaxHalves</code></td>
+<td>
+<p>maximum number of step halvings. (default : 20) </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>MaxIter</code></td>
+<td>
+<p>the maximum number of iterations allowed. (default : 500)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>TolFun</code></td>
+<td>
+<p>relative tolerance on objective function. (default : 1e-7) </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>na.action</code></td>
+<td>
+<p>A function to specify the action to be taken if <code>NA</code>s are
+found. The default action is <code>na.omit</code>, which leads to rejection of cases
+with missing values on any required variable. An alternative
+is <code>na.fail</code>, which causes an error if <code>NA</code> cases
+are found. (NOTE: If given, this argument must be named.)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p> additional parameters</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Using kernel functions one can efficiently compute
+principal components in high-dimensional
+feature spaces, related to input space by some non-linear map.<br>
+The data can be passed to the <code>qsammon</code> function in a <code>matrix</code>, in addition <code>qsammon</code> also supports input in the form of a
+kernel matrix of class <code>qkernmatrix</code> or class <code>cndkernmatrix</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>dimRed</code></td>
+<td>
+<p>The matrix whose rows are embedded observations.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>kcall</code></td>
+<td>
+<p>The function call contained</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cndkernf</code></td>
+<td>
+<p>The kernel function used</p>
+</td>
+</tr>
+</table>
+<p>all the slots of the object can be accessed by accessor functions.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Yusen Zhang <br><a href="mailto:yusenzhang@126.com">yusenzhang@126.com</a></p>
+
+
+<h3>References</h3>
+
+<p>Sammon, J.W. (1969) <em>A Nonlinear Mapping for Data Structure Analysis</em>.
+IEEE Transactions on Computers, C-18 5:401-409.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>qkernmatrix</code>, <code>cndkernmatrix</code></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(iris)
+train &lt;- as.matrix(iris[,1:4])
+labeltrain&lt;- as.integer(iris[,5])
+## S4 method for signature 'matrix'
+kpc2 &lt;- qsammon(train, kernel = "rbfbase", qpar = list(sigma = 2, q = 0.9), dims = 2,
+                Initialisation = 'pca', TolFun = 1e-5)
+plot(dimRed(kpc2), col = as.integer(labeltrain))
+cndkernf(kpc2)
+
+
+</code></pre>
+
+
+</div>

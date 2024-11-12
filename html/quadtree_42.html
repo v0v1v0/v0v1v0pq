@@ -1,0 +1,58 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>n_cells</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Get the number of cells in a <code>Quadtree</code>
+</h2>
+
+<h3>Description</h3>
+
+<p>Returns the number of nodes/cells in the quadtree.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S4 method for signature 'Quadtree'
+n_cells(x, terminal_only = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a <code>Quadtree</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>terminal_only</code></td>
+<td>
+<p>boolean; if <code>TRUE</code> (the default) only the terminal
+nodes are counted. If <code>FALSE</code>, all nodes are counted, thereby giving the
+total number of nodes in the tree.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>a numeric
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(quadtree)
+habitat &lt;- terra::rast(system.file("extdata", "habitat.tif", package="quadtree"))
+
+qt &lt;- quadtree(habitat, .1)
+n_cells(qt)
+n_cells(qt, terminal_only = FALSE)
+</code></pre>
+
+
+</div>

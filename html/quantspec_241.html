@@ -1,0 +1,68 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>ts-models</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Functions to simulate from the time series models in Kley et. al (2016).</h2>
+
+<h3>Description</h3>
+
+<p>Functions to simulate from the time series models in Kley et. al (2016).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">ts1(n)
+
+ts2(n)
+
+ts3(n)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p>length of the time series to be returned</p>
+</td>
+</tr></table>
+<h3>Details</h3>
+
+<p><code>ts1</code> QAR(1) model from Dette et. al (2015).
+</p>
+<p><code>ts2</code> AR(2) model from Li (2012):
+</p>
+<p><code>ts3</code> ARCH(1) model from Lee and Subba Rao (2012):
+</p>
+
+
+<h3>References</h3>
+
+<p>Dette, H., Hallin, M., Kley, T. &amp; Volgushev, S. (2015).
+Of Copulas, Quantiles, Ranks and Spectra: an <code class="reqn">L_1</code>-approach to
+spectral analysis. <em>Bernoulli</em>, <b>21</b>(2), 781–831.
+[cf. <a href="http://arxiv.org/abs/1111.7205">http://arxiv.org/abs/1111.7205</a>]
+</p>
+<p>Li, T.-H. (2012). Quantile Periodograms.
+<em>Journal of the American Statistical Association</em>, <b>107</b>, 765–776.
+</p>
+<p>Lee, J., &amp; Subba Rao, S. (2012).
+The Quantile Spectral Density and Comparison based Tests for Nonlinear Time
+Series. <a href="http://arxiv.org/abs/1112.2759">http://arxiv.org/abs/1112.2759</a>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># Plot sample paths:
+plot(ts1(100), type="l")
+plot(ts2(100), type="l")
+plot(ts3(100), type="l")
+</code></pre>
+
+
+</div>

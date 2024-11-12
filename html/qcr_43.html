@@ -1,0 +1,57 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>pistonrings</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Piston rings data</h2>
+
+<h3>Description</h3>
+
+<p>Piston rings for an automotive engine are produced by a forging process.
+The inside diameter of the rings manufactured by the process is measured on
+25 samples, each of size 5, drawn from a process being considered 'in
+control'.
+</p>
+
+
+<h3>Format</h3>
+
+<p>A data frame with 200 observations on the following 3 variables.
+</p>
+ 
+<dl>
+<dt>diameter</dt>
+<dd>
+<p>a numeric vector</p>
+</dd>
+<dt>sample</dt>
+<dd>
+<p>sample ID</p>
+</dd>
+<dt>trial</dt>
+<dd>
+<p>trial sample indicator (TRUE/FALSE)</p>
+</dd>
+</dl>
+<h3>References</h3>
+
+<p>Montgomery, D.C. (1991) <em>Introduction to Statistical
+Quality Control</em>, 2nd ed, New York, John Wiley &amp; Sons, pp. 206–213
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+data(pistonrings)
+attach(pistonrings)
+summary(pistonrings)
+boxplot(diameter ~ sample)
+plot(sample, diameter, cex=0.7)
+lines(tapply(diameter,sample,mean))
+detach(pistonrings)
+</code></pre>
+
+
+</div>

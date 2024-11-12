@@ -1,0 +1,112 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>paretochart</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Paretochart</h2>
+
+<h3>Description</h3>
+
+<p>Creates a pareto chart from a categorical variable
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">paretochart(
+  x,
+  title = "",
+  subtitle = NULL,
+  caption = NULL,
+  ylab = NULL,
+  xlab = NULL,
+  x.angle = NULL,
+  useNA = FALSE,
+  print.data = FALSE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>Categorical variable to plot.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>title</code></td>
+<td>
+<p>Chart title.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>subtitle</code></td>
+<td>
+<p>Chart subtitle.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>caption</code></td>
+<td>
+<p>Chart caption.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ylab</code></td>
+<td>
+<p>Y axis label.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xlab</code></td>
+<td>
+<p>X axis label.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x.angle</code></td>
+<td>
+<p>Number indicating the angle of x axis labels.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>useNA</code></td>
+<td>
+<p>If TRUE, NA values will be included in the analysis.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>print.data</code></td>
+<td>
+<p>If TRUE, prints data frame with results.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>An object of class ggplot.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># Generate categorical vector
+x &lt;- rep(LETTERS[1:9], c(256, 128, 64, 32, 16, 8, 4, 2, 1))
+
+# Make paretochart
+paretochart(x)
+
+# Save paretochart object to variable
+p &lt;- paretochart(x)
+
+# Print data frame
+p$data
+
+</code></pre>
+
+
+</div>

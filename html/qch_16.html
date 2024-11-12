@@ -1,0 +1,74 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>prior_update_arma_ptr_parallel</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Update of the prior estimate in EM algo parallelized version</h2>
+
+<h3>Description</h3>
+
+<p>Update of the prior estimate in EM algo parallelized version
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">prior_update_arma_ptr_parallel(
+  Hconfig,
+  fHconfig_sum,
+  OldPrior,
+  Logf0Mat,
+  Logf1Mat,
+  threads_nb = 0L
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>Hconfig</code></td>
+<td>
+<p>list of  vector of 0 and 1, corresponding to the configurations</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fHconfig_sum</code></td>
+<td>
+<p>a double vector containing sum_c(w_c*psi_c), obtained by fHconfig_sum_update_ptr_parallel()</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>OldPrior</code></td>
+<td>
+<p>a double vector containing the prior w_c</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Logf0Mat</code></td>
+<td>
+<p>a double matrix containing the log(f0(xi_q))</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Logf1Mat</code></td>
+<td>
+<p>a double matrix containing the log(f1(xi_q))</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>threads_nb</code></td>
+<td>
+<p>an int the number of threads</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>a double vector containing the new estimate of prior w_c
+</p>
+
+
+</div>

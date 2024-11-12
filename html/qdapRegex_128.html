@@ -1,0 +1,60 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>S</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Use C-style String Formatting Commands</h2>
+
+<h3>Description</h3>
+
+<p>Convenience wrapper for <code>sprintf</code> that allows recycling of 
+... of length one.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">S(x, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>A single string containing <code>"%s"</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>A vector of substitutions equal in length to the number of 
+<code>"%s"</code> in <code>x</code> or of length one (if length one ... will be recycled).</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Returns a string with <code>"%s"</code> replaced.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>sprintf</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">S("@after_", "the", "the")
+# Recycle
+S("@after_", "the")
+S("@rm_between", "LEFT", "RIGHT")
+</code></pre>
+
+
+</div>

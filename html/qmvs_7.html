@@ -1,0 +1,186 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>distance</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Calculation of the Wasserstein metric between an empirical data
+set and a data set similated by the queueing model of visual search</h2>
+
+<h3>Description</h3>
+
+<p><code>WM</code> calculates a distance between the empirical and simulated
+response time on a given number of trials in an experiment using
+standard visual search paradigm. 
+<code>WMdiffresp</code> takes both correct and incorrect response times into
+account. 
+<code>WMdiffrespweight</code> takes both correct and incorrect response times
+into account and weights the distances of correct and incoreect
+response times with the relative frequencies of the data. 
+<code>WMdiffrespshift</code> takes both correct and incorrect response times
+into account and assumes different non-decision times for no and yes
+responses. 
+<code>WMdiffrespshiftweight</code> takes both correct and incorrect response
+times into account assuming different non-decision times for no and yes
+responses and weights the distances with the relative frequencies of
+the data. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">WM(par, esterrorpar, c, k, pr, N, empRT, old=FALSE) 
+WMdiffresp(par, esterrorpar, c, k, pr, N, empRT, empresp, old=FALSE,
+           seed=0) 
+WMdiffrespweight(par, esterrorpar, c, k, pr, N, empRT, empresp,
+           old=FALSE, seed=0) 
+WMdiffrespshift(par, esterrorpar, c, k, pr, N, empRT, empresp,
+                old=FALSE, seed=0) 
+WMdiffrespshiftweight(par, esterrorpar, c, k, pr, N, empRT, empresp,
+                      old=FALSE, sep_shift = TRUE, wcorrect = NULL, seed=0) 
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>par</code></td>
+<td>
+<p>A vector of length 3 or 4, equals (miat, mst, Tres) if  non-decision time is assumed to be the same for no and yes responses (as in WM, WMdiffresp and WMdiffrespweight) and (<code>miat</code>, <code>mst</code>, <code>Tresn</code>, Tresy) otherwise (as in <code>WMdiffrespshift</code> and <code>WMdiffrespshiftweight</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>esterrorpar</code></td>
+<td>
+<p>A vector of length 5. Estimates of the accuracy-related parameters (<code class="reqn">\alpha</code>, <code class="reqn">\beta</code>, <code class="reqn">a_1</code>, <code class="reqn">a_2</code>, <code class="reqn">b</code>)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>c</code></td>
+<td>
+<p>A natural number representing the number of parallel servers of the system.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>k</code></td>
+<td>
+<p>A natural number representing the total number of stimuli in the display (set size).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pr</code></td>
+<td>
+<p>Logical. If pr is <code>TRUE</code>, the function simulates data on target present trials; if pr is <code>FALSE</code>, it simulates data on target absent trials.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>N</code></td>
+<td>
+<p>A natural number representing the number of simulation runs.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>empRT</code></td>
+<td>
+<p>A vector of empirical response times collected under given target presence and set size condition.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>empresp</code></td>
+<td>
+<p>A vector of empirical responses collected under given
+target presence and set size condition.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>old</code></td>
+<td>
+<p>Logical. If old is <code>TRUE</code>, the simulation is implemented by R code; if old is <code>FALSE</code>, it is implemented by C code. Only for comparison of speed. Default option is <code>FALSE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sep_shift</code></td>
+<td>
+<p>Logical. Shall separate shifts be used for positive
+and negative answers?</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>wcorrect</code></td>
+<td>
+<p>Logical or <code>NULL</code>. Weighing of the positive
+responses in the convex
+combination of <code class="reqn">L_q</code> distances between empirical and theoretical
+distributions for the positive and negativ answers separately.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>seed</code></td>
+<td>
+<p>The random seed used in the simulation.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A positive number. 
+<code>WMdiffresp</code> returns the sum of the distances associated with
+correct and incorrect response times,  
+<code>WMdiffrespweight</code> the sum of the weighted distances. 
+<code>WMdiffrespshift</code> the sum of the distances associated with
+correct and incorrect response times, assuming different non-decision
+times for no and yes responses.
+<code>WMdiffrespshiftweight</code> the weighted sum. 
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Yiq Li, <a href="mailto:yiqi.li@web.de">yiqi.li@web.de</a>,<a href="https://www.xing.com/profile/Yiqi_Li3">https://www.xing.com/profile/Yiqi_Li3</a>, Martin Schlather,<a href="mailto:martin.schlather@uni-mannheim.de">martin.schlather@uni-mannheim.de</a>,<a href="https://www.wim.uni-mannheim.de/schlather/">https://www.wim.uni-mannheim.de/schlather/</a></p>
+
+
+<h3>References</h3>
+
+<p>Li, Yiqi (2020) <em>Visual search as a queueing process</em>. Doctoral dissertation, University of Mannheim.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>queue, LqDist, sim</code>,
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">simdata1 &lt;- sim.ny(par = c(30, 200, 250, 350), esterrorpar = c(-2.67, 0.0094,
+0.0299, 0.0020, 1.13), c = 4, k = 12, N = 10000, pr = TRUE, seed = 0)
+
+simdata2 &lt;- sim.ny(par = c(30, 200, 250, 350), esterrorpar = c(-2.67, 0.0094,
+0.0299, 0.0020, 1.13), c = 4, k = 12, N = 10000, pr = TRUE, seed =
+12345)
+
+WM(par = c(30, 200, 300), esterrorpar = c(-2.67, 0.0094,
+0.0299, 0.0020, 1.13), c = 4, k = 12, pr = TRUE, N = 10000, empRT =
+simdata2[,1], old=FALSE)
+
+WMdiffresp(par = c(30, 200, 300), esterrorpar = c(-2.67, 0.0094,
+0.0299, 0.0020, 1.13), c = 4, k = 12, pr = TRUE, N = 10000, empRT =
+simdata2[,1], empresp = simdata2[,2], old=FALSE)
+
+WMdiffrespweight(par = c(30, 200, 300), esterrorpar = c(-2.67, 0.0094,
+0.0299, 0.0020, 1.13), c = 4, k = 12, pr = TRUE, N = 10000, empRT =
+simdata2[,1], empresp = simdata2[,2], old=FALSE)
+
+WMdiffrespshift(par = c(30, 200, 250, 350), esterrorpar = c(-2.67, 0.0094,
+0.0299, 0.0020, 1.13), c = 4, k = 12, pr = TRUE, N = 10000, empRT =
+simdata2[,1], empresp = simdata2[,2], old=FALSE)
+
+WMdiffrespshiftweight(par = c(30, 200, 250, 350), esterrorpar = c(-2.67, 0.0094,
+0.0299, 0.0020, 1.13), c = 4, k = 12, pr = TRUE, N = 10000, empRT =
+simdata2[,1], empresp = simdata2[,2], old=FALSE) 
+</code></pre>
+
+
+</div>

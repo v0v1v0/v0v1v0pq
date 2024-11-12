@@ -1,0 +1,62 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>set_study</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Set the Current Active Study</h2>
+
+<h3>Description</h3>
+
+<p>Updates the internal state to set the selected study as the current active study using the 
+associated studyDbId. This allows operations to be performed within the context of the selected study.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">set_study(study_name)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>study_name</code></td>
+<td>
+<p>A string specifying the name of the study to set as active.</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>No return value. The internal state is updated with the selected study.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Khaled Al-Shamaa, <a href="mailto:k.el-shamaa@cgiar.org">k.el-shamaa@cgiar.org</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>login_bms</code>, <code>set_crop</code>, <code>set_program</code>, <code>set_trial</code>, <code>list_studies</code> for related operations on crops, programs, trials, and studies.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">if (interactive()) {
+  set_qbms_config("https://bms.icarda.org/ibpworkbench")
+  login_bms()  # Log in to the server
+  set_crop("wheat")  # Set crop
+  set_program("Wheat International Nurseries")  # Set breeding program
+  set_trial("IDYT39")  # Set trial
+  set_study("IDYT39 Environment Number 9")  # Set study
+}
+ 
+</code></pre>
+
+
+</div>

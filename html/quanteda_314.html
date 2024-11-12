@@ -1,0 +1,80 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>tokens_split</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Split tokens by a separator pattern</h2>
+
+<h3>Description</h3>
+
+<p>Replaces tokens by multiple replacements consisting of elements split by a
+separator pattern, with the option of retaining the separator.  This function
+effectively reverses the operation of <code>tokens_compound()</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">tokens_split(
+  x,
+  separator = " ",
+  valuetype = c("fixed", "regex"),
+  remove_separator = TRUE,
+  apply_if = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a tokens object</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>separator</code></td>
+<td>
+<p>a single-character pattern match by which tokens are separated</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>valuetype</code></td>
+<td>
+<p>the type of pattern matching: <code>"glob"</code> for "glob"-style
+wildcard expressions; <code>"regex"</code> for regular expressions; or <code>"fixed"</code> for
+exact matching. See valuetype for details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>remove_separator</code></td>
+<td>
+<p>if <code>TRUE</code>, remove separator from new tokens</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>apply_if</code></td>
+<td>
+<p>logical vector of length <code>ndoc(x)</code>; documents are modified
+only when corresponding values are <code>TRUE</code>, others are left unchanged.</p>
+</td>
+</tr>
+</table>
+<h3>Examples</h3>
+
+<pre><code class="language-R"># undo tokens_compound()
+toks1 &lt;- tokens("pork barrel is an idiomatic multi-word expression")
+tokens_compound(toks1, phrase("pork barrel"))
+tokens_compound(toks1, phrase("pork barrel")) |&gt;
+    tokens_split(separator = "_")
+
+# similar to tokens(x, remove_hyphen = TRUE) but post-tokenization
+toks2 &lt;- tokens("UK-EU negotiation is not going anywhere as of 2018-12-24.")
+tokens_split(toks2, separator = "-", remove_separator = FALSE)
+</code></pre>
+
+
+</div>

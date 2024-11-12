@@ -1,0 +1,127 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>BarryGoldman</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Barry-Goldman quaternions spline</h2>
+
+<h3>Description</h3>
+
+<p>Constructs a spline of unit quaternions by the Barry-Goldman
+method.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">BarryGoldman(keyRotors, keyTimes = NULL, n_intertimes, times)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>keyRotors</code></td>
+<td>
+<p>a vector of unit quaternions (rotors) to be interpolated;
+it is automatically appended with the first one to have a closed spline</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>keyTimes</code></td>
+<td>
+<p>the times corresponding to the key rotors; must be an
+increasing vector of length <code>length(keyRotors)+1</code>; if <code>NULL</code>,
+it is set to <code>c(1, 2, ..., length(keyRotors)+1)</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n_intertimes</code></td>
+<td>
+<p>a positive integer used to linearly interpolate the 
+times given in <code>keyTimes</code> in order that there are
+<code>n_intertimes - 1</code> between two key times (so one gets the key
+times if <code>n_intertimes = 1</code>); if this argument is given, then 
+it has precedence over <code>times</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>times</code></td>
+<td>
+<p>the interpolating times, they must lie within the range of
+<code>keyTimes</code>; ignored if <code>n_intertimes</code> is given</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A vector of unit quaternions with the same length as <code>times</code>.
+</p>
+
+
+<h3>Note</h3>
+
+<p>The function does not check whether the quaternions given in
+<code>keyRotors</code> are unit quaternions.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(qsplines)
+# Using a Barry-Goldman quaternions spline to construct 
+#   a spherical curve interpolating some key points on
+#   the sphere of radius 5.
+
+# helper function: spherical to Cartesian coordinates
+sph2cart &lt;- function(rho, theta, phi){
+  return(c(
+    rho * cos(theta) * sin(phi),
+    rho * sin(theta) * sin(phi),
+    rho * cos(phi)
+  ))
+}
+
+# construction of the key points on the sphere
+keyPoints &lt;- matrix(nrow = 0L, ncol = 3L)
+theta_ &lt;- seq(0, 2*pi, length.out = 9L)[-1L]
+phi &lt;- 1
+for(theta in theta_){
+  keyPoints &lt;- rbind(keyPoints, sph2cart(5, theta, phi))
+  phi = pi - phi
+}
+n_keyPoints &lt;- nrow(keyPoints)
+
+# construction of the key rotors; the first key rotor is the 
+#   identity quaternion and rotor i sends the first key point 
+#   to the key point i
+keyRotors &lt;- quaternion(length.out = n_keyPoints)
+rotor &lt;- keyRotors[1L] &lt;- H1
+for(i in seq_len(n_keyPoints - 1L)){
+  keyRotors[i+1L] &lt;- rotor &lt;-
+    quaternionFromTo(
+      keyPoints[i, ]/5, keyPoints[i+1L, ]/5
+    ) * rotor
+}
+
+# Barry-Goldman quaternions spline
+rotors &lt;- BarryGoldman(keyRotors, n_intertimes = 10L)
+
+# construction of the interpolating points on the sphere
+points &lt;- matrix(nrow = 0L, ncol = 3L)
+keyPoint1 &lt;- rbind(keyPoints[1L, ])
+for(i in seq_along(rotors)){
+  points &lt;- rbind(points, rotate(keyPoint1, rotors[i]))
+}
+
+# visualize the result with the 'rgl' package
+library(rgl)
+spheres3d(0, 0, 0, radius = 5, color = "lightgreen")
+spheres3d(points, radius = 0.2, color = "midnightblue")
+spheres3d(keyPoints, radius = 0.25, color = "red")
+</code></pre>
+
+
+</div>

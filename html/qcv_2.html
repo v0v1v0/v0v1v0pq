@@ -1,0 +1,46 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>medr</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Median r</h2>
+
+<h3>Description</h3>
+
+<p>Computes the median intercorrelation among a set of variables
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">medr(df)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>df</code></td>
+<td>
+<p>data frame consisting only of variables for which a median intercorrelation is desired</p>
+</td>
+</tr></table>
+<h3>Details</h3>
+
+<p>The data frame should contain only the variables for which a median intercorrelation is desired. For Westen and Rosenthal's (2003) QCV
+procedure, the data frame should contain only participants' scores on the criterion variables.
+</p>
+<p>This prcoedure handles missing data via the "pairwise.complete.obs" option.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(motdat)
+motdatc &lt;- motdat[,2:13] #To retain only the criterion variables (dropping the focal test score)
+medr(motdatc)
+</code></pre>
+
+
+</div>

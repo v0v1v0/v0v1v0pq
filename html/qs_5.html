@@ -1,0 +1,60 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>base91_encode</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>basE91 Encoding</h2>
+
+<h3>Description</h3>
+
+<p>Encodes binary data (a raw vector) as ASCII text using <a href="https://base91.sourceforge.net/">basE91 encoding format</a>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">base91_encode(rawdata, quote_character = "\"")
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>rawdata</code></td>
+<td>
+<p>A raw vector.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>quote_character</code></td>
+<td>
+<p>The character to use in the encoding, replacing the double quote character. Must be either a single quote (<code>"'"</code>), a double quote
+(<code style="white-space: pre;">⁠"\""⁠</code>) or a dash (<code>"-"</code>).</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>basE91 (capital E for stylization) is a binary to ASCII encoding format created by Joachim Henke in 2005.
+The overhead (extra bytes used relative to binary) is 22.97% on average. In comparison, base 64 encoding has an overhead of 33.33%.
+The original encoding uses a dictionary of 91 out of 94 printable ASCII characters excluding <code>-</code> (dash), <code style="white-space: pre;">⁠\⁠</code> (backslash) and <code style="white-space: pre;">⁠'⁠</code> (single quote).
+The original encoding does include double quote characters, which are less than ideal for strings in R. Therefore,
+you can use the <code>quote_character</code> parameter to substitute dash or single quote.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A string representation of the raw vector.
+</p>
+
+
+<h3>References</h3>
+
+<p>https://base91.sourceforge.net/
+</p>
+
+
+</div>

@@ -1,0 +1,65 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>as_vector</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Get all <code>Quadtree</code> cell values as a vector</h2>
+
+<h3>Description</h3>
+
+<p>Returns all cell values  of a <code>Quadtree</code> as a
+numeric vector.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S4 method for signature 'Quadtree'
+as_vector(x, terminal_only = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a <code>Quadtree</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>terminal_only</code></td>
+<td>
+<p>boolean; if <code>TRUE</code> (the default) only values of
+terminal cells are returned. If <code>FALSE</code>, all cell values are returned.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>a numeric vector
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>as_data_frame</code> creates a data frame from a
+<code>Quadtree</code> that has all the cell values as well as details
+about each cell's size and extent.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(quadtree)
+habitat &lt;- terra::rast(system.file("extdata", "habitat.tif", package="quadtree"))
+
+qt &lt;- quadtree(habitat, .2)
+head(as_vector(qt), 20)
+head(as_vector(qt, FALSE), 20)
+</code></pre>
+
+
+</div>

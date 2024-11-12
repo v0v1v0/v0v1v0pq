@@ -1,0 +1,83 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>unqualify_query</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Remove prefixes from column references in a parsed SQL query</h2>
+
+<h3>Description</h3>
+
+<p>Unqualifies column references in the clauses of a parsed SQL
+<code>SELECT</code> statement that begin with any of the specified prefixes
+followed by a dot
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">unqualify_query(tree, prefixes, except = character(0))
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>tree</code></td>
+<td>
+<p>a list returned by <code>parse_query</code> containing named
+elements representing the clauses of a SQL <code>SELECT</code> statement</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>prefixes</code></td>
+<td>
+<p>a character vector containing one or more table names or
+table aliases</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>except</code></td>
+<td>
+<p>a character vector containing column references to leave as is
+(optional)</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>In the returned list, the <code>FROM</code> clause is unmodified and
+column alias assignments made in the <code>SELECT</code> clause are unmodified.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list the same as <code>tree</code> but with all column references in the
+<code>SELECT</code>, <code>WHERE</code>, <code>GROUP BY</code>, <code>HAVING</code>, and
+<code>ORDER BY</code> clauses unqualified, except those in <code>except</code>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>parse_query</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">my_query &lt;- "SELECT f.flight,
+    manufacturer, p.model
+  FROM flights f
+    JOIN planes p USING (tailnum);"
+
+unqualify_query(
+  parse_query(my_query),
+  prefixes = c("p", "f")
+)
+</code></pre>
+
+
+</div>

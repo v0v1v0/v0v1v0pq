@@ -1,0 +1,88 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>pcAxisCubeToCSV</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Exports a PC-AXIS cube into CSV in several files.
+</h2>
+
+<h3>Description</h3>
+
+<p>It generates four csv files, plus four more depending on "keyword" parameters in PC-AXIS file.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">pcAxisCubeToCSV(prefix,pcAxisCube) 
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>prefix</code></td>
+<td>
+<p>prefix for files to be created</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pcAxisCube</code></td>
+<td>
+<p>PC-AXIS cube</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Created files names are:
+</p>
+
+<ul>
+<li>
+<p>prefix+"pxCube.csv" 
+</p>
+</li>
+<li>
+<p>prefix+"pxCubeVariable.csv" 
+</p>
+</li>
+<li>
+<p>prefix+"pxCubeVariableDomain.csv" 
+</p>
+</li>
+<li>
+<p>prefix+"pxCubeData.csv" 
+</p>
+</li>
+<li>
+<p>prefix+"pxCube"+name+".csv" With name = A0,A1,A2 ... 
+</p>
+</li>
+</ul>
+<h3>Value</h3>
+
+<p>NULL
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+  name     &lt;- system.file("extdata","datInSFexample6_1.px", package = "qmrparser")
+  stream   &lt;- streamParserFromFileName(name,encoding="UTF-8")
+  cstream  &lt;-  pcAxisParser(stream)
+  if ( cstream$status == 'ok' ) {
+    cube &lt;- pcAxisCubeMake(cstream)
+    
+    pcAxisCubeToCSV(prefix="datInSFexample6_1",pcAxisCube=cube)     
+
+    unlink("datInSFexample6_1*.csv")
+  }
+</code></pre>
+
+
+</div>

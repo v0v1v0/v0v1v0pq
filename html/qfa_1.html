@@ -1,0 +1,55 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>ar2qspec</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Quantile Spectrum from AR Model of Quantile Series</h2>
+
+<h3>Description</h3>
+
+<p>This function computes quantile spectrum/cross-spectrum (QSPEC) from an AR model of quantile series (QSER).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">ar2qspec(fit, freq = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>fit</code></td>
+<td>
+<p>object of AR model from <code>qser2sar()</code> or <code>qser2ar()</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>freq</code></td>
+<td>
+<p>sequence of frequencies in [0,1) (default = <code>NULL</code>: all Fourier frequencies)</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>a list with the following elements:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>spec</code></td>
+<td>
+<p>matrix or array of quantile spectrum/cross-spectrum</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>freq</code></td>
+<td>
+<p>sequence of frequencies</p>
+</td>
+</tr>
+</table>
+</div>

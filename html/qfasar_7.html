@@ -1,0 +1,219 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>dimac</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Diversive magnetic clustering</h2>
+
+<h3>Description</h3>
+
+<p>The function <code>dimac</code> implements the <strong>di</strong>visive
+<strong>ma</strong>gnetic <strong>c</strong>lustering algorithm to partition fatty acid
+signatures into clusters.  The DiMaC algorithm was modified from the diana
+algorithm of the package cluster (Maechler et al. 2016).  <code>dimac</code> is
+intended to be called by the user, but only after the fatty acid signatures
+have been prepared for analysis by calls to the functions
+<code>prep_fa</code> and <code>prep_sig</code>.  Consequently, error
+checking of the arguments associated with the signatures (<code>sigs</code>,
+<code>id</code>, <code>type</code>, and <code>loc</code>) is necessarily limited, and
+calling <code>dimac</code> without preceding calls to <code>prep_fa</code>
+and <code>prep_sig</code> could return meaningless results.  Please see
+Details or the vignette for additional information.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">dimac(sigs, id, type, loc, dist_meas = 1, gamma = 1)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>sigs</code></td>
+<td>
+<p>A numeric matrix of fatty acid signatures in column-major
+format.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>id</code></td>
+<td>
+<p>A character vector with a unique sample ID for each signature.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>type</code></td>
+<td>
+<p>A character vector of prey or predator type names.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>loc</code></td>
+<td>
+<p>A numeric matrix specifying the location of signatures within
+<code>sig</code> for each <code>type</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dist_meas</code></td>
+<td>
+<p>A integer indicator of the distance measure to use. Default
+value 1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gamma</code></td>
+<td>
+<p>The power parameter of the chi-square distance measure. Default
+value 1.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list containing the following elements: </p>
+
+<dl>
+<dt>clust</dt>
+<dd>
+<p>A data frame denoting cluster assignments at each iteration
+of the algorithm.</p>
+</dd>
+<dt>clust_dist</dt>
+<dd>
+<p>A numeric matrix of the summed distance within clusters
+at each iteration.</p>
+</dd>
+<dt>err_code</dt>
+<dd>
+<p>An integer error code(0 if no error is detected).</p>
+</dd>
+<dt>err_message</dt>
+<dd>
+<p>A string containing a brief summary of the results.</p>
+</dd>
+</dl>
+<h3>Details</h3>
+
+<p>The signatures in <code>sigs</code> are presumed to be ready for analysis, which
+is best accomplished by a call to the function <code>prep_sig</code>.  Please
+refer to the documentation for <code>prep_sig</code> and/or the vignette
+for additional details.
+</p>
+<p>The matrix <code>loc</code> provides a mapping of the location of data for each
+<code>type</code> within <code>sig</code>.  It must contain a row for each <code>type</code>
+and two columns, which contain integers designating the first and last
+signature of each <code>type</code> within <code>sigs</code>.  Such a matrix is returned
+by the function <code>prep_sig</code>.
+</p>
+<p>Please refer to the documentation for the function
+<code>dist_between_2_sigs</code> for information regarding permissable
+values for the arguments <code>dist_meas</code> and <code>gamma</code>.
+</p>
+<p>The DiMaC algorithm is initialized with all signatures in one cluster.  The
+first two magnets are chosen as the two signatures having the greatest
+distance between them and each non-magnet signature is placed in the cluster
+associated with the closest magnet.  The algorithm then enters an iterative
+phase.  At each iteration, the cluster with the greatest average distance
+between its signatures and the mean signature is identified as the "active"
+cluster.  The two signatures within the active cluster having the greatest
+distance between them are selected as new magnets.  One of the two new
+magnets replaces the original magnet for the active cluster and the second
+starts the formation of an additional cluster.  Each non-magnet signature is
+placed in the cluster associated with the closest magnet, without regard for
+its cluster designation in the preceding iteration.  Consequently, the
+algorithm is not simply bifurcating, but rather is much more dynamic and
+flexible.  The iterations continue until each signature is in its own
+cluster.
+</p>
+<p>Unfortunately, there is no objective method to determine the most appropriate
+number of clusters for each prey or predator <code>type</code>.  Our suggestion is
+to examine the distance results and identify any substantial reductions in
+distance, which are likely caused by the discovery of structure within that
+<code>type</code>, that are followed by a more gradual decrease in distance as the
+number of clusters increases.  For diet estimation applications, partitioning
+a prey library into more clusters than the number of fatty acids used to
+estimate diet may result in estimates that are not unique.  In such a case,
+estimates of diet composition need to be pooled into a smaller number of
+"reporting groups" (e.g., Bromaghin 2008; Meynier et al. 2010).
+</p>
+<p>Utility functions called by <code>dimac</code>:
+</p>
+
+<ul>
+<li> <p><code>dist_pairs_map</code>
+</p>
+</li>
+<li> <p><code>dist_sigs_2_mean</code>
+</p>
+</li>
+</ul>
+<h3>References</h3>
+
+<p>Bromaghin, J.F. 2008. BELS: Backward elimination locus selection for studies
+of mixture composition or individual assignment. <em>Molecular Ecology
+Resources</em> 8:568-571.
+</p>
+<p>Maechler, M., P. Rousseeuw, A. Struyf, M. Hubert, and K. Hornik. 2016.
+cluster: cluster analysis basics and extensions. R package version 2.0.4.
+</p>
+<p>Meynier, L., P.C.H. morel, B.L. Chilvers, D.D.S. Mackenzie, and P. Duignan.
+2010. Quantitative fatty acid signature analysis on New Zealand sea lions:
+model sensitivity and diet estimates. <em>Journal of Mammalogy</em>
+91:1484-1495.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">dimac(sigs = matrix(c(0.05, 0.10, 0.30, 0.55,
+                      0.04, 0.11, 0.29, 0.56,
+                      0.10, 0.05, 0.35, 0.50,
+                      0.12, 0.03, 0.37, 0.48,
+                      0.10, 0.06, 0.35, 0.49,
+                      0.05, 0.15, 0.35, 0.45), ncol=6),
+      id = c("ID_1", "ID_2", "ID_3", "ID_4", "ID_5", "ID_6"),
+      type = c("Type_1", "Type_2", "Type_3"),
+      loc = matrix(c(1, 3, 5, 2, 4, 6), ncol=2),
+      dist_meas = 1,
+      gamma = NA)
+dimac(sigs = matrix(c(0.05, 0.10, 0.30, 0.55,
+                      0.04, 0.11, 0.29, 0.56,
+                      0.10, 0.05, 0.35, 0.50,
+                      0.12, 0.03, 0.37, 0.48,
+                      0.10, 0.06, 0.35, 0.49,
+                      0.05, 0.15, 0.35, 0.45), ncol=6),
+      id = c("ID_1", "ID_2", "ID_3", "ID_4", "ID_5", "ID_6"),
+      type = c("Type_1", "Type_2", "Type_3"),
+      loc = matrix(c(1, 3, 5, 2, 4, 6), ncol=2),
+      dist_meas = 2,
+      gamma = NA)
+dimac(sigs = matrix(c(0.05, 0.10, 0.30, 0.55,
+                      0.04, 0.11, 0.29, 0.56,
+                      0.10, 0.05, 0.35, 0.50,
+                      0.12, 0.03, 0.37, 0.48,
+                      0.10, 0.06, 0.35, 0.49,
+                      0.05, 0.15, 0.35, 0.45), ncol=6),
+      id = c("ID_1", "ID_2", "ID_3", "ID_4", "ID_5", "ID_6"),
+      type = c("Type_1", "Type_2", "Type_3"),
+      loc = matrix(c(1, 3, 5, 2, 4, 6), ncol=2),
+      dist_meas = 3,
+      gamma = 0.5)
+dimac(sigs = matrix(c(0.05, 0.10, 0.30, 0.55,
+                      0.04, 0.11, 0.29, 0.56,
+                      0.10, 0.05, 0.35, 0.50,
+                      0.12, 0.03, 0.37, 0.48,
+                      0.10, 0.06, 0.35, 0.49,
+                      0.05, 0.15, 0.35, 0.45), ncol=6),
+      id = c("ID_1", "ID_2", "ID_3", "ID_4", "ID_5", "ID_6"),
+      type = c("Type_1", "Type_2", "Type_3"),
+      loc = matrix(c(1, 3, 5, 2, 4, 6), ncol=2))
+
+</code></pre>
+
+
+</div>

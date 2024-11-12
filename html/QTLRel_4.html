@@ -1,0 +1,67 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>eigen.sym</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Spectral decomposition of a matrix
+</h2>
+
+<h3>Description</h3>
+
+<p>Computes eigenvalues and eigenvectors of real symmetric matrices.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">eigen.sym(x)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+
+<p>A real symmetric matrix.
+</p>
+</td>
+</tr></table>
+<h3>Details</h3>
+
+<p>This is to use the LAPACK routine 'DSYEVR' to perform spectral decomposition.
+</p>
+
+
+<h3>Value</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>values</code></td>
+<td>
+<p>a vector containing the eigenvalues of <code>x</code>, sorted in decreasing order.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vectors</code></td>
+<td>
+<p>a matrix whose columns contain the eigenvectors of <code>x</code>, corresponding to eigenvalues.</p>
+</td>
+</tr>
+</table>
+<h3>Note</h3>
+
+<p>Warning: symmetry is not checked by the program!
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>eigen</code> for more information.
+</p>
+
+
+</div>

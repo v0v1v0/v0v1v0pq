@@ -1,0 +1,71 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>blup</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Best Linear Unbiased Prediction
+</h2>
+
+<h3>Description</h3>
+
+<p>Estimate the best linear unbiased prediction (BLUP) for various effects in the model.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">blup(object)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+
+<p>An object from <code>estVC</code> or <code>aicVC</code>.
+</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>fixed</code></td>
+<td>
+<p>BLUP for fixed effects.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>R, etc.</code></td>
+<td>
+<p>BLUP for random effects.</p>
+</td>
+</tr>
+</table>
+<h3>See Also</h3>
+
+<p><code>estVC</code> and <code>aicVC</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(miscEx)
+
+## Not run: 
+# only consider additive genetic variance component
+pheno&lt;- pdatF8[!is.na(pdatF8$bwt) &amp; !is.na(pdatF8$sex),]
+ii&lt;- match(rownames(pheno), rownames(gmF8$AA))
+v&lt;- list(A=gmF8$AA[ii,ii],D=gmF8$DD[ii,ii])
+vc&lt;- estVC(y=pheno$bwt, x=pheno$sex, v=v)
+b&lt;- blup(vc)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

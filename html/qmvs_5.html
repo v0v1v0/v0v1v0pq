@@ -1,0 +1,112 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>sim</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Simulation of the queueing model of visual search</h2>
+
+<h3>Description</h3>
+
+<p><code>sim.ny</code> simulates a data set containing the responses and
+response times on either target present or target absent trials under
+specified set size level in an experiment using standard visual search
+paradigm, whereby the non-decision time for yes and no options are
+represented by two different parameters.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">sim.ny(par, esterrorpar, c, k, pr, N, empRT, seed=0)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>par</code></td>
+<td>
+<p>A vector of length 3 or 4, equals (miat, mst, Tres) if  non-decision time is assumed to be the same for no and yes responses (as in WM, WMdiffresp and WMdiffrespweight) and (<code>miat</code>, <code>mst</code>, <code>Tresn</code>, Tresy) otherwise (as in <code>WMdiffrespshift</code> and <code>WMdiffrespshiftweight</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>esterrorpar</code></td>
+<td>
+<p>A vector of length 5. Estimates of the accuracy-related parameters (<code class="reqn">\alpha</code>, <code class="reqn">\beta</code>, <code class="reqn">a_1</code>, <code class="reqn">a_2</code>, <code class="reqn">b</code>)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>c</code></td>
+<td>
+<p>A natural number representing the number of parallel servers of the system.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>k</code></td>
+<td>
+<p>A natural number representing the total number of stimuli in the display (set size).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pr</code></td>
+<td>
+<p>Logical. If pr is <code>TRUE</code>, the function simulates data on target present trials; if pr is <code>FALSE</code>, it simulates data on target absent trials.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>N</code></td>
+<td>
+<p>A natural number representing the number of simulation runs.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>empRT</code></td>
+<td>
+<p>A vector of empirical response times collected under given target presence and set size condition.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>seed</code></td>
+<td>
+<p>The random seed used in the simulation.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A <code class="reqn">N \times 2</code> matrix. The first column contains the simulated response times
+and the second colum the corresponding simulated responses.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Yiq Li, <a href="mailto:yiqi.li@web.de">yiqi.li@web.de</a>,<a href="https://www.xing.com/profile/Yiqi_Li3">https://www.xing.com/profile/Yiqi_Li3</a>, Martin Schlather,<a href="mailto:martin.schlather@uni-mannheim.de">martin.schlather@uni-mannheim.de</a>,<a href="https://www.wim.uni-mannheim.de/schlather/">https://www.wim.uni-mannheim.de/schlather/</a></p>
+
+
+<h3>References</h3>
+
+<p>Li, Yiqi (2020) <em>Visual search as a queueing process</em>. Doctoral dissertation, University of Mannheim.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>queue</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">sim.ny(par = c(30, 200, 250, 350),
+       esterrorpar = c(-2.67, 0.0094, 0.0299, 0.0020, 1.13),
+       c = 4,
+       k = 12,
+       pr = TRUE, 
+       N = 10000, seed = 0)
+</code></pre>
+
+
+</div>

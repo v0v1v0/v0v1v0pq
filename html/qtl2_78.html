@@ -1,0 +1,59 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>invert_sdp</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Calculate SNP genotype matrix from strain distribution patterns</h2>
+
+<h3>Description</h3>
+
+<p>Calculate the matrix of SNP genotypes from a vector of strain distribution patterns (SDPs).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">invert_sdp(sdp, n_strains)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>sdp</code></td>
+<td>
+<p>Vector of strain distribution patterns (integers between
+1 and <code class="reqn">2^n-2</code> where <code class="reqn">n</code> is the number of strains.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n_strains</code></td>
+<td>
+<p>Number of strains</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Matrix of SNP genotypes, markers x strains, coded as 1
+(AA) and 3 (BB). Markers with values other than 1 or 3 are omitted,
+and monomorphic markers, are omitted.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>sdp2char()</code>, <code>calc_sdp()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">sdp &lt;- c(m1=1, m2=12, m3=240)
+invert_sdp(sdp, 8)
+</code></pre>
+
+
+</div>

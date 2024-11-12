@@ -1,0 +1,69 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>print.qgcompfit</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Default printing method for a qgcompfit object</h2>
+
+<h3>Description</h3>
+
+<p>Gives variable output depending on whether <code>qgcomp.glm.noboot</code> or <code>qgcomp.glm.boot</code>
+is called. For <code>qgcomp.glm.noboot</code> will output final estimate of joint exposure
+effect (similar to the 'index' effect in weighted quantile sums), as well
+as estimates of the 'weights' (standardized coefficients). For <code>qgcomp.glm.boot</code>,
+the marginal effect is given, but no weights are reported since this approach
+generally incorporates non-linear models with interaction terms among exposures,
+which preclude weights with any useful interpretation.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'qgcompfit'
+print(x, showweights = TRUE, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>"qgcompfit" object from <code>qgcomp</code>, <code>qgcomp.glm.noboot</code> or <code>qgcomp.glm.boot</code>
+function</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>showweights</code></td>
+<td>
+<p>logical: should weights be printed, if estimated?</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>unused</p>
+</td>
+</tr>
+</table>
+<h3>See Also</h3>
+
+<p><code>qgcomp.glm.noboot</code>, <code>qgcomp.glm.boot</code>, and <code>qgcomp</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">set.seed(50)
+dat &lt;- data.frame(y=runif(50), x1=runif(50), x2=runif(50), z=runif(50))
+obj1 &lt;- qgcomp.glm.noboot(y ~ z + x1 + x2, expnms = c('x1', 'x2'), data=dat, q=2)
+obj2 &lt;- qgcomp.glm.boot(y ~ z + x1 + x2, expnms = c('x1', 'x2'), data=dat, q=2, B=10, seed=125)
+# does not need to be explicitly called, but included here for clarity
+print(obj1)
+print(obj2)
+</code></pre>
+
+
+</div>

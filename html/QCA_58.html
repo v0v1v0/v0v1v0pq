@@ -1,0 +1,173 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>_Lipset</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Lipset's indicators for the survival of democracy during the inter-war period.</h2>
+
+<h3>Description</h3>
+
+<p>This dataset is taken from Lipset (1959), as used by Rihoux and De Meur (2009),
+Cronqvist and Berg-Schlosser (2009) and Ragin (2009).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">data(LR)
+data(LC)
+data(LM)
+data(LF)
+</code></pre>
+
+
+<h3>Format</h3>
+
+<p>A data frame containing 18 rows and the following 6 columns:
+</p>
+
+<table>
+<tr>
+<td style="text-align: right;">
+<b><code>DEV</code></b>
+    </td>
+<td style="text-align: left;"> Level of development: it is the GDP per capita (USD) in the raw data, calibrated in the </td>
+</tr>
+<tr>
+<td style="text-align: right;">
+    </td>
+<td style="text-align: left;"> binary crisp version to 0 if below 550 USD and 1 otherwise. For the multi-value crisp </td>
+</tr>
+<tr>
+<td style="text-align: right;">
+    </td>
+<td style="text-align: left;"> version, two thresholds were used: 550 and 850 USD. </td>
+</tr>
+<tr>
+<td style="text-align: right;">
+
+<b><code>URB</code></b>
+    </td>
+<td style="text-align: left;"> Level of urbanization: percent of the population in towns with 20000 or more </td>
+</tr>
+<tr>
+<td style="text-align: right;">
+    </td>
+<td style="text-align: left;"> inhabitants, calibrated in the crisp versions to 0 if below 50% and 1 if above. </td>
+</tr>
+<tr>
+<td style="text-align: right;">
+
+<b><code>LIT</code></b>
+    </td>
+<td style="text-align: left;"> Level of literacy: percent of the literate population, calibrated in the crisp versions </td>
+</tr>
+<tr>
+<td style="text-align: right;">
+    </td>
+<td style="text-align: left;"> to 0 if below 75% and 1 if above. </td>
+</tr>
+<tr>
+<td style="text-align: right;">
+
+<b><code>IND</code></b>
+    </td>
+<td style="text-align: left;"> Level of industrialization: percent of the industrial labor force, calibrated in the </td>
+</tr>
+<tr>
+<td style="text-align: right;">
+    </td>
+<td style="text-align: left;"> crisp versions to 0 if below 30% and 1 if above. </td>
+</tr>
+<tr>
+<td style="text-align: right;">
+
+<b><code>STB</code></b>
+    </td>
+<td style="text-align: left;"> Government stability: a “political-institutional” condition added to the previous </td>
+</tr>
+<tr>
+<td style="text-align: right;">
+    </td>
+<td style="text-align: left;"> four “socioeconomic” ones. The raw data has the number of cabinets which governed </td>
+</tr>
+<tr>
+<td style="text-align: right;">
+    </td>
+<td style="text-align: left;"> in the period under study, calibrated in the crisp versions to 0 if 10 or above and to 1 </td>
+</tr>
+<tr>
+<td style="text-align: right;">
+    </td>
+<td style="text-align: left;"> if below 10. </td>
+</tr>
+<tr>
+<td style="text-align: right;">
+
+<b><code>SURV</code></b>
+    </td>
+<td style="text-align: left;"> Outcome: survival of democracy during the inter-war period: calibrated to 0 if negative, </td>
+</tr>
+<tr>
+<td style="text-align: right;">
+    </td>
+<td style="text-align: left;"> and 1 if positive raw data.</td>
+</tr>
+<tr>
+<td style="text-align: right;">
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>There are four different versions of the Lipset data:
+</p>
+
+<table>
+<tr>
+<td style="text-align: right;">
+<b><code>LR</code></b>  </td>
+<td style="text-align: left;"> contains the raw data </td>
+</tr>
+<tr>
+<td style="text-align: right;">
+<b><code>LC</code></b>  </td>
+<td style="text-align: left;"> is the same data calibrated to binary crisp sets </td>
+</tr>
+<tr>
+<td style="text-align: right;">
+<b><code>LM</code></b>  </td>
+<td style="text-align: left;"> is calibrated to multi-value sets </td>
+</tr>
+<tr>
+<td style="text-align: right;">
+<b><code>LF</code></b>  </td>
+<td style="text-align: left;"> is calibrated to fuzzy-sets </td>
+</tr>
+<tr>
+<td style="text-align: right;">
+</td>
+</tr>
+</table>
+<h3>References</h3>
+
+<p>Lipset, S. M. (1959) “Some Social Requisites of Democracy: Economic
+Development and Political Legitimacy”, <em>American Political Science Review</em>
+vol.53, pp.69-105.
+</p>
+<p>Cronqvist, L.; Berg-Schlosser, D. (2009) “Multi-Value QCA (mvQCA)”, in
+Rihoux, B.; Ragin, C. (eds.) <em>Configurational Comparative Methods. Qualitative
+Comparative Analysis (QCA) and Related Techniques</em>, SAGE.
+</p>
+<p>Rihoux, B.; De Meur, G. (2009) “Crisp Sets Qualitative Comparative Analysis
+(mvQCA)”, in Rihoux, B.; Ragin, C. (eds.) <em>Configurational Comparative Methods.
+Qualitative Comparative Analysis (QCA) and Related Techniques</em>, SAGE.
+</p>
+<p>Ragin, C. (2009) “Qualitative Comparative Analysis Using Fuzzy-Sets (fsQCA)”,
+in Rihoux, B.; Ragin, C. (eds.) <em>Configurational Comparative Methods.
+Qualitative Comparative Analysis (QCA) and Related Techniques</em>, SAGE.
+</p>
+
+
+</div>

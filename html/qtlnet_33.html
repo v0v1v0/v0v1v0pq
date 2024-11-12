@@ -1,0 +1,392 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>mcmc.qtlnet</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Sample genetic architecture and QTL network</h2>
+
+<h3>Description</h3>
+
+<p>Use MCMC to alternatively sample genetic architecture and QTL network as
+directed acyclic graphs (DAGs).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">mcmc.qtlnet(cross, pheno.col, threshold, addcov = NULL, intcov = NULL,
+  nSamples = 1000, thinning = 1, max.parents = 3, M0 = NULL,
+  burnin = 0.1, method = "hk", random.seed = NULL, init.edges = 0,
+  saved.scores = NULL, rev.method = c("nbhd", "node.edge", "single"),
+  verbose = FALSE, ...)
+init.qtlnet(pheno.col, max.parents, init.edges)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>cross</code></td>
+<td>
+
+<p>Object of class <code>cross</code>. See <code>read.cross</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pheno.col</code></td>
+<td>
+
+<p>Phenotype identifiers from <code>cross</code> object. May be numeric, logical
+or character.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>threshold</code></td>
+<td>
+
+<p>Scalar or list of thresholds, one per each node.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>addcov</code></td>
+<td>
+
+<p>Additive covariates for each phenotype (<code>NULL</code> if not used).
+If entered as scalar or vector (same format as <code>pheno.col</code>),
+then the same <code>addcov</code> is used for all
+phenotypes. Altenatively, may be a list of additive covariate identifiers.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>intcov</code></td>
+<td>
+
+<p>Interactive covariates, entered in the same manner as <code>addcov</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nSamples</code></td>
+<td>
+
+<p>Number of samples to record.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>thinning</code></td>
+<td>
+
+<p>Thinning rate. Number of MCMC samples is <code>nSamples*thinning</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>max.parents</code></td>
+<td>
+
+<p>Maximum number of parents to a node. This reduces the complexity of
+graphs and shortens run time. Probably best to consider values of 3-5.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>M0</code></td>
+<td>
+
+<p>Matrix of 0s and 1s with initial directed graph of row-&gt;col if (row,col)
+entry is 1. Cycles are forbidden (e.g. 1s on diagonal or symmetric 1s
+across diagonal). Default (if <code>NULL</code>) is sampled by a call to <code>init.qtlnet</code>;
+all 0s if <code>init.edges</code> = 0 (default).
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>burnin</code></td>
+<td>
+
+<p>Proportion of MCMC samples to use as burnin. Default is 0.1 if burnin
+is <code>TRUE</code>. Must be between 0 and 1.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+
+<p>Model fitting method for <code>scanone</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>random.seed</code></td>
+<td>
+
+<p>Initialization seed for random number generator. Must be <code>NULL</code>
+(no reset) or positive numeric. Used in <code>Random</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>init.edges</code></td>
+<td>
+
+<p>Initial number of edges for <code>M0</code>, to be sampled using
+<code>{init.qtlnet}</code>. Chosen uniformly from 0 to the number of
+possible edges if set to <code>NULL</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>saved.scores</code></td>
+<td>
+
+<p>Updated scores, typically pre-computed by
+<code>bic.qtlnet</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rev.method</code></td>
+<td>
+
+<p>Method to use for reversing edges. See details.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+
+<p>Print iteration and number of models fit.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+
+<p>Additional arguments. Advanced users may want to supply pre-computed
+<code>saved.scores</code> to speed up calculations.
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Models are coded compactly as <code>(1)(2|1)(3|1,2,4,5)(4|2)(5|2)</code>. Each
+parenthetical entry is a of form <code>(node|parents)</code>; these each
+require a model fit, for now with <code>scanone</code>.
+</p>
+<p>The <code>scanone</code> routine is run on multiple
+phenotypes in the network that could all have the same parents. For
+instance, for 5 phenotypes, if <code>(1|2,4)</code> is sampled, then do
+scanone of this model as well as <code>(3|2,4)</code> and <code>(5|2,4)</code>.
+Setting the hidden parameter <code>scan.parents</code> to a value smaller
+than <code>length(pheno.col) - 1</code> (default) disallows multiple
+trait scanning with more than that number of parents.
+</p>
+<p>The <code>saved.scores</code> parameter can greatly reduce MCMC run time,
+by supplying pre-computed BIC scores. See
+<code>bic.qtlnet</code>. Another option is to capture
+<code>saved.scores</code> from a previous <code>mcmc.qtlnet</code> run with the
+same phenotypes (and covariates). Caution is advised as only a modest
+amount of checking can be done.
+</p>
+<p>The <code>init.qtlnet</code> routine can be used to randomly find an initial
+causal network <code>M0</code> with up to <code>init.edges</code> edges.
+</p>
+<p>MCMC updates include delete, add or reverse edge direction. The early
+version of this method only considered the edge on its own
+(<code>rev.method = "single"</code>), while the neighborhood method
+(<code>rev.method = "nbhd"</code>) uses the update
+</p>
+
+
+<h3>Value</h3>
+
+<p>List of class <code>qtlnet</code>
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>post.model</code></td>
+<td>
+<p>Model code (see details).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>post.bic</code></td>
+<td>
+<p>Posterior BIC</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Mav</code></td>
+<td>
+<p>Model average of <code>M</code> across MCMC samples.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>freq.accept</code></td>
+<td>
+<p>Frequency of acceptance M-H proposals.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>saved.scores</code></td>
+<td>
+<p>Saved LOD score for each phenotype and all
+possible sets of the other phenotypes as parent nodes.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>all.bic</code></td>
+<td>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cross</code></td>
+<td>
+<p>The <code>cross</code> object with calculated genotype
+probabilities.</p>
+</td>
+</tr>
+</table>
+<p>In addition, a number of attributes are recorded:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>M0</code></td>
+<td>
+<p>Initial network matrix.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>threshold</code></td>
+<td>
+<p>threshold list</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nSamples</code></td>
+<td>
+<p>Number of samples saved</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>thinning</code></td>
+<td>
+<p>Thinning rate</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pheno.col</code></td>
+<td>
+<p>Phenotype columns.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pheno.names</code></td>
+<td>
+<p>Phenotype names</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>addcov</code></td>
+<td>
+<p>Additive covariate columns.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>intcov</code></td>
+<td>
+<p>Interactive covariate columns.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>burnin</code></td>
+<td>
+<p>Burnin proportion</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+<p>Method used for <code>scanone</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>random.seed</code></td>
+<td>
+<p>Initial random number generator seed.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>random.kind</code></td>
+<td>
+<p>Random number generator kind from <code>Random</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Brian S. Yandell and Elias Chaibub Neto
+</p>
+
+
+<h3>References</h3>
+
+<p>Chiabub Neto E, Keller MP, Attie AD, Yandell BS (2010)
+Causal graphical models in systems genetics: a unified framework
+for joint inference of causal network and genetic archicecture
+for correlated phenotypes.
+Ann Appl Statist 4: 320-339.
+<a href="http://dx.doi.org/10.1214/09-AOAS288">http://dx.doi.org/10.1214/09-AOAS288</a>
+</p>
+<p>Grzegorczyk and Husmeier (2008) Improving the structure MCMC sampler
+for Bayesian networks by introducing a new edge reversal move.
+Mach Learn 71: 265-305.
+<a href="http://dx.doi.org/10.1007/s10994-008-5057-7">http://dx.doi.org/10.1007/s10994-008-5057-7</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>read.cross</code>,  <code>scanone</code>,
+<code>Random</code>,
+<code>bic.qtlnet</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(Pscdbp)
+## Not run: 
+  ## Run of subset of traits. Still takes some time.
+  Pscdbp.qtlnet &lt;- mcmc.qtlnet(Pscdbp, pheno.col = c(1,2,4,5,6),
+                               threshold = 3.83,
+                               nSamples = 1000, thinning = 20, 
+                               random.seed = 92387475, verbose = TRUE)
+  save(Pscdbp.qtlnet, file = "Pscdbp.qtlnet.RData", compress = TRUE)
+
+## End(Not run)
+data(Pscdbp.qtlnet)
+
+## Not run: 
+  out.qtlnet &lt;- mcmc.qtlnet(Pscdbp, pheno.col = 1:13,
+                            threshold = 3.83,
+                            nSamples = 1000, thinning = 20, 
+                            random.seed = 92387475, verbose = TRUE,
+                            saved.scores = Pscdbp.bic)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

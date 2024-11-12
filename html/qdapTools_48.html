@@ -1,0 +1,104 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>read_docx</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Read in .docx Content</h2>
+
+<h3>Description</h3>
+
+<p>Read in the content from a .docx file.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">read_docx(file, skip = 0)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>file</code></td>
+<td>
+<p>The path to the .docx file.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>skip</code></td>
+<td>
+<p>The number of lines to skip.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Returns a character vector.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Bryan Goodrich and Tyler Rinker &lt;tyler.rinker@gmail.com&gt;.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+## Mining Citation
+url_dl("http://umlreading.weebly.com/uploads/2/5/2/5/25253346/whole_language_timeline-updated.docx")
+
+(txt &lt;- read_docx("whole_language_timeline-updated.docx"))
+
+library(qdapTools); library(ggplot2); library(qdap)
+txt &lt;- rm_non_ascii(txt)
+
+parts &lt;- split_vector(txt, split = "References", include = TRUE, regex=TRUE)
+
+parts[[1]]
+
+rm_citation(unbag(parts[[1]]), extract=TRUE)[[1]]
+
+## By line
+rm_citation(parts[[1]], extract=TRUE)
+
+## Frequency
+left_just(cites &lt;- list2df(sort(table(rm_citation(unbag(parts[[1]]),
+    extract=TRUE)), T), "freq", "citation")[2:1])
+
+## Distribution of citations (find locations and then plot)
+cite_locs &lt;- do.call(rbind, lapply(cites[[1]], function(x){
+    m &lt;- gregexpr(x, unbag(parts[[1]]), fixed=TRUE)
+    data.frame(
+        citation=x,
+        start = m[[1]] -5,
+        end =  m[[1]] + 5 + attributes(m[[1]])[["match.length"]]
+    )
+}))
+
+ggplot(cite_locs) +
+    geom_segment(aes(x=start, xend=end, y=citation, yend=citation), size=3,
+        color="yellow") +
+    xlab("Duration") +
+    scale_x_continuous(expand = c(0,0),
+        limits = c(0, nchar(unbag(parts[[1]])) + 25)) +
+    theme_grey() +
+    theme(
+        panel.grid.major=element_line(color="grey20"),
+        panel.grid.minor=element_line(color="grey20"),
+        plot.background = element_rect(fill="black"),
+        panel.background = element_rect(fill="black"),
+        panel.border = element_rect(colour = "grey50", fill=NA, size=1),
+        axis.text=element_text(color="grey50"),    
+        axis.title=element_text(color="grey50")  
+    )
+
+## End(Not run)
+</code></pre>
+
+
+</div>

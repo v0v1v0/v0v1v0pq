@@ -1,0 +1,81 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>plot.quint</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Visualisation of a Qualitative Interaction Tree</h2>
+
+<h3>Description</h3>
+
+<p>Plot function for a <code>quint</code> object. The plot shows the result of <code>quint</code>:
+a binary tree with (a) splitting variable(s) and split point(s). The colors of the
+leaves of the tree correspond to the final subgroups: Subgroup 1 (P1), those
+patients for whom the mean treatment outcome (Y) is higher for Treatment A than B,
+is GREEN; Subgroup 2 (P2), those patients for whom the mean treatment outcome (Y)
+is higher for Treatment B than A, is RED, and Subgroup 3 (P3), those for whom the
+mean treatment outcome (Y) is about the same for both treatments, is GREY. Within the
+leaves the effect size <em>d</em> is displayed, with its 95 percent confidence interval.
+This effect size is the standardized mean difference between Treatment A and B.
+The plot function uses the plot method from the package <span class="pkg">partykit</span> of Hothorn
+&amp; Zeileis (2013).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'quint'
+plot(x, digits = 2, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>fitted tree of class <code>quint</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>digits</code></td>
+<td>
+<p>specified number of decimal places of the splitpoints in the graph
+(default is 2).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>additional arguments to be passed.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>For categorical variables we recommend to use short names for levels to avoid overlapping
+labels at split points.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Cor Ninaber and Elise Dusseldorp
+</p>
+
+
+<h3>References</h3>
+
+<p>Torsten Hothorn and Achim Zeileis (2013). partykit: A Toolkit for
+Recursive Partytioning. R package version 0.1-5.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>quint</code>,<code>quint.control</code>,<code>bcrp</code>
+</p>
+
+
+</div>

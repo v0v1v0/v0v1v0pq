@@ -1,0 +1,54 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>equalExtent</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Assess whether a list of extents are all equal</h2>
+
+<h3>Description</h3>
+
+<p>Assess whether a list of extents are all equal
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">equalExtent(extents)
+
+## S4 method for signature 'list'
+equalExtent(extents)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>extents</code></td>
+<td>
+<p>list of extents objects</p>
+</td>
+</tr></table>
+<h3>Author(s)</h3>
+
+<p>Eliot McIntire
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(terra)
+
+files &lt;- system.file("maps", package = "quickPlot")
+files &lt;- dir(files, full.names = TRUE, pattern = "tif")
+maps &lt;- lapply(files, function(x) terra::rast(x))
+names(maps) &lt;- sapply(basename(files), function(x) {
+  strsplit(x, split = "\\.")[[1]][1]
+})
+extnts &lt;- lapply(maps, terra::ext)
+equalExtent(extnts) ## TRUE
+
+</code></pre>
+
+
+</div>

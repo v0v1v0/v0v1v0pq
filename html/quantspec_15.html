@@ -1,0 +1,56 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>ClippedFT-class</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Class for Fourier transform of the clipped time series.</h2>
+
+<h3>Description</h3>
+
+<p><code>ClippedFT</code> is an S4 class that implements the necessary
+calculations to determine the Fourier transform of the clipped time
+series. As a subclass to <code>FreqRep</code> it inherits
+slots and methods defined there; it servers as a frequency representation of
+a time series as described in Kley et. al (2016) for univariate time series
+and in Barunik &amp; Kley (2015) for multivariate time series.
+</p>
+
+
+<h3>Details</h3>
+
+<p>For each frequency <code class="reqn">\omega</code> from <code>frequencies</code> and level <code>q</code>
+from <code>levels</code> the statistic
+</p>
+<p style="text-align: center;"><code class="reqn">\sum_{t=0}^{n-1} I\{Y_{t,i} \leq q\} \mbox{e}^{-\mbox{i} \omega t}</code>
+</p>
+
+<p>is determined and stored to the array <code>values</code>. Internally the methods
+<code>mvfft</code> and <code>fft</code> are used to achieve
+good performance.
+</p>
+<p>Note that, all remarks made in the documentation of the super-class
+<code>FreqRep</code> apply.
+</p>
+
+
+<h3>References</h3>
+
+<p>Kley, T., Volgushev, S., Dette, H. &amp; Hallin, M. (2016).
+Quantile Spectral Processes: Asymptotic Analysis and Inference.
+<em>Bernoulli</em>, <b>22</b>(3), 1770–1807.
+[cf. <a href="http://arxiv.org/abs/1401.8104">http://arxiv.org/abs/1401.8104</a>]
+</p>
+<p>Barunik, J. &amp; Kley, T. (2015).
+Quantile Cross-Spectral Measures of Dependence between Economic Variables.
+[preprint available from the authors]
+</p>
+
+
+<h3>See Also</h3>
+
+<p>For an example see <code>FreqRep</code>.
+</p>
+
+
+</div>

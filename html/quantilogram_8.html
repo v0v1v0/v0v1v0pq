@@ -1,0 +1,87 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>crossq.partial</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Paritial Cross-Quantilogram</h2>
+
+<h3>Description</h3>
+
+<p>Returns the partial cross-quantilogram
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">crossq.partial(DATA, vecA, k)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>DATA</code></td>
+<td>
+<p>A matrix</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vecA</code></td>
+<td>
+<p>A vector of probability values at which sample quantiles are estiamted</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>k</code></td>
+<td>
+<p>The lag order</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>This function obtains the partial corss-quantilogram and the cross-quantilogram.
+To obtain the partial cross-correlation given an input matrix, this function interacts
+the values of the first column and the k-lagged values of the rest of the matrix.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The partial corss-quantilogram and the cross-quantilogram
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Heejoon Han, Oliver Linton, Tatsushi Oka and Yoon-Jae Whang
+</p>
+
+
+<h3>References</h3>
+
+<p>Han, H., Linton, O., Oka, T., and Whang, Y. J. (2016).
+"The cross-quantilogram: Measuring quantile dependence and testing directional predictability between time series." <em>Journal of Econometrics</em>, 193(1), 251-270.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## data source 
+data("sys.risk") 
+
+## data with 3 variables 
+D = sys.risk[,c("Market", "JPM", "VIX")]
+
+## probablity levels for the 3 variables 
+vecA = c(0.1, 0.1, 0.1)
+
+## partial cross-quantilogram with the lag of 5
+crossq.max.partial(D, vecA, 5)
+
+</code></pre>
+
+
+</div>

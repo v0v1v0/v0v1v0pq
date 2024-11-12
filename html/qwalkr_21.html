@@ -1,0 +1,111 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>spectral</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Spectral Decomposition of a Hermitian Matrix</h2>
+
+<h3>Description</h3>
+
+<p><code>spectral()</code> is a wrapper around <code>base::eigen()</code> designed for Hermitian matrices,
+which can handle repeated eigenvalues.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">spectral(S, multiplicity = TRUE, tol = .Machine$double.eps^0.5, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>S</code></td>
+<td>
+<p>a Hermitian matrix. <em>Obs</em>: The matrix is always assumed to be Hermitian,
+and only its lower triangle (diagonal included) is used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>multiplicity</code></td>
+<td>
+<p>if <code>TRUE</code> (default), tries to infer eigenvalue multiplicity. If set to
+<code>FALSE</code>, each eigenvalue is considered unique with multiplicity one.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tol</code></td>
+<td>
+<p>two eigenvalues <code>x</code>, <code>y</code> are considered equal if <code>abs(x-y) &lt; tol</code>. Defaults to
+<code>tol=.Machine$double.eps^0.5</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>further arguments passed on to <code>base::eigen()</code></p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>The spectral decomposition of <code>S</code> is returned as a list with components
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>eigvals</code></td>
+<td>
+<p>vector containing the unique eigenvalues of <code>S</code> in <em>decreasing</em> order.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>multiplicity</code></td>
+<td>
+<p>multiplicities of the eigenvalues in <code>eigvals</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>eigvectors</code></td>
+<td>
+<p>a <code style="white-space: pre;">⁠nrow(S) x nrow(S)⁠</code> unitary matrix whose columns are eigenvectors ordered
+according to <code>eigvals</code>. Note that there may be more eigenvectors than eigenvalues if
+<code>multiplicity=TRUE</code>, however eigenvectors of the same eigenspace are next to each other.</p>
+</td>
+</tr>
+</table>
+<p>The Spectral Theorem ensures the eigenvalues of <code>S</code> are real and that the vector space
+admits an orthonormal basis consisting of eigenvectors of <code>S</code>. Thus, if <code>s &lt;- spectral(S)</code>,
+and <code style="white-space: pre;">⁠V &lt;- s$eigvectors; lam &lt;- s$eigvals⁠</code>, then
+</p>
+<p style="text-align: center;"><code class="reqn">S = V \Lambda V^{*}</code>
+</p>
+
+<p>where <code class="reqn">\Lambda =\ </code><code>diag(rep(lam, times=s$multiplicity))</code>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>base::eigen()</code>, <code>get_eigspace.spectral()</code>,
+<code>get_eigproj.spectral()</code>, <code>get_eigschur.spectral()</code>,
+<code>act_eigfun.spectral()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">spectral(matrix(c(0,1,0,1,0,1,0,1,0), nrow=3))
+
+# Use "tol" to set the tolerance for numerical equality
+spectral(matrix(c(0,1,0,1,0,1,0,1,0), nrow=3), tol=10e-5)
+
+# Use "multiplicity=FALSE" to force each eigenvalue to be considered unique
+spectral(matrix(c(0,1,0,1,0,1,0,1,0), nrow=3), multiplicity = FALSE)
+
+</code></pre>
+
+
+</div>

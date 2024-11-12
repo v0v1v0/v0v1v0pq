@@ -1,0 +1,94 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qcd</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Quality Control Data</h2>
+
+<h3>Description</h3>
+
+<p>Create an object of class 'qcd' to perform statistical quality control.
+This object may then be used to plot Shewhart charts, Multivariate Control Charts,
+and more.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qcd(
+  data,
+  var.index = 1,
+  sample.index = 2,
+  covar.index = NULL,
+  covar.names = NULL,
+  data.name = NULL,
+  type.data = c("continuous", "atributte", "dependence"),
+  sizes = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>a matrix or data-frame which should contain data, index sample and,
+optionally, covariate(s).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>var.index</code></td>
+<td>
+<p>a scalar with the column number corresponding to the observed data for
+the variable (the variable quality).  Alternativelly can be a string with the
+name of the quality variable.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sample.index</code></td>
+<td>
+<p>a scalar with the column number corresponding to the index each
+group (sample).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>covar.index</code></td>
+<td>
+<p>optional. A scalar or numeric vector with the column number(s)
+corresponding to the covariate(s). Alternativelly it can be a character vector with
+the names of the covariates.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>covar.names</code></td>
+<td>
+<p>optional. A string or vector of strings with names for the
+covariate columns.  Only valid if there is more than one column of data. By
+default, takes the names from the original object.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data.name</code></td>
+<td>
+<p>a string specifying the name of the variable which appears on the
+plots. If not provided it is taken from the object given as data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>type.data</code></td>
+<td>
+<p>a string specifying the type of data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sizes</code></td>
+<td>
+<p>optional. A value or a vector of values specifying the sample sizes
+associated with each group. For continuous data the sample sizes are obtained counting the non-<code>NA</code> elements##' of the sample.index vector. For attribute variable the argument sizes is required.</p>
+</td>
+</tr>
+</table>
+</div>

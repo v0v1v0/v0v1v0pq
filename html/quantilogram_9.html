@@ -1,0 +1,86 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>crossq.partial.sb</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Stationary Bootstrap for the Partial Cross-Quantilogram</h2>
+
+<h3>Description</h3>
+
+<p>Returns critical values for the partial cross-quantilogram, based on the stationary bootstrap.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">crossq.partial.sb(DATA, vecA, k, gamma, Bsize, sigLev)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>DATA</code></td>
+<td>
+<p>The original data matrix</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vecA</code></td>
+<td>
+<p>A pair of two probability values at which sample quantiles are estimated</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>k</code></td>
+<td>
+<p>A lag order</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gamma</code></td>
+<td>
+<p>A parameter for the stationary bootstrap</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Bsize</code></td>
+<td>
+<p>The number of repetition of bootstrap</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sigLev</code></td>
+<td>
+<p>The statistical significance level</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>This function generates critical values for for the partial cross-quantilogram,
+using the stationary bootstrap in Politis and Romano (1994).
+</p>
+
+
+<h3>Value</h3>
+
+<p>The boostrap critical values
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Heejoon Han, Oliver Linton, Tatsushi Oka and Yoon-Jae Whang
+</p>
+
+
+<h3>References</h3>
+
+<p>Politis, Dimitris N., and Joseph P. Romano. "The stationary bootstrap." <em>Journal of the American Statistical Association</em> 89.428 (1994): 1303-1313.
+</p>
+
+
+</div>

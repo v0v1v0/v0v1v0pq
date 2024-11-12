@@ -1,0 +1,56 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>many</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>many</h2>
+
+<h3>Description</h3>
+
+<p>Takes as input a gate and generates the matrix for that gate being applied to multiple qubits by creating a tensor product of the matrix. If a ket is supplied, the matrix will be applied to the ket
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">many(gate,n,...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>gate</code></td>
+<td>
+<p> Single qubit gate to apply </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p> Number of qubits that the gate will be applied to  </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Either no argument or a ket that the gates will be applied to</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>The matrix representing the application of many gates or a ket after the gates have been applied
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"> many(H(),4)
+ many(X(),2,ket(1,0,0,0))
+</code></pre>
+
+
+</div>

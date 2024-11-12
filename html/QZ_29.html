@@ -1,0 +1,235 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qz.dgges</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>QZ Decomposition for Real Paired Matrices</h2>
+
+<h3>Description</h3>
+
+<p>This function call 'dgges' in Fortran to decompose 'real' matrices (A,B).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">  qz.dgges(A, B, vsl = TRUE, vsr = TRUE, LWORK = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>A</code></td>
+<td>
+<p>a 'real' matrix, dim = c(N, N).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>B</code></td>
+<td>
+<p>a 'real' matrix, dim = c(N, N).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vsl</code></td>
+<td>
+<p>if compute left 'real' Schur vectors. (Q)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vsr</code></td>
+<td>
+<p>if compute right 'real' Schur vectors. (Z)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>LWORK</code></td>
+<td>
+<p>optional, dimension of array WORK for workspace. (&gt;= 8N+16)</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>See 'dgges.f' for all details.
+</p>
+<p>DGGES computes for a pair of N-by-N real non-symmetric matrices (A,B),
+the generalized eigenvalues, the generalized real Schur form (S,T),
+optionally, the left and/or right matrices of Schur vectors (VSL and
+VSR). This gives the generalized Schur factorization
+</p>
+<p>(A,B) = ( (VSL)*S*(VSR)**T, (VSL)*T*(VSR)**T )
+</p>
+<p>Optionally, it also orders the eigenvalues so that a selected cluster
+of eigenvalues appears in the leading diagonal blocks of the upper
+quasi-triangular matrix S and the upper triangular matrix T.The
+leading columns of VSL and VSR then form an orthonormal basis for the
+corresponding left and right eigenspaces (deflating subspaces).
+</p>
+<p>(If only the generalized eigenvalues are needed, use the driver
+DGGEV instead, which is faster.)
+</p>
+<p>A generalized eigenvalue for a pair of matrices (A,B) is a scalar w
+or a ratio alpha/beta = w, such that  A - w*B is singular.  It is
+usually represented as the pair (alpha,beta), as there is a
+reasonable interpretation for beta=0 or both being zero.
+</p>
+<p>A pair of matrices (S,T) is in generalized real Schur form if T is
+upper triangular with non-negative diagonal and S is block upper
+triangular with 1-by-1 and 2-by-2 blocks.  1-by-1 blocks correspond
+to real generalized eigenvalues, while 2-by-2 blocks of S will be
+"standardized" by making the corresponding elements of T have the
+form:
+</p>
+<p>[  a  0  ] <br>
+[  0  b  ]
+</p>
+<p>and the pair of corresponding 2-by-2 blocks in S and T will have a
+complex conjugate pair of generalized eigenvalues.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Return a list contains next:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>'S'</code></td>
+<td>
+<p>A's generalized Schur form.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>'T'</code></td>
+<td>
+<p>B's generalized Schur form.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>'ALPHAR'</code></td>
+<td>
+<p>original returns from 'dgges.f'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>'ALPHAI'</code></td>
+<td>
+<p>original returns from 'dgges.f'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>'BETA'</code></td>
+<td>
+<p>original returns from 'dgges.f'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>'VSL'</code></td>
+<td>
+<p>original returns from 'dgges.f'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>'VSR'</code></td>
+<td>
+<p>original returns from 'dgges.f'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>'WORK'</code></td>
+<td>
+<p>optimal LWORK (for dgges.f only)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>'INFO'</code></td>
+<td>
+<p>= 0: successful. &lt; 0: if INFO = -i, the i-th argument had
+an illegal value. =1,...,N: QZ iteration failed.
+=N+1: other than QZ iteration failed in DHGEQZ.
+=N+2: reordering problem.
+=N+3: reordering failed.</p>
+</td>
+</tr>
+</table>
+<p>Extra returns in the list:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>'ALPHA'</code></td>
+<td>
+<p>ALPHAR + ALPHAI * i.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>'Q'</code></td>
+<td>
+<p>the left Schur vectors.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>'Z'</code></td>
+<td>
+<p>the right Schur vectors.</p>
+</td>
+</tr>
+</table>
+<p>The ALPHA[j]/BETA[j] are generalized eigenvalues.
+</p>
+<p>If ALPHAI[j] is zero, then the j-th eigenvalue is real; if
+positive, then the j-th and (j+1)-st eigenvalues are a
+complex conjugate pair, with ALPHAI[j+1] negative.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Wei-Chen Chen <a href="mailto:wccsnow@gmail.com">wccsnow@gmail.com</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Anderson, E., et al. (1999) <em>LAPACK User's Guide,</em>
+3rd edition, SIAM, Philadelphia.
+</p>
+<p><a href="https://www.netlib.org/lapack/double/dgges.f">https://www.netlib.org/lapack/double/dgges.f</a>
+</p>
+<p><a href="https://en.wikipedia.org/wiki/Schur_decomposition">https://en.wikipedia.org/wiki/Schur_decomposition</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>qz.dggev</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+library(QZ, quiet = TRUE)
+
+### https://www.nag.com/lapack-ex/node119.html 
+A &lt;- exAB2$A
+B &lt;- exAB2$B
+ret &lt;- qz.dgges(A, B)
+
+# Verify 1
+A.new &lt;- ret$Q %*% ret$S %*% t(ret$Z)
+B.new &lt;- ret$Q %*% ret$T %*% t(ret$Z)
+round(A - A.new)
+round(B - B.new)
+
+# verify 2
+round(ret$Q %*% t(ret$Q))
+round(ret$Z %*% t(ret$Z))
+
+</code></pre>
+
+
+</div>

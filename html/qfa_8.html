@@ -1,0 +1,55 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qkl.divergence</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Kullback-Leibler Divergence of Quantile Spectral Estimate</h2>
+
+<h3>Description</h3>
+
+<p>This function computes Kullback-Leibler divergence (KLD) of quantile spectral estimate.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qkl.divergence(y.qper, qspec, sel.f = NULL, sel.tau = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>y.qper</code></td>
+<td>
+<p>matrix or array of quantile spectral estimate from, e.g., <code>qspec.lw()</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qspec</code></td>
+<td>
+<p>matrix of array of true quantile spectrum/cross-spectrum (same dimension as <code>y.qper</code>)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sel.f</code></td>
+<td>
+<p>index of selected frequencies for computation (default = <code>NULL</code>: all frequencies)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sel.tau</code></td>
+<td>
+<p>index of selected quantile levels for computation (default = <code>NULL</code>: all quantile levels)</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>real number of Kullback-Leibler divergence
+</p>
+
+
+</div>

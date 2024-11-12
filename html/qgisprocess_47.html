@@ -1,0 +1,74 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qgis_list_input</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Prepare a compound input argument</h2>
+
+<h3>Description</h3>
+
+<p>Some algorithm arguments require a compound object, consisting of
+several layers or elements.
+These functions apply strict validation rules when generating this object and
+are recommended.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qgis_list_input(...)
+
+qgis_dict_input(...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Named values for <code>qgis_dict_input()</code> or
+unnamed values for <code>qgis_list_input()</code>.</p>
+</td>
+</tr></table>
+<h3>Details</h3>
+
+<p><code>qgis_list_input()</code> generates an unnamed list of class <code>qgis_list_input</code>.
+The use of <code>qgis_list_input()</code> instead of list() is <em>required</em> for compound
+arguments <em>in case of no-JSON input</em> (see <code>qgis_using_json_input()</code>).
+Since it applies strict validation rules, it is recommended in all cases
+though.
+</p>
+<p><code>qgis_dict_input()</code> generates a named list of class <code>qgis_dict_input</code>.
+<code>qgis_dict_input()</code> is only supported when the JSON input method applies
+(see <code>qgis_using_json_input()</code>), where it can be interchanged with a named <code>list()</code>.
+It can only be used for arguments requiring <em>named</em> lists.
+Since it applies strict validation rules, it is recommended above <code>list()</code>.
+</p>
+<p>Some QGIS argument types that need a compount object are the <code>multilayer</code>,
+<code>aggregates</code>, <code>fields_mapping</code>, <code>tininputlayers</code> and
+<code>vectortilewriterlayers</code> argument types.
+</p>
+
+
+<h3>Value</h3>
+
+
+<ul>
+<li> <p><code>qgis_list_input()</code>: An object of class 'qgis_list_input'
+</p>
+</li>
+<li> <p><code>qgis_dict_input()</code>: An object of class 'qgis_dict_input'
+</p>
+</li>
+</ul>
+<h3>Examples</h3>
+
+<pre><code class="language-R">qgis_list_input(1, 2, 3)
+qgis_dict_input(a = 1, b = 2, c = 3)
+
+</code></pre>
+
+
+</div>

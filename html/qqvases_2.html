@@ -1,0 +1,42 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>make_df_list</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Make a named list of distribution functions</h2>
+
+<h3>Description</h3>
+
+<p>Constructs the default nested list of distribution functions used to animated
+normal QQ plots. By default, the list contains 
+Normal  Student t_3  Student t_6  Gamma(3)  Beta(0.6,0.6)   Exotic
+Each member of the list has 3 named elements [
+d = density function  (eg, dnorm)
+q = quantile function (eg, qnorm)
+r = random generator  (eg, rnorm) ]
+Each of these functions must take a single argument; others must be bound externally.
+For examples, see the function make.normal.dist or make.t.dist.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">make_df_list()
+</code></pre>
+
+
+<h3>Value</h3>
+
+<p>Named list of (density, quantile, generator) triples for distributions
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">make_df_list()
+
+</code></pre>
+
+
+</div>

@@ -1,0 +1,142 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>pwMatrix</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Construct ‘part-whole’ (pw) Matrices from tokenized strings
+</h2>
+
+<h3>Description</h3>
+
+<p>A part-whole Matrix is a sparse matrix representation of a vector of strings (‘wholes’) split into smaller parts by a specified separator. It basically summarizes which strings consist of which parts. By itself, this is not a very interesting transformation, but it allows for quite fancy computations by simple matrix manipulations.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">pwMatrix(strings, sep = "", gap.length = 0, gap.symbol = "\u2043", simplify = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>strings</code></td>
+<td>
+
+<p>a vector (or list) of strings to be separated into parts
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sep</code></td>
+<td>
+
+<p>The separator to be used. Defaults to space <code>sep = " "</code>. If separation in individual characters is needed, use <code>sep = ""</code>. There is no fancy parsing of strings implemented (e.g. to catch complex unicode combined characters), that has to be done externally. The preferred route is to prepare the separation of the strings by using spaces, and then call this function.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gap.length</code></td>
+<td>
+
+<p>This adds the specified number of gap symbols between each pair of strings. This is only important for generating higher ngram-statistics later on, when no ordering of the strings is implied. For example, when the strings are alphabetically ordered words, any bigram-statistics should not count the bigrams consisting of the last character of the a word with the first character of the next word. 
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gap.symbol</code></td>
+<td>
+
+<p>The gap symbol to insert (see gap.length above). It defaults to U+2043 <code>HYPHEN BULLET</code> on the assumption that this character will not often be included in data.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>simplify</code></td>
+<td>
+
+<p>by default, the row and column names are not included into the matrix to keep the matrix as lean as possible. The row names (‘parts’) are returned separately. Using <code>simplify = T</code> the row and column names will be added into the matrix. Note that the column names are simply the vector that went into the function.
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Internally, this is basically using <code>strsplit</code> and some cosmetic changes, returning a sparse matrix.
+</p>
+
+
+<h3>Value</h3>
+
+<p>By default (when <code>simplify = F</code>) the output is a list with two elements, containing:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>M</code></td>
+<td>
+
+<p>a sparse pattern Matrix of type <code>ngCMatrix</code> with all input strings as columns, and all separated elements as rows.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rownames</code></td>
+<td>
+
+<p>all different  characters from the strings in order (i.e. all individual tokens of the original strings).
+</p>
+</td>
+</tr>
+</table>
+<p>When <code>simplify = T</code>, then only the matrix M with row and column names is returned.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Michael Cysouw
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Used in <code>splitStrings</code> and <code>splitWordlist</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># By itself, this functions does nothing really interesting
+example &lt;- c("this","is","an","example")
+pw &lt;- pwMatrix(example)
+pw
+
+# However, making a type-token Matrix (with ttMatrix) of the rownames
+# and then taking a matrix product, results in frequencies of each element in the strings
+tt &lt;- ttMatrix(pw$rownames)
+distr &lt;- (tt$M*1) %*% (pw$M*1)
+rownames(distr) &lt;- tt$rownames
+colnames(distr) &lt;- example
+distr
+
+# Use banded sparse matrix with superdiagonal ('shift matrix') to get co-occurrence counts
+# of adjacent characters. Rows list first character, columns adjacent character. 
+# Non-zero entries list number of co-occurrences
+S &lt;- bandSparse( n = ncol(tt$M), k = 1) * 1
+TT &lt;- tt$M * 1
+( C &lt;- TT %*% S %*% t(TT) )
+
+# show the non-zero entries as triplets:
+s &lt;- summary(C)
+first &lt;- tt$rownames[s[,1]]
+second &lt;- tt$rownames[s[,2]]
+freq &lt;- s[,3]
+data.frame(first,second,freq)	
+</code></pre>
+
+
+</div>

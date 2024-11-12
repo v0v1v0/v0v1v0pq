@@ -1,0 +1,69 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>sample_by_column</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Re-sample a dataset by column and return number of entry needed</h2>
+
+<h3>Description</h3>
+
+<p>Shorthand to return a re-sample number of rows in a data frame by unique column
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">sample_by_column(.dt, col, n, seed = NULL, replace = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>.dt</code></td>
+<td>
+<p>data frame to re-sample</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>col</code></td>
+<td>
+<p>column to uniquely re-sample</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p>number of rows to return</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>seed</code></td>
+<td>
+<p>unique numeric value for reproducibility</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>replace</code></td>
+<td>
+<p>should sampling be with replacement</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>data frame containing re-sampled rows from an original data frame
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data1 &lt;- data.frame(ID=1:10,MOT=11:20)
+sample_by_column(data1,MOT,3)
+sample_by_column(data1,ID,7)
+</code></pre>
+
+
+</div>

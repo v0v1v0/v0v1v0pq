@@ -1,0 +1,49 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>presion</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Level of presion data</h2>
+
+<h3>Description</h3>
+
+<p>A shipyard of recreational boats manufacturing, 
+intended to optimize and control the mechanical properties hull yacht models. 
+This has made a study in which the modulus of elasticity tensile strength of the epoxy resin 
+(polymer) used, after applying different curing pressures measured: 0.1 y 10 MPa.  
+60 subsamples composed of three measurements taken on the same day are taken.
+</p>
+
+
+<h3>Format</h3>
+
+<p>A data frame with 180 observations on the following 3 variables:
+</p>
+
+<dl>
+<dt>presion</dt>
+<dd>
+<p>presion level</p>
+</dd>
+<dt>sample</dt>
+<dd>
+<p>sample id</p>
+</dd>
+<dt>measur</dt>
+<dd>
+<p>pressures measured: 0.1 y 10 MPa</p>
+</dd>
+</dl>
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+data(presion)
+attach(presion)
+summary(presion)
+plot(presion$presion, type="b")
+detach(presion)
+</code></pre>
+
+
+</div>

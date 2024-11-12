@@ -1,0 +1,68 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>assign_data</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Assign data to hexagons</h2>
+
+<h3>Description</h3>
+
+<p>This function assigns the data to hexagons.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">assign_data(data, centroid_df, col_start)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>data A tibble or data frame.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>centroid_df</code></td>
+<td>
+<p>The dataset with centroid coordinates only.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>col_start</code></td>
+<td>
+<p>The text that begins the column name of x and y axes of data.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list contains x and y coordinates and corresponding hexagon ID
+(emb_1, emb_2, and hb_id respectively).
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">num_bins_list &lt;- calc_bins(data = s_curve_noise_umap_scaled, x = "UMAP1",
+y = "UMAP2", hex_size = NA, buffer_x = NA, buffer_y = NA)
+num_bins_x &lt;- num_bins_list$num_x
+num_bins_y &lt;- num_bins_list$num_y
+centroid_list &lt;- gen_centroids(data = s_curve_noise_umap_scaled,
+x = "UMAP1", y = "UMAP2", num_bins_x = num_bins_x,
+num_bins_y = num_bins_y, x_start = NA, y_start = NA, buffer_x = NA,
+buffer_y = NA, hex_size = NA)
+all_centroids_df &lt;- as.data.frame(do.call(cbind, centroid_list))
+s_curve_noise_umap_scaled_rm_id &lt;- s_curve_noise_umap_scaled |&gt; dplyr::select(-ID)
+assign_data(data = s_curve_noise_umap_scaled_rm_id,
+centroid_df = all_centroids_df, col_start = "UMAP")
+
+</code></pre>
+
+
+</div>

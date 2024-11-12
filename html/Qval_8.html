@@ -1,0 +1,91 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>plot.Hull</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Hull Plot</h2>
+
+<h3>Description</h3>
+
+<p>This function can provide the Hull plot. The points suggested by the Hull method are marked in red.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'Hull'
+plot(x, i, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>A <code>list</code> containing all the information needed to plot the Hull plot. 
+It can be gotten from the <code>validation</code> object when <code>method</code> = <code>"Hull"</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>i</code></td>
+<td>
+<p>A numeric, which represents the item you want to plot Hull curve.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Additional arguments to be passed to the plotting function.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>None. This function is used for side effects (plotting).
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">set.seed(123)
+library(Qval)
+
+## generate Q-matrix and data
+K &lt;- 5
+I &lt;- 20
+IQ &lt;- list(
+  P0 = runif(I, 0.1, 0.3),
+  P1 = runif(I, 0.7, 0.9)
+)
+
+
+Q &lt;- sim.Q(K, I)
+data &lt;- sim.data(Q = Q, N = 500, IQ = IQ, model = "GDINA", distribute = "horder")
+MQ &lt;- sim.MQ(Q, 0.1)
+
+CDM.obj &lt;- CDM(data$dat, MQ)
+
+############### ESA ###############
+Hull.obj &lt;- validation(data$dat, MQ, CDM.obj, method = "Hull", search.method = "ESA") 
+Hull.fit &lt;- Hull.obj$Hull.fit
+
+## plot Hull curve for item 5
+plot(Hull.fit, 5)
+
+############### PAA ###############
+Hull.obj &lt;- validation(data$dat, MQ, CDM.obj, method = "Hull", search.method = "PAA") 
+Hull.fit &lt;- Hull.obj$Hull.fit
+
+## plot Hull curve for item 5
+plot(Hull.fit, 5)
+
+
+
+
+</code></pre>
+
+
+</div>

@@ -1,0 +1,117 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>icc_11</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Intraclass Correlation for Multilevel Analysis: ICC(1,1)</h2>
+
+<h3>Description</h3>
+
+<p><code>icc_11</code> computes the intraclass correlation (ICC) based on a single
+rater with a single dimension, aka ICC(1,1). Traditionally, this is the type
+of ICC used for multilevel analysis where the value is interpreted as the
+proportion of variance accounted for by group membership. In other words,
+ICC(1,1) = the proportion of between-group variance; 1 - ICC(1,1) = the
+proportion of within-group variance.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">icc_11(x, grp, how = "lme", REML = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>numeric vector.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>grp</code></td>
+<td>
+<p>atomic vector the same length as <code>x</code> providing the grouping
+variable.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>how</code></td>
+<td>
+<p>character vector of length 1 specifying how the ICC(1,1) should be
+calculated. There are four options: 1) "lme" uses a linear mixed effects
+model with the function <code>lme</code> from the package
+<code>nlme</code>, 2) "lmer" uses a linear mixed effects modeling with the
+function <code>lmer</code> from the package <code>lme4</code>, 3) "aov"
+uses a one-way analysis of variance with the function
+<code>aov</code>, and 4) "raw" uses the observed variances, which
+provides a biased estimate of the ICC(1,1) and is not recommended (It is
+only included for teaching purposes).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>REML</code></td>
+<td>
+<p>logical vector of length 1 specifying whether restricted maximum
+likelihood estimation (TRUE) should be used rather than traditional maximum
+likelihood estimation (FALSE). Only used for linear mixed effects models if
+how = "lme" or how = "lmer".</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>numeric vector of length 1 providing ICC(1,1) and computed based on
+the <code>how</code> argument.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>iccs_11</code> # ICC(1,1) for multiple variables,
+<code>icc_all_by</code> # all six types of ICCs by group,
+<code>lme</code> # how = "lme" function,
+<code>lmer</code> # how = "lmer" function,
+<code>aov</code> # how = "aov" function,
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+# BALANCED DATA (how = "aov" and "lme"/"lmer" do YES provide the same value)
+
+str(InsectSprays)
+icc_11(x = InsectSprays$"count", grp = InsectSprays$"spray", how = "aov")
+icc_11(x = InsectSprays$"count", grp = InsectSprays$"spray", how = "lme")
+icc_11(x = InsectSprays$"count", grp = InsectSprays$"spray", how = "lmer")
+icc_11(x = InsectSprays$"count", grp = InsectSprays$"spray",
+   how = "raw") # biased estimator and not recommended. Only available for teaching purposes.
+
+# UN-BALANCED DATA (how = "aov" and "lme"/"lmer" do NOT provide the same value)
+
+dat &lt;- as.data.frame(lmeInfo::Bryant2016)
+icc_11(x = dat$"outcome", grp = dat$"case", how = "aov")
+icc_11(x = dat$"outcome", grp = dat$"case", how = "lme")
+icc_11(x = dat$"outcome", grp = dat$"case", how = "lmer")
+icc_11(x = dat$"outcome", grp = dat$"case", how = "lme", REML = FALSE)
+icc_11(x = dat$"outcome", grp = dat$"case", how = "lmer", REML = FALSE)
+
+# how = "lme" does not account for any correlation structure
+lme_obj &lt;- nlme::lme(outcome ~ 1, random = ~ 1 | case,
+   data = dat, na.action = na.exclude,
+   correlation = nlme::corAR1(form = ~ 1 | case), method = "REML")
+var_corr &lt;- nlme::VarCorr(lme_obj) # VarCorr.lme
+vars &lt;- as.double(var_corr[, "Variance"])
+btw &lt;- vars[1]
+wth &lt;- vars[2]
+btw / (btw + wth)
+
+</code></pre>
+
+
+</div>

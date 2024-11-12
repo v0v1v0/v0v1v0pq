@@ -1,0 +1,160 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qcs.cusum</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Function to plot the cusum chart</h2>
+
+<h3>Description</h3>
+
+<p>This function is used to compute statistics required by the cusum chart.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qcs.cusum(x, ...)
+
+## Default S3 method:
+qcs.cusum(
+  x,
+  var.index = 1,
+  sample.index = 2,
+  covar.index = NULL,
+  covar.names = NULL,
+  data.name = NULL,
+  sizes = NULL,
+  center = NULL,
+  std.dev = NULL,
+  decision.interval = 5,
+  se.shift = 1,
+  plot = FALSE,
+  ...
+)
+
+## S3 method for class 'qcd'
+qcs.cusum(
+  x,
+  center = NULL,
+  std.dev = NULL,
+  decision.interval = 5,
+  se.shift = 1,
+  plot = FALSE,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>Object qcd (Quality Control Data)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>arguments passed to or from methods.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>var.index</code></td>
+<td>
+<p>a scalar with the column number corresponding to the observed data for
+the variable (the variable quality).  Alternativelly can be a string with the
+name of the quality variable.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sample.index</code></td>
+<td>
+<p>a scalar with the column number corresponding to the index each
+group (sample).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>covar.index</code></td>
+<td>
+<p>optional. A scalar or numeric vector with the column number(s)
+corresponding to the covariate(s). Alternativelly it can be a character vector with
+the names of the covariates.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>covar.names</code></td>
+<td>
+<p>optional. A string or vector of strings with names for the
+covariate columns.  Only valid if there is more than one column of data. By
+default, takes the names from the original object.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data.name</code></td>
+<td>
+<p>a string specifying the name of the variable which appears on the
+plots. If not provided it is taken from the object given as data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sizes</code></td>
+<td>
+<p>a value or a vector of values specifying the sample sizes
+associated with each group.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>center</code></td>
+<td>
+<p>a value specifying the center of group statistics or the
+”target” value of the process.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>std.dev</code></td>
+<td>
+<p>a value or an available method specifying the within-group
+standard deviation(s) of the process. <br> Several methods are available for
+estimating the standard deviation.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>decision.interval</code></td>
+<td>
+<p>A numeric value specifying the number of standard
+errors of the summary statistics at which the cumulative sum is out of
+control.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>se.shift</code></td>
+<td>
+<p>The amount of shift to detect in the process, measured in
+standard errors of the summary statistics.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>plot</code></td>
+<td>
+<p>a logical value indicating it should be plotted.</p>
+</td>
+</tr>
+</table>
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+library(qcr)
+data(pistonrings)
+attach(pistonrings)
+res.qcd &lt;- qcd(pistonrings, type.data = "dependence")
+res.qcs &lt;- qcs.cusum(res.qcd, type = "cusum")
+summary(res.qcs)
+plot(res.qcs)
+
+</code></pre>
+
+
+</div>

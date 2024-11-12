@@ -1,0 +1,91 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>slice_genelliptical</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Generalized Elliptical Slice Sampler (univariate)</h2>
+
+<h3>Description</h3>
+
+<p>Single update using the generalized elliptical slice sampler of Nishihara et al. (2014).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">slice_genelliptical(x, log_target, mu, sigma, df)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>The current state (as a numeric scalar).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>log_target</code></td>
+<td>
+<p>A function taking numeric scalar that evaluates the
+(potentially unnormalized) log-target density, returning a numeric scalar.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mu</code></td>
+<td>
+<p>A numeric scalar with the mean of the supporting normal distribution.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sigma</code></td>
+<td>
+<p>A numeric scalar with the standard deviation of the supporting normal distribution.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>df</code></td>
+<td>
+<p>Degrees of freedom of Student t pseudo-target.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list contains two elements:
+</p>
+<p><code>x</code> is the new state.
+</p>
+<p><code>nEvaluations</code> is the number of evaluations of the target function used to obtain the new
+state.
+</p>
+
+
+<h3>References</h3>
+
+<p>Nishihara, R., Murray, I., and Adams, R. P. (2014), "Parallel MCMC with Generalized Elliptical Slice Sampling," <em>Journal of Machine Learning Research</em>, 15, 2087-2112. <a href="https://jmlr.org/papers/v15/nishihara14a.html">https://jmlr.org/papers/v15/nishihara14a.html</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">lf &lt;- function(x) dbeta(x, 3, 4, log = TRUE)
+draws &lt;- numeric(10) # set to numeric(1e3) for more complete illustration
+nEvaluations &lt;- 0L
+for (i in seq.int(2, length(draws))) {
+  out &lt;- slice_genelliptical(draws[i - 1], log_target = lf,
+                                      mu = 0.5, sigma = 1, df = 5)
+  draws[i] &lt;- out$x
+  nEvaluations &lt;- nEvaluations + out$nEvaluations
+}
+nEvaluations / (length(draws) - 1)
+plot(density(draws), xlim = c(0, 1))
+curve(exp(lf(x)), 0, 1, col = "blue", add = TRUE)
+
+</code></pre>
+
+
+</div>

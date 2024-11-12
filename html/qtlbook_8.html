@@ -1,0 +1,94 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>ovar</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Interspecific backcross in Drosophila</h2>
+
+<h3>Description</h3>
+
+<p>Data on ovariole number in a backcross between <em>D. simulans</em> and
+<em>D. sechellia</em>; the majority of individuals were selected to be
+recombinant in the region of a putative QTL on chromosome 3.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">ovar
+</code></pre>
+
+
+<h3>Format</h3>
+
+<p>An object of class <code>cross</code>.  See <code>qtl::read.cross()</code>
+for details.</p>
+
+
+<h3>Details</h3>
+
+<p>The data come from an interspecific Drosophila backcross.  <em>D.
+simulans</em> was crossed to <em>D. sechellia</em>, and the <code class="reqn">F_1</code> hybrid
+was crossed back to <em>D. simulans</em>.
+</p>
+<p>The phenotype of interest was ovariole number in females (a measure of
+fitness).  Phenotypes <code>on1</code> and <code>on2</code> are the ovariole counts in
+the left and right gonads.  The phenotype <code>onm</code> is the average of the
+two counts; for many individuals, the ovariole count for one of two gonads
+was missing, and so <code>onm</code> is missing.
+</p>
+<p>In an initial cross of 402 individuals, 383 had complete phenotype data.
+Initial genotyping focused on 94 individuals with extreme phenotype.
+</p>
+<p>To increase the resolution of a major QTL identified on chromosome 3, a
+second cross of approximately 7000 flies was performed, though only 1050
+individuals showing a recombination event between two morphological markers,
+<em>st</em> (bright red eyes) and <em>e</em> (dark brown body), were phenotyped
+and genotyped; 1038 had complete phenotype data.  The aim was to oversample
+recombinants of the region of the QTL.
+</p>
+<p>There are genotype data for 24 markers on 3 chromosomes.  (The fourth
+chromosome had one marker, but showed no effect and is not included in these
+data.)
+</p>
+<p>The phenotype <code>cross</code> indicates whether an individual came from the
+first or second cross.
+</p>
+<p>Alleles <code>"I"</code> and <code>"E"</code> refer to <em>D. simulans</em> and <em>D.
+sechellia</em>, respectively.
+</p>
+
+
+<h3>Source</h3>
+
+<p>Virginie Orgogozo, Department of Ecology and Evolutionary Biology,
+Princeton University, <a href="mailto:virginie.orgogozo@normalesup.org">virginie.orgogozo@normalesup.org</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Orgogozo, V., Broman, K. W. and Stern, D. L.  (2006)
+High-resolution QTL mapping reveals sign epistasis controlling ovariole
+number between two Drosophila species. <em>Genetics</em> <strong>173</strong>, 197–205.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>link{gutlength}</code>, <code>link{iron}</code>, <code>link{myocard}</code>,
+<code>link{nf1}</code>, <code>link{trout}</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(ovar)
+library(qtl)
+plot(ovar)
+
+</code></pre>
+
+
+</div>

@@ -1,0 +1,227 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>Implicant matrix functions: allExpressions, createMatrix, getRow</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Functions Related to the Implicant Matrix</h2>
+
+<h3>Description</h3>
+
+<p>This is a set of functions dedicated to the implicant matrix, a space where all
+causal configurations and their minimized solutions are found.
+</p>
+<p>They can produce all possible implicants and prime implicants, or all possible
+combinations for a specific number of causal conditions and their number
+of values (either binary or multi-value).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">allExpressions(noflevels = NULL, arrange = FALSE, depth, raw = FALSE, ...)
+
+createMatrix(noflevels = NULL, ...)
+
+getRow(row.no = NULL, noflevels = NULL, zerobased = FALSE, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>noflevels</code></td>
+<td>
+<p>The number of levels (values) for each causal condition.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>arrange</code></td>
+<td>
+<p>Logical, if <code>TRUE</code> the result matrix is arranged for visual inspection.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>depth</code></td>
+<td>
+<p>Integer, an upper number of causal conditions to form expressions with.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>raw</code></td>
+<td>
+<p>Logical, if <code>TRUE</code> it returns the matrix indicating which conditions have
+been minimized, using <b><code>-1</code></b>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>row.no</code></td>
+<td>
+<p>A vector, the desired row numbers.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>zerobased</code></td>
+<td>
+<p>Logical, if <b><code>TRUE</code></b> the first row number is zero.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Other arguments.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>A truth table for binary crisp conditions is a matrix with <code class="reqn">2^k</code> rows, where
+<code class="reqn">k</code> is the number of causal conditions.
+</p>
+<p>For multi-value causal conditions, the same equation can be generalised to:
+</p>
+<p><code class="reqn">v_{1} \cdot v_{2} \cdot \dots \cdot v_{k}</code>
+</p>
+<p>where <code class="reqn">v</code> is the number of values (levels) for every causal condition from <code class="reqn">1</code>
+to <code class="reqn">k</code>.
+</p>
+<p>Implicant matrices contain all rows from the truth table, plus all of their supersets,
+(all implicants and prime implicants), including the empty set (Dusa 2007, 2010).
+</p>
+<p>For a binary crisp set procedure, there are <code class="reqn">3^k - 1</code> possible expressions (groupings),
+see Ragin (2010). Including the empty set (the situation when all causal conditions have
+been minimized), the implicant matrix consists of exactly <code class="reqn">3^k</code> rows, including the
+truth table configurations.
+</p>
+<p>In fact, <code class="reqn">3^k</code> is also obtained by the product:
+</p>
+<p><code class="reqn">(2 + 1) \cdot (2 + 1) \cdot \dots \cdot (2 + 1)</code>
+</p>
+<p>For multi-value causal conditions, the same equation can be generalised to:
+</p>
+<p><code class="reqn">(v_{1} + 1) \cdot (v_{2} + 1) \cdot \dots \cdot (v_{k} + 1)</code>
+</p>
+<p>where every number of levels in each causal conditions is incremented with 1, to allow
+coding the minimization of literals in each (prime) implicant (see examples).
+</p>
+<p>The function <b><code>allExpressions()</code></b> creates a matrix which contains all possible implicants
+and prime implicants, displayed in the original values form using the code <b><code>-1</code></b> to
+point the minimized literals, while the other functions use the code <b><code>0</code></b>, all other
+values being incremented with 1.
+</p>
+<p>Specifying a smaller <b><code>depth</code></b> automatically activates the argument <b><code>arrange</code></b>.
+</p>
+<p>When the argument <b><code>arrange</code></b> is activated, the output is arranged in the increasing
+order of the number of conditions which form conjunctions, up to the maximum number specified
+by the argument <b><code>depth</code></b> (which if <b><code>NULL</code></b>, it is considered equal to the
+number of columns in the matrix).
+</p>
+<p>The function <b><code>createMatrix()</code></b> creates a base matrix for truth tables and implicant
+matrices.
+</p>
+<p>The function <b><code>getRow()</code></b> takes the number of a row in the truth table or implicant matrix
+(in its decimal form), and transforms it into its binary (or multi-base) representation,
+as a configuration of binary or multi-values for each causal condition.
+</p>
+<p>Note that <code class="reqn">\textsf{R}</code> is a 1-based language (all numbers start from 1), and similarly positions
+in vectors and matrices start with 1. For this reason, although (mathematicall) the binary
+representation of the decimal number 0 (for example, at three causal conditions) is 0 0 0,
+in <code class="reqn">\textsf{R}</code> that would be the “first” line in the implicant matrix, therefore 0 0 0 is
+translated into the number 1, unless the argument <b><code>zerobased</code></b> is activated.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A matrix with <code class="reqn">k</code> columns and:
+</p>
+<p><code class="reqn">v_{1} \cdot v_{2} \cdot \dots \cdot v_{k}</code> rows if a truth table;
+</p>
+<p><code class="reqn">(v_{1} + 1) \cdot (v_{2} + 1) \cdot \dots \cdot (v_{k} + 1)</code> rows if an implicant matrix;
+</p>
+<p><code class="reqn">x</code> rows, equal to the length of <b><code>row.no</code></b>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Adrian Dusa
+</p>
+
+
+<h3>References</h3>
+
+<p>Dusa, A. (2007b) <em>Enhancing Quine-McCluskey</em>.
+WP 2007-49, <a href="https://compasss.org/working-papers-series/">COMPASSS Working Papers series</a>.
+</p>
+<p>Dusa, Adrian. 2010. “A Mathematical Approach to the Boolean Minimization 
+Problem.” <em>Quality &amp; Quantity</em> vol.44, no.1, pp.99-113.
+</p>
+<p>Ragin, Charles C. (2000) <em>Fuzzy-Set Social Science</em>. Chicago: University of 
+Chicago Press.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>expand.grid</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># three binary causal conditions, having two levels each: 0 and 1
+noflevels &lt;- c(2, 2, 2)
+
+
+# for three binary causal conditions
+allExpressions(noflevels)
+
+# the same matrix, this time arranged better
+# (last rows represent the truth table)
+allExpressions(noflevels, arrange = TRUE)
+
+# show only the implicants (excluding the truth table)
+allExpressions(noflevels, arrange = TRUE, depth = 2)
+
+# using the raw form
+allExpressions(noflevels, raw = TRUE)
+
+
+# create a base truth table for 3 binary conditions
+createMatrix(noflevels)
+
+# its implicant matrix
+createMatrix(noflevels + 1)
+
+# create a base truth table where the second condition has three levels
+createMatrix(c(2, 3, 2))
+
+
+
+# deriving rows
+rows &lt;- c(2, 4, 5, 7, 8, 10, 11, 13, 14, 16, 17)
+mat &lt;- getRow(rows, noflevels + 1) # note the +1
+rownames(mat) &lt;- rows
+colnames(mat) &lt;- c("A", "B", "C")
+mat
+
+# implicant matrix     normal values
+# 
+#       A  B  C    |       A  B  C       
+#    2  0  0  1    |    2  -  -  0       ~C      
+#    4  0  1  0    |    4  -  0  -       ~B
+#    5  0  1  1    |    5  -  0  0       ~B~C
+#    7  0  2  0    |    7  -  1  -       B
+#    8  0  2  1    |    8  -  1  0       B~C
+#   10  1  0  0    |   10  0  -  -       ~A  
+#   11  1  0  1    |   11  0  -  0       ~A~C                 
+#   13  1  1  0    |   13  0  0  -       ~A~B   
+#   14  1  1  1    |   14  0  0  0       ~A~B~C
+#   16  1  2  0    |   16  0  1  -       ~AB
+#   17  1  2  1    |   17  0  1  0       ~AB~C                   
+</code></pre>
+
+
+</div>

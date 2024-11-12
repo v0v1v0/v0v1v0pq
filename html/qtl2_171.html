@@ -1,0 +1,156 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>top_snps</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Create table of top snp associations</h2>
+
+<h3>Description</h3>
+
+<p>Create a table of the top snp associations
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">top_snps(
+  scan1_output,
+  snpinfo,
+  lodcolumn = 1,
+  chr = NULL,
+  drop = 1.5,
+  show_all_snps = TRUE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>scan1_output</code></td>
+<td>
+<p>Output of <code>scan1()</code>.
+Should contain a component <code>"snpinfo"</code>, as when
+<code>scan1()</code> is run with SNP probabilities
+produced by <code>genoprob_to_snpprob()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>snpinfo</code></td>
+<td>
+<p>Data frame with SNP information with the following
+columns (the last three are generally derived with
+<code>index_snps()</code>):
+</p>
+
+<ul>
+<li> <p><code>chr</code> - Character string or factor with chromosome
+</p>
+</li>
+<li> <p><code>pos</code> - Position (in same units as in the <code>"map"</code>
+attribute in <code>genoprobs</code>.
+</p>
+</li>
+<li> <p><code>sdp</code> - Strain distribution pattern: an integer, between
+1 and <code class="reqn">2^n - 2</code> where <code class="reqn">n</code> is the number of strains, whose
+binary encoding indicates the founder genotypes
+</p>
+</li>
+<li> <p><code>snp</code> - Character string with SNP identifier (if
+missing, the rownames are used).
+</p>
+</li>
+<li> <p><code>index</code> - Indices that indicate equivalent
+groups of SNPs, calculated by <code>index_snps()</code>.
+</p>
+</li>
+<li> <p><code>intervals</code> - Indexes that indicate which marker
+intervals the SNPs reside.
+</p>
+</li>
+<li> <p><code>on_map</code> - Indicate whether SNP coincides with a marker
+in the <code>genoprobs</code>
+</p>
+</li>
+</ul>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lodcolumn</code></td>
+<td>
+<p>Selected LOD score column to (a numeric index, or a
+character string for a column name). Only one value allowed.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>chr</code></td>
+<td>
+<p>Selected chromosome; only one value allowed.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>drop</code></td>
+<td>
+<p>Show all SNPs with LOD score within this amount of the
+maximum SNP association.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>show_all_snps</code></td>
+<td>
+<p>If TRUE, expand to show all SNPs.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Data frame like the input <code>snpinfo</code> with just the selected
+subset of rows, and with an added column with the LOD score.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>index_snps()</code>, <code>genoprob_to_snpprob()</code>, <code>scan1snps()</code>, <code>plot_snpasso()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+# load example DO data from web
+file &lt;- paste0("https://raw.githubusercontent.com/rqtl/",
+               "qtl2data/main/DOex/DOex.zip")
+DOex &lt;- read_cross2(file)
+
+# subset to chr 2
+DOex &lt;- DOex[,"2"]
+
+# calculate genotype probabilities and convert to allele probabilities
+pr &lt;- calc_genoprob(DOex, error_prob=0.002)
+apr &lt;- genoprob_to_alleleprob(pr)
+
+# query function for grabbing info about variants in region
+dbfile &lt;- system.file("extdata", "cc_variants_small.sqlite", package="qtl2")
+query_variants &lt;- create_variant_query_func(dbfile)
+
+# SNP association scan, keep information on all SNPs
+out_snps &lt;- scan1snps(apr, DOex$pmap, DOex$pheno, query_func=query_variants,
+                      chr=2, start=97, end=98, keep_all_snps=TRUE)
+
+# table with top SNPs
+top_snps(out_snps$lod, out_snps$snpinfo)
+
+# top SNPs among the distinct subset at which calculations were performed
+top_snps(out_snps$lod, out_snps$snpinfo, show_all_snps=FALSE)
+
+# top SNPs within 0.5 LOD of max
+top_snps(out_snps$lod, out_snps$snpinfo, drop=0.5)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

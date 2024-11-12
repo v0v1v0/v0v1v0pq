@@ -1,0 +1,105 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>distSparse</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Sparse distance matrix calculations
+</h2>
+
+<h3>Description</h3>
+
+<p>Sparse alternative to base <code>dist</code> function. WARNING: the result is not a distance metric, see details! Also: distances are calculated between columns (not between rows, as in the base <code>dist</code> function).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">distSparse(M, method = "euclidean", diag = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>M</code></td>
+<td>
+
+<p>a sparse matrix in a format of the <code>Matrix</code> package, typically <code>dMatrix</code>. Any other matrices will be converted to such a sparse Matrix. The correlations will be calculated between the columns of this matrix (different from the base <code>dist</code> function!)
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+
+<p>method to calculate distances. Currently only <code>"euclidean"</code> is supported.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>diag</code></td>
+<td>
+
+<p>should the diagonal be included in the results?
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>A sparse distance matrix is a slightly awkward concept, because distances of zero are rare in most data. Further, it is mostly the small distances that are of interest, and not the large distanes (which are mostly also less trustwhorthy). Note that for random data, this assumption is not necessarily true.
+</p>
+<p>To obtain sparse results, the current implementation takes a special approach. First, only those distances will be calculated for which there is at least some non-zero data for both columns. The assumption is taken that those distances will be uninteresting (and relatively large anyway).
+</p>
+<p>Second, to differentiate the non-calculated distances from real zero distances, the distances are converted into similarities by substracting them from the maximum. In this way, all non-calculated distances are zero, and the real zeros have value <code>max(M)</code>.
+</p>
+<p>Euclidean distances are calculated using the following trick:
+</p>
+<p style="text-align: center;"><code class="reqn">colSums(M^2) + rowSums(M^2) - 2 * M'M</code>
+</p>
+
+
+
+<h3>Value</h3>
+
+<p>A symmetric matrix of type <code>dsCMatrix</code>, consisting of similarity(!) values instead of distances (viz. <code>max(dist)-dist</code>).
+</p>
+
+
+<h3>Note</h3>
+
+<p>Please note:
+</p>
+
+<ul>
+<li>
+<p>The values in the result are not distances, but similarities computed as <code>max(dist)-dist</code>.
+</p>
+</li>
+<li>
+<p>Non-calculated values are zero.
+</p>
+</li>
+</ul>
+<h3>Author(s)</h3>
+
+<p>Michael Cysouw &lt;cysouw@mac.com
+</p>
+
+
+<h3>See Also</h3>
+
+<p>See Also as <code>dist</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># to be done
+</code></pre>
+
+
+</div>

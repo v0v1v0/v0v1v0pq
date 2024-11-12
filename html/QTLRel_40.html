@@ -1,0 +1,69 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>rem</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Random effect matrices
+</h2>
+
+<h3>Description</h3>
+
+<p>Construct matrices associated with random effects.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">rem(formula,data)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>formula</code></td>
+<td>
+
+<p>A formula of the form: ~ Z | G1/.../Gk + ..., corresponding to random effects Z*G_i + Z*G_{ij} + ... in a mixed effect model. If Z=1 as in most cases, then it can be ~ G1/.../Gk + ...
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+
+<p>A data frame that contains all the variables in the formula.
+</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list of matrices that are associated with random effects.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+# make-up example
+dat&lt;- data.frame(
+   group=c("A","A","A","A","A","A","B","B","B","B"),
+   sex=c("F","F","F","M","M","M","F","F","M","M"),
+   pass=c("Y","N","N","Y","Y","Y","Y","N","N","Y"),
+   z=1:10)
+
+# random effect pass, group and sex, where sex is nested
+# within group:
+# y_{ijk} = x_{ij}*b + group_i + sex_{ij} + z*pass_{ij}
+#           + e_{ijk}
+rem(~ group/sex + z|pass,data=dat)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,68 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>dfm_sort</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Sort a dfm by frequency of one or more margins</h2>
+
+<h3>Description</h3>
+
+<p>Sorts a dfm by descending frequency of total features, total features
+in documents, or both.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">dfm_sort(x, decreasing = TRUE, margin = c("features", "documents", "both"))
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>Document-feature matrix created by <code>dfm()</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>decreasing</code></td>
+<td>
+<p>logical; if <code>TRUE</code>, the sort will be in descending
+order, otherwise sort in increasing order</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>margin</code></td>
+<td>
+<p>which margin to sort on <code>features</code> to sort by frequency of
+features, <code>documents</code> to sort by total feature counts in documents,
+and <code>both</code> to sort by both</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A sorted dfm matrix object
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Ken Benoit
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">dfmat &lt;- dfm(tokens(data_corpus_inaugural))
+head(dfmat)
+head(dfm_sort(dfmat))
+head(dfm_sort(dfmat, decreasing = FALSE, "both"))
+</code></pre>
+
+
+</div>

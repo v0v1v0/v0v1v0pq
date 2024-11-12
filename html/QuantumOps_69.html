@@ -1,0 +1,47 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>SteaneCorrect</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>SteaneCorrect</h2>
+
+<h3>Description</h3>
+
+<p>Performs Steane error correction on an encoded qubit. Useful explanation provided by Devitt &lt;DOI:10.1088/0034-4885/76/7/076001&gt;
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">SteaneCorrect(v)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>v</code></td>
+<td>
+<p> Steane encoded qubit ket </p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>Steane encoded ket after error correction has been performed
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"> ## Not run: 
+ SteaneCorrect(Steane(ket(1,0)))
+ SteaneCorrect(Steane(ket(0,1)))
+ SteaneCorrect(Steane(ket(1,1)))
+ SteaneCorrect(single(X(),n=7,t=2,Steane(ket(1,0))))
+ 
+## End(Not run)
+</code></pre>
+
+
+</div>

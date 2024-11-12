@@ -1,0 +1,32 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>swapgate</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>The SWAP gate</h2>
+
+<h3>Description</h3>
+
+<p>This class represents a generic SWAP gate
+</p>
+
+
+<h3>Slots</h3>
+
+
+<dl>
+<dt><code>bits</code></dt>
+<dd>
+<p>Integer vector of length 2. The two bits to swap.</p>
+</dd>
+</dl>
+<h3>Examples</h3>
+
+<pre><code class="language-R">x &lt;- H(1) * qstate(nbits=2)
+z &lt;- SWAP(c(1,2)) * (H(1) * x)
+
+</code></pre>
+
+
+</div>

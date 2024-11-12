@@ -1,0 +1,70 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>mapthis</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Simulated data for illustrating genetic map construction</h2>
+
+<h3>Description</h3>
+
+<p>Simulated data for an F2 intercross, obtained using
+<code>sim.cross</code>, useful for illustrating the process of
+constructing a genetic map.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">data(mapthis)</code></pre>
+
+
+<h3>Format</h3>
+
+<p>An object of class <code>cross</code>.  See <code>read.cross</code>
+for details.
+</p>
+
+
+<h3>Details</h3>
+
+<p> These are simulated data, consisting of 300 F2 individuals
+typed at 100 markers on five chromosomes. There are no real phenotypes,
+just a set of individual identifiers.  The data were simulated for the
+purpose of illustrating the process of constructing a genetic map.  The
+markers are all assigned to a single chromosome and in a random order,
+and there are a number of problematic markers and individuals.
+</p>
+<p>See <a href="https://rqtl.org/tutorials/geneticmaps.pdf">https://rqtl.org/tutorials/geneticmaps.pdf</a> for a tutorial
+on how to construct a genetic map with these data.</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Karl W Broman, <a href="mailto:broman@wisc.edu">broman@wisc.edu</a> </p>
+
+
+<h3>References</h3>
+
+<p>Broman, K. W. (2010) Genetic map construction with R/qtl.  Technical
+report #214, Department of Biostatistics and Medical Informatics,
+University of Wisconsin–Madison
+</p>
+
+
+<h3>See Also</h3>
+
+ <p><code>fake.f2</code>, <code>est.rf</code>,
+<code>est.map</code>, <code>formLinkageGroups</code>,
+<code>orderMarkers</code> </p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(mapthis)
+summary(mapthis)
+plot(mapthis)
+</code></pre>
+
+
+</div>

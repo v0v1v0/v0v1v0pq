@@ -1,0 +1,132 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>predict.qad</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Predict conditional probabilities</h2>
+
+<h3>Description</h3>
+
+<p>The function <code>predict.qad()</code> can be utilized to predict the probabilities of the event that Y lies in
+specific intervals given X=x, or vice versa. Thereby, the intervals are calculated as retransformed intervals (by using the empirical quantil function) defining the checkerboard grid. Additionally, the mass of the conditional distribution functions are plotted.
+The prediction can be computed in the sample setting as well as in the copula setting (pseudo-observation in the unit square).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'qad'
+predict(
+  object,
+  values,
+  conditioned = "x1",
+  nr_intervals = NULL,
+  prediction_interval = NULL,
+  copula = FALSE,
+  pred_plot = FALSE,
+  panel.grid = TRUE,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>an object of class 'qad', which determines the underlying checkerboard aggregation.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>values</code></td>
+<td>
+<p>a vector containing the x or the y values for which the conditional probabilities should be predicted.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>conditioned</code></td>
+<td>
+<p>a character specifying on which variable is conditioned. Options are "x1" (default) or "x2".</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nr_intervals</code></td>
+<td>
+<p>an integer, which determines a different number of intervals for the prediction (only possible in the copula setting).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>prediction_interval</code></td>
+<td>
+<p>a vector specifying the interval boundaries for which the conditional probability is computed. Options are NULL (default) to predict the conditional probabilities for all intervals or a vector c(lower boundary, upper boundary) indicating the boundaries.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>copula</code></td>
+<td>
+<p>a logical (default = FALSE) determining whether the empirical checkerboard copula is used or the retransformed data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pred_plot</code></td>
+<td>
+<p>a logical indicating if the conditional probabilities are plotted.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>panel.grid</code></td>
+<td>
+<p>a logical indicating whether the panel.grid is plotted.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>some methods for this generic require additional arguments.  None are used in this method.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>a list containing a data.frame with the computed intervals (lower and upper boundaries) and the prediction probabilities (i.e., the probability that Y lies in the interval Ii given X = x).
+Furthermore, a heatmap depicting the mass of the conditional distribution functions is returned.
+</p>
+
+
+<h3>Note</h3>
+
+<p>Predictions are only possible for values within the range of the sample (or between 0 and 1 in the copula setting). For given values exceeding the range NA is returned.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">set.seed(1)
+n &lt;- 100
+x &lt;- runif(n, -4 ,4)
+y &lt;- x^2 + rnorm(n, 0, 1)
+sample &lt;- data.frame(x, y)
+
+##(Not Run)
+qad.fit &lt;- qad(sample)
+predict.qad(qad.fit, values = c(-2,0.6), conditioned = "x1", pred_plot = TRUE)
+predict.qad(qad.fit, values = c(1,9), conditioned = "x2", pred_plot = TRUE)
+predict.qad(qad.fit, values = c(-2,0.6), conditioned = "x1", pred_plot = FALSE,
+        nr_intervals = 4)
+predict.qad(qad.fit, values = c(-2,0.6), conditioned = "x1", pred_plot = FALSE,
+            prediction_interval = c(4,6))
+predict.qad(qad.fit, values = c(4,0.6), conditioned = "x2", pred_plot = FALSE,
+            prediction_interval = c(2,3))
+
+qad.pred &lt;- predict.qad(qad.fit, values = c(-2,0.6), conditioned = "x1", pred_plot = FALSE)
+qad.pred$prediction
+qad.pred$plot
+
+
+</code></pre>
+
+
+</div>

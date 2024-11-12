@@ -1,0 +1,259 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>plot.qcs</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>function to create a plotting 'qcs' object</h2>
+
+<h3>Description</h3>
+
+<p>Generic function for plotting Shewhart charts of object of class 'qcs' to perform statistical 
+quality control.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'qcs'
+plot(
+  x,
+  title,
+  subtitle,
+  xlab,
+  ylab,
+  ylim,
+  center.nominal = NULL,
+  limits.specification = NULL,
+  limits.alert = NULL,
+  type.data = c("continuous", "atributte", "dependence"),
+  ...
+)
+
+## S3 method for class 'qcs.xbar'
+plot(
+  x,
+  title = NULL,
+  subtitle = NULL,
+  xlab = NULL,
+  ylab = NULL,
+  ylim = NULL,
+  conf.nsigma.alert = NULL,
+  center.nominal = NULL,
+  limits.specification = NULL,
+  ...
+)
+
+## S3 method for class 'qcs.S'
+plot(
+  x,
+  title = NULL,
+  subtitle = NULL,
+  xlab = NULL,
+  ylab = NULL,
+  ylim = NULL,
+  conf.nsigma.alert = NULL,
+  center.nominal = NULL,
+  limits.specification = NULL,
+  ...
+)
+
+## S3 method for class 'qcs.R'
+plot(
+  x,
+  title = NULL,
+  subtitle = NULL,
+  xlab = NULL,
+  ylab = NULL,
+  ylim = NULL,
+  conf.nsigma.alert = NULL,
+  center.nominal = NULL,
+  limits.specification = NULL,
+  ...
+)
+
+## S3 method for class 'qcs.one'
+plot(
+  x,
+  title = NULL,
+  subtitle = NULL,
+  xlab = NULL,
+  ylab = NULL,
+  ylim = NULL,
+  conf.nsigma.alert = NULL,
+  center.nominal = NULL,
+  limits.specification = NULL,
+  ...
+)
+
+## S3 method for class 'qcs.p'
+plot(
+  x,
+  title = NULL,
+  subtitle = NULL,
+  xlab = NULL,
+  ylab = NULL,
+  ylim = NULL,
+  conf.nsigma.alert = NULL,
+  center.nominal = NULL,
+  limits.specification = NULL,
+  ...
+)
+
+## S3 method for class 'qcs.np'
+plot(
+  x,
+  title = NULL,
+  subtitle = NULL,
+  xlab = NULL,
+  ylab = NULL,
+  ylim = NULL,
+  conf.nsigma.alert = NULL,
+  center.nominal = NULL,
+  limits.specification = NULL,
+  ...
+)
+
+## S3 method for class 'qcs.c'
+plot(
+  x,
+  title = NULL,
+  subtitle = NULL,
+  xlab = NULL,
+  ylab = NULL,
+  ylim = NULL,
+  conf.nsigma.alert = NULL,
+  center.nominal = NULL,
+  limits.specification = NULL,
+  ...
+)
+
+## S3 method for class 'qcs.u'
+plot(
+  x,
+  title = NULL,
+  subtitle = NULL,
+  xlab = NULL,
+  ylab = NULL,
+  ylim = NULL,
+  conf.nsigma.alert = NULL,
+  center.nominal = NULL,
+  limits.specification = NULL,
+  ...
+)
+
+## S3 method for class 'qcs.ewma'
+plot(
+  x,
+  title = NULL,
+  subtitle = NULL,
+  xlab = NULL,
+  ylab = NULL,
+  ylim = NULL,
+  ...
+)
+
+## S3 method for class 'qcs.cusum'
+plot(
+  x,
+  title = NULL,
+  subtitle = NULL,
+  xlab = NULL,
+  ylab = NULL,
+  ylim = NULL,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>Object qcs (Quality Control Statical)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>title</code></td>
+<td>
+<p>an overall title for the plot</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>subtitle</code></td>
+<td>
+<p>a sub title for the plot</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xlab</code></td>
+<td>
+<p>a title for the x axis</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ylab</code></td>
+<td>
+<p>a title for the y axis</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ylim</code></td>
+<td>
+<p>the y limits of the plot</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>center.nominal</code></td>
+<td>
+<p>a value specifying the 
+center of group statistics or the "target" value 
+of the process</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>limits.specification</code></td>
+<td>
+<p>a two-value vector 
+specifying control limits.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>limits.alert</code></td>
+<td>
+<p>a two-value vector 
+specifying control alert limits.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>type.data</code></td>
+<td>
+<p>a string specifying the type of data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>arguments to be passed to or from methods.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>conf.nsigma.alert</code></td>
+<td>
+<p>a numeric value used to compute control limits, specifying the
+number of standard deviations (if <code>conf.nsigma</code> &gt; 1) or the confidence level (if 0
+&lt; <code>conf.nsigma</code> &lt; 1).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>conf.nsigma</code></td>
+<td>
+<p>a numeric value used to compute control limits, specifying the
+number of standard deviations (if <code>conf.nsigma</code> &gt; 1) or the confidence level (if 0
+&lt; <code>conf.nsigma</code> &lt; 1).</p>
+</td>
+</tr>
+</table>
+</div>

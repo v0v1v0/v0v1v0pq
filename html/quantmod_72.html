@@ -1,0 +1,93 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>buildData</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2> Create Data Object for Modelling </h2>
+
+<h3>Description</h3>
+
+<p>Create one data object from multiple sources, applying
+transformations via standard <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> formula mechanism.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">buildData(formula, na.rm = TRUE, return.class = "zoo")
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>formula</code></td>
+<td>
+<p> an object of class <code>formula</code> (or one
+that can be coerced to that class): a symbolic description
+of the desired output data object, with the <code>dependent</code> side
+corresponding to first column, and the <code>independent</code> parameters of
+the formula assigned to the remaining columns. </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>na.rm</code></td>
+<td>
+<p> drop rows with missing values? </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>return.class</code></td>
+<td>
+<p> one of "zoo","data.frame","ts","timeSeries" </p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Makes available for use <em>outside</em> the <span class="pkg">quantmod</span> workflow a dataset
+of appropriately transformed variables, using the same mechanism
+underlying <code>specifyModel</code>. Offers the ability to apply transformations
+to raw data using a common formula mechanism, without having to explicitly
+merge different data objects.
+</p>
+<p>Interally calls <code>specifyModel</code> followed by <code>modelData</code>, with the
+returned object being coerced to the desired 'return.class' if possible,
+otherwise returns a <code>zoo</code> object.
+</p>
+<p>See <code>getSymbols</code> and <code>specifyModel</code> for more information
+regarding proper usage.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>return.class</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Jeffrey A. Ryan </p>
+
+
+<h3>See Also</h3>
+
+ <p><code>getSymbols</code>, <code>specifyModel</code>,
+<code>modelData</code> </p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+  buildData(Next(OpCl(DIA)) ~ Lag(TBILL) + I(Lag(OpHi(DIA))^2))
+  buildData(Next(OpCl(DIA)) ~ Lag(TBILL), na.rm=FALSE)
+  buildData(Next(OpCl(DIA)) ~ Lag(TBILL), na.rm=FALSE, return.class="ts")
+
+## End(Not run)
+</code></pre>
+
+
+</div>

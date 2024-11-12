@@ -1,0 +1,49 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>AmplitudeDamping</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>AmplitudeDamping</h2>
+
+<h3>Description</h3>
+
+<p>Implements Amplitude Damping noise model on the input quantum state. Formulas taken from &lt;DOI:10.1103/PhysRevA.90.062320&gt;.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">AmplitudeDamping(p,Pad)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>p</code></td>
+<td>
+<p> Input quantum state, in density matrix format  </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Pad</code></td>
+<td>
+<p>The probability of Amplitude Damping. Commonly referred to as gamma in the literature. </p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>The quantum state, after Amplitude Damping has been applied.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"> AmplitudeDamping(p=convert_ket2DM(ket(1,0)),Pad=0.01)
+</code></pre>
+
+
+</div>

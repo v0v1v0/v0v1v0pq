@@ -1,0 +1,58 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>KiK</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Matrix square root and generalized inverse</h2>
+
+<h3>Description</h3>
+
+<p>This internal function calculates the decomposition
+<code class="reqn">\mathbf{S} = \mathbf{K} \mathbf{K}^T</code> for an
+<code class="reqn">n \times n</code> covariance matrix <code class="reqn">\mathbf{S}</code>, so that
+<code class="reqn">\mathbf{K}</code> is an <code class="reqn">n \times m</code> matrix with <code class="reqn">m</code> being
+the rank of <code class="reqn">\mathbf{S}</code>.  Returns this
+<code class="reqn">\mathbf{K}</code> and its generalized inverse,
+<code class="reqn">\mathbf{K}^-</code>, in a list.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">KiK(S, tol = .Machine$double.eps * 100)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>S</code></td>
+<td>
+<p>Covariance matrix.  Symmetry and positive (semi-)definiteness are checked.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tol</code></td>
+<td>
+<p>Tolerance to determine the rank of <code class="reqn">\mathbf{S}</code>.  Eigenvalues
+smaller than this value are considered zero.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>At present, this utilizes <code>svd()</code>,
+although there may be better alternatives.
+</p>
+
+
+<h3>Value</h3>
+
+<p>List with <code>K</code> and <code>iK</code>, with the latter being
+<code class="reqn">\mathbf{K}^-</code>
+</p>
+
+
+</div>

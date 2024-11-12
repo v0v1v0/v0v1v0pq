@@ -1,0 +1,63 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>modifyDataset</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Modification of the values of the variables in the dataset</h2>
+
+<h3>Description</h3>
+
+<p>The function modifies the values of the declared variables used 
+in the random part of the model if they are not unique. 
+Unique values of the variables are required to 
+build correct Z matrix for unsampled population elements.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">modifyDataset(data, names)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>the population dataset.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>names</code></td>
+<td>
+<p>the vector of names of the dataset columns which values should 
+be modified (names of the variables used to define the random part 
+of the model).
+</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>The dataset with modified values of the declared variables.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Tomasz Zadlo</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(realestData)
+# some values of "NUTS2" and "NUTS4type" are the same - we will modify them:
+modifyDataset(realestData, c("NUTS2", "NUTS4type")) 
+</code></pre>
+
+
+</div>

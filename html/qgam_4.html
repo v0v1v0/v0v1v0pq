@@ -1,0 +1,92 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>check.learnFast</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Visual checks for the output of tuneLearnFast()</h2>
+
+<h3>Description</h3>
+
+<p>Provides some visual checks to verify whether the Brent optimizer used by <code>tuneLearnFast()</code> worked correctly.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'learnFast'
+check(obj, sel = NULL, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>obj</code></td>
+<td>
+<p>the output of a call to <code>tuneLearnFast</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sel</code></td>
+<td>
+<p>integer vector determining which of the plots will be produced. For instance if <code>sel = c(1, 3)</code> only
+the 1st and 3rd plots are showed. No entry of <code>sel</code> can be bigger than one plus the number of quantiles considered
+in the original <code>tuneLearnFast()</code> call. That is, if we estimated the learning rate for <code>qu = c(0.1, 0.4)</code>,
+then <code>max(sel)</code> must be &lt;= 3.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>currently not used, here only for compatibility reasons.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The top plot in the first page shows the bracket used to estimate log(sigma) for each quantile.
+The brackets are delimited by the crosses and the red dots are the estimates. If a dot falls very close to one of the crosses, 
+that might indicate problems. The bottom plot shows, for each quantile, the value of parameter <code>err</code> used. Sometimes the algorithm
+needs to increase <code>err</code> above its user-defined value to achieve convergence. Subsequent plots show, for each quantile, the value
+of the loss function corresponding to each value of log(sigma) explored by Brent algorithm.
+</p>
+
+
+<h3>Value</h3>
+
+<p>It produces several plots.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Matteo Fasiolo &lt;matteo.fasiolo@gmail.com&gt;.
+</p>
+
+
+<h3>References</h3>
+
+<p>Fasiolo, M., Wood, S.N., Zaffran, M., Nedellec, R. and Goude, Y., 2020. 
+Fast calibrated additive quantile regression. 
+Journal of the American Statistical Association (to appear).
+<a href="https://www.tandfonline.com/doi/full/10.1080/01621459.2020.1725521">https://www.tandfonline.com/doi/full/10.1080/01621459.2020.1725521</a>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(qgam)
+set.seed(525)
+dat &lt;- gamSim(1, n=200)
+b &lt;- tuneLearnFast(y ~ s(x0)+s(x1)+s(x2)+s(x3), 
+                   data = dat, qu = c(0.4, 0.5), 
+                   control = list("tol" = 0.05)) # &lt;- sloppy tolerance to speed-up calibration 
+check(b) 
+check(b, 3) # Produces only third plot
+
+</code></pre>
+
+
+</div>

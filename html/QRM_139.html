@@ -1,0 +1,122 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>GEV</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Generalized Extreme Value Distribution 
+</h2>
+
+<h3>Description</h3>
+
+<p>Density, quantiles, cumulative probability, and fitting of the Generalized
+Extreme Value distribution. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">pGEV(q, xi, mu = 0, sigma = 1) 
+qGEV(p, xi, mu = 0, sigma = 1) 
+dGEV(x, xi, mu = 0, sigma = 1, log = FALSE) 
+rGEV(n, xi, mu = 0, sigma = 1)
+fit.GEV(maxima, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>log</code></td>
+<td>
+<p><code>logical</code>, whether log values of density should be returned,
+default is <code>FALSE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>maxima</code></td>
+<td>
+<p><code>vector</code>, block maxima data</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mu</code></td>
+<td>
+<p><code>numeric</code>, location parameter.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p><code>integer</code>, count of random variates.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p</code></td>
+<td>
+<p><code>vector</code>, probabilities.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>q</code></td>
+<td>
+<p><code>vector</code>, quantiles.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sigma</code></td>
+<td>
+<p><code>numeric</code>, scale parameter.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p><code>vector</code>, values to evaluate density.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xi</code></td>
+<td>
+<p><code>numeric</code>, shape parameter.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>ellipsis, arguments are passed down to <code>optim()</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>numeric, probability (pGEV), quantile (qGEV), density (dGEV) or random
+variates (rGEV) for the GEV distribution with shape parameter
+<code class="reqn">\xi</code>, location parameter <code class="reqn">\mu</code> and scale parameter
+<code class="reqn">\sigma</code>. A list object in case of <code>fit.GEV()</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>GPD</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">quantValue &lt;- 4.5
+pGEV(q = quantValue, xi = 0, mu = 1.0, sigma = 2.5) 
+pGumbel(q = quantValue, mu = 1.0, sigma = 2.5)
+## Fitting to monthly block-maxima
+data(nasdaq)
+l &lt;- -returns(nasdaq)
+em &lt;- timeLastDayInMonth(time(l))
+monmax &lt;- aggregate(l, by = em, FUN = max) 
+mod1 &lt;- fit.GEV(monmax) 
+</code></pre>
+
+
+</div>

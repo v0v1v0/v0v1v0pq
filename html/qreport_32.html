@@ -1,0 +1,95 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>scplot</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>scplot</h2>
+
+<h3>Description</h3>
+
+<p>Separate Chunk Plot
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">scplot(command, cap = NULL, scap = NULL, w = 5, h = 4, id = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>command</code></td>
+<td>
+<p>an command that causes a plot to be rendered</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cap</code></td>
+<td>
+<p>long caption</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>scap</code></td>
+<td>
+<p>short caption</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>w</code></td>
+<td>
+<p>width of plot</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>h</code></td>
+<td>
+<p>height of plot</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>id</code></td>
+<td>
+<p>a string ID for the plot.  Defaults to the current chunk label if <code>knitr</code> is running</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Runs a plot on its own <code>Rmarkdown/Quarto</code> <code>knitr</code> Chunk.  The plot will have its own caption and size, and short captions are placed in the markdown TOC
+</p>
+<p>Expressions cannot be re-used, i.e., each expression must evaluate to the right quantity after the chunk in which the <code>scplot</code> calls are made is finished, and the new constructed chunk is input.  To input and run the constructed chunk:
+<code style="white-space: pre;">⁠{r child='scplot.Rmd'}⁠</code> preceeded and following by 3 back ticks.
+Hmisc::putHcap is used to markup regular and short captions <code style="white-space: pre;">⁠cap, scap⁠</code>.  Short caption appears in TOC.  If no <code>scap</code>, then <code>cap</code> is used for this. To change the <code>putHcap</code> <code>subsub</code> argument set <code>options(scplot.subsub='## ')</code> for example.
+</p>
+
+
+<h3>Value</h3>
+
+<p>no value return; outputs R Markdown/Quarto markup
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Frank Harrell
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+scplot(id='chunkid')   # initialize output file scplot.Rmd
+# or use scplot() to use the current chunk name as the id
+# scplot(plotting expression, caption, optional short caption, w, h)
+# scplot(plotting expression ...)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

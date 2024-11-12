@@ -1,0 +1,92 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>cvpen-class</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Class "cvpen"</h2>
+
+<h3>Description</h3>
+
+<p>Class of object returned by a cross-validation performed through
+the <code>crossval</code> method.
+</p>
+
+
+<h3>Slots</h3>
+
+
+<dl>
+<dt>
+<code>lambda1</code>:</dt>
+<dd>
+<p>vector of <code class="reqn">\lambda_1</code>
+(<code class="reqn">\ell_1</code> or <code class="reqn">\ell_\infty</code> penalty levels)
+for which each cross-validation has been performed.</p>
+</dd>
+<dt>
+<code>lambda2</code>:</dt>
+<dd>
+<p>vector (or scalar) of <code class="reqn">\ell_2</code>-penalty levels for
+which each cross-validation has been performed.</p>
+</dd>
+<dt>
+<code>lambda1.min</code>:</dt>
+<dd>
+<p>level of <code class="reqn">\lambda_1</code> that minimizes the
+error estimated by cross-validation.</p>
+</dd>
+<dt>
+<code>lambda1.1se</code>:</dt>
+<dd>
+<p>largest level of <code class="reqn">\lambda_1</code> such as
+the cross-validated error is within 1 standard error of the
+minimum.</p>
+</dd>
+<dt>
+<code>lambda2.min</code>:</dt>
+<dd>
+<p>level of <code class="reqn">\lambda_2</code> that minimizes the
+error estimated by cross-validation.</p>
+</dd>
+<dt>
+<code>cv.error</code>:</dt>
+<dd>
+<p>a data frame containing the mean
+cross-validated error and its associated standard error for each
+values of <code>lambda1</code> and <code>lambda2</code>.</p>
+</dd>
+<dt>
+<code>folds</code>:</dt>
+<dd>
+<p>list of <code>K</code> vectors indicating the folds
+used for cross-validation.</p>
+</dd>
+<dt>
+<code>beta.min</code>:</dt>
+<dd>
+<p>the vector of parameters obtained by
+fitting the problem on the full data set <code>x</code> and <code>y</code> with
+<code>lambda1.min</code> and  <code>lambda2.min</code> penalties.</p>
+</dd>
+<dt>
+<code>beta.1se</code>:</dt>
+<dd>
+<p>the vector of parameters obtained by
+fitting the problem on the full data set <code>x</code> and <code>y</code> with
+<code>lambda1.1se</code> and <code>lambda2.min</code> penalties.
+</p>
+</dd>
+</dl>
+<p>The specific <code>plot,cvpen-method</code> method is documented.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>See also <code>plot,cvpen-method</code> and
+<code>crossval</code>.
+</p>
+
+
+</div>

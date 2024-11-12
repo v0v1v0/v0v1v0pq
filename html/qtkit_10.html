@@ -1,0 +1,106 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>write_gg</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Write a ggplot object to a file</h2>
+
+<h3>Description</h3>
+
+<p>This function is a wrapper around <code>ggsave</code> from the
+<code>ggplot2</code> package that allows you to write a ggplot object as part of
+a knitr document as an output for later use. It is designed to be used
+in a code block. The file name, if not specified, will be the label of
+the code block.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">write_gg(
+  gg_obj = NULL,
+  file = NULL,
+  target_dir = NULL,
+  device = "pdf",
+  theme = NULL,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>gg_obj</code></td>
+<td>
+<p>The ggplot to be written. If not specified, the last
+ggplot created will be written.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>file</code></td>
+<td>
+<p>The name of the file to be written. If not specified, the
+label of the code block will be used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>target_dir</code></td>
+<td>
+<p>The directory where the file will be written. If not
+specified, the current working directory will be used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>device</code></td>
+<td>
+<p>The device to be used for saving the ggplot. Options
+include "pdf" (default), "png", "jpeg", "tiff", and "svg".</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>theme</code></td>
+<td>
+<p>The ggplot2 theme to be applied to the ggplot. Default is
+the theme specified in the ggplot2 options.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Additional arguments to be passed to the <code>ggsave</code>
+function from the <code>ggplot2</code> package.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>The path of the written file.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+library(ggplot2)
+
+plot_dir &lt;- file.path(tempdir(), "plot")
+
+# Write a ggplot object as a PDF file
+p &lt;- ggplot(mtcars, aes(x = wt, y = mpg)) + geom_point()
+
+write_gg(
+ gg_obj = p,
+ file = "plot_file",
+ target_dir = plot_dir,
+ device = "pdf")
+
+unlink(plot_dir)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

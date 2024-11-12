@@ -1,0 +1,79 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>vecNA</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Frequency of Missing Values in a Vector</h2>
+
+<h3>Description</h3>
+
+<p><code>vecNA</code> computes the frequency of missing values in an atomic vector.
+<code>vecNA</code> is essentially a wrapper for <code>sum</code> or <code>mean</code> +
+<code>is.na</code> or <code>!is.na</code> and can be useful for functional programming
+(e.g., <code>lapply(FUN = vecNA)</code>). It is also used by other functions in the
+quest package related to missing values (e.g., <code>mean_if</code>).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">vecNA(x, prop = FALSE, ov = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>atomic vector or list vector. If not a vector, it will be coerced to
+a vector via <code>as.vector</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>prop</code></td>
+<td>
+<p>logical vector of length 1 specifying whether the frequency of
+missing values should be returned as a proportion (TRUE) or a count
+(FALSE).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ov</code></td>
+<td>
+<p>logical vector of length 1 specifying whether the frequency of
+observed values (TRUE) should be returned rather than the frequency of
+missing values (FALSE).</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>numeric vector of length 1 providing the frequency of missing values
+(or observed values if <code>ov</code> = TRUE). If <code>prop</code> = TRUE, the value
+will range from 0 to 1. If <code>prop</code> = FALSE, the value will range from 1
+to <code>length(x)</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>is.na</code>
+<code>rowNA</code>
+<code>colNA</code>
+<code>rowsNA</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">vecNA(airquality[[1]]) # count of missing values
+vecNA(airquality[[1]], prop = TRUE) # proportion of missing values
+vecNA(airquality[[1]], ov = TRUE) # count of observed values
+vecNA(airquality[[1]], prop = TRUE, ov = TRUE) # proportion of observed values
+</code></pre>
+
+
+</div>

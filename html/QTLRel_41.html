@@ -1,0 +1,200 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>scanOne</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Genome Scan for QTL
+</h2>
+
+<h3>Description</h3>
+
+<p>Likelihood ratio tests or F tests at scanning loci over the genome.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">scanOne(y, x, gdat, prdat = NULL, vc = NULL, intc = NULL,
+   numGeno = FALSE, test = c("None","F","LRT"),
+   minorGenoFreq = 0, rmv = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+
+<p>A numeric vector or a numeric matrix of one column, representing a phenotype.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+
+<p>A data frame or matrix, representing covariates if not missing.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gdat</code></td>
+<td>
+
+<p>Genotype data. It should be a matrix or a data frame, with each row being a sample and each column a locus. The column names should be marker names. It is ignored if an object <code>prdat</code> from <code>genoProb</code> is used as an argument.
+</p>
+<p>If <code>gdat</code> is not numeric, there can be more than three genotypes and all scanning loci should have the same number of genotypes.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>prdat</code></td>
+<td>
+
+<p>An object from <code>genoProb</code>, or in the same form. It should have a class "addEff" if allelic effects are assumed to be additive (see example below).
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vc</code></td>
+<td>
+
+<p>An object from <code>estVC</code> or <code>aicVC</code>, or an estimated variance-covariance matrix induced by relatedness and environment.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>intc</code></td>
+<td>
+
+<p>Covariates that interact with QTL.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>numGeno</code></td>
+<td>
+
+<p>Whether to treat numeric coding of genotypes as numeric. If true, <code>minorGenoFreq</code> will be ignored.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>test</code></td>
+<td>
+
+<p>"None", "F" or "LRT".
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>minorGenoFreq</code></td>
+<td>
+
+<p>Specify the minimum tolerable minor genotype frequency at a scanning locus if <code>gdat</code> is used.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rmv</code></td>
+<td>
+
+<p>A logical variable. If true, then the scanning locus will be skipped if the minor genotype frequency at the locus is smaller than <code>minorGenoFreq</code>. Otherwise, the scanning process will stop and return with NULL if any loci have a genotype frequency smaller than <code>minorGenoFreq</code>.
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The test at a scanning locus under the null hypothesis of no QTL effect is performed by conditioning on the polygenic genetic variance-covariance. Normality is assumed for the random effects.
+</p>
+<p>It is possible to extend the Haley-Knott approach to multiple-allelic cases under the assumption that allelic effects are all additive. Then, <code>prdat</code> should be provided and be of class "addEff".
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list with at least the following components:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>F or LRT</code></td>
+<td>
+<p>the F-test or likelihood ratio test (LRT) statistic at the SNP (marker) if <code>test</code> is "F" or otherwise</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pval</code></td>
+<td>
+<p>P-value at the snp (marker) if <code>test</code> is "F" or "LRT"</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>v</code></td>
+<td>
+<p>Variation explained by the SNP (marker)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>parameters</code></td>
+<td>
+<p>Estimated parameters at all scanning loci, including additive effect <code>a</code> and dominance effect <code>d</code> if <code>prdat</code> is not NULL</p>
+</td>
+</tr>
+</table>
+<h3>References</h3>
+
+<p>Haley, C. S., and S. A. Knott (1992). A simple regression method for mapping quantitative trait loci in line crosses using flanking markers. Heredity 69: 315-324.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>genoImpute</code> and  <code>genoProb</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(miscEx)
+
+## Not run: 
+# impute missing genotypes
+pheno&lt;- pdatF8[!is.na(pdatF8$bwt) &amp; !is.na(pdatF8$sex),]
+ii&lt;- match(rownames(pheno), rownames(gdatF8))
+geno&lt;- gdatF8[ii,]
+ii&lt;- match(rownames(pheno), rownames(gmF8$AA))
+v&lt;- list(A=gmF8$AA[ii,ii], D=gmF8$DD[ii,ii])
+
+# estimate variance components
+o&lt;- estVC(y=pheno$bwt, x=pheno$sex, v=v)
+
+# impute missing genotypes
+gdtmp&lt;- genoImpute(geno, gmap=gmapF8, gr=8, na.str=NA, msg=FALSE)
+# genome scan and plotting
+lrt&lt;- scanOne(y=pheno$bwt, x=pheno$sex, gdat=gdtmp, vc=o)
+lrt
+plot(lrt,gmap=gmapF8)
+
+# Haley-Knott method
+gdtmp&lt;- geno; unique(unlist(gdtmp))
+   gdtmp&lt;- replace(gdtmp,is.na(gdtmp),0)
+prDat&lt;- genoProb(gdat=gdtmp, gmap=gmapF8, gr=8, method="Haldane", msg=TRUE)
+pv.hk&lt;- scanOne(y=pheno$bwt, intc=pheno$sex, prdat=prDat, vc=o, test="F")
+pv.hk
+plot(pv.hk, gmap=gmapF8)
+
+# assume additive allelic effects
+class(prDat)&lt;- c(class(prDat), "addEff")
+lrt.hk&lt;- scanOne(y=pheno$bwt, intc=pheno$sex, prdat=prDat, vc=o)
+lrt.hk
+
+## End(Not run)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,76 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qcs.add</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>qcs.add Add a data.frame object with a qcs object</h2>
+
+<h3>Description</h3>
+
+<p>This function is used to join two objects of type data.frame and qcs.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qcs.add(x, ...)
+
+## Default S3 method:
+qcs.add(
+  x,
+  value,
+  var.index = NULL,
+  sample.index = NULL,
+  covar.index = NULL,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>Object type qcs</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>arguments to be passed to or from methods.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>value</code></td>
+<td>
+<p>Object type data.frame</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>var.index</code></td>
+<td>
+<p>a scalar with the column number corresponding to the observed data for
+the variable (the variable quality).  Alternativelly it can be a string with the
+name of the quality variable.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sample.index</code></td>
+<td>
+<p>a scalar with the column number corresponding the index each
+group (sample).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>covar.index</code></td>
+<td>
+<p>optional. A scalar or numeric vector with the column number(s)
+corresponding to the covariate(s). Alternativelly can be a character vector with
+the names of the covariates.</p>
+</td>
+</tr>
+</table>
+</div>

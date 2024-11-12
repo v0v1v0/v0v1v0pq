@@ -1,0 +1,66 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>BOPM_Eu</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>European option valuation (vectorized computation).</h2>
+
+<h3>Description</h3>
+
+<p>A helper function to price European options via a vectorized (fast, memory efficient) approach.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">BOPM_Eu(o = OptPx())
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>o</code></td>
+<td>
+<p>An <code>OptPx</code> object</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>A list of class <code>OptPx</code> with an element <code>PxBT</code>, which is an option price value (type <code>double</code>, class <code>numeric</code>)
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Oleg Melnikov, Department of Statistics, Rice University, Spring 2015
+Code adopted Gilli &amp; Schumann's R implementation to <code>Opt*</code> objects
+</p>
+
+
+<h3>References</h3>
+
+<p>Gili, M. and Schumann, E. (2009) <em>Implementing Binomial Trees</em>, COMISEF Working Papers Series
+</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="http://papers.ssrn.com/sol3/papers.cfm?abstract_id=1341181">http://papers.ssrn.com/sol3/papers.cfm?abstract_id=1341181</a> for original paper, <code>BOPM</code> for American option pricing.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">#Fig.13.11, Hull/9e/p291:
+o = Opt(Style='European', Right='Call', S0=810, ttm=.5, K=800)
+(o &lt;- BOPM_Eu( OptPx(o, r=.05, q=.02, vol=.2, NSteps=2)))$PxBT
+
+o = Opt('Eu', 'C', 0.61, .5, 0.6, SName='USD/AUD')
+o = OptPx(o, r=.05, q=.02, vol=.12, NSteps=2)
+(o &lt;- BOPM_Eu(o))$PxBT
+</code></pre>
+
+
+</div>

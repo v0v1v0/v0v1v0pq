@@ -1,0 +1,95 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>NewInput.MCON</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Define the inputs of a MultiClass Open Network</h2>
+
+<h3>Description</h3>
+
+<p>Define the inputs of a MultiClass Open Network
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">NewInput.MCON(classes, vLambda, nodes, vType, vVisit, vService)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>classes</code></td>
+<td>
+<p>The number of classes</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vLambda</code></td>
+<td>
+<p>It is a vector with the rate of arrivals of each class</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nodes</code></td>
+<td>
+<p>The number of nodes in the network</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vType</code></td>
+<td>
+<p>A vector with the type of node: "Q" for queueing nodes or "D" for delay nodes</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vVisit</code></td>
+<td>
+<p>A matrix[i, j]. The rows represents the different visit count for each class i to each node j</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vService</code></td>
+<td>
+<p>A matrix[i, j]. The rows represents the different service times for each class i in each node j</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Define the inputs of a MultiClass Open Network</p>
+
+
+<h3>References</h3>
+
+<p>[Lazowska84]  Edward D. Lazowska, John Zahorjan, G. Scott Graham, and Kenneth C. Sevcik (1984).<br><em>Quantitative System Performance: Computer System Analysis Using Queueing Network Models</em>.<br>
+Prentice-Hall, Inc., Englewood Cliffs, New Jersey
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>QueueingModel.i_MCON</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## See example in pag 138 in reference [Lazowska84] for more details.
+
+classes &lt;- 2
+vLambda &lt;- c(3/19, 2/19)
+nodes &lt;- 2
+vType &lt;- c("Q", "Q")
+vVisit &lt;- matrix(data=c(10, 9, 5, 4), nrow=2, ncol=2, byrow=TRUE)
+vService &lt;- matrix(data=c(1/10, 1/3, 2/5, 1), nrow=2, ncol=2, byrow=TRUE)
+
+i_mcon1 &lt;- NewInput.MCON(classes, vLambda, nodes, vType, vVisit, vService)
+
+</code></pre>
+
+
+</div>

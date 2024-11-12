@@ -1,0 +1,52 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>wi2net</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Converts precision matrix to partial correlation matrix
+</h2>
+
+<h3>Description</h3>
+
+<p>A small function that converts a precision matrix (inverse of covariance matrix) to a partial correlatin matrix. This can be done by standardizing the precision matrix and changing the sign of the offdiagonal entries. Many methods exist for obtaining a precision matrix (Such as the glasso package; Friedman, Hastie and Tibshirani, 2011) but the partial correlation matrix is easier interpretable and better usuable in qgraph.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">wi2net(x)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+
+<p>A precision matrix
+</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>A partial correlation matrix
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Sacha Epskamp &lt;mail@sachaepskamp.com&gt;
+</p>
+
+
+<h3>References</h3>
+
+<p>Jerome Friedman, Trevor Hastie and Rob Tibshirani (2011). glasso: Graphical lasso-estimation of Gaussian graphical models. R package version 1.7.
+http://CRAN.R-project.org/package=glasso
+</p>
+
+
+</div>

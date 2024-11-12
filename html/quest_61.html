@@ -1,0 +1,96 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>lengths_by</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Length of Data Columns by Group</h2>
+
+<h3>Description</h3>
+
+<p><code>lengths_by</code> computes the the length of multiple columns in a data.frame
+by group. The argument <code>na.rm</code> can be used to include (FALSE) or exclude
+(TRUE) missing values. Through the use of <code>na.rm</code> = TRUE, the number of
+observed values for each variable by each group can be computed.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">lengths_by(data, vrb.nm, grp.nm, na.rm = FALSE, sep = ".")
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>data.frame of data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vrb.nm</code></td>
+<td>
+<p>character vector of colnames from <code>data</code> specifying the
+variables.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>grp.nm</code></td>
+<td>
+<p>character vector of colnames from <code>data</code> specifying the
+groups.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>na.rm</code></td>
+<td>
+<p>logical vector of length 1 specifying whether to include (FALSE)
+or exclude (TRUE) missing values.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sep</code></td>
+<td>
+<p>character vector of length 1 specifying what string should
+separate different group values when naming the return object. This
+argument is only used if grp is a list of atomic vectors (e.g.,
+data.frame).</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>data.frame with colnames = <code>vrb.nm</code> and rownames =
+<code>length(levels(interaction(grp)))</code> providing the number of elements
+(excluding missing values if <code>na.rm</code> = TRUE) in each column by group.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>length_by</code>
+<code>length</code>
+<code>colNA</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+lengths_by(mtcars, vrb.nm = c("mpg","cyl","disp"), grp = "gear")
+lengths_by(mtcars, vrb.nm = c("mpg","cyl","disp"),
+   grp = c("gear","vs")) # can handle multiple grouping variables
+lengths_by(mtcars, vrb.nm = c("mpg","cyl","disp"),
+   grp = c("gear","am")) # can handle zero lengths
+lengths_by(airquality, c("Ozone","Solar.R","Wind"), grp = "Month",
+   na.rm = FALSE) # include missing values
+lengths_by(airquality, c("Ozone","Solar.R","Wind"), grp = "Month",
+   na.rm = TRUE) # exclude missing values
+
+</code></pre>
+
+
+</div>

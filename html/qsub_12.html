@@ -1,0 +1,46 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>mkdir_remote</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Creates a remote directory with the specified group ownership and permissions.</h2>
+
+<h3>Description</h3>
+
+<p>Creates a remote directory with the specified group ownership and permissions.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">mkdir_remote(path, remote = FALSE, verbose = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>path</code></td>
+<td>
+<p>Directory path. If using <code>remote</code>, this should be a full path or
+a path relative to the user's home directory.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>remote</code></td>
+<td>
+<p>Remote machine specification for ssh, in format such as <code>user@server</code> that does not
+require interactive password entry. For local execution, pass <code>FALSE</code> (default). For
+execution on the default qsub config remote, use <code>TRUE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p>If <code>TRUE</code> prints the command.</p>
+</td>
+</tr>
+</table>
+</div>

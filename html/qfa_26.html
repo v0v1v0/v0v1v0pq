@@ -1,0 +1,55 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>sar.gc.coef</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Extraction of SAR Coefficients for Granger-Causality Analysis</h2>
+
+<h3>Description</h3>
+
+<p>This function extracts the spline autoregression (SAR) coefficients from an SAR model for Granger-causality analysis.
+See <code>sar.gc.bootstrap</code> for more details regarding the use of <code>index</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">sar.gc.coef(fit, index = c(1, 2))
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>fit</code></td>
+<td>
+<p>object of SAR model from <code>qser2sar()</code> or <code>qspec.sar()$fit</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>index</code></td>
+<td>
+<p>a pair of component indices for multiple time series 
+or a sequence of lags for single time series (default = <code>c(1,2)</code>)</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>matrix of selected SAR coefficients (number of lags by number of quantiles)
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">y1 &lt;- stats::arima.sim(list(order=c(1,0,0), ar=0.5), n=64)
+y2 &lt;- stats::arima.sim(list(order=c(1,0,0), ar=-0.5), n=64)
+tau &lt;- seq(0.1,0.9,0.05)
+y.sar &lt;- qspec.sar(cbind(y1,y2),tau=tau,p=1)
+A &lt;- sar.gc.coef(y.sar$fit,index=c(1,2))
+</code></pre>
+
+
+</div>

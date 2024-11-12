@@ -1,0 +1,106 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>prune.quint</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Pruning of a Qualitative Interaction Tree</h2>
+
+<h3>Description</h3>
+
+<p>Determines the optimally pruned size of the tree by applying the one
+standard error rule to the results from the bias-corrected bootstrap procedure.
+At the end of the pruning procedure, it is checked whether the pruned tree satisfies
+the qualitative interaction condition. If this condition is not met, it is concluded
+that there is no qualitative tratment-subgroup interaction and a tree containing
+only the root node is returned.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'quint'
+prune(tree, pp = 1, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>tree</code></td>
+<td>
+<p>fitted tree of the class <code>quint</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pp</code></td>
+<td>
+<p>pruning parameter, the constant (<code class="reqn">c</code>) to be used in the <code class="reqn">c*</code>standard
+error rule. The default value is 1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>optional additional arguments.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The pruning algorithm of <code>quint</code> is explained in Dusseldorp
+&amp; Van Mechelen (2014), Appendix B of the online supplementary material. It is
+based on the bias-corrected bootstrap pruning procedure (Le Blanc &amp; Crowley, 1993)
+and the one standard error rule (Breiman, Friedman, Olshen, &amp; Stone, 1984).
+The one standard error rule for <code>quint</code> uses the estimates of the bias-corrected
+criterion value (<code class="reqn">C</code>) and its standard error for each value of <code class="reqn">L</code>
+(= maximum number of leaves). The optimally pruned tree corresponds to the
+smallest tree with a bias-corrected <code class="reqn">C</code> higher or equal to the maximum
+bias-corrected <code class="reqn">C</code> minus its standard error.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns an object of class <code>quint</code>. The number of leaves of this object is
+equal to the optimally pruned size of the tree.
+</p>
+
+
+<h3>References</h3>
+
+<p>Breiman L., Friedman J.H., Olshen R.A. and Stone C.J. (1984).
+<em>Classification and Regression Trees</em>. Chapman &amp; Hall/CRC: Boca Raton.
+</p>
+<p>Dusseldorp E. and Van Mechelen I. (2014). Qualitative interaction trees:
+a tool to identify qualitative treatment-subgroup interactions.
+<em>Statistics in Medicine, 33</em>(2), 219-237. DOI: 10.1002/sim.5933.
+</p>
+<p>LeBlanc M. and Crowley J. (1993). Survival trees by goodness of split.
+<em>Journal of the American Statistical Association, 88,</em> 457-467.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>quint.control</code>, <code>quint</code>, <code>quint.bootstrapCI</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(bcrp)
+formula2 &lt;- I(cesdt1-cesdt3)~cond |age+trext+uncomt1+disopt1+negsoct1
+#Adjust the control parameters only to save computation time in the example;
+#The default control parameters are preferred
+control2 &lt;- quint.control(maxl=5,B=2)
+set.seed(2) #this enables you to repeat the results of the bootstrap procedure
+quint2 &lt;- quint(formula2, data= subset(bcrp,cond&lt;3),control=control2)
+quint2pr &lt;- prune(quint2)
+summary(quint2pr)
+
+</code></pre>
+
+
+</div>

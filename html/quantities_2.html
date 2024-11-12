@@ -1,0 +1,48 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>as.data.frame.quantities</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Coerce to a Data Frame</h2>
+
+<h3>Description</h3>
+
+<p>S3 method for <code>quantities</code> objects (see <code>as.data.frame</code>).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'quantities'
+as.data.frame(x, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>any <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> object.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>additional arguments to be passed to or from methods.</p>
+</td>
+</tr>
+</table>
+<h3>Examples</h3>
+
+<pre><code class="language-R">x &lt;- set_quantities(1:3, m/s, 0.1)
+y &lt;- set_quantities(4:6, m/s, 0.2)
+(z &lt;- cbind(x, y))
+as.data.frame(z)
+
+</code></pre>
+
+
+</div>

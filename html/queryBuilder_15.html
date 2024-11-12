@@ -1,0 +1,125 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>query-operator</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Register new or list existing query operators</h2>
+
+<h3>Description</h3>
+
+<p>Operator are functions of maximum two arguments.
+The first argument is interpreted as a field (e.g. column name),
+the second one as a filtering value interpreted by operator accordingly.
+Some operators, such as 'is_empty' (that compares field values to empty string) don't require any value provided.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">queryOperator(method)
+
+setQueryOperators(..., .queryBuilderConfig = queryBuilderConfig)
+
+listQueryOperators(.queryBuilderConfig = queryBuilderConfig, print = TRUE)
+
+default_operators
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+<p>R function the operator should be transformed to when parsing result to R expression.
+The function should take at most two parameters. The first one (obligatory) is variable vector,
+the second one additional parameters interpreted by operator.
+Could be negated with exclamation mark e.g. <code>queryOperator(!startsWith)</code> which will be interpreted as
+the negation of the associated expression.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Name-value pairs defining operator name and method respectively.
+Should be defined with usage of <code>queryOperator</code> function.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>.queryBuilderConfig</code></td>
+<td>
+<p>R6 class object storing query configuration. See queryBuilderConfigClass.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>print</code></td>
+<td>
+<p>Should the list of operators be printed into console?</p>
+</td>
+</tr>
+</table>
+<h3>Format</h3>
+
+<p>An object of class <code>list</code> of length 20.
+</p>
+
+
+<h3>Details</h3>
+
+<p>Operators are stored as quotes, that are further interpreted while converting the query to
+filtering expression.
+</p>
+
+<ul>
+<li>
+<p><code>queryOperator</code>: defines a custom operator that can be used in generated query.
+</p>
+</li>
+<li>
+<p><code>setQueryOperators</code>:
+is used to register the defined operators in the default or custom queryBuilderConfigClass object.
+
+</p>
+</li>
+<li>
+<p><code>listQueryOperators</code>: allows to list available operators for the specific column type.
+</p>
+</li>
+<li>
+<p><code>default_operators</code>: an object storing default definitions for operators.
+</p>
+</li>
+</ul>
+<h3>Value</h3>
+
+<p>A single 'quote' storing the provided method.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+listQueryOperators()
+
+in_closed_range &lt;- function(x, range) {
+  x &gt;= range[1] &amp; x &lt;= range[2]
+}
+
+setQueryOperators(
+  "within" = queryOperator(in_closed_range),
+  "not_within" = queryOperator(!in_closed_range)
+)
+query &lt;- queryGroup(
+  condition = "AND",
+  queryRule("am", "equal", 1),
+  queryRule("qsec", "within", c(10, 15)),
+  queryRule("disp", "not_within", c(10, 15))
+)
+queryToExpr(query)
+
+</code></pre>
+
+
+</div>

@@ -1,0 +1,104 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>commentParser</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Comment token.
+</h2>
+
+<h3>Description</h3>
+
+<p>Recognises a comment, a piece of text delimited by two predefined tokens.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">  
+  commentParser(beginComment,endComment,
+          action = function(s) list(type="commentParser",value=s),
+          error  = function(p) list(type="commentParser",pos  =p))
+
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>beginComment</code></td>
+<td>
+<p>String indicating comment beginning</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>endComment</code></td>
+<td>
+<p>String indicating comment end</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>action</code></td>
+<td>
+<p>Function to be executed if recognition succeeds. Character stream making up the token is passed as parameter to this function</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>error</code></td>
+<td>
+<p>Function to be executed if recognition does not succeed. Position of <code>streamParser</code> obtained with <code>streamParserPosition</code> is passed as parameter to this function</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Characters preceded by \ are not considered as part of beginning of comment end.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Anonymous function, returning a list.
+</p>
+<p><code>function(stream)</code> –&gt;  <code> list(status,node,stream) </code>
+</p>
+<p>From input parameters, an anonymous function is defined. This function admits just one parameter, stream, with type <code>streamParser</code>, and returns a three-field list:
+</p>
+
+<ul>
+<li>
+<p>status      
+</p>
+<p>"ok" or "fail" 
+</p>
+</li>
+<li>
+<p>node         
+</p>
+<p>With <code>action</code> or <code>error</code> function output, depending on the case
+</p>
+</li>
+<li>
+<p>stream      
+</p>
+<p>With information about the input, after success or failure in recognition
+</p>
+</li>
+</ul>
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+# fail
+stream  &lt;- streamParserFromString("123")
+( commentParser("(*","*)")(stream) )[c("status","node")]
+
+# ok 
+stream  &lt;- streamParserFromString("(*123*)")
+( commentParser("(*","*)")(stream) )[c("status","node")]
+
+</code></pre>
+
+
+</div>

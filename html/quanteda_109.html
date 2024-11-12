@@ -1,0 +1,89 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>dfm_group</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Combine documents in a dfm by a grouping variable</h2>
+
+<h3>Description</h3>
+
+<p>Combine documents in a dfm by a grouping variable, by summing the cell
+frequencies within group and creating new "documents" with the group labels.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">dfm_group(x, groups = docid(x), fill = FALSE, force = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a dfm</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>groups</code></td>
+<td>
+<p>grouping variable for sampling, equal in length to the number
+of documents. This will be evaluated in the docvars data.frame, so that
+docvars may be referred to by name without quoting. This also changes
+previous behaviours for <code>groups</code>. See <code>news(Version &gt;= "3.0", package = "quanteda")</code> for details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fill</code></td>
+<td>
+<p>logical; if <code>TRUE</code> and <code>groups</code> is a factor, then use all levels
+of the factor when forming the new documents of the grouped object.  This
+will result in a new "document" with empty content for levels not observed,
+but for which an empty document may be needed.  If <code>groups</code> is a factor of
+dates, for instance, then <code>fill = TRUE</code> ensures that the new object will
+consist of one new "document" by date, regardless of whether any documents
+previously existed with that date.  Has no effect if the <code>groups</code>
+variable(s) are not factors.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>force</code></td>
+<td>
+<p>logical; if <code>TRUE</code>, group by summing existing counts, even if
+the dfm has been weighted.  This can result in invalid sums, such as adding
+log counts (when a dfm has been weighted by <code>"logcount"</code> for instance using
+<code>dfm_weight()</code>).  Not needed when the term weight schemes "count" and
+"prop".</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p><code>dfm_group</code> returns a dfm whose documents are equal to
+the unique group combinations, and whose cell values are the sums of the
+previous values summed by group. Document-level variables that have no
+variation within groups are saved in docvars.  Document-level
+variables that are lists are dropped from grouping, even when these exhibit
+no variation within groups.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">corp &lt;- corpus(c("a a b", "a b c c", "a c d d", "a c c d"),
+               docvars = data.frame(grp = c("grp1", "grp1", "grp2", "grp2")))
+dfmat &lt;- dfm(tokens(corp))
+dfm_group(dfmat, groups = grp)
+dfm_group(dfmat, groups = c(1, 1, 2, 2))
+
+# with fill = TRUE
+dfm_group(dfmat, fill = TRUE,
+          groups = factor(c("A", "A", "B", "C"), levels = LETTERS[1:4]))
+</code></pre>
+
+
+</div>

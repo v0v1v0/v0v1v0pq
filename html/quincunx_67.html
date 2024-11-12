@@ -1,0 +1,97 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>releases-class</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>An S4 class to represent a set of PGS Catalog Releases</h2>
+
+<h3>Description</h3>
+
+<p>The releases object consists of four tables (slots) that combined form a
+relational database of a subset of PGS Catalog releases. Each release is an
+observation (row) in the <code>releases</code> table (first table).
+</p>
+
+
+<h3>Slots</h3>
+
+
+<dl>
+<dt><code>releases</code></dt>
+<dd>
+<p>A table of PGS Catalog releases. Each release (row) is
+uniquely identified by the release date (<code>date</code>). Columns:
+</p>
+
+<dl>
+<dt>date</dt>
+<dd>
+<p>Release date.</p>
+</dd>
+<dt>n_pgs</dt>
+<dd>
+<p>Number of newly released Polygenic Scores.</p>
+</dd>
+<dt>n_ppm</dt>
+<dd>
+<p>Number of newly released PGS Performance Metrics.</p>
+</dd>
+<dt>n_pgp</dt>
+<dd>
+<p>Number of newly released PGS Publications.</p>
+</dd>
+</dl>
+</dd>
+<dt><code>pgs_ids</code></dt>
+<dd>
+<p>A table of released Polygenic Scores (PGS) identifiers.
+Columns:
+</p>
+
+<dl>
+<dt>date</dt>
+<dd>
+<p>Release date.</p>
+</dd>
+<dt>pgs_id</dt>
+<dd>
+<p>Polygenic Score (PGS) identifier. Example: <code>"PGS000001"</code>.</p>
+</dd>
+</dl>
+</dd>
+<dt><code>ppm_ids</code></dt>
+<dd>
+<p>A table of the released PGS Performance Metrics identifiers.
+Columns:
+</p>
+
+<dl>
+<dt>date</dt>
+<dd>
+<p>Release date.</p>
+</dd>
+<dt>ppm_id</dt>
+<dd>
+<p>A PGS Performance Metrics identifier. Example: <code>"PPM000001"</code>.</p>
+</dd>
+</dl>
+</dd>
+<dt><code>pgp_ids</code></dt>
+<dd>
+<p>A table of the released PGS Publication identifiers. Columns:
+</p>
+
+<dl>
+<dt>date</dt>
+<dd>
+<p>Release date.</p>
+</dd>
+<dt>pgp_id</dt>
+<dd>
+<p>PGS Publication identifier. Example: <code>"PGP000001"</code>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</div>

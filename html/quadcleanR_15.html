@@ -1,0 +1,86 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>rm_chr</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Remove characters from data frame</h2>
+
+<h3>Description</h3>
+
+<p>Parts of characters can be removed based on a vector of removal
+characters. When these characters are present in the data frame they will
+be removed. Selection area can include the full data frame or a subset
+of columns. When working with images, this can be helpful to remove extra
+characters from image IDs, or anywhere else where you want to remove specific
+characters from your data.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">rm_chr(data, rm, full_selection = TRUE, cols)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>A data frame.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rm</code></td>
+<td>
+<p>The parts of characters to be removed from the data frame. Can be a
+single element or a vector of elements.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>full_selection</code></td>
+<td>
+<p>If <code>full_selection = TRUE</code> parts of characters matching
+the <code>rm</code> argument will be removed from entire data frame. If
+<code>full_selection = FALSE</code> only the specified columns will have the parts of
+characters matching the <code>rm</code> argument removed.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cols</code></td>
+<td>
+<p>If <code>full_selection = FALSE</code> this argument will specify which columns
+to have characters matching the <code>rm</code> argument removed.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A data frame containing the selected parts of characters removed.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># creating data set
+Sites &lt;- c("One.jpg", "Two.jpg", "Three.jpg", "Four.jpg", "Five.jpg")
+Dominant_Coral &lt;- c("Acropora.sp", "Leptastrea.spp", "Acropora.sp",
+    "Acropora.sp", "Acropora.sp")
+Dominant_Cover &lt;- c(0.1, 0.4, 0.9, 0.2, 0.5)
+Largest_Coral &lt;- c("Acropora.sp", "Acropora.sp", "Psammocora.sp",
+    "Acropora.sp","Gardineroseris.spp")
+
+coral_cover &lt;- data.frame(Sites, Dominant_Coral, Dominant_Cover, Largest_Coral)
+
+# removing a character from select columns
+coral_cover_nospp &lt;- rm_chr(coral_cover, c(".spp"), full_selection = FALSE,
+    cols = c("Largest_Coral", "Dominant_Coral"))
+
+# removing multiple characters from all columns
+coral_cover_clean &lt;- rm_chr(coral_cover, c(".jpg", ".spp", ".sp"))
+</code></pre>
+
+
+</div>

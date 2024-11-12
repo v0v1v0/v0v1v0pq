@@ -1,0 +1,68 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>as.character.corpus</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Coercion and checking methods for corpus objects</h2>
+
+<h3>Description</h3>
+
+<p>Coercion functions to and from corpus objects, including conversion to a
+plain character object; and checks for whether an object is a corpus.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'corpus'
+as.character(x, use.names = TRUE, ...)
+
+is.corpus(x)
+
+as.corpus(x)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>object to be coerced or checked</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>use.names</code></td>
+<td>
+<p>logical; preserve (document) names if <code>TRUE</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>additional arguments used by specific methods</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p><code>as.character()</code> returns the corpus as a plain character vector, with
+or without named elements.
+</p>
+<p><code>is.corpus</code> returns <code>TRUE</code> if the object is a corpus.
+</p>
+<p><code>as.corpus()</code> upgrades a corpus object to the newest format.
+object.
+</p>
+
+
+<h3>Note</h3>
+
+<p><code>as.character(x)</code> where <code>x</code> is a corpus is equivalent to
+calling the deprecated <code>texts(x)</code>.
+</p>
+
+
+</div>

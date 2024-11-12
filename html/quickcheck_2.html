@@ -1,0 +1,52 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>anything</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Any R object generator</h2>
+
+<h3>Description</h3>
+
+<p>Generate any R object. This doesn't actually generate any possible object,
+just the most common ones, namely atomic vectors, lists, data.frames,
+tibbles, data.tables, and undefined values like <code>NA</code>, <code>NULL</code>, <code>Inf</code>, and
+<code>NaN</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">anything(any_empty = TRUE, any_undefined = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>any_empty</code></td>
+<td>
+<p>Whether empty vectors or data frames should be allowed.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>any_undefined</code></td>
+<td>
+<p>Whether undefined values should be allowed.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A <code>quickcheck_generator</code> object.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">anything() %&gt;% show_example()
+</code></pre>
+
+
+</div>

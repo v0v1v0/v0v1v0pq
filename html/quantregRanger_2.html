@@ -1,0 +1,72 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>quantregRanger</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Quantile Regression with Ranger</h2>
+
+<h3>Description</h3>
+
+<p>Creates a quantile regression forest like described in Meinshausen, 2006.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">quantregRanger(formula = NULL, data = NULL, params.ranger = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>formula</code></td>
+<td>
+<p>Object of class <code>formula</code> or <code>character</code> describing the model to fit.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>Training data of class <code>data.frame</code>, <code>matrix</code> or <code>gwaa.data</code> (GenABEL).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>params.ranger</code></td>
+<td>
+<p>List of further parameters that should be passed to ranger. 
+See <code>ranger</code> for possible parameters.</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Philipp Probst
+</p>
+
+
+<h3>References</h3>
+
+<p>Meinshausen, Nicolai. "Quantile regression forests." The Journal of Machine Learning Research 7 (2006): 983-999.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>predict.quantregRanger</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">y = rnorm(150)
+x = cbind(y + rnorm(150), rnorm(150))
+data = data.frame(x,y)
+mod = quantregRanger(y ~ ., data = data, params.ranger = list(mtry = 2))
+predict(mod, data = data[1:5, ], quantiles = c(0.1, 0.5, 0.9))
+</code></pre>
+
+
+</div>

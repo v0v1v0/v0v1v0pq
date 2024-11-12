@@ -1,0 +1,296 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>doubleBoot</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Double bootstrap estimators of prediction accuracy
+</h2>
+
+<h3>Description</h3>
+
+<p>The function computes values of double bootstrap estimators of the MSE and the QAPE prediction accuracy measures.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">doubleBoot(predictor, B1, B2, p, q)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>predictor</code></td>
+<td>
+<p>one of objects: EBLUP, ebpLMMne or plugInLMM.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>B1</code></td>
+<td>
+<p>number of first-level bootstrap iterations.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>B2</code></td>
+<td>
+
+<p>number of second-level bootstrap iterations.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p</code></td>
+<td>
+
+<p>orders of quantiles in the QAPE.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>q</code></td>
+<td>
+
+<p>estimator bounds assumed for <em>estMSE_db_1_EF</em> and <em>estMSE_db_telesc_EF</em> (which are corrected versions of <em>estMSE_db_1</em> and <em>estMSE_db_telesc</em>, respectively).
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Double-bootstrap method considered by Hall and Maiti (2006) and  Erciulescu and Fuller (2013) is used. Vectors of random effects and random components are generated from the multivariate normal distribution and REML estimates of model parameters are used. Random effects are generated for all population elements even for subsets with zero sample sizes (for which random effects are not estimated). Double-bootstrap MSE estimator presented in Hall and Maiti (2006) and  Erciulescu and Fuller (2013) are taken into account. The QAPE is a quantile of absolute prediction error which means that at least p100% of realizations of absolute prediction errors are smaller or equal to QAPE.  
+</p>
+
+
+<h3>Value</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>estMSE_param</code></td>
+<td>
+<p>value/s of the parametric bootstrap MSE estimator. More than one value is computed if in <em>thetaFun</em> more than one population characteristic is defined.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>estMSE_db_B2</code></td>
+<td>
+<p>value/s of the double bootstrap MSE estimator computed as the difference of doubled value of <em>estMSE_param</em> and the second-level MSE estimator based on B2 iterations. More than one value is computed if in <em>thetaFun</em> more than one population characteristic is defined.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>estMSE_db_B2_WDZ</code></td>
+<td>
+<p>value/s of the double bootstrap MSE estimator computed as the mean of squared first-level bootstraped errors, each corrected by the mean of squared second-level bootstraped errors based on B2 iterations (where correction is made only if their difference is non-negative). More than one value is computed if in <em>thetaFun</em> more than one population characteristic is defined.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>estMSE_db_B2_HM</code></td>
+<td>
+<p>value/s of the double bootstrap MSE estimator proposed by Hall and Maiti (2006) equation (2.17). More than one value is computed if in <em>thetaFun</em> more than one population characteristic is defined.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>estMSE_db_1</code></td>
+<td>
+<p>value/s of the double bootstrap MSE estimator computed as the difference of doubled value of <em>estMSE_param</em> and the second-level MSE estimator based on B2=1 iteration. More than one value is computed if in <em>thetaFun</em> more than one population characteristic is defined.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>estMSE_db_1_WDZ</code></td>
+<td>
+<p>value/s of the double bootstrap MSE estimator computed as the mean of squared first-level bootstraped errors, each corrected by the squared second-level bootstraped error based on 1 iteration (where correction is made only if their difference is non-negative). More than one value is computed if in <em>thetaFun</em> more than one population characteristic is defined.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>estMSE_db_1_EF</code></td>
+<td>
+<p>value/s of the double bootstrap MSE estimator proposed by Erciulescu and Fuller (2014) given by equation (13) with correction (17), where the bound for the correction is declared as <em>q</em>. More than one value is computed if in <em>thetaFun</em> more than one population characteristic is defined.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>estMSE_db_telesc</code></td>
+<td>
+<p>value/s of the telescoping double bootstrap MSE estimator proposed by Erciulescu and Fuller (2014) given by equation (15). More than one value is computed if in <em>thetaFun</em> more than one population characteristic is defined.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>estMSE_db_telesc_WDZ</code></td>
+<td>
+<p>value/s of the double bootstrap MSE estimator computed as the mean of the sums of the following elements: squared first-level bootstraped error, squared first-level bootstrap error for the next iteration and the opposite of second-level bootstraped error based on 1 iteration (but negative sums are replaced by squared first-level bootstraped error). More than one value is computed if in <em>thetaFun</em> more than one population characteristic is defined.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>estMSE_db_telesc_EF</code></td>
+<td>
+<p>value/s of the telescoping double bootstrap MSE estimator proposed by Erciulescu and Fuller (2014) given by equation (15) with correction (17), where the bound for the correction is declared as <em>q</em>. More than one value is computed if in <em>thetaFun</em> more than one population characteristic is defined.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>estQAPE_param</code></td>
+<td>
+<p>value/s of parametric bootstrap estimator of QAPE (Quantile of Absolute Prediction Error) given by a quantile of absolute parametric bootstrap errors. Number of rows is equal the number of orders of quantiles to be considered (declared in <em>p</em>), number of columns is equal the number of predicted characteristics (declared in  in <em>thetaFun</em>).
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>estQAPE_db_B2</code></td>
+<td>
+<p>value/s of double-bootstrap estimator of QAPE (Quantile of Absolute Prediction Error) given by a quantile of square roots of squared first-level bootstraped errors, each corrected by the mean of squared second-level bootstraped errors based on B2 iterations (where correction is made only if their difference is non-negative). Number of rows is equal the number of orders of quantiles to be considered (declared in <em>p</em>), number of columns is equal the number of predicted characteristics (declared in  in <em>thetaFun</em>).
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>estQAPE_db_1</code></td>
+<td>
+<p>value/s of double-bootstrap estimator of QAPE (Quantile of Absolute Prediction Error) given by a quantile of square roots of squared first-level bootstraped errors, each corrected by the squared second-level bootstraped error based on 1 iteration (where correction is made only if their difference is non-negative). Number of rows is equal the number of orders of quantiles to be considered (declared in <em>p</em>), number of columns is equal the number of predicted characteristics (declared in  in <em>thetaFun</em>).
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>estQAPE_db_telesc</code></td>
+<td>
+<p>value/s of double-bootstrap estimator of QAPE (Quantile of Absolute Prediction Error) given by a quantile of square roots of the sums of the following elements: squared first-level bootstraped error, squared first-level bootstrap error for the next iteration and the opposite of second-level bootstraped error based on 1 iteration (but negative sums are replaced by squared first-level bootstraped error). Number of rows is equal to the number of orders of quantiles to be considered (declared in <em>p</em>), number of columns is equal to the number of predicted characteristics (declared in  in <em>thetaFun</em>).
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>error1</code></td>
+<td>
+<p>the matrix of first-level bootstrap errors. Number of rows is equal to the number of predicted characteristics (declared in  in <em>thetaFun</em>), number of columns is equal to <em>B1</em>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>error2</code></td>
+<td>
+<p>the list of matrices of second-level bootstrap errors. The length of list is equal to the number of predicted characteristics (declared in  in <em>thetaFun</em>), the number of rows of each matrix is equal to <em>B1</em>, the number of columns is equal to <em>B2</em>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>corSquaredError1_db_B2</code></td>
+<td>
+<p>the matrix of corrected squared first-level bootstrap errors defined as doubled squared first-level bootstrap errors minus the mean of squared second-level bootstrap errors (computed for the approriate first-level bootstrap iterations). Number of rows is equal to <em>B1</em>, the number of columns is equal to the number of predicted characteristics (declared in  in <em>thetaFun</em>). Values can be negative.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>corSquaredError1_db_1</code></td>
+<td>
+<p>the matrix of corrected squared first-level bootstrap errors defined as doubled squared first-level bootstrap errors minus the squared second-level bootstrap error (computed once for each first-level bootstrap iteration). Number of rows is equal to <em>B1</em>, the number of columns is equal to the number of predicted characteristics (declared in  in <em>thetaFun</em>). Values can be negative.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>corSquaredError1_db_telesc</code></td>
+<td>
+<p>the matrix of corrected squared first-level bootstrap errors defined by elements from which the average given by equation (15) in Erciulescu and Fuller (2014) is counted. Number of rows is equal to <em>B1</em>, the number of columns is equal to the number of predicted characteristics (declared in  in <em>thetaFun</em>). Values can be negative.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>corSquaredError1_db_B2_WDZ</code></td>
+<td>
+<p>the matrix of squared first-level bootstraped errors, each corrected by the mean of squared second-level bootstraped errors based on B2 iterations (where correction is made only if their difference is non-negative). Number of rows is equal to <em>B1</em>, the number of columns is equal to the number of predicted characteristics (declared in  in <em>thetaFun</em>). Values are non-negative.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>corSquaredError1_db_1_WDZ</code></td>
+<td>
+<p>the matrix of squared first-level bootstraped errors, each corrected by the squared second-level bootstraped error based on 1 iteration (where correction is made only if their difference is non-negative). Number of rows is equal to <em>B1</em>, the number of columns is equal to the number of predicted characteristics (declared in  in <em>thetaFun</em>). Values are non-negative.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>corSquaredError1_db_telesc_WDZ</code></td>
+<td>
+<p>the matrix of corrected squared first-level bootstrap errors defined by sums of the following elements: squared first-level bootstraped error, squared first-level bootstrap error for the next iteration and the opposite of second-level bootstraped error based on 1 iteration (but negative sums are replaced by squared first-level bootstraped error).Number of rows is equal to <em>B1</em>, the number of columns is equal to the number of predicted characteristics (declared in  in <em>thetaFun</em>). Values are non-negative.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>positiveDefiniteEstGlev1</code></td>
+<td>
+<p>logical indicating if the estimated covariance matrix of random effects, used to generate bootstrap realizations of the dependent variable at the first level of the double bootstrap, is positive definite.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>positiveDefiniteEstGlev2</code></td>
+<td>
+<p>number of cases ouf of B1 with positive definite estimated covariance matrix of random effects used to generate bootstrap realizations of the dependent variable at the second level of the double bootstrap.</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Alicja Wolny-Dominiak, Tomasz Zadlo</p>
+
+
+<h3>References</h3>
+
+<p>1. Erciulescu, A. L. and Fuller, W. A. (2013) Parametric Bootstrap Procedures for Small Area Prediction Variance. JSM 2014 - Survey Research Methods Section, 3307-3318.<br></p>
+<p>2. Hall, P. and Maiti, T. (2006) On Parametric Bootstrap Methods for Small Area Prediction. Journal of the Royal Statistical Society. Series B, 68(2), 221-238.<br></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+
+library(lme4)
+library(Matrix)
+library(mvtnorm)
+
+
+data(invData) 
+# data from one period are considered: 
+invData2018 &lt;- invData[invData$year == 2018,] 
+attach(invData2018)
+
+N &lt;- nrow(invData2018) # population size
+
+con &lt;- rep(1,N) 
+con[c(379,380)] &lt;- 0 # last two population elements are not observed 
+
+YS &lt;- log(investments[con == 1]) # log-transformed values
+backTrans &lt;- function(x) exp(x) # back-transformation of the variable of interest
+fixed.part &lt;- 'log(newly_registered)'
+random.part &lt;- '(1|NUTS2)' 
+
+reg &lt;- invData2018[, -which(names(invData2018) == 'investments')]
+weights &lt;- rep(1,N) # homoscedastic random components
+
+### Characteristics to be predicted:
+# values of the variable for last two population elements  
+thetaFun &lt;- function(x) {x[c(379,380)]}
+set.seed(123456)
+
+predictor &lt;- plugInLMM(YS, fixed.part, random.part, reg, con, weights, backTrans, thetaFun)
+predictor$thetaP
+
+
+### Estimation of prediction accuracy
+# in the first column
+# for the predictor of the value of the variable for population element no. 379,
+# in the second column
+# for the predictor of the value of the variable for population element no. 380:
+doubleBoot(predictor, 3, 3, c(0.5,0.9), 0.77) 
+#q=0.77 assumed as in Erciulescu and FUller (2014) eq. (17)
+
+detach(invData2018)
+</code></pre>
+
+
+</div>

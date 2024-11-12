@@ -1,0 +1,49 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>runApp</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Visualizing the SD using a Quadratic Curve</h2>
+
+<h3>Description</h3>
+
+<p>Given a dataset, the user is invited to utilize the Empirical Cumulative 
+Distribution Function (ECDF) to guess interactively the mean and the mean 
+deviation. Thereafter, using the quadratic curve the user can guess the 
+Root Mean Sqaured Deviation (RMSD) and visualize the Standard Deviation (SD).
+For details, see Sarkar and Rashid (2019), Have You Seen the Standard Deviaiton?, Nepalese Journal of Statistics, Vol. 3, 1-10
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">runApp(data)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>a data vector, ideally of a moderate size (say, 10), to be provided by the user. Adventurous users may increase the size.</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>An interactive shiny application.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+   data &lt;- c(12,13,15,17,20,21,23)
+   runApp(data)
+   #end of example
+    
+</code></pre>
+
+
+</div>

@@ -1,0 +1,87 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>extract_comment</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Extract all comments or functions from a file</h2>
+
+<h3>Description</h3>
+
+<p>Vectorize all comments from the file
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">extract_comment(file)
+
+remove_content_in_quotes(line)
+
+remove_comment(line)
+
+clean_file(file, output_file)
+
+get_func_def(file)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>file</code></td>
+<td>
+<p>file to parse</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>line</code></td>
+<td>
+<p>string vector to remove contents within quotes or comments</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>output_file</code></td>
+<td>
+<p>file path to write the output of the new file</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>vector of all comments within a file
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+ex_file1 &lt;- "path/file1.R"
+# get all comments
+cmmts &lt;- extract_comment(ex_file1)
+cmmts
+
+## End(Not run)
+
+## Not run: 
+# Ex to clean out comments from file
+file_path &lt;- ".testR"
+output_file_path &lt;- ".cleaned_script.R"
+clean_file(file_path, output_file_path)
+
+## End(Not run)
+
+# example code
+
+## Not run: 
+# Ex to get all defined functions
+# within a file
+file_path &lt;- ".testR"
+get_func_def(file_path)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

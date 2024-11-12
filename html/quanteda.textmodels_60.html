@@ -1,0 +1,75 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>textplot_influence</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Influence plot for text scaling models</h2>
+
+<h3>Description</h3>
+
+<p>Plot the results of a fitted scaling model, from (e.g.) a predicted
+textmodel_affinity model.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">textplot_influence(x, n = 30, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>the object output from <code>influence()</code> run on the
+fitted or predicted scaling model object to be plotted</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p>the number of features whose influence will be plotted</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>additional arguments passed to <code>plot()</code></p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Creates a base R plot of feature influences of the median influence
+by the log10 median rate of the feature, and invisibly returns the elements
+from the call to <code>plot()</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Patrick Perry and Kenneth Benoit
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>textmodel_affinity()</code>
+</p>
+<p><code>influence.predict.textmodel_affinity()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">tmod &lt;- textmodel_affinity(quanteda::data_dfm_lbgexample, y = c("L", NA, NA, NA, "R", NA))
+pred &lt;- predict(tmod)
+textplot_influence(influence(pred))
+</code></pre>
+
+
+</div>

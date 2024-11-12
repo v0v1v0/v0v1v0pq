@@ -1,0 +1,100 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>minus</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Decrease vector by value</h2>
+
+<h3>Description</h3>
+
+<p>decrease the content of a vector and re-save as the vector
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">minus(., minus = 1L)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>.</code></td>
+<td>
+<p>vector of number(s)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>minus</code></td>
+<td>
+<p>number to minus</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Similar to the inc and plus functions, the minus function is very useful when writing complex codes involving loops.
+Apart from the for loop, minus can be useful to quickly decrease the value of a variable located outside the loop
+by simply decreement the variable by 1 or other numbers. Check in the example section for a specific use.
+Given the scope, one may also choose to use this function in any other instances, as it's simple purpose is
+to decrease the value of a variable by a number and then re-save the new value to that variable.
+</p>
+
+
+<h3>Value</h3>
+
+<p>a vector decreased by a number
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">num1 &lt;- sample(5:150,10)
+num1
+
+# decrease num1 by 1
+num1 #before decrease
+minus(num1)
+num1 #after decrease
+
+# decrease num1 by 5
+num1 #before decrease
+minus(num1, minus = 5)
+num1 #after decrease
+
+
+
+#when used in loops
+
+#add and compare directly
+rnum = 23
+minus(rnum) == 220 #returns FALSE
+rnum #the variable was also updated
+
+
+# use in a for loop
+ynum = 100
+
+for( i in c("teacher","student","lawyer","pharmacist")){
+message("This is the item number ")
+message(ynum)
+message(". For this item, I am a ")
+message(i)
+
+#decrement easily at each turn
+minus(ynum,3)
+}
+
+#use in a repeat loop
+xnum = 100
+repeat{ #repeat until xnum is 85
+message(xnum)
+if(minus(xnum) == 85) break
+}
+</code></pre>
+
+
+</div>

@@ -1,0 +1,156 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>plot_distribution</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>GWAS effect-Size distribution plot</h2>
+
+<h3>Description</h3>
+
+<p>This function generates the effect-size distribution boxplot
+created by <code>QC_series</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">plot_distribution(data_table,
+                  names = 1:ncol(data_table),
+                  include = TRUE,
+                  plot_order = 1:ncol(data_table),
+                  quantile_lines = FALSE,
+                  save_name = "Graph_distribution",
+                  save_dir = getwd(), ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data_table</code></td>
+<td>
+<p>table with a column of effect
+sizes for every dataset.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>names</code></td>
+<td>
+<p>vector; the names for the datasets, for use in the
+graph. Note: it's best to keep these very short, as long
+labels won't be plotted. The default is
+the column <em>numbers</em> of <code>data_table</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>include</code></td>
+<td>
+<p>logical vector indicating which columns of
+<code>data_table</code> are included in the plot. The default
+setting is to include all.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>plot_order</code></td>
+<td>
+<p>numeric vector determining the left-to-right
+order of plotting the datasets (columns). <code>QC_series</code>
+uses the sample size for this.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>quantile_lines</code></td>
+<td>
+<p>logical; should lines representing the
+median and quartile values be included?</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>save_name</code></td>
+<td>
+<p>character string; the filename, <em>without</em>
+extension, for the graph file.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>save_dir</code></td>
+<td>
+<p>character string; the directory where the
+graph is saved. Note that R uses <em>forward</em>
+slash (/) where Windows uses backslash (\).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>arguments passed to <code>boxplot</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>When running a QC over multiple files, <code>QC_series</code>
+collects the values of the <code>effectsize_HQ</code> output of
+<code>QC_GWAS</code> in a table, which is then passed to this
+function. If there are significant
+differences in the distribution of effect sizes, it usually
+indicates that the datasets did not use the same model or unit.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An invisible <code>NULL</code>.</p>
+
+
+<h3>Note</h3>
+
+<p>There is a known bug with this function when called by
+<code>QC_series</code>. As input for <code>names</code>,
+<code>QC_series</code> pastes together a shortened filename and a
+<code>"N = x"</code> string giving the dataset's sample size.
+</p>
+<p>The filenames are truncated to the first unique element; e.g.
+files <code>"cohortX_male_HB.txt"</code> and
+<code>"cohortX_female_HB.txt"</code> become
+<code>"cohortX_male; N = 608"</code> and
+<code>"cohortX_female; N = 643"</code>, respectively. However, if
+the unique element is longer than approx. 15 characters,
+the label is too long to be plotted. The only solution is to
+change the filenames prior to passing the files to
+<code>QC_series</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>For comparing reported to expected effect-size distribution:
+<code>QC_histogram</code>.
+</p>
+<p>For other plots comparing GWAS results files:
+<code>plot_precision</code> and <code>plot_skewness</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+  data("gwa_sample")
+
+  chunk1 &lt;- gwa_sample$EFFECT[1:1000]
+  chunk2 &lt;- gwa_sample$EFFECT[1001:2000]
+  chunk3 &lt;- gwa_sample$EFFECT[2001:3000]
+
+  plot_distribution(
+    data_table = data.frame(chunk1, chunk2, chunk3),
+    names = c("chunk 1", "chunk 2", "chunk 3"),
+    quantile_lines = TRUE,
+    save_name = "sample_distribution")
+    
+## End(Not run)
+</code></pre>
+
+
+</div>

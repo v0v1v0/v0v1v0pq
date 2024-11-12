@@ -1,0 +1,118 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>composite.stack</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Reformat data matrices for composite quantile regression
+</h2>
+
+<h3>Description</h3>
+
+<p>Returns stacked <code>x</code> and <code>y</code> matrices and <code>tau</code> vector,
+which can be passed to <code>qrnn.fit</code> to fit composite quantile
+regression and composite QRNN models (Zou et al., 2008;
+Xu et al., 2017). In combination with the partial monotonicity
+constraints, stacking can be used to fit multiple non-crossing
+quantile functions (see <code>mcqrnn</code>). More details
+are provided in Cannon (2018).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">composite.stack(x, y, tau)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+
+<p>covariate matrix with number of rows equal to the number of samples and number of columns equal to 
+the number of variables.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+
+<p>response column matrix with number of rows equal to the number of samples.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tau</code></td>
+<td>
+
+<p>vector of tau-quantiles.
+</p>
+</td>
+</tr>
+</table>
+<h3>References</h3>
+
+<p>Cannon, A.J., 2018. Non-crossing nonlinear regression quantiles by
+monotone composite quantile regression neural network, with application
+to rainfall extremes. Stochastic Environmental Research and Risk Assessment,
+32(11): 3207-3225. doi:10.1007/s00477-018-1573-6
+</p>
+<p>Xu, Q., K. Deng, C. Jiang, F. Sun, and X. Huang, 2017. Composite quantile 
+regression neural network with applications. Expert Systems with Applications,
+76, 129-139.
+</p>
+<p>Zou, H. and M. Yuan, 2008. Composite quantile regression and the oracle model
+selection theory. The Annals of Statistics, 1108-1126.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>qrnn.fit</code>, <code>mcqrnn</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">x &lt;- as.matrix(iris[,"Petal.Length",drop=FALSE])
+y &lt;- as.matrix(iris[,"Petal.Width",drop=FALSE])
+
+cases &lt;- order(x)
+x &lt;- x[cases,,drop=FALSE]
+y &lt;- y[cases,,drop=FALSE]
+
+tau &lt;- seq(0.05, 0.95, by=0.05)
+x.y.tau &lt;- composite.stack(x, y, tau)
+binary.tau &lt;- dummy.code(as.factor(x.y.tau$tau))
+
+set.seed(1)
+
+# Composite QR
+fit.cqr &lt;- qrnn.fit(cbind(binary.tau, x.y.tau$x), x.y.tau$y,
+                    tau=x.y.tau$tau, n.hidden=1, n.trials=1,
+                    Th=linear, Th.prime=linear.prime)
+pred.cqr &lt;- matrix(qrnn.predict(cbind(binary.tau, x.y.tau$x), fit.cqr),
+                   ncol=length(tau))
+coef.cqr &lt;- lm.fit(cbind(1, x), pred.cqr)$coef
+colnames(coef.cqr) &lt;- tau
+print(coef.cqr)
+
+# Composite QRNN
+fit.cqrnn &lt;- qrnn.fit(x.y.tau$x, x.y.tau$y, tau=x.y.tau$tau,
+                      n.hidden=1, n.trials=1, Th=sigmoid,
+                      Th.prime=sigmoid.prime)
+pred.cqrnn &lt;- qrnn.predict(x.y.tau$x, fit.cqrnn)
+pred.cqrnn &lt;- matrix(pred.cqrnn, ncol=length(tau), byrow=FALSE)
+
+matplot(x, pred.cqrnn, col="red", type="l")
+points(x, y, pch=20)
+
+</code></pre>
+
+
+</div>

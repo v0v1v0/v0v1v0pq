@@ -1,0 +1,112 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>queue_lengths</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Compute queue lengths from arrival, service and departure data</h2>
+
+<h3>Description</h3>
+
+<p>Compute queue lengths from arrival, service and departure data
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">queue_lengths(arrivals, service = 0, departures, epsilon = 1e-10, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>arrivals</code></td>
+<td>
+<p>vector of arrival times</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>service</code></td>
+<td>
+<p>vector of service times. Leave as zero if you want to compute the number of customers in the system rather than queue length.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>departures</code></td>
+<td>
+<p>vector of departure times</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>epsilon</code></td>
+<td>
+<p>numeric small number added to departures to prevent negative queue lengths</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>additional arguments - does nothing, for compatibility</p>
+</td>
+</tr>
+</table>
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(dplyr)
+library(queuecomputer)
+
+set.seed(1L)
+n_customers &lt;- 100
+
+queueoutput_df &lt;- data.frame(
+  arrivals = runif(n_customers, 0, 300),
+  service = rexp(n_customers)
+)
+
+queueoutput_df &lt;- queueoutput_df %&gt;% mutate(
+  departures = queue(arrivals, service, servers = 2)
+)
+
+queue_lengths(
+  queueoutput_df$arrivals,
+  queueoutput_df$service,
+  queueoutput_df$departures
+)
+
+# The dplyr way
+queueoutput_df %&gt;% do(
+  queue_lengths(.$arrivals, .$service, .$departures))
+
+n_customers &lt;- 1000
+
+queueoutput_df &lt;- data.frame(
+  arrivals = runif(n_customers, 0, 300),
+  service = rexp(n_customers),
+  route = sample(c("a", "b"), n_customers, TRUE)
+)
+
+server_df &lt;- data.frame(
+  route = c("a", "b"),
+  servers = c(2, 3)
+)
+
+output &lt;- queueoutput_df %&gt;%
+  left_join(server_df) %&gt;%
+  group_by(route) %&gt;%
+  mutate(
+    departures = queue(arrivals, service, servers = servers[1])
+  ) %&gt;%
+  do(queue_lengths(.$arrivals, .$service, .$departures))
+
+
+if(require(ggplot2, quietly = TRUE)){
+    ggplot(output) +
+      aes(x = times, y = queuelength) + geom_step() +
+      facet_grid(~route)
+}
+</code></pre>
+
+
+</div>

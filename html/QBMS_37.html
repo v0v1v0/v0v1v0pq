@@ -1,0 +1,58 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>gigwa_set_db</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Set the Current Active GIGWA Database by Name</h2>
+
+<h3>Description</h3>
+
+<p>Select a GIGWA database as the active database for subsequent operations. This updates
+the internal configuration object and resets any previously selected projects or runs.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">gigwa_set_db(db_name)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>db_name</code></td>
+<td>
+<p>The name of the database to set as active.</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>No return value. Updates the internal configuration with the selected database.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Khaled Al-Shamaa, <a href="mailto:k.el-shamaa@cgiar.org">k.el-shamaa@cgiar.org</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>set_qbms_config</code>, <code>gigwa_list_dbs</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">if (interactive()) {
+  set_qbms_config("https://gigwa.southgreen.fr/gigwa/", 
+                  time_out = 300, engine = "gigwa", no_auth = TRUE)
+  gigwa_set_db("Sorghum-JGI_v1")
+}
+</code></pre>
+
+
+</div>

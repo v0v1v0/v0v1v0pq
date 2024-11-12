@@ -1,0 +1,61 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>avg_highd_data</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Create a dataframe with averaged high-dimensional data</h2>
+
+<h3>Description</h3>
+
+<p>This function calculates the average values of high-dimensional data within each hexagonal bin.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">avg_highd_data(data, col_start = "x")
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>A data frame containing the high-dimensional data and 2D embeddings
+with hexagonal bin IDs.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>col_start</code></td>
+<td>
+<p>The text that begin the column name of the high-dimensional data</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A data frame with the average values of the high-dimensional data within each hexagonal bin.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">num_bins_list &lt;- calc_bins(data = s_curve_noise_umap_scaled, x = "UMAP1",
+y = "UMAP2", hex_size = NA, buffer_x = NA, buffer_y = NA)
+num_bins_x &lt;- num_bins_list$num_x
+num_bins_y &lt;- num_bins_list$num_y
+hb_obj &lt;- hex_binning(data = s_curve_noise_umap_scaled,
+x = "UMAP1", y = "UMAP2", num_bins_x = num_bins_x,
+num_bins_y = num_bins_y, x_start = NA, y_start = NA, buffer_x = NA,
+buffer_y = NA, hex_size = NA, col_start = "UMAP")
+umap_data_with_hb_id &lt;- as.data.frame(do.call(cbind, hb_obj$data_hb_id))
+df_all &lt;- dplyr::bind_cols(s_curve_noise_training |&gt; dplyr::select(-ID), umap_data_with_hb_id)
+avg_highd_data(data = df_all, col_start = "x")
+
+</code></pre>
+
+
+</div>

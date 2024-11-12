@@ -1,0 +1,63 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>data_pop_filter</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Remove elements from a data matching filter</h2>
+
+<h3>Description</h3>
+
+<p>Shorthand to remove elements from a data frame based on filter and save as the same name
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">data_pop_filter(., remove)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>.</code></td>
+<td>
+<p>data object</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>remove</code></td>
+<td>
+<p>expression for filter</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>data filtered out based on the expression
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># this function removes rows matching the filter expression
+data.01 &lt;- mtcars
+data.02 &lt;- airquality
+
+#task: remove all mpg &gt; 20
+data.01 #data.01 data before pop
+data_pop_filter(data.01,mpg &gt; 15) #computes and resaves to variable
+#note: this is different from subset(data.01,data.01$mpg &gt; 15)
+data.01 #modified data after pop based on filter
+
+#task: remove all multiple. remove all elements where Month   == 5 or Solar.R &gt; 50
+data.02 #data.02 data before pop
+data_pop_filter(data.02,Month   == 5 | Solar.R &gt; 50) #computes and resaves to variable
+data.02 #modified data after pop based on filter
+
+</code></pre>
+
+
+</div>

@@ -1,0 +1,240 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>icc_all_by</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>All Six Intraclass Correlations by Group</h2>
+
+<h3>Description</h3>
+
+<p><code>icc_all_by</code> computes each of the six intraclass correlations (ICC) in
+Shrout &amp; Fleiss (1979) by group. The ICCs differ by whether they treat
+dimensions as fixed or random and whether they are for a single variable in
+<code>data[vrb.nm]</code> of the set of variables <code>data[vrb.nm]</code>.
+<code>icc_all_by</code> also returns information about the linear mixed effects
+modeling (using <code>lmer</code>) used to compute the ICCs as well as
+any warning or error messages by group. For an understanding of the six
+different ICCs, see the following blogpost:
+<a href="http://www.daviddisabato.com/blog/2021/10/1/the-six-different-types-of-intraclass-correlations-iccs">http://www.daviddisabato.com/blog/2021/10/1/the-six-different-types-of-intraclass-correlations-iccs</a>.
+<code>icc_all_by</code> is a combination of <code>by2</code> +
+<code>try_fun</code> + <code>ICC</code>
+(<code>ICC</code> calls <code>lmer</code> internally).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">icc_all_by(data, vrb.nm, grp.nm, ci.level = 0.95, check = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>data.frame of data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vrb.nm</code></td>
+<td>
+<p>character vector of colnames from <code>data</code> specifying the
+variables.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>grp.nm</code></td>
+<td>
+<p>character vector of colnames from <code>data</code> specifying the
+groups.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ci.level</code></td>
+<td>
+<p>double vector of length 1 specifying the confidence level. It
+must range from 0 to 1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>check</code></td>
+<td>
+<p>logical vector of length 1 specifying whether to check the
+structure of the input arguments. For example, check whether
+<code>data[vrb.nm]</code> are all typeof numeric. This argument is available to
+allow flexibility in whether the user values informative error messages
+(TRUE) vs. computational efficiency (FALSE).</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p><code>icc_all_by</code> internally suppresses any messages, warnings, or errors
+returned by <code>lmer</code> (e.g., "boundary (singular) fit: see
+?isSingular") because that information is provided in the returned
+data.frame.
+</p>
+
+
+<h3>Value</h3>
+
+<p>data.frame containing the unique combinations of the grouping variables
+<code>data[grp.nm]</code> and each group's intraclass correlations (ICCs), their confidence intervals,
+information about the <code>merMod</code> object from the linear mixed effects model,
+and any warning or error messages from <code>lmer</code>. For an understanding of the
+six different ICCs, see the following blogpost:
+<a href="http://www.daviddisabato.com/blog/2021/10/1/the-six-different-types-of-intraclass-correlations-iccs">http://www.daviddisabato.com/blog/2021/10/1/the-six-different-types-of-intraclass-correlations-iccs</a>.
+The first columns are always <code>unique.data.frame(data[vrb.nm])</code>. All other columns are in the
+following order with the following colnames:
+</p>
+
+<dl>
+<dt>icc11_est</dt>
+<dd>
+<p>ICC(1,1) parameter estimate</p>
+</dd>
+<dt>icc11_lwr</dt>
+<dd>
+<p>ICC(1,1) lower bound of the confidence interval</p>
+</dd>
+<dt>icc11_upr</dt>
+<dd>
+<p>ICC(1,1) lower bound of the confidence interval</p>
+</dd>
+<dt>icc21_est</dt>
+<dd>
+<p>ICC(2,1) parameter estimate</p>
+</dd>
+<dt>icc21_lwr</dt>
+<dd>
+<p>ICC(2,1) lower bound of the confidence interval</p>
+</dd>
+<dt>icc21_upr</dt>
+<dd>
+<p>ICC(2,1) lower bound of the confidence interval</p>
+</dd>
+<dt>icc31_est</dt>
+<dd>
+<p>ICC(3,1) parameter estimate</p>
+</dd>
+<dt>icc31_lwr</dt>
+<dd>
+<p>ICC(3,1) lower bound of the confidence interval</p>
+</dd>
+<dt>icc31_upr</dt>
+<dd>
+<p>ICC(3,1) lower bound of the confidence interval</p>
+</dd>
+<dt>icc1k_est</dt>
+<dd>
+<p>ICC(1,k) parameter estimate</p>
+</dd>
+<dt>icc1k_lwr</dt>
+<dd>
+<p>ICC(1,k) lower bound of the confidence interval</p>
+</dd>
+<dt>icc1k_upr</dt>
+<dd>
+<p>ICC(1,k) lower bound of the confidence interval</p>
+</dd>
+<dt>icc2k_est</dt>
+<dd>
+<p>ICC(2,k) parameter estimate</p>
+</dd>
+<dt>icc2k_lwr</dt>
+<dd>
+<p>ICC(2,k) lower bound of the confidence interval</p>
+</dd>
+<dt>icc2k_upr</dt>
+<dd>
+<p>ICC(2,k) lower bound of the confidence interval</p>
+</dd>
+<dt>icc3k_est</dt>
+<dd>
+<p>ICC(3,k) parameter estimate</p>
+</dd>
+<dt>icc3k_lwr</dt>
+<dd>
+<p>ICC(3,k) lower bound of the confidence interval</p>
+</dd>
+<dt>icc3k_upr</dt>
+<dd>
+<p>ICC(3,k) lower bound of the confidence interval</p>
+</dd>
+<dt>lmer_nobs</dt>
+<dd>
+<p>number of observations used for the linear mixed effects model.
+Note, this is the number of (non-missing) rows after <code>data[vrb.nm]</code>
+has been stacked together via <code>stack</code>.</p>
+</dd>
+<dt>lmer_ngrps</dt>
+<dd>
+<p>number of groups used for the linear mixed effects model.
+This is the number of unique combinations of the grouping variables after <code>data[grp.nm]</code>.</p>
+</dd>
+<dt>lmer_logLik</dt>
+<dd>
+<p>logLik of the linear mixed effects model</p>
+</dd>
+<dt>lmer_sing</dt>
+<dd>
+<p>binary variable where 1 = the linear mixed effects model had
+a singularity in the random effects covariance matrix or 0 = it did not</p>
+</dd>
+<dt>lmer_warn</dt>
+<dd>
+<p>binary variable where 1 = the linear mixed effects model
+returned a warning or 0 = it did not</p>
+</dd>
+<dt>lmer_err</dt>
+<dd>
+<p>binary variable where 1 = the linear mixed effects model
+returned an error or 0 = it did not</p>
+</dd>
+<dt>warn_mssg</dt>
+<dd>
+<p>character vector providing the warning messages for any warnings.
+If a group did not generate a warning, then the value is NA</p>
+</dd>
+<dt>err_mssg</dt>
+<dd>
+<p>character vector providing the error messages for any warnings.
+If a group did not generate an error, then the value is NA</p>
+</dd>
+</dl>
+<h3>References</h3>
+
+<p>Shrout, P.E., &amp; Fleiss, J.L. (1979). Intraclass correlations: Uses in assessing rater reliability.
+Psychological Bulletin, 86(2), 420-428.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>ICC</code>
+<code>lmer</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+# one grouping variable
+x &lt;- icc_all_by(data = psych::bfi, vrb.nm = c("A2","A3","A4","A5"),
+   grp.nm = "gender")
+
+# two grouping variables
+y &lt;- icc_all_by(data = psych::bfi, vrb.nm = c("A2","A3","A4","A5"),
+   grp.nm = c("gender","education"))
+
+# with errors
+z &lt;- icc_all_by(data = psych::bfi, vrb.nm = c("A2","A3","A4","A5"),
+   grp.nm = c("age")) # NA for all ICC columns when there is an error
+
+</code></pre>
+
+
+</div>

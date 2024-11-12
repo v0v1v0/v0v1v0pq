@@ -1,0 +1,133 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>plot.QTE</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>plot.QTE</h2>
+
+<h3>Description</h3>
+
+<p>Plots a QTE Object
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'QTE'
+plot(
+  x,
+  plotate = FALSE,
+  plot0 = FALSE,
+  qtecol = "black",
+  atecol = "black",
+  col0 = "black",
+  xlab = "tau",
+  ylab = "QTE",
+  legend = NULL,
+  ontreated = FALSE,
+  ylim = NULL,
+  uselegend = FALSE,
+  legendcol = NULL,
+  legloc = "topright",
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a QTE Object</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>plotate</code></td>
+<td>
+<p>Boolean whether or not to plot the ATE</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>plot0</code></td>
+<td>
+<p>Boolean whether to plot a line at 0</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qtecol</code></td>
+<td>
+<p>Color for qte plot.  Default "black"</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>atecol</code></td>
+<td>
+<p>Color for ate plot.  Default "black"</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>col0</code></td>
+<td>
+<p>Color for 0 plot.  Default "black"</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xlab</code></td>
+<td>
+<p>Custom label for x-axis.  Default "tau"</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ylab</code></td>
+<td>
+<p>Custom label for y-axis.  Default "QTE"</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>legend</code></td>
+<td>
+<p>Vector of strings to add to legend</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ontreated</code></td>
+<td>
+<p>Boolean whether parameters are "on the treated group"</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ylim</code></td>
+<td>
+<p>The ylim for the plot; if not passed, it will be automatically
+set based on the values that the QTE takes</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>uselegend</code></td>
+<td>
+<p>Boolean whether or not to print a legend</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>legendcol</code></td>
+<td>
+<p>Legend Colors for plotting</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>legloc</code></td>
+<td>
+<p>String location for the legend.  Default "topright"</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Other parameters to be passed to plot (e.g lwd)</p>
+</td>
+</tr>
+</table>
+</div>

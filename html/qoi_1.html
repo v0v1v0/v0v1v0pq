@@ -1,0 +1,55 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>readQOI</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Read an QOI image into a RGB(A) raster array</h2>
+
+<h3>Description</h3>
+
+<p>Read an QOI image into a RGB(A) raster array
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">readQOI(qoi_image_path)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>qoi_image_path</code></td>
+<td>
+<p>character (<strong>required</strong>): Path to a stored qoi-image</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>A matrix with integer (0-255) RGB(A) values with dimensions height x width x channels.
+Until now 3 (RGB) and 4 (RGBA) channels are integrated in the specification.
+If the decoding went wrong the returned value is NULL.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Johannes Friedrich
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## (1) Read RGBA values from file
+path &lt;- system.file("extdata", "Rlogo.qoi", package="qoi")
+rlogo_qoi &lt;- readQOI(path)
+dim(rlogo_qoi)
+
+## (2) plot them
+plot.new()
+</code></pre>
+
+
+</div>

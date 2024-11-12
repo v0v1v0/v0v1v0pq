@@ -1,0 +1,62 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>rqs.fit</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Function to fit multiple response quantile regression models</h2>
+
+<h3>Description</h3>
+
+<p>Function intended for multiple response quantile regression
+called from <code>boot.rq</code> for wild bootstrap option.</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">rqs.fit(x, y, tau=0.5, tol = 0.0001)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+
+<p>the design matrix an n by p matrix.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+
+<p>the response variable as a n by m matrix
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tau</code></td>
+<td>
+
+<p>the quantile desired, if tau lies outside (0,1) 
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tol</code></td>
+<td>
+
+<p>tolerance parameter for Barrodale and Roberts exterior point method.
+</p>
+</td>
+</tr>
+</table>
+<h3>See Also</h3>
+
+  <p><code>boot.rq</code> </p>
+
+
+</div>

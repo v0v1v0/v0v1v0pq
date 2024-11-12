@@ -1,0 +1,75 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>resample</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Sample a vector</h2>
+
+<h3>Description</h3>
+
+<p>Return a sample from a vector within a grouping variable if specified.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">resample(x, size = NULL, replace = FALSE, prob = NULL, by = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>numeric vector</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>size</code></td>
+<td>
+<p>the number of items to sample within each group, as a positive
+number or a vector of numbers equal in length to the number of groups. If
+<code>NULL</code>, the sampling is stratified by group in the original group
+sizes.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>replace</code></td>
+<td>
+<p>if <code>TRUE</code>, sample with replacement</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>prob</code></td>
+<td>
+<p>a vector of probability weights for values in <code>x</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>by</code></td>
+<td>
+<p>a grouping vector equal in length to <code>length(x)</code></p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p><code>x</code> resampled within groups
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">set.seed(100)
+grvec &lt;- c(rep("a", 3), rep("b", 4), rep("c", 3))
+quanteda:::resample(1:10, replace = FALSE, by = grvec)
+quanteda:::resample(1:10, replace = TRUE, by = grvec)
+quanteda:::resample(1:10, size = 2, replace = TRUE, by = grvec)
+quanteda:::resample(1:10, size = c(1, 1, 3), replace = TRUE, by = grvec)
+</code></pre>
+
+
+</div>

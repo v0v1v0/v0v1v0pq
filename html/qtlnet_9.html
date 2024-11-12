@@ -1,0 +1,116 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>subset.qtlnet</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Catenate or subset qtlnet object(s).
+</h2>
+
+<h3>Description</h3>
+
+<p>Multiple qtlnet objects can be catenated together or subsetted by run.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'qtlnet'
+subset(x, run, ...)
+## S3 method for class 'qtlnet'
+c(...)
+best.qtlnet(x, burnin = attr(x, "burnin"), wh = which.min(meanbic(x, burnin)))
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+
+<p>Object of class <code>qtlnet</code>. See <code>mcmc.qtlnet</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>run</code></td>
+<td>
+
+<p>Numeric index to desired run. Must be between 0 and number of runs.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>burnin</code></td>
+<td>
+
+<p>Proportion of MCMC samples to be considered as burnin. Taken from
+<code>qtlnet</code> object usually.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>wh</code></td>
+<td>
+<p>Number identifying which model is best.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+
+<p>For <code>c.qtlnet</code>, objects of class <code>qtlnet</code> to be
+joined. Ignored for <code>subset.qtlnet</code>.
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The catenation is used by <code>parallel.qtlnet</code> in phase 5 to
+join together multiple independent MCMC runs. Note that the averaged
+network and the frequency of acceptance for a derived subset are only
+based on the saved samples, while the original <code>qtlnet</code> objects
+used all samples. Thus catenation and subset are not strictly reversible
+functions.
+</p>
+<p>The <code>best.qtlnet</code> routine picks the run with the best (lowest) BIC
+score on average and returns that run as a qtlnet object. It also
+produces a trace plot of BIC for all the runs.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Both return an object of class <code>qtlnet</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Brian Yandell
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>mcmc.qtlnet</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+joined &lt;- c(qtlnet1, qtlnet2)
+sub1 &lt;- subset(joined, 1)
+best &lt;- best.qtlnet(joined)
+## qtlnet1 and sub1 should be nearly identical.
+
+## End(Not run)
+</code></pre>
+
+
+</div>

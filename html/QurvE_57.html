@@ -1,0 +1,121 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>rdm.data</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>The function calls the <code>baranyi</code> function to generate curves between time zero and <code>t</code> and adds some random noise to the x- and y-axes. The three growth parameters given as input values will be slightly changed to produce different growth curves. The resulting datasets can be used to test the <code>growth.workflow</code> function.</h2>
+
+<h3>Description</h3>
+
+<p>The function calls the <code>baranyi</code> function to generate curves between time zero and <code>t</code> and adds some random noise to the x- and y-axes. The three growth parameters given as input values will be slightly changed to produce different growth curves. The resulting datasets can be used to test the <code>growth.workflow</code> function.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">rdm.data(d, y0 = 0.05, tmax = 24, mu = 0.6, lambda = 5, A = 3, label = "Test1")
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>d</code></td>
+<td>
+<p>Numeric value, number of data sets. If <code>d</code> is a vector, only the first entry is used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y0</code></td>
+<td>
+<p>Numeric value, start growth. If <code>t</code> is a vector, only the first entry is used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tmax</code></td>
+<td>
+<p>Numeric value, number of time points per data set. If <code>t</code> is a vector, only the first entry is used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mu</code></td>
+<td>
+<p>Numeric value, maximum slope. If <code>mu</code> is a vector, only the first entry is used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lambda</code></td>
+<td>
+<p>Numeric value, lag-phase. If <code>lambda</code> is a vector, only the first entry is used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>A</code></td>
+<td>
+<p>Numeric value, maximum growth. If <code>A</code> is a vector, only the first entry is used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>label</code></td>
+<td>
+<p>Character string, condition label  If <code>label</code> is a vector, only the first entry is used.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list containing simulated data for three tests (e.g., 'organisms'):
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>time</code></td>
+<td>
+<p>numeric matrix of size <code>d</code>x<code>t</code>, each row represent the time points for which growth data is simulated and stored in each row of <code>data</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>data.frame of size <code>d</code>x(3+<code>t</code>), 1. column, character as an experiment identifier; 2. column: Replicate number; 3. column: concentration of substrate of a compound under which the experiment is obtained; 4.-(3+t). column: growth data corresponding to the time points in <code>time</code>.</p>
+</td>
+</tr>
+</table>
+<h3>References</h3>
+
+<p>Matthias Kahm, Guido Hasenbrink, Hella Lichtenberg-Frate, Jost Ludwig, Maik Kschischo (2010). <em>grofit: Fitting Biological Growth Curves with R</em>. Journal of Statistical Software, 33(7), 1-21. DOI: 10.18637/jss.v033.i07
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># Create random growth data set
+rnd.data1 &lt;- rdm.data(d = 35, mu = 0.8, A = 5, label = 'Test1')
+rnd.data2 &lt;- rdm.data(d = 35, mu = 0.6, A = 4.5, label = 'Test2')
+
+rnd.data &lt;- list()
+rnd.data[['time']] &lt;- rbind(rnd.data1$time, rnd.data2$time)
+rnd.data[['data']] &lt;- rbind(rnd.data1$data, rnd.data2$data)
+
+# Run growth curve analysis workflow
+gcFit &lt;- growth.gcFit(time = rnd.data$time,
+                       data = rnd.data$data,
+                       parallelize = FALSE,
+                       control = growth.control(fit.opt = 's',
+                                                suppress.messages = TRUE))
+
+
+# Perform dose-response analysis
+drFit &lt;- growth.drFit(gcTable = gcFit$gcTable,
+             control = growth.control(dr.parameter = 'mu.spline'))
+
+# Inspect results
+summary(drFit)
+plot(drFit)
+
+
+</code></pre>
+
+
+</div>

@@ -1,0 +1,66 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>drop.markers</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Drop a set of markers</h2>
+
+<h3>Description</h3>
+
+<p>Drop a vector of markers from the data matrices and genetic maps.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">drop.markers(cross, markers)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>cross</code></td>
+<td>
+<p>An object of class <code>cross</code>.  See
+<code>read.cross</code> for details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>markers</code></td>
+<td>
+<p>A character vector of marker names.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>The input object, with any markers in the vector <code>markers</code> removed
+from the genotype data matrices, genetic maps, and, if applicable, any
+derived data (such as produced by <code>calc.genoprob</code>).
+(It might be a good idea to re-derive such things after using this
+function.)
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Karl W Broman, <a href="mailto:broman@wisc.edu">broman@wisc.edu</a> </p>
+
+
+<h3>See Also</h3>
+
+ <p><code>drop.nullmarkers</code>, <code>pull.markers</code>, <code>geno.table</code>,
+<code>clean.cross</code> </p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(listeria)
+listeria2 &lt;- drop.markers(listeria, c("D10M44","D1M3","D1M75"))
+</code></pre>
+
+
+</div>

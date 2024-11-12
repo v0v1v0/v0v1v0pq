@@ -1,0 +1,86 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>add_threshold</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Add thresholds to genome scan plot</h2>
+
+<h3>Description</h3>
+
+<p>Draw line segments at significance thresholds for a genome scan plot
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">add_threshold(map, thresholdA, thresholdX = NULL, chr = NULL, gap = NULL, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>map</code></td>
+<td>
+<p>Marker map used in the genome scan plot</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>thresholdA</code></td>
+<td>
+<p>Autosomal threshold. Numeric or a list. (If a
+list, the <code>"A"</code> component is taken to be <code>thresholdA</code> and the
+<code>"X"</code> component is taken to be <code>thresholdX</code>.)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>thresholdX</code></td>
+<td>
+<p>X chromosome threshold (if missing, assumed to be the same as <code>thresholdA</code>)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>chr</code></td>
+<td>
+<p>Chromosomes that were included in the plot</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gap</code></td>
+<td>
+<p>Gap between chromosomes in the plot. Default is 1% of the total genome length.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Additional arguments passed to <code>graphics::segments()</code></p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>None.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">iron &lt;- read_cross2(system.file("extdata", "iron.zip", package="qtl2"))
+
+map &lt;- insert_pseudomarkers(iron$gmap, step=5)
+probs &lt;- calc_genoprob(iron, map, error_prob=0.002)
+Xcovar &lt;- get_x_covar(iron)
+out &lt;- scan1(probs, iron$pheno[,1], Xcovar=Xcovar)
+# run just 3 permutations, as a fast illustration
+operm &lt;- scan1perm(probs, iron$pheno[,1], addcovar=Xcovar,
+                   n_perm=3, perm_Xsp=TRUE, chr_lengths=chr_lengths(map))
+
+plot(out, map)
+add_threshold(map, summary(operm), col="violetred", lty=2)
+</code></pre>
+
+
+</div>

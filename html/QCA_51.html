@@ -1,0 +1,119 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>generate</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Generate a custom data structure</h2>
+
+<h3>Description</h3>
+
+<p>This function acts as a DGS - Data Generating Structure for a certain SOP expression.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">generate(expression = "", snames = "", noflevels, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>expression</code></td>
+<td>
+<p>String: a SOP - sum of products expression.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>snames</code></td>
+<td>
+<p>A string containing the sets' names, separated by commas.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>noflevels</code></td>
+<td>
+<p>Numerical vector containing the number of levels for each set.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Other arguments, mainly for internal use.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Using the power of SOP expressions, this function can generate the data for any type
+of expressions, either Boolean or multi-value.
+</p>
+<p>Causal conditions should always be separated by a product sign "*", unless:
+- they are single letters, or
+- the set names are provided, or
+- the expression is multi-value
+</p>
+<p>All conditions are considered binary crisp, unless the number of levels are provided
+in conjunction with the set names, in the order of their specification from the
+<b><code>snames</code></b> argument.
+</p>
+<p>This is an extension of the function <b><code>expand()</code></b> from package admisc,
+the process of data generating process being essentially a Quine expansion to a
+Disjunctive Normal Form.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A data frame.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Adrian Dusa
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">generate(D + ~AB + B~C -&gt; Z)
+
+# the positive configurations in their complete DNF expansion:
+expanded &lt;- expand(D + ~AB + B~C, snames = c(A, B, C, D))
+# ~A~B~CD + ~A~BCD + ~AB~CD + ~ABCD + A~B~CD + A~BCD +
+# AB~CD + ABCD + ~AB~C~D + ~ABC~D + AB~C~D
+
+# which has the equivalent simpler, initial expression:
+simplify(expanded)
+# D + ~AB + B~C
+
+# same structure with different set names
+# (note the mandatory use of the product sign *)
+generate(Alpha + ~Beta*Gamma + Gamma*~Delta -&gt; Omicron)
+
+# introducing an additional, irrelevant condition
+# (note the product sign is not mandatory if providing the set names)
+setnames &lt;- "Alpha, Beta, Gamma, Delta, Epsilon"
+dat &lt;- generate(Alpha + ~BetaGamma + Gamma~Delta -&gt; Omicron, snames = setnames)
+
+head(dat)
+
+#   Alpha Beta Gamma Delta Epsilon Omicron
+# 1     0    0     0     0       0       0
+# 2     0    0     0     0       1       0
+# 3     0    0     0     1       0       0
+# 4     0    0     0     1       1       0
+# 5     0    0     1     0       0       1
+# 6     0    0     1     0       1       1
+
+minimize(dat, outcome = Omicron)
+
+# M1: Alpha + ~Beta*Gamma + Gamma*~Delta &lt;-&gt; Omicron
+</code></pre>
+
+
+</div>

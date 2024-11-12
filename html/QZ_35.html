@@ -1,0 +1,170 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qz.zgeev</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Generalized Eigenvalues Decomposition for a Complex Matrix</h2>
+
+<h3>Description</h3>
+
+<p>This function call 'zgeev' in Fortran to decompose a 'complex' matrix A.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">  qz.zgeev(A, vl = TRUE, vr = TRUE, LWORK = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>A</code></td>
+<td>
+<p>a 'complex' matrix, dim = c(N, N).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vl</code></td>
+<td>
+<p>if compute left 'complex' eigen vectors. (U)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vr</code></td>
+<td>
+<p>if compute right 'complex' eigen vectors. (V)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>LWORK</code></td>
+<td>
+<p>optional, dimension of array WORK for workspace. (&gt;= 2N)</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>See 'zgeev.f' for all details.
+</p>
+<p>ZGEEV computes for an N-by-N complex non-symmetric matrix A, the
+eigenvalues and, optionally, the left and/or right eigenvectors.
+</p>
+<p>The right eigenvector v(j) of A satisfies
+</p>
+<p>A * v(j) = lambda(j) * v(j)
+</p>
+<p>where lambda(j) is its eigenvalue.
+The left eigenvector u(j) of A satisfies
+</p>
+<p>u(j)**H * A = lambda(j) * u(j)**H
+</p>
+<p>where u(j)**H denotes the conjugate transpose of u(j).
+</p>
+<p>The computed eigenvectors are normalized to have Euclidean norm
+equal to 1 and largest component real.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Return a list contains next:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>'W'</code></td>
+<td>
+<p>original returns from 'zgeev.f'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>'VL'</code></td>
+<td>
+<p>original returns from 'zgeev.f'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>'VR'</code></td>
+<td>
+<p>original returns from 'zgeev.f'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>'WORK'</code></td>
+<td>
+<p>optimal LWORK (for zgeev.f only)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>'INFO'</code></td>
+<td>
+<p>= 0: successful. &lt; 0: if INFO = -i, the i-th argument had
+an illegal value. &gt; 0: QZ iteration failed.</p>
+</td>
+</tr>
+</table>
+<p>Extra returns in the list:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>'U'</code></td>
+<td>
+<p>the left eigen vectors.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>'V'</code></td>
+<td>
+<p>the right eigen vectors.</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Wei-Chen Chen <a href="mailto:wccsnow@gmail.com">wccsnow@gmail.com</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Anderson, E., et al. (1999) <em>LAPACK User's Guide,</em>
+3rd edition, SIAM, Philadelphia.
+</p>
+<p><a href="https://www.netlib.org/lapack/complex16/zgeev.f">https://www.netlib.org/lapack/complex16/zgeev.f</a>
+</p>
+<p><a href="https://en.wikipedia.org/wiki/Schur_decomposition">https://en.wikipedia.org/wiki/Schur_decomposition</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>qz.zgees</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+library(QZ, quiet = TRUE)
+
+### https://www.nag.com/lapack-ex/node92.html
+A &lt;- exA1$A
+ret &lt;- qz.zgeev(A)
+
+# Verify 1
+diff.R &lt;- A %*% ret$V - matrix(ret$W, 4, 4, byrow = TRUE) * ret$V
+diff.L &lt;- H(ret$U) %*% A - matrix(ret$W, 4, 4) * H(ret$U)
+round(diff.R)
+round(diff.L)
+
+# Verify 2
+round(ret$U %*% H(ret$U))
+round(ret$V %*% H(ret$V))
+
+</code></pre>
+
+
+</div>

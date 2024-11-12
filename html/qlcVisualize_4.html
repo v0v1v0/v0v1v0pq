@@ -1,0 +1,60 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>dialects</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Multiple correspondences of "f"-like sounds in German Dialects
+</h2>
+
+<h3>Description</h3>
+
+<p>In total 34 different words in which an f-like sound occurs. The different pronunciations of this sound in 183 different German villages are included in this dataset.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">data(dialects)</code></pre>
+
+
+<h3>Format</h3>
+
+<p>List of 2:
+</p>
+
+<dl>
+<dt><code>villages</code></dt>
+<dd>
+<p>Dataframe with two variables LONGITUDE and LATITUDE for all 183 villages.</p>
+</dd>
+<dt><code>data</code></dt>
+<dd>
+<p>Matrix with 34 columns showing the pronunciation in the 183 villages.</p>
+</dd>
+</dl>
+<h3>Source</h3>
+
+<p>Excerpt from <a href="https://github.com/cysouw/PAD/">https://github.com/cysouw/PAD/</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+# might give error message because of non-ASCII phonetic symbols
+data(dialects)
+require(mapdata)
+map("worldHires", "Germany", fill = TRUE, col = "grey90")
+
+lmap(dialects$villages, dialects$data[,21]
+  , levels = c(0.20, 0.22, 0.24), add = TRUE, position = "topleft")
+
+title(main = "f-sound in \'Kochlöffel\'")
+
+## End(Not run)
+</code></pre>
+
+
+</div>

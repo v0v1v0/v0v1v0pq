@@ -1,0 +1,110 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>sig_scale</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Scale fatty acid signature proportions</h2>
+
+<h3>Description</h3>
+
+<p>The utility function <code>sig_scale</code> implements the three options for
+scaling fatty acid signature data summarized by Bromaghin et al. (2016).
+A logical vector denotes the subset of all fatty acids to be used in the
+analysis.  The fatty acids that are not to be used are censored and one of
+three scaling options is implemented.  See Details.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">sig_scale(sig_data, fa_use, scale = 3)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>sig_data</code></td>
+<td>
+<p>A numeric matrix containing prey signature data as
+proportions in column-major.  These data should have previously been
+processed by <code>sig_rep_zero</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fa_use</code></td>
+<td>
+<p>A logical vector denoting the fatty acids to be used, of length
+equal to the total number of fatty acids. This vector originates from a
+data file required by <code>qfasar</code>. See the vignette for details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>scale</code></td>
+<td>
+<p>An integer indicator of the desired scaling option. See
+Details. Default value 3.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list containing the following elements: </p>
+
+<dl>
+<dt>n_fa</dt>
+<dd>
+<p>The number of fatty acids in the processed signatures.</p>
+</dd>
+<dt>sig</dt>
+<dd>
+<p>A numeric matrix of processed signatures in column-major
+format.</p>
+</dd>
+<dt>err_code</dt>
+<dd>
+<p>An integer error code (0 if no error is detected).</p>
+</dd>
+<dt>err_message</dt>
+<dd>
+<p>A string contains a brief summary of the execution.</p>
+</dd>
+</dl>
+<h3>Details</h3>
+
+<p>This is an internal utility function.
+</p>
+<p>The argument <code>scale</code> must be one of three integer values and its value
+denotes the scaling option that will be implemented:</p>
+
+<ul>
+<li> <p><code>scale</code> == 1.  The proportions within each censored signature
+are scaled to sum to 1.0.  This option is not recommended for routine
+use in QFASA applications, as Bromaghin et al. (2016) found that it
+can meaningfully bias diet estimates under some conditions.  It is
+implemented here to provide compatibility with original methods and to
+facilitate potential future research.
+</p>
+</li>
+<li> <p><code>scale</code> == 2.  The proportions within each censored signature
+are not scaled, so each signature will have a different partial sum.
+</p>
+</li>
+<li> <p><code>scale</code> == 3.  Each censored signature is augmented with an
+additional proportion whose value equals the sum of the censored
+proportions, so that the proportions in each signature sum to 1.
+This is the default option.
+</p>
+</li>
+</ul>
+<h3>References</h3>
+
+<p>Bromaghin, J.F., S.M. Budge, and G.W. Thiemann. 2016. Should fatty
+acid signature proportions sum to 1 for diet estimation?
+<em>Ecological Research</em> 31:597-606.
+</p>
+
+
+</div>

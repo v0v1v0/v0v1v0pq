@@ -1,0 +1,59 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>interpolateTimes</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Interpolate a vector of times</h2>
+
+<h3>Description</h3>
+
+<p>Linearly interpolate an increasing vector of times. This is
+useful to deal with the quaternions splines.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">interpolateTimes(times, n, last = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>times</code></td>
+<td>
+<p>increasing vector of times</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p>integer, controls the number of interpolations: there will be
+<code>n-1</code> time values between two consecutive original times</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>last</code></td>
+<td>
+<p>Boolean, whether to include or exclude the last element</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A vector, a refinement of the <code>times</code> vector.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(qsplines)
+interpolateTimes(1:4, n = 3)
+interpolateTimes(c(1, 2, 4), n = 3)
+</code></pre>
+
+
+</div>

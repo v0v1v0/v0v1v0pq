@@ -1,0 +1,204 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>getDate</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Extract all dates from a string</h2>
+
+<h3>Description</h3>
+
+<p>Extract all dates from a string
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">getDate(str1, out.format = "%Y-%m-%d")
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>str1</code></td>
+<td>
+<p>string to parse</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>out.format</code></td>
+<td>
+<p>date output format</p>
+</td>
+</tr>
+</table>
+<h3>Note</h3>
+
+<p><strong>DATE FORMATS IN R</strong><br></p>
+
+<table>
+<tr>
+<td style="text-align: right;">
+<strong>Date Specification</strong>   </td>
+<td style="text-align: right;"> </td>
+<td style="text-align: right;"> <strong>Description</strong>          </td>
+<td style="text-align: right;"> </td>
+<td style="text-align: right;">  <strong>Example</strong> </td>
+</tr>
+<tr>
+<td style="text-align: right;">
+%a  </td>
+<td style="text-align: right;"> </td>
+<td style="text-align: right;"> Abbreviated weekday             </td>
+<td style="text-align: right;"> </td>
+<td style="text-align: right;"> Sun, Thu </td>
+</tr>
+<tr>
+<td style="text-align: right;">
+%A  </td>
+<td style="text-align: right;"> </td>
+<td style="text-align: right;"> Full weekday                    </td>
+<td style="text-align: right;"> </td>
+<td style="text-align: right;"> Sunday </td>
+</tr>
+<tr>
+<td style="text-align: right;">
+%b  </td>
+<td style="text-align: right;"> </td>
+<td style="text-align: right;"> Abbreviated month               </td>
+<td style="text-align: right;"> </td>
+<td style="text-align: right;"> May, Jul </td>
+</tr>
+<tr>
+<td style="text-align: right;">
+%B  </td>
+<td style="text-align: right;"> </td>
+<td style="text-align: right;"> Full month                      </td>
+<td style="text-align: right;"> </td>
+<td style="text-align: right;"> March, July </td>
+</tr>
+<tr>
+<td style="text-align: right;">
+%d  </td>
+<td style="text-align: right;"> </td>
+<td style="text-align: right;"> Day of the month                </td>
+<td style="text-align: right;"> </td>
+<td style="text-align: right;"> 27, 07 </td>
+</tr>
+<tr>
+<td style="text-align: right;">
+%j  </td>
+<td style="text-align: right;"> </td>
+<td style="text-align: right;"> Day of the year                 </td>
+<td style="text-align: right;"> </td>
+<td style="text-align: right;"> 148, 188 </td>
+</tr>
+<tr>
+<td style="text-align: right;">
+%m  </td>
+<td style="text-align: right;"> </td>
+<td style="text-align: right;"> Month                           </td>
+<td style="text-align: right;"> </td>
+<td style="text-align: right;"> 05, 07 </td>
+</tr>
+<tr>
+<td style="text-align: right;">
+%U  </td>
+<td style="text-align: right;"> </td>
+<td style="text-align: right;"> Week, with Sunday as first day  </td>
+<td style="text-align: right;"> </td>
+<td style="text-align: right;"> 22, 27 </td>
+</tr>
+<tr>
+<td style="text-align: right;">
+%w  </td>
+<td style="text-align: right;"> </td>
+<td style="text-align: right;"> Weekday, Sunday is 0            </td>
+<td style="text-align: right;"> </td>
+<td style="text-align: right;"> 0, 4 </td>
+</tr>
+<tr>
+<td style="text-align: right;">
+%W  </td>
+<td style="text-align: right;"> </td>
+<td style="text-align: right;"> Week, with Monday as first day  </td>
+<td style="text-align: right;"> </td>
+<td style="text-align: right;"> 21, 27 </td>
+</tr>
+<tr>
+<td style="text-align: right;">
+%x  </td>
+<td style="text-align: right;"> </td>
+<td style="text-align: right;"> Date, locale-specific           </td>
+<td style="text-align: right;"> </td>
+<td style="text-align: right;"> </td>
+</tr>
+<tr>
+<td style="text-align: right;">
+%y  </td>
+<td style="text-align: right;"> </td>
+<td style="text-align: right;"> Year without century            </td>
+<td style="text-align: right;"> </td>
+<td style="text-align: right;"> 84, 05 </td>
+</tr>
+<tr>
+<td style="text-align: right;">
+%Y  </td>
+<td style="text-align: right;"> </td>
+<td style="text-align: right;"> Year with century               </td>
+<td style="text-align: right;"> </td>
+<td style="text-align: right;"> 1984, 2005 </td>
+</tr>
+<tr>
+<td style="text-align: right;">
+%C  </td>
+<td style="text-align: right;"> </td>
+<td style="text-align: right;"> Century                         </td>
+<td style="text-align: right;"> </td>
+<td style="text-align: right;"> 19, 20 </td>
+</tr>
+<tr>
+<td style="text-align: right;">
+%D  </td>
+<td style="text-align: right;"> </td>
+<td style="text-align: right;"> Date formatted %m/%d/%y      </td>
+<td style="text-align: right;"> </td>
+<td style="text-align: right;"> 07/17/23 </td>
+</tr>
+<tr>
+<td style="text-align: right;">
+%u  </td>
+<td style="text-align: right;"> </td>
+<td style="text-align: right;"> Weekday, Monday is 1            </td>
+<td style="text-align: right;"> </td>
+<td style="text-align: right;"> 7, 4 </td>
+</tr>
+<tr>
+<td style="text-align: right;">
+</td>
+</tr>
+</table>
+<h3>Examples</h3>
+
+<pre><code class="language-R">str1 &lt;- "The video was recorded on July 19, 2023."
+str2 &lt;- "The video was recorded over a 4 hour period
+starting on July 19, 2023."
+str3 &lt;- "The first batch aug 12,2024 of aug 12,
+2024 reports are due on July 12, 2024; the second
+batch on 7/19/24."
+str4 &lt;- c("On 3.12.25, Jerry is taking one month
+05.13.1895 of leave and is not scheduled to
+return until around 4-9-2025.", "The staff
+will be out on training on 10/11/24,
+Oct 12, 2024, and 10-13-24.")
+getDate(str1)
+getDate(str2, out.format = "%Y-%m-%d")
+getDate(str3, out.format = "%m-%d/%Y")
+getDate(str4)
+
+</code></pre>
+
+
+</div>

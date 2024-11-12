@@ -1,0 +1,104 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>primer</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Automobile primer paint thickness quality control measurements.</h2>
+
+<h3>Description</h3>
+
+<p>Contains process control measurements of thickness of primer applied to
+automotive body parts in an auto factory.
+Twice daily, a set of 10 consecutive parts were selected and the thickness in mils (thousandths of an inch)
+were measured.  For each set of 10 parts, the average (xbar) and the sample standard deviation (s) were also
+calculated and recorded.  These summaries would be plotted in xbar or s control charts with suitably determined upper and
+lower control limits.
+Alternatively, for checking outliers a qqplot (via qqtest) could be used for either xbar or s.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">primer
+</code></pre>
+
+
+<h3>Format</h3>
+
+<p>A data frame with 20 rows and 14 variates:
+</p>
+
+<dl>
+<dt>day</dt>
+<dd>
+<p>Day on which the parts were taken and measured.</p>
+</dd>
+<dt>batch</dt>
+<dd>
+<p>Either the first or second set of 10 consecutive parts taken.</p>
+</dd>
+<dt>sel1</dt>
+<dd>
+<p>Thickness of primer in mils on the first part sampled in the specified batch of that day.</p>
+</dd>
+<dt>sel2</dt>
+<dd>
+<p>Thickness of primer in mils on the second part sampled in the specified batch of that day.</p>
+</dd>
+<dt>sel3</dt>
+<dd>
+<p>Thickness of primer in mils on the third part sampled in the specified batch of that day.</p>
+</dd>
+<dt>sel4</dt>
+<dd>
+<p>Thickness of primer in mils on the fourth part sampled in the specified batch of that day.</p>
+</dd>
+<dt>sel5</dt>
+<dd>
+<p>Thickness of primer in mils on the fifth part sampled in the specified batch of that day.</p>
+</dd>
+<dt>sel6</dt>
+<dd>
+<p>Thickness of primer in mils on the sixth part sampled in the specified batch of that day.</p>
+</dd>
+<dt>sel7</dt>
+<dd>
+<p>Thickness of primer in mils on the seventh part sampled in the specified batch of that day.</p>
+</dd>
+<dt>sel8</dt>
+<dd>
+<p>Thickness of primer in mils on the eighth part sampled in the specified batch of that day.</p>
+</dd>
+<dt>sel9</dt>
+<dd>
+<p>Thickness of primer in mils on the ninth part sampled in the specified batch of that day.</p>
+</dd>
+<dt>sel10</dt>
+<dd>
+<p>Thickness of primer in mils on the tenth part sampled in the specified batch of that day.</p>
+</dd>
+<dt>xbar</dt>
+<dd>
+<p>Arithmetic average of the measurements of primer thickness of the 10 parts selected in the specified batch of that day.</p>
+</dd>
+<dt>s</dt>
+<dd>
+<p>Sample standard deviation of the measurements of primer thickness of the 10 parts selected in the specified batch of that day.</p>
+</dd>
+</dl>
+<h3>Details</h3>
+
+<p><code>with(primer,qqtest(xbar, main="Averages"))</code> will effect this plot for xbar.
+<code>with(primer,qqtest(s,dist="kay", df=9, main ="Standard deviations"))</code> will effect this plot for s.
+</p>
+
+
+<h3>Source</h3>
+
+<p>"Statistical Process Control - SPC", 
+Automotive Industry Action Group(AIAG), Southfield MI,  (1995), page 64.
+</p>
+
+
+</div>

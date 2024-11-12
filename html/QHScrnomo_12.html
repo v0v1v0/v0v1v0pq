@@ -1,0 +1,88 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>sas.cmprsk</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Generate a Prediction Equation for a Competing Risks Regression Model</h2>
+
+<h3>Description</h3>
+
+<p>Uses <code>Function</code> to generate and print the linear predictor to the console or file which can be hard-coded into a function for evaluation on the scale of the original data. A time point can optionally be specified to retrieve the base sub-cumulative rate at that time point (i.e, the failure probability when all covariate values are 0).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">sas.cmprsk(f, time = NA, baseonly = FALSE, file = "", append = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>f</code></td>
+<td>
+<p>A model fit by <code>crr.fit</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>time</code></td>
+<td>
+<p>A single time point to calculate the failure probability</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>baseonly</code></td>
+<td>
+<p>Should we only display the failure probability at the specified <code>time</code>? Defaults to <code>FALSE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>file</code></td>
+<td>
+<p>An optional connection or character string naming the file to print to.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>append</code></td>
+<td>
+<p>Only used if the <code>file</code> argument is specified. If <code>TRUE</code>, the output will be appended to <code>file</code>, otherwise it will overwritten.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A printed equation using <code>cat</code> (invisible <code>NULL</code>)
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Changhong Yu. Department of
+Quantitative Health Sciences, Cleveland Clinic
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>crr.fit</code> <code>sascode</code> <code>Function</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">dd &lt;- datadist(prostate.dat)
+options(datadist = "dd")
+prostate.f &lt;- cph(Surv(TIME_EVENT,EVENT_DOD == 1) ~ TX  + rcs(PSA,3) +
+           BX_GLSN_CAT +  CLIN_STG + rcs(AGE,3) +
+           RACE_AA, data = prostate.dat,
+           x = TRUE, y = TRUE, surv = TRUE,time.inc = 144)
+prostate.crr &lt;- crr.fit(prostate.f, cencode = 0, failcode = 1)
+sas.cmprsk(prostate.crr, time = 60)
+
+</code></pre>
+
+
+</div>

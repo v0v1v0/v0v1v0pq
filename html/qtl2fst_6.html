@@ -1,0 +1,148 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>fst_genoprob</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Store genotype probabilities in fst database</h2>
+
+<h3>Description</h3>
+
+<p>Save an R/qtl2 genotype probabilities object to a set of fst files for fast access with reduced memory usage.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">fst_genoprob(
+  genoprob,
+  fbase,
+  fdir = ".",
+  compress = 0,
+  verbose = TRUE,
+  overwrite = FALSE,
+  quiet = !verbose
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>genoprob</code></td>
+<td>
+<p>Object of class <code>"calc_genoprob"</code>. For details, see the
+<a href="https://kbroman.org/qtl2/assets/vignettes/developer_guide.html">R/qtl2 developer guide</a>
+and <code>qtl2::calc_genoprob()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fbase</code></td>
+<td>
+<p>Base of filename for fst database.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fdir</code></td>
+<td>
+<p>Directory for fst database.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>compress</code></td>
+<td>
+<p>Amount of compression to use (value in the range 0-100; lower values mean larger file sizes)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p>Opposite of <code>quiet</code>; deprecated argument (to be removed).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>overwrite</code></td>
+<td>
+<p>If FALSE (the default), refuse to overwrite any files that already exist.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>quiet</code></td>
+<td>
+<p>If FALSE (the default), show messages about fst database creation.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The genotype probabilities are stored in separate databases for each chromosome
+as tables of (indivduals*genotypes) x (positions) in directory <code>fst</code>.
+The <code>dim</code>, <code>dimnames</code> and <code>is_x_chr</code> elements of the object
+have information about the entire fst database.
+If a <code>fst_genoprob</code> object is a subset of another such object,
+the <code>chr</code>, <code>ind</code>, and <code>mar</code> contain information about what is in the subset.
+However, the <code>fst</code> databases are not altered in a subset, and can be restored by
+<code>fst_restore()</code>. The actual elements of an <code>"fst_genoprob"</code>
+object are only accessible to the user after a call to <code>unclass()</code>; instead
+the usual access to elements of the object invoke <code>subset.fst_genoprob()</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list containing the attributes of <code>genoprob</code>
+and the address for the created fst database.
+Components are:
+</p>
+
+<ul>
+<li> <p><code>dim</code> - List of all dimensions of 3-D arrays.
+</p>
+</li>
+<li> <p><code>dimnames</code> - List of all dimension names of 3-D arrays.
+</p>
+</li>
+<li> <p><code>is_x_chr</code> - Vector of all is_x_chr attributes.
+</p>
+</li>
+<li> <p><code>chr</code> - Vector of (subset of) chromosome names for this object.
+</p>
+</li>
+<li> <p><code>ind</code> - Vector of (subset of) individual names for this object.
+</p>
+</li>
+<li> <p><code>mar</code> - Vector of (subset of) marker names for this object.
+</p>
+</li>
+<li> <p><code>fst</code> - Path and base of file names for the fst database.
+</p>
+</li>
+</ul>
+<h3>Functions</h3>
+
+
+<ul><li> <p><code>fst_genoprob</code>: Deprecated version (to be deleted)
+</p>
+</li></ul>
+<h3>See Also</h3>
+
+<p><code>fst_path()</code>, <code>fst_extract()</code>, <code>fst_files()</code>, <code>replace_path()</code>, <code>fst_restore()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(qtl2)
+grav2 &lt;- read_cross2(system.file("extdata", "grav2.zip", package="qtl2"))
+map &lt;- insert_pseudomarkers(grav2$gmap, step=1)
+probs &lt;- calc_genoprob(grav2, map, error_prob=0.002)
+dir &lt;- tempdir()
+fprobs &lt;- fst_genoprob(probs, "grav2", dir, overwrite=TRUE)
+
+# clean up: remove all the files we created
+unlink(fst_files(fprobs))
+</code></pre>
+
+
+</div>

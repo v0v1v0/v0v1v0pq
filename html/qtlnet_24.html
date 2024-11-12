@@ -1,0 +1,114 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>generate.qtl</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Generate QTLs ane phenotypes from cross object</h2>
+
+<h3>Description</h3>
+
+<p>Generate QTLs ane phenotype data for individual examples from cross. These are utility routines to
+illustrate the examples. They are not meant for users per se.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">generate.qtl.markers(cross, n.phe, nqtl = 3)
+generate.qtl.pheno(name, cross, bp, bq, stdev, allqtl,
+    burnin = 2000, geno)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>cross</code></td>
+<td>
+<p>object of class <code>cross</code>; see
+<code>read.cross</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>name</code></td>
+<td>
+<p>character string for example name</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bp</code></td>
+<td>
+<p>vector or matrix of coefficients for dependencies between
+phenotypes; see cyclic and acyclic examples</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bq</code></td>
+<td>
+<p>vector or matrix of coefficients for QTL effects on
+phenotypes; see cyclic and acyclic examples</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>stdev</code></td>
+<td>
+<p>vector of standard deviations per phenotype</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>allqtl</code></td>
+<td>
+<p>list of objects of class <code>qtl</code> produced by
+<code>generate.qtl.sample</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>burnin</code></td>
+<td>
+<p>number of burnin cycles for MCMC; default is 2000</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>geno</code></td>
+<td>
+<p>genotypes at markers, typically extracted with
+<code>pull.geno</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n.phe</code></td>
+<td>
+<p>number of phenotypes</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nqtl</code></td>
+<td>
+<p>number of QTL</p>
+</td>
+</tr>
+</table>
+<h3>See Also</h3>
+
+<p><code>acyclic</code>, 
+<code>cyclica</code>, 
+<code>cyclicb</code>, 
+<code>cyclicc</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+example(acyclic)
+example(cyclica)
+example(cyclicb)
+example(cyclicc)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

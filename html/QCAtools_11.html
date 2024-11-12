@@ -1,0 +1,77 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>xyplot</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Plot fuzzy set score of two sets against each other</h2>
+
+<h3>Description</h3>
+
+<p>Plot fuzzy set score of two sets against each other
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">xyplot(x, y, data, labels = FALSE, main.diagonal = TRUE,
+  anti.diagonal = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>Formula that describes the fuzzy set to plot along the x axis</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>Formula that describes the fuzzy set to plot along the y axis</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>Data set of basic fuzzy set scores</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>labels</code></td>
+<td>
+<p>flag whether to label individual points with the case names</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>main.diagonal</code></td>
+<td>
+<p>flag whether to plot the main diagonal</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>anti.diagonal</code></td>
+<td>
+<p>flag whether to plot the anti diagonal</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>the <code>ggplot</code> plot object
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">require(QCA)
+data(d.urban)
+xyplot("MLC", "WSR", d.urban)
+
+</code></pre>
+
+
+</div>

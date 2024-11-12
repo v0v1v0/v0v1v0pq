@@ -1,0 +1,212 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>wordcloud_comparison</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Internal function for textplot_wordcloud</h2>
+
+<h3>Description</h3>
+
+<p>This function implements wordcloud that compares documents. Code is adopted
+from <code>wordcloud::comparison.cloud()</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">wordcloud_comparison(
+  x,
+  min_size,
+  max_size,
+  min_count,
+  max_words,
+  color,
+  font,
+  adjust,
+  rotation,
+  random_order,
+  random_color,
+  ordered_color,
+  labelcolor,
+  labelsize,
+  labeloffset,
+  fixed_aspect,
+  colors,
+  scale,
+  min.freq,
+  max.words,
+  random.order,
+  rot.per,
+  use.r.layout,
+  title.size,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a dfm or quanteda.textstats::textstat_keyness
+object</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>min_size</code></td>
+<td>
+<p>size of the smallest word</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>max_size</code></td>
+<td>
+<p>size of the largest word</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>min_count</code></td>
+<td>
+<p>words with frequency below min_count will not be plotted</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>max_words</code></td>
+<td>
+<p>maximum number of words to be plotted. The least frequent
+terms dropped.  The maximum frequency will be split evenly across
+categories when <code>comparison = TRUE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>color</code></td>
+<td>
+<p>colour of words from least to most frequent</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>font</code></td>
+<td>
+<p>font-family of words and labels. Use default font if <code>NULL</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>adjust</code></td>
+<td>
+<p>adjust sizes of words by a constant. Useful for non-English
+words for which R fails to obtain correct sizes.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rotation</code></td>
+<td>
+<p>proportion of words with 90 degree rotation</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>random_order</code></td>
+<td>
+<p>plot words in random order. If <code>FALSE</code>, they will be
+plotted in decreasing frequency.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>random_color</code></td>
+<td>
+<p>choose colours randomly from the colours. If <code>FALSE</code>,
+the colour is chosen based on the frequency</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ordered_color</code></td>
+<td>
+<p>if <code>TRUE</code>, then colours are assigned to words in
+order.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>labelcolor</code></td>
+<td>
+<p>colour of group labels. Only used when <code>comparison = TRUE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>labelsize</code></td>
+<td>
+<p>size of group labels. Only used when <code>comparison = TRUE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>labeloffset</code></td>
+<td>
+<p>position of group labels. Only used when
+<code>comparison = TRUE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fixed_aspect</code></td>
+<td>
+<p>logical; if <code>TRUE</code>, the aspect ratio is fixed. Variable
+aspect ratio only supported if rotation = 0.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>scale</code></td>
+<td>
+<p>deprecated argument</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>min.freq</code></td>
+<td>
+<p>deprecated argument</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>max.words</code></td>
+<td>
+<p>deprecated argument</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>random.order</code></td>
+<td>
+<p>deprecated argument</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rot.per</code></td>
+<td>
+<p>deprecated argument</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>use.r.layout</code></td>
+<td>
+<p>deprecated argument</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>title.size</code></td>
+<td>
+<p>deprecated argument</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>additional parameters. Only used to make it compatible with
+<span class="pkg">wordcloud</span></p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Kohei Watanabe, build on code from Ian Fellows's <span class="pkg">wordcloud</span> package.
+</p>
+
+
+</div>

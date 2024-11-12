@@ -1,0 +1,256 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>calibrate</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Calibrate Raw Data into Configurational Data</h2>
+
+<h3>Description</h3>
+
+<p>This function generates configurational data from raw data (base variables) and 
+some specified threshold(s). The calibration of bivalent fuzzy-set factors is 
+possible for positive and negative end-point and mid-point concepts, using the 
+method of transformational assignment.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">calibrate(x, type = "crisp", thresholds = NA, include = TRUE, 
+          logistic = FALSE, idm = 0.95, ecdf = FALSE, p = 1, q = 1)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>An interval or ratio-scaled base variable.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>type</code></td>
+<td>
+<p>The calibration type, either "crisp" or "fuzzy".</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>thresholds</code></td>
+<td>
+<p>A vector of thresholds.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>include</code></td>
+<td>
+<p>Logical, include threshold(s) (<code>type = "crisp"</code> only).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>logistic</code></td>
+<td>
+<p>Calibrate to fuzzy-set variable using the logistic function.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>idm</code></td>
+<td>
+<p>The set inclusion degree of membership for the logistic function.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ecdf</code></td>
+<td>
+<p>Calibrate to fuzzy-set variable using the empirical cumulative 
+distribution function of the base variable.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p</code></td>
+<td>
+<p>Parameter: if <code class="reqn">p &gt; 1</code> concentration, if <code class="reqn">0 &lt; p &lt; 1</code> dilation 
+below crossover.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>q</code></td>
+<td>
+<p>Parameter: if <code class="reqn">q &gt; 1</code> dilation, if <code class="reqn">0 &lt; q &lt; 1</code> concentration 
+above crossover.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Calibration is the process by which configurational data is produced, that is, 
+by which set membership scores are assigned to cases. With interval and ratio-scaled 
+base variables, calibration can be based on transformational assignments using 
+(piecewise-defined) membership functions.
+</p>
+<p>For <code>type = "crisp"</code>, one threshold produces a factor with two levels: 0 and 
+1. More thresholds produce factors with multiple levels. For example, two thresholds 
+produce three levels: 0, 1 and 2.
+</p>
+<p>For <code>type = "fuzzy"</code>, this function can generate bivalent fuzzy-set variables 
+by linear, s-shaped, inverted s-shaped and logistic transformation for end-point 
+concepts. It can generate bivalent fuzzy-set variables by trapezoidal, triangular 
+and bell-shaped transformation for mid-point concepts (<a href="http://www.worldscientific.com/worldscibooks/10.1142/6451">Bojadziev and Bojadziev 
+2007</a>; <a href="http://www.springer.com/de/book/9783540774600">Clark <em>et al</em>. 2008</a>; <a href="http://dx.doi.org/10.1080/13645579.2013.806118">Thiem 2014</a>; <a href="http://www.springer.com/gb/book/9781461445838">Thiem and Dusa 2013</a>).
+</p>
+<p>For calibrating bivalent fuzzy-set variables based on end-point concepts, 
+<code>thresholds</code> should be specified as a numeric vector <code>c(thEX, thCR, thIN)</code>, 
+where <code>thEX</code> is the threshold for full exclusion, <code>thCR</code> the threshold 
+for the crossover, and <code>thIN</code> the threshold for full inclusion.
+</p>
+<p>If <code>thEX</code> <code class="reqn">&lt;</code> <code>thCR</code> <code class="reqn">&lt;</code> <code>thIN</code>, then the membership 
+function is increasing from <code>thEX</code> to <code>thIN</code>. If <code>thIN</code> <code class="reqn">&lt;</code> 
+<code>thCR</code> <code class="reqn">&lt;</code> <code>thEX</code>, then the membership function is decreasing from 
+<code>thIN</code> to <code>thEX</code>.
+</p>
+<p>For calibrating bivalent fuzzy-set variables based on mid-point concepts, 
+<code>thresholds</code> should be specified as a numeric vector 
+<code>c(thEX1, thCR1, thIN1, thIN2, thCR2, thEX2)</code>, where <code>thEX1</code> is the first 
+(left) threshold for full exclusion, <code>thCR1</code> the first (left) threshold for 
+the crossover, <code>thIN1</code> the first (left) threshold for full inclusion, 
+<code>thIN2</code> the second (right) threshold for full inclusion, <code>thCR2</code> the 
+second (right) threshold for crossover, and <code>thEX2</code> the second (right) threshold 
+for full exclusion.
+</p>
+<p>If <code>thEX1</code> <code class="reqn">&lt;</code> <code>thCR1</code> <code class="reqn">&lt;</code> <code>thIN1</code> <code class="reqn">\le</code> <code>thIN2</code>
+<code class="reqn">&lt;</code> <code>thCR2</code> <code class="reqn">&lt;</code> <code>thEX2</code>, then the membership function is first
+increasing from <code>thEX1</code> to <code>thIN1</code>, then flat between <code>thIN1</code> and 
+<code>thIN2</code>, and finally decreasing from <code>thIN2</code> to <code>thEX2</code>. In contrast, 
+if <code>thIN1</code> <code class="reqn">&lt;</code> <code>thCR1</code> <code class="reqn">&lt;</code> <code>thEX1</code> <code class="reqn">\le</code> <code>thEX2</code>
+<code class="reqn">&lt;</code> <code>thCR2</code> <code class="reqn">&lt;</code> <code>thIN2</code>, then the membership function is first 
+decreasing from <code>thIN1</code> to <code>thEX1</code>, then flat between <code>thEX1</code> and 
+<code>thEX2</code>, and finally increasing from <code>thEX2</code> to <code>thIN2</code>.
+</p>
+<p>The parameters <code>p</code> and <code>q</code> control the degree of concentration and 
+dilation. They should be left at their default values unless good reasons for 
+changing them exist.
+</p>
+<p>If <code>logistic = TRUE</code>, the argument <code>idm</code> specifies the inclusion degree 
+of membership.
+</p>
+<p>If <code>ecdf = TRUE</code>, calibration is based on the empirical cumulative distribution 
+function of <code>x</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A numeric vector of set membership scores between 0 and 1 for bivalent crisp-set 
+factors and bivalent fuzzy-set variables, or a numeric vector of levels for 
+multivalent crisp-set factors (beginning with 0 at increments of 1).
+</p>
+
+
+<h3>Contributors</h3>
+
+
+<table>
+<tr>
+<td style="text-align: left;">
+Dusa, Adrian</td>
+<td style="text-align: left;">: programming</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+Thiem, Alrik</td>
+<td style="text-align: left;">: development, documentation, programming, testing
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Alrik Thiem (<a href="http://www.alrik-thiem.net">Personal Website</a>; <a href="https://www.researchgate.net/profile/Alrik_Thiem">ResearchGate Website</a>)
+</p>
+
+
+<h3>References</h3>
+
+<p>Bojadziev, George, and Maria Bojadziev. 2007. <em>Fuzzy Logic for Business, 
+Finance, and Management</em>. 2nd ed. Hackensack, NJ: World Scientific. <a href="http://www.worldscientific.com/worldscibooks/10.1142/6451">Link</a>.
+</p>
+<p>Clark, Terry D., Jennifer M. Larson, John N. Mordeson, Joshua D. Potter, and 
+Mark J. Wierman. 2008. <em>Applying Fuzzy Mathematics to Formal Models in 
+Comparative Politics</em>. Berlin: Springer. <a href="http://www.springer.com/de/book/9783540774600">Link</a>.
+</p>
+<p>Thiem, Alrik. 2014. “Membership Function Sensitivity of Descriptive 
+Statistics in Fuzzy-Set Relations.” <em>International Journal of Social 
+Research Methodology</em> <strong>17</strong> (6):625-42. 
+DOI: <a href="http://dx.doi.org/10.1080/13645579.2013.806118">10.1080/13645579.2013.806118</a>.
+</p>
+<p>Thiem, Alrik, and Adrian Dusa. 2013. <em>Qualitative Comparative Analysis 
+with R: A User's Guide</em>. New York: Springer. <a href="http://www.springer.com/gb/book/9781461445838">Link</a>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># base variable; random draw from standard normal distribution
+set.seed(30)
+x &lt;- rnorm(30)
+
+# calibration thresholds
+th &lt;- quantile(x, seq(from = 0.05, to = 0.95, length = 6))
+
+# calibration of bivalent crisp-set factor
+calibrate(x, thresholds = th[3])
+
+# calibration of trivalent crisp-set factor
+calibrate(x, thresholds = c(th[2], th[4]))
+
+# fuzzy-set calibration
+# 1. positive end-point concept, linear
+# 2. positive and corresponding negative end-point concept, logistic
+# 3. positive end-point concept, ECDF
+# 4. negative end-point concept, s-shaped (quadratic)
+# 5. negative end-point concept, inverted s-shaped (root)
+# 6. positive mid-point concept, triangular
+# 7. positive mid-point concept, trapezoidal
+# 8. negative mid-point concept, bell-shaped
+
+yl &lt;- "Set Membership"
+xl &lt;- "Base Variable Value"
+
+par(mfrow = c(2,4), cex.main = 1)
+
+plot(x, calibrate(x, type = "fuzzy", thresholds = c(th[1], (th[3]+th[4])/2, 
+   th[6])), xlab = xl, ylab = yl, 
+   main = "1. positive end-point concept,\nlinear")
+
+plot(x, calibrate(x, type = "fuzzy", thresholds = c(th[1], (th[3]+th[4])/2, 
+  th[6]), logistic = TRUE, idm = 0.99), xlab = xl, ylab = yl, 
+  main = "2. positive and corresponding negative\nend-point concept, logistic")
+  points(x, calibrate(x, type = "fuzzy", thresholds = c(th[6], (th[3]+th[4])/2, 
+    th[1]), logistic = TRUE, idm = 0.99))
+
+plot(x, calibrate(x, type = "fuzzy", thresholds = c(th[1], (th[3]+th[4])/2, 
+  th[6]), ecdf = TRUE), xlab = xl, ylab = yl, 
+  main = "3. positive end-point concept,\nECDF")
+
+plot(x, calibrate(x, type = "fuzzy", thresholds = c(th[6], (th[3]+th[4])/2, 
+  th[1]), p = 2, q = 2), xlab = xl, ylab = yl, 
+  main = "4. negative end-point concept,\ns-shaped (quadratic)")
+
+plot(x, calibrate(x, type = "fuzzy", thresholds = c(th[6], (th[3]+th[4])/2, 
+  th[1]), p = 0.5, q = 0.5), xlab = xl, ylab = yl, 
+  main = "5. negative end-point concept,\ninverted s-shaped (root)")
+
+plot(x, calibrate(x, type = "fuzzy", thresholds = th[c(1,2,3,3,4,5)]),
+  xlab = xl, ylab = yl, main = "6. positive mid-point concept,\ntriangular")
+
+plot(x, calibrate(x, type = "fuzzy", thresholds = th[c(1,2,3,4,5,6)]),
+  xlab = xl, ylab = yl, main = "7. positive mid-point concept,\ntrapezoidal")
+
+plot(x, calibrate(x, type = "fuzzy", thresholds = th[c(3,2,1,5,4,3)],
+  p = 3, q = 3), xlab = xl, ylab = yl, 
+  main = "8. negative mid-point concept,\nbell-shaped")
+</code></pre>
+
+
+</div>

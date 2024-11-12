@@ -1,0 +1,319 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>rm_time</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Remove/Replace/Extract Time</h2>
+
+<h3>Description</h3>
+
+<p><code>rm_time</code> - Remove/replace/extract time from a string.
+</p>
+<p><code>rm_transcript_time</code> - Remove/replace/extract transcript specific time 
+stamps from a string.
+</p>
+<p><code>as_time</code> - Convert a time stamp removed by <code>rm_time</code> or  
+<code>rm_transcript_time</code> to a standard time format (HH:SS:MM.OS) and 
+optionally convert to <code>as.POSIXlt</code>.
+</p>
+<p><code>as_time</code> - A convenience function for <code>as_time</code> that unlists and 
+returns a vector rather than a list.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">rm_time(
+  text.var,
+  trim = !extract,
+  clean = TRUE,
+  pattern = "@rm_time",
+  replacement = "",
+  extract = FALSE,
+  dictionary = getOption("regex.library"),
+  ...
+)
+
+rm_transcript_time(
+  text.var,
+  trim = !extract,
+  clean = TRUE,
+  pattern = "@rm_transcript_time",
+  replacement = "",
+  extract = FALSE,
+  dictionary = getOption("regex.library"),
+  ...
+)
+
+as_time(x, as.POSIXlt = FALSE, millisecond = TRUE)
+
+as_time2(x, ...)
+
+ex_time(
+  text.var,
+  trim = !extract,
+  clean = TRUE,
+  pattern = "@rm_time",
+  replacement = "",
+  extract = TRUE,
+  dictionary = getOption("regex.library"),
+  ...
+)
+
+ex_transcript_time(
+  text.var,
+  trim = !extract,
+  clean = TRUE,
+  pattern = "@rm_transcript_time",
+  replacement = "",
+  extract = TRUE,
+  dictionary = getOption("regex.library"),
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>text.var</code></td>
+<td>
+<p>The text variable.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>trim</code></td>
+<td>
+<p>logical.  If <code>TRUE</code> removes leading and trailing white 
+spaces.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>clean</code></td>
+<td>
+<p>trim logical.  If <code>TRUE</code> extra white spaces and escaped 
+character will be removed.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pattern</code></td>
+<td>
+<p>A character string containing a regular expression (or 
+character string for <code>fixed = TRUE</code>) to be matched in the given 
+character vector (see <b>Details</b> for additional information).  Default, 
+<code>@rm_time</code> uses the <code>rm_time</code> regex from the regular expression 
+dictionary from the <code>dictionary</code> argument.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>replacement</code></td>
+<td>
+<p>Replacement for matched <code>pattern</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>extract</code></td>
+<td>
+<p>logical.  If <code>TRUE</code> the times are extracted into a 
+list of vectors.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dictionary</code></td>
+<td>
+<p>A dictionary of canned regular expressions to search within 
+if <code>pattern</code> begins with <code>"@rm_"</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Other arguments passed to <code>gsub</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>A list with extracted time stamps.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>as.POSIXlt</code></td>
+<td>
+<p>logical.  If <code>TRUE</code> the output will be converted to 
+<code>as.POSIXlt</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>millisecond</code></td>
+<td>
+<p>logical.  If <code>TRUE</code> milliseconds are retained.  If 
+<code>FALSE</code> they are rounded and added to seconds.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The default regular expression used by <code>rm_time</code> finds 
+time with no AM/PM.  This behavior can be altered by using a 
+secondary regular expression from the <code>regex_usa</code> 
+data (or other dictionary) via (<code>pattern = "@rm_time2"</code>. See 
+<b>Examples</b> for example usage.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns a character string with time removed.
+</p>
+
+
+<h3>Note</h3>
+
+<p>... in <code>as_time2</code> are the other arguments passed to <code>as_time</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p><a href="https://stackoverflow.com/">stackoverflow's</a> hwnd and Tyler Rinker &lt;tyler.rinker@gmail.com&gt;.
+</p>
+
+
+<h3>References</h3>
+
+<p>The time regular expression was taken from: 
+<a href="https://stackoverflow.com/a/25111133/1000343">https://stackoverflow.com/a/25111133/1000343</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>gsub</code>,
+<code>stri_extract_all_regex</code>
+</p>
+<p>Other rm_ functions: 
+<code>rm_abbreviation()</code>,
+<code>rm_between()</code>,
+<code>rm_bracket()</code>,
+<code>rm_caps_phrase()</code>,
+<code>rm_caps()</code>,
+<code>rm_citation_tex()</code>,
+<code>rm_citation()</code>,
+<code>rm_city_state_zip()</code>,
+<code>rm_city_state()</code>,
+<code>rm_date()</code>,
+<code>rm_default()</code>,
+<code>rm_dollar()</code>,
+<code>rm_email()</code>,
+<code>rm_emoticon()</code>,
+<code>rm_endmark()</code>,
+<code>rm_hash()</code>,
+<code>rm_nchar_words()</code>,
+<code>rm_non_ascii()</code>,
+<code>rm_non_words()</code>,
+<code>rm_number()</code>,
+<code>rm_percent()</code>,
+<code>rm_phone()</code>,
+<code>rm_postal_code()</code>,
+<code>rm_repeated_characters()</code>,
+<code>rm_repeated_phrases()</code>,
+<code>rm_repeated_words()</code>,
+<code>rm_tag()</code>,
+<code>rm_title_name()</code>,
+<code>rm_url()</code>,
+<code>rm_white()</code>,
+<code>rm_zip()</code>
+</p>
+<p>Other rm_ functions: 
+<code>rm_abbreviation()</code>,
+<code>rm_between()</code>,
+<code>rm_bracket()</code>,
+<code>rm_caps_phrase()</code>,
+<code>rm_caps()</code>,
+<code>rm_citation_tex()</code>,
+<code>rm_citation()</code>,
+<code>rm_city_state_zip()</code>,
+<code>rm_city_state()</code>,
+<code>rm_date()</code>,
+<code>rm_default()</code>,
+<code>rm_dollar()</code>,
+<code>rm_email()</code>,
+<code>rm_emoticon()</code>,
+<code>rm_endmark()</code>,
+<code>rm_hash()</code>,
+<code>rm_nchar_words()</code>,
+<code>rm_non_ascii()</code>,
+<code>rm_non_words()</code>,
+<code>rm_number()</code>,
+<code>rm_percent()</code>,
+<code>rm_phone()</code>,
+<code>rm_postal_code()</code>,
+<code>rm_repeated_characters()</code>,
+<code>rm_repeated_phrases()</code>,
+<code>rm_repeated_words()</code>,
+<code>rm_tag()</code>,
+<code>rm_title_name()</code>,
+<code>rm_url()</code>,
+<code>rm_white()</code>,
+<code>rm_zip()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">x &lt;-  c("R uses 1:5 for 1, 2, 3, 4, 5.", 
+    "At 3:00 we'll meet up and leave by 4:30:20",
+    "We'll meet at 6:33.", "He ran it in :22.34")
+
+rm_time(x)
+ex_time(x)
+
+## With AM/PM
+x &lt;- c(
+    "I'm getting 3:04 AM just fine, but...",
+    "for 10:47 AM I'm getting 0:47 AM instead.",
+    "no time here",
+    "Some time has 12:04 with no AM/PM after it",
+    "Some time has 12:04 a.m. or the form 1:22 pm"
+)
+
+ex_time(x)
+ex_time(x, pat="@rm_time2")
+rm_time(x, pat="@rm_time2")
+ex_time(x, pat=pastex("@rm_time2", "@rm_time"))
+
+# Convert to standard format
+as_time(ex_time(x))
+as_time(ex_time(x), as.POSIXlt = TRUE)
+as_time(ex_time(x), as.POSIXlt = FALSE, millisecond = FALSE) 
+
+# Transcript specific time stamps
+x2 &lt;-c(
+    '08:15 8 minutes and 15 seconds	00:08:15.0',
+    '3:15 3 minutes and 15 seconds	not 1:03:15.0',
+    '01:22:30 1 hour 22 minutes and 30 seconds	01:22:30.0',
+    '#00:09:33-5# 9 minutes and 33.5 seconds	00:09:33.5',
+    '00:09.33,75 9 minutes and 33.5 seconds	00:09:33.75'
+)
+
+rm_transcript_time(x2)
+(out &lt;- ex_transcript_time(x2))
+
+as_time(out)
+as_time(out, TRUE)
+as_time(out, millisecond = FALSE)
+
+## Not run: 
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(chron)
+lapply(as_time(out), chron::times)
+lapply(as_time(out, , FALSE), chron::times)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

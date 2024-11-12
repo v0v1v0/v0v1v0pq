@@ -1,0 +1,56 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>plot.qca</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Plot the fuzzy set scores of the solution and the outcome against each other</h2>
+
+<h3>Description</h3>
+
+<p>Plot the fuzzy set scores of the solution and the outcome against each other
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'qca'
+plot(x, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>an object of class <code>qca</code> as returned by <code>eqmcc</code> of the package <code>QCA</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>further arguments passed on to <code>xyplot</code></p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>the <code>ggplot</code> plot object
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+require(QCA)
+data(d.urban)
+solution &lt;- eqmcc(d.urban, outcome="RT", conditions=c("MLC", "FRB", "CP", "WSR"))
+plot(solution)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

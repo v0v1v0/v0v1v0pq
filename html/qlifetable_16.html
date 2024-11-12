@@ -1,0 +1,221 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>plot.SAI</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Graphical representation of a SAI object.</h2>
+
+<h3>Description</h3>
+
+<p>Plot method for a SAI object. This is a plot method for objects obtained using the <code>compute_SAI</code> function
+or the <code>SAI_shortcut_1</code> function.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'SAI'
+plot(
+  x,
+  ...,
+  min.age = 1,
+  max.age = 100,
+  decimal.digits = 1,
+  color.main = "black",
+  color.lm = "blue",
+  color.hline = "red",
+  size.labels.y = 8,
+  axis.age.ticks,
+  limits.joint,
+  breaks.joint,
+  limits.ageing,
+  breaks.ageing,
+  limits.seasonal,
+  breaks.seasonal,
+  name.labels.ageing = c("Q1", "Q2", "Q3", "Q4"),
+  name.labels.season = c("Winter", "Spring", "Summer", "Autumn"),
+  title.season = "Seasonal effects",
+  title.ageing = "Ageing effects",
+  x.title = "Age",
+  show.plot = TRUE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>An object output of the <code>compute_SAI</code> or <code>SAI_shortcut_1</code> functions.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Other arguments passed on to methods. Not currently used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>min.age</code></td>
+<td>
+<p>A positive integer informing about the initial minimal age of the range of ages to be represented.
+This minimum age can be increased depending on the ages available in the SAI estimates.
+Default, 1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>max.age</code></td>
+<td>
+<p>A positive integer informing about the initial maximum age of the range of ages to be represented.
+This maximum age can be decreased depending on the ages available in the SAI estimates.
+Default, 100.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>decimal.digits</code></td>
+<td>
+<p>Integer indicating the number of decimal places to be shown. Default, 1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>color.main</code></td>
+<td>
+<p>Color of the line corresponding to the estimated, normalized SAI. Default, "black".</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>color.lm</code></td>
+<td>
+<p>Color of the lm line. Default, "blue".</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>color.hline</code></td>
+<td>
+<p>Color of the hline (reference) line. Default, "red".</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>size.labels.y</code></td>
+<td>
+<p>Number informing the size of the labels of SAI axis. Default, 8.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>axis.age.ticks</code></td>
+<td>
+<p>Optional vector with the values to be presented in the age axis.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>limits.joint</code></td>
+<td>
+<p>Optional vector of length 2 with the limits for the SAI axis of the main plot.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>breaks.joint</code></td>
+<td>
+<p>Optional vector with the values to be presented in the SAI axis of the main plot.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>limits.ageing</code></td>
+<td>
+<p>Optional vector of length 2 with the limits for the SAI axis of the marginal ageing SAI plot.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>breaks.ageing</code></td>
+<td>
+<p>Optional vector with the values to be presented in the SAI axis of the marginal ageing SAI plot.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>limits.seasonal</code></td>
+<td>
+<p>Optional vector of length 2 with the limits for the SAI axis of the marginal seasonal (calendar) SAI plot.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>breaks.seasonal</code></td>
+<td>
+<p>Optional vector with the values to be presented in the SAI axis of the marginal seasonal (calendar) SAI plot.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>name.labels.ageing</code></td>
+<td>
+<p>Names to be used for the (y) ageing axis. Default, c("Q1", "Q2", "Q3", "Q4").</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>name.labels.season</code></td>
+<td>
+<p>Names to be used for the (x) season (calendar) axis. Default, c("Winter", "Spring", "Summer", "Autumn").</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>title.season</code></td>
+<td>
+<p>Name to be used for identifying the seasonal marginal panels. Default, "Seasonal effects".</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>title.ageing</code></td>
+<td>
+<p>Name to be used for identifying the ageing marginal panels. Default, "Ageing effects".</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x.title</code></td>
+<td>
+<p>Name to be used for the x axis. Default, "Age".</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>show.plot</code></td>
+<td>
+<p>A TRUE/FALSE value indicating whether the plot should be displayed as a side-effect. By default, TRUE.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Invisibly returns the grob description of the plot, which is a list with components that contain the plot itself, the data, information about the scales, panels, etc.
+</p>
+
+
+<h3>Note</h3>
+
+<p>ggplot2 and gridExtra packages are needed to be installed for this function to work.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jose M. Pavia, <a href="mailto:pavia@uv.es">pavia@uv.es</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+# This can take a while
+ t.stock &lt;- time_exposed_stock(pop_2006$date.birth, 2006, "forward")
+ t.stock &lt;- t.stock[t.stock$age &lt;= 100, ]
+ temp &lt;- quarterly_variables(death_2006$date.birth, death_2006$date.death)
+ e.death &lt;- count_events_quarter(temp)
+ e.death &lt;- e.death[e.death$age &lt;= 100, ]
+ t.birth &lt;- time_exposed_newborns(birth_2006$date.birth)
+ out &lt;- crude_mx(t.stock, e.death, time.birth = t.birth)
+ SAI.example &lt;- compute_SAI(out, out)
+ p &lt;- plot(SAI.example, show.plot = FALSE)
+
+</code></pre>
+
+
+</div>

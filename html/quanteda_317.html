@@ -1,0 +1,51 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>tokens_tolower</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Convert the case of tokens</h2>
+
+<h3>Description</h3>
+
+<p><code>tokens_tolower()</code> and <code>tokens_toupper()</code> convert the features of a
+tokens object and re-index the types.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">tokens_tolower(x, keep_acronyms = FALSE)
+
+tokens_toupper(x)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>the input object whose character/tokens/feature elements will be
+case-converted</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>keep_acronyms</code></td>
+<td>
+<p>logical; if <code>TRUE</code>, do not lowercase any
+all-uppercase words (applies only to <code style="white-space: pre;">⁠*_tolower()⁠</code> functions)</p>
+</td>
+</tr>
+</table>
+<h3>Examples</h3>
+
+<pre><code class="language-R"># for a document-feature matrix
+toks &lt;- tokens(c(txt1 = "b A A", txt2 = "C C a b B"))
+tokens_tolower(toks)
+tokens_toupper(toks)
+</code></pre>
+
+
+</div>

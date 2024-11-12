@@ -1,0 +1,81 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>write_obj</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Write an R object as a file</h2>
+
+<h3>Description</h3>
+
+<p>This function is a wrapper around <code>dput</code> that allows you
+to write an R object as part of a knitr document as an output for
+later use. It is designed to be used in a code block. The file name, if
+not specified, will be the label of the code block. Use the standard
+<code>dget</code> function to read the file back into an R session.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">write_obj(obj, file = NULL, target_dir = NULL, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>obj</code></td>
+<td>
+<p>The R object to be written.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>file</code></td>
+<td>
+<p>The name of the file to be written. If not specified, the
+label of the code block will be used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>target_dir</code></td>
+<td>
+<p>The directory where the file will be written. If not
+specified, the current working directory will be used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Additional arguments to be passed to <code>dput</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>The path of the written file.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+obj_dir &lt;- file.path(tempdir(), "obj")
+
+# Write a data frame as a file
+write_obj(
+ obj = mtcars,
+ file = "mtcars_data",
+ target_dir = obj_dir)
+
+# Read the file back into an R session
+my_mtcars &lt;- dget(file.path(obj_dir, "mtcars_data"))
+
+unlink(obj_dir)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

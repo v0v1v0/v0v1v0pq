@@ -1,0 +1,321 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qvalLCS</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Qualitative Validation by Means of Interval Sequences and LCS</h2>
+
+<h3>Description</h3>
+
+<p>Dividing time series into interval sequences of qualitative
+features and determining the similarity of the qualitative behavior by
+means of the length of <code>LCS</code>.</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qvalLCS(o, p,
+        o.t     = seq(0, 1, length.out = length(o)),
+        p.t     = seq(0, 1, length.out = length(p)),
+        smooth  = c("none", "both", "obs", "sim"),
+        feature = c("f.slope", "f.curve", "f.steep", "f.level"))
+## S3 method for class 'qvalLCS'
+print(x, ...)
+## S3 method for class 'qvalLCS'
+plot(x, y = NULL, ..., xlim = range(c(x$obs$x, x$sim$x)),
+ylim = range(c(x$obs$y, x$sim$y)), xlab = "time", ylab = " ",
+col.obs = "black", col.pred = "red",
+plot.title = paste("LLCS =", x$lcs$LLCS, ", QSI =", x$lcs$QSI),
+legend = TRUE)
+## S3 method for class 'qvalLCS'
+summary(object, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>o</code></td>
+<td>
+<p>vector of observed values</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p</code></td>
+<td>
+<p>vector of predicted values</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>o.t</code></td>
+<td>
+<p>vector of observation times</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p.t</code></td>
+<td>
+<p>vector of times for predicted values</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>smooth</code></td>
+<td>
+<p>character string to decide if values should be smoothed
+before validation, default no smoothing <code>"none"</code> is set,
+<code>"both"</code> observed and predicted values will be smoothed,
+<code>"obs"</code> only observed, and <code>"sim"</code> only simulated values will
+be smoothed.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>feature</code></td>
+<td>
+<p>one of <code>"f.slope"</code>, <code>"f.curve"</code>, <code>"f.steep"</code>,
+<code>"f.level"</code> as defined in <code>features</code> to divide the
+time series into interval sequences of these feature. As default
+the first derivative <code>"f.slope"</code> is used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a result from a call of <code>qvalLCS</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>y unused</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>further parameters to be past to
+<code>plot</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xlim</code></td>
+<td>
+<p>the size of the plot in x-direction</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ylim</code></td>
+<td>
+<p>the size of the plot in y-direction</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xlab</code></td>
+<td>
+<p>the label of the x-axis of the plot</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ylab</code></td>
+<td>
+<p>the label of the y-axis of the plot</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>col.obs</code></td>
+<td>
+<p>color to plot the observations</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>col.pred</code></td>
+<td>
+<p>color to plot the predictions</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>plot.title</code></td>
+<td>
+<p>title for the plot</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>legend</code></td>
+<td>
+<p>tegend for the plot</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>a result from a call of <code>qvalLCS</code></p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Common quantitative deviance measures underestimate the
+similarity of patterns if there are shifts in time between measurement
+and simulation. These methods also assume compareable values in each
+time series of the whole time sequence. To compare values independent
+of time the qualitative behavior of the time series could be
+analyzed. Here the time series are divided into interval sequences
+of their local shape. The comparison occurs on the basis of these
+segments and not with the original time series. Here shifts in time
+are possible, i.e. missing or additional segments are acceptable
+without losing similarity. The dynamic programming algorithm of
+the longest common subsequence <code>LCS</code> is used to determine
+<code>QSI</code> as index of similarity of the patterns.
+<br>
+If selected the data are smoothed using a weighted average and a
+Gaussian curve as kernel. The bandwidth is automatically selected
+based on the plug-in methodology (<code>dpill</code>, see package
+<span class="pkg">KernSmooth</span> for more details).
+</p>
+
+<dl>
+<dt>print.qvalLCS</dt>
+<dd>
+<p>prints only the requested value, without
+additional information.</p>
+</dd>
+<dt>summary.qvalLCS</dt>
+<dd>
+<p>prints all the additional information.</p>
+</dd>
+<dt>plot.qvalLCS</dt>
+<dd>
+<p>shows a picture visualizing a <code>LCS</code>.</p>
+</dd>
+</dl>
+<h3>Value</h3>
+
+<p>The result is an object of type <code>qvalLCS</code> with the following entries:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>smooth</code></td>
+<td>
+<p>smoothing parameter</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>feature</code></td>
+<td>
+<p>feature parameter</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>o</code></td>
+<td>
+<p>xy-table of observed values</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p</code></td>
+<td>
+<p>xy-table of predicted values</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>obs</code></td>
+<td>
+<p>xy-table of (smoothed) observed values</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sim</code></td>
+<td>
+<p>xy-table of (smoothed) simulated values</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>obsf</code></td>
+<td>
+<p>interval sequence of observation according to selected <code>features</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>simf</code></td>
+<td>
+<p>interval sequence of simulation according to selected <code>features</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lcs</code></td>
+<td>
+<p>output of <code>LCS</code> function</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>obs.lcs</code></td>
+<td>
+<p>one <code>LCS</code> of observation</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sim.lcs</code></td>
+<td>
+<p>one <code>LCS</code> of simulation</p>
+</td>
+</tr>
+</table>
+<h3>References</h3>
+
+<p>Agrawal R., K. Lin., H. Sawhney and K. Shim (1995).
+Fast similarity search in the presence of noise, scaling, and
+translation in time-series databases. In VLDB '95: Proceedings
+of the 21. International Conference on Very Large Data Bases,
+pp. 490-501. Morgan Kaufmann Publishers Inc. ISBN 1-55860-379-4.
+</p>
+<p>Cuberos F., J. Ortega, R. Gasca, M. Toro and J. Torres (2002).
+Qualitative comparison of temporal series - QSI. Topics in
+Artificial Intelligence. Lecture Notes in Artificial
+Intelligence, 2504, 75-87.
+</p>
+<p>Jachner, S., K.G. v.d. Boogaart, T. Petzoldt (2007) Statistical methods
+for the qualitative assessment of dynamic models with time delay (R
+package qualV), Journal of Statistical Software, 22(8), 1–30.
+<a href="https://doi.org/10.18637/jss.v022.i08">doi:10.18637/jss.v022.i08</a>. 
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>LCS</code>, <code>features</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># a constructed example
+x &lt;- seq(0, 2*pi, 0.1)
+y &lt;- 5 + sin(x)           # a process
+o &lt;- y + rnorm(x, sd=0.2) # observation with random error
+p &lt;- y + 0.1              # simulation with systematic bias
+
+qvalLCS(o, p)
+qvalLCS(o, p, smooth="both", feature="f.curve")
+
+qv &lt;- qvalLCS(o, p, smooth = "obs")
+print(qv)
+plot(qv, ylim=c(3, 8))
+
+# observed and measured data with non-matching time steps
+data(phyto)
+qvlcs &lt;- qvalLCS(obs$y, sim$y, obs$t, sim$t, smooth = "obs")
+
+basedate &lt;- as.Date("1960/1/1")
+qvlcs$o$x   &lt;- qvlcs$o$x + basedate
+qvlcs$obs$x &lt;- qvlcs$obs$x + basedate
+qvlcs$sim$x &lt;- qvlcs$sim$x + basedate
+qvlcs$obs.lcs$x &lt;- qvlcs$obs.lcs$x + basedate
+qvlcs$sim.lcs$x &lt;- qvlcs$sim.lcs$x + basedate
+
+plot.qvalLCS(qvlcs)
+summary(qvlcs)
+</code></pre>
+
+
+</div>

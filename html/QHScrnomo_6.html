@@ -1,0 +1,83 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>Newlevels.cmprsk</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Change the Level Labels of Categorical Predictors for a Competing Risks Regression Model</h2>
+
+<h3>Description</h3>
+
+<p>Uses the <code>Newlevels</code> function to change the labels predictors when constructing a nomogram.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'cmprsk'
+Newlevels(fit, levels, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>fit</code></td>
+<td>
+<p>A model fit by <code>crr.fit</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>levels</code></td>
+<td>
+<p>A list of named vectors specifying the new level labels for categorical predictors.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Other arguments for <code>Newlevels</code></p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A new <code>crr.fit</code> object with adjusted labels on the factor levels
+</p>
+
+
+<h3>Note</h3>
+
+<p>This will override <code>parms</code> and <code>datadist</code> information that were stored with the fit.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Changhong Yu. Department of
+Quantitative Health Sciences, Cleveland Clinic
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>Newlabels.cmprsk</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">dd &lt;- datadist(prostate.dat)
+options(datadist = "dd")
+prostate.f &lt;- cph(Surv(TIME_EVENT,EVENT_DOD == 1) ~ TX  + rcs(PSA,3) +
+           BX_GLSN_CAT +  CLIN_STG + rcs(AGE,3) +
+           RACE_AA, data = prostate.dat,
+           x = TRUE, y = TRUE, surv = TRUE,time.inc = 144)
+prostate.crr &lt;- crr.fit(prostate.f, cencode = 0, failcode = 1)
+prostate.g &lt;- Newlevels(prostate.crr, list(TX = c('Treatment 1', 'Treatment 2', 'Treatment 3')))
+
+</code></pre>
+
+
+</div>

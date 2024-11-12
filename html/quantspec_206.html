@@ -1,0 +1,93 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>plot-LagKernelWeight</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Plot the values of the <code>LagKernelWeight</code>.</h2>
+
+<h3>Description</h3>
+
+<p>Creates a plot visualizing the weights <code class="reqn">W_n(k</code>
+[cf. <code>LagKernelWeight-class</code>] that are used to estimate the
+quantile spectral density.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S4 method for signature 'LagKernelWeight,missing'
+plot(
+  x,
+  y,
+  ylab = expression(W[n](k)),
+  xlab = expression(k),
+  main = x@descr,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>The <code>LagKernelWeight</code> to plot.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>missing arg from the generic; will be ignored.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ylab</code></td>
+<td>
+<p>label for the y-axis; optional</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xlab</code></td>
+<td>
+<p>label for the x-axis; optional</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>main</code></td>
+<td>
+<p>titel (on top) of the plot; optional</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>optional parameters used for plotting</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>In the plot the values at the points <code class="reqn">k/bw</code> with 
+<code class="reqn">k \in \{-K,\dots,K\}</code> are shown.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Plots the <code>LagKernelWeight</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">plot(lagKernelWeight(WParzen, bw=10, K = 20),
+       ylab=expression(W[n](x)),
+       xlab=expression(x),
+       main="Weights to the Parzen Window")
+</code></pre>
+
+
+</div>

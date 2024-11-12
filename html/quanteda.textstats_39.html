@@ -1,0 +1,99 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>textstat_summary</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Summarize documents as syntactic and lexical feature counts</h2>
+
+<h3>Description</h3>
+
+<p>Count syntactic and lexical features of documents such as tokens, types,
+sentences, and character categories.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">textstat_summary(x, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>corpus to be summarized</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>additional arguments passed through to dfm()</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Count the total number of characters, tokens and sentences as well as special
+tokens such as numbers, punctuation marks, symbols, tags and emojis.
+</p>
+
+<ul>
+<li>
+<p> chars = number of characters; equal to <code>nchar()</code>
+</p>
+</li>
+<li>
+<p> sents
+= number of sentences; equal <code>ntoken(tokens(x), what = "sentence")</code>
+</p>
+</li>
+<li>
+<p>tokens = number of tokens; equal to ntoken()
+</p>
+</li>
+<li>
+<p> types = number of unique tokens; equal to ntype()
+</p>
+</li>
+<li>
+<p> puncts = number of punctuation marks (<code style="white-space: pre;">⁠^\p{P}+$⁠</code>)
+</p>
+</li>
+<li>
+<p> numbers = number of numeric tokens
+(<code style="white-space: pre;">⁠^\p{Sc}{0,1}\p{N}+([.,]*\p{N})*\p{Sc}{0,1}$⁠</code>)
+</p>
+</li>
+<li>
+<p> symbols = number of symbols (<code style="white-space: pre;">⁠^\p{S}$⁠</code>)
+</p>
+</li>
+<li>
+<p> tags = number of tags; sum of <code>pattern_username</code> and <code>pattern_hashtag</code>
+in <code>quanteda::quanteda_options()</code>
+</p>
+</li>
+<li>
+<p> emojis = number of emojis (<code style="white-space: pre;">⁠^\p{Emoji_Presentation}+$⁠</code>)
+</p>
+</li>
+</ul>
+<h3>Examples</h3>
+
+<pre><code class="language-R">if (Sys.info()["sysname"] != "SunOS") {
+library("quanteda")
+corp &lt;- data_corpus_inaugural[1:5]
+textstat_summary(corp)
+toks &lt;- tokens(corp)
+textstat_summary(toks)
+dfmat &lt;- dfm(toks)
+textstat_summary(dfmat)
+}
+</code></pre>
+
+
+</div>

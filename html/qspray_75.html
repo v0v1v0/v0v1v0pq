@@ -1,0 +1,73 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>showQsprayXYZ</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Print a polynomial</h2>
+
+<h3>Description</h3>
+
+<p>Prints a polynomial by printing monomials like <code>"x^2.yz"</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">showQsprayXYZ(letters = c("x", "y", "z"), collapse = ".", ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>letters, collapse</code></td>
+<td>
+<p>see <code>showMonomialXYZ</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>arguments passed to <code>showQspray</code>, such as 
+<code>compact=TRUE</code></p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A function which prints a <code>qspray</code> object. It is constructed 
+with <code>showQspray</code> and <code>showMonomialXYZ</code>.
+</p>
+
+
+<h3>Note</h3>
+
+<p>The function returned by this function can be used as the option 
+<code>"showQspray"</code> in the <code>showQsprayOption&lt;-</code> function.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>showMonomialXYZ</code>, <code>showQspray</code>, 
+<code>showQsprayOption&lt;-</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">set.seed(3141)
+( qspray &lt;- rQspray() )
+showQsprayXYZ(c("X", "Y", "Z"))(qspray)
+showQsprayXYZ(c("X", "Y", "Z"))(qlone(1) + qlone(2) + qlone(3) + qlone(4))
+# setting a show option:
+showQsprayOption(qspray, "showQspray") &lt;- showQsprayXYZ(c("A", "B", "C"))
+qspray
+# this is equivalent to:
+showQsprayOption(qspray, "showMonomial") &lt;- showMonomialXYZ(c("A", "B", "C"))
+</code></pre>
+
+
+</div>

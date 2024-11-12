@@ -1,0 +1,148 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>clickValues</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Mouse interactions with Plots</h2>
+
+<h3>Description</h3>
+
+<p>These functions use <code>grid.locator</code>. The primary two user-level functions are
+<code>clickValues</code> and <code>clickExtent</code>. These functions automatically select
+the correct viewport (i.e., map) where the mouse clicks occurred so the user
+does not have to manually specify which map is being clicked on.
+This works for <code style="white-space: pre;">⁠Raster*⁠</code>, <code style="white-space: pre;">⁠SpatialPoints*⁠</code>, and <code style="white-space: pre;">⁠SpatialPolygons*⁠</code> objects.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">clickValues(n = 1)
+
+clickExtent(
+  devNum = NULL,
+  plot.it = TRUE,
+  verbose = getOption("quickPlot.verbose")
+)
+
+clickCoordinates(n = 1)
+
+.clickCoord(X, n = 1, gl = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p>The number of mouse clicks to do.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>devNum</code></td>
+<td>
+<p>The device number for the new plot to be plotted on.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>plot.it</code></td>
+<td>
+<p>Logical. If <code>TRUE</code> a new plotting window is made for the
+new extent. Default <code>TRUE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p>Numeric or logical. If <code>TRUE</code> or <code style="white-space: pre;">⁠&gt;0⁠</code>, then messages will be
+shown. If <code>FALSE</code> or <code>0</code>, most messages will be suppressed.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>X</code></td>
+<td>
+<p>The raster object whose values will be returned where mouse clicks occur.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gl</code></td>
+<td>
+<p>An object created by a call to <code>grid.locator</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p><code>clickValues</code> is equivalent to running <code>X[SpatialPoints(locator(n))]</code>, where
+X is the raster being clicked on, in base graphics. This function determines which place in the
+grid.layout was clicked and makes all appropriate calculations to determine the value
+on the raster(s) at that or those location(s). It should be noted that when zooming in
+to rasters, plotting of rasters will only allow for complete pixels to be plotted, even
+if the extent is not perfectly in line with pixel edges. As a result, when values
+returned by this function may be slightly off (&lt;0.5 pixel width).
+</p>
+<p><code>clickExtent</code> is for drawing an extent with two mouse clicks on a given Plotted map.
+</p>
+<p><code>clickCoordinates</code> is the workhorse function that determines which plot has been
+clicked on and passes this plot name and the clicked coordinates to <code>.clickCoord</code>.
+</p>
+<p><code>.clickCoord</code> is intended for internal use and is called by other functions here.
+</p>
+<p><code>clickExtent</code> will place the new, zoomed in plot over top of the existing
+object. To recover original full object, double click anywhere during an
+active <code>clickExtent</code>. Currently, subsequent <code>clickExtent</code> is a click on the
+original map extent, not the "zoomed in" map extent. See example.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>clickValues</code> returns the layer names and values at the clicked points.
+<code>clickExtent</code> invisibly returns the extent object, and optionally plots
+it in a new device window.
+<code>clickCoordinates</code> returns the xy coordinates in the units of the plot clicked on.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Eliot McIntire
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+# clickValues and family are unreliable on Rstudio Server as the plotting device
+#   does not report its dimensions correctly; this may change in future
+#   updates to Rstudio
+if (interactive() &amp;&amp; !isRstudioServer() ) {
+  files &lt;- system.file("maps", package = "quickPlot")
+  files &lt;- dir(files, full.names = TRUE, pattern = "tif")
+  maps &lt;- lapply(files, function(x) terra::rast(x))
+  names(maps) &lt;- sapply(basename(files), function(x) {
+    strsplit(x, split = "\\.")[[1]][1]
+  })
+  landscape &lt;- c(maps$DEM, maps$forestCover, maps$habitatQuality)
+
+  clearPlot()
+  Plot(landscape)
+  clickValues(3) # click at three locations on the Plot device
+
+  clearPlot()
+  Plot(landscape)
+  e &lt;- clickExtent() # click at two locations on the Plot device
+  print(e)
+
+  # repeated zooming to try various places on the original device
+  for(i in 1:4) clickExtent() # click at two locations on the Plot device
+}
+
+
+</code></pre>
+
+
+</div>

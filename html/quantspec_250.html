@@ -1,0 +1,95 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>kernels</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Kernel function.</h2>
+
+<h3>Description</h3>
+
+<p>Implementations of kernel functions
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">W0(x)
+
+W1(x)
+
+W2(x)
+
+W3(x)
+
+WDaniell(x, a = (pi/2))
+
+WParzen(u)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>real-valued argument to the function; can be a vector</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>a</code></td>
+<td>
+<p>real number between 0 and <code class="reqn">\pi</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>u</code></td>
+<td>
+<p>real number</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Daniell kernel function <code>W0</code>:
+</p>
+<p style="text-align: center;"><code class="reqn">\frac{1}{2\pi} I\{|x| \leq \pi\}.</code>
+</p>
+
+<p>Epanechnikov kernel <code>W1</code> (i. e., variance minimizing kernel function of order 2):
+</p>
+<p style="text-align: center;"><code class="reqn">\frac{3}{4\pi} (1-\frac{x}{\pi})^2 I\{|x| \leq \pi\}.</code>
+</p>
+
+<p>Variance minimizing kernel function <code>W2</code> of order 4:
+</p>
+<p style="text-align: center;"><code class="reqn">\frac{15}{32\pi} (7(x/\pi)^4 -10(x/\pi)^2+3) I\{|x| \leq \pi\}.</code>
+</p>
+
+<p>Variance minimizing kernel function <code>W3</code> of order 6:
+</p>
+<p style="text-align: center;"><code class="reqn">\frac{35}{256\pi} (-99(x/\pi)^6 + 189(x/\pi)^4 - 105(x/\pi)^2+15) I\{|x| \leq \pi\}.</code>
+</p>
+
+<p>Kernel yield by convolution of two Daniell kernels:
+</p>
+<p style="text-align: center;"><code class="reqn">\frac{1}{\pi+a} \Big(1-\frac{|x|-a}{\pi-a} I\{a \leq |x| \leq \pi\}\Big).</code>
+</p>
+
+<p>Parzen Window for lagEstimators
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">plot(x=seq(-8,8,0.05), y=W0(seq(-8,8,0.05)), type="l")
+plot(x=seq(-8,8,0.05), y=W1(seq(-8,8,0.05)), type="l")
+plot(x=seq(-8,8,0.05), y=W2(seq(-8,8,0.05)), type="l")
+plot(x=seq(-8,8,0.05), y=W3(seq(-8,8,0.05)), type="l")
+plot(x=seq(-pi,pi,0.05), y=WDaniell(seq(-pi,pi,0.05),a=(pi/2)), type="l")
+plot(x=seq(-2,2,0.05),y=WParzen(seq(-2,2,0.05)),type = "l")
+</code></pre>
+
+
+</div>

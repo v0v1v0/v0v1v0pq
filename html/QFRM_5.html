@@ -1,0 +1,124 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>BarrierBS</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Barrier option pricing via Black-Scholes (BS) model</h2>
+
+<h3>Description</h3>
+
+<p>This function calculates the price of a Barrier option. This price is based on the assumptions that
+the probability distribution is lognormal and that the asset price is observed continuously.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">BarrierBS(o = OptPx(Opt(Style = "Barrier")), dir = c("Up", "Down"),
+  knock = c("In", "Out"), H = 40)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>o</code></td>
+<td>
+<p>The <code>OptPx</code> option object to price. See <code>OptBarrier()</code>, <code>OptPx()</code>, and <code>Opt()</code> for more information.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dir</code></td>
+<td>
+<p>The direction of the option to price. Either Up or Down.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>knock</code></td>
+<td>
+<p>Whether the option goes In or Out when the barrier is reached.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>H</code></td>
+<td>
+<p>The barrier level</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>To price the barrier option, we need to know whether the option is Up or Down | In or Out | Call or Put. Beyond that
+we also need the S0, K, r, q, vol, H, and ttm arguments from the object classes defined in the package.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The price of the barrier option <code>o</code>, which is based on the BSM-adjusted algorithm (see references).
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Kiryl Novikau, Department of Statistics, Rice University, Spring 2015
+</p>
+
+
+<h3>References</h3>
+
+<p>Hull, John C., <em>Options, Futures and Other Derivatives</em>, 9ed, 2014. Prentice Hall.
+ISBN 978-0-13-345631-8. <a href="http://www-2.rotman.utoronto.ca/~hull/ofod/index.html">http://www-2.rotman.utoronto.ca/~hull/ofod/index.html</a>.
+pp.606-607
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">(o = BarrierBS())$PxBS # Option with default arguments is valued at $9.71
+
+ #Down-and-In-Call
+ o = Opt(Style='Barrier', S0=50, K=50, ttm=1, Right="Call", ContrSize=10)
+ o = OptPx(o,  r = .05, q = 0, vol = .25)
+ o = BarrierBS(o, dir = "Down", knock = 'In', H = 40)
+
+ #Down-and-Out Call
+ o = Opt(Style='Barrier', S0=50, K=50, ttm=1, Right="Call", ContrSize=10)
+ o = OptPx(o, r = .05, q = .02, vol = .25)
+ o = BarrierBS(o, dir = "Down", knock = 'Out', H = 40)
+
+ #Up-and-In Call
+ o = Opt(Style='Barrier', S0=50, K=50, ttm=1, Right="Call", ContrSize=1)
+ o = OptPx(o, r = .05, q = .02, vol = .25)
+ o = BarrierBS(o, dir = "Up", knock = 'In', H = 60)
+
+ #Up-and-Out Call
+ o = Opt(Style='Barrier', S0 = 50, K = 50, ttm = 1, Right="Call", ContrSize=1)
+ o = OptPx(o, r = .05, q = .02, vol = .25)
+ o = BarrierBS(o, dir = "Up", knock = 'Out', H = 60)
+
+ #Down-and-In Put
+ o = Opt(Style='Barrier', S0=50, K=50, ttm=1, Right="Put", ContrSize=1)
+ o = OptPx(o, r = .05, q = .02, vol = .25)
+ o = BarrierBS(o, dir = "Down", knock = 'In', H = 40)
+
+ #Down-and-Out Put
+ o = Opt(Style='Barrier', S0=50, K=50, ttm=1, Right="Put", ContrSize=1)
+ o = OptPx(o, r = .05, q = .02, vol = .25)
+ o = BarrierBS(o, dir = "Down", knock = 'Out', H = 40)
+
+ #Up-and-In Put
+ o = Opt(Style='Barrier', S0=50, K=50, ttm=1, Right="Put", ContrSize=1)
+ o = OptPx(o, r = .05, q = .02, vol = .25)
+ o = BarrierBS(o, dir = "Up", knock = 'In', H = 60)
+
+ #Up-and-Out Put
+ o = Opt(Style='Barrier', S0=50, K=50, ttm=1, Right="Put", ContrSize=1)
+ o = OptPx(o, r = .05, q = .02, vol = .25)
+ o = BarrierBS(o, dir = "Up", knock = 'Out', H = 60)
+</code></pre>
+
+
+</div>

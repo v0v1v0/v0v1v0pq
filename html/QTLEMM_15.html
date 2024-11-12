@@ -1,0 +1,172 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>progeny</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Progeny Simulation</h2>
+
+<h3>Description</h3>
+
+<p>Generate simulated phenotype and genotype data for a specified
+generation from various breeding schemes.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">progeny(
+  QTL,
+  marker,
+  type = "RI",
+  ng = 2,
+  cM = TRUE,
+  E.vector = NULL,
+  h2 = 0.5,
+  size = 200
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>QTL</code></td>
+<td>
+<p>matrix. A q*2 matrix contains the QTL information, where the
+row dimension 'q' represents the number of QTLs in the chromosomes. The
+first column labels the chromosomes where the QTLs are located, and the
+second column labels the positions of QTLs (in morgan (M) or centimorgan
+(cM)).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>marker</code></td>
+<td>
+<p>matrix. A k*2 matrix contains the marker information,
+where the row dimension 'k' represents the number of markers in the
+chromosomes. The first column labels the chromosomes where the markers
+are located, and the second column labels the positions of markers (in
+morgan (M) or centimorgan (cM)). It's important to note that chromosomes
+and positions must be sorted in order.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>type</code></td>
+<td>
+<p>character. The population type of the dataset. Includes
+backcross (type="BC"), advanced intercross population (type="AI"), and
+recombinant inbred population (type="RI"). The default value is "RI".</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ng</code></td>
+<td>
+<p>integer. The generation number of the population type. For
+instance, in a BC1 population where type="BC", ng=1; in an AI F3
+population where type="AI", ng=3.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cM</code></td>
+<td>
+<p>logical. Specify the unit of marker position. If cM=TRUE, it
+denotes centimorgan; if cM=FALSE, it denotes morgan.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>E.vector</code></td>
+<td>
+<p>vector. Set the effect of QTLs. It should be a named
+vector, where the names of elements represent the effects of QTLs and
+their interactions. For example: the additive effect of QTL1 is coded as
+"a1"; the dominant effect of QTL2 is coded as "d2"; the interaction of
+the additive effect of QTL2 and the dominant effect of QTL1 is coded as
+"a2:d1". So, if the additive effect of QTL1 is 2, the dominant effect of
+QTL2 is 5, and the interaction of the additive effect of QTL2 and the
+dominant effect of QTL1 is 3, the user should input: E.vector = c("a1"=2,
+"d2"=5, "a2:d1"=3). If E.vector=NULL, the phenotypic value will not be
+simulated.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>h2</code></td>
+<td>
+<p>numeric. Set the heritability for simulated phenotypes. It
+should be a number between 0 and 1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>size</code></td>
+<td>
+<p>numeric. The population size of simulated progeny.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>phe</code></td>
+<td>
+<p>The phenotypic value of each simulated progeny.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>E.vector</code></td>
+<td>
+<p>The effect vector used in this simulation.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>marker.prog</code></td>
+<td>
+<p>The marker genotype of each simulated progeny.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>QTL.prog</code></td>
+<td>
+<p>The QTL genotype of each simulated progeny.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>VG</code></td>
+<td>
+<p>The genetic variance of this population.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>VE</code></td>
+<td>
+<p>The environmental variance of this population.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>genetic.value</code></td>
+<td>
+<p>The genetic value of each simulated progeny.</p>
+</td>
+</tr>
+</table>
+<h3>References</h3>
+
+<p>Haldane J.B.S. 1919. The combination of linkage values and the calculation
+of distance between the loci for linked factors. Genetics 8: 299–309.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># load the example data
+load(system.file("extdata", "exampledata.RDATA", package = "QTLEMM"))
+
+# run and result
+result &lt;- progeny(QTL, marker, type = "RI", ng = 5, E.vector = c("a1" = 2, "d2" = 5, "a2:d1" = 3),
+h2 = 0.5, size = 200)
+result$phe
+</code></pre>
+
+
+</div>

@@ -1,0 +1,56 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>hms2sec</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Convert h:m:s To/From Seconds</h2>
+
+<h3>Description</h3>
+
+<p><code>hms2sec</code> - Converts a vector of h:m:s to seconds.
+</p>
+<p><code>sec2hms</code> - Converts a vector of seconds to h:m:s.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">hms2sec(x)
+
+sec2hms(x)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>A vector of times in h:m:s (for <code>hms2sec</code>) or seconds (for 
+<code>sec2hms</code>) .</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p><code>hms2sec</code> - Returns a vector of times in seconds.
+</p>
+<p><code>sec2hms</code> - Returns a vector of times in h:m:s format.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>times</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">hms2sec(c("02:00:03", "04:03:01"))
+hms2sec(sec2hms(c(222, 1234, 55)))
+sec2hms(c(256, 3456, 56565))
+</code></pre>
+
+
+</div>

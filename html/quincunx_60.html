@@ -1,0 +1,71 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>pss_to_pgp</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Map PSS identifiers to PGP identifiers</h2>
+
+<h3>Description</h3>
+
+<p>Map PSS identifiers to PGP identifiers. This is a slow function because it
+starts by downloading first all Performance Metrics, as this is the linkage
+between PSS and PGP.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">pss_to_pgp(pss_id, verbose = FALSE, warnings = TRUE, progress_bar = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>pss_id</code></td>
+<td>
+<p>A character vector of PSS identifiers,
+e.g., "PSS000001".</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p>A <code>logical</code> indicating whether the function should be
+verbose about the different queries or not.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>warnings</code></td>
+<td>
+<p>A <code>logical</code> indicating whether to print warnings, if
+any.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>progress_bar</code></td>
+<td>
+<p>Whether to show a progress bar as the queries are
+performed.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A data frame of two columns: <code>pss_id</code> and <code>pgp_id</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+pss_to_pgp('PSS000001')
+pss_to_pgp(c('PSS000017', 'PSS000042'))
+
+## End(Not run)
+</code></pre>
+
+
+</div>

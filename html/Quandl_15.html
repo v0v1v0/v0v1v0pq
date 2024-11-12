@@ -1,0 +1,78 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>Quandl.search</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Search the Quandl database</h2>
+
+<h3>Description</h3>
+
+<p>Search the Quandl database
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">Quandl.search(query, silent = FALSE, per_page = 10, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>query</code></td>
+<td>
+<p>Search terms</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>silent</code></td>
+<td>
+<p>Prints the results when FALSE.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>per_page</code></td>
+<td>
+<p>Number of results returned per page.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Additional named values that are interpretted as Quandl API parameters.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Set your <code>api_key</code> with <code>Quandl.api_key</code> function. For instructions on finding your api key go to <a href="https://www.quandl.com/account/profile">https://www.quandl.com/account/profile</a>
+</p>
+<p>For instructions on finding your authentication token go to https://www.quandl.com/account/profile
+</p>
+
+
+<h3>Value</h3>
+
+<p>Search results returned as a data.frame.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>Quandl.api_key</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+search.results &lt;- Quandl.search("oil")
+
+## End(Not run)
+</code></pre>
+
+
+</div>

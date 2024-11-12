@@ -1,0 +1,108 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qgis_algorithms</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>List algorithms, processing providers or plugins</h2>
+
+<h3>Description</h3>
+
+<p>Functions that return metadata about the installed and enabled algorithms or
+processing providers, or about the installed plugins that implement
+processing providers.
+See the <a href="https://docs.qgis.org/latest/en/docs/user_manual/processing_algs/qgis/index.html">QGIS docs</a>
+for a detailed description of the algorithms provided
+'out of the box' on QGIS.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qgis_algorithms(query = FALSE, quiet = TRUE, include_deprecated = TRUE)
+
+qgis_providers(query = FALSE, quiet = TRUE, include_deprecated = TRUE)
+
+qgis_plugins(which = "all", query = FALSE, quiet = TRUE, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>query</code></td>
+<td>
+<p>Use <code>TRUE</code> to refresh the cached value.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>quiet</code></td>
+<td>
+<p>Use <code>FALSE</code> to display more information,
+possibly useful for debugging.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>include_deprecated</code></td>
+<td>
+<p>Logical. Should deprecated algorithms be included?</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>which</code></td>
+<td>
+<p>String defining which plugins to select, based on their
+status in QGIS (enabled or disabled).
+Must be one of: <code>"all"</code>, <code>"enabled"</code>, <code>"disabled"</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Only used by other functions calling this function.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The <code>include_deprecated</code> argument in <code>qgis_algorithms()</code> does not affect the
+cached value. The latter always includes deprecated algorithms if these are
+returned by 'qgis_process' (this requires the JSON output method).
+</p>
+
+
+<h3>Value</h3>
+
+<p>A tibble of algorithms, processing providers or plugins, with metadata.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>qgis_enable_plugins()</code>, <code>qgis_disable_plugins()</code>
+</p>
+<p>Other topics about information on algorithms &amp; processing providers: 
+<code>qgis_search_algorithms()</code>,
+<code>qgis_show_help()</code>
+</p>
+<p>Other topics about reporting the QGIS state: 
+<code>has_qgis()</code>,
+<code>qgis_path()</code>,
+<code>qgis_using_json_input()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+qgis_algorithms()
+qgis_algorithms(include_deprecated = FALSE)
+qgis_providers()
+qgis_plugins(quiet = FALSE)
+qgis_plugins(which = "disabled")
+
+</code></pre>
+
+
+</div>

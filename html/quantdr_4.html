@@ -1,0 +1,129 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>ValAR</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Value-at-Risk estimation using the central quantile subspace</h2>
+
+<h3>Description</h3>
+
+<p><code>ValAR</code> estimates the one-step ahead <code class="reqn">\tau</code>th Value-at-Risk for a
+vector of returns.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">ValAR(y, p, tau, movwind = NULL, chronological = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>A vector of returns (1 x n).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p</code></td>
+<td>
+<p>An integer for the number of past observations to be used as
+predictor variables.  This will form the n x p design matrix.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tau</code></td>
+<td>
+<p>A quantile level, a number strictly between 0 and 1. Commonly
+used choices are 0.01, 0.025, and 0.05.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>movwind</code></td>
+<td>
+<p>An optional integer number for the moving window.  If not
+specified, a default value of min(250, n - p) will be used.  If specified,
+the moving window should be an integer between p and n - p.  Typical values
+for moving windows correspond to one or two years of return values.  If
+the user wants to use all observations to fit the model, then the moving
+window should be equal to n - p.  Note that, the number n - p comes from
+the fact that the full data set starts from the (p + 1)th observation
+since we use the last p observations for prediction.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>chronological</code></td>
+<td>
+<p>A logical operator to indicate whether the returns are
+in standard chronological order (from oldest to newest).  The default
+value is TRUE.  If the returns are in reverse chronological order, the
+function will rearrange them.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The function calculates the <code class="reqn">\tau</code>th Value-at-Risk of the next time occurrence,
+i.e., that number such that the probability that the returns fall below its
+negative value is <code class="reqn">\tau</code>.  The parameter <code class="reqn">\tau</code> is typically chosen to be a
+small number such as 0.01, 0.025, or 0.05.  By definition, the negative value of the
+<code class="reqn">\tau</code>th Value-at-Risk is the <code class="reqn">\tau</code>th conditional quantile.  Therefore,
+the estimation is performed using a local linear conditional quantile estimation.
+However, prior to this nonparametric estimation, a dimension reduction technique
+is performed to select linear combinations of the predictor variables.
+</p>
+<p>Specifically, the user provides a vector of returns <code>y</code> (usually log-returns)
+and an integer <code>p</code> for the number of past observations to be used as the
+predictor variables.  The function then forms the m x p design matrix x, where m is
+the number of used observations.  For example, m can be n - p if the user wants to
+use all observations, or m can be equal to the moving window (default value is
+min(250, n - p)).  Value-at-Risk is then defined as the negative value of the
+<code class="reqn">\tau</code>th conditional quantile of y given x.  However, to aid the nonparametric
+estimation of the <code class="reqn">\tau</code>th conditional quantile, the <code>cqs</code> function is
+applied to estimate the fewest linear combinations of the predictor <code>x</code> that
+contain all the information available on the conditional quantile function.  Finally,
+the <code>llqr</code> function is applied to estimate the local linear conditional quantile
+of y using the extracted directions as the predictor variables.
+</p>
+<p>For more details on the method and for an application to the Bitcoin data, see
+Christou (2020).  Also, see Christou and Grabchak (2019) for a thorough
+comparison between the proposed methodology and commonly used methods.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>ValAR</code> returns the one-step ahead <code class="reqn">\tau</code>th Value-at-Risk.
+</p>
+
+
+<h3>References</h3>
+
+<p>Christou, E. (2020) Central quantile subspace. <em>Statistics and
+Computing</em>, 30, 677–695.
+</p>
+<p>Christou, E., Grabchak, M. (2019) Estimation of value-at-risk using single index
+quantile regression.  <em>Journal of Applied Statistics</em>, 46(13), 2418–2433.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># estimate the one-step ahead Value-at-Risk with default moving window
+data(edhec, package = "PerformanceAnalytics")
+y &lt;- as.vector(edhec[, 1]) # Convertible Arbitrage
+p &lt;- 5 # use the 5 most recent observations as predictor variables
+tau &lt;- 0.05
+ValAR(y, p, tau) # the data is already in standard chronological order
+
+# compare it with the historical Value-at-Risk calculation
+PerformanceAnalytics::VaR(y, 0.95, method = 'historical')
+
+</code></pre>
+
+
+</div>

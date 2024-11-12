@@ -1,0 +1,75 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>predict.qdm</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Predictions of Quadrilateral Dissimilarity Model</h2>
+
+<h3>Description</h3>
+
+<p>Predicts regular minimality compliant discrimination probabilities for a
+model fitted with <code>qdm</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'qdm'
+predict(object, x = object$psi$x, y = object$psi$y,
+        respfun = object$respfun, bias = object$bias, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>object of class "qdm". See <code>qdm</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>stimulus intensities for the first observation area. Defaults to
+the values used for fitting the model.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>stimulus intensities for the second observation area. Defaults to
+the values used for fitting the model.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>respfun</code></td>
+<td>
+<p>function used to describe relationship
+between discrimination probabilities and similarity measure. Defaults to
+the function used for fitting the model. See <code>qdm</code> for
+Details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bias</code></td>
+<td>
+<p>perceptual bias of subject. Defaults to the bias used for
+fitting the model.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>additional arguments.</p>
+</td>
+</tr>
+</table>
+<h3>See Also</h3>
+
+<p><code>qdm</code></p>
+
+
+</div>

@@ -1,0 +1,46 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>characteristicPolynomial</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Characteristic polynomial</h2>
+
+<h3>Description</h3>
+
+<p>Characteristic polynomial of a matrix.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">characteristicPolynomial(A)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>A</code></td>
+<td>
+<p>a square matrix with numeric, character, or <code>bigq</code> entries</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>A univariate <code>qspray</code> polynomial.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">set.seed(666)
+A &lt;- matrix(rpois(9L, 10), nrow = 3, ncol = 3)
+( P &lt;- characteristicPolynomial(A) )
+# check the roots are the eigen values:
+f &lt;- as.function(P, N = TRUE)
+sapply(eigen(A)$values, f) # approx c(0, 0, 0)
+</code></pre>
+
+
+</div>

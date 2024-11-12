@@ -1,0 +1,61 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>ctqwalk</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Create a Continuous-time Quantum Walk</h2>
+
+<h3>Description</h3>
+
+<p><code>ctqwalk()</code> creates a quantum walk object from a hamiltonian.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">ctqwalk(hamiltonian, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>hamiltonian</code></td>
+<td>
+<p>a Hermitian Matrix representing the Hamiltonian of the system.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>further arguments passed on to <code>spectral()</code></p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list with the walk related objects, i.e the hamiltonian and its spectral
+decomposition (See <code>spectral()</code> for further details)
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>spectral()</code>, <code>unitary_matrix.ctqwalk()</code>,
+<code>mixing_matrix.ctqwalk()</code>, <code>avg_matrix.ctqwalk()</code>,
+<code>gavg_matrix.ctqwalk()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># Creates a walk from the adjacency matrix of the graph P3.
+ctqwalk(matrix(c(0,1,0,1,0,1,0,1,0), nrow=3))
+
+
+</code></pre>
+
+
+</div>

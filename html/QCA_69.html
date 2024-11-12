@@ -1,0 +1,282 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>Parameters of fit</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Calculate parameters of fit</h2>
+
+<h3>Description</h3>
+
+<p>These functions returns inclusion (consistency) and coverage, plus PRI for sufficiency
+and RoN for necessity. The function <b><code>pofind()</code></b> is a stripped down version
+of the <b><code>pof()</code></b> function, to calculate parameters of fit for single conditions.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">pof(setms = NULL, outcome = NULL, data = NULL, relation = "necessity",
+    use.labels = FALSE, inf.test = "", incl.cut = c(0.75, 0.5), add = NULL, ...)
+    
+pofind(data = NULL, outcome = "", conditions = "", relation = "necessity",
+    use.labels = FALSE, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>setms</code></td>
+<td>
+<p>A data frame or a single vector of (calibrated) set memberships, or an
+expression written in sum of products form.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>outcome</code></td>
+<td>
+<p>The name of the outcome column from a calibrated data frame, or
+the actual numerical column from the data frame, representing the outcome.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>A calibrated data frame.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>conditions</code></td>
+<td>
+<p>A single string containing the conditions' (columns) names
+separated by commas, or a character vector of conditions' names.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>relation</code></td>
+<td>
+<p>The set relation to <b><code>outcome</code></b>, either <b><code>"necessity"</code></b>
+or <b><code>"sufficiency"</code></b>, partial words like <b><code>"suf"</code></b> being
+accepted (see examples).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>use.labels</code></td>
+<td>
+<p>Logical, use category labels if present.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>inf.test</code></td>
+<td>
+<p>Specifies the statistical inference test to be performed (currently 
+only <b><code>"binom"</code></b>) and the critical significance level. It can be either
+a vector of length 2, or a single string containing both, separated by a comma.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>incl.cut</code></td>
+<td>
+<p>The inclusion cutoff(s): either a single value for the presence of the
+output, or a vector of length 2, the second for the absence of the output. Used
+only in conjunction with the argument <b><code>inf.test</code></b></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>add</code></td>
+<td>
+<p>A function, or a list containing functions, to add more parameters of fit.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Other arguments to be passed to the main function.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The function <b><code>pof()</code></b> is one of the most flexible functions in the
+<span class="pkg">QCA</span> package. Depending on particular situations, its arguments can be provided
+in various formats which are automatically recognized and treated accordingly.
+</p>
+<p>When specified as a data frame, the argument <b><code>setms</code></b> contains any kind
+of set membership scores:
+</p>
+<p>- calibrated causal conditions from the original data,
+</p>
+<p>- membership scores from the resulting combinations (component <b><code>coms</code></b>)
+of function <b><code>superSubset()</code></b>,
+</p>
+<p>- prime implicant membership scores (component <b><code>pims</code></b>) from function
+<b><code>minimize()</code></b>,
+</p>
+<p>- any other, custom created combinations of set memberships.
+</p>
+<p>When specified as a matrix, <b><code>setms</code></b> contains the crisp causal combinations
+similar to those found in the truth table. The number of columns in the matrix should be
+equal to the number of causal conditions in the original <b><code>data</code></b>. If some of
+them are minimized, they can be replaced by the numerical value <b><code>-1</code></b> (see
+examples section). 
+</p>
+<p>More generally, <b><code>setms</code></b> can be a numerical vector of line numbers from the
+implicant matrix (see function <b><code>createMatrix()</code></b>), which are automatically
+transformed into their corresponding set membership scores. 
+</p>
+<p>The argument <b><code>setms</code></b> can also be a string expression, written in SOP - sum of
+products form.
+</p>
+<p>For all other situations when <b><code>setms</code></b> is something else than a data frame, it
+requires the original <b><code>data</code></b> to generate the set memberships.
+</p>
+<p>If character, the argument <b><code>outcome</code></b> is the name of the column from the
+original <b><code>data</code></b>, to be explained (it is a good practice advice to specify
+it using upper case letters, although it will nevertheless be converted to upper case,
+by default).
+</p>
+<p>If the outcome column is multi-value, the argument <b><code>outcome</code></b> should use
+the standard curly-bracket notation <b><code>X{value}</code></b>. Multiple values are
+allowed, separated by a comma (for example <b><code>X{1,2}</code></b>). Negation of the
+outcome can also be performed using the tilde <b><code>~</code></b> operator, for example
+<b><code>~X{1,2}</code></b>, which is interpreted as: "all values in X except 1 and 2" and
+it becomes the new outcome to be explained.
+</p>
+<p>The argument <b><code>outcome</code></b> can also be a numerical vector of set membership
+values, either directly from the original data frame, or a recoded version (if
+originally multi-value).
+</p>
+<p>The argument <b><code>inf.test</code></b> provides the possibility to perform statistical
+inference tests, comparing the calculated inclusion score with a pair of thresholds
+(<b><code>ic1</code></b> and <b><code>ic0</code></b>) specified in the argument <b><code>incl.cut</code></b>.
+Currently, it can only perform binomial tests (<b><code>"binom"</code></b>), which means that
+data should only be provided as binary crisp (not multivalue, not fuzzy).
+</p>
+<p>If the critical significance level is not provided, the default level of <b><code>0.05</code></b>
+is taken.
+</p>
+<p>The resulting object will contain the calculated p-values (<code>pval1</code> and <code>pval0</code>) from two
+separate, one-tailed tests with the alternative hypothesis that the true inclusion
+score is:<br>
+- greater than <b><code>ic1</code></b> (the inclusion cut-off for an output value of 1)<br>
+- greater than <b><code>ic0</code></b> (the inclusion cut-off for an output value of 0)
+</p>
+<p>It should be noted that statistical tests are performing well only when the number
+of cases is large, otherwise they are usually not significant.
+</p>
+<p>For the necessity relation, the standard measures of inclusion and coverage are
+supplemented with the <b><code>RoN</code></b> (Relevance of Necessity) measure, as suggested by
+Schneider &amp; Wagemann's (2012).
+</p>
+<p>The negation of both <b><code>setms</code></b> and <b><code>outcome</code></b> is accepted and
+recognized using the Boolean subtraction from 1. If the names of the conditions are
+provided via an optional (undocumented) argument <b><code>conditions</code></b>, the
+column names of the <b><code>setms</code></b> object are negated using the function
+<b><code>negate()</code></b>.
+</p>
+<p>The logical argument <b><code>neg.out</code></b> is deprecated, but backwards compatible.
+<b><code>neg.out = TRUE</code></b> and a tilde <b><code>~</code></b> in the outcome name don't
+cancel each other out, either one (or even both) signaling if the <b><code>outcome</code></b>
+should be negated.
+</p>
+<p>The arguments from function <b><code>pofind()</code></b> are passed to the main function
+<b><code>pof()</code></b> to calculate parameters of fit.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Adrian Dusa
+</p>
+
+
+<h3>References</h3>
+
+<p>Cebotari, V.; Vink, M.P. (2013) “A Configurational Analysis of Ethnic
+Protest in Europe”. <em>International Journal of Comparative Sociology</em>
+vol.54, no.4, pp.298-324, <a href="https://doi.org/10.1177/0020715213508567">doi:10.1177/0020715213508567</a>
+</p>
+<p>Schneider, C. and Wagemann, C. (2012) <em>Set-Theoretic Metods for the Social Sciences.
+A Guide to Qualitative Comparative Analysis</em>. Cambridge: Cambridge University Press.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>minimize</code>, <code>superSubset</code></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+# -----
+# Cebotari &amp; Vink (2013) fuzzy data
+
+conds &lt;- CVF[, 1:5]
+PROTEST &lt;- CVF$PROTEST
+
+# parameters of fit (default is necessity)
+pof(conds, PROTEST)
+
+# parameters of fit negating the conditions
+pof(1 - conds, PROTEST)
+
+# negating the outcome
+pof(conds, 1 - PROTEST)
+
+# parameters of fit for sufficiency
+pof(conds, PROTEST, relation = "suf")
+
+# also negating the outcome
+pof(conds, 1 - PROTEST, relation = "suf")
+
+
+# -----
+# standard analysis of necessity
+# using the "coms" component from superSubset()
+nCVF &lt;- superSubset(CVF, outcome = PROTEST, incl.cut = 0.90, cov.cut = 0.6)
+
+# also checking their necessity inclusion score in the negated outcome
+pof(nCVF$coms, 1 - PROTEST)
+
+
+# -----
+# standard analysis of sufficiency
+# using the "pims" component from minimize()
+
+# conservative solution
+cCVF &lt;- minimize(truthTable(CVF, outcome = PROTEST, incl.cut = 0.8))
+
+# verify if their negations are also sufficient for the outcome
+pof(1 - cCVF$pims, PROTEST, relation = "sufficiency")
+
+
+# -----
+# using a SOP expression, translated using the function translate()
+
+pof(~NATPRIDE + GEOCON -&gt; PROTEST, data = CVF)
+
+# same for the negation of the outcome
+pof(~NATPRIDE + GEOCON -&gt; ~PROTEST, data = CVF)
+
+# necessity is indicated by the reverse arrow
+pof(~NATPRIDE + GEOCON &lt;- PROTEST, data = CVF)
+
+
+# -----
+# more parameters of fit, for instance Haesebrouck' consistency
+
+inclH &lt;- function(x, y) {
+    sum(fuzzyand(x, y)) /
+    sum(fuzzyand(x, y) + sqrt(fuzzyor(x - y, 0) * x))
+}
+
+pof(~NATPRIDE + GEOCON -&gt; ~PROTEST, data = CVF, add = inclH)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

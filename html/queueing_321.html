@@ -1,0 +1,79 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>Wc.o_MCMN</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Returns the vector with each class mean time spend on a MultiClass Mixed Network</h2>
+
+<h3>Description</h3>
+
+<p>Returns the vector with each class mean time spend on a MultiClass Mixed Network
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">  ## S3 method for class 'o_MCMN'
+Wc(x, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a object of class o_MCMN</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>aditional arguments</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Returns the vector with each class mean time spend on a MultiClass Mixed Network</p>
+
+
+<h3>References</h3>
+
+<p>[Lazowska84] Edward D. Lazowska, John Zahorjan, G. Scott Graham, and Kenneth C. Sevcik (1984).<br><em>Quantitative System Performance: Computer System Analysis Using Queueing Network Models</em>.<br>
+Prentice-Hall, Inc., Englewood Cliffs, New Jersey
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>QueueingModel.i_MCMN</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## See example in pag 147 in reference [Lazowska84] for more details.
+
+classes &lt;- 4
+vLambda &lt;- c(1, 1/2)
+vNumber &lt;- c(1, 1)
+vThink &lt;- c(0, 0)
+nodes &lt;- 2
+vType &lt;- c("Q", "Q")
+vVisit &lt;- matrix(data=1, nrow=4, ncol=2)
+vService &lt;- matrix(data=c(1/4, 1/2, 1/2, 1, 1/6, 1, 1, 4/3), nrow=4, ncol=2)
+
+i_mcmn1 &lt;- NewInput.MCMN(classes, vLambda, vNumber, vThink, nodes, vType, vVisit, vService)
+
+# Build the model
+o_mcmn1 &lt;- QueueingModel(i_mcmn1)
+
+Wc(o_mcmn1)
+
+</code></pre>
+
+
+</div>

@@ -1,0 +1,101 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>corpus_sample</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Randomly sample documents from a corpus</h2>
+
+<h3>Description</h3>
+
+<p>Take a random sample of documents of the specified size from a corpus, with
+or without replacement, optionally by grouping variables or with probability
+weights.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">corpus_sample(x, size = ndoc(x), replace = FALSE, prob = NULL, by = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a corpus object whose documents will be sampled</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>size</code></td>
+<td>
+<p>a positive number, the number of documents to select; when used
+with <code>by</code>, the number to select from each group or a vector equal in
+length to the number of groups defining the samples to be chosen in each
+category of <code>by</code>.  By defining a size larger than the number of documents,
+it is possible to oversample when <code>replace = TRUE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>replace</code></td>
+<td>
+<p>if <code>TRUE</code>, sample  with replacement</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>prob</code></td>
+<td>
+<p>a vector of probability weights for obtaining the elements of the
+vector being sampled.  May not be applied when <code>by</code> is used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>by</code></td>
+<td>
+<p>optional grouping variable for sampling.  This will be evaluated in
+the docvars data.frame, so that docvars may be referred to by name without
+quoting.  This also changes previous behaviours for <code>by</code>.
+See <code>news(Version &gt;= "2.9", package = "quanteda")</code> for details.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>a corpus object (re)sampled on the documents, containing the document
+variables for the documents sampled.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">set.seed(123)
+# sampling from a corpus
+summary(corpus_sample(data_corpus_inaugural, size = 5))
+summary(corpus_sample(data_corpus_inaugural, size = 10, replace = TRUE))
+
+# sampling with by
+corp &lt;- data_corpus_inaugural
+corp$century &lt;- paste(floor(corp$Year / 100) + 1)
+corp$century &lt;- paste0(corp$century, ifelse(corp$century &lt; 21, "th", "st"))
+corpus_sample(corp, size = 2, by = century) |&gt;
+    summary()
+# needs drop = TRUE to avoid empty interactions
+corpus_sample(corp, size = 1, by = interaction(Party, century, drop = TRUE), replace = TRUE) |&gt;
+    summary()
+
+# sampling sentences by document
+corp &lt;- corpus(c(one = "Sentence one.  Sentence two.  Third sentence.",
+                 two = "First sentence, doc2.  Second sentence, doc2."),
+               docvars = data.frame(var1 = c("a", "a"), var2 = c(1, 2)))
+corpus_reshape(corp, to = "sentences") %&gt;%
+    corpus_sample(replace = TRUE, by = docid(.))
+
+# oversampling
+corpus_sample(corp, size = 5, replace = TRUE)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,49 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>probs_qtl2_to_doqtl</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Convert R/qtl2 genotype probabilities to DOQTL format</h2>
+
+<h3>Description</h3>
+
+<p>Convert R/qtl2 genotype probabilities to DOQTL format
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">probs_qtl2_to_doqtl(probs)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>probs</code></td>
+<td>
+<p>A <code>"calc_genoprob"</code> object (a list of 3d arrays of
+genotype probabilities), as calculated by <code>qtl2::calc_genoprob()</code>.</p>
+</td>
+</tr></table>
+<h3>Details</h3>
+
+<p>If the arrays in <code>probs</code> all have 8 columns, they're assumed to be
+allele dosages and we paste them all together into one big array.
+</p>
+<p>Otherwise, it should be that the autosomes all have 36 columns the
+X chromosome has 44. In this case, the male hemizygotes on the X
+are placed where the female homozygotes are, and then we reorder
+the genotypes into alphabetical order.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A single three-dimensional array, for use with
+<a href="https://github.com/dmgatti/DOQTL">DOQTL</a>.
+</p>
+
+
+</div>

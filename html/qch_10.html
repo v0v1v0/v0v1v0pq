@@ -1,0 +1,95 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>fHconfig_sum_update_gaussian_copula_ptr_parallel</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Computation of the sum sum_c(w_c*psi_c) using Gaussian copula parallelized version</h2>
+
+<h3>Description</h3>
+
+<p>Computation of the sum sum_c(w_c*psi_c) using Gaussian copula parallelized version
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">fHconfig_sum_update_gaussian_copula_ptr_parallel(
+  Hconfig,
+  NewPrior,
+  Logf0Mat,
+  Logf1Mat,
+  zeta0,
+  zeta1,
+  R,
+  Rinv,
+  threads_nb = 0L
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>Hconfig</code></td>
+<td>
+<p>list of  vector of 0 and 1, corresponding to the configurations</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>NewPrior</code></td>
+<td>
+<p>a double vector containing the prior w_c</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Logf0Mat</code></td>
+<td>
+<p>a double matrix containing the log(f0(xi_q))</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Logf1Mat</code></td>
+<td>
+<p>a double matrix containing the log(f1(xi_q))</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>zeta0</code></td>
+<td>
+<p>a double matrix containing the qnorm(F0(x_iq))</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>zeta1</code></td>
+<td>
+<p>a double matrix containing the qnorm(F1(x_iq))</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>R</code></td>
+<td>
+<p>a double matrix corresponding to the copula parameter</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Rinv</code></td>
+<td>
+<p>a double matrix corresponding to the inverse copula parameter</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>threads_nb</code></td>
+<td>
+<p>an int the number of threads</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>a double vector containing sum_c(w_c*psi_c)
+</p>
+
+
+</div>

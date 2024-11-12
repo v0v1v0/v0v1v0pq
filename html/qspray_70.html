@@ -1,0 +1,82 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>showMonomialX1X2X3</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Print a monomial</h2>
+
+<h3>Description</h3>
+
+<p>Prints a monomial in the style of <code>"x1.x3^2"</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">showMonomialX1X2X3(x = "x", collapse = ".")
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a string, usually a letter such as <code>"x"</code> or <code>"X"</code>, to 
+denote the non-indexed variables</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>collapse</code></td>
+<td>
+<p>a string to denote the symbol representing the 
+multiplication, e.g. <code>"*"</code> or <code>""</code></p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A function which takes as argument a sequence of exponents and 
+which prints the corresponding monomial.
+</p>
+
+
+<h3>Note</h3>
+
+<p>The function returned by this function can be used as the option 
+<code>"showMonomial"</code> in the <code>showQsprayOption&lt;-</code> function.
+But if you are happy with the default <code>collapse</code> argument, then you 
+can equivalently set the <code>"x"</code> option instead, thereby typing less 
+code. See the example.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>showQsprayX1X2X3</code>, 
+<code>showMonomialXYZ</code>, <code>showQsprayOption&lt;-</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">showMonomialX1X2X3("X")(c(1, 0, 2))
+showMonomialX1X2X3("X", collapse = "*")(c(1, 0, 2))
+showMonomialX1X2X3("X")(c(1, 0, 2)) == 
+  showMonomialXYZ(c("X1", "X2", "X3"))(c(1, 0, 2))
+showMonomialX1X2X3()(NULL)
+# setting a show option:
+set.seed(3141)
+( qspray &lt;- rQspray() )
+showQsprayOption(qspray, "showMonomial") &lt;- showMonomialX1X2X3("X")
+qspray
+# this is equivalent to:
+showQsprayOption(qspray, "showQspray") &lt;- showQsprayX1X2X3("X")
+# and also equivalent to:
+showQsprayOption(qspray, "x") &lt;- "X" 
+</code></pre>
+
+
+</div>

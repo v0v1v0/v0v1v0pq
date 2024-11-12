@@ -1,0 +1,102 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>Qfamily</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Family Objects for Qest</h2>
+
+<h3>Description</h3>
+
+<p>Family objects are used to specify the model to be fitted by <code>Qest</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">Qnorm()
+Qgamma()
+Qpois(offset = NULL)
+Qunif(min = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>offset</code></td>
+<td>
+<p>an optional vector of offsets for a Poisson model.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>min</code></td>
+<td>
+<p>logical. If <kbd>TRUE</kbd>, fit a <code class="reqn">U(a, b)</code> distribution. If <kbd>FALSE</kbd>, fit a <code class="reqn">U(0, b)</code> distribution.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>A <code>Qfamily</code> object can be used to identify a certain type of distribution within a call to <code>Qest</code>. You can supply either the name of the family, or the function itself, or a call to it. For example, the following are equivalent: <code>Qest(formula, "Qpois")</code>, <code>Qest(formula, Qpois)</code>, and <code>Qest(formula, Qpois())</code>. The latter syntax can be used to pass additional arguments, if any.
+</p>
+<p>The <code>Qnorm</code> family fits a normal homoskedastic model in which the mean is described by a linear predictor. The parameters are: <code>log(sigma), beta</code>. <code>Qest(formula, Qnorm)</code> is equivalent to <code>Qlm(formula)</code>, but returns a very basic output. However, <code>Qest</code> allows for censored and truncated data, while <code>Qlm</code> does not.
+</p>
+<p>The <code>Qgamma</code> family fits a Gamma distribution in which the log-scale is modeled by a linear predictor. The model parameters are: <code>log(shape), beta</code>.
+</p>
+<p>The <code>Qpois</code> family fits a Poisson distribution in which the log-rate is modeled by a linear predictor. In reality, to obtain a continuous quantile function, <code>qpois</code> is replaced by the inverse, <em>with respect to</em> <code class="reqn">y</code>, of the upper regularized gamma function, <code class="reqn">Q(y,\lambda)</code>. It is recommended to apply <code>Qpois</code> to a jittered response (i.e., <code>y + runif(n)</code>).
+</p>
+<p>The <code>Qunif</code> family fits a Uniform distribution <code class="reqn">U(a,b)</code> in which both <code class="reqn">a</code> and <code class="reqn">b</code> are modeled by linear predictors. The design matrix, however, is the same for <code class="reqn">a</code> and <code class="reqn">b</code>. Use <code>Qunif(min = FALSE)</code> to fit a <code class="reqn">U(0,b)</code> model. The parameters are: <code>beta_a, beta_b</code>, or only <code>beta_b</code> if <code>min = FALSE</code>.
+</p>
+<p>The families <code>Qnorm</code> and <code>Qgamma</code> can be used when the data are censored or truncated, while <code>Qpois</code> and <code>Qunif</code> cannot. All families can be estimated without covariates, using <code>formula = ~ 1</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>"Qfamily"</code> that contains all the necessary information to be passed to <code>Qest</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Gianluca Sottile &lt;gianluca.sottile@unipa.it&gt;, Paolo Frumento &lt;paolo.frumento@unipi.it&gt;
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>Qest</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+n &lt;- 250
+x &lt;- runif(n)
+eta &lt;- 1 + 2*x # linear predictor
+
+# Normal model
+y &lt;- rnorm(n, eta, exp(1))
+m1 &lt;- Qest(y ~ x, Qnorm)
+# Use Qlm(y ~ x) instead!
+
+# Gamma model
+y &lt;- rgamma(n, shape = exp(1), scale = exp(eta))
+m2 &lt;- Qest(y ~ x, Qgamma)
+
+# Poisson model
+y &lt;- rpois(n, exp(eta))
+m3 &lt;- Qest(y ~ x, Qpois)
+m4 &lt;- Qest(y + runif(n) ~ x, Qpois) # Jittering is recommended
+
+# Uniform model
+y &lt;- runif(n, 0, eta)
+m5 &lt;- Qest(y ~ x, Qunif(min = TRUE))  # U(a,b)
+m6 &lt;- Qest(y ~ x, Qunif(min = FALSE)) # U(0,b)
+</code></pre>
+
+
+</div>

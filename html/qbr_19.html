@@ -1,0 +1,70 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>summarize_app</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Summarize an app</h2>
+
+<h3>Description</h3>
+
+<p>Get metadata for an app, its tables, and its fields.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">summarize_app(subdomain, auth, app_id, agent = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>subdomain</code></td>
+<td>
+<p>Character vector with one element. Found at the beginning of
+the Quickbase URL. Realm specific.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>auth</code></td>
+<td>
+<p>Character vector with one element. The Quickbase authentication
+scheme you are using to authenticate the request (e.g., user token).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>app_id</code></td>
+<td>
+<p>Character vector with one element. Unique identifier of an app.
+Found in the URL of the app's homepage after /db/</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>agent</code></td>
+<td>
+<p>Optional. Character vector with one element. Describes
+user/agent making API call.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list of tibbles.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+   summarize_app(subdomain = "abc",
+                 auth = keyring::key_get("qb_example"),
+                 app_id = "bsf5hphe5")
+
+## End(Not run)
+</code></pre>
+
+
+</div>

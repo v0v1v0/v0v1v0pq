@@ -1,0 +1,108 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>gmean_sd</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Geometric Mean and Standard deviation</h2>
+
+<h3>Description</h3>
+
+<p>A function for calculating and formatting geometric means and
+standard deviations.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">gmean_sd(
+  x,
+  digits = getOption("qwraps2_frmt_digits", 2),
+  na_rm = FALSE,
+  show_n = "ifNA",
+  denote_sd = "pm",
+  markup = getOption("qwraps2_markup", "latex"),
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a numeric vector</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>digits</code></td>
+<td>
+<p>digits to the right of the decimal point to return in the
+percentage estimate.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>na_rm</code></td>
+<td>
+<p>if true, omit NA values</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>show_n</code></td>
+<td>
+<p>defaults to “ifNA”.  Other options are “always” or
+“never”.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>denote_sd</code></td>
+<td>
+<p>a character string set to either "pm" or "paren" for reporting 'mean
+<code class="reqn">\pm</code> sd' or 'mean (sd)'</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>markup</code></td>
+<td>
+<p>character string with value “latex” or “markdown”</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>pass through</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Given a numeric vector, <code>gmean_sd</code> will return a character string with
+the geometric mean and standard deviation.  Formatting of the output will be
+extended in future versions.
+</p>
+
+
+<h3>Value</h3>
+
+<p>a character vector of the formatted values
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>mean_sd</code>, <code>gmean</code>, <code>gsd</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+gmean_sd(mtcars$mpg, markup = "latex")
+gmean_sd(mtcars$mpg, markup = "markdown")
+
+</code></pre>
+
+
+</div>

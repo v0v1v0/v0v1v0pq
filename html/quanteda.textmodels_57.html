@@ -1,0 +1,133 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>textmodel_svmlin</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>[experimental] Linear SVM classifier for texts</h2>
+
+<h3>Description</h3>
+
+<p>Fit a fast linear SVM classifier for sparse text matrices, using svmlin C++
+code written by Vikas Sindhwani and S. Sathiya Keerthi.  This method
+implements the modified finite Newton L2-SVM method (L2-SVM-MFN) method
+described in Sindhwani and Keerthi (2006). Currently,
+<code>textmodel_svmlin()</code> only works for two-class problems.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">textmodel_svmlin(
+  x,
+  y,
+  intercept = TRUE,
+  lambda = 1,
+  cp = 1,
+  cn = 1,
+  scale = FALSE,
+  center = FALSE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>the dfm on which the model will be fit.  Does not
+need to contain only the training documents.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>vector of training labels associated with each document identified
+in <code>train</code>.  (These will be converted to factors if not already factors.)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>intercept</code></td>
+<td>
+<p>logical; if <code>TRUE</code>, add an intercept to the data</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lambda</code></td>
+<td>
+<p>numeric; regularization parameter lambda (default 1)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cp</code></td>
+<td>
+<p>numeric; Relative cost for "positive" examples (the second factor
+level)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cn</code></td>
+<td>
+<p>numeric; Relative cost for "negative" examples (the first factor
+level)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>scale</code></td>
+<td>
+<p>logical; if <code>TRUE</code>, normalize the feature counts</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>center</code></td>
+<td>
+<p>logical; if <code>TRUE</code>, centre the feature counts</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>a fitted model object of class <code>textmodel_svmlin</code>
+</p>
+
+
+<h3>Warning</h3>
+
+<p>This function is marked experimental since it's not fully working yet in a
+way that translates into more standard SVM parameters that we understand. Use
+with caution after reading the Sindhwani and Keerthi (2006) paper.
+</p>
+
+
+<h3>References</h3>
+
+<p>Vikas Sindhwani and S. Sathiya Keerthi (2006).  <a href="https://vikas.sindhwani.org/sk_sigir06.pdf">Large Scale Semi-supervised Linear SVMs</a>. <em>Proceedings of ACM
+SIGIR</em>. August 6–11, 2006, Seattle.
+</p>
+<p>V. Sindhwani and S. Sathiya Keerthi (2006).  Newton Methods for Fast Solution
+of Semi-supervised Linear SVMs. Book Chapter in <em>Large Scale Kernel
+Machines</em>, MIT Press, 2006.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>predict.textmodel_svmlin()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># use Lenihan for govt class and Bruton for opposition
+library("quanteda")
+docvars(data_corpus_irishbudget2010, "govtopp") &lt;- c("Govt", "Opp", rep(NA, 12))
+dfmat &lt;- dfm(tokens(data_corpus_irishbudget2010))
+
+tmod &lt;- textmodel_svmlin(dfmat, y = dfmat$govtopp)
+predict(tmod)
+</code></pre>
+
+
+</div>

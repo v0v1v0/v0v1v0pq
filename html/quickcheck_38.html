@@ -1,0 +1,50 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>from_hedgehog</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Convert a hedgehog generator to a quickcheck generator</h2>
+
+<h3>Description</h3>
+
+<p>Convert a hedgehog generator to a quickcheck generator
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">from_hedgehog(generator)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>generator</code></td>
+<td>
+<p>A <code>hedgehog.internal.gen</code> object.</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>A <code>quickcheck_generator</code> object.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">is_even &lt;-
+  function(a) a %% 2L == 0L
+
+gen_powers_of_two &lt;-
+  hedgehog::gen.element(1:10) %&gt;% hedgehog::gen.with(function(a) 2 ^ a)
+
+for_all(
+  a = from_hedgehog(gen_powers_of_two),
+  property = function(a) is_even(a) %&gt;% testthat::expect_true()
+)
+</code></pre>
+
+
+</div>

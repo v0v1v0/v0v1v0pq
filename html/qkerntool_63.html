@@ -1,0 +1,143 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>cnds</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>CND Kernel Functions</h2>
+
+<h3>Description</h3>
+
+<p>The kernel generating functions provided in qkerntool. <br>
+The Non Linear Kernel <code class="reqn">k(x,y) = [exp(\alpha ||x||^2)+exp(\alpha||y||^2)-2exp(\alpha x'y)]/2</code>.<br>
+The Polynomial kernel <code class="reqn">k(x,y) = [(\alpha ||x||^2+c)^d+(\alpha ||y||^2+c)^d-2(\alpha x'y+c)^d]/2</code>.<br>
+The Gaussian kernel <code class="reqn">k(x,y) = 1-exp(-||x-y||^2/\gamma)</code>.<br>
+The Laplacian Kernel <code class="reqn">k(x,y) = 1-exp(-||x-y||/\gamma)</code>.<br>
+The ANOVA Kernel  <code class="reqn">k(x,y) = n-\sum exp(-\sigma (x-y)^2)^d</code>. <br>
+The Rational Quadratic Kernel <code class="reqn">k(x,y) = ||x-y||^2/(||x-y||^2+c)</code>. <br>
+The Multiquadric Kernel <code class="reqn">k(x,y) = \sqrt{(||x-y||^2+c^2)-c}</code>. <br>
+The Inverse Multiquadric Kernel <code class="reqn">k(x,y) = 1/c-1/\sqrt{||x-y||^2+c^2}</code>.<br>
+The Wave Kernel <code class="reqn">k(x,y) = 1-\frac{\theta}{||x-y||}\sin\frac{||x-y||}{\theta}</code>.<br>
+The d Kernel <code class="reqn">k(x,y) = ||x-y||^d</code>.<br>
+The Log Kernel <code class="reqn">k(x,y) = \log(||x-y||^d+1)</code>.<br>
+The Cauchy Kernel <code class="reqn">k(x,y) = 1-1/(1+||x-y||^2/\gamma)</code>.<br>
+The Chi-Square Kernel <code class="reqn">k(x,y) = \sum{2(x-y)^2/(x+y)}</code>.<br>
+The Generalized T-Student Kernel <code class="reqn">k(x,y) = 1-1/(1+||x-y||^d)</code>.<br>
+The normal Kernel <code class="reqn">k(x,y) = ||x-y||^2</code>.<br></p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">nonlcnd(alpha = 1)
+polycnd(d = 2, alpha = 1, c = 1)
+rbfcnd(gamma = 1)
+laplcnd(gamma = 1)
+anocnd(d = 2, sigma = 1)
+raticnd(c = 1)
+multcnd(c = 1)
+invcnd(c = 1)
+wavcnd(theta = 1)
+powcnd(d = 2)
+logcnd(d = 2)
+caucnd(gamma = 1)
+chicnd( )
+studcnd(d = 2)
+norcnd()
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>alpha</code></td>
+<td>
+<p>for the Non Linear cndkernel function "nonlcnd" and the Polynomial cndkernel function "polycnd".</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gamma</code></td>
+<td>
+<p>for the Radial Basis cndkernel function "rbfcnd" and the Laplacian cndkernel function "laplcnd" and the Cauchy cndkernel function "caucnd".</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sigma</code></td>
+<td>
+<p>for the ANOVA cndkernel function "anocnd".</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>theta</code></td>
+<td>
+<p>for the Wave cndkernel function "wavcnd".</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>c</code></td>
+<td>
+<p>for the Rational Quadratic cndkernel function "raticnd", the Polynomial cndkernel function "polycnd", the Multiquadric
+cndkernel function "multcnd" and the Inverse Multiquadric cndkernel function  "invcnd".</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>d</code></td>
+<td>
+<p>for the Polynomial cndkernel function "polycnd", the ANOVA cndkernel function "anocnd", the cndkernel function "powcnd", the Log cndkernel function "logcnd" and the Generalized T-Student cndkernel function "studcnd".</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The kernel generating functions are used to initialize a kernel
+function which calculates the kernel function value between two feature vectors in a
+Hilbert Space. These functions can be passed as a <code>qkernel</code> argument on almost all
+functions in <span class="pkg">qkerntool</span>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Return an S4 object of class <code>cndkernel</code> which extents the
+<code>function</code> class. The resulting function implements the given
+kernel calculating the kernel function value between two vectors.
+</p>
+<table><tr style="vertical-align: top;">
+<td><code>qpar</code></td>
+<td>
+<p>a list containing the kernel parameters (hyperparameters)
+used.</p>
+</td>
+</tr></table>
+<p>The kernel parameters can be accessed by the <code>qpar</code> function.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Yusen Zhang<br><a href="mailto:yusenzhang@126.com">yusenzhang@126.com</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code>cndkernmatrix</code>, <code>qkernmatrix</code></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">cndkfunc &lt;- rbfcnd(gamma = 1)
+cndkfunc
+
+qpar(cndkfunc)
+
+## create two vectors
+x &lt;- rnorm(10)
+y &lt;- rnorm(10)
+
+## calculate dot product
+cndkfunc(x,y)
+
+</code></pre>
+
+
+</div>

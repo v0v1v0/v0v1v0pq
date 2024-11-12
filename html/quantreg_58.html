@@ -1,0 +1,62 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>lm.fit.recursive</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2> Recursive Least Squares </h2>
+
+<h3>Description</h3>
+
+<p>This function fits a linear model by recursive least squares.  It is
+a utility routine for the <code>KhmaladzeTest</code> function of the quantile regression
+package.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">lm.fit.recursive(X, y, int=TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>X</code></td>
+<td>
+<p> Design Matrix </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p> Response Variable</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>int</code></td>
+<td>
+<p> if TRUE then append intercept to X</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>return p by n matrix of fitted parameters, where p. The
+ith column gives the solution up to "time" i. 
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> R. Koenker </p>
+
+
+<h3>References</h3>
+
+<p> A. Harvey, (1993) Time Series Models, MIT </p>
+
+
+</div>

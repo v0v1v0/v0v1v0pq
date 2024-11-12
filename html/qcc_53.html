@@ -1,0 +1,84 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qcc.overdispersion.test</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Overdispersion test for binomial and poisson data</h2>
+
+<h3>Description</h3>
+
+<p>This function allows to test for overdispersed data in the binomial and poisson case.</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qcc.overdispersion.test(x, size, type=ifelse(missing(size), "poisson", "binomial"))
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a vector of observed data values</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>size</code></td>
+<td>
+<p>for binomial data, a vector of sample sizes</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>type</code></td>
+<td>
+<p>a character string specifying the distribution for testing, either <code>"poisson"</code> or <code>"binomial"</code>. By default, if <code>size</code> is provided a binomial distributed is assumed, otherwise a poisson distribution.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>This very simple test amounts to compute the statistic 
+</p>
+
+<table><tr>
+<td style="text-align: center;">
+D = Observed variance / Theoretical variance <code class="reqn">\times</code> (no. observations - 1)</td>
+</tr></table>
+<p>and refer this to a Chi-square distribution with (no. observations - 1) degrees of freedom.</p>
+
+
+<h3>Value</h3>
+
+<p>The function returns a matrix of results.</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Luca Scrucca</p>
+
+
+<h3>References</h3>
+
+<p>Wetherill, G.B. and Brown, D.W. (1991) <em>Statistical Process
+Control</em>, New York, Chapman and Hall, pp. 216–218</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># data from Wetherill and Brown (1991) pp. 212--213, 216--218:
+x &lt;- c(12,11,18,11,10,16,9,11,14,15,11,9,10,13,12,
+       8,12,13,10,12,13,16,12,18,16,10,16,10,12,14)
+size &lt;- rep(50, length(x))
+qcc.overdispersion.test(x,size)
+
+x &lt;- c(11,8,13,11,13,17,25,23,11,16,9,15,10,16,12,
+       8,9,15,4,12,12,12,15,17,14,17,12,12,7,16)
+qcc.overdispersion.test(x)
+</code></pre>
+
+
+</div>

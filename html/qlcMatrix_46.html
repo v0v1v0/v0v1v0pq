@@ -1,0 +1,191 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>sim.words</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Similarity-measures for words between two languages, based on co-occurrences in parallel text
+</h2>
+
+<h3>Description</h3>
+
+<p>Based on co-occurrences in a parallel text, this convenience function (a wrapper around various other functions from this package) efficiently computes something close to translational equivalence.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">sim.words(text1, text2 = NULL, method = res, weight = NULL, 
+	lowercase = TRUE, best = FALSE, tol = 0)</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>text1, text2</code></td>
+<td>
+
+<p>Vectors of strings representing sentences. The names of the vectors should contain IDs that identify the parallelism between the two texts. If there are no specific names, the function assumes that the two vectors are perfectly parallel. Within the strings, wordforms are simply separated based on spaces (i.e. everything between two spaces is a wordform). For more details about the format-assumptions, see <code>splitText</code>, which is used internally here.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+
+<p>Method to be used as a co-occurrence statistic. See <code>assocSparse</code> for a detailed presentation of the available methods. It is possible to define your own statistic, when it can be formulated as a function of observed and expected frequencies.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>weight</code></td>
+<td>
+
+<p>When <code>weight</code> is specified, the function <code>cosSparse</code> is used for the co-occurrence statistics (with a Euclidean normalization, i.e. <code>norm2</code>). The specified weight function will be used, currently <code>idf</code>, <code>sqrt</code>, and <code>none</code> are available. For more details, and for instructions how to formulate your own weight function, see the discussion at <code>cosSparse</code>. When <code>weight</code> is specified, any specification of <code>method</code> is ignored.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lowercase</code></td>
+<td>
+
+<p>Should all words be turned into lowercase? See <code>splitText</code> for discussion how this is implemented.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>best</code></td>
+<td>
+
+<p>When <code>best = T</code>, an additional sparse matrix is returned with a (simplistic) attempt to find the best translational equivalents between the texts.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tol</code></td>
+<td>
+
+<p>Tolerance: remove all values between <code>-tol</code> and <code>+tol</code> in the result. Low values can mostly be ignored for co-occurrence statistics without any loss of information. However, what is considered ‘low’ depends on the methods used to calculate the statistics. See discussion below.
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Care is taken in this function to match multiple verses that are translated into one verse, see <code>bibles</code> for a survey of the encoding assumptions taken here.
+</p>
+<p>The parameter <code>method</code> can take anything that is also available for <code>assocSparse</code>. Similarities are computed using that function.
+</p>
+<p>When <code>weight</code> is specified, the similarities are computed using <code>cosSparse</code> with default setting of <code>norm = norm2</code>. All available weights can also be used here.
+</p>
+<p>The option <code>best = T</code> uses <code>rowMax</code> and <code>colMax</code>. This approach to get the ‘best’ translation is really crude, but it works reasonably well with one-to-one and many-to-one situations. This option takes rather a lot more time to finish, as row-wise maxima for matrices is not trivial to optimize. Consider raising <code>tol</code>, as this removes low values that won't be important for the maxima anyway. See examples below.
+</p>
+<p>Guidelines for the value of <code>tol</code> are difficult to give, as it depends on the method used, but also on the distribution of the data (i.e. the number of sentences, and the frequency distribution of the words in the text). Some suggestions:
+</p>
+
+<ul>
+<li>
+<p>when <code>weight</code> is specified, results range between -1 and +1. Then <code>tol = 0.1</code> should never lead to problems, but often even <code>tol = 0.3</code> or higher will lead to identical results.
+
+</p>
+</li>
+<li>
+<p>when <code>weight</code> is not specified (i.e. <code>assocSparse</code> will be used), then results range between <code>-inf</code> and <code>+inf</code>, so the tolerance is more problematic. In general, <code>tol = 2</code> seems to be unproblematic. Higher tolerance, e.g. <code>tol = 10</code> can be used to find the ‘obvious’ translations, but you will loose some of the more incidental co-occurrences.
+
+</p>
+</li>
+</ul>
+<h3>Value</h3>
+
+<p>When <code>best = F</code>, a single sparse matrix is returned of type <code>dgCMatrix</code> with the values of the statistic chosen. All unique wordforms of text1 are included as row names, and those from text2 as column names.
+</p>
+<p>When <code>best = T</code>, a list of two sparse matrices is returned:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>sim</code></td>
+<td>
+<p>the same matrix as above</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>best</code></td>
+<td>
+<p>a sparse pattern matrix of type <code>ngCMatrix</code> with the same dimensions as the previous matrix. Only the ‘best’ translations between the two languages are marked</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Michael Cysouw
+</p>
+
+
+<h3>References</h3>
+
+<p>Mayer, Thomas and Michael Cysouw. 2012. Language comparison through sparse multilingual word alignment. <em>Proceedings of the EACL 2012 Joint Workshop of LINGVIS &amp; UNCLH</em>, 54–62. Avignon: Association for Computational Linguistics.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>splitText</code>, <code>assocSparse</code> and <code>cosSparse</code> are the central parts of this function. Also check <code>rowMax</code>, which is used to extract the ‘best’ translations.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(bibles)
+
+# ----- small example of co-occurrences -----
+
+# as an example, just take partially overlapping parts of two bibles
+# sim.words uses the names to get the paralellism right, so this works
+eng &lt;- bibles$eng[1:5000]
+deu &lt;- bibles$deu[2000:7000]
+sim &lt;- sim.words(eng, deu, method = res)
+
+# but the statistics are not perfect (because too little data)
+# sorted co-occurrences for the english word "your" in German:
+sort(sim["your",], decreasing = TRUE)[1:10]
+
+
+# ----- complete example of co-occurrences -----
+
+# running the complete bibles takes a bit more time (but still manageable)
+system.time(sim &lt;- sim.words(bibles$eng, bibles$deu, method = res))
+
+# results are much better
+# sorted co-occurrences for the english word "your" in German:
+sort(sim["your",], decreasing = TRUE)[1:10]
+
+
+# ----- look for 'best' translations -----
+
+# note that selecting the 'best' takes even more time
+system.time(sim2 &lt;- sim.words(bibles$eng, bibles$deu, method = res, best = TRUE))
+
+# best co-occurrences for the English word "your"
+which(sim2$best["your",])
+
+# but can be made faster by removing low values
+# (though the boundary in \code{tol =  5} depends on the method used
+system.time(sim3 &lt;- sim.words(bibles$eng, bibles$deu, best = TRUE, method = res, tol = 5))
+
+# note that the decision on the 'best' remains the same here
+all.equal(sim2$best, sim3$best)
+
+
+# ----- computations also work with other languages -----
+
+# All works completely language-independent
+# translations for 'we' in Tagalog:
+sim &lt;- sim.words(bibles$eng, bibles$tgl, best = TRUE, weight = idf, tol = 0.1)
+which(sim$best["we",])
+
+</code></pre>
+
+
+</div>

@@ -1,0 +1,70 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>nscrabble</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Count the Scrabble letter values of text</h2>
+
+<h3>Description</h3>
+
+<p>Tally the Scrabble letter values of text given a user-supplied function, such
+as the sum (default) or mean of the character values.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">nscrabble(x, FUN = sum)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a character vector</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>FUN</code></td>
+<td>
+<p>function to be applied to the character values in the text;
+default is <code>sum</code>, but could also be <code>mean</code> or a user-supplied
+function.  Missing values are automatically removed.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>a (named) integer vector of Scrabble letter values, computed using
+<code>FUN</code>, corresponding to the input text(s)
+</p>
+
+
+<h3>Note</h3>
+
+<p>Character values are only defined for non-accented Latin a-z, A-Z
+letters.  Lower-casing is unnecessary.
+</p>
+<p>We would be happy to add more languages to this <em>extremely useful
+function</em> if you send us the values for your language!
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Kenneth Benoit
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">nscrabble(c("muzjiks", "excellency"))
+nscrabble(quanteda::data_corpus_inaugural[1:5], mean)
+</code></pre>
+
+
+</div>

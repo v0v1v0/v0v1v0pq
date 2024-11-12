@@ -1,0 +1,98 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>diet_obj_func</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Diet estimation objective function</h2>
+
+<h3>Description</h3>
+
+<p>The utility function <code>diet_obj_func</code> computes the distance between an
+observed fatty acid signature and a modeled signature computed as a mixture
+of mean prey signatures.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">diet_obj_func(diet, obs_sig, mean_sigs, dist_meas = 1, gamma = 1)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>diet</code></td>
+<td>
+<p>A numeric vector of diet composition.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>obs_sig</code></td>
+<td>
+<p>A numeric vector containing an observed fatty acid signature.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mean_sigs</code></td>
+<td>
+<p>A numeric matrix of the mean fatty acid signature for each
+prey type in the prey library, in column-major format.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dist_meas</code></td>
+<td>
+<p>An integer indicator of the distance measure to compute.
+Default value 1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gamma</code></td>
+<td>
+<p>The power parameter of the chi-square distance measure. Default
+value 1.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>The distance between the observed and modeled signatures.
+</p>
+
+
+<h3>Details</h3>
+
+<p>This is an internal utility function.  Consequently, to increase execution
+speed, no numeric error checking is performed within <code>diet_obj_func</code>.
+Rather, error checking is presumed to have occurred at a higher level in the
+calling sequence.
+</p>
+<p>The argument <code>obs_sig</code> is presumed to be a fatty acid signature that has
+been prepared for analysis, which is best accomplished by a call to the
+function <code>prep_sig</code> with the predator data  frame.  Similarly,
+the contents of <code>mean_sig</code> should be mean signatures computed from
+signatures that were prepared for analysis by call to the function
+<code>prep_sig</code>.
+</p>
+<p>The argument <code>diet</code> is presumed to contain non-negative proportions that
+sum to 1.0.
+</p>
+<p>The arguments <code>dist_meas</code> and <code>gamma</code> must be compatible with the
+function <code>dist_between_2_sigs</code>.
+</p>
+<p>Please refer to the vignette and documentation for the functions
+<code>prep_sig</code>, <code>sig_scale</code>, and
+<code>dist_between_2_sigs</code> for additional details.
+</p>
+<p><code>diet_obj_func</code> models a predator signature as a mixture of the mean
+prey-type signatures, with the diet proportions as the mixture proportions,
+returning the distance between the observed and modeled signatures.  The
+diet composition of a predator is estimated by minimizing this function with
+respect to the <code>diet</code> using the function Rsolnp::solnp.
+</p>
+
+
+</div>

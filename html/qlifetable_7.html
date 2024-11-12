@@ -1,0 +1,234 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>crude_mx</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Data frame(s) of crude estimates of quarterly (and annual) central rates of mortality estimated from quarterly summary statistics.</h2>
+
+<h3>Description</h3>
+
+<p>Computes for a general/insured population crude estimates of quarterly (and annual)
+central rates of mortality by age (in a set of integer ages) for each combination
+of age and calendar quarter, given data sets of times exposed-at-risk of
+stocks of population and of number of deaths by each integer age for
+each combination of age and seasonal quarter, along with data sets of times
+exposed-at-risk (or non-exposed) of immigrants/new policies, emigrants/exits/deaths
+and/or newborns.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">crude_mx(
+  time.stock,
+  events.death,
+  time.death = NULL,
+  time.outs = NULL,
+  time.ins = NULL,
+  time.birth = NULL,
+  type = "forward",
+  annual = FALSE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>time.stock</code></td>
+<td>
+<p>A data frame containing the total exposure-at-risk times for the stock of
+the population/portfolio, measured either since the start of the year ('type = "forward"')
+or from the end of the year ('type = "backward"') throughout the target period (typically a year).
+This data frame must contain the times for a set of consecutive integer ages
+for each combination of age and season/calendar quarter. Typically, this data
+frame is an output of the function <code>time_exposed_stock</code> or a data frame
+with the same structure. The set of consecutive integer ages in this object determines the
+range of ages for which crude rates of mortality are estimated by the function.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>events.death</code></td>
+<td>
+<p>A data frame with the number of deaths recorded in the population/portfolio
+during the target period (typically a year) in a set of integer ages for each combination of age
+and season/calendar quarter. Typically, this is an output of the function
+<code>count_events_quarter</code> or a data frame with the same structure.
+If the range of ages does not cover the range of ages in 'time.stock',
+zeros are imputed  for the missing ages.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>time.death</code></td>
+<td>
+<p>A data frame containing either the total non-exposure-at-risk times (when
+'type = "forward"') or the total exposure-at-risk times (when 'type = "backward"')
+during the target period of the deaths recorded in the population/portfolio.
+Typically, this data frame is an output of the function <code>time_exposed_ins</code>
+when 'type = "forward"' or an output of the function <code>time_exposed_outs</code>
+when 'type = "backward"' or a data frame with the same structure. Default, 'NULL'.
+If no 'time.death' data.frame is provided the total (non-) exposure-at-risk times
+are computed using the information in 'events.death' under the hypothesis of
+uniform distribution of deaths within each age-calendar quarter.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>time.outs</code></td>
+<td>
+<p>A data frame containing either the total non-exposure-at-risk times (when
+'type = "forward"') or the total exposure-at-risk times (when 'type = "backward"')
+during the target period of the emigrants/exits recorded in the population/portfolio.
+Typically, this data frame is an output of the function <code>time_exposed_ins</code>
+when 'type = "forward"' or an output of the function <code>time_exposed_outs</code>
+when 'type = "backward"' or a data frame with the same structure. Default, 'NULL'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>time.ins</code></td>
+<td>
+<p>A data frame containing either the total exposure-at-risk times (when
+'type = "forward"') or the total non-exposure-at-risk times (when 'type = "backward"')
+during the target period (typically a year) of the immigrants/new policies recorded in the population/portfolio.
+Typically, this data frame is an output of the function <code>time_exposed_ins</code>
+when 'type = "forward"' and an output of the function <code>time_exposed_outs</code>
+when 'type = "backward"' or a data frame with the same structure. Default, 'NULL'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>time.birth</code></td>
+<td>
+<p>A data frame containing the total exposure-at-risk times of the newborns recorded in
+the population during the target period. Typically, this data frame is an output of the
+function <code>time_exposed_newborns</code> or a data frame with the same structure.
+Default, 'NULL'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>type</code></td>
+<td>
+<p>A character string informing if the total time exposed to risk of the stock of
+population/portfolio has been computed since the beginning of the year ('"forward"') or
+from the end of the year ('"backward"'). Default, '"forward"'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>annual</code></td>
+<td>
+<p>A character string informing whether the annual crude central rates of mortality
+should also be computed. Default, 'FALSE'.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>When 'annual = FALSE' a data frame with estimated crude central rates of mortality for the set
+of integer ages determined by 'time.stock' for each combination of age and
+calendar quarter. The data frame has the following components:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>age</code></td>
+<td>
+<p> Integer age to which the crude central rate of mortality corresponds.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>quarter.age</code></td>
+<td>
+<p> Age quarter to which the crude central rate of mortality corresponds.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>quarter.calendar</code></td>
+<td>
+<p> Calendar (time, season) quarter to which the crude central rate of mortality corresponds.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>exposed</code></td>
+<td>
+<p> Total exposure-at-risk times in the target population for each combination of 'age', 'quarter.age' and 'quarter.calendar'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>deaths</code></td>
+<td>
+<p> Number of deaths in the target population for each  combination of 'age', 'quarter.age' and 'quarter.calendar'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mx</code></td>
+<td>
+<p> Estimated crude central rate of mortality corresponding to the combination of 'age', 'quarter.age' and 'quarter.calendar'.</p>
+</td>
+</tr>
+</table>
+<p>When 'annual = TRUE' the output is a list with two data frames 'mx.quarterly' and 'mx.annual'.
+'mx.quarterly' is a data frame with the estimated quarterly crude central rates of mortality as just described and
+'mx.annual' is the corresponding data frame with the estimated annual crude central rates of mortality.
+</p>
+
+
+<h3>Note</h3>
+
+<p>First, it is the responsibility of the user to assure that all the times exposed-at-risk and number of events
+correspond to the same target period (typically, the same year).
+Second, If the date of reference of the stock of population/portfolio is the beginning of the year ('type = "forward"'),
+the total time exposed at risk for each integer age in each age and calendar quarter is computed through:
+time_exposed_stock(P) + time_exposed_ins(I) - time_exposed_ins(E) - time_exposed_ins(D) + time_exposed_newborns(B).
+On the other hand, if the stock of population/portfolio is referenced at the end of the target year
+('type = "backward"'), the total time exposed at risk for each age in each age and seasonal quarter is
+computed slightly different: time_exposed_stock(P) - time_exposed_outs(I) + time_exposed_outs(E) + time_exposed_outs(D).
+In the above expressions P, I, E, D and B represent, respectively, stocks of population/portfolio,
+immigrants/new policies, emigrants/exits, deaths and births after being transformed using the
+function <code>quarterly_variables</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jose M. Pavia <a href="mailto:pavia@uv.es">pavia@uv.es</a>
+</p>
+<p>Josep Lledo <a href="mailto:josep.lledo@uv.es">josep.lledo@uv.es</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Pavia, JM and Lledo, J (2022). Estimation of the Combined Effects of Ageing and Seasonality on Mortality Risk. An application to Spain. *Journal of the Royal Statistical Society, Series A (Statistics in Society)*, 185(2), 471-497. <a href="https://doi.org/10.1111/rssa.12769">doi:10.1111/rssa.12769</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>crude_mx_sh2</code>, <code>crude_mx_sh2</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+# Do not run, it can take a while
+ t.stock &lt;- time_exposed_stock(pop_2006$date.birth, 2006, "forward")
+ t.stock &lt;- t.stock[t.stock$age &lt;= 100, ]
+ temp &lt;- quarterly_variables(death_2006$date.birth, death_2006$date.death)
+ e.death &lt;- count_events_quarter(temp)
+ e.death &lt;- e.death[e.death$age &lt;= 100, ]
+ t.birth &lt;- time_exposed_newborns(birth_2006$date.birth)
+ out &lt;- crude_mx(t.stock, e.death, time.birth = t.birth)
+
+## End(Not run)
+dates.b &lt;- c("2017-05-13", "2018-04-12", "2018-12-01")
+t.stock &lt;- time_exposed_stock(dates.b, year = 2020, type = "backward")
+dates.bd &lt;- c("2018-04-12")
+dates.d &lt;- c("2020-05-23")
+x &lt;- quarterly_variables(dates.bd, dates.d)
+e.death &lt;- count_events_quarter(x)
+t.death &lt;- time_exposed_outs(x)
+out &lt;- crude_mx(t.stock, e.death, t.death)
+</code></pre>
+
+
+</div>

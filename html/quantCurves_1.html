@@ -1,0 +1,63 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>bandwidth</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>bandwidth selection function</h2>
+
+<h3>Description</h3>
+
+<p>bandwidth selection function
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">bandwidth(x, y, method = "CV")
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>the explanatory variable - numeric</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>the response variable - numeric</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+<p>the bandwidth method choice: CV or plug-in. Default is CV.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Calculates the bandwidth value using cross validation or plug-in method
+(for localLin and localCst methods)
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">#create a data frame
+example&lt;-data.frame(sample(30:42,10,rep=TRUE),sample(800:5000,10,rep=TRUE))
+colnames(example)&lt;-c("Gestational Age in weeks","Weight in gramms")
+x&lt;-example$`Gestational Age in weeks`
+y&lt;-example$`Weight in gramms`
+#calculate the window value
+bandwidth(x,y)
+
+</code></pre>
+
+
+</div>

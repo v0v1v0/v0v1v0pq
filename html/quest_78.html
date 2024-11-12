@@ -1,0 +1,91 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>mode2</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Statistical Mode of a Numeric Vector</h2>
+
+<h3>Description</h3>
+
+<p><code>mode2</code> calculates the statistical mode - a measure of central tendancy
+- of a numeric vector. This is in contrast to <code>mode</code> in base R,
+which returns the storage mode of an object. In the case multiple modes
+exist, the <code>multiple</code> argument allows the user to specify if they want
+the multiple modes returned or just one.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">mode2(x, na.rm = FALSE, multiple = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>atomic vector</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>na.rm</code></td>
+<td>
+<p>logical vector of length 1 specifying if missing values should
+be removed from <code>x</code> before calculating its frequencies.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>multiple</code></td>
+<td>
+<p>logical vector of length 1 specifying if multiple modes
+should be returned in the case they exist. If multiple modes exist and
+<code>multiple</code> = TRUE, the multiple modes will be returned in alphanumeric
+order. If multiple modes exist and <code>multiple</code> = TRUE, the first mode
+in alphanumeric order will be returned. Note, NA is always last in the
+alphanumeric order. If only one mode exists, then the <code>multiple</code>
+argument is not used.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>atomic vector of the same storage mode as <code>x</code> providing the
+statistical mode(s).
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>freq</code>
+<code>table</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+# ONE MODE
+vec &lt;- c(7,8,9,7,8,9,9)
+mode2(vec)
+mode2(vec, multiple = TRUE)
+
+# TWO MODES
+vec &lt;- c(7,8,9,7,8,9,8,9)
+mode2(vec)
+mode2(vec, multiple = TRUE)
+
+# WITH NA
+vec &lt;- c(7,8,9,7,8,9,NA,9)
+mode2(vec)
+mode2(vec, na.rm = TRUE)
+vec &lt;- c(7,8,9,7,8,9,NA,9,NA,NA)
+mode2(vec)
+mode2(vec, multiple = TRUE)
+</code></pre>
+
+
+</div>

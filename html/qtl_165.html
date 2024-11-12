@@ -1,0 +1,65 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>nqrank</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Transform a vector of quantitative values to the corresponding
+normal quantiles</h2>
+
+<h3>Description</h3>
+
+<p>Transform a vector of quantitative values to the corresponding normal
+quantiles (preserving the mean and SD).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">nqrank(x, jitter)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>A numeric vector</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>jitter</code></td>
+<td>
+<p>If TRUE, randomly jitter the values to break ties.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A numeric vector; the input <code>x</code> is converted to ranks and then to
+normal quantiles.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Karl W Broman, <a href="mailto:broman@wisc.edu">broman@wisc.edu</a>
+</p>
+
+
+<h3>See Also</h3>
+
+ <p><code>rank</code>, <code>qnorm</code>, <code>transformPheno</code> </p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(hyper)
+
+hyper &lt;- transformPheno(hyper, pheno.col=1, transf=nqrank)
+</code></pre>
+
+
+</div>

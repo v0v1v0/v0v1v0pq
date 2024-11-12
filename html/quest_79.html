@@ -1,0 +1,87 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>ncases</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Number of Cases in Data</h2>
+
+<h3>Description</h3>
+
+<p><code>ncases</code> counts how many cases in a data.frame there are that have
+a specified frequency of observed values across a set of columns. This function
+is similar to <code>nrow</code> and is essentially <code>partial.cases</code> + <code>sum</code>. The user
+can have <code>ncases</code> return the number of complete cases by calling <code>ov.min = 1</code>,
+<code>prop = TRUE</code>, and <code>inclusive = TRUE</code> (the default).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">ncases(data, vrb.nm = names(data), ov.min = 1, prop = TRUE, inclusive = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>data.frame or matrix of data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vrb.nm</code></td>
+<td>
+<p>a character vector of colnames from <code>data</code> specifying the variables.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ov.min</code></td>
+<td>
+<p>minimum frequency of observed values required per row. If
+<code>prop</code> = TRUE, then this is a decimal between 0 and 1. If <code>prop</code> = FALSE,
+then this is a integer between 0 and <code>length(vrb.nm)</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>prop</code></td>
+<td>
+<p>logical vector of length 1 specifying whether <code>ov.min</code> should
+refer to the proportion of observed values (TRUE) or the count of observed
+values (FALSE).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>inclusive</code></td>
+<td>
+<p>logical vector of length 1 specifying whether the case should
+be included if the frequency of observed values in a row is exactly equal to <code>ov.min</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>integer vector of length 1 providing the nrow in <code>data</code> with the given amount of observed values.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>partial.cases</code>
+<code>nrow</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">vrb_nm &lt;- c("Ozone","Solar.R","Wind")
+nrow(airquality[vrb_nm]) # number of cases regardless of missing data
+sum(complete.cases(airquality[vrb_nm])) # number of complete cases
+ncases(data = airquality, vrb.nm = c("Ozone","Solar.R","Wind"),
+   ov.min = 2/3) # number of rows with at least 2 of the 3 variables observed
+</code></pre>
+
+
+</div>

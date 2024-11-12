@@ -1,0 +1,160 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>freq</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Univariate Frequency Table</h2>
+
+<h3>Description</h3>
+
+<p><code>freq</code> creates univariate frequency tables similar to <code>table</code>. It
+differs from <code>table</code> by allowing for custom sorting by something other
+than the alphanumerics of the unique values as well as returning an atomic
+vector rather than a 1D-array.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">freq(
+  x,
+  exclude = if (useNA == "no") c(NA, NaN),
+  useNA = "always",
+  prop = FALSE,
+  sort = "frequency",
+  decreasing = TRUE,
+  na.last = TRUE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>atomic vector or list vector. If not a vector, it will be coerced to
+a vector via <code>as.vector</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>exclude</code></td>
+<td>
+<p>unique values of <code>x</code> to exclude from the returned table.
+If NULL, then missing values are always included in the returned table. See
+<code>table</code> for documentation on the same argument.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>useNA</code></td>
+<td>
+<p>character vector of length 1 specifying how to handle missing
+values (i.e., whether to include NA as an element in the returned table).
+There are three options: 1) "no" = don't include missing values in the
+table, 2) "ifany" = include missing values if there are any, 3) "always" =
+include missing values in the table, regardless of whether there are any or
+not. See <code>table</code> for documentation on the same argument.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>prop</code></td>
+<td>
+<p>logical vector of length 1 specifying whether the returned table
+should include counts (FALSE) or proportions (TRUE). If NAs are excluded
+(e.g., useNA = "no" or exclude = c(NA, NaN)), then the proportions will be
+based on the number of observed elements.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sort</code></td>
+<td>
+<p>character vector of length 1 specifying how the returned table
+will be sorted. There are three options: 1) "frequency" = the frequency of
+the unique values in <code>x</code>, 2) "position" = the position when each
+unique value first appears in <code>x</code>, 3) "alphanum" = alphanumeric
+ordering of the unique values in <code>x</code> (the sorting used by
+<code>table</code>). When "frequency" is specified and there are ties, then the
+ties are sorted alphanumerically.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>decreasing</code></td>
+<td>
+<p>logical vector of length 1 specifying whether the table
+should be sorted in decreasing (TRUE) or increasing (FALSE) order.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>na.last</code></td>
+<td>
+<p>logical vector of length 1 specifying whether the table should
+have NAs last or in whatever position they end up at. This argument is only
+relevant if NAs exist in <code>x</code> and are included in the table (e.g.,
+useNA = "always" or exclude = NULL).</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The name for the table element giving the frequency of missing values is
+"(NA)". This is different from <code>table</code> where the name is
+<code>NA_character_</code>. This change allows for the sorting of tables that
+include missing values, as subsetting in R is not possible with
+<code>NA_character_</code> names. In future versions of the package, this might
+change as it should be possible to avoid this issue by subetting with a
+logical vector or integer indices instead of names. However, it is convenient
+to be able to subset the return object fully by names.
+</p>
+
+
+<h3>Value</h3>
+
+<p>numeric vector of frequencies as either counts (if <code>prop</code> =
+FALSE) or proportions (if <code>prop</code> = TRUE) with the unique values of
+<code>x</code> as names (missing values have name = "(NA)"). Note, this is
+different from <code>table</code>, which returns a 1D-array and has class
+"table".
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>freqs</code>
+<code>freq_by</code>
+<code>freqs_by</code>
+<code>table</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">freq(c(mtcars$"carb", NA, NA, mtcars$"gear"), prop = FALSE,
+   sort = "frequency", decreasing = TRUE, na.last = TRUE)
+freq(c(mtcars$"carb", NA, NA, mtcars$"gear"), prop = FALSE,
+   sort = "frequency", decreasing = TRUE, na.last = FALSE)
+freq(c(mtcars$"carb", NA, NA, mtcars$"gear"), prop = TRUE,
+   sort = "frequency", decreasing = FALSE, na.last = TRUE)
+freq(c(mtcars$"carb", NA, NA, mtcars$"gear"), prop = TRUE,
+   sort = "frequency", decreasing = FALSE, na.last = FALSE)
+freq(c(mtcars$"carb", NA, NA, mtcars$"gear"), prop = FALSE,
+   sort = "position", decreasing = TRUE, na.last = TRUE)
+freq(c(mtcars$"carb", NA, NA, mtcars$"gear"), prop = FALSE,
+   sort = "position", decreasing = TRUE, na.last = FALSE)
+freq(c(mtcars$"carb", NA, NA, mtcars$"gear"), prop = TRUE,
+   sort = "position", decreasing = FALSE, na.last = TRUE)
+freq(c(mtcars$"carb", NA, NA, mtcars$"gear"), prop = TRUE,
+   sort = "position", decreasing = FALSE, na.last = FALSE)
+freq(c(mtcars$"carb", NA, NA, mtcars$"gear"), prop = FALSE,
+   sort = "alphanum", decreasing = TRUE, na.last = TRUE)
+freq(c(mtcars$"carb", NA, NA, mtcars$"gear"), prop = FALSE,
+   sort = "alphanum", decreasing = TRUE, na.last = FALSE)
+freq(c(mtcars$"carb", NA, NA, mtcars$"gear"), prop = TRUE,
+   sort = "alphanum", decreasing = FALSE, na.last = TRUE)
+freq(c(mtcars$"carb", NA, NA, mtcars$"gear"), prop = TRUE,
+   sort = "alphanum", decreasing = FALSE, na.last = FALSE)
+</code></pre>
+
+
+</div>

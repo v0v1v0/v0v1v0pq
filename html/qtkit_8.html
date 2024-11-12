@@ -1,0 +1,74 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>get_archive_data</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Download an archive file and unarchive its contents</h2>
+
+<h3>Description</h3>
+
+<p>Possible file types include .zip, .gz, .tar, and .tgz
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">get_archive_data(url, target_dir, force = FALSE, confirmed = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>url</code></td>
+<td>
+<p>A character vector representing the full url to
+the compressed file</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>target_dir</code></td>
+<td>
+<p>The directory where the archive file should be downloaded</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>force</code></td>
+<td>
+<p>An optional argument which forcefully overwrites existing data</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>confirmed</code></td>
+<td>
+<p>If <code>TRUE</code>, the user has confirmed that they have
+permission to use the data.
+If <code>FALSE</code>, the function will prompt the user to confirm permission.
+Setting this to <code>TRUE</code> is useful for reproducible workflows.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>NULL, the archive file is unarchived in the target directory
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+data_dir &lt;- file.path(tempdir(), "data")
+url &lt;-
+ "https://raw.githubusercontent.com/qtalr/qtkit/main/inst/extdata/test_data.zip"
+get_archive_data(
+ url = url,
+ target_dir = data_dir,
+ confirmed = TRUE)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

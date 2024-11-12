@@ -1,0 +1,81 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>SmoothedPG-class</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Class for a smoothed quantile periodogram.</h2>
+
+<h3>Description</h3>
+
+<p><code>SmoothedPG</code> is an S4 class that implements the necessary
+calculations to determine a smoothed version of one of the quantile
+periodograms defined in Dette et. al (2015), Kley et. al (2016) and
+Barunik&amp;Kley (2015).
+</p>
+
+
+<h3>Details</h3>
+
+<p>For a <code>QuantilePG</code> <code class="reqn">Q^{j_1, j_2}_n(\omega, x_1, x_2)</code> and
+a <code>Weight</code> <code class="reqn">W_n(\cdot)</code> the smoothed version
+</p>
+<p style="text-align: center;"><code class="reqn">\frac{2\pi}{n} \sum_{s=1}^{n-1} W_n(\omega-2\pi s / n) Q^{j_1, j_2}_n(2\pi s / n, x_1, x_2)</code>
+</p>
+
+<p>is determined.
+</p>
+<p>The convolution required to determine the smoothed periodogram is implemented
+using <code>convolve</code>.
+</p>
+
+
+<h3>Slots</h3>
+
+
+<dl>
+<dt><code>env</code></dt>
+<dd>
+<p>An environment to allow for slots which need to be
+accessable in a call-by-reference manner:
+</p>
+
+<dl>
+<dt><code>sdNaive</code></dt>
+<dd>
+<p>An array used for storage of the naively
+estimated standard deviations of the smoothed periodogram.</p>
+</dd>
+<dt><code>sdNaive.freq</code></dt>
+<dd>
+<p>a vector indicating for which frequencies
+<code>sdNaive</code> has been computed so far.</p>
+</dd>
+<dt><code>sdNaive.done</code></dt>
+<dd>
+<p>a flag indicating whether <code>sdNaive</code>
+has been set yet.</p>
+</dd>
+<dt><code>sdBoot</code></dt>
+<dd>
+<p>An array used for storage of the standard
+deviations of the smoothed periodogram, estimated via
+bootstrap.</p>
+</dd>
+<dt><code>sdBoot.done</code></dt>
+<dd>
+<p>a flag indicating whether
+<code>sdBoot.naive</code> has been set yet.</p>
+</dd>
+</dl>
+</dd>
+<dt><code>qPG</code></dt>
+<dd>
+<p>the <code>QuantilePG</code> to be smoothed</p>
+</dd>
+<dt><code>weight</code></dt>
+<dd>
+<p>the <code>Weight</code> to be used for smoothing</p>
+</dd>
+</dl>
+</div>

@@ -1,0 +1,64 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>strip.partials</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Strip partially informative genotypes</h2>
+
+<h3>Description</h3>
+
+<p>Replace all partially informative genotypes (e.g., dominant markers in
+an intercross) with missing values.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">strip.partials(cross, verbose=TRUE)</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>cross</code></td>
+<td>
+<p>An object of class <code>cross</code>. See
+<code>read.cross</code> for details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p>If TRUE, print the number of genotypes removed.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>The same class <code>cross</code> object as in the input, but with partially
+informative genotypes made missing.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Karl W Broman, <a href="mailto:broman@wisc.edu">broman@wisc.edu</a> </p>
+
+
+<h3>See Also</h3>
+
+ <p><code>plotMissing</code>, <code>plotInfo</code> </p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(listeria)
+sum(nmissing(listeria))
+listeria &lt;- strip.partials(listeria)
+sum(nmissing(listeria))
+</code></pre>
+
+
+</div>

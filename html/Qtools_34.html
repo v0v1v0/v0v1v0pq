@@ -1,0 +1,214 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>dqc</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Directional Quantile Classification</h2>
+
+<h3>Description</h3>
+
+<p>This function is used to classify multivariate observations by means of directional quantiles.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">dqc(formula, data, df.test, subset, weights, na.action, control = list(),
+	fit = TRUE)
+dqc.fit(x, z, y, control)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>formula</code></td>
+<td>
+
+<p>an object of class <code>formula</code>: a two-sided formula of the form <code>y ~ x1 + ... + xn</code> where <code>y</code> represents the groups (i.e., labels) for the observations and <code>x1</code>, ..., <code>xn</code> are the variables used for classification.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+
+<p>an optional data frame, list or environment (or object coercible by as.data.frame to a data frame) containing the variables for classification (training). If not found in data, the variables are taken from environment(formula), typically the environment from which <code>dqc</code> is called.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>df.test</code></td>
+<td>
+
+<p>a required data frame, list or environment (or object coercible by as.data.frame to a data frame) containing the variables for prediction.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>subset</code></td>
+<td>
+
+<p>an optional vector specifying a subset of observations to be used in the fitting process.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>weights</code></td>
+<td>
+
+<p>an optional vector of weights to be used in the fitting process.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>na.action</code></td>
+<td>
+
+<p>a function which indicates what should happen when the data contain <code>NA</code>s.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>control</code></td>
+<td>
+
+<p>list of control parameters of the fitting process. See <code>dqcControl</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fit</code></td>
+<td>
+
+<p>logical flag. If <code>FALSE</code> the function returns a list of arguments for fitting.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+
+<p>design matrix of dimension <code class="reqn">nx * p</code> for training.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>z</code></td>
+<td>
+
+<p>design matrix of dimension <code class="reqn">nz * p</code> for prediction.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+
+<p>vector of labels of length <code class="reqn">nx</code>.
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Directional quantile classification is described in the article by Viroli et al (2020).</p>
+
+
+<h3>Value</h3>
+
+<p>a list of class <code>dqc</code> containing the following components
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>call</code></td>
+<td>
+<p>the matched call.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ans</code></td>
+<td>
+<p>a data frame with predictions.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nx</code></td>
+<td>
+<p>number of observations in the training dataset.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nz</code></td>
+<td>
+<p>number of observations in the prediction dataset.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p</code></td>
+<td>
+<p>number of variables.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>control</code></td>
+<td>
+<p>control parameters used for fitting.</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Marco Geraci with contributions from Cinzia Viroli
+</p>
+
+
+<h3>References</h3>
+
+<p>Viroli C, Farcomeni A, Geraci M (2020). Directional quantile-based classifiers (in preparation).
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>dqcControl</code> 
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+## Not run: 
+# Iris data
+data(iris)
+
+# Create training and prediction datasets
+
+n &lt;- nrow(iris)
+ng &lt;- length(unique(iris$Species))
+df1 &lt;- iris[c(1:40, 51:90, 101:140),]
+df2 &lt;- iris[c(41:50, 91:100, 141:150),]
+
+# Classify
+ctrl &lt;- dqcControl(nt = 10, ndir = 5000, seed = 123)
+fit &lt;- dqc(Species ~ Sepal.Length + Petal.Length,
+	data = df1, df.test = df2, control = ctrl)
+
+# Data frame with predictions
+fit$ans
+
+# Confusion matrix
+print(cm &lt;- xtabs( ~ fit$ans$groups + df2$Species))
+
+# Misclassification rate
+1-sum(diag(cm))/nrow(df2)
+
+## End(Not run)
+
+</code></pre>
+
+
+</div>

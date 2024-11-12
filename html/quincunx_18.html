@@ -1,0 +1,122 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>get_releases</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Get PGS Catalog Releases</h2>
+
+<h3>Description</h3>
+
+<p>This function retrieves PGS Catalog release information. Note that the
+columns <code>pgs_id</code>, <code>ppm_id</code> and <code>pgp_id</code> contain in each
+element a vector. These columns can be unnested using
+<code>unnest_longer</code> (see Examples).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">get_releases(
+  date = "latest",
+  verbose = FALSE,
+  warnings = TRUE,
+  progress_bar = TRUE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>date</code></td>
+<td>
+<p>One or more dates formatted as <code>"YYYY-MM-DD"</code> for respective
+releases, <code>"latest"</code> for the latest release, or <code>"all"</code> for all
+releases.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p>Whether to print information about the underlying requests to
+the REST API server.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>warnings</code></td>
+<td>
+<p>Whether to print warnings about the underlying requests to
+the REST API server.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>progress_bar</code></td>
+<td>
+<p>Whether to show a progress bar indicating download
+progress from the REST API server.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A data frame where each row is a release. Columns are:
+</p>
+
+<dl>
+<dt>date</dt>
+<dd>
+<p>Release date.</p>
+</dd>
+<dt>n_pgs</dt>
+<dd>
+<p>Number of released Polygenic Score (PGS) identifiers
+(<code>pgs_id</code>).</p>
+</dd>
+<dt>n_ppm</dt>
+<dd>
+<p>Number of released Performance Metric (PPM) identifiers
+(<code>ppm_id</code>).</p>
+</dd>
+<dt>n_pgp</dt>
+<dd>
+<p>Number of released PGS Catalog Publication (PGP) identifiers
+(<code>pgp_id</code>).</p>
+</dd>
+<dt>pgs_id</dt>
+<dd>
+<p>Released Polygenic Score (PGS) identifiers.</p>
+</dd>
+<dt>ppm_id</dt>
+<dd>
+<p>Released Performance Metric (PPM) identifiers.</p>
+</dd>
+<dt>pgp_id</dt>
+<dd>
+<p>Released PGS Catalog Publication (PGP) identifiers.</p>
+</dd>
+<dt>notes</dt>
+<dd>
+<p>News about the release.</p>
+</dd>
+</dl>
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+# Get the latest release
+get_releases()
+get_releases(date = 'latest')
+
+# Get all releases
+get_releases(date = 'all')
+
+# Get a specific release by date
+get_releases(date = '2020-08-19')
+
+## End(Not run)
+
+</code></pre>
+
+
+</div>

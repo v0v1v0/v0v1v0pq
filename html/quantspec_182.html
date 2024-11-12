@@ -1,0 +1,63 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>LagKernelWeight-class</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Class for lag window generators</h2>
+
+<h3>Description</h3>
+
+<p><code>LagKernelWeight</code> is an S4 class that implements a weighting function by
+specification of a kernel function <code>W</code> and a scale parameter <code>bw</code>.
+</p>
+
+
+<h3>Details</h3>
+
+<p>It extends the class <code>Weight</code> and writes
+</p>
+<p style="text-align: center;"><code class="reqn">W_N(x[k]) := W(x[k]/bw)</code>
+</p>
+
+<p>to <code>values[k]</code> [nested inside <code>env</code>] for <code>k=1,...,length(x)</code>.
+The points <code>x</code> where <code class="reqn">W</code> is evaluated may be set on construction or updated when
+evoking the method <code>getValues</code>.
+</p>
+
+
+<h3>Slots</h3>
+
+
+<dl>
+<dt><code>W</code></dt>
+<dd>
+<p>a kernel function</p>
+</dd>
+<dt><code>bw</code></dt>
+<dd>
+<p>bandwidth</p>
+</dd>
+<dt><code>env</code></dt>
+<dd>
+<p>An environment to allow for slots which need to be
+accessable in a call-by-reference manner:
+</p>
+
+<dl>
+<dt><code>values</code></dt>
+<dd>
+<p>A vector storing the weights; see the Details
+section.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<h3>See Also</h3>
+
+<p>Examples for implementations of kernels <code>W</code> can be found at:
+<code>kernels</code>.
+</p>
+
+
+</div>

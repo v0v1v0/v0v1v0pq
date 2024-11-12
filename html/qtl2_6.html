@@ -1,0 +1,64 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>batch_vec</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Split vector into batches</h2>
+
+<h3>Description</h3>
+
+<p>Split a vector into batches, each no longer than <code>batch_size</code> and
+creating at least <code>n_cores</code> batches, for use in parallel
+calculations.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">batch_vec(vec, batch_size = NULL, n_cores = 1)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>vec</code></td>
+<td>
+<p>A vector to be split into batches</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>batch_size</code></td>
+<td>
+<p>Maximum size for each batch</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n_cores</code></td>
+<td>
+<p>Number of compute cores, to be used as a minimum number of batches.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list of vectors, each no longer than <code>batch_size</code>, and with at least <code>n_cores</code> componenets.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>batch_cols()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">vec_split &lt;- batch_vec(1:304, 50, 8)
+vec_split2 &lt;- batch_vec(1:304, 50)
+</code></pre>
+
+
+</div>

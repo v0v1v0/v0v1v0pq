@@ -1,0 +1,72 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>and</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>And</h2>
+
+<h3>Description</h3>
+
+<p>Logical 'and' of two conditions
+</p>
+<p>Logical 'or' of two conditions
+</p>
+<p>Logical 'not' of a condition
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">and(v1, v2)
+
+or(v1, v2)
+
+not(v)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>v1</code></td>
+<td>
+<p>A vector of fuzzy set scores of cases</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>v2</code></td>
+<td>
+<p>A vector of fuzzy set scores of cases</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>v</code></td>
+<td>
+<p>A vector of fuzzy set scores of cases</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>the fuzzy set scores of the logical conjunction of v1 and v2 for each case, i.e.
+the minimum in each component
+</p>
+<p>the fuzzy set scores of the logical disjunction of v1 and v2 for each case, i.e.
+the maximum in each component
+</p>
+<p>the fuzzy set scores of the negation of v for each case, i.e. 1-v
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">and(c(0,0.5,1), c(0.25, 0.75, 0.75))
+or(c(0,0.5,1), c(0.25, 0.75, 0.75))
+not(c(0,0.5,1))
+
+</code></pre>
+
+
+</div>

@@ -1,0 +1,198 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>textplot_network</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Plot a network of feature co-occurrences</h2>
+
+<h3>Description</h3>
+
+<p>Plot an fcm object as a network, where edges show
+co-occurrences of features.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">textplot_network(
+  x,
+  min_freq = 0.5,
+  omit_isolated = TRUE,
+  edge_color = "#1F78B4",
+  edge_alpha = 0.5,
+  edge_size = 2,
+  vertex_color = "#4D4D4D",
+  vertex_size = 2,
+  vertex_labelcolor = NULL,
+  vertex_labelfont = NULL,
+  vertex_labelsize = 5,
+  offset = NULL,
+  ...
+)
+
+## S3 method for class 'fcm'
+as.network(x, min_freq = 0.5, omit_isolated = TRUE, ...)
+
+## S3 method for class 'fcm'
+as.igraph(x, min_freq = 0.5, omit_isolated = TRUE, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a fcm or dfm  object</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>min_freq</code></td>
+<td>
+<p>a frequency count threshold or proportion for co-occurrence
+frequencies of features to be included.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>omit_isolated</code></td>
+<td>
+<p>if <code>TRUE</code>, features do not occur more frequent than
+<code>min_freq</code> will be omitted.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>edge_color</code></td>
+<td>
+<p>colour of edges that connect vertices.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>edge_alpha</code></td>
+<td>
+<p>opacity of edges ranging from 0 to 1.0.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>edge_size</code></td>
+<td>
+<p>size of edges for most frequent co-occurrence The size of
+other edges are determined proportionally to the 99th percentile frequency
+instead of the maximum to reduce the impact of outliers.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vertex_color</code></td>
+<td>
+<p>colour of vertices.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vertex_size</code></td>
+<td>
+<p>size of vertices</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vertex_labelcolor</code></td>
+<td>
+<p>colour of texts. Defaults to the same as
+<code>vertex_color</code>. If <code>NA</code> is given, texts are not rendered.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vertex_labelfont</code></td>
+<td>
+<p>font-family of texts. Use default font if
+<code>NULL</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vertex_labelsize</code></td>
+<td>
+<p>size of vertex labels in mm. Defaults to size 5.
+Supports both integer values and vector values.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>offset</code></td>
+<td>
+<p>if <code>NULL</code>, the distance between vertices and texts are
+determined automatically.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>additional arguments passed to network or
+graph_from_adjacency_matrix.  Not
+used for <code>as.igraph</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Currently the size of the network is limited to 1000, because of the
+computationally intensive nature of network formation for larger matrices.
+When the fcm is large, users should select features using
+fcm_select(), set the threshold using <code>min_freq</code>,
+or implement own plotting function using <code>as.network()</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Kohei Watanabe and Stefan Müller
+</p>
+
+
+<h3>See Also</h3>
+
+<p>fcm
+</p>
+<p><code>network::network()</code>
+</p>
+<p><code>igraph::graph_from_adjacency_matrix()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">set.seed(100)
+library("quanteda")
+toks &lt;- data_char_ukimmig2010 |&gt;
+    tokens(remove_punct = TRUE) |&gt;
+    tokens_tolower() |&gt;
+    tokens_remove(pattern = stopwords("english"), padding = FALSE)
+fcmat &lt;- fcm(toks, context = "window", tri = FALSE)
+feat &lt;- colSums(fcmat) |&gt;
+  sort(decreasing = TRUE) |&gt;
+  head(30) |&gt;
+  names()
+fcm_select(fcmat, pattern = feat) |&gt;
+    textplot_network(min_freq = 0.5)
+fcm_select(fcmat, pattern = feat) |&gt;
+    textplot_network(min_freq = 0.8)
+fcm_select(fcmat, pattern = feat) |&gt;
+    textplot_network(min_freq = 0.8, vertex_labelcolor = rep(c('gray40', NA), 15))
+fcm_select(fcmat, pattern = feat) |&gt;
+    textplot_network(vertex_labelsize = 10)
+fcm_30 &lt;- fcm_select(fcmat, pattern = feat)
+textplot_network(fcm_30,
+                 vertex_labelsize = Matrix::rowSums(fcm_30) / min(Matrix::rowSums(fcm_30)))
+# Vector inputs to vertex_labelsize can be scaled if too small / large
+textplot_network(fcm_30,
+                 vertex_labelsize = 1.5 * Matrix::rowSums(fcm_30) /
+                                    min(Matrix::rowSums(fcm_30)))
+
+# as.igraph
+if (requireNamespace("igraph", quietly = TRUE)) {
+    txt &lt;- c("a a a b b c", "a a c e", "a c e f g")
+    mat &lt;- fcm(tokens(txt))
+    as.igraph(mat, min_freq = 1, omit_isolated = FALSE)
+}
+</code></pre>
+
+
+</div>

@@ -1,0 +1,61 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>plot_compare_geno</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Plot of compare_geno object.</h2>
+
+<h3>Description</h3>
+
+<p>From results of <code>compare_geno()</code>, plot histogram of
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">plot_compare_geno(x, rug = TRUE, ...)
+
+## S3 method for class 'compare_geno'
+plot(x, rug = TRUE, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>A square matrix with genotype comparisons for pairs
+of individuals, as output by <code>compare_geno()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rug</code></td>
+<td>
+<p>If true, use <code>rug()</code> to plot tick marks at observed values below the histogram.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Additional graphics parameters passed to <code>hist()</code></p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>None.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">grav2 &lt;- read_cross2(system.file("extdata", "grav2.zip", package="qtl2"))
+cg &lt;- compare_geno(grav2)
+plot(cg)
+</code></pre>
+
+
+</div>

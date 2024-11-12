@@ -1,0 +1,152 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>modelbound</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Estimating qgcomp regression line confidence bounds</h2>
+
+<h3>Description</h3>
+
+<p>Calculates: expected outcome (on the link scale), and upper and lower
+confidence intervals (both pointwise and simultaneous)
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">modelbound(x, emmval = 0, alpha = 0.05, pwonly = FALSE, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>"qgcompemmfit" object from <code>qgcomp.emm.boot</code>,</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>emmval</code></td>
+<td>
+<p>fixed value for effect measure modifier at which pointwise comparisons are calculated</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>alpha</code></td>
+<td>
+<p>alpha level for confidence intervals</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pwonly</code></td>
+<td>
+<p>logical: return only pointwise estimates (suppress simultaneous estimates)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>not used</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>This method leverages the bootstrap distribution of qgcomp model coefficients
+to estimate pointwise regression line confidence bounds. These are defined as the bounds
+that, for each value of the independent variable X (here, X is the joint exposure quantiles)
+the 95% bounds (for example) for the model estimate of the regression line E(Y|X) are expected to include the
+true value of E(Y|X) in 95% of studies. The "simultaneous" bounds are also calculated, and the 95%
+simultaneous bounds contain the true value of E(Y|X) for all values of X in 95% of studies. The
+latter are more conservative and account for the multiple testing implied by the former. Pointwise
+bounds are calculated via the standard error for the estimates of E(Y|X), while the simultaneous
+bounds are estimated using the bootstrap method of Cheng (reference below). All bounds are large
+sample bounds that assume normality and thus will be underconservative in small samples. These
+bounds may also inclue illogical values (e.g. values less than 0 for a dichotomous outcome) and
+should be interpreted cautiously in small samples.
+</p>
+<p>Reference:
+</p>
+<p>Cheng, Russell CH. "Bootstrapping simultaneous confidence bands."
+Proceedings of the Winter Simulation Conference, 2005.. IEEE, 2005.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A data frame containing
+</p>
+
+<dl>
+<dt>linpred: </dt>
+<dd>
+<p>The linear predictor from the marginal structural model</p>
+</dd>
+<dt>r/o/m: </dt>
+<dd>
+<p>The canonical measure (risk/odds/mean) for the marginal structural model link</p>
+</dd>
+<dt>se....: </dt>
+<dd>
+<p>the stndard error of linpred</p>
+</dd>
+<dt>ul..../ll....: </dt>
+<dd>
+<p>Confidence bounds for the effect measure, and bounds centered at the canonical measure (for plotting purposes)</p>
+</dd>
+</dl>
+<p>The confidence bounds are either  "pointwise" (pw) and "simultaneous" (simul) confidence
+intervals at each each quantized value of all exposures.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>qgcomp.emm.boot</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+set.seed(50)
+dat &lt;- data.frame(y=runif(50), x1=runif(50), x2=runif(50),
+                  z=rbinom(50,1,0.5), r=rbinom(50,1,0.5))
+(qfit &lt;- qgcomp.emm.noboot(f=y ~ z + x1 + x2, emmvar="z",
+                           expnms = c('x1', 'x2'), data=dat, q=4, family=gaussian()))
+(qfit2 &lt;- qgcomp.emm.boot(f=y ~ z + x1 + x2, emmvar="z",
+                          degree = 1,
+                          expnms = c('x1', 'x2'), data=dat, q=4, family=gaussian()))
+# modelbound(qfit) # this will error (only works with bootstrapped objects)
+ modelbound(qfit2)
+# logistic model
+set.seed(200)
+dat2 &lt;- data.frame(y=rbinom(200, 1, 0.3), x1=runif(200), x2=runif(200),
+                  z=rbinom(200,1,0.5))
+(qfit3 &lt;- qgcomp.emm.boot(f=y ~ z + x1 + x2, emmvar="z",
+                          degree = 1,
+                          expnms = c('x1', 'x2'), data=dat2, q=4, rr = FALSE, family=binomial()))
+modelbound(qfit3)
+# risk ratios instead (check for upper bound &gt; 1.0, indicating implausible risk)
+(qfit3b &lt;- qgcomp.emm.boot(f=y ~ z + x1 + x2, emmvar="z",
+                          degree = 1,
+                          expnms = c('x1', 'x2'), data=dat2, q=4, rr = TRUE, family=binomial()))
+modelbound(qfit3b)
+# categorical modifier
+set.seed(50)
+dat3 &lt;- data.frame(y=runif(50), x1=runif(50), x2=runif(50),
+   z=sample(0:2, 50,replace=TRUE), r=rbinom(50,1,0.5))
+dat3$z = as.factor(dat3$z)
+(qfit4 &lt;- qgcomp.emm.boot(f=y ~ z + x1 + x2, emmvar="z",
+                          degree = 1,
+                          expnms = c('x1', 'x2'), data=dat3, q=4, family=gaussian()))
+modelbound(qfit4, emmval=2)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

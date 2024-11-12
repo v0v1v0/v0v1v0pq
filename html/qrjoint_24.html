@@ -1,0 +1,76 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>redmaple</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Basal Areas of Red Maple Trees</h2>
+
+<h3>Description</h3>
+
+<p>Site-level basal areas of red maple trees (<em>Acer rubrum</em>) at 608 unmanaged and forested sites in Connecticut, Massachusetts, and Rhode Island. Data are aggregated from the Forest Inventory Analysis (FIA) of the US Forest Service. Geographical regions of the sites are added using Enviromental Protection Agency (EPA) shapefiles.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">data(redmaple)</code></pre>
+
+
+<h3>Format</h3>
+
+<p>A data frame with 608 observations on the following variables for each site:
+</p>
+
+<dl>
+<dt><code>plotID</code></dt>
+<dd>
+<p>Unique identifier</p>
+</dd>
+<dt><code>elev</code></dt>
+<dd>
+<p>Elevation, measured in feet</p>
+</dd>
+<dt><code>slope</code></dt>
+<dd>
+<p>Slope, measured in degrees</p>
+</dd>
+<dt><code>aspect</code></dt>
+<dd>
+<p>Aspect, measured in degrees proceeding from North clockwise around a compass. For sites with zero or near-zero slopes, aspect is recorded as 0. North is recorded as 360.</p>
+</dd>
+<dt><code>Region</code></dt>
+<dd>
+<p>EPA Level-III geographical region</p>
+</dd>
+<dt><code>region</code></dt>
+<dd>
+<p>EPA Level-III geographical region, shortened</p>
+</dd>
+<dt><code>State</code></dt>
+<dd>
+<p>State</p>
+</dd>
+<dt><code>baRedMaple</code></dt>
+<dd>
+<p>Total basal area of red maple trees, measured in square feet per acre</p>
+</dd>
+</dl>
+<h3>Details</h3>
+
+<p>This three-state subset from the FIA is intended to illustrate the capabilities of the qrjoint package in flexibly modeling excess-boundary zeros, using its censoring option. This subset of variables should not be construed as a comprehensive list of factors influencing red maple basal area growth. All sites in the sample are of equivalent area.
+</p>
+
+
+<h3>Source</h3>
+
+<p>Forest Inventory and Analysis Database, St. Paul, MN: U.S. Department of Agriculture, Forest Service, Northern Research Station. <a href="https://apps.fs.usda.gov/fia/datamart/datamart.html">https://apps.fs.usda.gov/fia/datamart/datamart.html</a></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(redmaple)
+</code></pre>
+
+
+</div>

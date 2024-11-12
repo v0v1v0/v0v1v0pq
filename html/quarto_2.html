@@ -1,0 +1,55 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>is_using_quarto</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Check is a directory is using quarto</h2>
+
+<h3>Description</h3>
+
+<p>This function will check if a directory is using quarto by looking for
+</p>
+
+<ul>
+<li> <p><code style="white-space: pre;">⁠_quarto.yml⁠</code> at its root
+</p>
+</li>
+<li>
+<p> at least one <code>.qmd</code> file in the directory
+</p>
+</li>
+</ul>
+<h3>Usage</h3>
+
+<pre><code class="language-R">is_using_quarto(dir = ".", verbose = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>dir</code></td>
+<td>
+<p>The directory to check</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p>print message about the result of the check</p>
+</td>
+</tr>
+</table>
+<h3>Examples</h3>
+
+<pre><code class="language-R">dir.create(tmpdir &lt;- tempfile())
+is_using_quarto(tmpdir)
+file.create(file.path(tmpdir, "_quarto.yml"))
+is_using_quarto(tmpdir)
+unlink(tmpdir, recursive = TRUE)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,222 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>PrecTpFpMatrix</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Determine false positive and true positive rates for known targets.
+</h2>
+
+<h3>Description</h3>
+
+<p>Determine how well different tests do to predict candidates of regulation.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">FitAllTests(cross, pheno1, pheno2, Q.chr, Q.pos, verbose = TRUE)
+JoinTestOutputs(comap, tests, file)
+PrecTpFpMatrix(alpha, val.targets, all.orfs, tests, cand.reg, cis.cand.reg)
+p.adjust.np(tests, method = "BH")
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>cross</code></td>
+<td>
+<p>object of class <code>cross</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pheno1</code></td>
+<td>
+<p>first phenotype column number or character string name</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pheno2</code></td>
+<td>
+<p>second phenotype column number or character string name;
+if more than one, then all phenotypes will be tested against <code>pheno1</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Q.chr</code></td>
+<td>
+<p>QTL chromosome (number or label)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Q.pos</code></td>
+<td>
+<p>QTL position in cM</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p>verbose printout if <code>TRUE</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>comap</code></td>
+<td>
+<p>list result of <code>GetComappingTraits</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>alpha</code></td>
+<td>
+
+<p>significance levels at which summaries are computed
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>val.targets</code></td>
+<td>
+
+<p>validated targets of candidate regulators
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>all.orfs</code></td>
+<td>
+
+<p>all trait names
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tests</code></td>
+<td>
+
+<p>list object as list of <code>FitAllTests</code> results, or of joined
+output created by <code>JoinTestsOutputs</code> 
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>file</code></td>
+<td>
+<p>prefix for file names when running <code>FitAllTests</code> in
+parallel and saving test results in separate files</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cand.reg</code></td>
+<td>
+
+<p>object from <code>GetCandReg</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cis.cand.reg</code></td>
+<td>
+
+<p>object from <code>GetCisCandReg</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+<p>method for p-value adjustment; see <code>p.adjust</code></p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p><code>FitAllTests</code> invokes 7 tests. The hidden routine <code>CitTests</code>
+is invoked by call to <code>FitAllTests</code>; this is hidden because we do
+not recommend its use.
+</p>
+<p><code>JoinTestOutputs</code> joins results of
+<code>FitAllTests</code>, either from a list <code>tests</code> or from a
+collection of files prefixed by <code>file</code>. The joined <code>tests</code>
+from <code>JoinTestOutputs</code> are summarized with <code>PrecTpFpMatrix</code>
+using the biologically validated true positives, false positives and
+precision, for the inferred causal relations. We define a true
+positive as a statistically significant causal relation between a gene
+and a putative target gene when the putative target gene belongs to
+the known signature of the gene. Similarly, we define a false positive
+as a statistically significant causal relation between a gene and a
+putative target gene when the target gene does not belong to the
+signature. (For the AIC and BIC methods that do not provide a p-value
+measuring the significance of the causal call, we simply use the
+detected causal relations in the computation of true and false
+positives). The validated precision is computed as the ratio of true
+positives by the sum of true and false positives. The
+<code>PrecTpFpMatrix</code> computes these measures to both all genes, and
+to cis genes only. Simulations suggest only non-parametric tests need
+to be adjusted using Benjamini-Hochberg via <code>p.adjust.np</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>List containing
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>Prec1,Prec2</code></td>
+<td>
+<p>matrix of precision with rows for significance level and
+columns for test; first is for all, second is for cis candidates only</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Tp1,Tp2</code></td>
+<td>
+<p>matrix of true positive rate with rows for significance level and
+columns for test; first is for all, second is for cis candidates only</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Fp1,Fp2</code></td>
+<td>
+<p>matrix of false positive rate with rows for significance level and
+columns for test; first is for all, second is for cis candidates only</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Elias Chaibub Neto
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>GetCandReg</code>, <code>CMSTtests</code>, <code>p.adjust</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">example(GetCandReg)
+## Suppose y1 is causal with targets y2 and y3.
+targets &lt;- list(y1 = c("y2","y3"))
+
+tests &lt;- list()
+for(k in seq(names(comap.targets))) {
+  tests[[k]] &lt;- FitAllTests(CMSTCross, pheno1 = names(comap.targets)[k],
+                      pheno2 = comap.targets[[k]],
+                      Q.chr = cand.reg[k, 4],
+                      Q.pos = cand.reg[k, 5])
+}
+names(tests) &lt;- names(comap.targets)
+tests &lt;- JoinTestOutputs(comap.targets, tests)
+
+PrecTpFpMatrix(alpha = seq(0.01, 0.10, by = 0.01),
+  val.targets = targets, all.orfs = CMSThigh$names, tests = tests,
+  cand.reg = cand.reg, cis.cand.reg = cis.cand.reg)
+</code></pre>
+
+
+</div>

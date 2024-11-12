@@ -1,0 +1,761 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>textstat_readability</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Calculate readability</h2>
+
+<h3>Description</h3>
+
+<p>Calculate the readability of text(s) using one of a variety of computed
+indexes.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">textstat_readability(
+  x,
+  measure = "Flesch",
+  remove_hyphens = TRUE,
+  min_sentence_length = 1,
+  max_sentence_length = 10000,
+  intermediate = FALSE,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a character or corpus object containing the
+texts</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>measure</code></td>
+<td>
+<p>character vector defining the readability measure to calculate.
+Matches are case-insensitive.  See other valid measures under Details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>remove_hyphens</code></td>
+<td>
+<p>if <code>TRUE</code>, treat constituent words in hyphenated as
+separate terms, for purposes of computing word lengths, e.g.
+"decision-making" as two terms of lengths 8 and 6 characters respectively,
+rather than as a single word of 15 characters</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>min_sentence_length, max_sentence_length</code></td>
+<td>
+<p>set the minimum and maximum
+sentence lengths (in tokens, excluding punctuation) to include in the
+computation of readability.  This makes it easy to exclude "sentences" that
+may not really be sentences, such as section titles, table elements, and
+other cruft that might be in the texts following conversion.
+</p>
+<p>For finer-grained control, consider filtering sentences prior first,
+including through pattern-matching, using
+corpus_trim().</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>intermediate</code></td>
+<td>
+<p>if <code>TRUE</code>, include intermediate quantities in the output</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>not used</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The following readability formulas have been implemented, where
+</p>
+
+<ul>
+<li>
+<p> Nw = <code class="reqn">n_{w}</code> = number of words
+</p>
+</li>
+<li>
+<p> Nc = <code class="reqn">n_{c}</code> = number of characters
+</p>
+</li>
+<li>
+<p> Nst = <code class="reqn">n_{st}</code> = number of sentences
+</p>
+</li>
+<li>
+<p> Nsy = <code class="reqn">n_{sy}</code> = number of syllables
+</p>
+</li>
+<li>
+<p> Nwf = <code class="reqn">n_{wf}</code> = number of words matching the Dale-Chall List
+of 3000 "familiar words"
+</p>
+</li>
+<li>
+<p> ASL = Average Sentence Length: number of words / number of sentences
+</p>
+</li>
+<li>
+<p> AWL = Average Word Length: number of characters / number of words
+</p>
+</li>
+<li>
+<p> AFW = Average Familiar Words: count of words matching the Dale-Chall
+list of 3000 "familiar words" / number of all words
+</p>
+</li>
+<li>
+<p> Nwd = <code class="reqn">n_{wd}</code> = number of "difficult" words not matching the
+Dale-Chall list of "familiar" words
+</p>
+</li>
+</ul>
+<dl>
+<dt>
+<code>"ARI"</code>:</dt>
+<dd>
+<p>Automated Readability Index (Senter and Smith 1967)
+</p>
+<p style="text-align: center;"><code class="reqn">0.5 ASL  + 4.71 AWL - 21.34</code>
+</p>
+</dd>
+<dt>
+<code>"ARI.Simple"</code>:</dt>
+<dd>
+<p>A simplified version of Senter and Smith's (1967) Automated Readability Index.
+</p>
+<p style="text-align: center;"><code class="reqn">ASL + 9 AWL</code>
+</p>
+</dd>
+<dt>
+<code>"Bormuth.MC"</code>:</dt>
+<dd>
+<p>Bormuth's (1969) Mean Cloze Formula.
+</p>
+<p style="text-align: center;"><code class="reqn">0.886593 - 0.03640 \times AWL + 0.161911 \times AFW  - 0.21401 \times
+  ASL - 0.000577 \times ASL^2 - 0.000005 \times ASL^3</code>
+</p>
+</dd>
+<dt>
+<code>"Bormuth.GP"</code>:</dt>
+<dd>
+<p>Bormuth's (1969) Grade Placement score.
+</p>
+<p style="text-align: center;"><code class="reqn">4.275 + 12.881M - 34.934M^2 + 20.388 M^3 + 26.194 CCS -
+  2.046 CCS^2 - 11.767 CCS^3 - 42.285(M \times CCS) + 97.620(M \times CCS)^2 -
+  59.538(M \times CCS)^2</code>
+</p>
+
+<p>where <code class="reqn">M</code> is the Bormuth Mean Cloze Formula as in
+<code>"Bormuth"</code> above, and <code class="reqn">CCS</code> is the Cloze Criterion Score (Bormuth,
+1968).</p>
+</dd>
+<dt>
+<code>"Coleman"</code>:</dt>
+<dd>
+<p>Coleman's (1971) Readability Formula 1.
+</p>
+<p style="text-align: center;"><code class="reqn">1.29 \times \frac{100 \times n_{wsy=1}}{n_{w}} - 38.45</code>
+</p>
+
+<p>where <code class="reqn">n_{wsy=1}</code> = Nwsy1 = the number of one-syllable words.  The
+scaling by 100 in this and the other Coleman-derived measures arises
+because the Coleman measures are calculated on a per 100 words basis.</p>
+</dd>
+<dt>
+<code>"Coleman.C2"</code>:</dt>
+<dd>
+<p>Coleman's (1971) Readability Formula 2.
+</p>
+<p style="text-align: center;"><code class="reqn">1.16 \times \frac{100 \times n_{wsy=1}}{
+  Nw + 1.48 \times \frac{100 \times n_{st}}{n_{w}} - 37.95}</code>
+</p>
+</dd>
+<dt>
+<code>"Coleman.Liau.ECP"</code>:</dt>
+<dd>
+<p>Coleman-Liau Estimated Cloze Percent
+(ECP) (Coleman and Liau 1975).
+</p>
+<p style="text-align: center;"><code class="reqn">141.8401 - 0.214590 \times 100
+  \times AWL + 1.079812 \times \frac{n_{st} \times 100}{n_{w}}</code>
+</p>
+</dd>
+<dt>
+<code>"Coleman.Liau.grade"</code>:</dt>
+<dd>
+<p>Coleman-Liau Grade Level (Coleman
+and Liau 1975).
+</p>
+<p style="text-align: center;"><code class="reqn">-27.4004 \times \mathtt{Coleman.Liau.ECP} \times 100 +
+  23.06395</code>
+</p>
+</dd>
+<dt>
+<code>"Coleman.Liau.short"</code>:</dt>
+<dd>
+<p>Coleman-Liau Index (Coleman and Liau 1975).
+</p>
+<p style="text-align: center;"><code class="reqn">5.88 \times AWL + 29.6 \times \frac{n_{st}}{n_{w}} - 15.8</code>
+</p>
+</dd>
+<dt>
+<code>"Dale.Chall"</code>:</dt>
+<dd>
+<p>The New Dale-Chall Readability formula (Chall
+and Dale 1995).
+</p>
+<p style="text-align: center;"><code class="reqn">64 - (0.95 \times 100 \times \frac{n_{wd}}{n_{w}}) - (0.69 \times ASL)</code>
+</p>
+</dd>
+<dt>
+<code>"Dale.Chall.Old"</code>:</dt>
+<dd>
+<p>The original Dale-Chall Readability formula
+(Dale and Chall (1948).
+</p>
+<p style="text-align: center;"><code class="reqn">0.1579 \times 100 \times \frac{n_{wd}}{n_{w}} + 0.0496 \times ASL [+ 3.6365]</code>
+</p>
+
+<p>The additional constant 3.6365 is only added if (Nwd / Nw) &gt; 0.05.</p>
+</dd>
+<dt>
+<code>"Dale.Chall.PSK"</code>:</dt>
+<dd>
+<p>The Powers-Sumner-Kearl Variation of the
+Dale and Chall Readability formula (Powers, Sumner and Kearl, 1958).
+</p>
+<p style="text-align: center;"><code class="reqn">0.1155 \times
+  100 \frac{n_{wd}}{n_{w}}) + (0.0596 \times ASL) + 3.2672 </code>
+</p>
+</dd>
+<dt>
+<code>"Danielson.Bryan"</code>:</dt>
+<dd>
+<p>Danielson-Bryan's (1963) Readability Measure 1. </p>
+<p style="text-align: center;"><code class="reqn">
+  (1.0364 \times \frac{n_{c}}{n_{blank}}) +
+  (0.0194 \times \frac{n_{c}}{n_{st}}) -
+  0.6059</code>
+</p>
+
+<p>where <code class="reqn">n_{blank}</code> = Nblank = the number of blanks.</p>
+</dd>
+<dt>
+<code>"Danielson.Bryan2"</code>:</dt>
+<dd>
+<p>Danielson-Bryan's (1963) Readability Measure 2. </p>
+<p style="text-align: center;"><code class="reqn">
+  131.059- (10.364 \times \frac{n_{c}}{n_{blank}}) + (0.0194
+   \times \frac{n_{c}}{n_{st}})</code>
+</p>
+
+<p>where <code class="reqn">n_{blank}</code> = Nblank = the number of blanks.</p>
+</dd>
+<dt>
+<code>"Dickes.Steiwer"</code>:</dt>
+<dd>
+<p>Dickes-Steiwer Index (Dicks and Steiwer 1977). </p>
+<p style="text-align: center;"><code class="reqn">
+  235.95993 - (7.3021 \times AWL)  - (12.56438 \times ASL) -
+  (50.03293 \times TTR)</code>
+</p>
+
+<p>where TTR is the Type-Token Ratio (see <code>textstat_lexdiv()</code>)</p>
+</dd>
+<dt>
+<code>"DRP"</code>:</dt>
+<dd>
+<p>Degrees of Reading Power. </p>
+<p style="text-align: center;"><code class="reqn">(1 - Bormuth.MC) *
+  100</code>
+</p>
+
+<p>where Bormuth.MC refers to Bormuth's (1969)  Mean Cloze Formula (documented above)</p>
+</dd>
+<dt>
+<code>"ELF"</code>:</dt>
+<dd>
+<p>Easy Listening Formula (Fang 1966): </p>
+<p style="text-align: center;"><code class="reqn">\frac{n_{wsy&gt;=2}}{n_{st}}</code>
+</p>
+
+<p>where <code class="reqn">n_{wsy&gt;=2}</code> = Nwmin2sy = the number of words with 2 syllables or more.</p>
+</dd>
+<dt>
+<code>"Farr.Jenkins.Paterson"</code>:</dt>
+<dd>
+<p>Farr-Jenkins-Paterson's
+Simplification of Flesch's Reading Ease Score (Farr, Jenkins and Paterson 1951). </p>
+<p style="text-align: center;"><code class="reqn">
+   -31.517 - (1.015 \times ASL) + (1.599 \times
+  \frac{n_{wsy=1}}{n_{w}})</code>
+</p>
+
+<p>where <code class="reqn">n_{wsy=1}</code> = Nwsy1 = the number of one-syllable words.</p>
+</dd>
+<dt>
+<code>"Flesch"</code>:</dt>
+<dd>
+<p>Flesch's Reading Ease Score (Flesch 1948).
+</p>
+<p style="text-align: center;"><code class="reqn">206.835 - (1.015 \times ASL) - (84.6 \times \frac{n_{sy}}{n_{w}})</code>
+</p>
+</dd>
+<dt>
+<code>"Flesch.PSK"</code>:</dt>
+<dd>
+<p>The Powers-Sumner-Kearl's Variation of Flesch Reading Ease Score
+(Powers, Sumner and Kearl, 1958). </p>
+<p style="text-align: center;"><code class="reqn"> (0.0778 \times
+  ASL) + (4.55 \times \frac{n_{sy}}{n_{w}}) -
+  2.2029</code>
+</p>
+</dd>
+<dt>
+<code>"Flesch.Kincaid"</code>:</dt>
+<dd>
+<p>Flesch-Kincaid Readability Score (Flesch and Kincaid 1975). </p>
+<p style="text-align: center;"><code class="reqn">
+  0.39 \times ASL + 11.8  \times \frac{n_{sy}}{n_{w}} -
+  15.59</code>
+</p>
+</dd>
+<dt>
+<code>"FOG"</code>:</dt>
+<dd>
+<p>Gunning's Fog Index (Gunning 1952). </p>
+<p style="text-align: center;"><code class="reqn">0.4
+  \times (ASL + 100 \times \frac{n_{wsy&gt;=3}}{n_{w}})</code>
+</p>
+
+<p>where <code class="reqn">n_{wsy&gt;=3}</code> = Nwmin3sy = the number of words with 3-syllables or more.
+The scaling by 100 arises because the original FOG index is based on
+just a sample of 100 words)</p>
+</dd>
+<dt>
+<code>"FOG.PSK"</code>:</dt>
+<dd>
+<p>The Powers-Sumner-Kearl Variation of Gunning's
+Fog Index (Powers, Sumner and Kearl, 1958). </p>
+<p style="text-align: center;"><code class="reqn">3.0680 \times
+  (0.0877 \times ASL) +(0.0984 \times 100 \times \frac{n_{wsy&gt;=3}}{n_{w}})</code>
+</p>
+
+<p>where <code class="reqn">n_{wsy&gt;=3}</code> = Nwmin3sy = the number of words with 3-syllables or more.
+The scaling by 100 arises because the original FOG index is based on
+just a sample of 100 words)</p>
+</dd>
+<dt>
+<code>"FOG.NRI"</code>:</dt>
+<dd>
+<p>The Navy's Adaptation of Gunning's Fog Index (Kincaid, Fishburne, Rogers and Chissom 1975).
+</p>
+<p style="text-align: center;"><code class="reqn">(\frac{(n_{wsy&lt;3} + 3 \times n_{wsy=3})}{(100 \times \frac{N_{st}}{N_{w}})}  -
+  3) / 2 </code>
+</p>
+
+<p>where <code class="reqn">n_{wsy&lt;3}</code> = Nwless3sy = the number of words with <em>less than</em> 3 syllables, and
+<code class="reqn">n_{wsy=3}</code> = Nw3sy = the number of 3-syllable words. The scaling by 100
+arises because the original FOG index is based on just a sample of 100 words)</p>
+</dd>
+<dt>
+<code>"FORCAST"</code>:</dt>
+<dd>
+<p>FORCAST (Simplified Version of FORCAST.RGL) (Caylor and
+Sticht 1973). </p>
+<p style="text-align: center;"><code class="reqn"> 20 - \frac{n_{wsy=1} \times
+  150)}{(n_{w} \times 10)}</code>
+</p>
+
+<p>where <code class="reqn">n_{wsy=1}</code> = Nwsy1 = the number of one-syllable words. The scaling by 150
+arises because the original FORCAST index is based on just a sample of 150 words.</p>
+</dd>
+<dt>
+<code>"FORCAST.RGL"</code>:</dt>
+<dd>
+<p>FORCAST.RGL (Caylor and Sticht 1973).
+</p>
+<p style="text-align: center;"><code class="reqn">20.43 - 0.11 \times \frac{n_{wsy=1} \times
+  150)}{(n_{w} \times 10)}</code>
+</p>
+
+<p>where <code class="reqn">n_{wsy=1}</code> = Nwsy1 = the number of one-syllable words. The scaling by 150 arises
+because the original FORCAST index is based on just a sample of 150 words.</p>
+</dd>
+<dt>
+<code>"Fucks"</code>:</dt>
+<dd>
+<p>Fucks' (1955) Stilcharakteristik (Style
+Characteristic). </p>
+<p style="text-align: center;"><code class="reqn">AWL * ASL</code>
+</p>
+</dd>
+<dt>
+<code>"Linsear.Write"</code>:</dt>
+<dd>
+<p>Linsear Write (Klare 1975).
+</p>
+<p style="text-align: center;"><code class="reqn">\frac{[(100 - (\frac{100 \times n_{wsy&lt;3}}{n_{w}})) +
+  (3 \times \frac{100 \times n_{wsy&gt;=3}}{n_{w}})]}{(100 \times
+  \frac{n_{st}}{n_{w}})}</code>
+</p>
+
+<p>where <code class="reqn">n_{wsy&lt;3}</code> = Nwless3sy = the number of words with <em>less than</em> 3 syllables, and
+<code class="reqn">n_{wsy&gt;=3}</code> = Nwmin3sy = the number of words with 3-syllables or more. The scaling
+by 100 arises because the original Linsear.Write measure is based on just a sample of 100 words)</p>
+</dd>
+<dt>
+<code>"LIW"</code>:</dt>
+<dd>
+<p>Björnsson's (1968) Läsbarhetsindex (For Swedish
+Texts). </p>
+<p style="text-align: center;"><code class="reqn">ASL + \frac{100 \times n_{wsy&gt;=7}}{n_{w}}</code>
+</p>
+
+<p>where <code class="reqn">n_{wsy&gt;=7}</code> = Nwmin7sy = the number of words with 7-syllables or more. The scaling
+by 100 arises because the Läsbarhetsindex index is based on just a sample of 100 words)</p>
+</dd>
+<dt>
+<code>"nWS"</code>:</dt>
+<dd>
+<p>Neue Wiener Sachtextformeln 1 (Bamberger and
+Vanecek 1984). </p>
+<p style="text-align: center;"><code class="reqn">19.35 \times \frac{n_{wsy&gt;=3}}{n_{w}} +
+  0.1672 \times ASL + 12.97 \times \frac{b_{wchar&gt;=6}}{n_{w}} - 3.27 \times
+   \frac{n_{wsy=1}}{n_{w}} - 0.875</code>
+</p>
+
+<p>where <code class="reqn">n_{wsy&gt;=3}</code> = Nwmin3sy = the number of words with 3 syllables or more,
+<code class="reqn">n_{wchar&gt;=6}</code> = Nwmin6char = the number of words with 6 characters or more, and
+<code class="reqn">n_{wsy=1}</code> = Nwsy1 = the number of one-syllable words.</p>
+</dd>
+<dt>
+<code>"nWS.2"</code>:</dt>
+<dd>
+<p>Neue Wiener Sachtextformeln 2 (Bamberger and
+Vanecek 1984). </p>
+<p style="text-align: center;"><code class="reqn">20.07 \times \frac{n_{wsy&gt;=3}}{n_{w}} + 0.1682 \times ASL +
+  13.73 \times \frac{n_{wchar&gt;=6}}{n_{w}} - 2.779</code>
+</p>
+
+<p>where <code class="reqn">n_{wsy&gt;=3}</code> = Nwmin3sy = the number of words with 3 syllables or more, and
+<code class="reqn">n_{wchar&gt;=6}</code> = Nwmin6char = the number of words with 6 characters or more.</p>
+</dd>
+<dt>
+<code>"nWS.3"</code>:</dt>
+<dd>
+<p>Neue Wiener Sachtextformeln 3 (Bamberger and
+Vanecek 1984). </p>
+<p style="text-align: center;"><code class="reqn">29.63 \times \frac{n_{wsy&gt;=3}}{n_{w}} + 0.1905 \times
+  ASL - 1.1144</code>
+</p>
+
+<p>where <code class="reqn">n_{wsy&gt;=3}</code> = Nwmin3sy = the number of words with 3 syllables or more.</p>
+</dd>
+<dt>
+<code>"nWS.4"</code>:</dt>
+<dd>
+<p>Neue Wiener Sachtextformeln 4 (Bamberger and
+Vanecek 1984). </p>
+<p style="text-align: center;"><code class="reqn">27.44 \times \frac{n_{wsy&gt;=3}}{n_{w}} + 0.2656 \times
+  ASL - 1.693</code>
+</p>
+
+<p>where <code class="reqn">n_{wsy&gt;=3}</code> = Nwmin3sy = the number of words with 3 syllables or more.</p>
+</dd>
+<dt>
+<code>"RIX"</code>:</dt>
+<dd>
+<p>Anderson's (1983) Readability Index. </p>
+<p style="text-align: center;"><code class="reqn">
+  \frac{n_{wsy&gt;=7}}{n_{st}}</code>
+</p>
+
+<p>where <code class="reqn">n_{wsy&gt;=7}</code> = Nwmin7sy = the number of words with 7-syllables or more.</p>
+</dd>
+<dt>
+<code>"Scrabble"</code>:</dt>
+<dd>
+<p>Scrabble Measure. </p>
+<p style="text-align: center;"><code class="reqn">Mean
+  Scrabble Letter Values of All Words</code>
+</p>
+<p>.
+Scrabble values are for English.  There is no reference for this, as we
+created it experimentally.  It's not part of any accepted readability
+index!</p>
+</dd>
+<dt>
+<code>"SMOG"</code>:</dt>
+<dd>
+<p>Simple Measure of Gobbledygook (SMOG) (McLaughlin 1969). </p>
+<p style="text-align: center;"><code class="reqn"> 1.043
+   \times \sqrt{n_{wsy&gt;=3}} \times \frac{30}{n_{st}} + 3.1291</code>
+</p>
+
+<p>where <code class="reqn">n_{wsy&gt;=3}</code> = Nwmin3sy = the number of words with 3 syllables or more.
+This measure is regression equation D in McLaughlin's original paper.</p>
+</dd>
+<dt>
+<code>"SMOG.C"</code>:</dt>
+<dd>
+<p>SMOG (Regression Equation C) (McLaughlin's 1969) </p>
+<p style="text-align: center;"><code class="reqn">0.9986 \times
+  \sqrt{Nwmin3sy \times \frac{30}{n_{st}} +
+  5} +  2.8795</code>
+</p>
+
+<p>where <code class="reqn">n_{wsy&gt;=3}</code> = Nwmin3sy = the number of words with 3 syllables or more.
+This measure is regression equation C in McLaughlin's original paper.</p>
+</dd>
+<dt>
+<code>"SMOG.simple"</code>:</dt>
+<dd>
+<p>Simplified Version of McLaughlin's (1969) SMOG Measure. </p>
+<p style="text-align: center;"><code class="reqn">
+  \sqrt{Nwmin3sy \times \frac{30}{n_{st}}} +
+  3</code>
+</p>
+</dd>
+<dt>
+<code>"SMOG.de"</code>:</dt>
+<dd>
+<p>Adaptation of McLaughlin's (1969) SMOG Measure for German Texts.
+</p>
+<p style="text-align: center;"><code class="reqn"> \sqrt{Nwmin3sy \times \frac{30}{n_{st}}-2}</code>
+</p>
+</dd>
+<dt>
+<code>"Spache"</code>:</dt>
+<dd>
+<p>Spache's (1952) Readability Measure. </p>
+<p style="text-align: center;"><code class="reqn"> 0.121 \times
+  ASL + 0.082 \times \frac{n_{wnotinspache}}{n_{w}}  +
+  0.659</code>
+</p>
+
+<p>where <code class="reqn">n_{wnotinspache}</code> = Nwnotinspache = number of unique words not in the Spache word list.</p>
+</dd>
+<dt>
+<code>"Spache.old"</code>:</dt>
+<dd>
+<p>Spache's (1952) Readability Measure (Old). </p>
+<p style="text-align: center;"><code class="reqn">0.141
+  \times ASL + 0.086 \times \frac{n_{wnotinspache}}{n_{w}}  +
+  0.839</code>
+</p>
+
+<p>where <code class="reqn">n_{wnotinspache}</code> = Nwnotinspache = number of unique words not in the Spache word list.</p>
+</dd>
+<dt>
+<code>"Strain"</code>:</dt>
+<dd>
+<p>Strain Index (Solomon 2006). </p>
+<p style="text-align: center;"><code class="reqn">n_{sy} /
+  \frac{n_{st}}{3} /10</code>
+</p>
+
+<p>The scaling by 3 arises because the original Strain index is based on just the first 3 sentences.</p>
+</dd>
+<dt>
+<code>"Traenkle.Bailer"</code>:</dt>
+<dd>
+<p>Tränkle &amp; Bailer's (1984) Readability Measure 1.
+</p>
+<p style="text-align: center;"><code class="reqn">224.6814 - (79.8304 \times AWL) - (12.24032 \times
+  ASL) - (1.292857 \times 100 \times \frac{n_{prep}}{n_{w}}</code>
+</p>
+
+<p>where <code class="reqn">n_{prep}</code> = Nprep = the number of prepositions. The scaling by 100 arises because the original
+Tränkle &amp; Bailer index is based on just a sample of 100 words.</p>
+</dd>
+<dt>
+<code>"Traenkle.Bailer2"</code>:</dt>
+<dd>
+<p>Tränkle &amp; Bailer's (1984) Readability Measure 2.
+</p>
+<p style="text-align: center;"><code class="reqn">Tränkle.Bailer2 =  234.1063 - (96.11069 \times AWL
+  ) - (2.05444 \times 100 \times \frac{n_{prep}}{n_{w}}) -
+  (1.02805 \times 100 \times \frac{n_{conj}}{n_{w}}</code>
+</p>
+
+<p>where <code class="reqn">n_{prep}</code> = Nprep = the number of prepositions,
+<code class="reqn">n_{conj}</code> = Nconj = the number of conjunctions,
+The scaling by 100 arises because the original Tränkle &amp; Bailer index is based on
+just a sample of 100 words)</p>
+</dd>
+<dt>
+<code>"Wheeler.Smith"</code>:</dt>
+<dd>
+<p>Wheeler &amp; Smith's (1954) Readability Measure.
+</p>
+<p style="text-align: center;"><code class="reqn"> ASL \times 10 \times \frac{n_{wsy&gt;=2}}{n_{words}}</code>
+</p>
+
+<p>where <code class="reqn">n_{wsy&gt;=2}</code> = Nwmin2sy = the number of words with 2 syllables or more.</p>
+</dd>
+<dt>
+<code>"meanSentenceLength"</code>:</dt>
+<dd>
+<p>Average Sentence Length (ASL).
+</p>
+<p style="text-align: center;"><code class="reqn">\frac{n_{w}}{n_{st}}</code>
+</p>
+</dd>
+<dt>
+<code>"meanWordSyllables"</code>:</dt>
+<dd>
+<p>Average Word Syllables (AWL).
+</p>
+<p style="text-align: center;"><code class="reqn">\frac{n_{sy}}{n_{w}}</code>
+</p>
+</dd>
+</dl>
+<h3>Value</h3>
+
+<p><code>textstat_readability</code> returns a data.frame of documents and
+their readability scores.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Kenneth Benoit, re-engineered from Meik Michalke's <span class="pkg">koRpus</span>
+package.
+</p>
+
+
+<h3>References</h3>
+
+<p>Anderson, J. (1983). Lix and rix: Variations on a little-known readability
+index. <em>Journal of Reading</em>, 26(6),
+490–496.  <code style="white-space: pre;">⁠https://www.jstor.org/stable/40031755⁠</code>
+</p>
+<p>Bamberger, R. &amp; Vanecek, E. (1984). <em>Lesen-Verstehen-Lernen-Schreiben</em>.
+Wien: Jugend und Volk.
+</p>
+<p>Björnsson, C. H. (1968). <em>Läsbarhet</em>. Stockholm: Liber.
+</p>
+<p>Bormuth, J.R. (1969). <a href="https://files.eric.ed.gov/fulltext/ED029166.pdf">Development of Readability Analysis</a>.
+</p>
+<p>Bormuth, J.R. (1968). Cloze test readability: Criterion reference
+scores. <em>Journal of educational
+measurement</em>, 5(3), 189–196. <code style="white-space: pre;">⁠https://www.jstor.org/stable/1433978⁠</code>
+</p>
+<p>Caylor, J.S. (1973). Methodologies for Determining Reading Requirements of
+Military Occupational Specialities.  <code style="white-space: pre;">⁠https://eric.ed.gov/?id=ED074343⁠</code>
+</p>
+<p>Caylor, J.S. &amp; Sticht, T.G. (1973). <em>Development of a Simple Readability
+Index for Job Reading Material</em>
+<code style="white-space: pre;">⁠https://archive.org/details/ERIC_ED076707⁠</code>
+</p>
+<p>Coleman, E.B. (1971). Developing a technology of written instruction: Some
+determiners of the complexity of prose. <em>Verbal learning research and the
+technology of written instruction</em>, 155–204.
+</p>
+<p>Coleman, M. &amp; Liau, T.L. (1975). A Computer Readability Formula Designed
+for Machine Scoring. <em>Journal of Applied Psychology</em>, 60(2), 283.
+<a href="https://doi.org/10.1037/h0076540">doi:10.1037/h0076540</a>
+</p>
+<p>Dale, E. and Chall, J.S. (1948). A Formula for Predicting Readability:
+Instructions.  <em>Educational Research
+Bulletin</em>, 37-54.  <code style="white-space: pre;">⁠https://www.jstor.org/stable/1473169⁠</code>
+</p>
+<p>Chall, J.S. and Dale, E. (1995). <em>Readability Revisited: The New Dale-Chall
+Readability Formula</em>. Brookline Books.
+</p>
+<p>Dickes, P. &amp; Steiwer, L. (1977). Ausarbeitung von Lesbarkeitsformeln für
+die Deutsche Sprache. <em>Zeitschrift für Entwicklungspsychologie und
+Pädagogische Psychologie</em> 9(1), 20–28.
+</p>
+<p>Danielson, W.A., &amp; Bryan, S.D. (1963). Computer Automation of Two
+Readability
+Formulas.
+<em>Journalism Quarterly</em>, 40(2), 201–206. <a href="https://doi.org/10.1177/107769906304000207">doi:10.1177/107769906304000207</a>
+</p>
+<p>DuBay, W.H. (2004). <a href="https://files.eric.ed.gov/fulltext/ED490073.pdf"><em>The Principles of Readability</em></a>.
+</p>
+<p>Fang, I. E. (1966). The "Easy listening formula". <em>Journal of Broadcasting
+&amp; Electronic Media</em>, 11(1), 63–68.  <a href="https://doi.org/10.1080/08838156609363529">doi:10.1080/08838156609363529</a>
+</p>
+<p>Farr, J. N., Jenkins, J.J., &amp; Paterson, D.G. (1951). Simplification of
+Flesch Reading Ease Formula. <em>Journal of Applied Psychology</em>, 35(5): 333.
+<a href="https://doi.org/10.1037/h0057532">doi:10.1037/h0057532</a>
+</p>
+<p>Flesch, R. (1948). A New Readability Yardstick. <em>Journal of Applied
+Psychology</em>, 32(3), 221.  <a href="https://doi.org/10.1037/h0057532">doi:10.1037/h0057532</a>
+</p>
+<p>Fucks, W. (1955). Der Unterschied des Prosastils von Dichtern und anderen
+Schriftstellern. <em>Sprachforum</em>, 1, 233-244.
+</p>
+<p>Gunning, R. (1952). <em>The Technique of Clear Writing</em>.  New York:
+McGraw-Hill.
+</p>
+<p>Klare, G.R. (1975). Assessing Readability.  <em>Reading Research Quarterly</em>,
+10(1), 62-102.  <a href="https://doi.org/10.2307/747086">doi:10.2307/747086</a>
+</p>
+<p>Kincaid, J. P., Fishburne Jr, R.P., Rogers, R.L., &amp; Chissom, B.S. (1975).
+<a href="https://stars.library.ucf.edu/istlibrary/56/">Derivation of New Readability Formulas (Automated Readability Index, FOG count and Flesch Reading Ease Formula) for Navy Enlisted Personnel</a>.
+</p>
+<p>McLaughlin, G.H. (1969). <a href="https://ogg.osu.edu/media/documents/health_lit/WRRSMOG_Readability_Formula_G._Harry_McLaughlin__1969_.pdf">SMOG Grading: A New Readability Formula.</a>
+<em>Journal of Reading</em>, 12(8), 639-646.
+</p>
+<p>Michalke, M. (2014). <em>koRpus: An R Package for Text Analysis (Version 0.05-4)</em>.
+Available from <a href="https://reaktanz.de/?c=hacking&amp;s=koRpus">https://reaktanz.de/?c=hacking&amp;s=koRpus</a>.
+</p>
+<p>Powers, R.D., Sumner, W.A., and Kearl, B.E. (1958). A Recalculation of
+Four Adult Readability Formulas. <em>Journal of Educational Psychology</em>,
+49(2), 99.  <a href="https://doi.org/10.1037/h0043254">doi:10.1037/h0043254</a>
+</p>
+<p>Senter, R. J., &amp; Smith, E. A. (1967). <a href="https://apps.dtic.mil/sti/pdfs/AD0667273.pdf">Automated readability index.</a>
+Wright-Patterson Air Force Base. Report No. AMRL-TR-6620.
+</p>
+<p>*Solomon, N. W. (2006). <em>Qualitative Analysis of Media Language</em>. India.
+</p>
+<p>Spache, G. (1953). "A new readability formula for primary-grade reading
+materials." <em>The Elementary School Journal</em>, 53, 410–413.
+<code style="white-space: pre;">⁠https://www.jstor.org/stable/998915⁠</code>
+</p>
+<p>Tränkle, U. &amp; Bailer, H. (1984). Kreuzvalidierung und Neuberechnung von
+Lesbarkeitsformeln für die deutsche Sprache. <em>Zeitschrift für
+Entwicklungspsychologie und Pädagogische Psychologie</em>, 16(3), 231–244.
+</p>
+<p>Wheeler, L.R. &amp; Smith, E.H. (1954). A Practical Readability Formula for the
+Classroom Teacher in the Primary Grades. <em>Elementary English</em>, 31,
+397–399.  <code style="white-space: pre;">⁠https://www.jstor.org/stable/41384251⁠</code>
+</p>
+<p>*Nimaldasan is the pen name of N. Watson Solomon, Assistant Professor of
+Journalism, School of Media Studies, SRM University, India.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">txt &lt;- c(doc1 = "Readability zero one. Ten, Eleven.",
+         doc2 = "The cat in a dilapidated tophat.")
+textstat_readability(txt, measure = "Flesch")
+textstat_readability(txt, measure = c("FOG", "FOG.PSK", "FOG.NRI"))
+
+textstat_readability(quanteda::data_corpus_inaugural[48:58],
+                     measure = c("Flesch.Kincaid", "Dale.Chall.old"))
+</code></pre>
+
+
+</div>

@@ -1,0 +1,56 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>Profit</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Computes payout/profit values</h2>
+
+<h3>Description</h3>
+
+<p>Computes payout/profit values
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">Profit(o = OptPos(), S = o$S0)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>o</code></td>
+<td>
+<p>An object of class <code>Opt*</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>S</code></td>
+<td>
+<p>A (optional) vector or value of stock price(s) (double) at which to compute profits</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A numeric matrix of size <code>[length(S), 2]</code>. Columns: stock prices, corresponding option profits
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Oleg Melnikov, Department of Statistics, Rice University, Spring 2015
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">Profit(o=Opt())
+graphics::plot( print( Profit(OptPos(Prem=2.5), S=40:60)), type='l'); grid()
+</code></pre>
+
+
+</div>

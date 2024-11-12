@@ -1,0 +1,81 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>color_patterns_pheno</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Set up col, pattern, shape and group for plotting.</h2>
+
+<h3>Description</h3>
+
+<p>Set up col, pattern, shape and group for plotting.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">color_patterns_pheno(
+  scan1ggdata,
+  lod,
+  pattern,
+  col,
+  shape,
+  patterns,
+  facet = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>scan1ggdata</code></td>
+<td>
+<p>data frame to be used for plotting</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lod</code></td>
+<td>
+<p>matrix of LOD scores by position and pheno</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pattern</code></td>
+<td>
+<p>allele pattern of form <code>AB:CDEFGH</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>col</code></td>
+<td>
+<p>Color for <code>color</code> column in <code>scan1ggdata</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>shape</code></td>
+<td>
+<p>Shape for <code>shape</code> column in <code>scan1ggdata</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>patterns</code></td>
+<td>
+<p>Connect SDP patterns: one of <code>c("none","all","hilit")</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>facet</code></td>
+<td>
+<p>use <code>facet_wrap</code> if not <code>NULL</code></p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>data frame <code>scan1ggdata</code> with additional objects.
+</p>
+
+
+</div>

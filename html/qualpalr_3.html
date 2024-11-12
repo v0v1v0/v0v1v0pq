@@ -1,0 +1,63 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>pairs.qualpal</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Scatterplot matrix of qualitative color palette</h2>
+
+<h3>Description</h3>
+
+<p>Plots the colors in an object of class  <code>"qualpal"</code> as a scatterplot
+matrix on either the DIN99d (the default) or HSL color space.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'qualpal'
+pairs(x, colorspace = c("DIN99d", "HSL", "RGB"), ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>A list object of class <code>"qualpal"</code> generated from
+<code>qualpal</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>colorspace</code></td>
+<td>
+<p>The color space in which to plot the colors ("DIN99d",
+"HSL", or "RGB").</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Arguments to pass on to <code>pairs</code>.</p>
+</td>
+</tr>
+</table>
+<h3>See Also</h3>
+
+<p><code>qualpal</code>,
+<code>plot.qualpal</code>,
+<code>pairs</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">col_pal &lt;- qualpal(3)
+pairs(col_pal)
+pairs(col_pal, colorspace = "HSL")
+</code></pre>
+
+
+</div>

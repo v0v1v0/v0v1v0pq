@@ -1,0 +1,154 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>covs_test</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Covariances Test of Significance</h2>
+
+<h3>Description</h3>
+
+<p><code>covs_test</code> computes sample covariances and tests for their significance
+with the Pearson method assuming multivariate normality of the data. Note,
+the normal-theory significance test for the covariance is much more sensitive
+to departures from normality than the significant test for the mean. This
+function is the covariance analogue to the <code>psych::corr.test()</code> function
+for correlations.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">covs_test(data, vrb.nm, use = "pairwise", ci.level = 0.95, rtn.dfm = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>data.frame of data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vrb.nm</code></td>
+<td>
+<p>character vector of colnames specifying the variables in
+<code>data</code> to conduct the significant test of the covariances.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>use</code></td>
+<td>
+<p>character vector of length 1 specifying how missing values are
+handled. Currently, there are only two options: 1) "pairwise" for pairwise
+deletion (i.e., <code>cov(use = "pairwise.complete.obs")</code>), or 2)
+"complete" for listwise deletion (i.e., <code>cov(use = "complete.obs")</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ci.level</code></td>
+<td>
+<p>numeric vector of length 1 specifying the confidence level.
+It must be between 0 and 1 - or it can be NULL in which case confidence
+intervals are not computed and the return object does not have "lwr" or
+"upr" columns.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rtn.dfm</code></td>
+<td>
+<p>logical vector of length 1 specifying whether the return
+object should be an array (FALSE) or data.frame (TRUE). If an array, then
+the first two dimensions are the matrix dimensions from the covariance
+matrix and the 3rd dimension (aka layers) contains the statistical
+information (e.g., est, se, t). If  data.frame, then the first two columns
+are the matrix dimensions from the covariance matrix expanded and the rest
+of the columns contain the statistical information (e.g., est, se, t).</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>If <code>rtn.dfm = FALSE</code>, an array where its first two dimensions
+are the matrix dimensions from the covariance matrix and the 3rd dimension
+(aka layers) contains the statistical information detailed below. If
+<code>rtn.dfm = TRUE</code>, a data.frame where its first two columns are the
+expanded matrix dimensions from the covariance matrix and the rest of the
+columns contain the statistical information detailed below:
+</p>
+
+<dl>
+<dt>cov</dt>
+<dd>
+<p>sample covariances</p>
+</dd>
+<dt>se</dt>
+<dd>
+<p>standard errors of the covariances</p>
+</dd>
+<dt>t</dt>
+<dd>
+<p>t-values</p>
+</dd>
+<dt>df</dt>
+<dd>
+<p>degrees of freedom (n - 2)</p>
+</dd>
+<dt>p</dt>
+<dd>
+<p>two-sided p-values</p>
+</dd>
+<dt>lwr</dt>
+<dd>
+<p>lower bound of the confidence intervals (excluded if <code>ci.level = NULL</code>)</p>
+</dd>
+<dt>upr</dt>
+<dd>
+<p>upper bound of the confidence intervals (excluded if <code>ci.level = NULL</code>)</p>
+</dd>
+</dl>
+<h3>See Also</h3>
+
+<p><code>cov</code> for covariance matrix estimates,
+<code>corr.test</code> for correlation matrix significant testing,
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+# traditional use
+covs_test(data = attitude, vrb.nm = names(attitude))
+covs_test(data = attitude, vrb.nm = names(attitude),
+   ci.level = NULL) # no confidence intervals
+covs_test(data = attitude, vrb.nm = names(attitude),
+   rtn.dfm = TRUE) # return object as data.frame
+
+# NOT same as simple linear regression slope
+covTest &lt;- covs_test(data = attitude, vrb.nm = names(attitude),
+   ci.level = NULL, rtn.dfm = TRUE)
+x &lt;- covTest[with(covTest, rownames == "rating" &amp; colnames == "complaints"), ]
+lm_obj &lt;- lm(rating ~ complaints, data = attitude)
+y &lt;- coef(summary(lm_obj))["complaints", , drop = FALSE]
+print(x); print(y)
+z &lt;- x[, "cov"] / var(attitude$"complaints")
+print(z) # dividing by variance of the predictor gives you the regression slope
+# but the t-values and p-values are still different
+
+# NOT same as correlation coefficient
+covTest &lt;- covs_test(data = attitude, vrb.nm = names(attitude),
+   ci.level = NULL, rtn.dfm = TRUE)
+x &lt;- covTest[with(covTest, rownames == "rating" &amp; colnames == "complaints"), ]
+cor_test &lt;- cor.test(x = attitude[[1]], y = attitude[[2]])
+print(x); print(cor_test)
+z &lt;- x[, "cov"] / sqrt(var(attitude$"rating") * var(attitude$"complaints"))
+print(z) # dividing by sqrt of the variances gives you the correlation
+# but the t-values and p-values are still different
+
+</code></pre>
+
+
+</div>

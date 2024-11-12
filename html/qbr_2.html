@@ -1,0 +1,91 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>clone_token</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Clone a user token</h2>
+
+<h3>Description</h3>
+
+<p>Make a copy of the supplied token and returns its value.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">clone_token(
+  subdomain,
+  auth,
+  agent = NULL,
+  clone_name = NULL,
+  clone_desc = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>subdomain</code></td>
+<td>
+<p>Character vector with one element. Found at the beginning of
+the Quickbase URL. Realm specific.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>auth</code></td>
+<td>
+<p>Character vector with one element. The Quickbase authentication
+scheme you are using to authenticate the request (e.g., user token).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>agent</code></td>
+<td>
+<p>Optional. Character vector with one element. Describes
+user/agent making API call.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>clone_name</code></td>
+<td>
+<p>Optional. Character vector with one element. Name the token
+clone.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>clone_desc</code></td>
+<td>
+<p>Optional. Character vector with one element. Provide a
+description for the token clone.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A character vector with one element containing the token clone.
+</p>
+
+
+<h3>References</h3>
+
+<p><a href="https://developer.quickbase.com">Quickbase API
+documentation</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+   x &lt;- clone_token(subdomain = "abc",
+                    auth = keyring::key_get("qb_example"),
+                    clone_name = "My new token",
+                    clone_desc = "This clone was created using R")
+
+## End(Not run)
+</code></pre>
+
+
+</div>

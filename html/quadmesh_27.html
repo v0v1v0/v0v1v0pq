@@ -1,0 +1,46 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>use_crs</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>In-use coordinate system</h2>
+
+<h3>Description</h3>
+
+<p>Set or return the coordinate system currently in use.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">use_crs(crs = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>crs</code></td>
+<td>
+<p>provide PROJ string to set the value</p>
+</td>
+</tr></table>
+<h3>Details</h3>
+
+<p>If argument <code>crs</code> is NULL, the function returns the current value (which may be 'NULL“).
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+use_crs()
+use_crs("+proj=laea +datum=WGS84")
+use_crs()
+
+## End(Not run)
+</code></pre>
+
+
+</div>

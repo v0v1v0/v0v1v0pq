@@ -1,0 +1,244 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>QTE</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>qte: A package for computating quantile treatment effects</h2>
+
+<h3>Description</h3>
+
+<p>Main class of objects.  A <code>QTE</code> object is returned by
+all of the methods that compute the QTE or QTET.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">QTE(
+  qte,
+  ate = NULL,
+  qte.se = NULL,
+  qte.lower = NULL,
+  qte.upper = NULL,
+  ate.se = NULL,
+  ate.lower = NULL,
+  ate.upper = NULL,
+  c = NULL,
+  pscore.reg = NULL,
+  probs,
+  type = "On the Treated",
+  F.treated.t = NULL,
+  F.untreated.t = NULL,
+  F.treated.t.cf = NULL,
+  F.treated.tmin1 = NULL,
+  F.treated.tmin2 = NULL,
+  F.treated.change.tmin1 = NULL,
+  F.untreated.change.t = NULL,
+  F.untreated.change.tmin1 = NULL,
+  F.untreated.tmin1 = NULL,
+  F.untreated.tmin2 = NULL,
+  condQ.treated.t = NULL,
+  condQ.treated.t.cf = NULL,
+  eachIterList = NULL,
+  inffunct = NULL,
+  inffuncu = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>qte</code></td>
+<td>
+<p>The Quantile Treatment Effect at each value of probs</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ate</code></td>
+<td>
+<p>The Average Treatment Effect (or Average Treatment Effect on
+the Treated)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qte.se</code></td>
+<td>
+<p>A vector of standard errors for each qte</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qte.lower</code></td>
+<td>
+<p>A vector of lower confidence intervals for each qte (it is
+based on the bootstrap confidence interval – not the se – so it may not
+be symmyetric about the qte</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qte.upper</code></td>
+<td>
+<p>A vector of upper confidence intervals for each qte (it is
+based on the bootstrap confidence interval – not the se – so it may not
+be symmetric about the qte</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ate.se</code></td>
+<td>
+<p>The standard error for the ATE</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ate.lower</code></td>
+<td>
+<p>Lower confidence interval for the ATE (it is based on the
+bootstrap confidence intervall – not the se – so it may not be symmetric
+about the ATE</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ate.upper</code></td>
+<td>
+<p>Upper confidence interval for the ATE (it is based on the
+bootstrap confidence interval – not the se – so it may not be symmetric
+about the ATE</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>c</code></td>
+<td>
+<p>The critical value from a KS-type statistic used for creating
+uniform confidence bands</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pscore.reg</code></td>
+<td>
+<p>The results of propensity score regression, if specified</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>probs</code></td>
+<td>
+<p>The values for which the qte is computed</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>type</code></td>
+<td>
+<p>Takes the values "On the Treated" or "Population" to indicate
+whether the estimated QTE is for the treated group or for the entire
+population</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>F.treated.t</code></td>
+<td>
+<p>Distribution of treated outcomes for the treated group at
+period t</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>F.untreated.t</code></td>
+<td>
+<p>Distribution of untreated potential outcomes for the
+untreated group at period t</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>F.treated.t.cf</code></td>
+<td>
+<p>Counterfactual distribution of untreated potential
+outcomes for the treated group at period t</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>F.treated.tmin1</code></td>
+<td>
+<p>Distribution of treated outcomes for the
+treated group at period tmin1</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>F.treated.tmin2</code></td>
+<td>
+<p>Distribution of treated outcomes for the
+treated group at period tmin2</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>F.treated.change.tmin1</code></td>
+<td>
+<p>Distribution of the change in outcomes for
+the treated group between periods tmin1 and tmin2</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>F.untreated.change.t</code></td>
+<td>
+<p>Distribution of the change in outcomes for the
+untreated group between periods t and tmin1</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>F.untreated.change.tmin1</code></td>
+<td>
+<p>Distribution of the change in outcomes for
+the untreated group between periods tmin1 and tmin2</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>F.untreated.tmin1</code></td>
+<td>
+<p>Distribution of outcomes for the untreated group
+in period tmin1</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>F.untreated.tmin2</code></td>
+<td>
+<p>Distribution of outcomes for the untreated group
+in period tmin2</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>condQ.treated.t</code></td>
+<td>
+<p>Conditional quantiles for the treated group in
+period t</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>condQ.treated.t.cf</code></td>
+<td>
+<p>Counterfactual conditional quantiles for the treated
+group in period t</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>eachIterList</code></td>
+<td>
+<p>An optional list of the outcome of each bootstrap
+iteration</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>inffunct</code></td>
+<td>
+<p>The influence function for the treated group;
+used for inference when there are multiple
+periods and in the case with panel data.  It is needed for computing covariance
+terms in the variance-covariance matrix.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>inffuncu</code></td>
+<td>
+<p>The influence function for the untreated group</p>
+</td>
+</tr>
+</table>
+</div>

@@ -1,0 +1,364 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>DR_Qopt</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>The Doubly Robust Estimator of the Quantile-Optimal Treatment Regime</h2>
+
+<h3>Description</h3>
+
+<p><code>DR_Qopt</code> implements the doubly robust estimation method to
+estimate the quantile-optimal treatment regime. The double robustness
+property means that it is consistent when either the propensity score model 
+is correctly specified, or the conditional quantile function is correctly specified.
+Both linear and nonlinear conditional quantile models are considered. See 'Examples'
+for an illustrative example.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">DR_Qopt(data, regimeClass, tau, moPropen = "BinaryRandom",
+  nlCondQuant_0 = FALSE, nlCondQuant_1 = FALSE, moCondQuant_0,
+  moCondQuant_1, max = TRUE, length.out = 200, s.tol, it.num = 8,
+  cl.setup = 1, p_level = 1, pop.size = 3000, hard_limit = FALSE,
+  start_0 = NULL, start_1 = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>a data frame, must contain all the variables that appear in <code>moPropen</code>,
+<code>RegimeClass</code>,  <code>moCondQuant_0</code>,  <code>moCondQuant_1</code>, and a column named
+<code>y</code> as the observed response.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>regimeClass</code></td>
+<td>
+<p>a formula specifying the class of treatment regimes to search,
+e.g. if <code>regimeClass = a~x1+x2</code>, and then this function will search the class of treatment regimes
+of the form 
+</p>
+<p style="text-align: center;"><code class="reqn">d(x)=I\left(\beta_0 +\beta_1  x_1 + \beta_2  x_2 &gt; 0\right).
+       </code>
+</p>
+
+<p>Polynomial arguments are also supported.
+See also 'Details'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tau</code></td>
+<td>
+<p>a value between 0 and 1. This is the quantile of interest.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>moPropen</code></td>
+<td>
+<p>The propensity score model for the probability of receiving 
+treatment level 1.
+When <code>moPropen</code> equals the string "BinaryRandom",  the proportion of observations
+receiving treatment level 1 in the sample will be employed
+as a good estimate of the probability for each observation.
+Otherwise, this argument should be a formula/string, based on which this function
+will fit a logistic regression on the treatment level.  e.g. <code>a1~x1</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nlCondQuant_0</code></td>
+<td>
+<p>Logical. When <code>nlCondQuant_0=TRUE</code>,
+this means the prespecified model for
+the conditional quantile function given a=0 is nonlinear,
+so the provided <code>moCondQuant_0</code>
+should be nonlinear.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nlCondQuant_1</code></td>
+<td>
+<p>Logical. When <code>nlCondQuant_1=TRUE</code>,
+this means the prespecified model for the conditional quantile function
+given a=1 is nonlinear,
+so the provided <code>moCondQuant_1</code>
+should be nonlinear.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>moCondQuant_0</code></td>
+<td>
+<p>Either a formula or a string representing
+the parametric form of the conditional quantile function given that treatment=0.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>moCondQuant_1</code></td>
+<td>
+<p>Either a formula or a string representing
+the parametric form of the conditional quantile function given that treatment=1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>max</code></td>
+<td>
+<p>logical. If <code>max=TRUE</code>, it indicates we wish to maximize the marginal
+quantile; if <code>max=FALSE</code>, we wish to minimize the marginal quantile. The default is <code>TRUE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>length.out</code></td>
+<td>
+<p>an integer greater than 1.  If one of the conditional quantile
+model is set to be nonlinear, this argument will be triggered and we will fit 
+<code>length.out</code> models across quantiles equally spaced between 0.001 and 0.999.
+Default is 200.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>s.tol</code></td>
+<td>
+<p>This is the tolerance level used by <code>genoud</code>. 
+Default is <code class="reqn">10^{-5}</code> times the difference between
+the largest and the smallest value in the observed responses.
+This is particularly important when it comes to evaluating <code>it.num</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>it.num</code></td>
+<td>
+<p>integer &gt; 1. This argument will be used in <code>rgeound::geound</code> function.
+If there is no improvement in the objective function in this number of generations,
+<code>rgenoud::genoud</code> will think that it has found the optimum.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cl.setup</code></td>
+<td>
+<p>the number of nodes. &gt;1 indicates choosing parallel computing option in 
+<code>rgenoud::genoud</code>. Default is 1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p_level</code></td>
+<td>
+<p>choose between 0,1,2,3 to indicate different levels of output
+from the genetic function. Specifically, 0 (minimal printing),
+1 (normal), 2 (detailed), and 3 (debug.)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pop.size</code></td>
+<td>
+<p>an integer with the default set to be 3000. This is the population number for the first generation
+in the genetic algorithm (<code>rgenoud::genoud</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>hard_limit</code></td>
+<td>
+<p>logical. When it is true the maximum number of generations
+in  <code>rgeound::geound</code> cannot exceed 100. Otherwise, in this function, only
+<code>it.num</code> softly controls when <code>genoud</code> stops. Default is <code>FALSE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>start_0</code></td>
+<td>
+<p>a named list or named numeric vector of starting estimates for
+the conditional quantile function when <code>treatment = 0</code>. This is required when
+<code>nlCondQuant_0=TRUE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>start_1</code></td>
+<td>
+<p>a named list or named numeric vector of starting estimates for
+the conditional quantile function when <code>treatment = 1</code>. This is required when
+<code>nlCondQuant_1=TRUE</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+
+<ul>
+<li>
+<p> Standardization on covariates AND explanation on the differences between
+the two returned regime parameters.
+</p>
+<p>Note that all estimation functions in this package use the same type
+of standardization on covariates. Doing so would allow us to provide a bounded 
+domain of parameters for searching in the genetic algorithm.
+</p>
+<p>This estimated parameters indexing the quantile-optimal treatment regime are returned <em>in two scales:</em>
+</p>
+
+<ol>
+<li>
+<p> The returned <code>coefficients</code> is the set of parameters after covariates <code class="reqn">X</code> 
+are standardized to be in the interval [0, 1]. To be exact, every covariate is 
+subtracted by the smallest observed value and divided by the difference between 
+the largest and the smallest value.  Next, we carried out the algorithm in Wang 2016 to get the estimated
+regime parameters, <code>coefficients</code>, based on the standardized data. 
+For the identifiability issue, we force the Euclidean norm of <code>coefficients</code>
+to be 1.
+</p>
+</li>
+<li>
+<p> In contrast, <code>coef.orgn.scale</code> corresponds to the original covariates,
+so the associated decision rule can be applied directly to novel observations. 
+In other words, let <code class="reqn">\beta</code> denote the estimated parameter in the original 
+scale, then the estimated treatment regime is:  
+</p>
+<p style="text-align: center;"><code class="reqn"> d(x)= I\{\hat{\beta}_0 + \hat{\beta}_1 x_1 + ... + \hat{\beta}_k x_k &gt; 0\}.</code>
+</p>
+
+<p>The estimated <code class="reqn">\bm{\hat{\beta}}</code> is returned as <code>coef.orgn.scale</code>.
+The same as <code>coefficients</code>, we force the Euclidean norm of <code>coef.orgn.scale</code>
+to be 1.
+</p>
+</li>
+</ol>
+<p>If, for each input covariate, the smallest observed value is exactly 0 and the range 
+(i.e. the largest number minus the smallest number) is exactly 1, then the estimated 
+<code>coefficients</code> and <code>coef.orgn.scale</code> will render identical.
+</p>
+</li>
+<li>
+<p> Property of the doubly robust(DR) estimator. The DR estimator <code>DR_Qopt</code>
+is consistent if either the propensity score model or the conditional quantile
+regression model is correctly specified. (Wang et. al. 2016)
+</p>
+</li>
+</ul>
+<h3>Value</h3>
+
+<p>This function returns an object with 9 objects. Both <code>coefficients</code>
+and <code>coef.orgn.scale</code>  were normalized to have unit euclidean norm.
+</p>
+
+<dl>
+<dt><code>coefficients</code></dt>
+<dd>
+<p>the parameters indexing the estimated 
+quantile-optimal treatment regime for 
+standardized covariates. </p>
+</dd>
+<dt><code>coef.orgn.scale</code></dt>
+<dd>
+<p>the parameter indexing the estimated 
+quantile-optimal treatment regime for the original input covariates.</p>
+</dd>
+<dt><code>tau</code></dt>
+<dd>
+<p>the quantile of interest</p>
+</dd>
+<dt><code>hatQ</code></dt>
+<dd>
+<p>the estimated marginal tau-th quantile when the treatment 
+regime indexed by <code>coef.orgn.scale</code> is applied on everyone.
+See the 'details' for connection between <code>coef.orgn.scale</code> and
+<code>coefficient</code>.</p>
+</dd>
+<dt><code>call</code></dt>
+<dd>
+<p>the user's call.</p>
+</dd>
+<dt><code>moPropen</code></dt>
+<dd>
+<p>the user specified propensity score model</p>
+</dd>
+<dt><code>regimeClass</code></dt>
+<dd>
+<p>the user specified class of treatment regimes</p>
+</dd>
+<dt><code>moCondQuant_0</code></dt>
+<dd>
+<p>the user specified conditional quantile model for treatment 0</p>
+</dd>
+<dt><code>moCondQuant_1</code></dt>
+<dd>
+<p>the user specified conditional quantile model for treatment 1</p>
+</dd>
+</dl>
+<h3>Author(s)</h3>
+
+<p>Yu Zhou, <a href="mailto:zhou0269@umn.edu">zhou0269@umn.edu</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Wang L, Zhou Y, Song R and Sherwood B (2017).
+“Quantile-Optimal Treatment Regimes.”
+<em>Journal of the American Statistical Association</em>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>dr_quant_est</code>, <code>augX</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">ilogit &lt;- function(x) exp(x)/(1 + exp(x))
+GenerateData.DR &lt;- function(n)
+{
+ x1 &lt;- runif(n,min=-1.5,max=1.5)
+ x2 &lt;- runif(n,min=-1.5,max=1.5)
+ tp &lt;- ilogit( 1 - 1*x1^2 - 1* x2^2)
+ a &lt;-rbinom(n,1,tp)
+ y &lt;- a * exp(0.11 - x1- x2) + x1^2 + x2^2 +  a*rgamma(n, shape=2*x1+3, scale = 1) +
+ (1-a)*rnorm(n, mean = 2*x1 + 3, sd = 0.5)
+ return(data.frame(x1=x1,x2=x2,a=a,y=y))
+}
+
+regimeClass &lt;- as.formula(a ~ x1+x2)
+moCondQuant_0 &lt;- as.formula(y ~ x1+x2+I(x1^2)+I(x2^2))
+moCondQuant_1 &lt;- as.formula(y ~ exp( 0.11 - x1 - x2)+ x1^2 + p0 + p1*x1
+                           + p2*x1^2 + p3*x1^3 +p4*x1^4 )
+start_1 = list(p0=0, p1=1.5, p2=1, p3 =0,p4=0)
+
+
+
+n &lt;- 400
+testdata &lt;- GenerateData.DR(n)
+
+## Examples below correctly specified both the propensity model and 
+##  the conditional quantile model.
+  
+ system.time(
+ fit1 &lt;- DR_Qopt(data=testdata, regimeClass = regimeClass, 
+                 tau = 0.25,
+                 moPropen = a~I(x1^2)+I(x2^2),
+                 moCondQuant_0 = moCondQuant_0,
+                 moCondQuant_1 = moCondQuant_1,
+                 nlCondQuant_1 = TRUE,  start_1=start_1,
+                 pop.size = 1000))
+ fit1
+ ## Go parallel for the same fit. It would save a lot of time.
+ ### Could even change the cl.setup to larger values 
+ ### if more cores are available.
+  
+ system.time(fit2 &lt;- DR_Qopt(data=testdata, regimeClass = regimeClass, 
+                 tau = 0.25,
+                 moPropen = a~I(x1^2)+I(x2^2),
+                 moCondQuant_0 = moCondQuant_0,
+                 moCondQuant_1 = moCondQuant_1,
+                 nlCondQuant_1 = TRUE,  start_1=start_1,
+                 pop.size = 1000, cl.setup=2))
+ fit2
+
+</code></pre>
+
+
+</div>

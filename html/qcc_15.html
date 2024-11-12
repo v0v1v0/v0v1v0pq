@@ -1,0 +1,123 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>ewmaSmooth</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>EWMA smoothing function</h2>
+
+<h3>Description</h3>
+
+<p>Compute Exponential Weighted Moving Average.</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">ewmaSmooth(x, y, lambda = 0.2, start, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a vector of x-values.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>a vector of y-values.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lambda</code></td>
+<td>
+<p>the smoothing parameter.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>start</code></td>
+<td>
+<p>the starting value.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>additional arguments (currently not used).</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>EWMA function smooths a series of data based on a moving average with weights which decay exponentially.
+</p>
+<p>For each <code class="reqn">y_t</code> value the smoothed value is computed as
+</p>
+<p style="text-align: center;"><code class="reqn">z_t = \lambda y_t + (1-\lambda) z_{t-1}</code>
+</p>
+
+<p>where <code class="reqn">0 \le \lambda \le 1</code> is the parameter which controls the weights applied.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns a list with elements:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>ordered x-values</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>smoothed y-values</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lambda</code></td>
+<td>
+<p>the smoothing parameter</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>start</code></td>
+<td>
+<p>the starting value</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Luca Scrucca</p>
+
+
+<h3>References</h3>
+
+<p>Montgomery, D.C. (2005) <em>Introduction to Statistical Quality Control</em>, 5th ed. New York: John Wiley &amp; Sons. <br>
+Wetherill, G.B. and Brown, D.W. (1991) <em>Statistical Process Control</em>. New York: Chapman &amp; Hall.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>qcc</code>, <code>cusum</code></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">x &lt;- 1:50
+y &lt;- rnorm(50, sin(x/5), 0.5)
+plot(x,y)
+lines(ewmaSmooth(x,y,lambda=0.1), col="red")
+</code></pre>
+
+
+</div>

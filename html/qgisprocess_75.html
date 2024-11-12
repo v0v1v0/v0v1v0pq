@@ -1,0 +1,124 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qgis_using_json_input</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Report if JSON objects are used for input to and output from 'qgis_process'</h2>
+
+<h3>Description</h3>
+
+<p>Returns a logical that reveals whether the JSON input and output methods are
+used, respectively.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qgis_using_json_input()
+
+qgis_using_json_output(query = FALSE, quiet = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>query</code></td>
+<td>
+<p>Logical.
+Should the outcome of <code>qgis_using_json_output()</code> ignore the cached value?
+The argument has effect on condition that no user setting 'use_json_output'
+is in place (see Details).
+</p>
+
+<ul>
+<li>
+<p> If set as <code>TRUE</code>, the function simply returns <code>TRUE</code> and the cached value
+for the current session is set as <code>TRUE</code>.
+</p>
+</li>
+<li>
+<p> If set as <code>FALSE</code> (default), the function returns the cached value on
+condition that it does not conflict with a 'use_json_<strong>in</strong>put' user setting.
+</p>
+</li>
+</ul>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>quiet</code></td>
+<td>
+<p>Use <code>FALSE</code> to display more information,
+possibly useful for debugging.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Since QGIS 3.24 the JSON input method of 'qgis_process' is used by default
+when calling the command.
+It allows to use certain algorithms that
+require a more complex input argument, e.g. a list of lists (see
+<code>qgis_list_input()</code>).
+</p>
+<p>Likewise, JSON output is the default output format requested from
+'qgis_process'.
+Using the JSON input method of 'qgis_process' automatically implies
+using the JSON output method; when <em>not</em> using the JSON input method it is
+possible (but not the default) to also not use the JSON output method.
+</p>
+<p>The defaults can be overruled with the options
+<code>qgisprocess.use_json_input</code> or <code>qgisprocess.use_json_output</code>, and with the
+environment variables <code>R_QGISPROCESS_USE_JSON_INPUT</code> or
+<code>R_QGISPROCESS_USE_JSON_OUTPUT</code>.
+</p>
+<p>The returned JSON output method is always
+cached during the current session by <code>qgis_using_json_output()</code>.
+Given that <code>qgis_using_json_output()</code> is called by various functions
+in the package, having a user setting 'use_json_output' in place (see above)
+will have effect during subsequent usage of the package.
+To cache the value between sessions, <code>qgis_configure()</code> needs to be called
+to update the value stored in the persistent package cache file.
+</p>
+<p>The JSON input method is not cached but simply determined on the fly, based
+on QGIS version, the JSON output method and the user setting if present.
+</p>
+<p>There is good reason for having 'use_json_output' in the persistent package
+cache: the values of <code>qgis_algorithms()</code> and <code>qgis_plugins()</code> are different
+with or without the JSON output method, and are also stored in the cache.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A logical of length 1.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Other topics about programming or debugging utilities: 
+<code>qgis_result_status()</code>,
+<code>qgis_run()</code>,
+<code>qgis_tmp_file()</code>,
+<code>qgis_unconfigure()</code>
+</p>
+<p>Other topics about reporting the QGIS state: 
+<code>has_qgis()</code>,
+<code>qgis_algorithms()</code>,
+<code>qgis_path()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+qgis_using_json_input()
+qgis_using_json_output()
+
+</code></pre>
+
+
+</div>

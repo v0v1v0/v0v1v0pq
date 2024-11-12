@@ -1,0 +1,62 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>sampleFrac</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Compute Sample Fractions</h2>
+
+<h3>Description</h3>
+
+<p>Uses denominators stored with <code>setqreportOption</code> along with counts specified to <code>SampleFrac</code> to compute fractions of subjects in current analysis
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">sampleFrac(n, nobsY = NULL, table = TRUE, study = " ")
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p>integer vector, named with <code>"enrolled","randomized"</code> and optionally also including treatment levels.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nobsY</code></td>
+<td>
+<p>a result of the the <code>nobsY</code> Hmisc function</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>table</code></td>
+<td>
+<p>set to <code>TRUE</code> to return as an attribute <code>"table"</code> a character string containing an HTML table showing the pertinent frequencies created from <code>n</code> and the <code>denom</code> option, and if <code>nobsY</code> is present, adding another table with response variable-specific counts.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>study</code></td>
+<td>
+<p>character string with study ID</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>named vector of relative sample sizes with an attribute <code>table</code> with frequency counts
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">setqreportOption(tx.var='treatment', denom=c(enrolled=1000, randomized=800, a=398, b=402))
+sampleFrac(getqreportOption('denom'))
+</code></pre>
+
+
+</div>

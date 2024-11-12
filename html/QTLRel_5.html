@@ -1,0 +1,182 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>estVC</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Estimate Variance Component Parameters
+</h2>
+
+<h3>Description</h3>
+
+<p>Estimate model parameters for covariates, genetic variance components and residual effect.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">estVC(y, x, v = list(E=diag(length(y))), initpar, nit = 25,
+   method = c("ML", "REML"), control = list(), hessian = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+
+<p>A numeric vector or a numeric matrix of one column (representing a phenotype for instance).
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+
+<p>A data frame or matrix, representing covariates if not missing.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>v</code></td>
+<td>
+
+<p>A list of matrices representing variance components of interest. Note: <code>E</code> is reserved for residual (or environmental) variance and can be missed in <code>v</code>; it is considered to be an identify matrix if it is missing.
+</p>
+<p><code>v</code> can be provided as a single matrix, representing a variance component other than <code>E</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>initpar</code></td>
+<td>
+
+<p>Optional initial parameter values. When provided, <code>optim</code> will be called for optimization, which may take time but is good for checking of the result (see details for more).
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nit</code></td>
+<td>
+
+<p>Maximum number of iterations for optimization. Ignored if there are not more than two variance components.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+
+<p>Either maximum likelihood (ML) or restricted maximum likelihood (REML).
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>control</code></td>
+<td>
+
+<p>A list of control parameters to be passed to <code>optim</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>hessian</code></td>
+<td>
+
+<p>Logical. Should a numerically differentiated Hessian matrix be returned?
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The optimization function <code>optim</code> is adopted in the above function to estimate the parameters and maximum likelihood. Several optimization methods are available for the optimization algorithm in <code>optim</code>, but we recommend "Nelder-Mead" for the sake of stability. Alternatively, one may choose other options, e.g., "BFGS" to initialize and speed up the estimation procedure and then the procedure will automatically turn to "Nelder-Mead" for final results. If there is only one variance component (other than <code>E</code>), <code>optimize</code> will be used for optimization unless <code>initpar</code> is provided.
+</p>
+<p>Normality is assumed for the random effects. Input data should be free of missing values.
+</p>
+
+
+<h3>Value</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>par</code></td>
+<td>
+<p>estimates of the model parameters.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>value</code></td>
+<td>
+<p>log-likelihood of the model.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>y used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>associated with x used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>v</code></td>
+<td>
+<p>variance component matrices v used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>other information.</p>
+</td>
+</tr>
+</table>
+<h3>Note</h3>
+
+<p>Hessian matrix, if requested, pertains to -log-likelihood function.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>optim</code> and <code>rem</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(miscEx)
+
+## Not run: 
+# no sex effect
+pheno&lt;- pdatF8[!is.na(pdatF8$bwt) &amp; !is.na(pdatF8$sex),]
+ii&lt;- match(rownames(pheno), rownames(gmF8$AA))
+v&lt;- list(A=gmF8$AA[ii,ii], D=gmF8$DD[ii,ii])
+
+o&lt;- estVC(y=pheno$bwt, v=v)
+o
+
+# sex as fixed effect
+fo&lt;- estVC(y=pheno$bwt, x=pheno$sex, v=v)
+fo
+2*(fo$value-o$value) # log-likelihood test statistic
+
+# sex as random effect
+SM&lt;- rem(~sex, data=pheno)
+ro&lt;- estVC(y=pheno$bwt, v=c(v,list(Sex=SM$sex)))
+ro
+2*(ro$value-o$value) # log-likelihood test statistic
+
+## End(Not run)
+</code></pre>
+
+
+</div>

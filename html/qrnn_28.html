@@ -1,0 +1,156 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qrnn.cost</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Smooth approximation to the tilted absolute value cost function
+</h2>
+
+<h3>Description</h3>
+
+<p>Smooth approximation to the tilted absolute value cost function
+used to fit a QRNN model. Optional left censoring, monotone constraints,
+and additive constraints are supported.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qrnn.cost(weights, x, y, n.hidden, w, tau, lower, monotone,
+          additive, eps, Th, Th.prime, penalty, unpenalized)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>weights</code></td>
+<td>
+
+<p>weight vector of length returned by <code>qrnn.initialize</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+
+<p>covariate matrix with number of rows equal to the number of samples and number of columns equal to the number of variables.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+
+<p>response column matrix with number of rows equal to the number of samples.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n.hidden</code></td>
+<td>
+
+<p>number of hidden nodes in the QRNN model.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>w</code></td>
+<td>
+
+<p>vector of weights with length equal to the number of samples;
+<code>NULL</code> gives equal weight to each sample.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tau</code></td>
+<td>
+
+<p>desired tau-quantile.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lower</code></td>
+<td>
+
+<p>left censoring point.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>monotone</code></td>
+<td>
+
+<p>column indices of covariates for which the monotonicity constraint should hold.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>additive</code></td>
+<td>
+
+<p>force additive relationships.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>eps</code></td>
+<td>
+
+<p>epsilon value used in the approximation functions.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Th</code></td>
+<td>
+
+<p>hidden layer transfer function; use <code>sigmoid</code>, <code>elu</code>, <code>relu</code>, <code>lrelu</code>, 
+<code>softplus</code>, or other non-decreasing function for a nonlinear model and <code>linear</code> for a linear model.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Th.prime</code></td>
+<td>
+
+<p>derivative of the hidden layer transfer function <code>Th</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>penalty</code></td>
+<td>
+
+<p>weight penalty for weight decay regularization.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>unpenalized</code></td>
+<td>
+
+<p>column indices of covariates for which the weight penalty should not be applied to input-hidden layer weights.
+</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>numeric value indicating tilted absolute value cost function, along with attribute containing vector with gradient information.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>qrnn.fit</code>
+</p>
+
+
+</div>

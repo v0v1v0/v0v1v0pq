@@ -1,0 +1,92 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qp_cases_brute</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Calculate the number of cases for a particular case target with iterative
+simulations (brute force)</h2>
+
+<h3>Description</h3>
+
+<p><code>qp_cases_brute</code> calculates the number of cases needed for a particular
+power level. The function starts with the number of cases given by <code>start_value</code>
+and iteratively simulates power and adjusts the number of cases
+until the <code>power_target</code> is met or the <code>max_value</code> has been reached.
+Running the function can take a lot of time. Use <code>qp_cases</code> to
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qp_cases_brute(
+  power_target,
+  start_value = 2,
+  max_value = 100,
+  progress = TRUE,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>power_target</code></td>
+<td>
+<p>Power level target</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>start_value</code></td>
+<td>
+<p>Default number of cases for initial search</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>max_value</code></td>
+<td>
+<p>Default maximum number of cases for search</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>progress</code></td>
+<td>
+<p>Show progress of calculation (default <code>TRUE</code>)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p><code>qcapower</code> parameters – see <code>qcapower</code></p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>An integer showing how many cases are needed to achieve the
+target level of power.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>qp_cases_brute</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+qp_cases_brute(power_target = 0.9, null_hypo = 0.80, alt_hypo = 1)
+
+qp_cases_brute(power_target = 0.9, null_hypo = 0.80, alt_hypo = 1, start_value = 20,
+               max_value = 50, perms = 500)
+
+## End(Not run)
+
+</code></pre>
+
+
+</div>

@@ -1,0 +1,88 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>dfm_match</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Match the feature set of a dfm to given feature names</h2>
+
+<h3>Description</h3>
+
+<p>Match the feature set of a dfm to a specified vector of feature names.
+For existing features in <code>x</code> for which there is an exact match for an
+element of <code>features</code>, these will be included.  Any features in <code>x</code>
+not <code>features</code> will be discarded, and any feature names specified in
+<code>features</code> but not found in <code>x</code> will be added with all zero counts.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">dfm_match(x, features)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a dfm</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>features</code></td>
+<td>
+<p>character; the feature names to be matched in the output dfm</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Selecting on another dfm's <code>featnames()</code> is useful when you
+have trained a model on one dfm, and need to project this onto a test set
+whose features must be identical. It is also used in
+<code>bootstrap_dfm()</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A dfm whose features are identical to those specified in
+<code>features</code>.
+</p>
+
+
+<h3>Note</h3>
+
+<p>Unlike <code>dfm_select()</code>, this function will add feature names
+not already present in <code>x</code>. It also provides only fixed,
+case-sensitive matches.  For more flexible feature selection, see
+<code>dfm_select()</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>dfm_select()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># matching a dfm to a feature vector
+dfm_match(dfm(tokens("")), letters[1:5])
+dfm_match(data_dfm_lbgexample, c("A", "B", "Z"))
+dfm_match(data_dfm_lbgexample, c("B", "newfeat1", "A", "newfeat2"))
+
+# matching one dfm to another
+txt &lt;- c("This is text one", "The second text", "This is text three")
+(dfmat1 &lt;- dfm(tokens(txt[1:2])))
+(dfmat2 &lt;- dfm(tokens(txt[2:3])))
+(dfmat3 &lt;- dfm_match(dfmat1, featnames(dfmat2)))
+setequal(featnames(dfmat2), featnames(dfmat3))
+</code></pre>
+
+
+</div>

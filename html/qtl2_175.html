@@ -1,0 +1,319 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>write_control_file</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Write a control file for QTL data</h2>
+
+<h3>Description</h3>
+
+<p>Write the control file (in <a href="https://yaml.org">YAML</a> or <a href="https://json.org">JSON</a>) needed
+by <code>read_cross2()</code> for a set of QTL data.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">write_control_file(
+  output_file,
+  crosstype = NULL,
+  geno_file = NULL,
+  founder_geno_file = NULL,
+  gmap_file = NULL,
+  pmap_file = NULL,
+  pheno_file = NULL,
+  covar_file = NULL,
+  phenocovar_file = NULL,
+  sex_file = NULL,
+  sex_covar = NULL,
+  sex_codes = NULL,
+  crossinfo_file = NULL,
+  crossinfo_covar = NULL,
+  crossinfo_codes = NULL,
+  geno_codes = NULL,
+  alleles = NULL,
+  xchr = NULL,
+  sep = ",",
+  na.strings = c("-", "NA"),
+  comment.char = "#",
+  geno_transposed = FALSE,
+  founder_geno_transposed = FALSE,
+  pheno_transposed = FALSE,
+  covar_transposed = FALSE,
+  phenocovar_transposed = FALSE,
+  description = NULL,
+  comments = NULL,
+  overwrite = FALSE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>output_file</code></td>
+<td>
+<p>File name (with path) of the
+<a href="https://yaml.org">YAML</a> or <a href="https://json.org">JSON</a> file to be created, as a character
+string. If extension is <code>.json</code>, JSON format is used; otherwise, YAML is used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>crosstype</code></td>
+<td>
+<p>Character string with the cross type.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>geno_file</code></td>
+<td>
+<p>File name for genotype data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>founder_geno_file</code></td>
+<td>
+<p>File name for the founder genotype data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gmap_file</code></td>
+<td>
+<p>File name for genetic map.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pmap_file</code></td>
+<td>
+<p>File name for the physical map.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pheno_file</code></td>
+<td>
+<p>File name for the phenotype data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>covar_file</code></td>
+<td>
+<p>File name for the covariate data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>phenocovar_file</code></td>
+<td>
+<p>File name for the phenotype covariate data
+(i.e., metadata about the phenotypes).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sex_file</code></td>
+<td>
+<p>File name for the individuals' sex. (Specify just
+one of <code>sex_file</code> or <code>sex_covar</code>.)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sex_covar</code></td>
+<td>
+<p>Column name in the covariate data that corresponds
+to sex. (Specify just one of <code>sex_file</code> or <code>sex_covar</code>.)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sex_codes</code></td>
+<td>
+<p>Named vector of character strings specifying the
+encoding of sex. The names attribute should be the codes used in
+the data files; the values within the vector should be
+<code>"female"</code> and <code>"male"</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>crossinfo_file</code></td>
+<td>
+<p>File name for the <code>cross_info</code> data. (Specify just
+one of <code>crossinfo_file</code> or <code>crossinfo_covar</code>.)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>crossinfo_covar</code></td>
+<td>
+<p>Column name in the covariate data that
+corresponds to the <code>cross_info</code> data. (Specify just one of
+<code>crossinfo_file</code> or <code>crossinfo_covar</code>.)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>crossinfo_codes</code></td>
+<td>
+<p>In the case that there is a single cross
+info column (whether in a file or as a covariate), you can
+provide a named vector of character strings specifying the
+encoding of <code>cross_info</code>. The names attribute should be the
+codes used; the values within the vector should be the codes to
+which they will be converted (for example, <code>0</code> and <code>1</code> for an
+intercross).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>geno_codes</code></td>
+<td>
+<p>Named vector specifying the encoding of
+genotypes. The names attribute has the codes used within the
+genotype and founder genotype data files; the values within the
+vector should be the integers to which the genotypes will be
+converted.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>alleles</code></td>
+<td>
+<p>Vector of single-character codes for the founder
+alleles.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xchr</code></td>
+<td>
+<p>Character string with the ID for the X chromosome.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sep</code></td>
+<td>
+<p>Character string that separates columns in the data files.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>na.strings</code></td>
+<td>
+<p>Vector of character strings with codes to be
+treated as missing values.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>comment.char</code></td>
+<td>
+<p>Character string that is used as initial
+character in a set of leading comment lines in the data files.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>geno_transposed</code></td>
+<td>
+<p>If TRUE, genotype file is transposed (with markers as rows).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>founder_geno_transposed</code></td>
+<td>
+<p>If TRUE, founder genotype file is transposed (with markers as rows).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pheno_transposed</code></td>
+<td>
+<p>If TRUE, phenotype file is transposed (with phenotypes as rows).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>covar_transposed</code></td>
+<td>
+<p>If TRUE, covariate file is transposed (with covariates as rows).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>phenocovar_transposed</code></td>
+<td>
+<p>If TRUE, phenotype covariate file is transposed (with phenotype covariates as rows).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>description</code></td>
+<td>
+<p>Optional character string describing the data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>comments</code></td>
+<td>
+<p>Vector of character strings to be inserted as
+comments at the top of the file (in the case of YAML), with each
+string as a line. For JSON, the comments are instead included
+within the control object.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>overwrite</code></td>
+<td>
+<p>If TRUE, overwrite file if it exists. If FALSE
+(the default) and the file exists, stop with an error.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>This function takes a set of parameters and creates the
+control file (in <a href="https://yaml.org">YAML</a> or <a href="https://json.org">JSON</a> format) needed
+for the new input data file format for
+<a href="https://kbroman.org/qtl2/">R/qtl2</a>.  See the
+<a href="https://kbroman.org/qtl2/pages/sampledata.html">sample data files</a> and the
+<a href="https://kbroman.org/qtl2/assets/vignettes/input_files.html">vignette describing the input file format</a>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>(Invisibly) The data structure that was written.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>read_cross2()</code>, sample data files at
+<a href="https://kbroman.org/qtl2/pages/sampledata.html">https://kbroman.org/qtl2/pages/sampledata.html</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># Control file for the sample dataset, grav2
+grav2_control_file &lt;- file.path(tempdir(), "grav2.yaml")
+write_control_file(grav2_control_file,
+                   crosstype="riself",
+                   geno_file="grav2_geno.csv",
+                   gmap_file="grav2_gmap.csv",
+                   pheno_file="grav2_pheno.csv",
+                   phenocovar_file="grav2_phenocovar.csv",
+                   geno_codes=c(L=1L, C=2L),
+                   alleles=c("L", "C"),
+                   na.strings=c("-", "NA"))
+
+# Control file for the sample dataset, iron
+iron_control_file &lt;- file.path(tempdir(), "iron.yaml")
+write_control_file(iron_control_file,
+                   crosstype="f2",
+                   geno_file="iron_geno.csv",
+                   gmap_file="iron_gmap.csv",
+                   pheno_file="iron_pheno.csv",
+                   covar_file="iron_covar.csv",
+                   phenocovar_file="iron_phenocovar.csv",
+                   geno_codes=c(SS=1L, SB=2L, BB=3L),
+                   sex_covar="sex",
+                   sex_codes=c(f="female", m="male"),
+                   crossinfo_covar="cross_direction",
+                   crossinfo_codes=c("(SxB)x(SxB)"=0L, "(BxS)x(BxS)"=1L),
+                   xchr="X",
+                   alleles=c("S", "B"),
+                   na.strings=c("-", "NA"))
+
+# Remove these files, to clean up temporary directory
+unlink(c(grav2_control_file, iron_control_file))
+</code></pre>
+
+
+</div>

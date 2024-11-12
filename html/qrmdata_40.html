@@ -1,0 +1,76 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>interest_rates</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Interest-Rate Data</h2>
+
+<h3>Description</h3>
+
+<p>Zero-coupon bond yield curves in CAD and USD.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">data("ZCB_CAD")
+data("ZCB_USD")
+</code></pre>
+
+
+<h3>Format</h3>
+
+
+<dl>
+<dt>
+<code>ZCB_CAD</code>:</dt>
+<dd>
+<p><code>xts</code> object containing, in each row, zero-coupon bond yield curves
+in percent for 120 times to maturity (ranging from 0.25 to 30 years); only
+trading days from 1991-01-02 to 2015-08-31 with available values
+for all maturities are included.
+</p>
+</dd>
+<dt>
+<code>ZCB_USD</code>:</dt>
+<dd>
+<p><code>xts</code> object containing, in each row, zero-coupon bond yield curves
+in percent for 30 times to maturity (ranging from 1 to 30 years); only
+trading days from 1985-11-25 to 2015-12-29 with available values
+for all maturities are included.
+</p>
+</dd>
+</dl>
+<h3>Author(s)</h3>
+
+<p>Marius Hofert</p>
+
+
+<h3>Source</h3>
+
+<p><code>ZCB_CAD</code> was created from data obtained from
+<a href="https://www.bankofcanada.ca/rates/interest-rates/bond-yield-curves/">https://www.bankofcanada.ca/rates/interest-rates/bond-yield-curves/</a>
+multiplied by 100. <code>ZCB_USD</code> was obtained from
+https://data.nasdaq.com/data/FED/SVENY-us-treasury-zerocoupon-yield-curve/
+(active in 2016) via Quandl. Both data sets were drawn on 2016-01-03
+(<code>ZCB_USD</code> via the function <code>get_data()</code> from <a href="https://CRAN.R-project.org/package=qrmtools"><span class="pkg">qrmtools</span></a>).
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data("ZCB_CAD")
+data("ZCB_USD")
+mat &lt;- as.matrix(ZCB_USD['2015-01-01/2015-12-31',])
+df &lt;- data.frame(Day = rep(1:nrow(mat), each = ncol(mat)),
+                 Maturity = rep(1:ncol(mat), nrow(mat)),
+                 Value = as.vector(t(mat)))
+lattice::wireframe(Value ~ Day * Maturity, data = df,
+                   alpha.regions = 0.5,
+                   scales = list(arrows = FALSE, col = "black"),
+                   par.settings = list(axis.line = list(col = "transparent")))
+</code></pre>
+
+
+</div>

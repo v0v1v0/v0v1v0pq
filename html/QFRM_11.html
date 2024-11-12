@@ -1,0 +1,94 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>BOPM</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Binomial option pricing model</h2>
+
+<h3>Description</h3>
+
+<p>Compute option price via binomial option pricing model (recombining symmetric binomial tree).
+If no tree requested for European option, vectorized algorithm is used.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">BOPM(o = OptPx(), IncBT = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>o</code></td>
+<td>
+<p>An <code>OptPx</code> object</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>IncBT</code></td>
+<td>
+<p>Values <code>TRUE</code> or <code>FALSE</code> indicating whether to include a list of all option tree values (underlying and derivative prices) in the returned <code>OptPx</code> object.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>An original <code>OptPx</code> object with <code>PxBT</code> field as the binomial-tree-based price of an option
+and (an optional) the fullly-generated binomial tree in <code>BT</code> field.
+</p>
+
+<ul>
+<li> <p><code>IncBT = FALSE</code>: option price value (type <code>double</code>, class <code>numeric</code>)
+</p>
+</li>
+<li>
+<p><code>IncBT = TRUE</code>: binomial tree as a list
+(of length (<code>o$NSteps+1</code>) of numeric matrices (2 x <code>i</code>)</p>
+</li>
+</ul>
+<p>Each matrix is a set of possible i outcomes at time step i
+columns: (underlying prices, option prices)
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Oleg Melnikov, Department of Statistics, Rice University, Spring 2015
+</p>
+
+
+<h3>References</h3>
+
+<p>Hull, J.C., <em>Options, Futures and Other Derivatives</em>, 9ed, 2014. Prentice Hall.
+ISBN 978-0-13-345631-8, <a href="http://www-2.rotman.utoronto.ca/~hull/ofod">http://www-2.rotman.utoronto.ca/~hull/ofod</a>. <a href="http://amzn.com/0133456315">http://amzn.com/0133456315</a>
+</p>
+<p>#See Fig.13.11, Hull/9e/p291. #Create an option and price it
+o = Opt(Style='Eu', Right='C', S0 = 808, ttm = .5, K = 800)
+o = BOPM( OptPx(o, r=0.05, q=0.02, vol=0.2, NSteps=2), IncBT=TRUE)
+o$PxBT #print added calculated price to PxBT field
+</p>
+<p>#Fig.13.11, Hull/9e/p291:
+o = Opt(Style='Eu', Right='C', S0=810, ttm=.5, K=800)
+BOPM( OptPx(o, r=0.05, q=0.02, vol=0.2, NSteps=2), IncBT=TRUE)$PxBT
+</p>
+<p>#DerivaGem diplays up to 10 steps:
+o = Opt(Style='Am', Right='C', 810, .5, 800)
+BOPM( OptPx(o, r=0.05, q=0.02, vol=0.2, NSteps=20), IncBT=TRUE)
+</p>
+<p>#DerivaGem computes up to 500 steps:
+o = Opt(Style='American', Right='Put', 810, 0.5, 800)
+BOPM( OptPx(o, r=0.05, q=0.02, vol=0.2, NSteps=1000), IncBT=FALSE)
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>BOPM_Eu</code> for European option via vectorized approach.
+</p>
+
+
+</div>

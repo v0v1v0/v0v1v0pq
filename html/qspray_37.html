@@ -1,0 +1,62 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>isPolynomialOf</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Whether a 'qspray' is a polynomial of some given 'qsprays'</h2>
+
+<h3>Description</h3>
+
+<p>Checks whether a <code>qspray</code> polynomial can be written as 
+a polynomial of some given <code>qspray</code> polynomials. If <code>TRUE</code>, 
+this polynomial is returned.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">isPolynomialOf(qspray, qsprays)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>qspray</code></td>
+<td>
+<p>a <code>qspray</code> object</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qsprays</code></td>
+<td>
+<p>a list of <code>qspray</code> objects</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A Boolean value indicating whether the polynomial defined by 
+<code>qspray</code> can be written as a polynomial of the polynomials defined 
+by the <code>qspray</code> objects given in the <code>qsprays</code> list. If this is 
+<code>TRUE</code>, this polynomial is returned as an attribute named 
+<code>"polynomial"</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(qspray)
+x &lt;- qlone(1); y &lt;- qlone(2); z &lt;- qlone(3)
+q1 &lt;- x + y
+q2 &lt;- x*z^2 + 4
+qspray &lt;- q1^2*q2 + 2*q1 + 3
+( check &lt;- isPolynomialOf(qspray, list(q1, q2)) )
+POLYNOMIAL &lt;- attr(check, "polynomial")
+changeVariables(POLYNOMIAL, list(q1, q2)) == qspray # should be TRUE
+</code></pre>
+
+
+</div>

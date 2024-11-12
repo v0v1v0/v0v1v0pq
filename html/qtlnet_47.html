@@ -1,0 +1,280 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>bic.qtlnet</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Pre-compute BIC values for qtlnet sampling.
+</h2>
+
+<h3>Description</h3>
+
+<p>Pre-compute BIC values for qtlnet sampling to speed up MCMC sampling.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">bic.qtlnet(cross, pheno.col, threshold, addcov = NULL, intcov = NULL,
+  max.parents = 3, parents, verbose = TRUE, ...)
+bic.join(cross, pheno.col, ..., max.parents = 3)
+data(Pscdbp.bic)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>cross</code></td>
+<td>
+
+<p>Object of class <code>cross</code>. See <code>read.cross</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pheno.col</code></td>
+<td>
+
+<p>Phenotype identifiers from <code>cross</code> object. May be numeric, logical
+or character.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>threshold</code></td>
+<td>
+
+<p>Scalar or list of thresholds, one per each node.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>addcov</code></td>
+<td>
+
+<p>Additive covariates for each phenotype (<code>NULL</code> if not used).
+If entered as scalar or vector (same format as <code>pheno.col</code>),
+then the same <code>addcov</code> is used for all
+phenotypes. Altenatively, may be a list of additive covariate identifiers.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>intcov</code></td>
+<td>
+
+<p>Interactive covariates, entered in the same manner as <code>addcov</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>max.parents</code></td>
+<td>
+
+<p>Maximum number of parents per node. This reduces the complexity of
+graphs and shortens run time. Probably best to consider values of 3-5.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>parents</code></td>
+<td>
+
+<p>List containing all possible parents up to <code>max.parents</code> in
+size. May be a subset
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+
+<p>Print iteration and number of models fit.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+
+<p>Additional arguments passed to internal routines. In the case of
+<code>bic.join</code>, these are a list of objects produced by
+<code>bic.qtlnet</code> (see example below).
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The most expensive part of calculations is running
+<code>scanone</code> on each phenotype with parent phenotypes as
+covariates. One strategy is to pre-compute the BIC contributions using a
+cluster and save them for later use.
+</p>
+<p>We divide the job into three steps: 1) determine parents and divide into
+reasonable sized groups; 2) compute BIC scores using scanone on a grid
+of computers; 3) compute multiple MCMC runs on a grid of computers. See
+the example for details.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Matrix with columns:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>code</code></td>
+<td>
+<p>Binary code as decimal for the parents of a phenotype
+node, excluding the phenotype. Value is between 0 (no parents) and
+<code>2 ^ (length(pheno.col) - 1)</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pheno.col</code></td>
+<td>
+<p>Phenotype column in reduced set, in range
+<code>1:length(pheno.col)</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bic</code></td>
+<td>
+<p>BIC score for phenotype conditional on parents (and covariates).</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Brian S. Yandell and Elias Chaibub Neto
+</p>
+
+
+<h3>References</h3>
+
+<p>Chaibub Neto E, Keller MP, Attie AD, Yandell BS (2010)
+Causal Graphical Models in Systems Genetics: a unified
+framework for joint inference of causal network and
+genetic architecture for correlated phenotypes.
+Ann Appl Statist 4: 320-339.
+<a href="http://dx.doi.org/10.1214/09-AOAS288">http://dx.doi.org/10.1214/09-AOAS288</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>mcmc.qtlnet</code>,
+<code>parents.qtlnet</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">pheno.col &lt;- 1:13
+max.parents &lt;- 12
+size.qtlnet(pheno.col, max.parents)
+
+## Not run: 
+## Compute all phenotype/parent combinations.
+## This shows how to break up into many smaller jobs.
+
+#########################################
+## STEP 1: Preparation. Fast. Needed in steps 2 and 3.
+
+pheno.col &lt;- 1:13
+max.parents &lt;- 12
+threshold &lt;- 3.83
+
+## Load cross object. Here we use internal object.
+data(Pscdbp)
+## or: load("Pscdbp.RData")
+cross &lt;- Pscdbp
+## or: cross &lt;- read.cross("Pscdbp.csv", "csv")
+
+## Break up into groups to run on several machines.
+## ~53 groups of ~1000, for a total of 53248 scanone runs.
+parents &lt;- parents.qtlnet(pheno.col, max.parents)
+groups &lt;- group.qtlnet(parents = parents, group.size = 1000)
+
+## Save all relevant objects for later steps.
+save(cross, pheno.col, max.parents, threshold, parents, groups,
+  file = "Step1.RData", compress = TRUE)
+
+#########################################
+## STEP 2: Compute BIC scores. Parallelize.
+
+## NB: Configuration of parallelization determined using Step 1 results.
+## Load Step 1 computations.
+load("Step1.RData")
+
+## Parallelize this:
+for(i in seq(nrow(groups)))
+{
+  ## Pre-compute BIC scores for selected parents.
+  bic &lt;- bic.qtlnet(cross, pheno.col, threshold,
+    max.parents = max.parents,
+    parents = parents[seq(groups[i,1], groups[i,2])])
+
+  save(bic, file = paste("bic", i, ".RData", sep = ""), compress = TRUE)
+}
+
+#########################################
+## STEP 3: Sample Markov chain (MCMC). Parallelize.
+
+## NB: n.runs sets the number of parallel runs.
+n.runs &lt;- 100
+
+## Load Step 1 computations.
+load("Step1.RData")
+
+## Read in saved BIC scores and combine into one object.
+bic.group &lt;- list()
+for(i in seq(nrow(groups)))
+{
+  load(paste("bic", i, ".RData", sep = ""))
+  bic.group[[i]] &lt;- bic
+}
+saved.scores &lt;- bic.join(cross, pheno.col, bic.group)
+
+
+## Parallelize this:
+for(i in seq(n.runs))
+{
+  ## Run MCMC with randomized initial network.
+  mcmc &lt;- mcmc.qtlnet(cross, pheno.col, threshold = threshold,
+    max.parents = max.parents, saved.scores = saved.scores, init.edges = NULL)
+
+  save(mcmc, file = paste("mcmc", i, ".RData", sep = ""), compress = TRUE)
+}
+
+#########################################
+## STEP 4: Combine results for post-processing.
+
+## NB: n.runs needed from Step 3.
+n.runs &lt;- 100
+
+## Combine outputs together.
+outs.qtlnet &lt;- list()
+for(i in seq(n.runs))
+{
+  load(paste("mcmc", i, ".RData", sep = ""))
+  outs.qtlnet[[i]] &lt;- mcmc
+}
+out.qtlnet &lt;- c.qtlnet(outs.qtlnet)
+summary(out.qtlnet)
+print(out.qtlnet)
+
+## End of parallel example.
+#########################################
+
+## End(Not run)
+
+dim(Pscdbp.bic)
+</code></pre>
+
+
+</div>

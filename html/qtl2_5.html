@@ -1,0 +1,64 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>batch_cols</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Batch columns by pattern of missing values</h2>
+
+<h3>Description</h3>
+
+<p>Identify batches of columns of a matrix that have the same pattern
+of missing values.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">batch_cols(mat, max_batch = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>mat</code></td>
+<td>
+<p>A numeric matrix</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>max_batch</code></td>
+<td>
+<p>Maximum batch size</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list containing the batches, each with two components:
+<code>cols</code> containing numeric indices of the columns in the
+corresponding batch, and <code>omit</code> containing a vector of row indices
+that have missing values in this batch.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>batch_vec()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">x &lt;- rbind(c( 1,  2,  3, 13, 16),
+           c( 4,  5,  6, 14, 17),
+           c( 7, NA,  8, NA, 18),
+           c(NA, NA, NA, NA, 19),
+           c(10, 11, 12, 15, 20))
+batch_cols(x)
+</code></pre>
+
+
+</div>

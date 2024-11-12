@@ -1,0 +1,68 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>exactBeta</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Calculate lower and upper CI of a given quantile using exact method, based on beta distribution</h2>
+
+<h3>Description</h3>
+
+<p>Calculate lower and upper CI of a given quantile using exact method, based on beta distribution
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">exactBeta(n, q, alpha)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p>sample size</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>q</code></td>
+<td>
+<p>quantile</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>alpha</code></td>
+<td>
+<p>desired significance level</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>a list of the lower and upper confidence limit of the quantiles.Values are between [0,1]
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>u1</code></td>
+<td>
+<p>lower confidence limit of the quantile</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>u2</code></td>
+<td>
+<p>upper confidence limit of the quantile</p>
+</td>
+</tr>
+</table>
+<h3>Examples</h3>
+
+<pre><code class="language-R">QuantileNPCI:::exactBeta(25, 0.5, 0.05)
+
+</code></pre>
+
+
+</div>

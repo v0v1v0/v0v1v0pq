@@ -1,0 +1,49 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>getValues-LagKernelWeight</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Get values from a weight object determined by a kernel function <code>W</code> and
+a bandwidth <code>bw</code>.</h2>
+
+<h3>Description</h3>
+
+<p>For an <code>object</code> of type <code>LagKernelWeight</code> and an optional integer
+<code>K</code> the weights <code class="reqn">W_k</code> are returned as a vector that has
+<code class="reqn">W_k((k-1)/bw)</code> at position <code>k</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S4 method for signature 'LagKernelWeight'
+getValues(object, K = length(object@env$values))
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p><code>LagKernelWeight</code> of which to get the values</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>K</code></td>
+<td>
+<p>a <code>numeric</code> that determines the largest lag. The weight will be
+computed for the <code class="reqn">K</code> integers <code class="reqn">0:(K-1)</code>; by default the number
+<code>K</code> specified on construction.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Returns a vector of size <code>K</code> as described in the Details section.
+</p>
+
+
+</div>

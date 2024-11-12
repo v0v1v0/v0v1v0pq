@@ -1,0 +1,403 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>rm_white</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Remove/Replace/Extract White Space</h2>
+
+<h3>Description</h3>
+
+<p><code>rm_white</code> - Remove multiple white space (&gt; 1 becomes a single white 
+space), white space before a comma, white space before a single or 
+consecutive combination of a colon, semicolon, or endmark (period, question 
+mark, or exclamation point), white space after a left bracket ("{", "(", "[") 
+or before a right bracket ("}", ")", "]"), leading or trailing white space.
+</p>
+<p><code>rm_white_bracket</code> - Remove white space after a left bracket ("{", "(", "[") 
+or before a right bracket ("}", ")", "]").
+</p>
+<p><code>rm_white_colon</code> - Remove white space before a single or consecutive 
+combination of a colon, semicolon.
+</p>
+<p><code>rm_white_comma</code> - Remove white space before a comma.
+</p>
+<p><code>rm_white_endmark</code> - Remove white space before endmark(s) (".", "?", "!").
+</p>
+<p><code>rm_white_lead</code> - Remove leading white space.
+</p>
+<p><code>rm_white_lead_trail</code> - Remove leading or trailing white space.
+</p>
+<p><code>rm_white_trail</code> - Remove trailing white space.
+</p>
+<p><code>rm_white_multiple</code> - Remove multiple white space (&gt; 1 becomes a single 
+white space).
+</p>
+<p><code>rm_white_punctuation</code> - Remove multiple white space before a comma, white 
+space before a single or consecutive combination of a colon, semicolon, or 
+endmark (period, question mark, or exclamation point).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">rm_white(
+  text.var,
+  trim = FALSE,
+  clean = FALSE,
+  pattern = "@rm_white",
+  replacement = "",
+  extract = FALSE,
+  dictionary = getOption("regex.library"),
+  ...
+)
+
+ex_white(
+  text.var,
+  trim = FALSE,
+  clean = FALSE,
+  pattern = "@rm_white",
+  replacement = "",
+  extract = TRUE,
+  dictionary = getOption("regex.library"),
+  ...
+)
+
+rm_white_bracket(
+  text.var,
+  trim = !extract,
+  clean = TRUE,
+  pattern = "@rm_white_bracket",
+  replacement = "",
+  extract = FALSE,
+  dictionary = getOption("regex.library"),
+  ...
+)
+
+ex_white_bracket(
+  text.var,
+  trim = !extract,
+  clean = TRUE,
+  pattern = "@rm_white_bracket",
+  replacement = "",
+  extract = TRUE,
+  dictionary = getOption("regex.library"),
+  ...
+)
+
+rm_white_colon(
+  text.var,
+  trim = !extract,
+  clean = TRUE,
+  pattern = "@rm_white_colon",
+  replacement = "",
+  extract = FALSE,
+  dictionary = getOption("regex.library"),
+  ...
+)
+
+ex_white_colon(
+  text.var,
+  trim = !extract,
+  clean = TRUE,
+  pattern = "@rm_white_colon",
+  replacement = "",
+  extract = TRUE,
+  dictionary = getOption("regex.library"),
+  ...
+)
+
+rm_white_comma(
+  text.var,
+  trim = !extract,
+  clean = TRUE,
+  pattern = "@rm_white_comma",
+  replacement = "",
+  extract = FALSE,
+  dictionary = getOption("regex.library"),
+  ...
+)
+
+ex_white_comma(
+  text.var,
+  trim = !extract,
+  clean = TRUE,
+  pattern = "@rm_white_comma",
+  replacement = "",
+  extract = TRUE,
+  dictionary = getOption("regex.library"),
+  ...
+)
+
+rm_white_endmark(
+  text.var,
+  trim = !extract,
+  clean = TRUE,
+  pattern = "@rm_white_endmark",
+  replacement = "",
+  extract = FALSE,
+  dictionary = getOption("regex.library"),
+  ...
+)
+
+ex_white_endmark(
+  text.var,
+  trim = !extract,
+  clean = TRUE,
+  pattern = "@rm_white_endmark",
+  replacement = "",
+  extract = TRUE,
+  dictionary = getOption("regex.library"),
+  ...
+)
+
+rm_white_lead(
+  text.var,
+  trim = FALSE,
+  clean = FALSE,
+  pattern = "@rm_white_lead",
+  replacement = "",
+  extract = FALSE,
+  dictionary = getOption("regex.library"),
+  ...
+)
+
+ex_white_lead(
+  text.var,
+  trim = FALSE,
+  clean = FALSE,
+  pattern = "@rm_white_lead",
+  replacement = "",
+  extract = TRUE,
+  dictionary = getOption("regex.library"),
+  ...
+)
+
+rm_white_lead_trail(
+  text.var,
+  trim = FALSE,
+  clean = FALSE,
+  pattern = "@rm_white_lead_trail",
+  replacement = "",
+  extract = FALSE,
+  dictionary = getOption("regex.library"),
+  ...
+)
+
+ex_white_lead_trail(
+  text.var,
+  trim = FALSE,
+  clean = FALSE,
+  pattern = "@rm_white_lead_trail",
+  replacement = "",
+  extract = TRUE,
+  dictionary = getOption("regex.library"),
+  ...
+)
+
+rm_white_trail(
+  text.var,
+  trim = FALSE,
+  clean = FALSE,
+  pattern = "@rm_white_trail",
+  replacement = "",
+  extract = FALSE,
+  dictionary = getOption("regex.library"),
+  ...
+)
+
+ex_white_trail(
+  text.var,
+  trim = FALSE,
+  clean = FALSE,
+  pattern = "@rm_white_trail",
+  replacement = "",
+  extract = TRUE,
+  dictionary = getOption("regex.library"),
+  ...
+)
+
+rm_white_multiple(
+  text.var,
+  trim = !extract,
+  clean = TRUE,
+  pattern = "@rm_white_multiple",
+  replacement = "",
+  extract = FALSE,
+  dictionary = getOption("regex.library"),
+  ...
+)
+
+ex_white_multiple(
+  text.var,
+  trim = !extract,
+  clean = TRUE,
+  pattern = "@rm_white_multiple",
+  replacement = "",
+  extract = TRUE,
+  dictionary = getOption("regex.library"),
+  ...
+)
+
+rm_white_punctuation(
+  text.var,
+  trim = !extract,
+  clean = TRUE,
+  pattern = "@rm_white_punctuation",
+  replacement = "",
+  extract = FALSE,
+  dictionary = getOption("regex.library"),
+  ...
+)
+
+ex_white_punctuation(
+  text.var,
+  trim = !extract,
+  clean = TRUE,
+  pattern = "@rm_white_punctuation",
+  replacement = "",
+  extract = TRUE,
+  dictionary = getOption("regex.library"),
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>text.var</code></td>
+<td>
+<p>The text variable.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>trim</code></td>
+<td>
+<p>logical.  If <code>TRUE</code> removes leading and trailing white 
+spaces.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>clean</code></td>
+<td>
+<p>trim logical.  If <code>TRUE</code> extra white spaces and escaped 
+character will be removed.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pattern</code></td>
+<td>
+<p>A character string containing a regular expression (or 
+character string for <code>fixed = TRUE</code>) to be matched in the given 
+character vector.  Default, <code>@rm_dollar</code> uses the 
+<code>rm_dollar</code> regex from the regular expression dictionary from 
+the <code>dictionary</code> argument.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>replacement</code></td>
+<td>
+<p>Replacement for matched <code>pattern</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>extract</code></td>
+<td>
+<p>logical.  If <code>TRUE</code> the dollar strings are extracted into a 
+list of vectors.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dictionary</code></td>
+<td>
+<p>A dictionary of canned regular expressions to search within 
+if <code>pattern</code> begins with <code>"@rm_"</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Other arguments passed to <code>gsub</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Returns a character string with extra white space removed.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p><code>rm_white_endmark</code>/<code>rm_white_punctuation</code> - <a href="https://stackoverflow.com">stackoverflow</a>'s hwnd and Tyler Rinker &lt;tyler.rinker@gmail.com&gt;.
+</p>
+
+
+<h3>References</h3>
+
+<p>The <code>rm_white_endmark</code>/<code>rm_white_punctuation</code> regular expression was taken from: 
+<a href="https://stackoverflow.com/a/25464921/1000343">https://stackoverflow.com/a/25464921/1000343</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>gsub</code>,
+<code>stri_extract_all_regex</code>
+</p>
+<p>Other rm_ functions: 
+<code>rm_abbreviation()</code>,
+<code>rm_between()</code>,
+<code>rm_bracket()</code>,
+<code>rm_caps_phrase()</code>,
+<code>rm_caps()</code>,
+<code>rm_citation_tex()</code>,
+<code>rm_citation()</code>,
+<code>rm_city_state_zip()</code>,
+<code>rm_city_state()</code>,
+<code>rm_date()</code>,
+<code>rm_default()</code>,
+<code>rm_dollar()</code>,
+<code>rm_email()</code>,
+<code>rm_emoticon()</code>,
+<code>rm_endmark()</code>,
+<code>rm_hash()</code>,
+<code>rm_nchar_words()</code>,
+<code>rm_non_ascii()</code>,
+<code>rm_non_words()</code>,
+<code>rm_number()</code>,
+<code>rm_percent()</code>,
+<code>rm_phone()</code>,
+<code>rm_postal_code()</code>,
+<code>rm_repeated_characters()</code>,
+<code>rm_repeated_phrases()</code>,
+<code>rm_repeated_words()</code>,
+<code>rm_tag()</code>,
+<code>rm_time()</code>,
+<code>rm_title_name()</code>,
+<code>rm_url()</code>,
+<code>rm_zip()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">x &lt;-  c(" There is ( $5.50 ) for , me . ", " that's [ 45.6% ] of! the pizza !", 
+    "     14% is { $26  } or $25.99 ?", "Oh ;  here's colon : Yippee !")
+
+rm_white(x)
+rm_white_bracket(x)
+rm_white_colon(x)
+rm_white_comma(x)
+rm_white_endmark(x)
+rm_white_lead(x)
+rm_white_trail(x)
+rm_white_lead_trail(x)
+rm_white_multiple(x)
+rm_white_punctuation(x)
+</code></pre>
+
+
+</div>

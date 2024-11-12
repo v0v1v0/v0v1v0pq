@@ -1,0 +1,139 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>D.make</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Generate D Matrix</h2>
+
+<h3>Description</h3>
+
+<p>Generate the genetic design matrix of specified QTL number and effects.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">D.make(
+  nQTL,
+  type = "RI",
+  a = TRUE,
+  d = TRUE,
+  aa = FALSE,
+  dd = FALSE,
+  ad = FALSE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>nQTL</code></td>
+<td>
+<p>integer. The number of QTLs.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>type</code></td>
+<td>
+<p>character. The population type of the dataset. Includes
+backcross (type="BC"), advanced intercross population (type="AI"), and
+recombinant inbred population (type="RI"). The default value is "RI".</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>a</code></td>
+<td>
+<p>integer or vector. A integer or vector to determines which
+additive effects of QTLs will be considered in this design matrix. If
+a=TRUE, the additive effect of all QTLs will be considered. If
+a=FALSE, no additive effect will be considered.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>d</code></td>
+<td>
+<p>integer or vector. A integer or vector to determines which
+dominant effects of QTLs will be considered in this design matrix. If
+d=TRUE, the dominant effect of all QTLs will be considered.If
+d=FALSE, no dominant effect will be considered.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>aa</code></td>
+<td>
+<p>vector or matrix. The additive-by-additive interaction. Two
+format can be used in this parameter. One format is a vector, where
+every two elements indicate a combination of additive-by-additive
+interaction. The other format is a 2*i matrix, where i is the number
+of combinations of interaction, and each column indicates the two
+interacting QTLs. Additionally, if aa=TRUE, all combinations of
+additive-by-additive interaction will be considered. If aa=FALSE, no
+additive-by-additive interaction will be considered.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dd</code></td>
+<td>
+<p>vector or matrix. The dominant-by-dominant interaction. The
+format is the same as that in aa.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ad</code></td>
+<td>
+<p>vector or matrix. The additive-by-dominant interaction. The
+format is the same as that in aa. Note that in each pair of QTLs, the
+first element indicates the additive effect, and the second element
+indicates the dominant effect.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>The genetic design matrix, where the elements represent the coded
+variables of the QTL effects. It is a g*p matrix, where g is the number
+of possible QTL genotypes, and p is the number of effects in the MIM
+model.
+</p>
+
+
+<h3>Note</h3>
+
+<p>For the 'type' parameter, if type="BC", the design matrix exclusively
+contains additive effects and additive-by-additive interactions. However,
+if type="AI" or type="RI", it encompasses additive and dominance effects
+along with all interactions.
+</p>
+<p>For instance, when aa=c(1,3,2,4,5,6), it denotes that the interaction
+between QTL1 and QTL3, the interaction between QTL2 and QTL4, and that
+between QTL5 and QTL6 will be considered in the design matrix. Furthermore,
+the matrix format can be expressed as aa=matrix(c(1,3,2,4,5,6),2,3).
+Similarly, parameters DD and AD are also expressed in the same format.
+</p>
+
+
+<h3>References</h3>
+
+<p>KAO, C.-H. and Z.-B. ZENG 1997 General formulas for obtaining the maximum
+likelihood estimates and the asymptotic variance-covariance matrix in QTL
+mapping when using the EM algorithm. Biometrics 53, 653-665. &lt;doi: 10.2307/2533965.&gt;
+</p>
+<p>KAO, C.-H., Z.-B. ZENG and R. D. TEASDALE 1999 Multiple interval mapping
+for Quantitative Trait Loci. Genetics 152: 1203-1216. &lt;doi: 10.1093/genetics/152.3.1203&gt;
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">D.make(4, d = c(1,3,4), aa = c(1,2,2,3), dd = c(1,3,1,4), ad = c(1,2,2,1,2,3,3,4))
+
+aa &lt;- matrix(c(1,2,3,4,4,5), 2, 3)
+aa
+D.make(5, type = "BC", a = c(1,3,4,5), aa = aa)
+</code></pre>
+
+
+</div>

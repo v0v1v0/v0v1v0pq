@@ -1,0 +1,70 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>ts-models-AR1</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Simulation of an AR(1) time series.</h2>
+
+<h3>Description</h3>
+
+<p>Returns a simulated time series <code class="reqn">(Y_t)</code> that fulfills the following equation:
+</p>
+<p style="text-align: center;"><code class="reqn">Y_t = a Y_{t-1} + \epsilon_t,</code>
+</p>
+
+<p>where <code class="reqn">a</code> is a parameter and <code class="reqn">\epsilon_t</code> is independent white
+noise with marginal distribution specified by the parameter <code>innov</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">AR1(n, a, overhead = 500, innov = rnorm)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p>length of the time series to be returned</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>a</code></td>
+<td>
+<p>parameter of the model</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>overhead</code></td>
+<td>
+<p>an integer specifying the “warmup” period to reach an
+approximate stationary start for the times series</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>innov</code></td>
+<td>
+<p>a function that generates a random number each time
+<code>innov(1)</code> is called; used to specify the distribution of
+the innovations; <code>rnorm</code> by default</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Returns an AR(1) time series with specified parameters.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">plot(AR1(100, a=-0.7), type="l")
+</code></pre>
+
+
+</div>

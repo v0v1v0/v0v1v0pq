@@ -1,0 +1,124 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>glottolog</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Glottolog data from <a href="https://glottolog.org">https://glottolog.org</a>
+</h2>
+
+<h3>Description</h3>
+
+<p>Data from Glottolog 2016 with added WALS codes and speaker-community size. Various minor corrections and additions were performed in the preparation of the data (see Details). All stocks (i.e. largest reconstructable units) are linked to macroareas, and they are linked to a single root node calles 'World'.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">data("glottolog")</code></pre>
+
+
+<h3>Format</h3>
+
+<p>A data frame with 22007 observations on the following 10 variables.
+</p>
+
+<dl>
+<dt><code>name</code></dt>
+<dd>
+<p>a character vector with the name of the entity.</p>
+</dd>
+<dt><code>father</code></dt>
+<dd>
+<p>a character vector with the name of the direct parent entity.</p>
+</dd>
+<dt><code>stock</code></dt>
+<dd>
+<p>a factor with the highest reconstructable unit. This column is added just for convenience, it does not add any new information.</p>
+</dd>
+<dt><code>glottocode</code></dt>
+<dd>
+<p>a character vector with the glottocode. The same identifier is added as rownames of the data.</p>
+</dd>
+<dt><code>iso</code></dt>
+<dd>
+<p>a character vector with ISO 639-3 language codes</p>
+</dd>
+<dt><code>wals</code></dt>
+<dd>
+<p>a character vector with WALS language codes</p>
+</dd>
+<dt><code>type</code></dt>
+<dd>
+<p>a factor with levels <code>dialect</code>, <code>family</code> and <code>language</code></p>
+</dd>
+<dt><code>longitude</code></dt>
+<dd>
+<p>a numeric vector with geographic coordinates as available in the Glottolog</p>
+</dd>
+<dt><code>latitude</code></dt>
+<dd>
+<p>a numeric vector with geographic coordinates as available in the Glottolog</p>
+</dd>
+<dt><code>population</code></dt>
+<dd>
+<p>a numeric vector with speaker community size from an old Ethnologue version (13th Edition), licensed to the MPI-EVA in Leipzig.</p>
+</dd>
+</dl>
+<h3>Details</h3>
+
+<p>For Glottolog data: the names were uniquified by adding a glottocode when a name occurs more than once (typically in some cases of a language and a family having the same name). Entries classified as 'bookkeeping', 'unattested' 'artificial language', 'sign language', 'speech register' and 'unclassifiable' were removed. Links to WALS codes were added: note that about 20 links are missing, and for the non-unique links one link was chosen by data availability. Some macro codes from ISO 639-3 were added.
+</p>
+<p>A level 'area' was added to the tree, separating all languages in six areas: Eurasia, Africa, Southeast Asia, Sahul, North America and South America. This is reminiscent of the proposal from Dryer (1992), though Austronesian is grouped with Southeast Asia here, because that makes more sense genealogically. Still, these nodes are surely not monophyletic! Mixed languages are not assigned to an area.
+</p>
+<p>Please note that the data provided here is not identical to the online version of Glottolog, as the online version is constantly being updated! This is Glottolog 2016. Updates might be made available when they are provided for download from the website.
+</p>
+<p>The format of the glottolog data might seem a bit convoluted, but by using <code>getTree</code> it is actually really easy to extract genealogical parts of the glottolog data and by using <code>FromDataFrameNetwork</code> this can be nicely plotted and turned into various tree format as used in R.
+</p>
+
+
+<h3>Source</h3>
+
+<p>Glottolog 2016 data from <a href="https://glottolog.org">https://glottolog.org</a>. WALS 2013 data from <a href="https://glottolog.org">https://glottolog.org</a>. Information on macrolanguages from <a href="https://iso639-3.sil.org/code_tables/macrolanguage_mappings/data">https://iso639-3.sil.org/code_tables/macrolanguage_mappings/data</a>. All data downloaded in March 2017. Population numbers are from the 13th edition of the Ethnologue, licenced to the MPI-EVA in Leipzig.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># use getTree() to select genealogical parts of the data
+data(glottolog)
+
+( aalawa &lt;- getTree(up = "aala1237", kind = "glottocode") )
+( kandas &lt;- getTree(down = "Kandas-Duke of York") )
+( treeFull &lt;- getTree(up = c("deu", "eng", "ind", "cha"), kind = "iso") )
+( treeReduced &lt;- getTree(up = c("deu", "eng", "ind", "cha"), kind = "iso", reduce = TRUE) )
+
+# check out areas
+( areas &lt;- glottolog[glottolog$type == "area", "name"] )
+# stocks in Southeast Asia
+glottolog[glottolog$father == areas[1], "name"]
+
+
+# use FromDataFrameNetwork() to visualize the tree
+# and export it into various other tree formats in R
+
+library(data.tree)
+treeF &lt;- FromDataFrameNetwork(treeFull)
+treeR &lt;- FromDataFrameNetwork(treeReduced)
+
+plot(treeF)
+plot(treeR)
+
+# turn into phylo format from library 'ape'
+t &lt;- as.phylo.Node(treeR)
+plot(t)
+
+# turn into dendrogram
+t &lt;- as.dendrogram(treeF)
+plot(t, center = TRUE)
+
+</code></pre>
+
+
+</div>

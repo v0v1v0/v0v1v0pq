@@ -1,0 +1,138 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>plot_skewness</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>GWAS Skewness vs. Kurtosis Plot</h2>
+
+<h3>Description</h3>
+
+<p>This function generates the skewness vs. kurtosis plot created
+by <code>QC_series</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">plot_skewness(skewness,
+              kurtosis,
+              labels = paste("Study", 1:length(skewness)),
+              plot_labels = "outliers",
+              save_name = "Graph_skewness_kurtosis",
+              save_dir = getwd(), ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>skewness, kurtosis</code></td>
+<td>
+
+<p>Vectors containing the skewness and kurtosis values of the
+datasets</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>labels</code></td>
+<td>
+<p>vector containing names or other identifiers for
+the datapoints, to be plotted in the graph. Note: it's best
+to keep these very short.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>plot_labels</code></td>
+<td>
+<p>character string or logical determining
+whether the values in <code>labels</code> are plotted next to the
+data points. The possible settings are: <code>"none"</code> (or 
+<code>FALSE</code>); <code>"all"</code> (or <code>TRUE</code>); and
+<code>"outliers"</code> for outliers only.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>save_name</code></td>
+<td>
+<p>character string; the filename, <em>without</em>
+extension, for the graph file.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>save_dir</code></td>
+<td>
+<p>character string; the directory where the
+graph is saved. Note that R uses <em>forward</em>
+slash (/) where Windows uses backslash (\).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>arguments passed to <code>plot</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>When running a QC over multiple files, <code>QC_series</code>
+collects the values of the <code>skewness_HQ</code> and <code>kurtosis_HQ</code>
+output of <code>QC_GWAS</code> in a table, which is then
+passed to this function to convert it into a plot. Note that
+this values are calculated over high-quality SNPs only.
+</p>
+<p>Kurtosis is a measure of how well a distribution matches a
+Gaussian distribution. A Gaussian distribution has a kurtosis
+of <code>0</code>. Negative kurtosis indicates a flatter distribution
+curve, while positive kurtosis indicates a sharper, thinner
+curve.
+</p>
+<p>Skewness is a measure of distribution asymmetry. A symmetrical
+distribution has skewness <code>0</code>. A positive skewness
+indicates a long tail towards higher values, while a negative
+skewness indicates a long tail towards lower values.
+</p>
+<p>Ideally, one expects both the skewness and kurtosis of effect
+sizes to be close to <code>0</code>. In practice, these statistics
+can be hugely variable. <code>QC_series</code> uses only high-quality
+effect sizes to calculate these values in order to reduce some
+of the more extreme values. Still, it is recommended that you
+compare the values to those of other GWAS with the same
+phenotype, rather than relying on on the label outliers
+command to identify problems.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An invisible <code>NULL</code>.</p>
+
+
+<h3>See Also</h3>
+
+<p>For calculating skewness and kurtosis: <code>calc_kurtosis</code>.
+</p>
+<p>For other plots comparing GWAS results files:
+<code>plot_precision</code> and <code>plot_distribution</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">  value_S &lt;- c(0.05, -0.27, 0.10, 0.11)
+  value_K &lt;- c( 6.7,  10.0, 10.1,  6.6)
+  value_labels &lt;- paste("cohort", 1:4)
+  
+  ## Not run: 
+  plot_skewness(skewness = value_S,
+                kurtosis = value_K,
+                labels = value_labels,
+                plot_labels = "outliers",
+                save_name = "sample_skewness_kurtosis")
+## End(Not run)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,129 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>QGvar.exp</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Compute the variance of expected values (i.e. the latent values after inverse-link transformation.)</h2>
+
+<h3>Description</h3>
+
+<p>This function computes the variance of the expected values, i.e. the variance of the latent values after transformation through the inverse-link function. This variance, added to the distribution variance, yields to the phenotypic variance on the observed scale.</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">QGvar.exp(mu = NULL, var, link.inv, obs.mean = NULL, predict = NULL, width = 10)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>mu</code></td>
+<td>
+<p>Latent intercept estimated from a GLMM (ignored if predict is not <code>NULL</code>). (numeric of length 1)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>var</code></td>
+<td>
+<p>Latent total phenotypic variance estimated from a GLMM. Usually, the sum of the estimated variances of the random effects, plus the "residual" variance. (numeric of length 1)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>link.inv</code></td>
+<td>
+<p>Inverse function of the link function. (function)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>obs.mean</code></td>
+<td>
+<p>Optional parameter giving the phenotypic mean on the observed scale. Automatically computed if not provided. (numeric)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>predict</code></td>
+<td>
+<p>Optional vector of predicted values on the latent scale (i.e. matrix product <b>Xb</b>). The latent predicted values must be computed while only accounting for the fixed effects (marginal to the random effects). (numeric)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>width</code></td>
+<td>
+<p>Parameter for the integral computation. The integral is evaluated from <code>mu</code> - <code>width * sqrt(var)</code> to <code>mu</code> + <code>width * sqrt(var)</code>. The default value is 10, which should be sensible for most models. (numeric)</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The variance of the expected values is the variance that directly arise from the variance of the latent values, but after transformation through the inverse-link function. For example, using a logarithm link, this is the variance of exp(l) where l is the latent trait.
+</p>
+<p>To compute the variance, the function needs the phenotypic mean on the observed scale. If this was already computed, it can be provided using the optional argument <code>obs.mean</code>, which will save computing time. Otherwise (default), the function will compute the mean on the observed scale before computing the variance.
+</p>
+<p>This variance, when added to the distribution variance (see <code>QGvar.dist</code>) yields the phenotypic variance on the observed scale.
+</p>
+<p>The function required for <code>link.inv</code> is yielded by <code>QGlink.funcs</code> according to a given distribution.link model (see Example below).
+</p>
+<p>Contrary to <code>QGparams</code>, <code>QGvar.dist</code> never uses the closed form solutions, but always compute the integrals.
+</p>
+
+
+<h3>Value</h3>
+
+<p>This function yields the variance of the expected values. (numeric)</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Pierre de Villemereuil &amp; Michael B. Morrissey
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>QGvar.dist</code>, <code>QGparams</code>, <code>QGpred</code>, <code>QGlink.funcs</code>, <code>QGmean</code>, <code>QGpsi</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Example using Poisson.log model
+mu &lt;- 1
+va &lt;- 0.2
+vp &lt;- 0.5
+
+# The inverse-link for a logarithm link is the exponential
+inv.link&lt;- function(x){exp(x)}
+
+# We can then calculate the variance of expected values
+QGvar.exp(mu = mu, var = vp, link.inv = inv.link)
+
+# The mean on the observed scale can be computed beforehand
+y_bar &lt;- QGmean(mu = mu, var = vp, link.inv = inv.link)
+QGvar.exp(mu = mu, var = vp, obs.mean = y_bar, link.inv = inv.link)
+
+# The QGlink.funcs gives a ready - to - use inverse-link function
+funcs&lt;- QGlink.funcs(name = "Poisson.log")
+
+# Calculating the distribution variance
+vexp &lt;- QGvar.exp(mu = mu, var = vp, obs.mean = y_bar, link.inv = funcs$var.func)
+
+vexp           # Same value as above
+
+# Calculating the associated distribution variance
+vdist &lt;- QGvar.dist(mu = mu, var = vp, var.func = funcs$var.func)
+
+# The phenotypic variance on the observed scale is then:
+vexp + vdist
+
+# This computation is automatically performed by QGparams
+# but directly using the closed form solutions when available
+QGparams(mu = mu, var.p = vp, var.a = va, model = "Poisson.log")
+# var.obs is equal to the sum above
+</code></pre>
+
+
+</div>

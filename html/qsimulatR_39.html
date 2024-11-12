@@ -1,0 +1,80 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>noise</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>A noise gate</h2>
+
+<h3>Description</h3>
+
+<p>A noise gate
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">noise(bit, p = 1, error = "any", type = "ERR", args = list())
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>bit</code></td>
+<td>
+<p>integer or integer array. The bit to which to apply the gate. If
+an array is provided, the gate will be applied randomly to one of the bits
+only.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p</code></td>
+<td>
+<p>probability with which noise is applied</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>error</code></td>
+<td>
+<p>one of "X", "Y", "Z", "small" or "any". The model which the noise
+follows. Can be one of the Pauli matrices (X,Y,Z), a random SU(2)-matrix
+with a small deviation <code>sigma</code> from the identity ("small") or an
+arbitrary, uniformly sampled, SU(2)-matrix ("any").</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>type</code></td>
+<td>
+<p>a character vector representing the type of gate</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>args</code></td>
+<td>
+<p>a list of further arguments passed to specific error models. For
+<code>error="small"</code> the standard deviation <code>sigma</code> has to be provided
+here (default=1).</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>An S4 class 'sqgate' object is returned
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">x &lt;- noise(1, error="X") * qstate(nbits=2)
+x
+y &lt;- noise(2, p=0.5) * x
+y
+z &lt;- noise(2, error="small", args=list(sigma=0.1)) * x
+z
+
+</code></pre>
+
+
+</div>

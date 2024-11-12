@@ -1,0 +1,57 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>read_fast</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Read fast database with possible rownames</h2>
+
+<h3>Description</h3>
+
+<p>Read fast database with format <code>fst</code>. Use first column
+of database (must be named 'ind') as rownames if desired. R/qtl2 routines assume data frames have
+rownames to use to align individuals.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">read_fast(datapath, columns = NULL, rownames = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>datapath</code></td>
+<td>
+<p>character string path to database</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>columns</code></td>
+<td>
+<p>names or indexes for columns to be extracted</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rownames</code></td>
+<td>
+<p>use first column of rownames if <code>TRUE</code> (can supply column number)</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>extracted data frame with appropriate rows and columns.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>read_fst</code>
+</p>
+
+
+</div>

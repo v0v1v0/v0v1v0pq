@@ -1,0 +1,91 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>q.rank</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Visualize R-squared value distribution in gene-environment interaction</h2>
+
+<h3>Description</h3>
+
+<p>Visualize R-squared value distribution in gene-environment interaction
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">q.rank(
+  x,
+  y,
+  method = "linear",
+  lower.thr = 0,
+  n.gene = ncol(x),
+  upper.xlim = ncol(x)
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>A data matrix (row: samples, col: genes).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>A vector of an environment in which the samples were collected.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+<p>A string to specify the method of regression for calculating R-squared values.
+"linear" (default), "quadratic" or "cubic" regression model can be specified.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lower.thr</code></td>
+<td>
+<p>The lower threshold of R-squared value to be included in QuEST model (default: 0).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n.gene</code></td>
+<td>
+<p>The number of genes to be included in QuEST model (default: ncol(x)).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>upper.xlim</code></td>
+<td>
+<p>The upper limitation of x axis (i.e., the number of genes) in the resulted figure (default: ncol(x)).</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A rank order plot
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Takahiko Koizumi
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(Pinus)
+train &lt;- q.clean(Pinus$train)
+target &lt;- Pinus$target
+train &lt;- q.sort(train, target)
+q.rank(train, target)
+</code></pre>
+
+
+</div>

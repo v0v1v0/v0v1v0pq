@@ -1,0 +1,154 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>utility_pseudo</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Utility for a given target and pseudo-target</h2>
+
+<h3>Description</h3>
+
+<p>Takes a pseudo-target and target (or samples from the target) and
+evaluates the utility function for the transformed target, which can be one of
+Area Under the Curve (AUC) and Mean Slice Width (MSW). See Heiner et al. (2024+).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">utility_pseudo(
+  pseudo,
+  log_target = NULL,
+  samples = NULL,
+  type = "samples",
+  x = NULL,
+  nbins = 30,
+  plot = TRUE,
+  utility_type = "AUC",
+  tol_int = 0.001
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>pseudo</code></td>
+<td>
+<p>List containing the following functions with scalar input:
+</p>
+<p><code>ld</code>: function to evaluate the log density
+</p>
+<p><code>q</code>: function to evaluate the quantile function
+</p>
+<p><code>p</code>: function to evaluate the distribution function</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>log_target</code></td>
+<td>
+<p>Function to evaluate the log density of the unnormalized target.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>samples</code></td>
+<td>
+<p>Numeric vector of samples from the target distribution.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>type</code></td>
+<td>
+<p>String specifying the input type. One of "function", "samples", or "grid".
+Default is to use "samples".
+</p>
+<p>Use of "function" requires specification of <code>log_target</code>.
+</p>
+<p>Use of "samples" requires specification of <code>samples</code>.
+</p>
+<p>Use of "grid" requires specification of <code>x</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>Numeric vector specifying grid (on (0,1)) over which to evaluate
+the transformed target. Defaults to <code>NULL</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nbins</code></td>
+<td>
+<p>Number of histogram bins to use (defaults to 30). Must match the length
+of <code>x</code> if <code>x</code> is supplied.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>plot</code></td>
+<td>
+<p>Logical for whether to generate two plots:
+</p>
+
+<ol>
+<li>
+<p> direct comparison of the target and pseudo-target densities, and
+</p>
+</li>
+<li>
+<p> transformed target density.
+</p>
+</li>
+</ol>
+<p>Defaults to <code>TRUE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>utility_type</code></td>
+<td>
+<p>String identifying utility type, either AUC (default) or MSW.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tol_int</code></td>
+<td>
+<p>Positive numeric scalar that passes to <code>abs.tol</code> in the call to integrate.
+Defaults to <code>1.0e-3</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Optionally plot the target and pseudo-target densities as well as the
+transformed tartet.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Scalar value of the utility function evaluation.
+</p>
+
+
+<h3>References</h3>
+
+<p>Heiner, M. J., Johnson, S. B., Christensen, J. R., and Dahl, D. B. (2024+), "Quantile Slice Sampling," <em>arXiv preprint arXiv:###</em>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">pseu &lt;- pseudo_list(family = "logistic", params = list(loc = 0.0, sc = 0.66))
+ltarg &lt;- list(ld = function(x) dnorm(x, log = TRUE))
+oldpar &lt;- par(mfrow = c(1,2))
+utility_pseudo(pseudo = pseu, log_target = ltarg$ld, type = "function",
+               nbins = 100, utility_type = "MSW")
+samp &lt;- rnorm(10e3)
+utility_pseudo(pseudo = pseu, samples = samp, type = "samples", utility_type = "AUC")
+utility_pseudo(pseudo = pseu, samples = samp, type = "samples", utility_type = "MSW")
+par(oldpar)
+
+</code></pre>
+
+
+</div>

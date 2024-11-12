@@ -1,0 +1,141 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>est_quant_ipwe</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Estimate the marginal quantile response of a linear static treatment regime</h2>
+
+<h3>Description</h3>
+
+<p>Assume we have binary treatment options for each subject in the target population.
+This function evaluates a given treatment regime by the estimated 
+marginal mean response. 
+We assume the space of treatment regimes are linear
+decision functions indexed by parametric coefficients.
+</p>
+<p>This R function is an empirical <em>value function</em> in the 
+literature of optimal treatment regime estimation. Since the goal here
+is to maximize population's <strong>marginal quantile</strong>, this function, which estimates the perforamce
+of a set of parameters in terms of <strong>marginal quantile</strong>,
+is the objective function in a nonparametric policy-search method.
+</p>
+<p>The user facing application which utilizes this function is <code>IPWE_Qopt_IndCen</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">est_quant_ipwe(beta, sign_beta1, x, censor_y, delta, epsi, a, tau,
+  check_complete = TRUE, Penalty.level = 0)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>beta</code></td>
+<td>
+<p>Numerical vector. Exclude the coefficient for the first nontrivial covariate. So if
+there are <code>k</code> covariates, the length of <code>beta</code> should equal <code>k+1-1=k</code> because
+the intercept needs one coefficient as well.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sign_beta1</code></td>
+<td>
+<p>logical. FALSE if the coefficient for the first continuous variable 
+is fixed to be negative one; TRUE if positive one.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>Numeric Matrix. The baseline covariates from all observed data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>censor_y</code></td>
+<td>
+<p>Numeric vector. The censored survival times from all observed data, i.e. <code>censor_y = min(Y, C)</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>delta</code></td>
+<td>
+<p>Numeric vector. The censoring indicators from all observed data. We use 1 for uncensored, 0 for censored.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>epsi</code></td>
+<td>
+<p>the product of (1) the probability of being assigned the 
+observed treatment level through the original treatment assignment mechanism 
+and (2) the conditional survival probability of the censoring variable at <code>censor_y</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>a</code></td>
+<td>
+<p>Numeric vector. The vector of observed treatment level for all observed data. Treatment levels
+should be coded as 0/1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tau</code></td>
+<td>
+<p>a value between 0 and 1. This is the quantile of interest.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>check_complete</code></td>
+<td>
+<p>logical. Since this value estimation method is purely
+nonparametric, we need at least one unit in collected data such that the observed
+treatment assignment is the same what the regime parameter suggests. If <code>check_complete</code>
+is <code>TRUE</code>. It will check if any observation satisfies this criterion. 
+When none observation satisfies, a message is printed to console to raise users
+awareness that the input regime parameter <code>beta</code> does not agree with any observed treatment level assignment.
+Then a sufficiently small number is returned from this function, to keep
+the genetic algorithm running smoothly.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Penalty.level</code></td>
+<td>
+<p>the level that determines which objective function to use. 
+<code>Penalty.level = 0</code> indicates no regularization;
+<code>Penalty.level = 1</code> indicates the value function estimation minus the means absolute average coefficient 
+is the output, which is useful trick to achieve uniqueness of estimated optimal TR
+when resolution of input response is low.</p>
+</td>
+</tr>
+</table>
+<h3>Examples</h3>
+
+<pre><code class="language-R">GenerateData &lt;- function(n)
+{
+  x1 &lt;- runif(n, min=-0.5,max=0.5)
+  x2 &lt;- runif(n, min=-0.5,max=0.5)
+  error &lt;- rnorm(n, sd= 1)
+  ph &lt;- rep(0.5,n)
+  a &lt;- rbinom(n = n, size = 1, prob=ph)
+  c &lt;- 1.5 +  + runif(n = n, min=0, max=2)
+  cmplt_y &lt;-  pmin(2+x1+x2 +  a*(1 - x1 - x2) +  (0.2 + a*(1+x1+x2)) * error, 4.4)
+  censor_y &lt;- pmin(cmplt_y, c)
+  delta &lt;- as.numeric(c &gt; cmplt_y)
+  return(data.frame(x1=x1,x2=x2,a=a, censor_y = censor_y, delta=delta))
+}
+n &lt;- 100
+data &lt;- GenerateData(n)
+
+# here the value for argument epsi uses 0.5 vector for brevity in notation.
+quant_hat &lt;- est_quant_ipwe(beta=c(-1,2), sign_beta1=TRUE, x=cbind(1, data$x1, data$x2), 
+                            censor_y = data$censor_y, delta = data$delta, tau=0.5,
+                            epsi = rep(0.5,n), a = data$a)  
+
+</code></pre>
+
+
+</div>

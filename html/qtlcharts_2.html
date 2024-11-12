@@ -1,0 +1,64 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>cbindQTLeffects</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Combine multiple runs of estQTLeffects</h2>
+
+<h3>Description</h3>
+
+<p>Combine multiple runs of estQTLeffects by applying cbind to each
+component
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">cbindQTLeffects(..., labels)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Results of [estQTLeffects()]</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>labels</code></td>
+<td>
+<p>Vector of labels to use in the combination.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>list of matrices; each component corresponds to a position
+in the genome and is a matrix with phenotypes x effects
+</p>
+
+
+<h3>See Also</h3>
+
+<p>[estQTLeffects()]
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(qtl)
+data(fake.f2)
+fake.f2 &lt;- calc.genoprob(fake.f2)
+sex &lt;- fake.f2$pheno$sex
+eff.fem &lt;- estQTLeffects(fake.f2[,sex==0], pheno.col=1)
+eff.mal &lt;- estQTLeffects(fake.f2[,sex==1], pheno.col=1)
+eff &lt;- cbindQTLeffects(eff.fem, eff.mal, labels=c("female", "male"))
+
+</code></pre>
+
+
+</div>

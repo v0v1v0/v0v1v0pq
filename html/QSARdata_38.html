@@ -1,0 +1,43 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>Mutagen</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Mutagenicity Data</h2>
+
+<h3>Description</h3>
+
+<p>Kazius et al (2005) investigated using chemical structure to predict mutagenicity (the increase of
+mutations due to the damage to genetic material). An Ames test was used to evaluate the
+mutagenicity potential of various chemicals. There were 4,337 compounds included in the data set with a
+mutagenicity rate of 55.3$%$. Using these compounds, the <span class="pkg">DragonX</span> software (<a href="http://www.talete.mi.it/">http://www.talete.mi.it/</a>) 
+was used to generate a baseline set of 1,579 predictors, including constitutional, topological and connectivity descriptors, among others. These variables consist of basic numeric variables (such as molecular weight) and counts variables (e.g., number of halogen atoms). 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">data(Mutagen)</code></pre>
+
+
+<h3>Format</h3>
+
+<p>The descriptors are contained in a data frame called <code>Mutagen_Dragon</code> and the outcomes are in a factor vector <code>Mutagen_Outcomes</code> with levels "mutagen" and "nonmutagen"
+</p>
+
+
+<h3>References</h3>
+
+<p>Kazius et al. Derivation and validation of toxicophores for mutagenicity prediction. Journal of medicinal chemistry(Print) (2005) vol. 48 (1) pp. 312-320
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(Mutagen)
+head(Mutagen_Dragon)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,390 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qic</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Statistical process control charts.</h2>
+
+<h3>Description</h3>
+
+<p>The <code>qic()</code> function creates run charts and Shewhart control charts for
+process control and improvement. Included control charts are: I, MR, Xbar, S,
+T, C, U, U', P, P', and G charts.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qic(
+  x,
+  y = NULL,
+  n = NULL,
+  data = NULL,
+  facets = NULL,
+  notes = NULL,
+  chart = c("run", "i", "mr", "xbar", "s", "t", "p", "pp", "c", "u", "up", "g"),
+  agg.fun = c("mean", "median", "sum", "sd"),
+  method = c("anhoej", "bestbox", "cutbox"),
+  multiply = 1,
+  freeze = NULL,
+  part = NULL,
+  exclude = NULL,
+  target = NA * 1,
+  cl = NA * 1,
+  nrow = NULL,
+  ncol = NULL,
+  scales = "fixed",
+  title = "",
+  ylab = "Value",
+  xlab = "Subgroup",
+  subtitle = NULL,
+  caption = NULL,
+  part.labels = NULL,
+  show.labels = is.null(facets),
+  show.95 = FALSE,
+  decimals = 1,
+  point.size = 1.5,
+  x.period = NULL,
+  x.format = NULL,
+  x.angle = NULL,
+  x.pad = 1,
+  y.expand = NULL,
+  y.neg = TRUE,
+  y.percent = FALSE,
+  y.percent.accuracy = NULL,
+  show.grid = FALSE,
+  flip = FALSE,
+  strip.horizontal = FALSE,
+  print.summary = FALSE,
+  return.data = FALSE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>Vector of subgroup values to plot along the x axis.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>Vector of measures or counts to plot on the y axis (numerator).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p>Vector of subgroup sizes (denominator).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>Data frame containing variables used in the plot.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>facets</code></td>
+<td>
+<p>One or two sided formula with factors used for facetting plots.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>notes</code></td>
+<td>
+<p>Character vector of notes to be added to individual data points.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>chart</code></td>
+<td>
+<p>Character value indicating the chart type. Possible values are:
+'run' (default), 'i', 'mr', 'xbar', 't', 's', 'c', 'u', 'up', 'p', 'pp',
+and 'g'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>agg.fun</code></td>
+<td>
+<p>Aggregate function for summarising the y variable if there are
+more than one observation per subgroup. Only relevant for run charts and I
+charts. Possible values are: 'mean' (default), 'median', 'sum', and 'sd'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+<p>Character indicating the method used for runs analysis. One of
+'anhoej' (default), 'bestbox', and 'cutbox'. EXPERIMENTAL!</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>multiply</code></td>
+<td>
+<p>Number indicating a number to multiply y axis by, e.g. 100
+for percents rather than proportions. See also <code>y.percent</code> argument.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>freeze</code></td>
+<td>
+<p>Integer indicating the last data point to include in
+calculation of baseline parameters for centre and control lines. Ignored if
+part argument is given.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>part</code></td>
+<td>
+<p>Either integer vector indicating data points before recalculation
+of centre and control lines or character vector indicating chart parts.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>exclude</code></td>
+<td>
+<p>Integer vector indicating data points to exclude from
+calculations of centre and control lines.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>target</code></td>
+<td>
+<p>Numeric, either a single value indicating a target value to be
+plotted as a horizontal line or a vector for variable target line.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cl</code></td>
+<td>
+<p>Numeric, either a single value indicating the centre line if known
+in advance or a vector for variable centre line.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nrow, ncol</code></td>
+<td>
+<p>Number indicating the preferred number of rows and columns
+in facets.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>scales</code></td>
+<td>
+<p>Character string, one of 'fixed' (default), 'free_y', 'free_x',
+or 'free' indicating whether y and x axis scales should be the same for all
+panels or free.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>title</code></td>
+<td>
+<p>Character string specifying the title of the plot.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ylab</code></td>
+<td>
+<p>Character string specifying the y axis label.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xlab</code></td>
+<td>
+<p>Character string specifying the x axis label.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>subtitle</code></td>
+<td>
+<p>Character string specifying the subtitle.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>caption</code></td>
+<td>
+<p>Character string specifying the caption.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>part.labels</code></td>
+<td>
+<p>Character vector specifying  labels for chart parts
+created with the freeze or part argument.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>show.labels</code></td>
+<td>
+<p>Logical indicating whether to show labels for centre and
+control lines on chart. Defaults to TRUE when facets argument is NULL.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>show.95</code></td>
+<td>
+<p>Logical indicating whether to show 95
+control limits on chart. Defaults to FALSE.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>decimals</code></td>
+<td>
+<p>Integer indicating the preferred number of decimals in centre
+and control line labels.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>point.size</code></td>
+<td>
+<p>Number specifying the size of data points.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x.period</code></td>
+<td>
+<p>Character string specifying the interval cut points of
+datetime x values used for aggregating y values by week, month, etc. See
+the breaks argument of <code>?cut.POSIXt()</code> for possible values.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x.format</code></td>
+<td>
+<p>Date format of x axis labels. See <code>?strftime()</code> for
+possible date formats.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x.angle</code></td>
+<td>
+<p>Number indicating the angle of x axis labels.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x.pad</code></td>
+<td>
+<p>Number indicating expansion of x axis to make room for axis
+labels.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y.expand</code></td>
+<td>
+<p>Numeric value to include in y axis. Useful e.g. for starting
+the y axis at zero.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y.neg</code></td>
+<td>
+<p>If TRUE (default), the y axis is allowed to be negative (only
+relevant for I and Xbar charts).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y.percent</code></td>
+<td>
+<p>If TRUE, formats y axis labels as percentages.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y.percent.accuracy</code></td>
+<td>
+<p>A number to round percentage labels on y axis. Use
+1 to show no decimals, 0.1 to show 1 decimal etc.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>show.grid</code></td>
+<td>
+<p>If TRUE, shows grid.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>flip</code></td>
+<td>
+<p>If TRUE, rotates the plot 90 degrees.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>strip.horizontal</code></td>
+<td>
+<p>If TRUE, makes y strip horizontal.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>print.summary</code></td>
+<td>
+<p>If TRUE, prints summary.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>return.data</code></td>
+<td>
+<p>If TRUE, returns underlying data frame.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Non-random variation in the form of minor to moderate persistent shifts in
+data over time is (by default) identified by the Anhoej rules for unusually
+long runs and unusually few crossing. Use the EXPERIMENTAL method argument to
+apply the bestbox or cutbox methods as described in Anhøj &amp; Wentzel-Larsen
+(2020) <a href="https://doi.org/10.1371/journal.pone.0233920">doi:10.1371/journal.pone.0233920</a>.
+</p>
+<p>Special cause variation in the form of larger, possibly transient, shifts in
+data is identified by Shewhart's 3-sigma rule (Mohammed, Worthington,
+Woodall (2008) <a href="https://doi.org/10.1136/qshc.2004.012047">doi:10.1136/qshc.2004.012047</a>).
+</p>
+
+
+<h3>Value</h3>
+
+<p>A <code>qic</code> object. Inherits from 'ggplot'.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>vignette('qic')</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># Lock random number generator to make reproducible results.
+set.seed(2)
+
+# Generate vector of 24 random normal numbers
+y &lt;- rnorm(24)
+
+# Run chart
+qic(y)
+
+# I control chart
+qic(y, chart = 'i')
+
+# U control chart from build-in data set of hospital infection rates faceted
+#   by hospital and type of infection.
+qic(month, n,
+    n        = days,
+    data     = hospital_infections,
+    facets   = infection ~ hospital,
+    chart    = 'u',
+    multiply = 10000,
+    title    = 'Hospital infection rates',
+    ylab     = 'Number of infections per 10.000 risk days',
+    xlab     = 'Month')
+
+</code></pre>
+
+
+</div>

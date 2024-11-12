@@ -1,0 +1,55 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>meanCenter</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2> Mean Center Variables</h2>
+
+<h3>Description</h3>
+
+<p>This simple function subtracts the mean from a variable rendering mean-centered variables.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">meanCenter(x)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p> variable or column of data to be centered </p>
+</td>
+</tr></table>
+<h3>Details</h3>
+
+<p>This is particularly useful in lm() with higher order terms as in moderation. 
+</p>
+
+
+<h3>Value</h3>
+
+<p>a numeric; mean centered 'x'
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Thomas D. Fletcher <a href="mailto:t.d.fletcher05@gmail.com">t.d.fletcher05@gmail.com</a> </p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(USJudgeRatings)
+usCONT &lt;- meanCenter(USJudgeRatings$CONT)
+summary(usCONT)
+
+</code></pre>
+
+
+</div>

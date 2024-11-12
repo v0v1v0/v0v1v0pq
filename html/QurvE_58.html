@@ -1,0 +1,226 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>read_data</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Read growth and fluorescence data in table format</h2>
+
+<h3>Description</h3>
+
+<p><code>read_data</code> reads table files or R dataframe objects containing growth and fluorescence data and extracts datasets, sample and group information, performs blank correction, applies data transformation (calibration), and combines technical replicates.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">read_data(
+  data.growth = NA,
+  data.fl = NA,
+  data.fl2 = NA,
+  data.format = "col",
+  csvsep = ";",
+  dec = ".",
+  csvsep.fl = ";",
+  dec.fl = ".",
+  csvsep.fl2 = ";",
+  dec.fl2 = ".",
+  sheet.growth = 1,
+  sheet.fl = 1,
+  sheet.fl2 = 1,
+  fl.normtype = c("growth", "fl2"),
+  subtract.blank = TRUE,
+  convert.time = NULL,
+  calib.growth = NULL,
+  calib.fl = NULL,
+  calib.fl2 = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data.growth</code></td>
+<td>
+<p>An R dataframe object or a table file with extension '.xlsx', '.xls', '.csv', '.tsv', or '.txt' containing growth data. The data must be either in the '<code>QurvE</code> custom layout' or in 'tidy' (long) format.
+The first three table rows in the 'custom <code>QurvE</code> layout' contain:
+</p>
+
+<ol>
+<li>
+<p> Sample description
+</p>
+</li>
+<li>
+<p> Replicate number (<em>optional</em>: followed by a letter to indicate technical replicates)
+</p>
+</li>
+<li>
+<p> Concentration value (<em>optional</em>)
+</p>
+</li>
+</ol>
+<p>Data in 'tidy' format requires the following column headers:
+</p>
+
+<ol>
+<li>
+<p> "Time": time values
+</p>
+</li>
+<li>
+<p> "Description": sample description
+</p>
+</li>
+<li>
+<p> "Replicate": replicate number (<em>optional</em>)
+</p>
+</li>
+<li>
+<p> "Concentration": concentration value (<em>optional</em>)
+</p>
+</li>
+<li>
+<p> "Values": growth values (e.g., optical density)
+</p>
+</li>
+</ol>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data.fl</code></td>
+<td>
+<p>(optional) An R dataframe object or a table file with extension '.xlsx', '.xls', '.csv', '.tsv', or '.txt' containing fluorescence data. Table layout must mimic that of <code>data.growth</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data.fl2</code></td>
+<td>
+<p>(optional) An R dataframe object or a table file with extension '.xlsx', '.xls', '.csv', '.tsv', or '.txt' containing measurements from a second fluorescence channel (used only to normalize <code>fluorescence</code> data). Table layout must mimic that of <code>data.growth</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data.format</code></td>
+<td>
+<p>(Character) "col" for samples in columns, or "row" for samples in rows. Default: <code>"col"</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>csvsep</code></td>
+<td>
+<p>(Character) separator used in CSV file storing growth data (ignored for other file types). Default: <code>";"</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dec</code></td>
+<td>
+<p>(Character) decimal separator used in CSV, TSV or TXT file storing growth data. Default: <code>"."</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>csvsep.fl, csvsep.fl2</code></td>
+<td>
+<p>(Character) separator used in CSV file storing fluorescence data (ignored for other file types). Default: <code>";"</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dec.fl, dec.fl2</code></td>
+<td>
+<p>(Character) decimal separator used in CSV, TSV or TXT file storing fluorescence data. Default: <code>"."</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sheet.growth, sheet.fl, sheet.fl2</code></td>
+<td>
+<p>(Numeric or Character) Number or name of the sheet with the respective data type in XLS or XLSX files (<em>optional</em>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fl.normtype</code></td>
+<td>
+<p>(Character string) Normalize fluorescence values by either diving by <code>'growth'</code> or by fluorescence2 values (<code>'fl2'</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>subtract.blank</code></td>
+<td>
+<p>(Logical) Shall blank values be subtracted from values within the same experiment (TRUE, the default) or not (FALSE).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>convert.time</code></td>
+<td>
+<p>(<code>NULL</code> or string) Convert time values with a formula provided in the form <code>'y = function(x)'</code>.
+For example: <code>convert.time = 'y = 24 * x'</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>calib.growth, calib.fl, calib.fl2</code></td>
+<td>
+<p>(Character or <code>NULL</code>) Provide an equation in the form 'y = function(x)' (for example: 'y = x^2 * 0.3 - 0.5') to convert growth and fluorescence values. This can be used to, e.g., convert plate reader absorbance values into OD<sub>600</sub> or fluorescence intensity into molecule concentrations.
+Caution!: When utilizing calibration, carefully consider whether or not blanks were subtracted to determine the calibration before selecting the input <code>subtract.blank = TRUE</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p><img src="../help/figures/Data-layout.jpg" alt="Data-layout.jpg"></p>
+
+
+<h3>Value</h3>
+
+<p>An R list object of class <code>grodata</code> containing a <code>time</code> matrix, dataframes with growth and fluorescence data (if applicable),
+and an experimental design table. The <code>grodata</code> object can be directly
+used to run <code>growth.workflow</code>/<code>fl.workflow</code> or, together with a <code>growth.control</code>/<code>fl.control</code>
+object, in <code>growth.gcFit</code>/<code>flFit</code>.
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>time</code></td>
+<td>
+<p>Matrix with raw time values extracted from <code>data.growth</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>growth</code></td>
+<td>
+<p>Dataframe with raw growth values and sample identifiers extracted from <code>data.growth</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fluorescence</code></td>
+<td>
+<p>Dataframe with raw fluorescence values and sample identifiers extracted from <code>data.fl</code>. <code>NA</code>, if no fluorescence data is provided.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>norm.fluorescence</code></td>
+<td>
+<p>fluorescence data divided by growth values. <code>NA</code>, if no fluorescence data is provided.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>expdesign</code></td>
+<td>
+<p>Experimental design table created from the first three identifier rows/columns (see argument <code>data.format</code>) (<code>data.growth</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Examples</h3>
+
+<pre><code class="language-R"># Load CSV file containing only growth data
+data_growth &lt;- read_data(data.growth = system.file("2-FMA_toxicity.csv",
+                         package = "QurvE"), csvsep = ";" )
+
+# Load XLS file containing both growth and fluorescence data
+data_growth_fl &lt;- read_data(
+                    data.growth = system.file("lac_promoters_growth.txt", package = "QurvE"),
+                    data.fl = system.file("lac_promoters_fluorescence.txt", package = "QurvE"),
+                    csvsep = "\t",
+                    csvsep.fl = "\t")
+</code></pre>
+
+
+</div>

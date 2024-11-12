@@ -1,0 +1,96 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>wait_step</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Compute maximum time for each row from two vectors of arrival times.</h2>
+
+<h3>Description</h3>
+
+<p>Compute maximum time for each row from two vectors of arrival times.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">wait_step(arrivals, service)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>arrivals</code></td>
+<td>
+<p>Either a numeric vector or an object of class <code>queue_list</code>. It represents the arrival times.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>service</code></td>
+<td>
+<p>A vector of times which represent the arrival times of the second type
+of customers. The ordering of this vector should have the same ordering as <code>arrivals</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>A good real-world example of this is finding the departure times for passengers
+after they pick up their bags from the baggage carousel. The time at which they leave is
+the maximum of the passenger and bag arrival times.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The maximum time from two vectors of arrival times.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>lag_step</code>, <code>queue_step</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">set.seed(500)
+arrivals &lt;- rlnorm(100, meanlog = 4)
+service &lt;- rlnorm(100)
+
+#Airport example ------------------------
+
+# Create a number of bags for each of 100 customers
+bags &lt;- rpois(100,1)
+
+# Create a bags dataframe, with each bag associated with one customer.
+bags.df &lt;- data.frame(BagID = 1:sum(bags),
+   ID = rep(1:100, bags), times = rlnorm(sum(bags), meanlog = 2))
+
+# Create a function which will return the maximum time from each customer's set of bags.
+
+reduce_bags &lt;- function(bagdataset, number_of_passengers){
+   ID = NULL
+   times = NULL
+
+   zerobags &lt;- data.frame(BagID = NA, ID = c(1:number_of_passengers), times = 0)
+   reduced_df &lt;- as.data.frame(dplyr::summarise(dplyr::group_by(
+   rbind(bagdataset, zerobags), ID), n = max(times, 0)))
+   ord &lt;- order(reduced_df$ID)
+   reduced_df &lt;- reduced_df[order(ord),]
+   names(reduced_df) &lt;- c("ID", "times")
+   return(reduced_df)
+}
+
+
+arrivals2 &lt;- reduce_bags(bags.df, 100)$times
+
+# Find the time when customers can leave with their bags.
+wait_step(arrivals = arrivals, service = arrivals2)
+</code></pre>
+
+
+</div>

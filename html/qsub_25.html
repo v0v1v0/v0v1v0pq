@@ -1,0 +1,102 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>run_remote</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+<code>run_remote</code> - Runs the command locally or remotely using ssh.</h2>
+
+<h3>Description</h3>
+
+<p>In <code>run_remote</code> the remote commands are enclosed in wrappers that allow to capture output.
+By default stderr is redirected to stdout.
+If there's a genuine error, e.g., the remote command does not exist, the output is not captured. In this case, one can
+see the output by setting <code>intern</code> to <code>FALSE</code>. However, when the command is run but exits with non-zero code,
+<code>run_remote</code> intercepts the generated warning and saves the output.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">run_remote(
+  command,
+  remote = FALSE,
+  args = character(),
+  verbose = FALSE,
+  shell = FALSE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>command</code></td>
+<td>
+<p>Command to run. If run locally, quotes should be escaped once.
+If run remotely, quotes should be escaped twice.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>remote</code></td>
+<td>
+<p>Remote machine specification for ssh, in format such as <code>user@server</code> that does not
+require interactive password entry. For local execution, pass <code>FALSE</code> (default). For
+execution on the default qsub config remote, use <code>TRUE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>args</code></td>
+<td>
+<p>Character vector, arguments to the command.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p>If <code>TRUE</code> prints the command.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>shell</code></td>
+<td>
+<p>Whether to execute the command in a shell</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The remote command will be put inside double quotes twice, so all quotes in cmd must be escaped twice: <code>\\"</code>.
+However, if the command is not remote, i.e., <code>remote</code> is <code>NULL</code> or empty string, quotes should be escaped
+only once.
+</p>
+<p>If the command itself redirects output, the <code>stderr_redirect</code> flag should be set to <code>FALSE</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list with components:
+</p>
+
+<ul>
+<li> <p><code>status</code> The exit status of the process. If this is NA, then the process was killed and had no exit status.
+</p>
+</li>
+<li> <p><code>stdout</code> The standard output of the command, in a character scalar.
+</p>
+</li>
+<li> <p><code>stderr</code> The standard error of the command, in a character scalar.
+</p>
+</li>
+<li> <p><code>elapsed_time</code> The number of seconds required before this function returned an output.
+</p>
+</li>
+</ul>
+<p>Warnings are really errors here so the error flag is set if there are warnings.
+</p>
+
+
+</div>

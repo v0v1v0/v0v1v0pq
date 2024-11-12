@@ -1,0 +1,59 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>concat</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Return the concatenator character from an object</h2>
+
+<h3>Description</h3>
+
+<p>Get the concatenator character from a tokens object.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">concat(x)
+
+concatenator(x)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a tokens object</p>
+</td>
+</tr></table>
+<h3>Details</h3>
+
+<p>The concatenator character is a special delimiter used to link
+separate tokens in multi-token phrases.  It is embedded in the meta-data of
+tokens objects and used in downstream operations, such as <code>tokens_compound()</code>
+or <code>tokens_lookup()</code>.  It can be extracted using <code>concat()</code> and set using
+<code>tokens(x, concatenator = ...)</code> when <code>x</code> is a tokens object.
+</p>
+<p>The default <code style="white-space: pre;">⁠_⁠</code> is recommended since it will not be removed during normal
+cleaning and tokenization (while nearly all other punctuation characters, at
+least those in the Unicode punctuation class <code style="white-space: pre;">⁠[P]⁠</code> will be removed).
+</p>
+
+
+<h3>Value</h3>
+
+<p>a character of length 1
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">toks &lt;- tokens(data_corpus_inaugural[1:5])
+concat(toks)
+
+</code></pre>
+
+
+</div>

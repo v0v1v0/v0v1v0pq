@@ -1,0 +1,162 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>blocking_estimator</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Estimator for treatment effects in blocked experiments</h2>
+
+<h3>Description</h3>
+
+<p><code>blocking_estimator</code> estimates treatment effects in blocked experiments.
+The function expects the user to provide the outcomes, a blocking object
+and treatment assignments. It returns point estimates of sample average
+treatment effects and variance estimates.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">blocking_estimator(outcomes, blocking, treatments)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>outcomes</code></td>
+<td>
+<p>numeric vector with observed outcomes.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>blocking</code></td>
+<td>
+<p><code>qb_blocking</code> or <code>scclust</code> object with
+the block assignments.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>treatments</code></td>
+<td>
+<p>factor specifying the units' treatment assignments.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>To produce point estimates, <code>blocking_estimator</code> requires that each block
+contains at least one unit assigned to each treatment condition. For variance
+estimation, it requires that each block contains at least two units assigned to
+each condition. When treatments have been assigned with the
+<code>assign_treatment</code> function (or an equivalent procedure), the
+variance estimators are conservative in expectation (see the referenced
+note below for details). If treatment is assigned with another method, the
+estimator might not be valid.
+</p>
+<p>The function estimates treatment effects by aggregating block-level
+effect estimates. It estimates effects within each block by taking the difference
+in mean outcomes in the block. The sample-level estimate is then derived as the
+weighted average of the block-level effects using the size of the blocks as weights.
+In detail, let <code class="reqn">n_b</code> be the number of units assigned to block <code class="reqn">b</code>, and
+<code class="reqn">n</code> be the total number of units in the sample. Let <code class="reqn">Y(t, b)</code> be the
+average outcome for units assigned to treatment <code class="reqn">t</code> in block <code class="reqn">b</code>. The
+effect of treatment <code class="reqn">t</code> versus treatment <code class="reqn">s</code> is then estimated as:
+</p>
+<p style="text-align: center;"><code class="reqn">\sum\frac{n_b}{n}[Y(t, b) - Y(s, b)],</code>
+</p>
+
+<p>where the sum is taken over the blocks in the experiment. See the referenced note
+for more details.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list with two numeric matrices with estimated treatment effects and
+their estimated variances is returned. The first matrix (<code>effects</code>)
+contains estimated treatment effects. Rows in this matrix indicate minuends
+in the treatment effect contrast and columns indicate subtrahends. For
+example, in the matrix:
+</p>
+
+<table>
+<tr>
+<td style="text-align: right;">
+     </td>
+<td style="text-align: right;"> a </td>
+<td style="text-align: right;"> b </td>
+<td style="text-align: right;"> c</td>
+</tr>
+<tr>
+<td style="text-align: right;">
+     a </td>
+<td style="text-align: right;"> 0.0 </td>
+<td style="text-align: right;"> 4.5 </td>
+<td style="text-align: right;"> 5.5</td>
+</tr>
+<tr>
+<td style="text-align: right;">
+     b </td>
+<td style="text-align: right;"> -4.5 </td>
+<td style="text-align: right;"> 0.0 </td>
+<td style="text-align: right;"> 1.0</td>
+</tr>
+<tr>
+<td style="text-align: right;">
+     c </td>
+<td style="text-align: right;"> -5.5 </td>
+<td style="text-align: right;"> -1.0 </td>
+<td style="text-align: right;"> 0.0</td>
+</tr>
+<tr>
+<td style="text-align: right;">
+   </td>
+</tr>
+</table>
+<p>the estimated treatment effect between conditions <code class="reqn">a</code> and <code class="reqn">b</code> is
+<code class="reqn">4.5</code>, and the estimated treatment effect between conditions <code class="reqn">c</code>
+and <code class="reqn">b</code> is <code class="reqn">-1.0</code>.
+</p>
+<p>The second matrix (<code>effect_variances</code>) contains estimates of
+variances of the corresponding effect estimators.
+</p>
+
+
+<h3>References</h3>
+
+<p>Higgins, Michael J., Fredrik Sävje and Jasjeet S. Sekhon (2015),
+‘Blocking estimators and inference under the Neyman-Rubin model’,
+arXiv 1510.01103. <a href="https://arxiv.org/abs/1510.01103">https://arxiv.org/abs/1510.01103</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># Example blocking
+my_blocking &lt;- qb_blocking(c("A", "A", "B", "C", "B",
+                             "C", "B", "C", "B", "A",
+                             "C", "C", "A", "B", "B",
+                             "B", "B", "A", "A", "C"))
+
+# Two treatment conditions
+my_treatments &lt;- assign_treatment(my_blocking)
+my_outcomes &lt;- rnorm(20)
+blocking_estimator(my_outcomes, my_blocking, my_treatments)
+
+# Three treatment conditions
+my_treatments &lt;- assign_treatment(my_blocking, c("T1", "T2", "C"))
+my_outcomes &lt;- rnorm(20)
+blocking_estimator(my_outcomes, my_blocking, my_treatments)
+
+# Four treatment conditions
+# (This will throw an error because variances cannot be estimated)
+my_treatments &lt;- assign_treatment(my_blocking, c("T1", "T2", "T3", "C"))
+my_outcomes &lt;- rnorm(20)
+## Not run: blocking_estimator(my_outcomes, my_blocking, my_treatments)
+
+</code></pre>
+
+
+</div>

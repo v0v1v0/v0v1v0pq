@@ -1,0 +1,128 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>GPD_shape_plot</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Fitted GPD Shape as a Function of the Threshold</h2>
+
+<h3>Description</h3>
+
+<p>Fit GPDs to various thresholds and plot the fitted GPD shape as
+a function of the threshold.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">GPD_shape_plot(x, thresholds = seq(quantile(x, 0.5), quantile(x, 0.99),
+                                   length.out = 65),
+               estimate.cov = TRUE, conf.level = 0.95,
+               CI.col = adjustcolor(1, alpha.f = 0.2),
+               lines.args = list(), xlim = NULL, ylim = NULL,
+               xlab = "Threshold", ylab = NULL,
+               xlab2 = "Excesses", plot = TRUE, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p><code>vector</code> of <code>numeric</code> data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>thresholds</code></td>
+<td>
+<p><code>numeric</code> vector of thresholds for which
+to fit a GPD to the excesses.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>estimate.cov</code></td>
+<td>
+<p><code>logical</code> indicating whether
+confidence intervals are to be computed.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>conf.level</code></td>
+<td>
+<p>confidence level of the confidence intervals if
+<code>estimate.cov</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>CI.col</code></td>
+<td>
+<p>color of the pointwise asymptotic confidence intervals
+(CIs); if <code>NA</code>, no CIs are shown.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lines.args</code></td>
+<td>
+<p><code>list</code> of arguments passed to
+the underlying <code>lines()</code> for drawing the shape
+parameter as a function of the threshold.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xlim, ylim, xlab, ylab</code></td>
+<td>
+<p>see <code>plot()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xlab2</code></td>
+<td>
+<p>label of the secondary x-axis.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>plot</code></td>
+<td>
+<p><code>logical</code> indicating whether a plot is produced.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>additional arguments passed to the underlying
+<code>plot()</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Such plots can be used in the peaks-over-threshold method for
+determining the optimal threshold (as the smallest after which the plot
+is (roughly) stable).
+</p>
+
+
+<h3>Value</h3>
+
+<p>Invisibly returns a <code>list</code> containing the thresholds
+considered, the corresponding excesses and the fitted GPD
+objects as returned by the underlying <code>fit_GPD_MLE()</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Marius Hofert</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">set.seed(271)
+X &lt;- rt(1000, df = 3.5)
+GPD_shape_plot(X)
+</code></pre>
+
+
+</div>

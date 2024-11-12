@@ -1,0 +1,83 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>ggplot2_extract_legend</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>ggplot2 tools</h2>
+
+<h3>Description</h3>
+
+<p>A few handy tools for working with ggplot2.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">ggplot2_extract_legend(x, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a ggplot object</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>not currently used</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The <code>ggplot2_extract_legend</code> function returns a list with the first
+element being the legend and the second the original plot with the legend
+omitted.
+</p>
+
+
+<h3>Value</h3>
+
+<p>a list with each elements
+</p>
+
+<dl>
+<dt>legend</dt>
+<dd></dd>
+<dt>plot</dt>
+<dd>
+<p>the x</p>
+</dd>
+</dl>
+<h3>Examples</h3>
+
+<pre><code class="language-R"># a simple plot
+my_plot &lt;-
+  ggplot2::ggplot(mtcars) +
+  ggplot2::aes(x = wt, y = mpg, color = wt, shape = factor(cyl)) +
+  ggplot2::geom_point()
+
+my_plot
+
+# extract the legend.  the return object is a list with two elements, the first
+# element is the legend, the second is the original plot sans legend.
+temp &lt;- ggplot2_extract_legend(my_plot)
+
+# view just the legend.  This can be done via a call to the object or using
+# plot or print.
+temp
+plot(temp[[1]])
+
+# the original plot without the legened
+plot(temp[[2]])
+
+</code></pre>
+
+
+</div>

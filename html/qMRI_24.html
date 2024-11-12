@@ -1,0 +1,332 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>smoothESTATICS</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Adaptive smoothing of ESTATICS parameters and MPM data
+</h2>
+
+<h3>Description</h3>
+
+<p>Performs adaptive smoothing of parameter maps in the ESTATICS model and if
+<code>mpmData</code> is specified these data. Implements both vectorized variants of the
+Adaptive Weights Smoothing (AWS, Polzehl and Spokoiny (2006))
+and patchwise AWS (PAWS, Polzehl et al (2018)) algorithms with weighting schemes determined by
+the estimated parameter maps and their covariances.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">smoothESTATICS(mpmESTATICSModel, mpmData = NULL, kstar = 16, alpha = 0.025,
+               patchsize = 0, mscbw =5, wghts = NULL, verbose = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>mpmESTATICSModel</code></td>
+<td>
+
+<p>Object of class 'ESTATICSModel' as returned from function <code>estimateESTATICS</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mpmData</code></td>
+<td>
+
+<p>(optional) Object of class MPMData as created by <code>readMPMData</code> from which
+the parameter maps were obtained.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>kstar</code></td>
+<td>
+
+<p>Maximum number of steps.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>alpha</code></td>
+<td>
+
+<p>specifies the scale parameter for the adaptation criterion. smaller values are more restrictive.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>patchsize</code></td>
+<td>
+
+<p>Patchsize in PAWS, 0 corresponds to AWS, alternative values are 1 and 2.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mscbw</code></td>
+<td>
+
+<p>bandwidth for 3D median smoother used to stabilize the covariance estimates.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>wghts</code></td>
+<td>
+
+<p>(optional) voxel size if measurments are not isotropic.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+
+<p>logical - provide information on progress
+</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>list with components
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>modelCoeff </code></td>
+<td>
+<p>Estimated parameter maps</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>invCov </code></td>
+<td>
+<p> map of inverse covariance matrices</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>isConv </code></td>
+<td>
+<p> convergence indicator map</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bi</code></td>
+<td>
+<p> Sum of weights map from AWS/PAWS</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>smoothPar</code></td>
+<td>
+<p> smooting parameters used in AWS/PAWS</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>smoothedData</code></td>
+<td>
+<p> smoothed mpmData</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sdim </code></td>
+<td>
+<p> image dimension</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nFiles </code></td>
+<td>
+<p> number of images</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>t1Files </code></td>
+<td>
+<p> vector of T1 filenames</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pdFiles </code></td>
+<td>
+<p> vector of PD filenames</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mtFiles </code></td>
+<td>
+<p> vector of MT filenames</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>model </code></td>
+<td>
+<p> model used (depends on specification of MT files)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>maskFile </code></td>
+<td>
+<p> filename of brain mask</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mask </code></td>
+<td>
+<p> brain mask</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sigma </code></td>
+<td>
+<p> sigma</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>L </code></td>
+<td>
+<p> L</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>TR </code></td>
+<td>
+<p> TR values</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>TE </code></td>
+<td>
+<p> TE values</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>FA </code></td>
+<td>
+<p> Flip angles (FA)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>TEScale </code></td>
+<td>
+<p> TEScale</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dataScale </code></td>
+<td>
+<p>dataScale</p>
+</td>
+</tr>
+</table>
+<p>and class-attribute 'sESTATICSModel'
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Karsten Tabelow <a href="mailto:tabelow@wias-berlin.de">tabelow@wias-berlin.de</a><br>
+J\"org Polzehl <a href="mailto:polzehl@wias-berlin.de">polzehl@wias-berlin.de</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>J. Polzehl, V. Spokoiny,  Propagation-separation approach for local likelihood estimation,  Probab. Theory Related Fields  135 (3),  (2006)  , pp. 335–362.
+</p>
+<p>J. Polzehl, K. Papafitsorus, K. Tabelow (2018). Patch-wise adaptive weights smoothing. WIAS-Preprint 2520.
+</p>
+<p>J. Polzehl and K. Tabelow (2023), Magnetic Resonance Brain Imaging:
+Modeling and Data Analysis Using R, 2nd Edition, Chapter 6, Springer, Use R! Series.
+&lt;doi:10.1007/978-3-031-38949-8_6&gt;.
+</p>
+<p>J. Polzehl and K. Tabelow (2023), Magnetic Resonance Brain Imaging - 
+Modeling and Data Analysis Using R: Code and Data.
+&lt;doi:10.20347/WIAS.DATA.6&gt;.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>readMPMData</code>, <code>estimateESTATICS</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+dataDir &lt;- system.file("extdata",package="qMRI")
+#
+#  set file names for T1w, MTw and PDw images
+#
+t1Names &lt;- paste0("t1w_",1:8,".nii.gz")
+mtNames &lt;- paste0("mtw_",1:6,".nii.gz")
+pdNames &lt;- paste0("pdw_",1:8,".nii.gz")
+t1Files &lt;- file.path(dataDir, t1Names)
+mtFiles &lt;- file.path(dataDir, mtNames)
+pdFiles &lt;- file.path(dataDir, pdNames)
+#
+#  file names of mask and B1 field map
+#
+B1File &lt;- file.path(dataDir, "B1map.nii.gz")
+maskFile &lt;- file.path(dataDir, "mask.nii.gz")
+#
+#  Acquisition parameters (TE, TR, Flip Angle) for T1w, MTw and PDw images
+#
+TE &lt;- c(2.3, 4.6, 6.9, 9.2, 11.5, 13.8, 16.1, 18.4,
+        2.3, 4.6, 6.9, 9.2, 11.5, 13.8,
+        2.3, 4.6, 6.9, 9.2, 11.5, 13.8, 16.1, 18.4)
+TR &lt;- rep(25, 22)
+FA &lt;- c(rep(21, 8), rep(6, 6), rep(6, 8))
+#
+#   read MPM example data
+#
+library(qMRI)
+mpm &lt;- readMPMData(t1Files, pdFiles, mtFiles,
+                   maskFile, TR = TR, TE = TE,
+                   FA = FA, verbose = FALSE)
+#
+#  Estimate Parameters in the ESTATICS model
+#
+modelMPM &lt;- estimateESTATICS(mpm, method = "NLR")
+#
+#  smooth maps of ESTATICS Parameters
+#
+setCores(2)
+modelMPMsp1 &lt;- smoothESTATICS(modelMPM,
+                              kstar = 16,
+                              alpha = 0.004,
+                              patchsize=1,
+                              verbose = TRUE)
+#
+#  resulting ESTATICS parameter maps for central coronal slice
+#
+if(require(adimpro)){
+rimage.options(zquantiles=c(.01,.99), ylab="z")
+oldpar &lt;- par(mfrow=c(2,4),mar=c(3,3,3,1),mgp=c(2,1,0))
+on.exit(par(oldpar))
+pnames &lt;- c("T1","MT","PD","R2star")
+modelCoeff &lt;- extract(modelMPM,"modelCoeff")
+for(i in 1:4){
+   rimage(modelCoeff[i,,11,])
+   title(pnames[i])
+   }
+modelCoeff &lt;- extract(modelMPMsp1,"modelCoeff")
+for(i in 1:4){
+   rimage(modelCoeff[i,,11,])
+   title(paste("smoothed",pnames[i]))
+   }
+}
+par(oldpar)
+
+</code></pre>
+
+
+</div>

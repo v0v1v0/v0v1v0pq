@@ -1,0 +1,96 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>ClassLog</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2> Classification for Logistic Regression </h2>
+
+<h3>Description</h3>
+
+<p> Provides a Classification analysis for a logistic regression model. 
+Also provides McFadden's Rsq.</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">ClassLog(MOD, resp, cut=.5)</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>MOD</code></td>
+<td>
+<p> Model of class glm where family is bonomial</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>resp</code></td>
+<td>
+<p> response variable from data</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cut</code></td>
+<td>
+<p>Arbitrary cut for the proportion deemed '1' in model</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list containing: /CR
+</p>
+
+<ul>
+<li> <p><em>rawtab</em> two-way table of classifications as frequencies
+</p>
+</li>
+<li> <p><em>classtab</em> two-way table of classifications as percentages
+</p>
+</li>
+<li> <p><em>overall</em> Overall percent classifications that are correct
+</p>
+</li>
+<li> <p><em>mcFadden</em> McFaddens pseudoRsq; 1 - ModelDeviance / NullDeviance
+</p>
+</li>
+</ul>
+<h3>Warning </h3>
+
+<p>This is a primative function. I have a long to do list.
+For example, it is not yet written to handle missing observations.</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Thomas D. Fletcher <a href="mailto:t.d.fletcher05@gmail.com">t.d.fletcher05@gmail.com</a> </p>
+
+
+<h3>See Also</h3>
+
+  <p><code>glm</code></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># create some data
+x &lt;- rnorm(100)
+y &lt;- as.numeric(cut(.5*x + rnorm(100), breaks=2))-1
+tdf &lt;- data.frame(x=x, y=y)
+
+# run a logistic regression	
+glm1 &lt;- glm(y ~ x, data=tdf, family=binomial)
+
+# Get typical summary of results
+summary(glm1)
+
+# Classification Analysis
+ClassLog(glm1, tdf$y)
+
+</code></pre>
+
+
+</div>

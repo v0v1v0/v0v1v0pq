@@ -1,0 +1,94 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>calc_grid</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Calculate indicators of which marker/pseudomarker positions are along a fixed grid</h2>
+
+<h3>Description</h3>
+
+<p>Construct vectors of logical indicators that indicate which
+positions correspond to locations along a grid
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">calc_grid(map, step = 0, off_end = 0, tol = 0.01)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>map</code></td>
+<td>
+<p>A list of numeric vectors; each vector gives marker
+positions for a single chromosome.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>step</code></td>
+<td>
+<p>Distance between pseudomarkers and markers; if
+<code>step=0</code> no pseudomarkers are inserted.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>off_end</code></td>
+<td>
+<p>Distance beyond terminal markers in which to insert
+pseudomarkers.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tol</code></td>
+<td>
+<p>Tolerance for determining whether a pseudomarker would
+duplicate a marker position.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The function <code>insert_pseudomarkers()</code>, with
+<code>stepwidth="fixed"</code>, will insert a grid of pseudomarkers,
+to a marker map. The present function gives a series of
+TRUE/FALSE vectors that indicate which positions fall on the
+grid. This is for use with <code>probs_to_grid()</code>, for
+reducing genotype probabilities, calculated with
+<code>calc_genoprob()</code>, to just the positions on the grid.
+The main value of this is to speed up genome scan computations
+in the case of very dense markers, by focusing on just a grid
+of positions rather than on all marker locations.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list of logical (TRUE/FALSE) vectors that indicate, for a
+marker/pseudomarker map created by
+<code>insert_pseudomarkers()</code> with <code>step</code>&gt;0 and
+<code>stepwidth="fixed"</code>, which positions correspond to he
+locations along the fixed grid.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>insert_pseudomarkers()</code>, <code>probs_to_grid()</code>,
+<code>map_to_grid()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">iron &lt;- read_cross2(system.file("extdata", "iron.zip", package="qtl2"))
+gmap_w_pmar &lt;- insert_pseudomarkers(iron$gmap, step=1)
+grid &lt;- calc_grid(iron$gmap, step=1)
+</code></pre>
+
+
+</div>

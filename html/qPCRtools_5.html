@@ -1,0 +1,102 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>CalExpRqPCR</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Calculate expression using standard curve.</h2>
+
+<h3>Description</h3>
+
+<p>Calculate expression using standard curve.
+</p>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>cq.table</code></td>
+<td>
+<p>The data frame of the position and cq value.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>design.table</code></td>
+<td>
+<p>The data frame of the position and corresponding information.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>correction</code></td>
+<td>
+<p>Correct expression value by reference gene.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ref.gene</code></td>
+<td>
+<p>The name of reference gene.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ref.group</code></td>
+<td>
+<p>The name of reference group.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>stat.method</code></td>
+<td>
+<p>Statistical method.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fig.type</code></td>
+<td>
+<p>Output image type, 'box' represents 'boxplot', 'bar' represents 'barplot'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fig.ncol</code></td>
+<td>
+<p>Number of columes of figure.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list contain a table and a figure.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Xiang LI &lt;lixiang117423@gmail.com&gt;
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">df1.path &lt;- system.file("examples", "cal.expre.rqpcr.cq.txt", package = "qPCRtools")
+df2.path &lt;- system.file("examples", "cal.expre.rqpcr.design.txt", package = "qPCRtools")
+
+cq.table &lt;- read.table(df1.path, header = TRUE)
+design.table &lt;- read.table(df2.path, header = TRUE)
+
+CalExpRqPCR(cq.table,
+           design.table,
+           ref.gene = NULL,
+           ref.group = "CK",
+           stat.method = "t.test",
+           fig.type = "box",
+           fig.ncol = NULL
+           ) -&gt; res
+
+res[["table"]]
+res[["figure"]]
+
+</code></pre>
+
+
+</div>

@@ -1,0 +1,84 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>groupGeneric.quantities</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>S3 Group Generic Functions</h2>
+
+<h3>Description</h3>
+
+<p><code>Math</code>, <code>Ops</code> and <code>Summary</code> group generic methods for
+<code>quantities</code> objects (see <code>groupGeneric</code> for a
+comprehensive list of available methods).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'quantities'
+Math(x, ...)
+
+## S3 method for class 'quantities'
+Ops(e1, e2)
+
+## S3 method for class 'quantities'
+Summary(..., na.rm = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x, e1, e2</code></td>
+<td>
+<p>objects.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>further arguments passed to methods.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>na.rm</code></td>
+<td>
+<p>logical: should missing values be removed?</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>See <code>groupGeneric.errors</code>,
+<code>Ops.units</code>, <code>Math.units</code>, for further details.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">x &lt;- set_quantities(1:3, m/s, 0.1)
+log(x)
+cumsum(x)
+cumprod(x)
+
+a &lt;- set_quantities(1:3, m/s, 0.1)
+b &lt;- set_quantities(1:3, m/s, 0.1)
+a + b
+a * b
+a / b
+a = set_quantities(1:5, m, 0.1)
+a %/% a
+a %/% set_quantities(2)
+set_quantities(1:5, m^2, 0.1) %/% set_quantities(2, m, 0.1)
+a %% a
+a %% set_quantities(2)
+c(min(x), max(x))
+range(x)
+sum(x)
+
+</code></pre>
+
+
+</div>

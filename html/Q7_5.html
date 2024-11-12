@@ -1,0 +1,82 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>feature</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Create an Object Feature</h2>
+
+<h3>Description</h3>
+
+<p>Create an Object Feature
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">feature(expr)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>expr</code></td>
+<td>
+<p>expression</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>a Q7 feature
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+Type1 &lt;- type(function(num){})
+
+hasMagic &lt;- feature({
+    change_number &lt;- function(){
+        num + 1
+    }
+})
+
+myType1 &lt;- Type1(1) %&gt;% hasMagic()
+myType1$change_number()
+
+
+# Use S3 method dispatch for different behaviors
+hasMagic &lt;- feature_generic(s3 = "hasMagic")
+
+hasMagic.Type1 &lt;- feature({
+    change_number &lt;- function(){
+        num + 1
+    }
+})
+
+hasMagic.Type2 &lt;- feature({
+    change_number &lt;- function(){
+        num - 1
+    }
+})
+
+Type1 &lt;- type(function(num){},
+              s3 = "Type1") %&gt;%
+    hasMagic()
+
+Type2 &lt;- type(function(num){},
+              s3 = "Type2") %&gt;%
+    hasMagic()
+
+myType1 &lt;- Type1(1)
+myType1$change_number()
+
+myType2 &lt;- Type2(1)
+myType2$change_number()
+
+</code></pre>
+
+
+</div>

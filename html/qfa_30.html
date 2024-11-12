@@ -1,0 +1,64 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>tqr.fit</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Trigonometric Quantile Regression (TQR)</h2>
+
+<h3>Description</h3>
+
+<p>This function computes trigonometric quantile regression (TQR) for univariate time series at a single frequency.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">tqr.fit(y, f0, tau, prepared = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>vector of time series</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>f0</code></td>
+<td>
+<p>frequency in [0,1)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tau</code></td>
+<td>
+<p>sequence of quantile levels in (0,1)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>prepared</code></td>
+<td>
+<p>if <code>TRUE</code>, intercept is removed and coef of cosine is doubled when <code>f0 = 0.5</code></p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>object of <code>rq()</code> (coefficients in <code>$coef</code>)
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">y &lt;- stats::arima.sim(list(order=c(1,0,0), ar=0.5), n=64)
+tau &lt;- seq(0.1,0.9,0.05)
+fit &lt;- tqr.fit(y,f0=0.1,tau=tau)
+plot(tau,fit$coef[1,],type='o',pch=0.75,xlab='QUANTILE LEVEL',ylab='TQR COEF')
+</code></pre>
+
+
+</div>

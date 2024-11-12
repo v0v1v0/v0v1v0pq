@@ -1,0 +1,147 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qlearningupdate</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2> qlearningupdate
+</h2>
+
+<h3>Description</h3>
+
+<p>This repository implements <a href="http://artint.info/html/ArtInt_265.html">Q-Learning</a>, a model-free form of reinforcement learning in R.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qlearningupdate(q, currentstate, currentaction, currentreward, nextstate=NULL,
+  rewardcount=.5, gamma=.25)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>q
+</code></td>
+<td>
+<p>Input state/action matrix.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>currentstate
+</code></td>
+<td>
+<p>Current state of the game. Does not have to match any of the state for <em>q</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>currentaction
+</code></td>
+<td>
+<p>Action to take.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>currentreward
+</code></td>
+<td>
+<p>Reward for <em>currentaction</em> in current iteration.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nextstate
+</code></td>
+<td>
+<p>State that the game is in after taking <em>currentaction</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rewardcount
+</code></td>
+<td>
+<p>Regularization constant for reward.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gamma
+</code></td>
+<td>
+<p>Learning rate constant for Q-Learning.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>For internal use for <em>qlearn</em>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An updated state/action matrix.
+</p>
+
+
+<h3>Note</h3>
+
+<p>Contact at liam.bressler@yale.edu
+
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Liam Bressler
+
+</p>
+
+
+<h3>References</h3>
+
+<p>http://labressler.github.io/analytics
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+cardgame &lt;- function()
+{
+  playercards &lt;- sample(1:8,4) #distribute the cards, we're player one
+  ourcard &lt;- playercards[1] #our card
+  playertotals &lt;- rep(-1,4) #including the antes
+  playersinpot &lt;- vector()
+  for (player in 2:4) #other 3 players go first
+  {
+    if (playercards[player]&gt;=2)
+    {
+      playertotals[player] &lt;- (-3)
+      playersinpot &lt;- append(playersinpot,player)
+    }
+  }
+  #the next line is where we want to choose our action
+  player1 &lt;- 'Choose'
+  if (player1=="Call")
+  {
+    playertotals[1] &lt;- (-3)
+    playersinpot &lt;- append(playersinpot,1)
+  }
+  potsize &lt;- -1*(sum(playertotals)) #the amount in the pot is how much the players put in
+  playercards[!(1:4 %in% playersinpot)] &lt;- 0 #get rid of everyone who folded
+  winner &lt;- which.max(playercards) #winner is the person with the highest card who didn't fold
+  playertotals[winner] &lt;- playertotals[winner]+potsize
+  return(playertotals[1]) #return how much we won
+}
+
+strat &lt;- qlearn(game="cardgame",statevars="ourcard",possibleactions=c("Call","Fold"),
+  playername="player1",numiter=25000) #make sure each function and variable name is a string
+
+strat &lt;- qlearningupdate(strat,currentstate=7,currentaction="Call",currentreward=5)
+#Update the matrix after an example when we call with the 7 card as our state, winning 5 chips
+</code></pre>
+
+
+</div>

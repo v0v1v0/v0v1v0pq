@@ -1,0 +1,93 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>GIG</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Generalized Inverse Gaussian Distribution</h2>
+
+<h3>Description</h3>
+
+<p>Calculates (log) moments of univariate generalized inverse Gaussian
+(GIG) distribution and generating random variates. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">EGIG(lambda, chi, psi, k = 1)
+ElogGIG(lambda, chi, psi)
+rGIG(n, lambda, chi, psi, envplot = FALSE, messages = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>chi</code></td>
+<td>
+<p><code>numeric</code>, chi parameter.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>envplot</code></td>
+<td>
+<p><code>logical</code>, whether plot of rejection envelope
+should be created.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>k</code></td>
+<td>
+<p><code>integer</code>, order of moments.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lambda</code></td>
+<td>
+<p><code>numeric</code>, lambda parameter.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>messages</code></td>
+<td>
+<p><code>logical</code>, whether a message about rejection rate
+should be returned.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p><code>integer</code>, count of random variates.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>psi</code></td>
+<td>
+<p><code>numeric</code>, psi parameter.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Normal variance mixtures are frequently obtained by perturbing the
+variance component of a normal distribution; here this is done by
+multiplying the square root of a mixing variable assumed to have a GIG
+distribution depending upon three parameters <code class="reqn">(\lambda, \chi,
+    \psi)</code>. See p.77 in QRM.<br>
+Normal mean-variance mixtures are created from normal variance
+mixtures by applying another perturbation of the same mixing variable
+to the mean component of a normal distribution. These perturbations
+create Generalized Hyperbolic Distributions. See pp. 78–81 in QRM. A
+description of the GIG is given on page 497 in QRM Book.
+</p>
+
+
+<h3>Value</h3>
+
+<p>(log) mean of distribution or vector random variates in case of
+<code>rgig()</code>.</p>
+
+
+</div>

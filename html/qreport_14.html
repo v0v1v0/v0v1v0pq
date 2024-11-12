@@ -1,0 +1,71 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>htmlViewx</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>htmlViewx</h2>
+
+<h3>Description</h3>
+
+<p>Convert to HTML and Eternally View Objects
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">htmlViewx(..., tab = c("notfirst", "all", "none"))
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>a series of objects for which an 'html' method exists</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tab</code></td>
+<td>
+<p>set to ''all'' to add even the first object to an existing window.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>'htmlViewx' is similar to 'htmlView' except that an external viewer is
+launched, and the first object is opened in a new window.
+Subsequent objects are opened in a new tab in the last created
+window.  Set ‘options(vbrowser=’command line to run browser')'
+to use a browser other than 'Vivaldi'.
+Defaults to opening a new window for only the first object, and adding
+tabs after that.
+</p>
+
+
+<h3>Value</h3>
+
+<p>does not return a value; launches a browser
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Frank Harrell
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+options(prType='html')
+htmlViewx(contents(d), describe(d))
+
+## End(Not run)
+</code></pre>
+
+
+</div>

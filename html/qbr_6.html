@@ -1,0 +1,77 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>delete_records</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Delete records</h2>
+
+<h3>Description</h3>
+
+<p>Delete one or more records from a table.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">delete_records(subdomain, auth, from, where, agent = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>subdomain</code></td>
+<td>
+<p>Character vector with one element. Found at the beginning of
+the Quickbase URL. Realm specific.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>auth</code></td>
+<td>
+<p>Character vector with one element. The Quickbase authentication
+scheme you are using to authenticate the request (e.g., user token).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>from</code></td>
+<td>
+<p>Character vector. Identifier of the target table.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>where</code></td>
+<td>
+<p>Character vector. Condition(s) which target one or more records for
+deletion. Use the Quickbase query language to construct your condition(s).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>agent</code></td>
+<td>
+<p>Optional. Character vector with one element. Describes
+user/agent making API call.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Named integer vector
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+  delete_records(subdomain = "abc",
+             auth = keyring::key_get("qb_example"),
+             from = "bn9d8iesz",
+             where = "{6.EX.'105'}")
+
+## End(Not run)
+</code></pre>
+
+
+</div>

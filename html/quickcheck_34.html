@@ -1,0 +1,56 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>equal_length</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Equal length vector generator</h2>
+
+<h3>Description</h3>
+
+<p>Generates equal length vectors contained in a list.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">equal_length(..., len = c(1L, 10L))
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>A set of named or unnamed vector generators.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>len</code></td>
+<td>
+<p>Length of the generated vectors. If <code>len</code> is a
+single number all vectors will have this length. If
+<code>len</code> is a numeric vector of length 2 it will produce
+vectors with lengths between a minimum and maximum,
+inclusive. For example <code>len = c(1L, 10L)</code> would produce
+vectors with lengths between 1 and 10. To produce empty vectors
+set <code>len = 0L</code> or a range like <code>len = c(0L, 10L)</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A <code>quickcheck_generator</code> object.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">equal_length(integer_(), double_()) %&gt;% show_example()
+equal_length(a = logical_(), b = character_(), len = 5L) %&gt;% show_example()
+</code></pre>
+
+
+</div>

@@ -1,0 +1,82 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>queue</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Compute the departure times for a set of customers in a queue from their arrival and service times.</h2>
+
+<h3>Description</h3>
+
+<p><code>queue</code> is a faster version of <code>queue_step</code> but the input returned is much simpler. It is not compatible with the <code>summary.queue_list</code> method or the <code>plot.queue_list</code> method.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">queue(arrivals, service, servers = 1, serveroutput = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>arrivals</code></td>
+<td>
+<p>numeric vector of non-negative arrival times</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>service</code></td>
+<td>
+<p>numeric vector of non-negative service times</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>servers</code></td>
+<td>
+<p>a non-zero natural number, an object of class <code>server.stepfun</code>
+or an object of class <code>server.list</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>serveroutput</code></td>
+<td>
+<p>boolean whether the server used by each customer should be returned.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>If the arrival vector is out of order the function will reorder it. The same reordering will be applied to the service vector, this is so each customer keeps their service time. Once the queue is computed the original order is put back.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>queue_step</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">n &lt;- 1e2
+arrivals &lt;- cumsum(rexp(n, 1.8))
+service &lt;- rexp(n)
+
+departures &lt;- queue(
+    arrivals, service, servers = 2)
+
+head(departures)
+curve(ecdf(departures)(x) * n,
+    from = 0, to = max(departures),
+    xlab = "Time", ylab = "Number of customers")
+curve(ecdf(arrivals)(x) * n,
+    from = 0, to = max(departures),
+    col = "red", add = TRUE)
+
+</code></pre>
+
+
+</div>

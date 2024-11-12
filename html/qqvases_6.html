@@ -1,0 +1,59 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>side_by_side_slider</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Side-by-side Slider</h2>
+
+<h3>Description</h3>
+
+<p>Opens the default web browser with a display of two continuous distributions
+shown side-by-side and reflected to suggest a closed container.
+Interactive options control the display of water levels and the choice of
+the shapes of the underlying distributions.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">side_by_side_slider(name, dists = make_df_list())
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>name</code></td>
+<td>
+<p>Name of distribution to contrast with normal</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dists</code></td>
+<td>
+<p>Named list of (d=density, q=quantile, r=sample) distributions (see make_df_list())</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>None
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+side_by_side_slider("Gamma")
+
+dists &lt;- make_df_list()
+dists[["uniform"]] &lt;- list(d=dunif, q=qunif, r=runif);
+side_by_side_slider("uniform", dists)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

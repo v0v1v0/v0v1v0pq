@@ -1,0 +1,47 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>nest_dictionary</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Utility function to generate a nested list</h2>
+
+<h3>Description</h3>
+
+<p>Utility function to generate a nested list
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">nest_dictionary(dict, depth)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>dict</code></td>
+<td>
+<p>a flat dictionary</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>depth</code></td>
+<td>
+<p>depths of nested element</p>
+</td>
+</tr>
+</table>
+<h3>Examples</h3>
+
+<pre><code class="language-R">lis &lt;- list("A" = c("a", "aa", "aaa"), "B" = c("b", "bb"), "C" = c("c", "cc"), "D" = c("ddd"))
+dict &lt;- quanteda:::list2dictionary(lis)
+quanteda:::nest_dictionary(dict, c(1, 1, 2, 2))
+quanteda:::nest_dictionary(dict, c(1, 2, 1, 2))
+
+</code></pre>
+
+
+</div>

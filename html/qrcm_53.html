@@ -1,0 +1,188 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>predict.iqr</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Prediction After Quantile Regression Coefficients Modeling
+</h2>
+
+<h3>Description</h3>
+
+<p>Predictions from an object of class “<code>iqr</code>”.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'iqr'
+predict(object, type = c("beta", "CDF", "QF", "sim"), newdata, p, se = TRUE, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+
+<p>an object of class “<code>iqr</code>”, the result of a call to <code>iqr</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>type</code></td>
+<td>
+
+<p>a character string specifying the type of prediction. See ‘Details’.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>newdata</code></td>
+<td>
+
+<p>an optional data frame in which to look for variables with which to predict. 
+If omitted, the data are used. For <kbd>type = "CDF"</kbd>, it must include the response variable.
+Ignored if <kbd>type = "beta"</kbd>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p</code></td>
+<td>
+
+<p>a numeric vector indicating the order(s) of the quantile to predict. Only used if 
+<kbd>type = "beta"</kbd> or <kbd>type = "QF"</kbd>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>se</code></td>
+<td>
+
+<p>logical. If <kbd>TRUE</kbd> (the default), standard errors of the prediction will be computed. Only used if <kbd>type = "beta"</kbd> or <kbd>type = "QF"</kbd>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>for future methods.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Using <code>iqr</code>, quantile regression coefficients 
+<code class="reqn">\beta(p)</code> are modeled as parametric functions of <code class="reqn">p</code>, the order of the quantile.
+This implies that the model parameter is <em>not</em> <code class="reqn">\beta(p)</code> itself.
+The function <code>predict.iqr</code> permits computing <code class="reqn">\beta(p)</code> and other
+quantities of interest, as detailed below.
+</p>
+
+<ul>
+<li>
+<p> if <kbd>type = "beta"</kbd> (the default), <code class="reqn">\beta(p)</code> is returned at 
+the supplied value(s) of <kbd>p</kbd>. If <kbd>p</kbd> is missing, a default <kbd>p = (0.01, ..., 0.99)</kbd> is used. 
+</p>
+</li>
+<li>
+<p> if <kbd>type = "CDF"</kbd>, the value of the fitted <abbr><span class="acronym">CDF</span></abbr> (cumulative distribution function)
+and <abbr><span class="acronym">PDF</span></abbr> (probability density function) are computed.
+</p>
+</li>
+<li>
+<p> if <kbd>type = "QF"</kbd>, the fitted values <code class="reqn">x'\beta(p)</code>, corresponding to the 
+conditional quantile function, are computed at the supplied values of <kbd>p</kbd>. 
+</p>
+</li>
+<li>
+<p> if <kbd>type = "sim"</kbd>, data are simulated from the fitted model. 
+To simulate the data, the fitted conditional quantile function is computed
+at randomly generated <kbd>p</kbd> following a Uniform(0,1) distribution.
+</p>
+</li>
+</ul>
+<h3>Value</h3>
+
+
+<ul>
+<li>
+<p> if <kbd>type = "beta"</kbd> a list with one item for each covariate in the model. 
+Each element of the list is a data frame with columns (<kbd>p, beta, se, low, up</kbd>) reporting <code class="reqn">\beta(p)</code>, its estimated standard error, and the corresponding 95% confidence interval. If <kbd>se = FALSE</kbd>, the last three columns are not computed.
+</p>
+</li>
+<li>
+<p> if <kbd>type = "CDF"</kbd>, a two-columns data frame <kbd>(CDF,PDF)</kbd>.
+</p>
+</li>
+<li>
+<p> if <kbd>type = "QF"</kbd> and <kbd>se = FALSE</kbd>, a data frame with one row
+for each observation, and one column for each value of <kbd>p</kbd>. If <kbd>se = TRUE</kbd>,
+a list of two data frames, <kbd>fit</kbd> (predictions) and <kbd>se.fit</kbd> (standard errors).
+</p>
+</li>
+<li>
+<p> if <kbd>type = "sim"</kbd>, a vector of simulated data.
+</p>
+</li>
+</ul>
+<h3>Note</h3>
+
+<p>Prediction may generate quantile crossing
+if the support of the new covariates values supplied in <code>newdata</code> 
+is different from that of the observed data.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Paolo Frumento <a href="mailto:paolo.frumento@unipi.it">paolo.frumento@unipi.it</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>iqr</code>, for model fitting; <code>summary.iqr</code> and <code>plot.iqr</code>,
+for summarizing and plotting <code>iqr</code> objects.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+  # using simulated data
+  
+  n &lt;- 1000
+  x &lt;- runif(n)
+  y &lt;- rlogis(n, 1 + x, 1 + x)
+  # true quantile function: Q(p | x) = beta0(p) + beta1(p)*x, with
+    # beta0(p) = beta1(p) = 1 + log(p/(1 - p))
+  
+  model &lt;- iqr(y ~ x, formula.p = ~ I(log(p)) + I(log(1 - p))) 
+  # (fit asymmetric logistic distribution)
+  
+  
+  # predict beta(0.25), beta(0.5), beta(0.75)
+  predict(model, type = "beta", p = c(0.25,0.5, 0.75))
+  
+  # predict the CDF and the PDF at new values of x and y
+  predict(model, type = "CDF", newdata = data.frame(x = c(.1,.2,.3), y = c(1,2,3)))
+  
+  # computes the quantile function at new x, for p = (0.25,0.5,0.75)
+  predict(model, type = "QF", p = c(0.25,0.5,0.75), newdata = data.frame(x = c(.1,.2,.3)))
+
+  # simulate data from the fitted model
+  ysim &lt;- predict(model, type = "sim") # 'newdata' can be supplied
+
+  # if the model is correct, the distribution of y and that of ysim should be similar
+  qy &lt;- quantile(y, prob = seq(.1,.9,.1))
+  qsim &lt;- quantile(ysim, prob = seq(.1,.9,.1))
+  plot(qy, qsim); abline(0,1)
+</code></pre>
+
+
+</div>

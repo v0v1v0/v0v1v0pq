@@ -1,0 +1,80 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>getRho</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Extract estimates of the intra-class correlation from a glmmTMB
+model object with beta-binomial error.</h2>
+
+<h3>Description</h3>
+
+<p>The intra-class correlation is calculated as
+<code class="reqn">(1+exp(\theta))^{-1}</code>, where <code class="reqn">\theta</code> is the
+estimate given by the formula specified in the argument
+<code>dispformula</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">getRho(obj, varMult = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>obj</code></td>
+<td>
+<p><span class="pkg">glmmTMB</span> model object with betabinomial error,
+and with a 'dispformula' argument supplied.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>varMult</code></td>
+<td>
+<p>If <code>TRUE</code> return, in addition to <code>rho</code>,
+the factor <code>mult</code> by which the variance is inflated
+relative to the binomial.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The variance for the betabinomial model is then
+obtained by multiplying the binomial variance by
+<code class="reqn">1+(n-1)\rho</code>, where $n$ is the binomial 'size'.
+</p>
+
+
+<h3>Value</h3>
+
+<p>if <code>varMult==FALSE</code> return (as a vector) the estimates
+<code class="reqn">\rho</code>, else (<code>varMult==TRUE</code>)  return
+<code>list(rho, mult)</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">pcheck &lt;- suppressWarnings(requireNamespace("glmmTMB", quietly = TRUE))
+if(pcheck) pcheck &amp; packageVersion("glmmTMB") &gt;= "1.1.2"
+if(pcheck){
+form &lt;- cbind(Dead,Live)~0+trtGp/TrtTime+(1|trtGpRep)
+HawMed &lt;- droplevels(subset(HawCon, CN=="MedFly"&amp;LifestageTrt!="Egg"))
+HawMed &lt;- within(HawMed,
+                 {trtGp &lt;- factor(paste0(CN,LifestageTrt, sep=":"))
+                 trtGpRep &lt;- paste0(CN,LifestageTrt,":",RepNumber)
+                 scTime &lt;- scale(TrtTime) })
+HawMedbb.TMB &lt;- glmmTMB::glmmTMB(form, dispformula=~trtGp+splines::ns(scTime,2),
+                                 family=glmmTMB::betabinomial(link="cloglog"),
+                                 data=HawMed)
+rho &lt;- qra::getRho(HawMedbb.TMB)} else
+message("Example requires `glmmTMB` version &gt;= 1.1.2: not available")
+
+</code></pre>
+
+
+</div>

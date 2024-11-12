@@ -1,0 +1,431 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>stepwiseqtl</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Stepwise selection for multiple QTL</h2>
+
+<h3>Description</h3>
+
+<p>Performs forward/backward selection to identify a multiple QTL model,
+with model choice made via a penalized LOD score, with separate
+penalties on main effects and interactions.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">stepwiseqtl(cross, chr, pheno.col=1, qtl, formula, max.qtl=10, covar=NULL,
+            method=c("imp", "hk"), model=c("normal", "binary"),
+            incl.markers=TRUE, refine.locations=TRUE,
+            additive.only=FALSE, scan.pairs=FALSE, penalties,
+            keeplodprofile=TRUE, keeptrace=FALSE, verbose=TRUE,
+            tol=1e-4, maxit=1000, require.fullrank=FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>cross</code></td>
+<td>
+<p>An object of class <code>cross</code>. See
+<code>read.cross</code> for details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>chr</code></td>
+<td>
+<p>Optional vector indicating the chromosomes to consider in
+search for QTL.  This should be a vector of character strings
+referring to chromosomes by name; numeric values are converted to
+strings.  Refer to chromosomes with a preceding <code>-</code> to have all
+chromosomes but those considered.  A logical (TRUE/FALSE) vector may
+also be used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pheno.col</code></td>
+<td>
+<p>Column number in the phenotype matrix which should be
+used as the phenotype.  One may also give character strings matching
+the phenotype names.  Finally, one may give a numeric vector of
+phenotypes, in which case it must have the length equal to the number
+of individuals in the cross, and there must be either non-integers or
+values &lt; 1 or &gt; no. phenotypes; this last case may be useful for studying
+transformations.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qtl</code></td>
+<td>
+<p>Optional QTL object (of class <code>"qtl"</code>, as created by
+<code>makeqtl</code>) to use as a starting point.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>formula</code></td>
+<td>
+<p>Optional formula to define the QTL model to be used as a
+starting point.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>max.qtl</code></td>
+<td>
+<p>Maximum number of QTL to which forward selection should
+proceed.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>covar</code></td>
+<td>
+<p>Data frame of additive covariates.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+<p>Indicates whether to use multiple imputation or
+Haley-Knott regression.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>model</code></td>
+<td>
+<p>The phenotype model: the usual model or a model for binary
+traits</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>incl.markers</code></td>
+<td>
+<p>If FALSE, do calculations only at points on an
+evenly spaced grid.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>refine.locations</code></td>
+<td>
+<p>If TRUE, use <code>refineqtl</code> to
+refine the QTL locations after each step of forward and backward
+selection.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>additive.only</code></td>
+<td>
+<p>If TRUE, allow only additive QTL models; if FALSE,
+consider also pairwise interactions among QTL.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>scan.pairs</code></td>
+<td>
+<p>If TRUE, perform a two-dimensional, two-QTL scan at
+each step of forward selection.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>penalties</code></td>
+<td>
+<p>Vector of three (or six) values indicating the penalty
+on the number of QTL terms. If three values, these are the penalties
+on main effects and heavy and light penalties on interactions.  If
+six values, these include X-chr-specific penalties, and the values
+are: main effect for autosomes, main effect for X chr, heavy penalty
+on A:A interactions, light penalty on A:A interactions, penalty on
+A:X interactions, and penalty on X:X interactions. See the Details
+below. If missing, default values are used that are based on
+simulations of backcrosses and intercrosses with genomes modeled
+after that of the mouse.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>keeplodprofile</code></td>
+<td>
+<p>If TRUE, keep the LOD profiles from the last
+iteration as attributes to the output.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>keeptrace</code></td>
+<td>
+<p>If TRUE, keep information on the sequence of models
+visited through the course of forward and backward selection as an
+attribute to the output.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p>If TRUE, give feedback about progress.  If
+<code>verbose</code> is an integer &gt; 1, even more information is printed.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tol</code></td>
+<td>
+<p>Tolerance for convergence for the binary trait model.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>maxit</code></td>
+<td>
+<p>Maximum number of iterations for fitting the binary trait
+model.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>require.fullrank</code></td>
+<td>
+<p>If TRUE, give LOD=0 when covariate matrix in
+the linear regression is not of full rank.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>We seek to identify the model with maximal penalized LOD score.  The
+penalized LOD score, defined in Manichaikul et al. (2009),
+is the LOD score for the model (the <code class="reqn">\log_{10}</code> likelihood
+ratio comparing the model to the null model with no QTL) with
+penalties on the number of QTL and QTL:QTL interactions.
+</p>
+<p>We consider QTL models allowing pairwise interactions among QTL but
+with an enforced hierarchy in which inclusion of a pairwise
+interaction requires the inclusion of both of the corresponding main
+effects.  Additive covariates may be included, but currently we do not
+explore QTL:covariate interactions.  Also, the penalized LOD score
+criterion is currently defined only for autosomal loci, and results
+with the X chromosome should be considered with caution.
+</p>
+<p>The penalized LOD score is of the form <code class="reqn">pLOD(\gamma) = LOD(\gamma)
+  - T_m p_m - T_h p_h - T_l p_l</code> where <code class="reqn">\gamma</code> denotes a model,
+<code class="reqn">p_m</code> is the number of QTL in the model ("main effects"),
+<code class="reqn">p_h</code> is the number of pairwise interactions that will be
+given a heavy interaction penalty, <code class="reqn">p_l</code> is the number of pairwise
+interactions that will be given a light interaction penalty,
+<code class="reqn">T_m</code> is the penalty on main effects, <code class="reqn">T_h</code> is the heavy
+interaction penalty, and <code class="reqn">T_l</code> is the light interaction
+penalty.  The <code>penalties</code> argument is the vector <code class="reqn">(T_m, T_h,
+  T_l)</code>.  If <code class="reqn">T_l</code> is missing (<code>penalties</code>
+has a vector of length 2), we assume <code class="reqn">T_l = T_h</code>, and so
+all pairwise interactions are assigned the same penalty.
+</p>
+<p>The "heavy" and "light" interaction penalties can be a bit
+confusing.  Consider the clusters of QTL that are connected via one or
+more pairwise interactions.  To each such cluster, we assign at most
+one "light" interaction penalty, and give all other pairwise
+interactions the heavy interaction penalty.  In other words, if
+<code class="reqn">p_i</code> is the total number of pairwise interactions for a QTL
+model, we let <code class="reqn">p_l</code> be the number of clusters of connected QTL
+with at least one pairwise interaction, and then let <code class="reqn">p_h - p_i -
+    p_l</code>.
+</p>
+<p>Let us give an explicit example.  Consider a model with 6 QTL, and
+with interactions between QTL 2 and 3, QTL 4 and 5 and QTL 4 and 6
+(so we have the model formula
+<code>y ~ Q1 + Q2 + Q3 + Q4 + Q5 + Q6 + Q2:Q3 + Q4:Q5 + Q4:Q6</code>).
+There are three clusters of connected QTL: (1), (2,3) and (4,5,6).  We
+would assign 6 main effect penalties (<code class="reqn">T_m</code>), 2 light
+interaction penalties (<code class="reqn">T_l</code>), and 1 heavy interaction penalty
+(<code class="reqn">T_h</code>).
+</p>
+<p>Manichaikul et al. (2009) described a system for deriving the
+three penalties on the basis of permutation results from a
+two-dimensional, two-QTL genome scan (as calculated with
+<code>scantwo</code>).  These may be calculated with the
+function <code>calc.penalties</code>.
+</p>
+<p>A forward/backward search method is used, with the aim to optimize the
+penalized LOD score criterion.  That is, we seek to identify the
+model with maximal the penalized LOD score.  The search algorithm was
+based closely on an algorithm described by Zeng et al. (1999).
+</p>
+<p>We use forward selection to a model of moderate size (say 10 QTL),
+followed by backward elimination all the way to the null model.  The
+chosen model is that which optimizes the penalized LOD score
+criterion, among all models visited.  The detailed algorithm is as
+follows.  Note that if <code>additive.only=TRUE</code>, no pairwise
+interactions are considered.
+</p>
+
+<ol>
+<li>
+<p> Start at the null model, and perform a single-QTL genome scan,
+and choose the position giving the largest LOD score.  If
+<code>scan.pairs=TRUE</code>, start with a two-dimensional, two-QTL genome
+scan instead.  If an initial QTL model were defined through the
+arguments <code>qtl</code> and <code>formula</code>, start with this model and
+jump immediately to step 2.
+</p>
+</li>
+<li>
+<p> With a fixed QTL model in hand:
+</p>
+
+<ol>
+<li>
+<p> Scan for an additional additive QTL.
+</p>
+</li>
+<li>
+<p> For each QTL in the current model, scan for an additional
+interacting QTL.
+</p>
+</li>
+<li>
+<p> If there are <code class="reqn">\ge</code> 2 QTL in the current model,
+consider adding one of the possible pairwise interactions.
+</p>
+</li>
+<li>
+<p> If <code>scan.pairs=TRUE</code> perform a two-dimensional, two-QTL
+scan, seeking to add a pair of novel QTL, either additive or
+interacting.
+</p>
+</li>
+<li>
+<p> Step to the model that gives the largest value for the model
+comparison criterion, among those considered at the current step.
+</p>
+</li>
+</ol>
+</li>
+<li>
+<p> Refine the locations of the QTL in the current model (if
+<code>refine.locations=TRUE</code>).
+</p>
+</li>
+<li>
+<p> Repeat steps 2 and 3 up to a model with some pre-determined
+number of loci.
+</p>
+</li>
+<li>
+<p> Perform backward elimination, all the way back to the null
+model.  At each step, consider dropping one of the current main
+effects or interactions; move to the model that maximizes the model
+comparison criterion, among those considered at this step.  Follow
+this with a refinement of the locations of the QTL.
+</p>
+</li>
+<li>
+<p> Finally, choose the model having the largest model comparison
+criterion, among all models visited.
+</p>
+</li>
+</ol>
+<p>In this forward/backward algorithm, it is likely best to build up to
+an overly large model and then prune it back.  Note that there is no
+"stopping rule"; the chosen model is that which optimizes the model
+comparison criterion, among all models visited.  The search can be
+time consuming, particularly if a two-dimensional scan is performed at
+each forward step.  Such two-dimensional scans may be useful for
+identifying QTL linked in repulsion (having effects of opposite sign)
+or interacting QTL with limited marginal effects, but our limited
+experience suggests that they are not necessary; important linked or
+interacting QTL pairs can be picked up in the forward selection to a
+large model, and will be retained in the backward elimination phase.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The output is a representation of the best model, as measured by the
+penalized LOD score (see Details), among all models visited.
+This is QTL object (of class <code>"qtl"</code>, as produced by
+<code>makeqtl</code>), with attributes <code>"formula"</code>,
+indicating the model formula, and <code>"pLOD"</code> indicating the
+penalized LOD score.
+</p>
+<p>If <code>keeplodprofile=TRUE</code>, LOD profiles from the last pass through
+the refinement algorithm are retained as an attribute,
+<code>"lodprofile"</code>, to the object.  These may be plotted with
+<code>plotLodProfile</code>.
+</p>
+<p>If <code>keeptrace=TRUE</code>, the output will contain an attribute
+<code>"trace"</code> containing information on the best model at each step
+of forward and backward elimination.  This is a list of objects of
+class <code>"compactqtl"</code>, which is similar to a QTL object (as
+produced by <code>makeqtl</code>) but containing just
+a vector of chromosome IDs and positions for the QTL.  Each will also
+have attributes <code>"formula"</code> (containing the model formula) and
+<code>"pLOD"</code> (containing the penalized LOD score.
+</p>
+
+
+<h3>Methods</h3>
+
+<p><b><code>imp</code></b>: multiple imputation is used, as described by Sen
+and Churchill (2001).
+</p>
+<p><b><code>hk</code></b>: Haley-Knott regression is used (regression of the
+phenotypes on the multipoint QTL genotype probabilities), as described
+by Haley and Knott (1992).
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Karl W Broman, <a href="mailto:broman@wisc.edu">broman@wisc.edu</a></p>
+
+
+<h3>References</h3>
+
+<p>Manichaikul, A., Moon, J. Y., Sen, Ś, Yandell, B. S. and Broman,
+K. W. (2009) A model selection approach for the identification of
+quantitative trait loci in experimental crosses, allowing
+epistasis. <em>Genetics</em>, <b>181</b>, 1077–1086.
+</p>
+<p>Broman,  K. W. and Speed, T. P. (2002) A model selection approach for the
+identification of quantitative trait loci in experimental crosses (with
+discussion). <em>J Roy Stat Soc B</em> <b>64</b>, 641–656, 731–775.
+</p>
+<p>Haley, C. S. and Knott, S. A. (1992) A simple regression method for mapping
+quantitative trait loci in line crosses using flanking markers.
+<em>Heredity</em> <b>69</b>, 315–324.
+</p>
+<p>Sen, Ś. and Churchill, G. A. (2001) A statistical framework for quantitative
+trait mapping.  <em>Genetics</em> <b>159</b>, 371–387.
+</p>
+<p>Zeng, Z.-B., Kao, C.-H. and Basten, C. J. (1999) Estimating the
+genetic architecture of quantitative traits.  <em>Genetical
+Research</em>, <b>74</b>, 279–289.
+</p>
+
+
+<h3>See Also</h3>
+
+ <p><code>calc.penalties</code>,
+<code>plotModel</code>, <code>makeqtl</code>,
+<code>fitqtl</code>, <code>refineqtl</code>,
+<code>addqtl</code>, <code>addpair</code> </p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(fake.bc)
+
+## Not run: fake.bc &lt;- calc.genoprob(fake.bc, step=2.5)
+
+outsw &lt;- stepwiseqtl(fake.bc, max.qtl=3, method="hk", keeptrace=TRUE)
+
+# best model
+outsw
+plotModel(outsw)
+
+# path through model space
+thetrace &lt;- attr(outsw, "trace")
+
+# plot of these
+par(mfrow=c(3,3))
+for(i in seq(along=thetrace))
+  plotModel(thetrace[[i]], main=paste("pLOD =",round(attr(thetrace[[i]],"pLOD"), 2)))
+</code></pre>
+
+
+</div>

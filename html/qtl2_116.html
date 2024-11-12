@@ -1,0 +1,161 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>plot_onegeno</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Plot one individual's genome-wide genotypes</h2>
+
+<h3>Description</h3>
+
+<p>Plot one individual's genome-wide genotypes
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">plot_onegeno(
+  geno,
+  map,
+  ind = 1,
+  chr = NULL,
+  col = NULL,
+  na_col = "white",
+  swap_axes = FALSE,
+  border = "black",
+  shift = FALSE,
+  chrwidth = 0.5,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>geno</code></td>
+<td>
+<p>Imputed phase-known genotypes, as a list of matrices
+(as produced by <code>maxmarg()</code>) or a list of
+three-dimensional arrays (as produced by <code>guess_phase()</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>map</code></td>
+<td>
+<p>Marker map (a list of vectors of marker positions).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ind</code></td>
+<td>
+<p>Individual to plot, either a numeric index or an ID.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>chr</code></td>
+<td>
+<p>Selected chromosomes to plot; a vector of character strings.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>col</code></td>
+<td>
+<p>Vector of colors for the different genotypes.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>na_col</code></td>
+<td>
+<p>Color for missing segments.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>swap_axes</code></td>
+<td>
+<p>If TRUE, swap the axes, so that the chromosomes run horizontally.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>border</code></td>
+<td>
+<p>Color of outer border around chromosome rectangles.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>shift</code></td>
+<td>
+<p>If TRUE, shift the chromosomes so they all start at 0.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>chrwidth</code></td>
+<td>
+<p>Total width of rectangles for each chromosome, as a
+fraction of the distance between them.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Additional graphics parameters</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>None.
+</p>
+
+
+<h3>Hidden graphics parameters</h3>
+
+<p>A number of graphics parameters can be passed via <code>...</code>. For
+example, <code>bgcolor</code> to control the background color.
+These are not included as formal parameters in order to avoid
+cluttering the function definition.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># load data and calculate genotype probabilities
+iron &lt;- read_cross2(system.file("extdata", "iron.zip", package="qtl2"))
+iron &lt;- iron["146", ] # subset to individual 146
+map &lt;- insert_pseudomarkers(iron$gmap, step=1)
+pr &lt;- calc_genoprob(iron, map, error_prob=0.002)
+
+# infer genotypes, as those with maximal marginal probability
+m &lt;- maxmarg(pr)
+
+# guess phase
+ph &lt;- guess_phase(iron, m)
+
+# plot phased genotypes
+plot_onegeno(ph, map, shift=TRUE, col=c("slateblue", "Orchid"))
+
+# this is more interesting for Diversity Outbred mouse data
+## Not run: 
+file &lt;- paste0("https://raw.githubusercontent.com/rqtl/",
+               "qtl2data/main/DOex/DOex.zip")
+DOex &lt;- read_cross2(file)
+# subset to individuals labeled "232" and "256"
+DOex &lt;- DOex[c("232", "256"), ]
+pr &lt;- calc_genoprob(DOex, error_prob=0.002)
+
+# infer genotypes, as those with maximal marginal probability
+m &lt;- maxmarg(pr, minprob=0.5)
+# guess phase
+ph &lt;- guess_phase(DOex, m)
+
+# plot phased genotypes
+plot_onegeno(ph, DOex$gmap, shift=TRUE)
+plot_onegeno(ph, DOex$gmap, ind="256", shift=TRUE)
+
+## End(Not run)
+
+</code></pre>
+
+
+</div>

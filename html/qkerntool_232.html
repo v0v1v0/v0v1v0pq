@@ -1,0 +1,297 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qkLLE</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>qKernel Locally Linear Embedding</h2>
+
+<h3>Description</h3>
+
+<p>Computes the qkernel Locally Linear Embedding
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S4 method for signature 'matrix'
+qkLLE(x, kernel = "rbfbase", qpar = list(sigma = 0.1, q = 0.9),
+                         dims = 2, k, na.action = na.omit, ...)
+## S4 method for signature 'cndkernmatrix'
+qkLLE(x, dims = 2, k, na.action = na.omit, ...)
+## S4 method for signature 'qkernmatrix'
+qkLLE(x, dims = 2, k, na.action = na.omit,...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+
+<p>N x D matrix (N samples, D features) or a kernel matrix of <code>cndkernmatrix</code> or <code>qkernmatrix</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>kernel</code></td>
+<td>
+<p>the kernel function used in training and predicting.
+This parameter can be set to any function, of class kernel, which computes a kernel function value between two
+vector arguments. qkerntool provides the most popular kernel functions
+which can be used by setting the kernel parameter to the following
+strings:
+</p>
+
+<ul>
+<li> <p><code>rbfbase</code> Radial Basis qkernel function "Gaussian"
+</p>
+</li>
+<li> <p><code>nonlbase</code> Non Linear qkernel function
+</p>
+</li>
+<li> <p><code>laplbase</code> Laplbase qkernel function
+</p>
+</li>
+<li> <p><code>ratibase</code> Rational Quadratic qkernel function
+</p>
+</li>
+<li> <p><code>multbase</code> Multiquadric qkernel function
+</p>
+</li>
+<li> <p><code>invbase</code> Inverse Multiquadric qkernel function
+</p>
+</li>
+<li> <p><code>wavbase</code> Wave qkernel function
+</p>
+</li>
+<li> <p><code>powbase</code> Power qkernel function
+</p>
+</li>
+<li> <p><code>logbase</code> Log qkernel function
+</p>
+</li>
+<li> <p><code>caubase</code> Cauchy qkernel function
+</p>
+</li>
+<li> <p><code>chibase</code> Chi-Square qkernel function
+</p>
+</li>
+<li> <p><code>studbase</code> Generalized T-Student qkernel function
+</p>
+</li>
+<li> <p><code>nonlcnd</code> Non Linear cndkernel function
+</p>
+</li>
+<li> <p><code>polycnd</code> Polynomial cndkernel function
+</p>
+</li>
+<li> <p><code>rbfcnd</code> Radial Basis cndkernel function "Gaussian"
+</p>
+</li>
+<li> <p><code>laplcnd</code> Laplacian cndkernel function
+</p>
+</li>
+<li> <p><code>anocnd</code> ANOVA cndkernel function
+</p>
+</li>
+<li> <p><code>raticnd</code> Rational Quadratic cndkernel function
+</p>
+</li>
+<li> <p><code>multcnd</code> Multiquadric cndkernel function
+</p>
+</li>
+<li> <p><code>invcnd</code> Inverse Multiquadric cndkernel function
+</p>
+</li>
+<li> <p><code>wavcnd</code> Wave cndkernel function
+</p>
+</li>
+<li> <p><code>powcnd</code> Power cndkernel function
+</p>
+</li>
+<li> <p><code>logcnd</code> Log cndkernel function
+</p>
+</li>
+<li> <p><code>caucnd</code> Cauchy cndkernel function
+</p>
+</li>
+<li> <p><code>chicnd</code> Chi-Square cndkernel function
+</p>
+</li>
+<li> <p><code>studcnd</code> Generalized T-Student cndkernel function
+</p>
+</li>
+</ul>
+<p>The kernel parameter can also be set to a user defined function of
+class kernel by passing the function name as an argument.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qpar</code></td>
+<td>
+<p>the list of hyper-parameters (kernel parameters).
+This is a list which contains the parameters to be used with the
+kernel function. Valid parameters for existing kernels are :
+</p>
+
+<ul>
+<li> <p><code>sigma, q</code>  for the Radial Basis qkernel function "rbfbase" , the Laplacian qkernel function "laplbase" and the Cauchy qkernel function "caubase".
+</p>
+</li>
+<li> <p><code>alpha, q</code> for the Non Linear qkernel function "nonlbase".
+</p>
+</li>
+<li> <p><code>c, q</code> for the Rational Quadratic qkernel function "ratibase" , the Multiquadric qkernel function "multbase" and the Inverse Multiquadric qkernel function "invbase".
+</p>
+</li>
+<li> <p><code>theta, q</code> for the Wave qkernel function "wavbase".
+</p>
+</li>
+<li> <p><code>d, q</code> for the Power qkernel function "powbase" , the Log qkernel function "logbase" and the Generalized T-Student qkernel function "studbase".
+</p>
+</li>
+<li> <p><code>alpha</code> for the Non Linear cndkernel function "nonlcnd".
+</p>
+</li>
+<li> <p><code>power, alpha, c</code> for the Polynomial cndkernel function "polycnd".
+</p>
+</li>
+<li> <p><code>gamma</code> for the Radial Basis cndkernel function "rbfcnd" and the Laplacian cndkernel function "laplcnd" and the Cauchy cndkernel function "caucnd".
+</p>
+</li>
+<li> <p><code>power, sigma</code> for the ANOVA cndkernel function "anocnd".
+</p>
+</li>
+<li> <p><code>c</code> for the Rational Quadratic cndkernel function "raticnd" , the Multiquadric cndkernel function "multcnd" and the Inverse Multiquadric cndkernel function "invcnd".
+</p>
+</li>
+<li> <p><code>theta</code> for the Wave cndkernel function "wavcnd".
+</p>
+</li>
+<li> <p><code>power</code> for the Power cndkernel function "powcnd" , the Log cndkernel function "logcnd" and the Generalized T-Student cndkernel function "studcnd".
+</p>
+</li>
+</ul>
+<p>Hyper-parameters for user defined kernels can be passed through the
+qpar parameter as well.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dims</code></td>
+<td>
+<p>dimension of the target space</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>k</code></td>
+<td>
+<p>the number of nearest neighbours.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>na.action</code></td>
+<td>
+<p>A function to specify the action to be taken if <code>NA</code>s are
+found. The default action is <code>na.omit</code>, which leads to rejection of cases
+with missing values on any required variable. An alternative
+is <code>na.fail</code>, which causes an error if <code>NA</code> cases
+are found. (NOTE: If given, this argument must be named.)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>additional parameters</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The qkernel Locally Linear Embedding (qkLLE) preserves local properties of the data by
+representing each sample in the data by a linear combination of
+its k nearest neighbours with each neighbour weighted
+independently. qkLLE finally chooses the low-dimensional
+representation that best preserves the weights in the target
+space. It is an extension of Locally Linear Embedding (LLE) with qkernel method. <br></p>
+
+
+<h3>Value</h3>
+
+<p>It returns an S4 object containing the principal component vectors along with the
+corresponding eigenvalues.
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>prj</code></td>
+<td>
+<p>a matrix with the reduced input data</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dims</code></td>
+<td>
+<p>dimension of the target space</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>eVal</code></td>
+<td>
+<p>The corresponding eigenvalues</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>eVec</code></td>
+<td>
+<p>The corresponding eigenvectors</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cndkernf</code></td>
+<td>
+<p>the kernel function used</p>
+</td>
+</tr>
+</table>
+<p>all the slots of the object can be accessed by accessor functions.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Yusen Zhang <br><a href="mailto:yusenzhang@126.com">yusenzhang@126.com</a></p>
+
+
+<h3>References</h3>
+
+<p>Roweis, Sam T. and Saul, Lawrence K., "Nonlinear Dimensionality Reduction by Locally Linear Embedding",2000;
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## S4 method for signature 'matrix'
+data(iris)
+testset &lt;- sample(1:150,20)
+train &lt;- as.matrix(iris[-testset,-5])
+labeltrain&lt;- as.integer(iris[-testset,5])
+test &lt;- as.matrix(iris[testset,-5])
+plot(train ,col=labeltrain, xlab="1st Principal Component",ylab="2nd Principal Component")
+# ratibase(c=1,q=0.8)
+d_low &lt;- qkLLE(train, kernel = "ratibase", qpar = list(c=1,q=0.8), dims=2, k=5)
+#plot the data projection on the components
+plot(prj(d_low),col=labeltrain, xlab="1st Principal Component",ylab="2nd Principal Component")
+
+## S4 method for signature 'qkernmatrix'
+# ratibase(c=0.1,q=0.8)
+qkfunc &lt;- ratibase(c=0.1,q=0.8)
+ktrain1 &lt;- qkernmatrix(qkfunc,train)
+d_low &lt;- qkLLE(ktrain1, dims = 2, k=5)
+#plot the data projection on the components
+plot(prj(d_low),col=labeltrain, xlab="1st Principal Component",ylab="2nd Principal Component")
+</code></pre>
+
+
+</div>

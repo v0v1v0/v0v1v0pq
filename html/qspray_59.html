@@ -1,0 +1,57 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>PSPexpression</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Symmetric polynomial in terms of the power sum polynomials</h2>
+
+<h3>Description</h3>
+
+<p>Expression of a symmetric <code>qspray</code> polynomial as a 
+polynomial in the power sum polynomials.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">PSPexpression(qspray)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>qspray</code></td>
+<td>
+<p>a symmetric <code>qspray</code> polynomial; symmetry is not checked</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>A <code>qspray</code> polynomial, say <code class="reqn">P</code>, such that 
+<code class="reqn">P(p_1, ..., p_n)</code> equals the input symmetric polynomial, 
+where <code class="reqn">p_i</code> is the i-th power sum polynomial (<code>PSFpoly(n, i)</code>).
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>PSPcombination</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># take a symmetric polynomial
+( qspray &lt;- ESFpoly(4, c(2, 1)) + ESFpoly(4, c(2, 2)) )
+# compute the power sum expression
+( pspExpr &lt;- PSPexpression(qspray) )
+# take the involved power sum polynomials
+psPolys &lt;- lapply(1:numberOfVariables(pspExpr), function(i) PSFpoly(4, i))
+# then this should be TRUE:
+qspray == changeVariables(pspExpr, psPolys)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,78 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>make.dummy</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Make Dummy Columns</h2>
+
+<h3>Description</h3>
+
+<p><code>make.dummy</code> creates dummy columns (i.e., dichotomous numeric vectors
+coded 0 and 1) from logical conditions. If you want to make logical
+conditions from columns of a data.frame, you will need to call the data.frame
+and its columns explicitly as this function does not use non-standard
+evaluation.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">make.dummy(..., rtn.lgl = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>logical conditions that evaluate to logical vectors of the same
+length. If the logical vectors are not the same length, an error is
+returned. The names of the arguments are the colnames in the return object.
+If unnamed, then default R data.frame naming is used, which can get ugly.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rtn.lgl</code></td>
+<td>
+<p>logical vector of length 1 specifying whether the dummy
+columns should be logical vectors (TRUE) rather than numeric vectors
+(FALSE).</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>data.frame of dummy columns based on the logical conditions n
+<code>...</code>. If <code>rtn.lgl</code> = TRUE, then the columns are logical vectors.
+If <code>out.lgl</code> = FALSE, then the columns are numeric vectors where 0 =
+FALSE and 1 = TRUE. The colnames are the names of the arguments in
+<code>...</code>. If not specified, then default data.frame names are created
+from the logical conditions themselves (which can get ugly).
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>make.dumNA</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">make.dummy(attitude$"rating" &gt; 50) # ugly colnames
+make.dummy("rating_50plus" = attitude$"rating" &gt; 50,
+   "advance_50minus" = attitude$"advance" &lt; 50)
+make.dummy("rating_50plus" = attitude$"rating" &gt; 50,
+   "advance_50minus" = attitude$"advance" &lt; 50, rtn.lgl = TRUE)
+## Not run: 
+   make.dummy("rating_50plus" = attitude$"rating" &gt; 50,
+      "mpg_20plus" = mtcars$"mpg" &gt; 20)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

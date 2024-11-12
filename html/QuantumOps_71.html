@@ -1,0 +1,56 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>swapTest</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>swapTest</h2>
+
+<h3>Description</h3>
+
+<p>Encodes absolute square of inner product of two states, |&lt;a|b&gt;|^2, into an ancilliary qubit. It swaps the states of |a&gt; and |b&gt; conditioned on the ancilla which results in a state where the probability of measuring the ancilla qubit in the 0 state is equal to 1/2 - 1/2*(|&lt;a|b&gt;|^2). The ancilla qubit is inserted before qubit index 0, as the most significant qubit. Full explanation can be found in "Supervised Learning with Quantum Computers" &lt;DOI:10.1007/978-3-319-96424-9&gt;.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">swapTest(v,a,b)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>v</code></td>
+<td>
+<p> Ket (column vector) that swap test is applied to. Should be a tensor product of two quantum state. </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>a</code></td>
+<td>
+<p> Vector of indices of |a&gt; within v </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>b</code></td>
+<td>
+<p> Vector of indices of |b&gt; within v</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Ket which contains the modified input ket, v, along with a leading ancillary qubit. 
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"> swapTest(intket(3,4),a=0:1,b=2:3)
+ swapTest(intket(5,4),a=0:1,b=2:3)
+</code></pre>
+
+
+</div>

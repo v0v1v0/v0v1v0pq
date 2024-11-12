@@ -1,0 +1,391 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>growth.gcFitLinear</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Fit an exponential growth model with a heuristic linear method</h2>
+
+<h3>Description</h3>
+
+<p>Determine maximum growth rates from the log-linear part of a growth curve using
+a heuristic approach similar to the “growth rates made easy”-method of
+Hall et al. (2013).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">growth.gcFitLinear(
+  time,
+  data,
+  gcID = "undefined",
+  quota = 0.95,
+  control = growth.control(t0 = 0, tmax = NA, log.x.gc = FALSE, log.y.lin = TRUE,
+    min.growth = NA, max.growth = NA, lin.h = NULL, lin.R2 = 0.97, lin.RSD = 0.1, lin.dY
+    = 0.05, biphasic = FALSE)
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>time</code></td>
+<td>
+<p>Vector of the independent variable (usually: time).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>Vector of dependent variable (usually: growth values).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gcID</code></td>
+<td>
+<p>(Character) The name of the analyzed sample.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>quota</code></td>
+<td>
+<p>(Numeric, between 0 an 1) Define what fraction of <code class="reqn">mu_{max}</code> the slope of regression windows adjacent to the window with highest slope should have to be included in the overall linear fit.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>control</code></td>
+<td>
+<p>A <code>grofit.control</code> object created with <code>growth.control</code>, defining relevant fitting options.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>log.x.gc</code></td>
+<td>
+<p>(Logical) Indicates whether <em>ln(x+1)</em> should be applied to the time data for <em>linear</em> and <em>spline</em> fits. Default: <code>FALSE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>log.y.lin</code></td>
+<td>
+<p>(Logical) Indicates whether <em>ln(y/y0)</em> should be applied to the growth data for <em>linear</em> fits. Default: <code>TRUE</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>min.growth</code></td>
+<td>
+<p>(Numeric) Indicate whether only growth values above a certain threshold should be considered for linear regressions.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>max.growth</code></td>
+<td>
+<p>(Numeric) Indicate whether only growth values below a certain threshold should be considered for linear regressions.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>t0</code></td>
+<td>
+<p>(Numeric) Minimum time value considered for linear and spline fits.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tmax</code></td>
+<td>
+<p>(Numeric) Minimum time value considered for linear and spline fits.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lin.h</code></td>
+<td>
+<p>(Numeric) Manually define the size of the sliding window . If <code>NULL</code>, h is calculated for each samples based on the number of measurements in the growth phase of the plot.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lin.R2</code></td>
+<td>
+<p>(Numeric) R<sup>2</sup> threshold for <code>growth.gcFitLinear</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lin.RSD</code></td>
+<td>
+<p>(Numeric) Relative standard deviation (RSD) threshold for calculated slope in <code>growth.gcFitLinear</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lin.dY</code></td>
+<td>
+<p>(Numeric) Enter the minimum percentage of growth increase that a linear regression should cover.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>biphasic</code></td>
+<td>
+<p>(Logical) Shall <code>growth.gcFitLinear</code> try to extract growth parameters for two different growth phases (as observed with, e.g., diauxic shifts) (<code>TRUE</code>) or not (<code>FALSE</code>)?</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The algorithm works as follows:
+</p>
+
+<ol>
+<li>
+<p> Fit linear regressions (Theil-Sen estimator) to all subsets of <code>h</code> consecutive, log-transformed data
+points (sliding window of size <code>h</code>). If for example <code class="reqn">h=5</code>, fit a linear regression to points
+1 ... 5, 2 ... 6, 3 ... 7 and so on.
+</p>
+</li>
+<li>
+<p> Find the subset with the highest slope <code class="reqn">mu_{max}</code>. Do the R<sup>2</sup> and relative standard deviation (RSD) values of the regression meet the in <code>lin.R2</code> and <code>lin.RSD</code> defined thresholds and do the data points within the regression window account for a fraction of at least <code>lin.dY</code> of the total growth increase? If not, evaluate the subset with the second highest slope, and so on.
+</p>
+</li>
+<li>
+<p> Include also the data points of adjacent subsets that have a slope of at least <code class="reqn">quota \cdot mu{max}</code>, e.g., all regression windows that have at least 95% of the maximum slope.
+</p>
+</li>
+<li>
+<p> Fit a new linear model to the extended data window identified in step 3.
+</p>
+</li>
+</ol>
+<p>If <code>biphasic = TRUE</code>, the following steps are performed to define a second growth phase:
+</p>
+
+<ol>
+<li>
+<p> Perform a smooth spline fit on the data with a smoothing factor of 0.5.
+</p>
+</li>
+<li>
+<p> Calculate the second derivative of the spline fit and perform a smooth spline fit of the derivative with a smoothing factor of 0.4.
+</p>
+</li>
+<li>
+<p> Determine local maxima and minima in the second derivative.
+</p>
+</li>
+<li>
+<p> Find the local minimum following <code class="reqn">mu_{max}</code> and repeat the heuristic linear method for later time values.
+</p>
+</li>
+<li>
+<p> Find the local maximum before <code class="reqn">mu_{max}</code> and repeat the heuristic linear method for earlier time values.
+</p>
+</li>
+<li>
+<p> Choose the greater of the two independently determined slopes as <code class="reqn">mu_{max}2</code>.
+</p>
+</li>
+</ol>
+<h3>Value</h3>
+
+<p>A <code>gcFitLinear</code> object with parameters of the fit. The lag time is
+estimated as the intersection between the fit and the horizontal line with
+<code class="reqn">y=y_0</code>, where <code>y0</code> is the first value of the dependent variable.
+Use <code>plot.gcFitSpline</code> to visualize the linear fit.
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>raw.time</code></td>
+<td>
+<p>Raw time values provided to the function as <code>time</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>raw.data</code></td>
+<td>
+<p>Raw growth data provided to the function as <code>data</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>filt.time</code></td>
+<td>
+<p>Filtered time values used for the heuristic linear method.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>filt.data</code></td>
+<td>
+<p>Filtered growth values.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>log.data</code></td>
+<td>
+<p>Log-transformed, filtered growth values used for the heuristic linear method.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gcID</code></td>
+<td>
+<p>(Character) Identifies the tested sample.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>FUN</code></td>
+<td>
+<p>Linear <em>function</em> used for plotting the tangent at mumax.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fit</code></td>
+<td>
+<p><code>lm</code> object; result of the final call of <code>lm</code> to perform the linear regression.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>par</code></td>
+<td>
+<p>List of determined growth parameters:</p>
+</td>
+</tr>
+</table>
+<ul>
+<li> <p><code>y0</code>: Minimum growth value considered for the heuristic linear method.
+</p>
+</li>
+<li> <p><code>dY</code>: Difference in maximum growth and minimum growth.
+</p>
+</li>
+<li> <p><code>A</code>: Maximum growth.
+</p>
+</li>
+<li> <p><code>y0_lm</code>: Intersection of the linear fit with the abscissa.
+</p>
+</li>
+<li> <p><code>mumax</code>: Maximum growth rate (i.e., slope of the linear fit).
+</p>
+</li>
+<li> <p><code>tD</code>: Doubling time.
+</p>
+</li>
+<li> <p><code>mu.se</code>: Standard error of the maximum growth rate.
+</p>
+</li>
+<li> <p><code>lag</code>: Lag time.
+</p>
+</li>
+<li> <p><code>tmax_start</code>: Time value of the first data point within the window used for the linear regression.
+</p>
+</li>
+<li> <p><code>tmax_end</code>: Time value of the last data point within the window used for the linear regression.
+</p>
+</li>
+<li> <p><code>t_turn</code>: For biphasic growth: Time of the inflection point that separates two growth phases.
+</p>
+</li>
+<li> <p><code>mumax2</code>: For biphasic growth: Growth rate of the second growth phase.
+</p>
+</li>
+<li> <p><code>tD2</code>: Doubling time of the second growth phase.
+</p>
+</li>
+<li> <p><code>y0_lm2</code>: For biphasic growth: Intersection of the linear fit of the second growth phase with the abscissa.
+</p>
+</li>
+<li> <p><code>lag2</code>: For biphasic growth: Lag time determined for the second growth phase..
+</p>
+</li>
+<li> <p><code>tmax2_start</code>: For biphasic growth: Time value of the first data point within the window used for the linear regression of the second growth phase.
+</p>
+</li>
+<li> <p><code>tmax2_end</code>: For biphasic growth: Time value of the last data point within the window used for the linear regression of the second growth phase.
+</p>
+</li>
+</ul>
+<table>
+<tr style="vertical-align: top;">
+<td><code>ndx</code></td>
+<td>
+<p>Index of data points used for the linear regression.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ndx2</code></td>
+<td>
+<p>Index of data points used for the linear regression for the second growth phase.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>control</code></td>
+<td>
+<p>Object of class <code>grofit.control</code> containing list of options passed to the function as <code>control</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rsquared</code></td>
+<td>
+R<sup>2</sup><p> of the linear regression.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rsquared2</code></td>
+<td>
+R<sup>2</sup><p> of the linear regression for the second growth phase.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fitFlag</code></td>
+<td>
+<p>(Logical) Indicates whether linear regression was successfully performed on the data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fitFlag2</code></td>
+<td>
+<p>(Logical) Indicates whether a second growth phase was identified.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>reliable</code></td>
+<td>
+<p>(Logical) Indicates whether the performed fit is reliable (to be set manually).</p>
+</td>
+</tr>
+</table>
+<h3>References</h3>
+
+<p>Hall, BG., Acar, H, Nandipati, A and Barlow, M (2014) Growth Rates Made Easy. <em>Mol. Biol. Evol.</em> 31: 232-38, DOI: 10.1093/molbev/mst187
+</p>
+<p>Petzoldt T (2022). growthrates: Estimate Growth Rates from Experimental Data. R package version 0.8.3, <a href="https://CRAN.R-project.org/package=growthrates">https://CRAN.R-project.org/package=growthrates</a>.
+</p>
+<p>Theil, H.(1992). A rank-invariant method of linear and polynomial regression analysis. In: Henri Theil’s contributions to economics and econometrics. Springer, pp. 345–381. DOI: 10.1007/978-94-011-2546-8_20
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Other growth fitting functions: 
+<code>growth.drFit()</code>,
+<code>growth.gcBootSpline()</code>,
+<code>growth.gcFitModel()</code>,
+<code>growth.gcFitSpline()</code>,
+<code>growth.gcFit()</code>,
+<code>growth.workflow()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># Create random growth dataset
+rnd.dataset &lt;- rdm.data(d = 35, mu = 0.8, A = 5, label = "Test1")
+
+# Extract time and growth data for single sample
+time &lt;- rnd.dataset$time[1,]
+data &lt;- rnd.dataset$data[1,-(1:3)] # Remove identifier columns
+
+# Perform linear fit
+TestFit &lt;- growth.gcFitLinear(time, data, gcID = "TestFit",
+                 control = growth.control(fit.opt = "l"))
+
+plot(TestFit)
+
+</code></pre>
+
+
+</div>

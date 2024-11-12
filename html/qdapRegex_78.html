@@ -1,0 +1,129 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>rm_</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Remove/Replace/Extract Function Generator</h2>
+
+<h3>Description</h3>
+
+<p>Remove/replace/extract substrings from a string.  A function generator used 
+to make regex functions that operate typical of other <span class="pkg">qdapRegex</span> 
+<code>rm_XXX</code> functions.  Use <code>rm_</code> for removal and <code>ex_</code> for 
+extraction.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">rm_(...)
+
+ex_(...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Arguments passed to <code>rm_default</code>.
+Generally, <code>pattern</code> and <code>extract</code> are the most useful parameters 
+to change.  Arguments that can be set include:
+</p>
+
+<dl>
+<dt>text.var</dt>
+<dd>
+<p>The text variable.</p>
+</dd>
+<dt>trim</dt>
+<dd>
+<p>logical.  If <code>TRUE</code> removes leading and trailing white 
+spaces.</p>
+</dd>
+<dt>clean</dt>
+<dd>
+<p>logical.  If <code>TRUE</code> extra white spaces and escaped 
+character will be removed.</p>
+</dd>
+<dt>pattern</dt>
+<dd>
+<p>A character string containing a regular expression (or 
+character string for <code>fixed = TRUE</code>) to be matched in the given 
+character vector.</p>
+</dd>  
+<dt>replacement</dt>
+<dd>
+<p>Replacement for matched <code>pattern</code>.</p>
+</dd>
+<dt>extract</dt>
+<dd>
+<p>logical.  If <code>TRUE</code> strings are extracted into a list of 
+vectors.</p>
+</dd>
+<dt>dictionary</dt>
+<dd>
+<p>A dictionary of canned regular expressions to search within 
+if <code>pattern</code> begins with <code>"@rm_"</code>.</p>
+</dd>
+<dt>...</dt>
+<dd>
+<p>Other arguments passed to <code>gsub</code>.</p>
+</dd>
+</dl>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>Returns a function that operates typical of other <span class="pkg">qdapRegex</span> 
+<code>rm_XXX</code> functions but with user defined defaults.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>rm_default</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">rm_digit &lt;- rm_(pattern="[0-9]")
+rm_digit("  I 12 li34ke ice56cream78.  ")
+
+rm_lead &lt;- rm_(pattern="^\\s+", trim = FALSE, clean = FALSE)
+rm_lead("  I 12 li34ke ice56cream78.    ")
+
+rm_all_except_letters &lt;- rm_(pattern="[^ a-zA-Z]")
+rm_all_except_letters("  I 12 li34ke ice56cream78.    ")
+
+extract_consec_num &lt;- rm_(pattern="[0-9]+", extract = TRUE)
+extract_consec_num("  I 12 li34ke ice56cream78.  ")
+
+## Using the supplemental dictionary dataset:
+x &lt;- "A man lives there!  The dog likes it. I want the map. I want an apple."
+
+extract_word_after_the &lt;- rm_(extract=TRUE, pattern="@after_the")
+extract_word_after_a &lt;- rm_(extract=TRUE, pattern="@after_a")
+extract_word_after_the(x)
+extract_word_after_a(x)
+
+f &lt;- rm_(pattern="@time_12_hours")
+f("I will go at 12:35 pm")
+
+x &lt;- c(
+    "test@aol.fg.com",
+    "test@hotmail.com",
+    "test@xyzrr.lk.edu",
+    "test@abc.xx.zz.vv.net"
+)
+
+file_ext2 &lt;- rm_(pattern="(?&lt;=\\.)[a-z]*$", extract=TRUE)
+tools::file_ext(x)
+file_ext2(x)
+</code></pre>
+
+
+</div>

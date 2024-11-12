@@ -1,0 +1,55 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>export_responses_progress</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Monitor progress from response request download, then obtain file download
+location</h2>
+
+<h3>Description</h3>
+
+<p>Monitor progress from response request download, then obtain file download
+location
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">export_responses_progress(surveyID, requestID, verbose = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>surveyID</code></td>
+<td>
+<p>ID of survey whose responses are being pulled</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>requestID</code></td>
+<td>
+<p>exportProgressId from
+https://api.qualtrics.com/37e6a66f74ab4-get-response-export-progress</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p>See <code>fetch_survey()</code></p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>If the request to the Qualtrics API made by this function fails, the request
+will be retried. If you see these failures on a 500 error (such as a 504
+error) be patient while the request is retried; it will typically succeed
+on retrying. If you see other types of errors, retrying is unlikely to help.
+</p>
+
+
+</div>

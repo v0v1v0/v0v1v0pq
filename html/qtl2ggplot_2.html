@@ -1,0 +1,100 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>ggplot_listof_scan1coef</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Plot of object of class listof_scan1coeff</h2>
+
+<h3>Description</h3>
+
+<p>Plot object of class <code>listof_scan1coeff</code>, which is a list of objects of class <code>scan1coef</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">ggplot_listof_scan1coef(
+  object,
+  map,
+  columns = NULL,
+  col = NULL,
+  scan1_output = NULL,
+  facet = "pattern",
+  ...
+)
+
+## S3 method for class 'listof_scan1coef'
+autoplot(object, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>object of class <code>listof_scan1coeff</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>map</code></td>
+<td>
+<p>A list of vectors of marker positions, as produced by
+<code>insert_pseudomarkers</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>columns</code></td>
+<td>
+<p>Vector of columns to plot</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>col</code></td>
+<td>
+<p>Vector of colors, same length as <code>columns</code>. If
+NULL, some default choices are made.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>scan1_output</code></td>
+<td>
+<p>If provided, we make a two-panel plot with
+coefficients on top and LOD scores below. Should have just one LOD
+score column; if multiple, only the first is used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>facet</code></td>
+<td>
+<p>Plot facets if multiple phenotypes and group provided (default = <code>"pattern"</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>arguments for <code>ggplot_coef</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pattern</code></td>
+<td>
+<p>Use phenotype names as pattern.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>object of class <code>ggplot</code>
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Brian S Yandell, <a href="mailto:brian.yandell@wisc.edu">brian.yandell@wisc.edu</a>
+</p>
+
+
+</div>

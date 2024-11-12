@@ -1,0 +1,39 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>MeltingPoint</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Melting Point Data</h2>
+
+<h3>Description</h3>
+
+<p>Karthikeyan et al (2005) presented data where they used chemical descriptors to model the melting point of compounds (i.e. transition from solid to liquid state). They assembled 4401 compounds: 4126 for model training and 275 compounds as a final validation set. They calculated 2D and 3D MOE chemical descriptors.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">data(MeltingPoint)</code></pre>
+
+
+<h3>Format</h3>
+
+<p>The descriptors are contained in a data frame called <code>MP_Descriptors</code> and the melting points are in a numeric vector <code>MP_Outcome</code>. The original data set indicators are in a factor vector called <code>MP_Data</code> with levels "Test" and "Train"
+</p>
+
+
+<h3>References</h3>
+
+<p>Karthikeyan et al. General melting point prediction based on a diverse compound data set and artificial neural networks. Journal of chemical information and modeling (2005) vol. 45 (3) pp. 581-90
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(MeltingPoint)
+head(MP_Descriptors)
+</code></pre>
+
+
+</div>

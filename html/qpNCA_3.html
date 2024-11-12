@@ -1,0 +1,219 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>calc.par.th</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Calculate Lambda_z Parameters</h2>
+
+<h3>Description</h3>
+
+<p>Calculates PK parameters that need lambda_z.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">calc.par.th(
+  x,
+  by = character(0),
+  th = th,
+  covariates = NA,
+  dose = "dose",
+  factor = 1,
+  reg = "SD",
+  ss = "N",
+  route = "EV"
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>result parameter dataset from <code>calc.par</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>by</code></td>
+<td>
+<p>column names in x indicating grouping variables</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>th</code></td>
+<td>
+<p>result dataset from <code>est.thalf</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>covariates</code></td>
+<td>
+<p>covariates dataset (containing at least dose for CL calculation); defaults to unique combinations of <code>by</code> and <code>dose</code> evaluated on <code>x</code>; can be character name of csv file or local object</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dose</code></td>
+<td>
+<p>variable containing the dose amount; default 'dose' set to 1 if not in <code>names(x)</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>factor</code></td>
+<td>
+<p>conversion factor for CL and V calculation (e.g. dose in mg, conc in ng/mL, factor=1000); x$factor overrides</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>reg</code></td>
+<td>
+<p>regimen, "sd" or "md"; x$reg overrides</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ss</code></td>
+<td>
+<p>is steady state reached (y/n); x$ss overrides</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>route</code></td>
+<td>
+<p>of drug administration ("EV","IVB","IVI"); x$route overrides</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A dataset containing all parameters calculated in <code>est.thalf</code> and <code>calc.par</code> <br>
+with estimates for the following parameters added, one observation per subject:</p>
+
+<table>
+<tr>
+<td style="text-align: left;">
+   <strong>Parameter</strong> </td>
+<td style="text-align: left;"> <strong>Description</strong> </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+   clast.pred </td>
+<td style="text-align: left;"> predicted concentration at tlast </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+   aucinf.obs </td>
+<td style="text-align: left;"> aucinf based on observed concentration at tlast </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+   aucinf.pred </td>
+<td style="text-align: left;"> aucinf based on predicted concentration at tlast </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+   aumcinf.obs </td>
+<td style="text-align: left;"> area under the first moment curve extrapolated to infinity, based on observed concentration at tlast </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+   aumcinf.pred </td>
+<td style="text-align: left;"> area under the first moment curve extrapolated to infinity, based on predicted concentration at tlast </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+   cl.obs, cl.f.obs </td>
+<td style="text-align: left;"> clearance based on aucinf.obs, at steady state based on auctau </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+   cl.pred, cl.f.pred </td>
+<td style="text-align: left;"> clearance based on aucinf.pred </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+   cl.ss, cl.f.ss </td>
+<td style="text-align: left;"> clearance at steady state, based on auctau </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+   mrt.obs </td>
+<td style="text-align: left;"> mean residence time based on aumcinf.obs and aucinf.obs </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+   mrt.pred </td>
+<td style="text-align: left;"> mean residence time based on aumcinf.pred and aucinf.pred </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+   vz.obs, vz.f.obs </td>
+<td style="text-align: left;"> distribution volume based on cl.f.obs, at steady state based on auctau </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+   vz.pred, vz.f.pred </td>
+<td style="text-align: left;"> distribution based on cl.pred/cl.f.pred </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+   vss.obs </td>
+<td style="text-align: left;"> steady-state volume based on cl.obs and mrt.obs </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+   vss.pred </td>
+<td style="text-align: left;"> steady-state volume based on cl.pred and mrt.pred </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+   pctextr.pred </td>
+<td style="text-align: left;"> percentage of AUC extrapolated to infinity, based on aucinf.pred </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+   pctextr.obs </td>
+<td style="text-align: left;"> percentage of AUC extrapolated to infinity, based on aucinf.obs </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+   pctback.pred </td>
+<td style="text-align: left;"> percentage of AUC extrapolated back to 0, based on aucinf.pred </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+   pctback.obs </td>
+<td style="text-align: left;"> percentage of AUC extrapolated back to 0, based on aucinf.obs </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+</td>
+</tr>
+</table>
+<p>Note: ctmax must be merged separately as those were calculated from uncorrected data.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+example(calc.par) # creates par
+# notice x includes (optional) loqrule, includeCmax, reg, method, route, ss
+covs &lt;- Theoph %&gt;%
+  select(subject = Subject, Wt, dose = Dose) %&gt;%
+  unique %&gt;%
+  mutate(dose = dose * Wt, subject=as.numeric(as.character(subject))) # see ?Theoph
+y &lt;- x %&gt;% select(subject, reg, ss, loqrule) %&gt;% unique
+y %&lt;&gt;% mutate(factor = 1)
+par %&lt;&gt;% left_join(y, by = 'subject')
+par %&lt;&gt;% calc.par.th(by = 'subject', th = th, covariates = covs)
+par %&lt;&gt;% left_join(ctmax, ., by = 'subject')
+par %&gt;% head
+par %&gt;% data.frame %&gt;% head(2)
+
+</code></pre>
+
+
+</div>

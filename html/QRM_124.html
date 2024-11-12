@@ -1,0 +1,147 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>Student</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Student's t Distribution 
+</h2>
+
+<h3>Description</h3>
+
+<p>Functions for evaluating density, fitting and random variates of
+multivaraite Student's t distribution and routines for quantiles and
+fitting of univariate distribution. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">dmt(x, df, mu, Sigma, log = FALSE)
+rmt(n, df = 4, mu = 0, Sigma)
+qst(p, mu = 0, sd = 1, df, scale = FALSE)
+fit.st(data, ...)
+fit.mst(data, nit = 2000, tol = 1e-10, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p><code>matrix</code>, dimension <code class="reqn">n \times d</code>; density is
+evaluated for each row.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>df</code></td>
+<td>
+<p><code>numeric</code>, degrees of freedom.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mu</code></td>
+<td>
+<p><code>numeric</code>, location parameters.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Sigma</code></td>
+<td>
+<p><code>matrix</code>, dispersion matrix.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>log</code></td>
+<td>
+<p><code>logical</code>, returning log density values.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p><code>numeric</code>, data used for uni- and multivariate fitting.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nit</code></td>
+<td>
+<p><code>integer</code>, number of iterations of EM-type algorithm.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tol</code></td>
+<td>
+<p><code>numeric</code>, tolerance of improvement for stopping iteration.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p</code></td>
+<td>
+<p><code>numeric</code>, probability.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sd</code></td>
+<td>
+<p><code>numeric</code>, scale parameters.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>scale</code></td>
+<td>
+<p><code>logical</code>, scaling Student's t distribution.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p><code>integer</code>, count of random variates.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>ellipsis, arguments are passed down to <code>optim()</code> in
+<code>fit.st()</code> and to <code>MCECMupdate()</code> in <code>fit.mst()</code>.</p>
+</td>
+</tr>
+</table>
+<h3>See Also</h3>
+
+<p><code>link{EMupdate}</code>, <code>link{MCECMupdate}</code>, and
+<code>link{MCECM.Qfunc}</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">BiDensPlot(func = dmt, xpts = c(-4, 4), ypts = c(-4, 4), mu = c(0, 0),
+           Sigma = equicorr(2, -0.7), df = 4)
+## Quantiles of univariate Student's t
+p &lt;- c(0.90,0.95)
+s &lt;- 0.2 * 10000/sqrt(250)
+qst(p, sd = s, df = 4, scale = TRUE)
+## Fitting multivariate Student's t
+Sigma &lt;- diag(c(3, 4, 5)) %*% equicorr(3, 0.6) %*% diag(c(3, 4, 5)) 
+mu &lt;- c(1, 2 ,3) 
+tdata &lt;- rmt(1000, 4, mu = mu, Sigma = Sigma) 
+mod1 &lt;- fit.mst(tdata, method = "BFGS")
+## DJ data
+data(DJ)
+r &lt;- returns(DJ)
+s &lt;- window(r[, "MSFT"], "1993-01-01", "2000-12-31")
+mod.t1 &lt;- fit.st(100 * s)
+stocks &lt;- c("AXP","EK","BA","C","KO","MSFT",
+            "HWP","INTC","JPM","DIS")
+ss &lt;- window(r[, stocks], "1993-01-01", "2000-12-31")
+fridays &lt;- time(ss)[isWeekday(time(ss), wday = 5)]
+ssw &lt;- aggregate(ss, by = fridays, FUN = sum)
+mod.t2 &lt;- fit.mst(ssw, method = "BFGS") 
+</code></pre>
+
+
+</div>

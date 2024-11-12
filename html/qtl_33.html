@@ -1,0 +1,128 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>calc.penalties</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Calculate LOD penalties</h2>
+
+<h3>Description</h3>
+
+<p>Derive penalties for the penalized LOD scores (used by
+<code>stepwiseqtl</code>) on the basis of permutation results
+from a two-dimensional, two-QTL scan (obtained by <code>scantwo</code>).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">calc.penalties(perms, alpha=0.05, lodcolumn)</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>perms</code></td>
+<td>
+<p>Permutation results from <code>scantwo</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>alpha</code></td>
+<td>
+<p>Significance level.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lodcolumn</code></td>
+<td>
+<p>If the scantwo permutation results contain LOD scores for
+multiple phenotypes, this argument indicates which to use in the
+summary.  This may be a vector.  If missing, penalties for all
+phenotypes are calculated.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Thresholds derived from <code>scantwo</code> permutations (that
+is, for a two-dimensional, two-QTL genome scan) are used to calculate
+penalties on main effects and interactions.
+</p>
+<p>The main effect penalty is the 1-<code>alpha</code> quantile of the null
+distribution of the genome-wide maximum LOD score from a single-QTL
+genome scan (as with <code>scanone</code>).
+</p>
+<p>The "heavy" interaction penalty is the 1-<code>alpha</code> quantile of
+the null distribution of the maximum interaction LOD score (that is,
+the <code class="reqn">\log_{10}</code> likelihood ratio comparing the best model
+with two interacting QTL to the best model with two additive QTL) from
+a two-dimensional, two-QTL genome scan (as with
+<code>scantwo</code>).
+</p>
+<p>The "light" interaction penality is the difference between the
+<code>"fv1"</code> threshold from the <code>scantwo</code>
+permutations (that is, the 1-<code>alpha</code> quantile of the LOD score
+comparing the best model with two interacting QTL to the best
+single-QTL model) and the main effect penalty.
+</p>
+<p>If the permutations results were obtained with <code>perm.Xsp=TRUE</code>,
+to give X-chr-specific results, six penalties are calculated: main
+effect for autosomes, main effect for X chr, heavy penalty on A:A
+interactions, light penalty on A:A interactions, penalty on A:X
+interactions, and penalty on X:X interactions.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Vector of three values indicating the penalty on main
+effects and heavy and light penalties on interactions,
+or a matrix of such results, with each row corresponding to a
+different phenotype.
+</p>
+<p>If the input permutations are X-chromosome-specific, the result has
+six values: main effect for autosomes, main effect for X chr, heavy
+penalty on A:A interactions, light penalty on A:A interactions,
+penalty on A:X interactions, and penalty on X:X interactions.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Karl W Broman, <a href="mailto:broman@wisc.edu">broman@wisc.edu</a> </p>
+
+
+<h3>References</h3>
+
+<p>Manichaikul, A., Moon, J. Y., Sen, Ś, Yandell, B. S. and Broman,
+K. W. (2009) A model selection approach for the identification of
+quantitative trait loci in experimental crosses, allowing
+epistasis. <em>Genetics</em>, <b>181</b>, 1077–1086.
+</p>
+
+
+<h3>See Also</h3>
+
+ <p><code>scantwo</code>, <code>stepwiseqtl</code> </p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(fake.f2)
+
+fake.f2 &lt;- calc.genoprob(fake.f2, step=5)
+out.2dim &lt;- scantwo(fake.f2, method="hk")
+
+# permutations
+
+## Not run: permo.2dim &lt;- scantwo(fake.f2, method="hk", n.perm=1000)
+summary(permo.2dim, alpha=0.05)
+
+# penalties
+calc.penalties(permo.2dim)
+</code></pre>
+
+
+</div>

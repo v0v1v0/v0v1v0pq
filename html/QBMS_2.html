@@ -1,0 +1,58 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>brapi_headers</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Generate Common HTTP Headers for API Requests</h2>
+
+<h3>Description</h3>
+
+<p>This function constructs a list of standard HTTP headers required for making API 
+requests, ensuring proper authentication and encoding. These headers are typically 
+included with each API call to provide necessary information such as authorization 
+tokens and content acceptance types. The function is designed to work with 
+authenticated APIs, including BrAPI.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">brapi_headers()
+</code></pre>
+
+
+<h3>Value</h3>
+
+<p>A named list of common HTTP headers, including the authorization token (Bearer), 
+content encoding, and accepted content types.
+</p>
+<p>A named list containing key HTTP headers, including:
+</p>
+
+<ul>
+<li> <p><strong>Authorization:</strong> Bearer token used for authenticated API access.
+</p>
+</li>
+<li> <p><strong>Accept-Encoding:</strong> Specifies supported compression types such as gzip and deflate.
+</p>
+</li>
+<li> <p><strong>Accept:</strong> Specifies that the client accepts responses in JSON format.
+</p>
+</li>
+</ul>
+<h3>Note</h3>
+
+<p>Ensure that the global state contains a valid authorization token before making API 
+requests. This function retrieves the token from 'qbms_globals$state$token', which 
+should be set after a successful login or authentication process.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Khaled Al-Shamaa, <a href="mailto:k.el-shamaa@cgiar.org">k.el-shamaa@cgiar.org</a>
+</p>
+
+
+</div>

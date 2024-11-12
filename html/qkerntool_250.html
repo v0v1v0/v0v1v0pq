@@ -1,0 +1,312 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qkspecc</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>qkernel spectral Clustering</h2>
+
+<h3>Description</h3>
+
+<p>A qkernel spectral clustering algorithm. Clustering is performed by
+embedding the data into the subspace of the eigenvectors
+of a graph Laplacian matrix.</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S4 method for signature 'matrix'
+qkspecc(x,kernel = "rbfbase", qpar = list(sigma = 2, q = 0.9),
+          Nocent=NA, normalize="symmetric", maxk=20, iterations=200,
+          na.action = na.omit, ...)
+
+## S4 method for signature 'cndkernmatrix'
+qkspecc(x, Nocent=NA, normalize="symmetric",
+          maxk=20,iterations=200, ...)
+
+## S4 method for signature 'qkernmatrix'
+qkspecc(x, Nocent=NA, normalize="symmetric",
+          maxk=20,iterations=200, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>the matrix of data to be clustered or a kernel Matrix of class
+<code>qkernmatrix</code> or <code>cndkernmatrix</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>kernel</code></td>
+<td>
+<p>the kernel function used in computing the affinity matrix.
+This parameter can be set to any function, of class kernel, which computes a kernel function value between two
+vector arguments. kernlab provides the most popular kernel functions
+which can be used by setting the kernel parameter to the following
+strings:
+</p>
+
+<ul>
+<li> <p><code>rbfbase</code> Radial Basis qkernel function "Gaussian"
+</p>
+</li>
+<li> <p><code>nonlbase</code> Non Linear qkernel function
+</p>
+</li>
+<li> <p><code>laplbase</code> Laplbase qkernel function
+</p>
+</li>
+<li> <p><code>ratibase</code> Rational Quadratic qkernel function
+</p>
+</li>
+<li> <p><code>multbase</code> Multiquadric qkernel function
+</p>
+</li>
+<li> <p><code>invbase</code> Inverse Multiquadric qkernel function
+</p>
+</li>
+<li> <p><code>wavbase</code> Wave qkernel function
+</p>
+</li>
+<li> <p><code>powbase</code> d qkernel function
+</p>
+</li>
+<li> <p><code>logbase</code> Log qkernel function
+</p>
+</li>
+<li> <p><code>caubase</code> Cauchy qkernel function
+</p>
+</li>
+<li> <p><code>chibase</code> Chi-Square qkernel function
+</p>
+</li>
+<li> <p><code>studbase</code> Generalized T-Student qkernel function
+</p>
+</li>
+<li> <p><code>nonlcnd</code> Non Linear cndkernel function
+</p>
+</li>
+<li> <p><code>polycnd</code> Polynomial cndkernel function
+</p>
+</li>
+<li> <p><code>rbfcnd</code> Radial Basis cndkernel function "Gaussian"
+</p>
+</li>
+<li> <p><code>laplcnd</code> Laplacian cndkernel function
+</p>
+</li>
+<li> <p><code>anocnd</code> ANOVA cndkernel function
+</p>
+</li>
+<li> <p><code>raticnd</code> Rational Quadratic cndkernel function
+</p>
+</li>
+<li> <p><code>multcnd</code> Multiquadric cndkernel function
+</p>
+</li>
+<li> <p><code>invcnd</code> Inverse Multiquadric cndkernel function
+</p>
+</li>
+<li> <p><code>wavcnd</code> Wave cndkernel function
+</p>
+</li>
+<li> <p><code>powcnd</code> d cndkernel function
+</p>
+</li>
+<li> <p><code>logcnd</code> Log cndkernel function
+</p>
+</li>
+<li> <p><code>caucnd</code> Cauchy cndkernel function
+</p>
+</li>
+<li> <p><code>chicnd</code> Chi-Square cndkernel function
+</p>
+</li>
+<li> <p><code>studcnd</code> Generalized T-Student cndkernel function
+</p>
+</li>
+</ul>
+<p>The kernel parameter can also be set to a user defined function of
+class kernel by passing the function name as an argument.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qpar</code></td>
+<td>
+<p>a character string or the list of hyper-parameters (kernel parameters).
+The default character string <code>list(sigma = 2, q = 0.9)</code> uses a heuristic to determine a
+suitable value for the width parameter of the RBF kernel.
+The second option <code>"local"</code> (local scaling) uses a more advanced heuristic
+and sets a width parameter for every point in the data set. This is
+particularly useful when the data incorporates multiple scales.
+A list can also be used containing the parameters to be used with the
+kernel function. Valid parameters for existing kernels are :
+</p>
+
+<ul>
+<li> <p><code>sigma, q</code>  for the Radial Basis qkernel function "rbfbase" , the Laplacian qkernel function "laplbase" and the Cauchy qkernel function "caubase".
+</p>
+</li>
+<li> <p><code>alpha, q</code> for the Non Linear qkernel function "nonlbase".
+</p>
+</li>
+<li> <p><code>c, q</code> for the Rational Quadratic qkernel function "ratibase" , the Multiquadric qkernel function "multbase" and the Inverse Multiquadric qkernel function "invbase".
+</p>
+</li>
+<li> <p><code>theta, q</code> for the Wave qkernel function "wavbase".
+</p>
+</li>
+<li> <p><code>d, q</code> for the d qkernel function "powbase" , the Log qkernel function "logbase" and the Generalized T-Student qkernel function "studbase".
+</p>
+</li>
+<li> <p><code>alpha</code> for the Non Linear cndkernel function "nonlcnd".
+</p>
+</li>
+<li> <p><code>d, alpha, c</code> for the Polynomial cndkernel function "polycnd".
+</p>
+</li>
+<li> <p><code>gamma</code> for the Radial Basis cndkernel function "rbfcnd" and the Laplacian cndkernel function "laplcnd" and the Cauchy cndkernel function "caucnd".
+</p>
+</li>
+<li> <p><code>d, sigma</code> for the ANOVA cndkernel function "anocnd".
+</p>
+</li>
+<li> <p><code>c</code> for the Rational Quadratic cndkernel function "raticnd" , the Multiquadric cndkernel function "multcnd" and the Inverse Multiquadric cndkernel function "invcnd".
+</p>
+</li>
+<li> <p><code>theta</code> for the Wave cndkernel function "wavcnd".
+</p>
+</li>
+<li> <p><code>d</code> for the d cndkernel function "powcnd" , the Log cndkernel function "logcnd" and the Generalized T-Student cndkernel function "studcnd".
+where length is the length of the strings considered, lambda the
+decay factor and normalized a logical parameter determining if the
+kernel evaluations should be normalized.
+</p>
+</li>
+</ul>
+<p>Hyper-parameters for user defined kernels can be passed through the
+qpar parameter as well.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Nocent</code></td>
+<td>
+<p>the number of clusters.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>normalize</code></td>
+<td>
+<p>Normalisation of the Laplacian ("none", "symmetric" or "random-walk").</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>maxk</code></td>
+<td>
+<p>If k is NA, an upper bound for the automatic estimation. Defaults to 20.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>iterations</code></td>
+<td>
+<p>the maximum number of iterations allowed. </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>na.action</code></td>
+<td>
+<p>the action to perform on NA.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>additional parameters.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The qkernel spectral clustering  works by embedding the data points of the
+partitioning problem into the subspace of the eigenvectors corresponding to the <code class="reqn">k</code>
+smallest eigenvalues of the graph Laplacian matrix. Using a simple clustering method like
+<code>kmeans</code> on the embedded points usually leads to good performance. It can be shown that
+qkernel spectral clustering methods boil down to  graph partitioning.<br>
+The data can be passed to the <code>qkspecc</code> function in a <code>matrix</code>,
+in addition <code>qkspecc</code> also supports input in the form of a
+kernel matrix of class <code>qkernmatrix</code> or <code>cndkernmatrix</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An S4 object of class <code>qkspecc</code> which extends the class <code>vector</code>
+containing integers indicating the cluster to which
+each point is allocated. The following slots contain useful information
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>clust</code></td>
+<td>
+<p>The cluster assignments</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>eVec</code></td>
+<td>
+<p>The corresponding eigenvector</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>eVal</code></td>
+<td>
+<p>The corresponding eigenvalues</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ymatrix</code></td>
+<td>
+<p>The eigenvectors corresponding to the <code class="reqn">k</code> smallest eigenvalues
+of the graph Laplacian matrix.</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Yusen Zhang <br><a href="mailto:yusenzhang@126.com">yusenzhang@126.com</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Andrew Y. Ng, Michael I. Jordan, Yair Weiss<br><em>On Spectral Clustering: Analysis and an Algorithm</em><br>
+Neural Information Processing Symposium 2001<br></p>
+
+
+<h3>See Also</h3>
+
+<p><code>qkernmatrix</code>, <code>cndkernmatrix</code>, <code>qkpca</code></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data("iris")
+x=as.matrix(iris[,-5])
+
+qspe &lt;- qkspecc(x,kernel = "rbfbase", qpar = list(sigma = 10, q = 0.9),
+                Nocent=3, normalize="symmetric", maxk=15, iterations=1200)
+plot(x, col = clust(qspe))
+
+qkfunc &lt;- nonlbase(alpha=1/15,q=0.8)
+Ktrain &lt;- qkernmatrix(qkfunc, x)
+qspe &lt;- qkspecc(Ktrain, Nocent=3, normalize="symmetric", maxk=20)
+plot(x, col = clust(qspe))
+</code></pre>
+
+
+</div>

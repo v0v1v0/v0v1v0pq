@@ -1,0 +1,60 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>extract_fstat</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Extract Summary stats from regression objects</h2>
+
+<h3>Description</h3>
+
+<p>A collection of functions for extracting summary statistics and
+reporting regression results from <code>lm</code>, <code>glm</code> and other regression
+objects.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">extract_fstat(x)
+
+extract_fpvalue(x)
+
+## S3 method for class 'lm'
+extract_fpvalue(x)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a <code>lm</code> object</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>a character vector of the formatted numbers
+</p>
+<p>formatted p-value from the F-test
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>lm</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">fit &lt;- lm(mpg ~ wt + hp + drat, data = mtcars)
+summary(fit)
+extract_fstat(fit)
+extract_fpvalue(fit)
+
+</code></pre>
+
+
+</div>

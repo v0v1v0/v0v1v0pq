@@ -1,0 +1,77 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>predict.textmodel_svm</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Prediction from a fitted textmodel_svm object</h2>
+
+<h3>Description</h3>
+
+<p><code>predict.textmodel_svm()</code> implements class predictions from a fitted
+linear SVM model.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'textmodel_svm'
+predict(
+  object,
+  newdata = NULL,
+  type = c("class", "probability"),
+  force = TRUE,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>a fitted linear SVM textmodel</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>newdata</code></td>
+<td>
+<p>dfm on which prediction should be made</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>type</code></td>
+<td>
+<p>the type of predicted values to be returned; see Value</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>force</code></td>
+<td>
+<p>make newdata's feature set conformant to the model terms</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>not used</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p><code>predict.textmodel_svm</code> returns either a vector of class
+predictions for each row of <code>newdata</code> (when <code>type = "class"</code>), or
+a document-by-class matrix of class probabilities (when <code>type = "probability"</code>).
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>textmodel_svm()</code>
+</p>
+
+
+</div>

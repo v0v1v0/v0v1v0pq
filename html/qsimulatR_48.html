@@ -1,0 +1,70 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>Ri</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>The Ri gate</h2>
+
+<h3>Description</h3>
+
+<p>The Ri gate
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">Ri(bit, i, sign = +1)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>bit</code></td>
+<td>
+<p>integer. The bit to which to apply the gate</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>i</code></td>
+<td>
+<p>integer</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sign</code></td>
+<td>
+<p>integer</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Implements the gate
+( 1   0                )
+( 0   exp(+-2<em>pi</em>1i/2^i) )
+</p>
+<p>If 'sign &lt; 0', the inverse of the exponential is used.
+This gate is up to global phase identical with the 'Rz'
+gate with specific values of the angle.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An S4 class 'sqgate' object is returned
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">x &lt;- X(1) * qstate(nbits=2)
+z &lt;- Ri(1, i=2) * x
+z
+
+</code></pre>
+
+
+</div>

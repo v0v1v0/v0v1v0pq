@@ -1,0 +1,165 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>translate_header</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Translate column names into standard names</h2>
+
+<h3>Description</h3>
+
+<p>This function is used to translate non-standard column names
+into the standard ones used by <code>EWAS_QC</code> and other
+functions.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">  translate_header(header,
+                   standard = c("PROBEID","BETA","SE","P_VAL"),
+                   alternative)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>header</code></td>
+<td>
+<p>character vector; the header to be translated.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>standard</code></td>
+<td>
+<p>character vector; the names <code>header</code>
+should be translated into.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>alternative</code></td>
+<td>
+<p>translation table; see below for more information.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The function takes the entries in <code>standard</code> one by one, and
+checks them against the translation table for alternatives.
+It will report any missing standard headers, as well as
+duplicate ones.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>translate_header</code> returns an object of class 'list' with 6 components:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>header_h</code></td>
+<td>
+<p>character vector; the translated header.
+Unknown columns are included under their old names.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>missing_h</code></td>
+<td>
+<p>character vector; the standard column names
+that were not found. If none, this returns <code>NULL</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>unknown_h</code></td>
+<td>
+<p>character vector; column names that could not
+be converted to a standard name. Note that these columns
+are also included in <code>header_h</code>. If none, this returns
+<code>NULL</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>header_N, missing_N, unknown_N</code></td>
+<td>
+<p>integer; the lengths of
+the above three vectors</p>
+</td>
+</tr>
+</table>
+<h3>Translation Table</h3>
+
+<p>The translation table must meet the following requirements:
+</p>
+
+<ul>
+<li>
+<p> 2 columns, with the default column names (i.e. the ones
+in the standard argument) in the first column, and the
+alternatives in the second.
+</p>
+</li>
+<li>
+<p> Multiple alternatives are allowed for a single standard
+name, but every alternative name must be in a separate row.
+</p>
+</li>
+<li>
+<p> The alternatives must be capitalized.
+</p>
+</li>
+<li>
+<p> No duplicate alternatives are allowed.
+</p>
+</li>
+<li>
+<p> A header line is not required, and will be ignored if present.
+</p>
+</li>
+</ul>
+<h3>Note</h3>
+
+<p>The function will automatically capitalize the elements of
+the <code>header</code> argument (so the alternatives in the translation
+table must also be capitalized). Also, elements that are not
+in <code>standard</code> will not be translated, even if they are present
+in the translation table.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># For use in this example, the 2 sample files in the
+# extdata folder of the QCEWAS library will be copied
+# to your current R working directory
+## Not run: 
+file.copy(from = file.path(system.file("extdata", package = "QCEWAS"),
+                           "sample2.txt.gz"),
+          to = getwd(), overwrite = FALSE, recursive = FALSE)
+file.copy(from = file.path(system.file("extdata", package = "QCEWAS"),
+                           "translation_table.txt"),
+          to = getwd(), overwrite = FALSE, recursive = FALSE)
+
+sample_ewas &lt;- read.table("sample2.txt.gz", header = TRUE,
+                          stringsAsFactors = FALSE, nrow = 10)
+colnames(sample_ewas)
+
+
+translation_table &lt;- read.table("translation_table.txt", header = TRUE,
+                                stringsAsFactors = FALSE)
+sample_translation &lt;- translate_header(header = colnames(sample_ewas),
+                                       alternative = translation_table)
+sample_translation                                         
+
+colnames(sample_ewas) &lt;- sample_translation$header_h
+
+colnames(sample_ewas)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

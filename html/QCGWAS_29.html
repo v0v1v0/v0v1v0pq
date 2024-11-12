@@ -1,0 +1,67 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>switch_strand</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Convert alleles to the opposing DNA strand</h2>
+
+<h3>Description</h3>
+
+<p>This function is a subroutine of <code>QC_GWAS</code> and
+<code>match_alleles</code>. It converts allele-pairs to
+the configuration on the opposing DNA strand.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">switch_strand(input, strand_col = FALSE)</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>input</code></td>
+<td>
+<p>table with the alleles in column 1 and 2, and
+(optionally) the strand-information (coded as <code>"+"</code> or
+<code>"-"</code>) in column 3. Note: the alleles must be uppercase
+characters.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>strand_col</code></td>
+<td>
+<p>logical; if strand-information is present,
+this switches the sign in column 3 as well.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A table with two or three columns, depending on <code>strand_col</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>match_alleles</code></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">  data("gwa_sample")
+
+  switched_data &lt;- gwa_sample[ , c("MARKER", "EFFECT_ALL",
+                                   "OTHER_ALL", "STRAND")]
+  switched_data[1:10, ]
+
+  switched_data[ , 2:4] &lt;- switch_strand(input =
+            switched_data[ , 2:4], strand_col = TRUE)
+  switched_data[1:10, ]
+</code></pre>
+
+
+</div>

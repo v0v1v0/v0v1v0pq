@@ -1,0 +1,48 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>QSpecQuantity-class</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Class for a Quantile Spectral Estimator.</h2>
+
+<h3>Description</h3>
+
+<p><code>QSpecQuantity</code> is an S4 class that provides a common interface to
+objects that are of the functional form
+<code class="reqn">f^{j_1, j_2}(\omega; x_1, x_2)</code>,
+where <code class="reqn">j_1, j_2</code> are indices denoting components of a time series
+or process, <code class="reqn">\omega</code> is a frequency parameter and
+<code class="reqn">x_1, x_2</code> are level parameters. For each combination of
+parameters a complex number can be stored.
+Examples for objects of this kind currently include the quantile (i. e.,
+Laplace or copula) spectral
+density kernel [cf. <code>QuantileSD</code> for an implementation], an
+integrated version of the quantile spectral density kernels
+[cf. <code>IntegrQuantileSD</code> for an implementation], and
+estimators of it [cf. <code>QuantilePG</code> and <code>SmoothedPG</code>
+for implementations].
+</p>
+
+
+<h3>Slots</h3>
+
+
+<dl>
+<dt><code>values</code></dt>
+<dd>
+<p>The array holding the values
+<code class="reqn">f^{j_1, j_2}(\omega; x_1, x_2)</code>.</p>
+</dd>
+<dt><code>frequencies</code></dt>
+<dd>
+<p>The frequencies <code class="reqn">\omega</code> for which the values are
+available.</p>
+</dd>
+<dt><code>levels</code></dt>
+<dd>
+<p>A list of vectors containing the levels <code class="reqn">x_i</code> serving
+as argument for the estimator.</p>
+</dd>
+</dl>
+</div>

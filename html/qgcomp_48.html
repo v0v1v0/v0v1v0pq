@@ -1,0 +1,179 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>zimsm_fit</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Secondary prediction method for the (zero-inflated) qgcomp MSM.</h2>
+
+<h3>Description</h3>
+
+<p>this is an internal function called by
+<code>qgcomp.zi.boot</code>,
+but is documented here for clarity. Generally, users will not need to call
+this function directly.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">zimsm_fit(
+  f,
+  qdata,
+  intvals,
+  expnms,
+  main = TRUE,
+  degree = 1,
+  id = NULL,
+  weights,
+  MCsize = 10000,
+  containmix = list(count = TRUE, zero = TRUE),
+  bayes = FALSE,
+  x = FALSE,
+  msmcontrol = zimsm_fit.control(),
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>f</code></td>
+<td>
+<p>an r formula representing the conditional model for the outcome, given all
+exposures and covariates. Interaction terms that include exposure variables
+should be represented via the <code>AsIs</code> function</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qdata</code></td>
+<td>
+<p>a data frame with quantized exposures (as well as outcome and other covariates)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>intvals</code></td>
+<td>
+<p>sequence, the sequence of integer values that the joint exposure
+is 'set' to for estimating the msm. For quantile g-computation, this is just
+0:(q-1), where q is the number of quantiles of exposure.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>expnms</code></td>
+<td>
+<p>a character vector with the names of the columns in qdata that represent
+the exposures of interest (main terms only!)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>main</code></td>
+<td>
+<p>logical, internal use: produce estimates of exposure effect (psi)
+and expected outcomes under g-computation and the MSM</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>degree</code></td>
+<td>
+<p>polynomial bases for marginal model (e.g. degree = 2
+allows that the relationship between the whole exposure mixture and the outcome
+is quadratic. Default=1 )</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>id</code></td>
+<td>
+<p>(optional) NULL, or variable name indexing individual units of
+observation (only needed if analyzing data with multiple observations per
+id/cluster)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>weights</code></td>
+<td>
+<p>not yet implemented</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>MCsize</code></td>
+<td>
+<p>integer: sample size for simulation to approximate marginal
+hazards ratios</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>containmix</code></td>
+<td>
+<p>named list of logical scalars with names "count" and "zero"</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bayes</code></td>
+<td>
+<p>not used</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>keep design matrix? (logical)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>msmcontrol</code></td>
+<td>
+<p>named list from <code>zimsm_fit.control</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>arguments to zeroinfl (e.g. dist)</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>This function first computes expected outcomes under hypothetical
+interventions to simultaneously set all exposures to a specific quantile. These
+predictions are based on g-computation, where the exposures are ‘quantized’,
+meaning that they take on ordered integer values according to their ranks,
+and the integer values are determined by the number of quantile cutpoints used.
+The function then takes these expected outcomes and fits an additional model
+(a marginal structural model) with the expected outcomes as the outcome and
+the intervention value of the exposures (the quantile integer) as the exposure.
+Under causal identification assumptions and correct model specification,
+the MSM yields a causal exposure-response representing the incremental
+change in the expected outcome given a joint intervention on all exposures.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>qgcomp.cox.boot</code>, and <code>qgcomp.cox.noboot</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">set.seed(50)
+n=100
+## Not run: 
+dat &lt;- data.frame(y=rbinom(n, 1, 0.5)*rpois(n, 1.2), x1=runif(n), x2=runif(n), z=runif(n))
+expnms = c("x1", "x2")
+q = 4
+qdata = quantize(dat, q=q, expnms=expnms)$data
+f = y ~ x1 + x2 + z | 1
+msmfit &lt;- zimsm_fit(f, qdata, intvals=(1:q)-1, expnms, main=TRUE,
+  degree=1, id=NULL, MCsize=10000, containmix=list(count=TRUE, zero=FALSE),  
+  x=FALSE)
+msmfit$msmfit
+
+## End(Not run)
+</code></pre>
+
+
+</div>

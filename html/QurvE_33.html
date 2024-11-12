@@ -1,0 +1,44 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>parse_victornivo</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Extract relevant data from a raw data export file generated from the software of Perkin Elmer's "Victor Nivo" plate readers.</h2>
+
+<h3>Description</h3>
+
+<p>Extract relevant data from a raw data export file generated from the software of Perkin Elmer's "Victor Nivo" plate readers.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">parse_victornivo(input)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>input</code></td>
+<td>
+<p>A dataframe created by reading a table file with <code>read_file</code></p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>a list of length two containing growth and/or fluorescence dataframes in the first and second element, respectively. The first column in these dataframes represents a time vector.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">if(interactive()){
+input &lt;- read_file(filename = system.file("nivo_output.csv", package = "QurvE"), csvsep = "," )
+parsed &lt;- parse_victornivo(input)
+}
+</code></pre>
+
+
+</div>

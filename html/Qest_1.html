@@ -1,0 +1,174 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>Qest-package</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Quantile-Based Estimator
+</h2>
+
+<h3>Description</h3>
+
+<p>Quantile-based estimators (Q-estimators) can be used to fit any parametric distribution, using its quantile function. Q-estimators are usually more robust than standard maximum likelihood estimators. The method is described in: Sottile G. and Frumento P. (2022). Robust estimation and regression with parametric quantile functions. &lt;doi:10.1016/j.csda.2022.107471&gt;.
+</p>
+
+
+<h3>Details</h3>
+
+
+<table>
+<tr>
+<td style="text-align: left;">
+Package: </td>
+<td style="text-align: left;"> Qest</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+Type: </td>
+<td style="text-align: left;"> Package</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+Version: </td>
+<td style="text-align: left;"> 1.0.1</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+Date: </td>
+<td style="text-align: left;"> 2024-01-22</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+License: </td>
+<td style="text-align: left;"> GPL-2</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+</td>
+</tr>
+</table>
+<p>The DESCRIPTION file:
+</p>
+
+<table>
+<tr>
+<td style="text-align: left;">
+Package: </td>
+<td style="text-align: left;"> Qest</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+Type: </td>
+<td style="text-align: left;"> Package</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+Title: </td>
+<td style="text-align: left;"> Quantile-Based Estimator</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+Version: </td>
+<td style="text-align: left;"> 1.0.1</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+Authors@R: </td>
+<td style="text-align: left;"> c(person("Gianluca", "Sottile", role=c("aut", "cre"), email = "gianluca.sottile@unipa.it"),
+	     person("Paolo", "Frumento", role=c("aut")))</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+Author: </td>
+<td style="text-align: left;"> Gianluca Sottile [aut, cre],
+  	Paolo Frumento [aut]</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+Maintainer: </td>
+<td style="text-align: left;"> Gianluca Sottile &lt;gianluca.sottile@unipa.it&gt;</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+Description: </td>
+<td style="text-align: left;"> Quantile-based estimators (Q-estimators) can be used to fit any parametric distribution, using its quantile function. Q-estimators are usually more robust than standard maximum likelihood estimators. The method is described in: Sottile G. and Frumento P. (2022). Robust estimation and regression with parametric quantile functions. &lt;doi:10.1016/j.csda.2022.107471&gt;.</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+Depends: </td>
+<td style="text-align: left;"> pch, survival, matrixStats, methods, utils</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+URL: </td>
+<td style="text-align: left;"> https://www.sciencedirect.com/science/article/abs/pii/S0167947322000512</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+License: </td>
+<td style="text-align: left;"> GPL (&gt;= 2)</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+Encoding: </td>
+<td style="text-align: left;"> UTF-8</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+</td>
+</tr>
+</table>
+<p>Index of help topics:
+</p>
+<pre>
+Qcoxph                  Q-Estimation of Proportional Hazards Regression
+                        Models
+Qcoxph.control          Auxiliary for Controlling Qcoxph Fitting
+Qest                    Q-Estimation
+Qest-package            Quantile-Based Estimator
+Qest.control            Auxiliary for Controlling Qest Fitting
+Qfamily                 Family Objects for Qest
+Qlm                     Q-Estimation of Linear Regression Models
+Qlm.fit                 Fitter Functions for Quantile-based Linear
+                        Models
+invQ                    Inverse of Quantile Function
+summary.Qest            Summarizing Q-estimators
+wtrunc                  Weighting Function for 'Qest', 'Qlm', and
+                        'Qcoxph'.
+</pre>
+
+
+<h3>Author(s)</h3>
+
+<p>Gianluca Sottile [aut, cre],
+  	Paolo Frumento [aut]
+</p>
+<p>Maintainer: Gianluca Sottile &lt;gianluca.sottile@unipa.it&gt;
+</p>
+
+
+<h3>References</h3>
+
+<p>Sottile G, and Frumento P (2022). <em>Robust estimation and regression with parametric quantile functions.</em> Computational Statistics and Data Analysis. &lt;doi:10.1016/j.csda.2022.107471&gt;
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>Qest</code>, <code>Qlm</code>, <code>Qcoxph</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+Qest(y ~ x, Q, start) # General-purpose Q-estimator
+Qlm(y ~ x) # Q-estimation of linear models
+Qcoxph(Surv(time, event) ~ x) # Q-estimation of proportional hazards models
+
+## End(Not run)
+</code></pre>
+
+
+</div>

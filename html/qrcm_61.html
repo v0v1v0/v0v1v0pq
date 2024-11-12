@@ -1,0 +1,123 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qc.control</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Estimate Non-Crossing Quantile Functions
+</h2>
+
+<h3>Description</h3>
+
+<p>This function generates a list of arguments to be used as operational parameters for <code>remove.qc</code> within a call to <code>iqr</code>. Additionally, this R documentation page contains a short description of the algorithm, which is presented in details in Sottile and Frumento (2023). 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qc.control(maxTry = 25, trace = FALSE, lambda = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>maxTry</code></td>
+<td>
+
+<p>maximum number of attempts of the algorithm.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>trace</code></td>
+<td>
+
+<p>logical: should the progress be printed on screen?
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lambda</code></td>
+<td>
+
+<p>an optional positive scalar to be used as tuning parameter (see “Details”). By default, <kbd>lambda = NULL</kbd>.
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Quantile crossing occurs when the first derivative of the estimated quantile function is negative at some value of <code class="reqn">p</code>. The argument <code>remove.qc</code> of the <code>iqr</code> function can be used to eliminate quantile crossing. 
+</p>
+<p>The algorithm proceeds as follows. A penalization that reflects the severity of crossing is added to the loss function. The weight of the penalty term is determined by a tuning parameter <code class="reqn">\lambda</code>. If <code class="reqn">\lambda</code> is too small, the penalization has no effect. However, if <code class="reqn">\lambda</code> is too large, the objective function may lose its convexity, causing a malfunctioning of the algorithm. In general, the value of <code class="reqn">\lambda</code> is <em>not</em> user-defined. The algorithm starts with an initial guess for the tuning parameter, and proceeds adaptively until it finds a suitable value. The maximum number of iterations is determined by the <kbd>maxTry</kbd> argument of this function (default <kbd>maxTry = 25</kbd>). The algorithm stops automatically when the <kbd>crossIndex</kbd> of the model (see <code>diagnose.qc</code>) is zero, or when no further progress is possible.
+</p>
+<p>It is possible to supply a user-defined value of <code class="reqn">\lambda</code>, e.g., <kbd>lambda = 7.5</kbd>. If this happens, the model is estimated <strong>once</strong>, using the requested <kbd>lambda</kbd>, while the <kbd>maxTry</kbd> argument is ignored.
+</p>
+<p>This method allows for censored or truncated data, that are supported by <code>iqr</code>. Full details are provided in Sottile and Frumento (2021).
+</p>
+
+
+<h3>Value</h3>
+
+<p>The function performs a sanity check and returns its arguments.
+</p>
+
+
+<h3>Note</h3>
+
+<p>Occasionally, the loss of the penalized model is smaller than that of the unconstrained fit. This is either an artifact due to numerical approximations or lack of convergence, or is explained by the fact that, if the quantile function is ill-defined, so is the loss function of the model. With censored or truncated data, however, it can also be explained by the fact that the <kbd>obj.function</kbd> of the model is <strong>NOT</strong> the function being minimized (see note 3 in the documentation of <code>iqr</code>).
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Paolo Frumento <a href="mailto:paolo.frumento@unipi.it">paolo.frumento@unipi.it</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Sottile, G., and Frumento, P. (2023). <em>Parametric estimation of non-crossing quantile functions</em>. Statistical Modelling, 23(2), 173-195.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>iqr</code>, <code>diagnose.qc</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+ # Using simulated data
+
+ set.seed(1111)
+ n &lt;- 1000
+ x1 &lt;- runif(n,0,3)
+ x2 &lt;- rbinom(n,1,0.5)
+
+ u &lt;- runif(n)
+ y &lt;- 1*qexp(u) + (2 + 3*u)*x1 + 5*x2
+
+ # This model is likely to suffer from quantile crossing
+ m &lt;- iqr(y ~ x1 + x2, formula.p = ~ slp(p,7))
+ diagnose.qc(m)
+
+ # Repeat estimation with remove.qc = TRUE
+ m2 &lt;- iqr(y ~ x1 + x2, formula.p = ~ slp(p,7), remove.qc = TRUE)
+ diagnose.qc(m2)
+
+ # Use remove.qc = qc.control(trace = TRUE) to see what is going on!
+ # You can set a larger 'maxTry', if the algorithm failed to remove 
+ # quantile crossing entirely, or a smaller one, if you want to stop
+ # the procedure before it becomes 'too expensive' in terms of loss.
+ 
+
+</code></pre>
+
+
+</div>

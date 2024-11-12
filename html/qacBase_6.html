@@ -1,0 +1,100 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>cor_plot</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Correlation matrix plot</h2>
+
+<h3>Description</h3>
+
+<p>Create a correlation matrix for all quantitative variables in a data frame.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">cor_plot(
+  data,
+  method = c("pearson", "kendall", "spearman"),
+  sort = FALSE,
+  axis_text_size = 12,
+  number_text_size = 3,
+  legend = FALSE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>data frame</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+<p>a character string indicating which correlation
+coefficient is to be computed. One of "pearson" (default), "kendall",
+or "spearman".</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sort</code></td>
+<td>
+<p>logical. If <code>TRUE</code>, reorder variables to place variables
+with similar correlation patterns together.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>axis_text_size</code></td>
+<td>
+<p>size for axis labels (default=12).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>number_text_size</code></td>
+<td>
+<p>size for correlation coefficient labels (default=3).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>legend</code></td>
+<td>
+<p>logical, if TRUE the legend is displayed.
+(default=FALSE)</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The <code>cor_plot</code> function will only select quantitative variables from
+a data frame. Categorical variables are ignored.
+The correlation matrix is presented as a lower triangle matrix.
+Missing values are deleted in listwise fashion.
+</p>
+
+
+<h3>Value</h3>
+
+<p>a ggplot graph
+</p>
+
+
+<h3>Note</h3>
+
+<p>This function is a wrapper for the <code>ggcorrplot</code> function.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">cor_plot(cars74)
+cor_plot(cars74, sort=TRUE)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,113 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qacf</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Autocorrelation plot</h2>
+
+<h3>Description</h3>
+
+<p>ggplot2 style autocorrelation plot
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qacf(
+  x,
+  conf_level = 1 - getOption("qwraps2_alpha", 0.05),
+  show_sig = FALSE,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>object</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>conf_level</code></td>
+<td>
+<p>confidence level for determining ‘significant’
+correlations</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>show_sig</code></td>
+<td>
+<p>logical, highlight significant correlations</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Other arguments passed to <code>acf</code></p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>qacf calls <code>acf</code> to generate a data set which is
+then plotted via ggplot2.
+</p>
+<p>More details and examples for graphics within qwraps2 are in the
+vignette(“qwraps2-graphics”, package = “qwraps2”)
+</p>
+
+
+<h3>Value</h3>
+
+<p>a ggplot.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>acf</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># Generate a random data set
+set.seed(42)
+n &lt;- 250
+x1 &lt;- x2 &lt;- x3 &lt;- x4 &lt;- vector('numeric', length = n)
+x1[1] &lt;- runif(1)
+x2[1] &lt;- runif(1)
+x3[1] &lt;- runif(1)
+x4[1] &lt;- runif(1)
+
+# white noise
+Z_1 &lt;- rnorm(n, 0, 1)
+Z_2 &lt;- rnorm(n, 0, 2)
+Z_3 &lt;- rnorm(n, 0, 5)
+
+for(i in 2:n)
+{
+  x1[i] &lt;- x1[i-1] + Z_1[i] - Z_1[i-1] + x4[i-1] - x2[i-1]
+  x2[i] &lt;- x2[i-1] - 2 * Z_2[i] + Z_2[i-1] - x4[i-1]
+  x3[i] &lt;- x3[i-1] + x2[i-1] + 0.2 * Z_3[i] + Z_3[i-1]
+  x4[i] &lt;- x4[i-1] + runif(1, 0.5, 1.5) * x4[i-1]
+}
+testdf &lt;- data.frame(x1, x2, x3, x4)
+
+# qacf plot for one variable
+qacf(testdf$x1)
+qacf(testdf$x1, show_sig = TRUE)
+
+# more than one variable
+qacf(testdf)
+qacf(testdf, show_sig = TRUE)
+
+</code></pre>
+
+
+</div>

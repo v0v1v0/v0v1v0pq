@@ -1,0 +1,101 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>mqmgetmodel</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2> Retrieve the QTL model used in mapping from the results of an MQM scan </h2>
+
+<h3>Description</h3>
+
+<p>Retrieves the QTL model used for scanning from the output of an MQM scan. The
+model only contains the selected cofactors significant at the specified
+cofactor.significance from the results of an mqm scan
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">    mqmgetmodel(scanresult)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>scanresult</code></td>
+<td>
+
+<p>An object returned by <code>mqmscan</code>, including cofactors and QTL model. 
+</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>The function returns the multiple QTL model created, which consists of the cofactors selected during the modeling phase of the algorithm.
+This model was used when scanning for additional QTL in the mqmscan function. The format of the model is compatible with the
+<code>makeqtl</code> function. For more information about the format of the model see the <code>makeqtl</code> page.
+When no cofactor was selected in the modeling phase no model was created, then this function will return a NULL value.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Ritsert C Jansen; Danny Arends; Pjotr Prins; Karl W Broman <a href="mailto:broman@wisc.edu">broman@wisc.edu</a> 
+</p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li> <p><code>mqmsetcofactors</code> - Setting multiple cofactors for backward elimination
+</p>
+</li>
+<li> <p><code>makeqtl</code> - Make a qtl object
+
+</p>
+</li>
+<li>
+<p> The MQM tutorial: <a href="https://rqtl.org/tutorials/MQM-tour.pdf">https://rqtl.org/tutorials/MQM-tour.pdf</a>
+</p>
+</li>
+<li> <p><code>MQM</code> - MQM description and references
+</p>
+</li>
+<li> <p><code>mqmscan</code> - Main MQM single trait analysis
+</p>
+</li>
+<li> <p><code>mqmscanall</code> - Parallellized traits analysis
+</p>
+</li>
+<li> <p><code>mqmaugment</code> - Augmentation routine for estimating missing data
+</p>
+</li>
+<li> <p><code>mqmautocofactors</code> - Set cofactors using marker density
+</p>
+</li>
+<li> <p><code>mqmsetcofactors</code> - Set cofactors at fixed locations
+</p>
+</li>
+<li> <p><code>mqmpermutation</code> - Estimate significance levels
+</p>
+</li>
+<li> <p><code>scanone</code> - Single QTL scanning
+
+</p>
+</li>
+</ul>
+<h3>Examples</h3>
+
+<pre><code class="language-R">    data(hyper)
+        
+    hyperfilled &lt;- fill.geno(hyper)
+    cofactors &lt;- mqmsetcofactors(hyperfilled,4)
+    result &lt;- mqmscan(hyperfilled,cofactors)
+    mqmgetmodel(result)
+    plot(mqmgetmodel(result))
+</code></pre>
+
+
+</div>

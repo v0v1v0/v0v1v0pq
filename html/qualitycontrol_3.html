@@ -1,0 +1,57 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qc_data</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>QC dataset using a specific variable mapping</h2>
+
+<h3>Description</h3>
+
+<p>QC dataset using a specific variable mapping
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qc_data(data, qc_mapping, output_file = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>A data frame, data frame extension (e.g. a <code>tibble</code>) to be quality controlled.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qc_mapping</code></td>
+<td>
+<p>A list of data frame or data frame extension (e.g. a <code>tibble</code>)
+specifying the tests. Each data frame row represents a test to the <code>data</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>output_file</code></td>
+<td>
+<p>(optional) File path ended in <code>.xlsx</code> or <code>.xls</code>.
+If is not null, findings table to be written to this path.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A data frame containing all the findings.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">qc_data(als_data, als_data_qc_mapping)
+</code></pre>
+
+
+</div>

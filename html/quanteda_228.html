@@ -1,0 +1,164 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>print-methods</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Print methods for quanteda core objects</h2>
+
+<h3>Description</h3>
+
+<p>Print method for <span class="pkg">quanteda</span> objects.  In each <code style="white-space: pre;">⁠max_n*⁠</code> option, 0 shows none, and
+-1 shows all.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'corpus'
+print(
+  x,
+  max_ndoc = quanteda_options("print_corpus_max_ndoc"),
+  max_nchar = quanteda_options("print_corpus_max_nchar"),
+  show_summary = quanteda_options("print_corpus_summary"),
+  ...
+)
+
+## S4 method for signature 'dfm'
+print(
+  x,
+  max_ndoc = quanteda_options("print_dfm_max_ndoc"),
+  max_nfeat = quanteda_options("print_dfm_max_nfeat"),
+  show_summary = quanteda_options("print_dfm_summary"),
+  ...
+)
+
+## S4 method for signature 'dictionary2'
+print(
+  x,
+  max_nkey = quanteda_options("print_dictionary_max_nkey"),
+  max_nval = quanteda_options("print_dictionary_max_nval"),
+  show_summary = quanteda_options("print_dictionary_summary"),
+  ...
+)
+
+## S4 method for signature 'fcm'
+print(
+  x,
+  max_nfeat = quanteda_options("print_dfm_max_nfeat"),
+  show_summary = TRUE,
+  ...
+)
+
+## S3 method for class 'kwic'
+print(
+  x,
+  max_nrow = quanteda_options("print_kwic_max_nrow"),
+  show_summary = quanteda_options("print_kwic_summary"),
+  ...
+)
+
+## S3 method for class 'tokens'
+print(
+  x,
+  max_ndoc = quanteda_options("print_tokens_max_ndoc"),
+  max_ntoken = quanteda_options("print_tokens_max_ntoken"),
+  show_summary = quanteda_options("print_tokens_summary"),
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>the object to be printed</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>max_ndoc</code></td>
+<td>
+<p>max number of documents to print; default is from the
+<code style="white-space: pre;">⁠print_*_max_ndoc⁠</code> setting of <code>quanteda_options()</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>max_nchar</code></td>
+<td>
+<p>max number of tokens to print; default is from the
+<code>print_corpus_max_nchar</code> setting of <code>quanteda_options()</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>show_summary</code></td>
+<td>
+<p>print a brief summary indicating the number of documents
+and other characteristics of the object, such as docvars or sparsity.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>passed to <code>base::print()</code> for tokens; unused for all other
+objects.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>max_nfeat</code></td>
+<td>
+<p>max number of features to print; default is from the
+<code>print_dfm_max_nfeat</code> setting of <code>quanteda_options()</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>max_nkey</code></td>
+<td>
+<p>max number of keys to print; default is from the
+<code>print_dictionary_max_max_nkey</code> setting of <code>quanteda_options()</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>max_nval</code></td>
+<td>
+<p>max number of values to print; default is from the
+<code>print_dictionary_max_nval</code> setting of <code>quanteda_options()</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>max_nrow</code></td>
+<td>
+<p>max number of documents to print; default is from the
+<code>print_kwic_max_nrow</code> setting of <code>quanteda_options()</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>max_ntoken</code></td>
+<td>
+<p>max number of tokens to print; default is from the
+<code>print_tokens_max_ntoken</code> setting of <code>quanteda_options()</code>.</p>
+</td>
+</tr>
+</table>
+<h3>See Also</h3>
+
+<p><code>quanteda_options()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">corp &lt;- corpus(data_char_ukimmig2010)
+print(corp, max_ndoc = 3, max_nchar = 40)
+
+toks &lt;- tokens(corp)
+print(toks, max_ndoc = 3, max_ntoken = 6)
+
+dfmat &lt;- dfm(toks)
+print(dfmat, max_ndoc = 3, max_nfeat = 10)
+</code></pre>
+
+
+</div>

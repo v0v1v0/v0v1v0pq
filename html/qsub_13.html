@@ -1,0 +1,205 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>create_qsub_config</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Create a qsub configuration object.</h2>
+
+<h3>Description</h3>
+
+<p>Create a qsub configuration object.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">create_qsub_config(
+  remote,
+  local_tmp_path,
+  remote_tmp_path,
+  name = "r2qsub",
+  num_cores = 1,
+  memory = "4G",
+  max_running_tasks = NULL,
+  max_wall_time = "01:00:00",
+  batch_tasks = 1,
+  compress = c("gz", "bz2", "xz", "none"),
+  modules = "R",
+  execute_before = NULL,
+  verbose = FALSE,
+  wait = TRUE,
+  remove_tmp_folder = TRUE,
+  stop_on_error = TRUE
+)
+
+override_qsub_config(
+  qsub_config = get_default_qsub_config(),
+  remote = qsub_config$remote,
+  local_tmp_path = qsub_config$local_tmp_path,
+  remote_tmp_path = qsub_config$remote_tmp_path,
+  name = qsub_config$name,
+  num_cores = qsub_config$num_cores,
+  memory = qsub_config$memory,
+  max_running_tasks = qsub_config$max_running_tasks,
+  max_wall_time = qsub_config$max_wall_time,
+  batch_tasks = qsub_config$batch_tasks,
+  compress = qsub_config$compress,
+  modules = qsub_config$modules,
+  execute_before = qsub_config$execute_before,
+  verbose = qsub_config$verbose,
+  wait = qsub_config$wait,
+  remove_tmp_folder = qsub_config$remove_tmp_folder,
+  stop_on_error = qsub_config$stop_on_error
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>remote</code></td>
+<td>
+<p>Remote machine specification for ssh, in format such as <code>user@server:port</code>
+that does not require interactive password entry.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>local_tmp_path</code></td>
+<td>
+<p>A directory on the local machine in which to store temporary files. Should not contain a tilde ('~').</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>remote_tmp_path</code></td>
+<td>
+<p>A directory on the remote machine in which to store temporary files. Should not contain a tilde ('~').</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>name</code></td>
+<td>
+<p>The name of the execution. This will show up, for instance, in <code>qstat</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>num_cores</code></td>
+<td>
+<p>The number of cores to allocate per element in <code>X</code> in a <code>qsub_lapply</code> (default: <code>1</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>memory</code></td>
+<td>
+<p>The memory to allocate per core (default: <code>"4G"</code>).
+If this is set too high without it being required, you might not be able to make optimal use of the remote cluster.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>max_running_tasks</code></td>
+<td>
+<p>limit concurrent array job task execution (default: <code>NULL</code>, infinite).
+If you have long jobs and there are many other users on the cluster,
+it is recommended you set this value to a reasonable number, such as 1/4th the total number of nodes * number of cores per node.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>max_wall_time</code></td>
+<td>
+<p>The maximum time each task is allowed to run (default: <code>"01:00:00"</code>, 1 hour).
+If set to <code>NULL</code>, the job will be allowed to run indefinitely.
+Mind you, this might annoy other users of the cluster.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>batch_tasks</code></td>
+<td>
+<p>How many values in <code>X</code> should be processed per task. Useful for when the 'length(X)' is very large (&gt; 10000).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>compress</code></td>
+<td>
+<p>Compression method to use: <code>"none"</code>, <code>"gz"</code> (default), <code>"bz2"</code>, or <code>"xz"</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>modules</code></td>
+<td>
+<p>Which modules to load (default: <code>"R"</code>). If set to <code>NULL</code>, it will be assumed Rscript will be available in the path through other means.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>execute_before</code></td>
+<td>
+<p>Commands to execute in the bash shell before running R.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p>Whether or not to print out any ssh commands.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>wait</code></td>
+<td>
+<p>If <code>TRUE</code>, will wait until the execution has finished by periodically checking the job status.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>remove_tmp_folder</code></td>
+<td>
+<p>If <code>TRUE</code>, will remove everything that was created related to this execution at the end.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>stop_on_error</code></td>
+<td>
+<p>If <code>TRUE</code>, will stop when an error occurs, else returns a NA for errored instances.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qsub_config</code></td>
+<td>
+<p>A qsub_config to be overridden</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A qsub configuration object.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>qsub_lapply</code>, <code>set_default_qsub_config</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+qsub_config &lt;- create_qsub_config(
+  remote = "myuser@myserver.mylocation.com:22",
+  local_tmp_path = "/home/myuser/workspace/.r2gridengine",
+  remote_tmp_path = "/scratch/myuser/.r2gridengine"
+)
+qsub_lapply(1:10, function(x) x + 1, qsub_config = qsub_config)
+
+set_default_qsub_config(qsub_config, permanent = TRUE)
+qsub_lapply(1:10, function(x) x + 1)
+
+qsub_lapply(
+  X = 1:10,
+  FUN = function(x) x + 1,
+  qsub_config = override_qsub_config(verbose = TRUE)
+)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

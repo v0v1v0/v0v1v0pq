@@ -1,0 +1,75 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>makegraphviz</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>makegraphviz</h2>
+
+<h3>Description</h3>
+
+<p>Create a Quarto Graphviz dot Diagram Chunk With Variable Insertions
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">makegraphviz(.object., ..., file)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>.object.</code></td>
+<td>
+<p>character string or vector with <code>graphviz</code> markup</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>name=value pairs that makes values replace <code>{{name}}</code> elements in the markup</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>file</code></td>
+<td>
+<p>name of file to hold <code>graphviz</code> markup after variable insertions.  Run this in Quarto using a chunk to looks like the following, which was for <code>file='graphviz.dot'</code>.
+</p>
+<div class="sourceCode"><pre>```{dot}
+//| label: fig-doverview-graphviz
+//| fig-height: 4
+//| fig-cap: "Consort diagram produced with `graphviz` with detailed exclusion frequencies in a separate node"
+//| file: graphviz.dot
+```
+</pre></div>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Takes a character string or vector and uses <code>knitr::knit_expand()</code> to apply variable insertions before the diagram is rendered by Quarto.  See <a href="https://hbiostat.org/rflow/doverview.html#sec-doverview-filter/">this</a> for an example.  Unlike <code>mermaid</code>, <code>graphviz</code> can include user-defined linkages to specific parts of a node (e.g., a single word in a line of text) to another part of the chart, and can render tables.  If an inclusion is <code>...</code> is a data frame or table, it will be properly rendered inside the diagram.
+</p>
+
+
+<h3>Value</h3>
+
+<p>nothing; used to <code>knitr::knit_expand()</code> graphviz markup
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Frank Harrell
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>makemermaid()</code>
+</p>
+
+
+</div>

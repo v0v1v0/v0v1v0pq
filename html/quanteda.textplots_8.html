@@ -1,0 +1,154 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>textplot_keyness</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Plot word keyness</h2>
+
+<h3>Description</h3>
+
+<p>Plot the results of a "keyword" of features comparing their differential
+associations with a target and a reference group, after calculating keyness
+using <code>quanteda.textstats::textstat_keyness()</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">textplot_keyness(
+  x,
+  show_reference = TRUE,
+  show_legend = TRUE,
+  n = 20L,
+  min_count = 2L,
+  margin = 0.05,
+  color = c("darkblue", "gray"),
+  labelcolor = "gray30",
+  labelsize = 4,
+  font = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a return object from <code>quanteda.textstats::textstat_keyness()</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>show_reference</code></td>
+<td>
+<p>logical; if <code>TRUE</code>, show key reference features in
+addition to key target features</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>show_legend</code></td>
+<td>
+<p>logical; if <code>TRUE</code>, show legend</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p>integer; number of features to plot</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>min_count</code></td>
+<td>
+<p>numeric; minimum total count of feature across the target
+and reference categories, for a feature to be included in the plot</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>margin</code></td>
+<td>
+<p>numeric; size of margin where feature labels are shown</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>color</code></td>
+<td>
+<p>character or integer; colours of bars for target and reference
+documents. <code>color</code> must have two elements when <code>show_reference = TRUE</code>.
+See ggplot2::color.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>labelcolor</code></td>
+<td>
+<p>character; color of feature labels.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>labelsize</code></td>
+<td>
+<p>numeric; size of feature labels and bars.  See
+ggplot2::size.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>font</code></td>
+<td>
+<p>character; font-family of texts. Use default font if <code>NULL</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>a <span class="pkg">ggplot2</span> object
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Haiyan Wang and Kohei Watanabe
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>quanteda.textstats::textstat_keyness()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+library("quanteda")
+# compare Trump speeches to other Presidents by chi^2
+dfmat1 &lt;- data_corpus_inaugural |&gt;
+     corpus_subset(Year &gt; 1980) |&gt;
+     tokens(remove_punct = TRUE) |&gt;
+     tokens_remove(stopwords("en")) |&gt;
+     dfm()
+dfmat1 &lt;- dfm_group(dfmat1, groups = dfmat1$President)
+tstat1 &lt;- quanteda.textstats::textstat_keyness(dfmat1, target = "Trump")
+textplot_keyness(tstat1, margin = 0.2, n = 10)
+tstat1 &lt;- quanteda.textstats::textstat_keyness(dfmat1, target = "Trump")
+textplot_keyness(tstat1, margin = 0.2, n = 10)
+
+# compare contemporary Democrats v. Republicans
+corp &lt;- data_corpus_inaugural |&gt;
+    corpus_subset(Year &gt; 1960)
+corp$party &lt;- ifelse(docvars(corp, "President") %in% c("Nixon", "Reagan", "Bush", "Trump"),
+                     "Republican", "Democrat")
+dfmat2 &lt;- corp |&gt;
+    tokens(remove_punct = TRUE) |&gt;
+    tokens_remove(stopwords("en")) |&gt;
+    dfm()
+tstat2 &lt;- quanteda.textstats::textstat_keyness(dfm_group(dfmat2, groups = dfmat2$party),
+                                               target = "Democrat", measure = "lr")
+textplot_keyness(tstat2, color = c("blue", "red"), n = 10)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,69 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>count_unique_geno</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Count the unique genotypes for each row of a genotype matrix</h2>
+
+<h3>Description</h3>
+
+<p>For genotype data (markers x individuals) on a set of individuals,
+count the unique genotypes for each marker
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">count_unique_geno(genotypes, na.strings = c("N", "H", "NA", ""), cores = 1)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>genotypes</code></td>
+<td>
+<p>Matrix of genotypes (markers x individuals)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>na.strings</code></td>
+<td>
+<p>Genotypes to be considered as missing values.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cores</code></td>
+<td>
+<p>Number of CPU cores to use, for parallel calculations.
+(If <code>0</code>, use <code>parallel::detectCores()</code>.)
+Alternatively, this can be links to a set of cluster sockets, as
+produced by <code>parallel::makeCluster()</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Vector of counts of unique genotypes.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>find_unique_geno()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">g &lt;- rbind(c("NA", "A",  "A",  "A", "T"),
+           c("NA", "NA", "NA", "A", "A"),
+           c("A",  "A",  "T",  "G", "G"),
+           c("C", "C",  "G",  "G", "NA"))
+counts &lt;- count_unique_geno(g)
+</code></pre>
+
+
+</div>

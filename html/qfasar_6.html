@@ -1,0 +1,177 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>diet_pool</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Pool diet estimates to combined prey types</h2>
+
+<h3>Description</h3>
+
+<p><code>diet_pool</code> pools estimated diets and variance matrices to a smaller
+number of combined prey types. If <code>est_diet</code> is used to estimate
+predator diet composition using a partitioned prey library
+(<code>make_prey_part</code>), <code>diet_pool</code> pools the partitioned
+results back to the original, unpartitioned prey types.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">diet_pool(rep_grp, est_ind, var_ind = NA, est_mean = NA, var_mean = NA)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>rep_grp</code></td>
+<td>
+<p>The post-multiplication matrix returned by a call to
+<code>make_prey_part</code> as the object <code>pool_post</code>, or a
+user-defined matrix for custom pooling. Each column defines a prey type
+to which estimates should be pooled.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>est_ind</code></td>
+<td>
+<p>A numeric matrix of the estimated diet compositions of
+individual predators using a partitioned prey library, intended to be the
+object est_ind returned by a call to <code>est_diet</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>var_ind</code></td>
+<td>
+<p>A numeric array containing the estimated variance matrix for
+the estimated diet of each predator, intended to be the object
+var_ind returned by a call to <code>est_diet</code>. Optional.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>est_mean</code></td>
+<td>
+<p>A numeric matrix containing the estimated mean diet of each
+predator type, intended to be the object est_mean returned by a call to
+<code>est_diet</code>. Optional.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>var_mean</code></td>
+<td>
+<p>A numeric array containing the estimated variance matrix for
+the estimated mean diet of each predator type, intended to be the object
+var_mean returned by a call to <code>est_diet</code>. Optional.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list containing the following elements, all of which are organized
+on the basis of the original, unpartitioned prey types: </p>
+
+<dl>
+<dt>est_ind</dt>
+<dd>
+<p>A numeric matrix of the estimated diet compositions of
+individual predators.</p>
+</dd>
+<dt>var_ind</dt>
+<dd>
+<p>A numeric array containing the estimated variance matrix for
+the estimated mean diet of each predator.</p>
+</dd>
+<dt>est_mean</dt>
+<dd>
+<p>A numeric matrix containing the estimated mean diet of each
+predator type.</p>
+</dd>
+<dt>var_mean</dt>
+<dd>
+<p>A numeric array containing the estimated variance matrix
+for the estimated mean diet of each predator type.</p>
+</dd>
+<dt>err_code</dt>
+<dd>
+<p>An integer error code (0 if no error is detected).</p>
+</dd>
+<dt>err_message</dt>
+<dd>
+<p>A string containing a brief summary of the results.</p>
+</dd>
+</dl>
+<h3>Details</h3>
+
+<p>The function <code>dimac</code> explores the prey library for additional
+structure with identified prey types. If significant structure is found
+within a library, estimating diet composition on the basis of a
+partitioned prey library may lead to estimates with less bias and possibly
+less variation through reduced prey confounding (Bromaghin et al. 2016). The
+function <code>make_prey_part</code> takes the clustering results returned
+by <code>dimac</code> and user specification of the number of clusters in
+which to partition each prey type and returns a partitioned prey library
+that is ready for use in diet estimation.
+</p>
+<p>However, when estimating diet composition using a partitioned prey library
+one may still wish to pool partitioned estimates back to the original,
+unpartitioned prey types for reporting purposes. That is the purpose of the
+function <code>diet_pool</code>.
+</p>
+<p>NOTE: <code>diet_pool</code> can also be used to pool estimates into a smaller
+number of combined prey types for reporting purposes. For example, imagine a
+prey library with a large number of prey types.  If subsets of the prey
+types have similar ecological function, their signatures may share some
+similarities (prey confounding, Bromaghin et al. 2016).  In such a case, one
+may wish to estimate diet on the basis of the full prey library, but
+subsequently pool the resulting estimates to a smaller number of combined
+prey types for reporting purposes (reporting groups, Bromaghin 2008) to
+reduce the effect of prey confounding. <code>diet_pool</code> can also be used for
+this purpose, though the user would need to manually construct the reporting
+group matrix <code>rep_grp</code>.
+</p>
+
+
+<h3>References</h3>
+
+<p>Bromaghin, J.F. 2008. BELS: Backward elimination locus selection for studies
+of mixture composition or individual assignment. <em>Molecular Ecology
+Resources</em> 8:568-571.
+</p>
+<p>Bromaghin, J.F., S.M. Budge, and G.W. Thiemann. 2016. Should fatty
+acid signature proportions sum to 1 for diet estimation?
+<em>Ecological Research</em> 31:597-606.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">diet_pool(rep_grp = matrix(c(1, 0, 0, 0, 0, 0, 0,
+                             0, 1, 0, 0, 0, 0, 0,
+                             0, 1, 0, 0, 0, 0, 0,
+                             0, 0, 1, 0, 0, 0, 0,
+                             0, 0, 0, 1, 0, 0, 0,
+                             0, 0, 0, 1, 0, 0, 0,
+                             0, 0, 0, 0, 1, 0, 0,
+                             0, 0, 0, 0, 0, 1, 0,
+                             0, 0, 0, 0, 0, 1, 0,
+                             0, 0, 0, 0, 0, 0, 1),
+                           nrow = 10, byrow = TRUE),
+         est_ind = matrix(c(0.116, 0.315,
+                            0.028, 0.073,
+                            0.000, 0.000,
+                            0.131, 0.120,
+                            0.000, 0.000,
+                            0.000, 0.000,
+                            0.723, 0.452,
+                            0.000, 0.000,
+                            0.000, 0.000,
+                            0.002, 0.040),
+                          nrow = 10, byrow = TRUE))
+
+
+</code></pre>
+
+
+</div>

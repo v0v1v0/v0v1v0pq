@@ -1,0 +1,91 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>getValues-QuantileSD</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Get values from a quantile spectral density kernel</h2>
+
+<h3>Description</h3>
+
+<p>If none of the optional parameters is specified then the values are returned
+for all Fourier frequencies in <code class="reqn">[0,2\pi)</code> (base given by slot
+<code>N</code>) and all levels available. The frequencies and levels can be freely
+specified. The returned array then has, at position <code>(j,k1,k2,b)</code>,
+the value corresponding to the <code>frequencies[j]</code>,
+<code>levels.1[k1]</code> and <code>levels.2[k2]</code> that are closest to the
+<code>frequencies</code>, <code>levels.1</code> and <code>levels.2</code>
+available in <code>object</code>; <code>closest.pos</code> is used to determine
+what closest to means.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S4 method for signature 'QuantileSD'
+getValues(
+  object,
+  frequencies = 2 * pi * (0:(object@N - 1))/object@N,
+  levels.1 = getLevels(object, 1),
+  levels.2 = getLevels(object, 2),
+  d1 = 1:(dim(object@values)[2]),
+  d2 = 1:(dim(object@values)[4])
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p><code>QuantileSD</code> of which to get the values</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>frequencies</code></td>
+<td>
+<p>a vector of frequencies for which to get the values</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>levels.1</code></td>
+<td>
+<p>the first vector of levels for which to get the values</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>levels.2</code></td>
+<td>
+<p>the second vector of levels for which to get the values</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>d1</code></td>
+<td>
+<p>optional parameter that determine for which j1 to return the
+data; may be a vector of elements 1, ..., D</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>d2</code></td>
+<td>
+<p>same as d1, but for j2</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Returns data from the array <code>values</code> that's a slot of
+<code>object</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>For examples on how to use this function go to <code>QuantileSD</code>.
+</p>
+
+
+</div>

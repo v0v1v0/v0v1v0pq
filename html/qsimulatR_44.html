@@ -1,0 +1,74 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qft</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>qft</h2>
+
+<h3>Description</h3>
+
+<p>performs the quantum Fourier Trafo on the qstate x and the
+specified list of qubits.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qft(x, inverse = FALSE, bits)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>qstate</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>inverse</code></td>
+<td>
+<p>boolean. If 'TRUE', perform inverse transform</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bits</code></td>
+<td>
+<p>integer. list of qubits to include in the trafo. if
+missing, <code>bits=c(1:n)</code> is assumed, with <code>n</code> the number of qubits
+in <code>x</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Quantum Fourier Trafo
+</p>
+<p>The Fourier Trafo is defined as
+</p>
+<p style="text-align: center;"><code class="reqn">|j&gt; -&gt; 1/sqrt(N) sum_k=0^N_1 exp(2 pi i j k/N) |k&gt;</code>
+</p>
+
+<p>the inverse with the oposite sign in the exponential.
+</p>
+
+
+<h3>Value</h3>
+
+<p>a <code>qstate</code> object with the quantum Fourier trafo of input <code>x</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">x &lt;- qstate(3)
+y &lt;- qft(x)
+z &lt;- qft(y, inverse=TRUE)
+
+</code></pre>
+
+
+</div>

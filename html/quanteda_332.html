@@ -1,0 +1,76 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>valuetype</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Pattern matching using valuetype</h2>
+
+<h3>Description</h3>
+
+<p>Pattern matching in <span class="pkg">quanteda</span> using the <code>valuetype</code> argument.
+</p>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>valuetype</code></td>
+<td>
+<p>the type of pattern matching: <code>"glob"</code> for "glob"-style
+wildcard expressions; <code>"regex"</code> for regular expressions; or <code>"fixed"</code> for
+exact matching. See valuetype for details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>case_insensitive</code></td>
+<td>
+<p>logical; if <code>TRUE</code>, ignore case when matching a
+<code>pattern</code> or dictionary values</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Pattern matching in in <span class="pkg">quanteda</span> uses "glob"-style pattern
+matching as the default, because this is simpler than regular expression
+matching while addressing most users' needs.  It is also has the advantage
+of being identical to fixed pattern matching when the wildcard characters
+(<code>*</code> and <code style="white-space: pre;">⁠?⁠</code>) are not used. Finally, most dictionary formats use glob
+matching.
+</p>
+ <dl>
+<dt><code>"glob"</code></dt>
+<dd>
+<p>"glob"-style wildcard expressions, the quanteda
+default. The implementation used in <span class="pkg">quanteda</span> uses <code>*</code> to match any
+number of any characters including none, and <code style="white-space: pre;">⁠?⁠</code> to match any single
+character.  See also <code>utils::glob2rx()</code> and References below.</p>
+</dd>
+<dt><code>"regex"</code></dt>
+<dd>
+<p>Regular expression matching.</p>
+</dd> <dt><code>"fixed"</code></dt>
+<dd>
+<p>Fixed
+(literal) pattern matching.</p>
+</dd> </dl>
+<h3>Note</h3>
+
+<p>If "fixed" is used with <code>case_insensitive = TRUE</code>, features will
+typically be lowercased internally prior to matching.  Also, glob matches
+are converted to regular expressions (using <code>utils::glob2rx()</code>) when
+they contain wild card characters, and to fixed pattern matches when they
+do not.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>utils::glob2rx()</code>, <a href="https://en.wikipedia.org/wiki/Glob_(programming)">glob pattern matching (Wikipedia)</a>,
+<code>stringi::stringi-search-regex()</code>, <code>stringi::stringi-search-fixed()</code>
+</p>
+
+
+</div>

@@ -1,0 +1,77 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>Wck.o_MCON</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Reports a matrix with the mean time of class i in each node (server) j in a MultiClass Open Network</h2>
+
+<h3>Description</h3>
+
+<p>Reports a matrix with the mean time of class i in each node (server) j in a MultiClass Open Network
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">  ## S3 method for class 'o_MCON'
+Wck(x, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a object of class o_MCON</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>aditional arguments</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Reports a matrix with the mean time of class i in each node (server) j in a MultiClass Open Network</p>
+
+
+<h3>References</h3>
+
+<p>[Lazowska84] Edward D. Lazowska, John Zahorjan, G. Scott Graham, and Kenneth C. Sevcik (1984).<br><em>Quantitative System Performance: Computer System Analysis Using Queueing Network Models</em>.<br>
+Prentice-Hall, Inc., Englewood Cliffs, New Jersey
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>QueueingModel.i_MCON</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## See example in pag 138 in reference [Lazowska84] for more details.
+
+classes &lt;- 2
+vLambda &lt;- c(3/19, 2/19)
+nodes &lt;- 2
+vType &lt;- c("Q", "Q")
+vVisit &lt;- matrix(data=c(10, 9, 5, 4), nrow=2, ncol=2, byrow=TRUE)
+vService &lt;- matrix(data=c(1/10, 1/3, 2/5, 1), nrow=2, ncol=2, byrow=TRUE)
+
+i_mcon1 &lt;- NewInput.MCON(classes, vLambda, nodes, vType, vVisit, vService)
+
+# Build the model
+o_mcon1 &lt;- QueueingModel(i_mcon1)
+
+Wck(o_mcon1)
+
+</code></pre>
+
+
+</div>

@@ -1,0 +1,80 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>index</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Locate a pattern in a tokens object</h2>
+
+<h3>Description</h3>
+
+<p>Locates a pattern within a tokens object, returning the index positions of
+the beginning and ending tokens in the pattern.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">index(
+  x,
+  pattern,
+  valuetype = c("glob", "regex", "fixed"),
+  case_insensitive = TRUE
+)
+
+is.index(x)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>an input tokens object</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pattern</code></td>
+<td>
+<p>a character vector, list of character vectors, dictionary,
+or collocations object.  See pattern for details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>valuetype</code></td>
+<td>
+<p>the type of pattern matching: <code>"glob"</code> for "glob"-style
+wildcard expressions; <code>"regex"</code> for regular expressions; or <code>"fixed"</code> for
+exact matching. See valuetype for details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>case_insensitive</code></td>
+<td>
+<p>logical; if <code>TRUE</code>, ignore case when matching a
+<code>pattern</code> or dictionary values</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>a data.frame consisting of one row per pattern match, with columns
+for the document name, index positions <code>from</code> and <code>to</code>, and the pattern
+matched.
+</p>
+<p><code>is.index</code> returns <code>TRUE</code> if the object was created by
+<code>index()</code>; <code>FALSE</code> otherwise.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">toks &lt;- tokens(data_corpus_inaugural[1:8])
+index(toks, pattern = "secure*")
+index(toks, pattern = c("secure*", phrase("united states"))) |&gt; head()
+</code></pre>
+
+
+</div>

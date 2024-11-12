@@ -1,0 +1,73 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>quarto_use_template</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Use a custom format extension template</h2>
+
+<h3>Description</h3>
+
+<p>Install and use a template for Quarto using <code style="white-space: pre;">⁠quarto use⁠</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">quarto_use_template(
+  template,
+  no_prompt = FALSE,
+  quiet = FALSE,
+  quarto_args = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>template</code></td>
+<td>
+<p>The template to install, either an archive or a GitHub
+repository as described in the documentation
+<a href="https://quarto.org/docs/extensions/formats.html">https://quarto.org/docs/extensions/formats.html</a>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>no_prompt</code></td>
+<td>
+<p>Do not prompt to confirm approval to download external extension.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>quiet</code></td>
+<td>
+<p>Suppress warnings and messages.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>quarto_args</code></td>
+<td>
+<p>Character vector of other <code>quarto</code> CLI arguments to append
+to the Quarto command executed by this function. This is mainly intended for
+advanced usage and useful for CLI arguments which are not yet mirrored in a
+dedicated parameter of this <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> function. See <code style="white-space: pre;">⁠quarto render --help⁠</code> for options.</p>
+</td>
+</tr>
+</table>
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+# Install a template and set up a draft document from a GitHub repository
+quarto_use_template("quarto-journals/jss")
+
+# Install a template and set up a draft document from a ZIP archive
+quarto_use_template("https://github.com/quarto-journals/jss/archive/refs/heads/main.zip")
+
+## End(Not run)
+
+</code></pre>
+
+
+</div>

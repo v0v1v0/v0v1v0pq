@@ -1,0 +1,82 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>quantmod.OHLC</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2> Create Open High Low Close Object </h2>
+
+<h3>Description</h3>
+
+<p>Coerce an object with the apporpriate columns to class
+<code>quantmod.OHLC</code>, which extends zoo.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">as.quantmod.OHLC(x,
+                 col.names = c("Open", "High",
+                               "Low", "Close",
+                               "Volume", "Adjusted"),
+                 name = NULL, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p> object of class <code>zoo</code> </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>col.names</code></td>
+<td>
+<p> suffix for columns </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>name</code></td>
+<td>
+<p> name to attach unique column suffixes to,
+defaults to the object name </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p> additional arguments (unused) </p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p><code>quantmod.OHLC</code> is actually just a renaming of an object
+of class <code>zoo</code>, with the convention of NAME.Open, NAME.High, ...
+for the column names.
+</p>
+<p>Additionally methods may be written to handle or check for the above conditions
+within other functions - as is the case within the <span class="pkg">quantmod</span> package.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class c('quantmod.OHLC','zoo')
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Jeffrey A. Ryan </p>
+
+
+<h3>See Also</h3>
+
+ <p><code>OHLC.Transformations</code>, <code>getSymbols</code> </p>
+
+
+</div>

@@ -1,0 +1,59 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>export_Table</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Export a tabular object as tab-separated .txt file</h2>
+
+<h3>Description</h3>
+
+<p>Export a tabular object as tab-separated .txt file
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">export_Table(table, out.dir = tempdir(), out.nm = deparse(substitute(table)))
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>table</code></td>
+<td>
+<p>A tabular R object (dataframe, matrix, array)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>out.dir</code></td>
+<td>
+<p>The path to the output directory. Default: the working directory</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>out.nm</code></td>
+<td>
+<p>The output filename (with or without '.txt' ending). Default: the name of <code>table</code> followed by '.txt'.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p><code>NULL</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">if(interactive()){
+df &lt;- data.frame('A' = seq(1:10), 'B' = rev(seq(1:10)))
+
+export_Table(df)
+}
+</code></pre>
+
+
+</div>

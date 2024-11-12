@@ -1,0 +1,154 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qgis_run_algorithm</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Run an algorithm using 'qgis_process'</h2>
+
+<h3>Description</h3>
+
+<p>Runs an algorithm using 'qgis_process'.
+See the <a href="https://docs.qgis.org/latest/en/docs/user_manual/processing_algs/">QGIS docs</a>
+for a detailed description of the algorithms provided
+'out of the box' on QGIS.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qgis_run_algorithm(
+  algorithm,
+  ...,
+  PROJECT_PATH = NULL,
+  ELLIPSOID = NULL,
+  .raw_json_input = NULL,
+  .quiet = TRUE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>algorithm</code></td>
+<td>
+<p>A qualified algorithm name (e.g., <code>"native:buffer"</code>) or
+a path to a QGIS model file.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Named key-value pairs as arguments for the algorithm. Features of
+<code>rlang::list2()</code> are supported. These arguments
+are converted to strings using <code>as_qgis_argument()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>PROJECT_PATH, ELLIPSOID</code></td>
+<td>
+<p>Global values for QGIS project file and
+ellipsoid name for distance calculations.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>.raw_json_input</code></td>
+<td>
+<p>The raw JSON to use as input in place of <code>...</code>.
+See <em>Details</em> section.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>.quiet</code></td>
+<td>
+<p>Use <code>FALSE</code> to get extra output from 'qgis_process'.
+This can be useful in debugging.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p><code>qgis_run_algorithm()</code> accepts various R objects as algorithm arguments.
+An overview is given by <code>vignette("qgis_arguments")</code>.
+Examples include an R matrix or data frame for the
+argument type 'matrix', R colors for the argument type 'color',
+sf or terra (SpatVector) objects for the argument type 'vector' and
+raster/terra/stars objects for the argument type 'raster', but there are many
+more.
+<code>qgis_run_algorithm()</code> preprocesses the provided objects into the format that
+QGIS expects for a given argument.
+</p>
+<p>Providing R objects that cannot be converted to the applicable argument type
+will lead to an error.
+</p>
+<p>Algorithm arguments can be passed as arguments of <code>qgis_run_algorithm()</code>, but
+they can also be combined as a JSON string and fed into the <code>.raw_json_input</code>
+argument.
+A JSON string can be obtained from the QGIS GUI, either from the
+processing tool dialog or from the processing history dialog, by selecting
+'Copy as JSON' in the 'Advanced' dropdown menu.
+So a user can first try out a geoprocessing step in the QGIS GUI, and
+once the chosen algorithm arguments are satisfactory, copy the JSON string
+to reproduce the operation in R.
+A screenshot is available at the package homepage.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A <code>qgis_result</code> object.
+</p>
+
+
+<h3>Running QGIS models and Python scripts</h3>
+
+<p>QGIS models and Python scripts can be added to the Processing Toolbox in the
+QGIS GUI, by pointing at their corresponding file.
+This will put the model or script below the provider 'Models' or
+'Scripts', respectively.
+Next, it is necessary to run <code>qgis_configure()</code> in R in order to make the
+model or script available to qgisprocess (even reloading the package won't
+detect it, since these providers have dynamic content, not tied to a
+plugin or to a QGIS version).
+You can check the outcome with <code>qgis_providers()</code> and
+<code>qgis_search_algorithms()</code>.
+Now, just as with other algorithms, you can provide the <code style="white-space: pre;">⁠model:&lt;name&gt;⁠</code> or
+<code style="white-space: pre;">⁠script:&lt;name&gt;⁠</code> identifier to the <code>algorithm</code> argument of
+<code>qgis_run_algorithm()</code>.
+</p>
+<p>As the output argument name of a QGIS model can have an R-unfriendly
+syntax, you may need to take the JSON parameter string from the QGIS
+processing dialog and feed the JSON string to the <code>.raw_json_input</code> argument
+of <code>qgis_run_algorithm()</code> instead of providing separate arguments.
+</p>
+<p>Although the 'qgis_process' backend also supports replacing the 'algorithm'
+parameter by the file path of a model file or a Python script, it is not
+planned to implement this in qgisprocess, as it would bypass argument
+preprocessing in R (including checks).
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>vignette("qgis_arguments")</code>
+</p>
+<p>Other functions to run one geoprocessing algorithm: 
+<code>qgis_run_algorithm_p()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+qgis_run_algorithm(
+  "native:buffer",
+  INPUT = system.file("longlake/longlake_depth.gpkg", package = "qgisprocess"),
+  DISTANCE = 10
+)
+
+</code></pre>
+
+
+</div>

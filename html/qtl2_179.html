@@ -1,0 +1,105 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>subset.cross2</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Subsetting data for a QTL experiment</h2>
+
+<h3>Description</h3>
+
+<p>Pull out a specified set of individuals and/or chromosomes from a
+<code>cross2</code> object.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'cross2'
+subset(x, ind = NULL, chr = NULL, ...)
+
+## S3 method for class 'cross2'
+x[ind = NULL, chr = NULL]
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>An object of class <code>"cross2"</code>, as output by <code>read_cross2()</code>. For details, see the
+<a href="https://kbroman.org/qtl2/assets/vignettes/developer_guide.html">R/qtl2 developer guide</a>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ind</code></td>
+<td>
+<p>A vector of individuals: numeric indices, logical
+values, or character string IDs.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>chr</code></td>
+<td>
+<p>A vector of chromosomes: numeric indices, logical
+values, or character string IDs</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Ignored.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>When subsetting by individual, if <code>ind</code> is numeric, they're
+assumed to be numeric indices; if character strings, they're
+assumed to be individual IDs. <code>ind</code> can be numeric or logical
+only if the genotype, phenotype, and covariate data all have the
+same individuals in the same order.
+</p>
+<p>When subsetting by chromosome, <code>chr</code> is <em>always</em>
+converted to character strings and treated as chromosome IDs. So if
+there are three chromosomes with IDs <code>"18"</code>, <code>"19"</code>, and
+<code>"X"</code>, <code>mycross[,18]</code> will give the first of the
+chromosomes (labeled <code>"18"</code>) and <code>mycross[,3]</code> will give
+an error.
+</p>
+<p>When using character string IDs for <code>ind</code> or <code>chr</code>, you
+can use "negative" subscripts to indicate exclusions, for example
+<code>mycross[,c("-18", "-X")]</code> or <code>mycross["-Mouse2501",]</code>.
+But you can't mix "positive" and "negative" subscripts, and if any
+of the individuals has an ID that begins with <code>"-"</code>, you can't
+use negative subscripts like this.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The input <code>cross2</code> object, with the selected
+individuals and/or chromsomes.
+</p>
+
+
+<h3>Warning</h3>
+
+<p>The order of the two arguments is reversed relative to the related
+function in <a href="https://rqtl.org">R/qtl</a>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">grav2 &lt;- read_cross2(system.file("extdata", "grav2.zip", package="qtl2"))
+# keep individuals 1-20 and chromosomes 3 and 4
+grav2sub &lt;- grav2[1:20, c(3,4)]
+# keep just chromosome 1
+grav2_c1 &lt;- grav2[,1]
+</code></pre>
+
+
+</div>

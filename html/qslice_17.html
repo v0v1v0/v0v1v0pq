@@ -1,0 +1,90 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>slice_stepping_out</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Slice sampler using the Stepping Out and Shrinkage Procedures</h2>
+
+<h3>Description</h3>
+
+<p>Single update for the univariate slice sampler of Neal (2003) using the
+"stepping out" procedure, followed by the "shrinkage" procedure.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">slice_stepping_out(x, log_target, w, max = Inf)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>The current state (as a numeric scalar).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>log_target</code></td>
+<td>
+<p>A function taking numeric scalar that evaluates the
+(potentially unnormalized) log-target density, returning a numeric scalar.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>w</code></td>
+<td>
+<p>A numeric scalar tuning the algorithm which gives the typical slice
+width. This is a main tuning parameter of the algorithm.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>max</code></td>
+<td>
+<p>The maximum number of times to step out. Setting <code>max</code> to
+zero avoids some evaluations of <code>log_target</code>, but may lead to relatively
+high autocorrelation if <code>w</code> is too small.  If <code>w</code> is too small,
+setting <code>max</code> to a large value (even <code>Inf</code>) should lead to low
+autocorrelation at the cost of more evaluations for <code>log_target</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list with two elements:
+</p>
+<p><code>x</code> is the new state.
+</p>
+<p><code>nEvaluations</code> is the number of evaluations of the target function used to obtain the new
+state.
+</p>
+
+
+<h3>References</h3>
+
+<p>Neal, R. M. (2003), "Slice sampling," <em>The Annals of Statistics</em>, 31, 705-767. <a href="https://doi.org/10.1214/aos/1056562461">doi:10.1214/aos/1056562461</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">lf &lt;- function(x) dbeta(x, 3, 4, log = TRUE)
+draws &lt;- numeric(10) + 0.5 # set to numeric(1e3) for more complete illustration
+nEvaluations &lt;- 0L
+for (i in seq.int(2, length(draws))) {
+  out &lt;- slice_stepping_out(draws[i - 1], log_target = lf, w = 0.7, max = Inf)
+  draws[i] &lt;- out$x
+  nEvaluations &lt;- nEvaluations + out$nEvaluations
+}
+nEvaluations / (length(draws) - 1)
+plot(density(draws), xlim = c(0, 1))
+curve(exp(lf(x)), 0, 1, col = "blue", add = TRUE)
+
+</code></pre>
+
+
+</div>

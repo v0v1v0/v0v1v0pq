@@ -1,0 +1,68 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qp_cases</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Calculte the number of cases for a particular case target based on simulated
+data</h2>
+
+<h3>Description</h3>
+
+<p><code>qp_cases</code> calculates the number of cases needed for a particular
+power level. It is based on the presimulated data using <code>qcapower</code>.
+See the vignette for more details.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qp_cases(power_target, null_hypo, alt_hypo)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>power_target</code></td>
+<td>
+<p>Desired level of power</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>null_hypo</code></td>
+<td>
+<p>Null hypothesis (<em>H0</em>). Consistency value separating
+consistent from inconsistent terms.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>alt_hypo</code></td>
+<td>
+<p>Alternative hypothesis (<em>H1</em>). Expected, actual
+consistency value of term.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>An integer showing how many cases are needed to achieve the
+target level of power.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>qp_cases_brute</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">qp_cases(0.1, null_hypo = 0.8, alt_hypo = 1)
+
+</code></pre>
+
+
+</div>

@@ -1,0 +1,76 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>AverageStrikeMC</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Average Strike option valuation via Monte Carlo (MC) simulation</h2>
+
+<h3>Description</h3>
+
+<p>Calculates the price of an Average Strike option using Monte Carlo simulations
+by determining the determine expected payout. Assumes that the input option follows a General
+Brownian Motion <code class="reqn">ds = mu * S * dt + sqrt(vol) * S * dz</code> where <code class="reqn">dz ~ N(0,1)</code>
+Note that the value of <code class="reqn">mu</code> (the expected price increase) is assumped to be
+<code>o$r</code>, the risk free rate of return. Additionally, the averaging period is
+assumed to be the life of the option.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">AverageStrikeMC(o = OptPx(o = Opt(Style = "AverageStrike")), NPaths = 5)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>o</code></td>
+<td>
+<p>The AverageStrike <code>OptPx</code> option to price.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>NPaths</code></td>
+<td>
+<p>the number of simulations to use in calculating the price,</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>The original option object <code>o</code> with the price in the field <code>PxMC</code> based on the MC simulations.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jake Kornblau, Department of Statistics and Department of Computer Science, Rice University, Spring 2015
+</p>
+
+
+<h3>References</h3>
+
+<p>Hull, John C., <em>Options, Futures and Other Derivatives</em>, 9ed, 2014. Prentice Hall.
+ISBN 978-0-13-345631-8, <a href="http://www-2.rotman.utoronto.ca/~hull/ofod/index.html">http://www-2.rotman.utoronto.ca/~hull/ofod/index.html</a>
+Also, <a href="http://www.math.umn.edu/~spirn/5076/Lecture16.pdf">http://www.math.umn.edu/~spirn/5076/Lecture16.pdf</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">(o = AverageStrikeMC())$PxMC   #Price =~ $3.6
+
+  o = OptPx(o = Opt(Style='AverageStrike'), NSteps = 5)
+  (o = AverageStrikeMC(o))$PxMC # Price =~ $6
+
+  (o = AverageStrikeMC(NPaths = 20))$PxMC  #Price =~ $3.4
+
+  o = OptPx(o = Opt(Style='AverageStrike'), NSteps = 5)
+  (o = AverageStrikeMC(o, NPaths = 20))$PxMC  #Price =~ $5.6
+</code></pre>
+
+
+</div>

@@ -1,0 +1,130 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>parse_data</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Parse raw plate reader data and convert it to a format compatible with QurvE</h2>
+
+<h3>Description</h3>
+
+<p><code>parse_data</code> takes a raw export file from a plate reader experiment (or similar device), extracts relevant information and parses it into the format required to run <code>growth.workflow</code>. If more than one read type is found the user is prompted to assign the correct reads to <code>growth</code> or <code>fluorescence</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">parse_data(
+  data.file = NULL,
+  map.file = NULL,
+  software = c("Gen5", "Gen6", "Biolector", "Chi.Bio", "GrowthProfiler", "Tecan",
+    "VictorNivo", "VictorX3"),
+  convert.time = NULL,
+  sheet.data = 1,
+  sheet.map = 1,
+  csvsep.data = ";",
+  dec.data = ".",
+  csvsep.map = ";",
+  dec.map = ".",
+  subtract.blank = TRUE,
+  calib.growth = NULL,
+  calib.fl = NULL,
+  calib.fl2 = NULL,
+  fl.normtype = c("growth", "fl2")
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data.file</code></td>
+<td>
+<p>(Character) A table file with extension '.xlsx', '.xls', '.csv', '.tsv', or '.txt' containing raw plate reader (or similar device) data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>map.file</code></td>
+<td>
+<p>(Character) A table file in column format with extension '.xlsx', '.xls', '.csv', '.tsv', or '.txt'  with 'well', 'ID', 'replicate', and 'concentration' in the first row. Used to assign sample information to wells in a plate.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>software</code></td>
+<td>
+<p>(Character) The name of the software/device used to export the plate reader data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>convert.time</code></td>
+<td>
+<p>(<code>NULL</code> or string) Convert time values with a formula provided in the form <code>'y = function(x)'</code>.
+For example: <code>convert.time = 'y = 24 * x'</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sheet.data, sheet.map</code></td>
+<td>
+<p>(Numeric or Character) Number or name of the sheets in XLS or XLSX files containing experimental data or mapping information, respectively (<em>optional</em>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>csvsep.data, csvsep.map</code></td>
+<td>
+<p>(Character) separator used in CSV data files (ignored for other file types).  Default: <code>";"</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dec.data, dec.map</code></td>
+<td>
+<p>(Character) decimal separator used in CSV, TSV or TXT files with measurements and mapping information, respectively.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>subtract.blank</code></td>
+<td>
+<p>(Logical) Shall blank values be subtracted from values within the same experiment (TRUE, the default) or not (FALSE).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>calib.growth, calib.fl, calib.fl2</code></td>
+<td>
+<p>(Character or <code>NULL</code>) Provide an equation in the form 'y = function(x)' (for example: 'y = x^2 * 0.3 - 0.5') to convert growth and fluorescence values. This can be used to, e.g., convert plate reader absorbance values into OD<sub>600</sub> or fluorescence intensity into molecule concentrations.
+Caution!: When utilizing calibration, carefully consider whether or not blanks were subtracted to determine the calibration before selecting the input <code>subtract.blank = TRUE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fl.normtype</code></td>
+<td>
+<p>(Character string) Normalize fluorescence values by either diving by <code>'growth'</code> or by fluorescence2 values (<code>'fl2'</code>).</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Metadata provided as <code>map.file</code> needs to have the following layout:
+<img src="../help/figures/mapping-layout.png" alt="mapping-layout.png"></p>
+
+
+<h3>Value</h3>
+
+<p>A <code>grodata</code> object suitable to run <code>growth.workflow</code>. See <code>read_data</code> for its structure.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">if(interactive()){
+grodata &lt;- parse_data(data.file = system.file("fluorescence_test_Gen5.xlsx", package = "QurvE"),
+                      sheet.data = 1,
+                      map.file = system.file("fluorescence_test_Gen5.xlsx", package = "QurvE"),
+                      sheet.map = "mapping",
+                      software = "Gen5",
+                      convert.time = "y = x * 24", # convert days to hours
+                      calib.growth = "y = x * 3.058") # convert absorbance to OD values
+}
+</code></pre>
+
+
+</div>

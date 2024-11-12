@@ -1,0 +1,198 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>cosSparse</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Cosine similarity between columns (sparse matrices)
+</h2>
+
+<h3>Description</h3>
+
+<p><code>cosSparse</code> computes the cosine similarity between the columns of sparse matrices. Different normalizations and weightings can be specified. Performance-wise, this strongly improves over the approach taken in the <code>corSparse</code> function, though the results are almost identical for large sparse matrices. <code>cosMissing</code> adds the possibility to deal with large amounts of missing data.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">cosSparse(X, Y = NULL, norm = norm2, weight = NULL)
+cosMissing(X, availX, Y = NULL, availY = NULL, norm = norm2 , weight = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>X</code></td>
+<td>
+
+<p>a sparse matrix in a format of the <code>Matrix</code> package, typically <code>dgCMatrix</code> . The similarity will be calculated between the columns of this matrix.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Y</code></td>
+<td>
+
+<p>a second matrix in a format of the <code>Matrix</code> package. When <code>Y = NULL</code>, then the similarity between the columns of X and itself will be taken. If Y is specified, the similarity between the columns of X and the columns of Y will be calculated.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>availX, availY</code></td>
+<td>
+
+<p>sparse Matrices (typically pattern matrices) of the same size of X and Y, respectively, indicating the available information for each matrix.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>norm</code></td>
+<td>
+
+<p>The function to be used for the normalization of the columns. Currently <code>norm2</code> (euclidean norm) and <code>norm1</code> (manhattan norm) are available, but further methods can be easily specified by the user. See details for more information.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>weight</code></td>
+<td>
+
+<p>The function to be used for the weighting of the rows. Currently <code>idf</code> (inverse document frequency) and <code>isqrt</code> (inverse square root) are available, but further methods can be easily specified by the user. See details for more information.
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>This measure is called a ‘cosine’ similarity as it computes the cosine of the angle between high-dimensional vectors. It can also be considered a Pearson correlation without centering. Because centering removes sparsity, and because centering has almost no influence for highly sparse matrices, this cosine similarity performs much better that the Pearson correlation, both related for speed and memory consumption.
+</p>
+<p>The variant <code>cosMissing</code> can be used when the available information itself is also sparse. In such a situation, a zero in the data matrix X, Y can mean either ‘zero value’ or ‘missing data’. To deal with the missing data, matrices indicating the available data can be specified. Note that this really only makes sense when the available data is sparse itself. When, say, 90% of the data is available, the <code>availX</code> matrix becomes very large, and the results does not differ strongly from the regular <code>cosSparse</code>, i.e. ignoring the missing data.
+</p>
+<p>Different normalizations of the columns and weightings of the rows can be specified. 
+</p>
+<p>The predefined normalizations are defined as a function of the matrix x and a ‘summation function’ s (to be specified as a sparse matrix or a vector). This slight complexity is needed to be able to deal with missing data. With complete data, then <code>s = rep(1,nrow(X))</code>, leads to <code>crossprod(X,s) == colSums(X)</code>.
+</p>
+
+<ul>
+<li>
+<p><code>norm2</code>: 
+euclidean norm. The default setting, and the same normalization as used in the Pearson correlation. It is defined as <br><code>norm2 &lt;- function(x,s) { drop(crossprod(x^2,s)) ^ 0.5 } </code>.
+
+</p>
+</li>
+<li>
+<p><code>norm1</code>:
+Manhattan, or taxi-cab norm, defined as <br><code>norm1 &lt;- function(x,s) { abs(drop(crossprod(x,s))) } </code>.
+
+</p>
+</li>
+<li>
+<p><code>normL</code>:
+normalized Laplacian norm, used in spectral clustering of a graph, defined as <br><code>normL &lt;- function(x,s) { abs(drop(crossprod(x,s))) ^ 0.5 } </code>.
+
+</p>
+</li>
+</ul>
+<p>The predefined weightings are defined as a function of the frequency of a row (s) and the number of columns (N):
+</p>
+
+<ul>
+<li>
+<p><code>idf</code>: 
+inverse document frequency, used typically in distributional semantics to down-weight high frequent rows. It is defined as <br><code>idf &lt;- function(s,N) { log(N/(1+s)) } </code>.
+
+</p>
+</li>
+<li>
+<p><code>isqrt</code>:
+inverse square root, an alternative to idf, defined as <br><code>isqrt &lt;- function(s,N) { s^-0.5 } </code>.
+
+</p>
+</li>
+<li>
+<p><code>none</code>:
+no weighting. This is only included for use inside later high-level functions (e.g. <code>sim.words</code>). Normally, <code>weight = NULL</code> gives identical results, but is slightly quicker. <br><code>none &lt;- function(s,N) { s } </code>
+</p>
+</li>
+</ul>
+<p>Further norms of weighting functions can be defined at will.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The result is a sparse matrix with the non-zero association values. Values range between -1 and +1, with values close to zero indicating low association.
+</p>
+<p>When <code>Y = NULL</code>, then the result is a symmetric matrix, so a matrix of type <code>dsCMatrix</code> with size <code>ncol(X)</code> by <code>ncol{X}</code> is returned. When <code>X</code> and <code>Y</code> are both specified, a matrix of type <code>dgCMatrix</code> with size <code>ncol(X)</code> by <code>ncol{Y}</code> is returned.
+</p>
+
+
+<h3>Note</h3>
+
+<p>For large sparse matrices, consider this as an alternative to <code>cor</code>. See <code>corSparse</code> for a  comparison of performance and results.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Michael Cysouw
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>corSparse</code>, <code>assocSparse</code> for other sparse association measures. See also <code>cosRow, cosCol</code> for variants of cosSparse dealing with nominal data.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># reasonable fast on modern hardware
+
+
+# try different sizes to find limits on local machine
+system.time(X &lt;- rSparseMatrix(1e8, 1e8, 1e6))
+system.time(M &lt;- cosSparse(X))
+
+
+# consider removing small values of result to improve sparsity
+
+X &lt;- rSparseMatrix(1e5, 1e5, 1e6)
+print(object.size(X), units = "auto") # 12 Mb
+system.time(M &lt;- cosSparse(X))
+print(object.size(M), units = "auto") # 59 Mb
+M &lt;- drop0(M, tol = 0.1) # remove small values
+print(object.size(M), units = "auto") # 14 Mb
+
+# Compare various weightings
+
+# with random data from a normal distribution there is almost no difference
+#
+# data from a normal distribution
+X &lt;- rSparseMatrix(1e2, 1e2, 1e3) 
+
+w0 &lt;- cosSparse(X, norm = norm2, weight = NULL)@x
+wi &lt;- cosSparse(X, norm = norm2, weight = idf)@x
+ws &lt;- cosSparse(X, norm = norm2, weight = isqrt)@x
+
+pairs(~ w0 + wi + ws, 
+  labels=c("no weighting","inverse\ndocument\nfrequency","inverse\nsquare root"))
+
+# with heavily skewed data there is a strong difference!
+X &lt;- rSparseMatrix(1e2, 1e2, 1e3,
+	rand.x = function(n){round(rpois(1e3, 10), 2)})
+
+w0 &lt;- cosSparse(X, norm = norm2, weight = NULL)@x
+wi &lt;- cosSparse(X, norm = norm2, weight = idf)@x
+ws &lt;- cosSparse(X, norm = norm2, weight = isqrt)@x
+
+pairs(~ w0 + wi + ws, 
+  labels=c("no weighting","inverse\ndocument\nfrequency","inverse\nsquare root"))
+
+</code></pre>
+
+
+</div>

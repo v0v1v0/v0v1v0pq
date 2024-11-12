@@ -1,0 +1,87 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>tenf.crr</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Obtain K-Fold Cross-Validated Predictions</h2>
+
+<h3>Description</h3>
+
+<p>Computes "out-of-sample" predictions by K-fold cross-validation for each observation in the modeling data set from a <code>crr.fit</code> object.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">tenf.crr(fit, time = NULL, lps = FALSE, fold = 10, trace = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>fit</code></td>
+<td>
+<p>A model fit by <code>crr.fit</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>time</code></td>
+<td>
+<p>A single time point to calculate the failure probability</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lps</code></td>
+<td>
+<p>Should the linear predictor be returned instead of the failure probability? Defaults to <code>FALSE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fold</code></td>
+<td>
+<p>The number of folds. Defaults to <code>10</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>trace</code></td>
+<td>
+<p>Should the progress of cross-validation be printed to the console? Defaults to <code>TRUE</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A vector of failure probabilities at the specified time point (or linear predictors if <code>lps=TRUE</code>) with length equal to the number of rows in the original data set.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Changhong Yu, Michael Kattan, Ph.D <br> Department of Quantitative
+Health Sciences<br> Cleveland Clinic<br></p>
+
+
+<h3>See Also</h3>
+
+<p><code>crr.fit</code> <code>crr</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">dd &lt;- datadist(prostate.dat)
+options(datadist = "dd")
+prostate.f &lt;- cph(Surv(TIME_EVENT,EVENT_DOD == 1) ~ TX  + rcs(PSA,3) +
+           BX_GLSN_CAT +  CLIN_STG + rcs(AGE,3) +
+           RACE_AA, data = prostate.dat,
+           x = TRUE, y = TRUE, surv = TRUE,time.inc = 144)
+prostate.crr &lt;- crr.fit(prostate.f, cencode = 0, failcode = 1)
+tenf.crr(prostate.crr, time = 120, fold = 2)
+
+</code></pre>
+
+
+</div>

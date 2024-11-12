@@ -1,0 +1,184 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>plot.gcFitModel</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Generic plot function for <code>gcFitModel</code> objects.</h2>
+
+<h3>Description</h3>
+
+<p>Plot the results of a parametric model fit on growth vs. time data
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'gcFitModel'
+plot(
+  x,
+  raw = TRUE,
+  pch = 1,
+  colData = 1,
+  equation = TRUE,
+  eq.size = 1,
+  colModel = "forestgreen",
+  basesize = 16,
+  cex.point = 2,
+  lwd = 0.7,
+  x.lim = NULL,
+  y.lim = NULL,
+  n.ybreaks = 6,
+  plot = TRUE,
+  export = FALSE,
+  height = 6,
+  width = 8,
+  out.dir = NULL,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>A <code>gcFittedModel</code> object created with <code>growth.gcFitModel</code> or stored within a <code>grofit</code> or <code>gcFit</code> object created with <code>growth.workflow</code> or <code>growth.gcFit</code>, respectively.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>raw</code></td>
+<td>
+<p>(Logical) Show the raw data within the plot (<code>TRUE</code>) or not (<code>FALSE</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pch</code></td>
+<td>
+<p>(Numeric) Symbol used to plot data points.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>colData</code></td>
+<td>
+<p>(Numeric or Character) Color used to plot the raw data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>equation</code></td>
+<td>
+<p>(Logical) Show the equation of the fitted model within the plot (<code>TRUE</code>) or not (<code>FALSE</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>eq.size</code></td>
+<td>
+<p>(Numeric) Provide a value to scale the size of the displayed equation.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>colModel</code></td>
+<td>
+<p>(Numeric or Character) Color used to plot the fitted model.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>basesize</code></td>
+<td>
+<p>(Numeric) Base font size.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cex.point</code></td>
+<td>
+<p>(Numeric) Size of the raw data points.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lwd</code></td>
+<td>
+<p>(Numeric) Spline line width.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x.lim</code></td>
+<td>
+<p>(Numeric vector with two elements) Optional: Provide the lower (<code>l</code>) and upper (<code>u</code>) bounds on the x-axis as a vector in the form <code>c(l, u)</code>. If only the lower or upper bound should be fixed, provide <code>c(l, NA)</code> or <code>c(NA, u)</code>, respectively.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y.lim</code></td>
+<td>
+<p>(Numeric vector with two elements) Optional: Provide the lower (<code>l</code>) and upper (<code>u</code>) bounds on y-axis of the growth curve plot as a vector in the form <code>c(l, u)</code>. If only the lower or upper bound should be fixed, provide <code>c(l, NA)</code> or <code>c(NA, u)</code>, respectively.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n.ybreaks</code></td>
+<td>
+<p>(Numeric) Number of breaks on the y-axis. The breaks are generated using <code>scales::pretty_breaks</code>. Thus, the final number of breaks can deviate from the user input.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>plot</code></td>
+<td>
+<p>(Logical) Show the generated plot in the <code>Plots</code> pane (<code>TRUE</code>) or not (<code>FALSE</code>). If <code>FALSE</code>, a ggplot object is returned.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>export</code></td>
+<td>
+<p>(Logical) Export the generated plot as PDF and PNG files (<code>TRUE</code>) or not (<code>FALSE</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>height</code></td>
+<td>
+<p>(Numeric) Height of the exported image in inches.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>width</code></td>
+<td>
+<p>(Numeric) Width of the exported image in inches.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>out.dir</code></td>
+<td>
+<p>(Character) Name or path to a folder in which the exported files are stored. If <code>NULL</code>, a "Plots" folder is created in the current working directory to store the files in.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Further arguments to refine the generated <code>ggplot2</code> plot.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A plot with the parametric fit.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># Create random growth dataset
+rnd.dataset &lt;- rdm.data(d = 35, mu = 0.8, A = 5, label = "Test1")
+
+# Extract time and growth data for single sample
+time &lt;- rnd.dataset$time[1,]
+data &lt;- rnd.dataset$data[1,-(1:3)] # Remove identifier columns
+
+# Perform parametric fit
+TestFit &lt;- growth.gcFitModel(time, data, gcID = "TestFit",
+                 control = growth.control(fit.opt = "m"))
+
+plot(TestFit, basesize = 18, eq.size = 1.5)
+
+</code></pre>
+
+
+</div>

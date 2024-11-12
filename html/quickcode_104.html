@@ -1,0 +1,119 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>percent_match</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Function to calculate the percentage of matching between two strings</h2>
+
+<h3>Description</h3>
+
+<p>Function to calculate the percentage of matching between two strings
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">percent_match(
+  string1,
+  string2,
+  case_sensitive = FALSE,
+  ignore_whitespace = TRUE,
+  frag_size = 2
+)
+
+string1 %match% string2
+
+sound_match(string1, string2)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>string1</code></td>
+<td>
+<p>first string</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>string2</code></td>
+<td>
+<p>second string</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>case_sensitive</code></td>
+<td>
+<p>if to check case sensitivity</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ignore_whitespace</code></td>
+<td>
+<p>if to ignore whitespace</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>frag_size</code></td>
+<td>
+<p>fragment size of string</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Case Sensitivity: <br></p>
+<p>The function can optionally consider or ignore case sensitivity based on the <code>case_sensitive</code> argument.<br><br>
+Whitespace Handling:<br></p>
+<p>With <code>ignore_whitespace</code> set to TRUE, the function removes all whitespaces before comparison. This can be useful for matching strings that may have inconsistent spacing.<br><br>
+Exact Character-by-Character Matching:<br></p>
+<p>The function computes the percentage of matching characters in the same positions.<br><br>
+Substring Matching:<br></p>
+<p>The function checks if one string is a substring of the other, awarding a full match if true.<br><br>
+Levenshtein Distance:<br></p>
+<p>The function uses Levenshtein distance to calculate the similarity and integrates this into the overall match percentage.<br><br>
+Fragment Matching:<br></p>
+<p>- A <code>frag_size</code> argument is introduced that compares fragments (substrings) of a given size (default is 3) from both strings.<br>
+- The function creates unique fragments from each string and compares them to find common fragments.<br>
+- The percentage match is calculated based on the ratio of common fragments to the total number of unique fragments.<br><br>
+Combining Metrics:<br></p>
+<p>The overall match percentage is computed as the average of exact match, substring match, Levenshtein match, and fragment match percentages.
+</p>
+
+
+<h3>Value</h3>
+
+<p>numeric value of the match percent
+</p>
+<p>match word sounds
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># Example 1: simple match
+string1 &lt;- "Hello World"
+string2 &lt;- "helo world"
+
+match_percent &lt;- percent_match(string1, string2)
+message("Percentage of matching: ", match_percent)
+
+
+# Example 2: which date is closest
+string0 &lt;- "october 12,1898"
+string1 &lt;- "2018-10-12"
+string2 &lt;- "1898-10-12"
+percent_match(string0, string1)
+percent_match(string0, string2)
+percent_match(string0, string2, frag_size = 4)
+percent_match(string1, string2)
+
+sound_match("Robert","rupert")
+sound_match("rupert","Rubin")
+sound_match("book","oops")
+</code></pre>
+
+
+</div>

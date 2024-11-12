@@ -1,0 +1,46 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>not.logical</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Not logical</h2>
+
+<h3>Description</h3>
+
+<p>Opposite of is.logical(). Check if entry is a logical object
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">not.logical(x)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>vector entry</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>a boolean value to indicate if entry is logical
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">test.env &lt;- TRUE
+test.notenv &lt;- 0
+not.logical(test.env) # FALSE
+not.logical(test.notenv) # TRUE
+if(not.logical(test.notenv)) message("yes") # yes
+
+</code></pre>
+
+
+</div>

@@ -1,0 +1,185 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>growth.drFit</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Perform a dose-response analysis on response vs. concentration data</h2>
+
+<h3>Description</h3>
+
+<p><code>growth.drFit</code> serves to determine dose-response curves on every condition in a
+dataset. The response parameter can be chosen from every physiological parameter in a
+<code>gcTable</code> table which is obtained via <code>growth.gcFit</code>. <code>growth.drFit</code>
+calls the functions <code>growth.drFitSpline</code> and <code>growth.drBootSpline</code>, or <code>growth.drFitModel</code> to
+generate a table with estimates for EC50 and respecting statistics.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">growth.drFit(
+  gcTable,
+  control = growth.control(dr.method = "model", dr.model = c("gammadr", "multi2", "LL.2",
+    "LL.3", "LL.4", "LL.5", "W1.2", "W1.3", "W1.4", "W2.2", "W2.3", "W2.4", "LL.3u",
+    "LL2.2", "LL2.3", "LL2.3u", "LL2.4", "LL2.5", "AR.2", "AR.3", "MM.2"),
+    dr.have.atleast = 6, dr.parameter = "mu.linear", nboot.dr = 0, smooth.dr = NULL,
+    log.x.dr = FALSE, log.y.dr = FALSE)
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>gcTable</code></td>
+<td>
+<p>A dataframe containing the data for the dose-response curve estimation. Such table of class <code>gcTable</code> can be obtained by running <code>growth.gcFit</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>control</code></td>
+<td>
+<p>A <code>grofit.control</code> object created with <code>growth.control</code>, defining relevant fitting options.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dr.method</code></td>
+<td>
+<p>(Character) Define the method used to perform a dose-responde analysis: smooth spline fit (<code>'spline'</code>) or model fitting (<code>'model'</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dr.model</code></td>
+<td>
+<p>(Character) Provide a list of models from the R package 'drc' to include in the dose-response analysis (if <code>dr.method = 'model'</code>). If more than one model is provided, the best-fitting model will be chosen based on the Akaike Information Criterion.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dr.have.atleast</code></td>
+<td>
+<p>(Numeric) Minimum number of different values for the response parameter one should have for estimating a dose response curve. Note: All fit procedures require at least six unique values. Default: <code>6</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dr.parameter</code></td>
+<td>
+<p>(Character or numeric) The response parameter in the output table to be used for creating a dose response curve. See <code>growth.drFit</code> for further details. Default: <code>'mu.linfit'</code>, which represents the maximum slope of the linear regression. Typical options include: <code>'mu.linfit'</code>, <code>'lambda.linfit'</code>, <code>'dY.linfit'</code>, <code>'mu.spline'</code>, <code>'dY.spline'</code>, <code>'mu.model'</code>, and <code>'A.model'</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>smooth.dr</code></td>
+<td>
+<p>(Numeric) Smoothing parameter used in the spline fit by smooth.spline during dose response curve estimation. Usually (not necessesary) in (0; 1]. See <code>smooth.spline</code> for further details. Default: <code>NULL</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>log.x.dr</code></td>
+<td>
+<p>(Logical) Indicates whether <code>ln(x+1)</code> should be applied to the concentration data of the dose response curves. Default: <code>FALSE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>log.y.dr</code></td>
+<td>
+<p>(Logical) Indicates whether <code>ln(y+1)</code> should be applied to the response data of the dose response curves. Default: <code>FALSE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nboot.dr</code></td>
+<td>
+<p>(Numeric) Defines the number of bootstrap samples for EC50 estimation. Use <code>nboot.dr = 0</code> to disable bootstrapping. Default: <code>0</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Common response parameters used in dose-response analysis:<br><br><b>Linear fit:</b><br>- mu.linfit: Growth rate<br>- lambda.linfit: Lag time<br>- dY.linfit: Density increase<br>- A.linfit: Maximum measurement<br><br><b>Spline fit:</b><br>- mu.spline: Growth rate<br>- lambda.spline: Lag time<br>- A.spline: Maximum measurement<br>- dY.spline: Density increase<br>- integral.spline: Integral<br><br><b>Parametric fit:</b><br>- mu.model: Growth rate<br>- lambda.model: Lag time<br>- A.model: Maximum measurement<br>- integral.model: Integral'
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>drFit</code>.
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>raw.data</code></td>
+<td>
+<p>Data that passed to the function as <code>gcTable</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>drTable</code></td>
+<td>
+<p>Dataframe containing condition identifiers, fit options, and results of the dose-response analysis.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>drBootSplines</code></td>
+<td>
+<p>List of all <code>drBootSpline</code> objects generated by the call of <code>growth.drBootSpline</code> for each distinct experiment.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>drFittedSplines</code></td>
+<td>
+<p>List of all <code>drFitSpline</code> objects generated by the call of <code>growth.drFitSpline</code> for each distinct experiment.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>control</code></td>
+<td>
+<p>Object of class <code>grofit.control</code> containing list of options passed to the function as <code>control</code>.</p>
+</td>
+</tr>
+</table>
+<h3>References</h3>
+
+<p>Matthias Kahm, Guido Hasenbrink, Hella Lichtenberg-Frate, Jost Ludwig, Maik Kschischo (2010). <em>grofit: Fitting Biological Growth Curves with R</em>. Journal of Statistical Software, 33(7), 1-21. DOI: 10.18637/jss.v033.i07
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Other growth fitting functions: 
+<code>growth.gcBootSpline()</code>,
+<code>growth.gcFitLinear()</code>,
+<code>growth.gcFitModel()</code>,
+<code>growth.gcFitSpline()</code>,
+<code>growth.gcFit()</code>,
+<code>growth.workflow()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+# Create random growth data set
+rnd.data1 &lt;- rdm.data(d = 35, mu = 0.8, A = 5, label = 'Test1')
+rnd.data2 &lt;- rdm.data(d = 35, mu = 0.6, A = 4.5, label = 'Test2')
+
+rnd.data &lt;- list()
+rnd.data[['time']] &lt;- rbind(rnd.data1$time, rnd.data2$time)
+rnd.data[['data']] &lt;- rbind(rnd.data1$data, rnd.data2$data)
+
+# Run growth curve analysis workflow
+gcFit &lt;- growth.gcFit(time = rnd.data$time,
+                       data = rnd.data$data,
+                       parallelize = FALSE,
+                       control = growth.control(fit.opt = 's',
+                                                suppress.messages = TRUE))
+
+# Perform dose-response analysis
+drFit &lt;- growth.drFit(gcTable = gcFit$gcTable,
+             control = growth.control(dr.parameter = 'mu.spline'))
+
+# Inspect results
+summary(drFit)
+plot(drFit)
+
+</code></pre>
+
+
+</div>

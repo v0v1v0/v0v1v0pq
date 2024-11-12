@@ -1,0 +1,69 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>histograms</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Histograms</h2>
+
+<h3>Description</h3>
+
+<p>Create histograms for all quantitative variables in a data frame.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">histograms(data, fill = "deepskyblue2", color = "white", bins = 30)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>data frame</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fill</code></td>
+<td>
+<p>fill color for histogram bars</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>color</code></td>
+<td>
+<p>border color for histogram bars</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bins</code></td>
+<td>
+<p>number of bins (bars) for the histograms</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The <code>histograms</code> function will only plot quantitative variables from
+a data frame. Categorical variables are ignored.
+</p>
+
+
+<h3>Value</h3>
+
+<p>a ggplot graph
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">histograms(cars74)
+histograms(cars74, bins=15, fill="darkred")
+</code></pre>
+
+
+</div>

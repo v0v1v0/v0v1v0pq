@@ -1,0 +1,164 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>aePlot</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Adverse Event Plot</h2>
+
+<h3>Description</h3>
+
+<p>Generates graphics for binary event proportions
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">aePlot(
+  formula,
+  data = NULL,
+  subset = NULL,
+  na.action = na.retain,
+  exposure = NULL,
+  expunit = "",
+  study = " ",
+  refgroup = NULL,
+  minincidence = 0,
+  conf.int = 0.95,
+  etype = "adverse events",
+  head = NULL,
+  tail = NULL,
+  size = c("regular", "wide"),
+  popts = NULL,
+  label = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>formula</code></td>
+<td>
+<p>a formula with one or two left hand variables (the first representing major categorization and the second minor), and 1-2 right hand variables.  One of the right hand variables may be enclosed in <code>id()</code> to indicate the presence of a unique subject ID.  The remaining variable is treatment.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>input data frame</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>subset</code></td>
+<td>
+<p>subsetting criteria</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>na.action</code></td>
+<td>
+<p>function for handling <code>NA</code>s when creating analysis frame</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>exposure</code></td>
+<td>
+<p>a numeric vector whose length is the number of treatments, with names equal to the treatment names</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>expunit</code></td>
+<td>
+<p>character string specifying the time units for <code>exposure</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>study</code></td>
+<td>
+<p>character string identifying the study; used in multi-study reports or where distinct patient strata are analyzed separately.  Used to fetch the study-specific metadata stored by <code>setqreportOption</code>.  Single study reports just use <code>study=' '</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>refgroup</code></td>
+<td>
+<p>a character string specifying which treatment group is subtracted when computing risk differences.  If there are two treatments the default is the first one listed in <code>qreport options</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>minincidence</code></td>
+<td>
+<p>a number between 0 and 1 specifying the minimum incidence in any stratum that must hold before an event is included in the summary.  When <code>exposure</code> is given, <code>minincidence</code> applies to the hazard rate.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>conf.int</code></td>
+<td>
+<p>confidence level for difference in proportions (passed to <code>dotchartpl</code>)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>etype</code></td>
+<td>
+<p>a character string describing the nature of the events, for example <code>"adverse events"</code>, <code>"serious adverse events"</code>.  Used in figure captions.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>head</code></td>
+<td>
+<p>character string.  Specifies initial text in the figure caption, otherwise a default is used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tail</code></td>
+<td>
+<p>a character string to add to end of automatic caption</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>size</code></td>
+<td>
+<p>default is standard text body width.  Set to <code>"wide"</code> to render plot with <code>column: page-inset-left</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>popts</code></td>
+<td>
+<p>a list of additional options to pass to <code>dotchartpl</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>label</code></td>
+<td>
+<p>label for figure.  <code>fig-</code> is placed in front of this label.  Default uses the name of the code chunk.  If a label is defined by the time the graph is produced that label will be used instead of the code chunk.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Generates dot charts showing proportions of subjects having events (at any time).  Events can be categorized by a single level or by major and minor levels (e.g., body system and preferred terms).  When there are two treatments, half-width CLs of treatment differences are drawn, centered at the midpoint of the two proportions, and CLs for differences appear in hover text.   Input data must contain one record per event, with this record containing the event name.  If there is more than one event of a given type per subject, unique subject ID must be provided.  Denominators come from <code>qreport</code> options when computing event incidence proportions.  Instead, when a named vector <code>exposure</code> is specified, with names equal to the treatments, <code>exposure</code> is used as the denominator so that the exponential distribution hazard rate is computed, i.e., events per unit of exposure time.  When a subject has only one event of each type, the usual interpretation holds.  When a subject has multiple events, the estimate is events per person per time unit.  A character variable <code>expunit</code> defines the time units.   It is assumed that only randomized subjects are included in the dataset.  Whenever the number of events of a given type is zero for a group, the event frequency is changed to 0.5 so that one may compute confidence intervals on the log scale as well as hazard ratios.
+</p>
+<p>For an example with output see https://hbiostat.org/rflow/descript.html#adverse-event-chart/
+</p>
+
+
+<h3>Value</h3>
+
+<p>no return value, called for knitting with <code>knitr</code>
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Frank Harrell
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># See test.Rnw in tests directory
+</code></pre>
+
+
+</div>

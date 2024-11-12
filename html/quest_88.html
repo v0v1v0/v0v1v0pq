@@ -1,0 +1,118 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>n_compare</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Test for Equal Frequency of Values (chi-square test of goodness of fit)</h2>
+
+<h3>Description</h3>
+
+<p><code>n_compare</code> tests whether all the values for a variable have equal
+frequency with a chi-square test of goodness of fit. <code>n_compare</code> does
+not currently allow for user-specified unequal frequencies of values; this is
+possible with <code>chisq.test</code>. The function also calculates
+the counts and overall percentages for the value frequencies.
+<code>prop_test</code> is simply a wrapper for <code>chisq.test</code> plus
+some extra calculations.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">n_compare(x, simulate.p.value = FALSE, B = 2000)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>atomic vector. Probably makes sense to contain relatively few unique
+values.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>simulate.p.value</code></td>
+<td>
+<p>logial vector of length 1 specifying whether the
+p-value should be based on a Monte Carlo simulation rather than the classic
+formula. See <code>chisq.test</code> for details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>B</code></td>
+<td>
+<p>integer vector of length 1 specifying how much Monte Carlo
+simulations run. Only used if <code>simulate.p.value</code> = TRUE. See
+<code>chisq.test</code> for details.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>list of numeric vectors containing statistical information about the
+frequency comparison: 1) nhst = chi-square test of goodness of fit stat info
+in a numeric vector, 2) count = numeric vector of length 3 with table of counts,
+3) percent = numeric vector of length 3 with table of overall percentages
+</p>
+<p>1) nhst = chi-square test of goodness of fit stat info in a numeric vector
+</p>
+
+<dl>
+<dt>diff_avg</dt>
+<dd>
+<p>average difference in subsample sizes (i.e., |ni - nj|)</p>
+</dd>
+<dt>se</dt>
+<dd>
+<p>NA (to remind the user there is no standard error for the test)</p>
+</dd>
+<dt>X2</dt>
+<dd>
+<p>chi-square value</p>
+</dd>
+<dt>df</dt>
+<dd>
+<p>degrees of freedom (# of unique values = 1)</p>
+</dd>
+<dt>p</dt>
+<dd>
+<p>two-sided p-value</p>
+</dd>
+</dl>
+<p>2) count = numeric vector of length 3 with table of counts with an additional
+element for the total. The names are 1. "n_'lvl[k]'", 2. "n_'lvl[j]'", 3.
+"n_'lvl[i]'", ...,  X = "total"
+</p>
+<p>3) percent = numeric vector of length 3 with table of overall percentages with an additional
+element for the total. The names are 1. "n_'lvl[k]'", 2. "n_'lvl[j]'", 3.
+"n_'lvl[i]'", ...,  X = "total"
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>chisq.test</code> the workhorse for <code>n_compare</code>,
+<code>props_test</code> for multiple dummy variables,
+<code>prop_diff</code> for chi-square test of independence,
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+n_compare(mtcars$"cyl")
+n_compare(mtcars$"gear")
+n_compare(mtcars$"cyl", simulate.p.value = TRUE)
+
+# compare to chisq.test()
+n_compare(mtcars$"cyl")
+chisq.test(table(mtcars$"cyl"))
+
+</code></pre>
+
+
+</div>

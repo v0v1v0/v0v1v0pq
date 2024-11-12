@@ -1,0 +1,119 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>read_pheno</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Read phenotype data</h2>
+
+<h3>Description</h3>
+
+<p>Read phenotype data from a CSV file (and, optionally, phenotype
+covariate data from a separate CSV file). The CSV files may be
+contained in zip files, separately or together.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">read_pheno(
+  file,
+  phenocovarfile = NULL,
+  sep = ",",
+  na.strings = c("-", "NA"),
+  comment.char = "#",
+  transpose = FALSE,
+  quiet = TRUE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>file</code></td>
+<td>
+<p>Character string with path to the phenotype data file
+(or a zip file containing both the phenotype and phenotype
+covariate files).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>phenocovarfile</code></td>
+<td>
+<p>Character string with path to the phenotype
+covariate file. This can be a separate CSV or zip file; if a zip
+file, it must contain exactly one CSV file. Alternatively, if the
+<code>file</code> argument indicates a zip file that contains two files
+(phenotypes and phenotype covariates), then this
+<code>phenocovarfile</code> argument must indicate the base name for the
+phenotype covariate file.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sep</code></td>
+<td>
+<p>the field separator character</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>na.strings</code></td>
+<td>
+<p>a character vector of strings which are to be
+interpreted as <code>NA</code> values.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>comment.char</code></td>
+<td>
+<p>A character vector of length one containing a
+single character to denote comments within the CSV files.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>transpose</code></td>
+<td>
+<p>If TRUE, the phenotype data will be transposed. The
+phenotype covariate information is <strong>never</strong> transposed.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>quiet</code></td>
+<td>
+<p>If <code>FALSE</code>, print progress messages.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Either a matrix of phenotype data, or a list containing
+<code>pheno</code> (phenotype matrix) and <code>phenocovar</code> (phenotype
+covariate matrix).
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>read_cross2()</code>,
+sample data files at <a href="https://kbroman.org/qtl2/pages/sampledata.html">https://kbroman.org/qtl2/pages/sampledata.html</a>
+and <a href="https://github.com/rqtl/qtl2data">https://github.com/rqtl/qtl2data</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+file &lt;- paste0("https://raw.githubusercontent.com/rqtl/",
+               "qtl2data/main/Gough/gough_pheno.csv")
+phe &lt;- read_pheno(file)
+
+phecovfile &lt;- paste0("https://raw.githubusercontent.com/rqtl/",
+                     "qtl2data/main/Gough/gough_phenocovar.csv")
+phe_list &lt;- read_pheno(file, phecovfile)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

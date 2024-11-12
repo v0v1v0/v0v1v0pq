@@ -1,0 +1,136 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>streamParserFromFileName</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Creates a streamParser from a file name
+</h2>
+
+<h3>Description</h3>
+
+<p>Creates a list of functions which allow streamParser manipulation (when defined from a file name)
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">streamParserFromFileName(fileName,encoding = getOption("encoding")) 
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>fileName</code></td>
+<td>
+<p>file name</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>encoding</code></td>
+<td>
+<p>file encoding</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>See streamParser
+</p>
+<p>This function implementation uses function seek.
+</p>
+<p>Documentation about this function states: 
+</p>
+<p>"
+Use of 'seek' on Windows is discouraged.  We have found so many
+errors in the Windows implementation of file positioning that
+users are advised to use it only at their own risk, and asked not
+to waste the R developers' time with bug reports on Windows'
+deficiencies.
+"
+</p>
+<p>If "fileName" is a url, seek is not possible.
+</p>
+<p>In order to cover these situations, streamPaserFromFileName functions are converted in:
+</p>
+<p><code>
+        streamParserFromString(readLines( fileName, encoding=encoding))      
+      </code>
+</p>
+<p>Alternatively, it can be used:
+</p>
+<p><code>streamParserFromString</code> with:
+<code>
+        streamParserFromString(readLines(fileName))
+      </code>
+</p>
+<p>or
+</p>
+<p><code>
+       streamParserFromString(
+                              iconv(readLines(fileName), encodingOrigen,encodingDestino)                          
+                          )
+     </code>
+</p>
+<p>Since streamParserFromFileName also uses <code>readChar</code>, this last option is the one advised in Linux if encoding is different from Latin-1 or UTF-8. As documentation states, <code>readChar</code> may generate problems if file is in a multi-byte non UTF-8 encoding:
+</p>
+<p>"
+'nchars' will be interpreted in bytes not characters in a
+non-UTF-8 multi-byte locale, with a warning.
+"     
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list of four functions which allow stream manipulation:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>streamParserNextChar</code></td>
+<td>
+<p>Function which takes a streamParser as argument and returns a <code>list(status,char,stream)</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>streamParserNextCharSeq</code></td>
+<td>
+<p>Function which takes a streamParser as argument and returns <code>list(status,char,stream)</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>streamParserPosition</code></td>
+<td>
+<p>Function which takes a streamParser as argument and returns position of next character to be read</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>streamParserClose</code></td>
+<td>
+<p>Closes the stream</p>
+</td>
+</tr>
+</table>
+<h3>Examples</h3>
+
+<pre><code class="language-R">  name    &lt;- system.file("extdata","datInTest01.txt", package = "qmrparser")
+  
+  stream  &lt;- streamParserFromFileName(name)
+  
+  cstream &lt;- streamParserNextChar(stream)
+  
+  while( cstream$status == "ok" ) {
+    print(streamParserPosition(cstream$stream))
+    print(cstream$char)
+    cstream &lt;- streamParserNextCharSeq(cstream$stream)
+  }
+  
+  streamParserClose(stream)
+  
+</code></pre>
+
+
+</div>

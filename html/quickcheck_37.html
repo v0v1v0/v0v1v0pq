@@ -1,0 +1,82 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>for_all</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Test properties of a function</h2>
+
+<h3>Description</h3>
+
+<p>Test properties of a function
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">for_all(
+  ...,
+  property,
+  tests = getOption("quickcheck.tests", 100L),
+  shrinks = getOption("quickcheck.shrinks", 100L),
+  discards = getOption("quickcheck.discards", 100L)
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Named generators</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>property</code></td>
+<td>
+<p>A function which takes values from from
+the generator and calls an expectation on it. This function must have
+parameters matching the generator names.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tests</code></td>
+<td>
+<p>The number of tests to run.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>shrinks</code></td>
+<td>
+<p>The maximum number of shrinks to run when
+shrinking a value to find the smallest counterexample.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>discards</code></td>
+<td>
+<p>The maximum number of discards to permit
+when running the property.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A <code>testthat</code> expectation object.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">for_all(
+  a = numeric_(len = 1L),
+  b = numeric_(len = 1L),
+  property = function(a, b) testthat::expect_equal(a + b, b + a),
+  tests = 10L
+)
+</code></pre>
+
+
+</div>

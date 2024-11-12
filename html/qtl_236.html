@@ -1,0 +1,86 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>replacemap.scantwo</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Replace the genetic map in QTL mapping results with an alternate map</h2>
+
+<h3>Description</h3>
+
+<p>Replace the positions of LOD scores in output from
+<code>scantwo</code> with values
+based on an alternative map (such as a physical map), with
+pseudomarker locations determined by linear interpolation.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'scantwo'
+replacemap(object, map)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>An object of class <code>"scantwo"</code>, as output by the
+function <code>scantwo</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>map</code></td>
+<td>
+<p>A list containing the alternative genetic map.  All
+chromosomes in <code>object</code> should have corresponding chromosomes in
+<code>map</code>, and markers must be in the same order in the two maps.
+There must be at least two markers on each chromosome in <code>map</code>
+that appear in <code>object</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The positions of pseudomarkers are determined by linear interpolation
+between markers.  In the case of pseudomarkers beyond the ends of the
+terminal markers on chromosomes, we use the overall lengths of the
+chromosome in <code>object</code> and <code>map</code> to determine the new
+spacing.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The input <code>object</code> with the positions of LOD scores
+revised to match those in the input <code>map</code>.</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Karl W Broman, <a href="mailto:broman@wisc.edu">broman@wisc.edu</a> </p>
+
+
+<h3>See Also</h3>
+
+ <p><code>replacemap.cross</code>,
+<code>est.map</code>, <code>replacemap.scanone</code> </p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(hyper)
+
+origmap &lt;- pull.map(hyper)
+newmap &lt;- est.map(hyper)
+hyper &lt;- replacemap(hyper, newmap)
+hyper &lt;- calc.genoprob(hyper, step=0)
+out &lt;- scantwo(hyper, method="hk")
+out.rev &lt;- replacemap(out, origmap)
+</code></pre>
+
+
+</div>

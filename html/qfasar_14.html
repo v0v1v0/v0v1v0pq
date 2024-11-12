@@ -1,0 +1,222 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>gof</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Goodness-of-fit for modeled predator signatures</h2>
+
+<h3>Description</h3>
+
+<p>The function <code>gof</code> uses estimated diet compositions and bootstrap
+resampling of the prey library to construct a statistic that may
+conservatively indicate predator fatty acid signatures that were not
+accurately modeled during diet estimation.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">gof(
+  prey_sigs,
+  prey_loc,
+  mean_sigs,
+  diet_est,
+  conv,
+  obj_func,
+  dist_meas = 1,
+  gamma = 1,
+  boot_gof = 500
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>prey_sigs</code></td>
+<td>
+<p>A matrix of prey signatures in the optimization space used
+for diet estimation. Intended to be the object <code>prey_sigs</code> returned by
+the function <code>est_diet</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>prey_loc</code></td>
+<td>
+<p>A matrix giving the first and last locations of the
+signatures of each prey type within <code>prey_sigs</code>. Intended to be the
+object <code>loc</code> returned by the function <code>prep_sig</code> if diets
+were estimated using an unpartitioned prey library or
+<code>make_prey_part</code> if diets were estimated using a partitioned
+library.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mean_sigs</code></td>
+<td>
+<p>A numeric matrix of mean prey-type signatures in the
+optimization space used for diet estimation. Intended to be the object
+<code>mean_sigs</code> returned by the function <code>est_diet</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>diet_est</code></td>
+<td>
+<p>A numeric matrix of estimated diet compositions. Intended to
+be the object <code>est_ind</code> returned by the function
+<code>est_diet</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>conv</code></td>
+<td>
+<p>A logical vector indicating whether the optimization function
+successfully converged during diet estimation. Intended to be the object
+<code>conv</code> returned by the function <code>est_diet</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>obj_func</code></td>
+<td>
+<p>A numeric vector of the value of the minimized objective
+function for each predator. Intended to be the object <code>obj_func</code>
+returned by the function <code>est_diet</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dist_meas</code></td>
+<td>
+<p>An integer indicator of the distance measure used for diet
+estimation. Default value 1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gamma</code></td>
+<td>
+<p>The power parameter of the chi-square distance measure. Default
+value 1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>boot_gof</code></td>
+<td>
+<p>The number of bootstrap replications to use. Default value 500.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list containing the following elements: </p>
+
+<dl>
+<dt>gof_ss</dt>
+<dd>
+<p>The number of diet estimates that converged for each
+predator, therefore producing a simulated value of the objective
+function.</p>
+</dd>
+<dt>p_val</dt>
+<dd>
+<p>The proportion of the simulated objective function values that
+exceeded the value produced during diet estimation.</p>
+</dd>
+<dt>err_code</dt>
+<dd>
+<p>An integer error code (0 if no error is detected).</p>
+</dd>
+<dt>err_message</dt>
+<dd>
+<p>A string contains a brief summary of the execution.</p>
+</dd>
+</dl>
+<h3>Details</h3>
+
+<p>Diet estimation involves modeling an observed predator fatty acid signature
+as a mixture of prey signatures. However, methods to assess how well predator
+signatures are modeled have received little attention in the literature
+(but see Bromaghin et al. 2015).
+</p>
+<p>One byproduct of diet estimation is the value of the distance measure that is
+minimized during diet estimation (<code>est_diet</code>), called the
+objective function. If a predator signature is accurately modeled, the
+value of the objective function will be relatively small. Conversely, the
+more poorly the signature is approximated, the larger the objective function
+will tend to be. However, what value of the objective function to use as a
+warning flag for a potentially poor fit is not clear.
+</p>
+<p>The function <code>gof</code> represents one attempt to answer this question. The
+algorithm is based on the following logic. First, we assume that a predator
+consumes the mixture of prey specified by its estimated diet composition.
+Given that assumption, the expected value of the objective function is, in
+a sense, fixed (Bromaghin 2015). Large values of the objective function are
+then most likely to occur when variation in a predator signature, which
+results from the selection of individual prey within prey types, is
+maximized. Within the framework of simulating predator signatures, variation
+in the signatures is maximized when the bootstrap sample sizes of the prey
+signatures used to construct a predator signature are minimized
+(Bromaghin et al. 2016).
+</p>
+<p>Implementing the above logic, <code>gof</code> randomly samples a single prey
+signature from each prey type and weights the resulting signatures with a
+predator's estimated diet composition to construct a modeled signature. The
+modeled signature is then used to estimate diet. If the optimization function
+converges, the value of the objective function obtained with the modeled
+signature is compared to the value of the objective function obtained while
+estimating diet with the observed signature (argument <code>obj_func</code>. This
+is repeated <code>boot_gof</code> times and the proportion of the simulated
+objective function values that exceed the observed objective function value
+is computed. <code>gof</code> therefore constructs a statistic similar to a
+p-value, with small values being suggestive of a predator signature that
+was not closely approximated during diet estimation.
+</p>
+<p>NOTE: the method implemented in <code>gof</code> is at this point only an idea
+whose performance has not been explored. It has been included in
+<code>qfasar</code> to support future research on this topic.
+</p>
+
+
+<h3>References</h3>
+
+<p>Bromaghin, J.F. 2015. Simulating realistic predator signatures in
+quantitative fatty acid signature analysis. Ecological Informatics
+30:68-71.
+</p>
+<p>Bromaghin, J.F., S.M. Budge, and G.W. Thiemann. 2016. Should fatty acid
+signature proportions sum to 1 for diet estimation? Ecological Research
+31:597-606.
+</p>
+<p>Bromaghin, J.F., K.D. Rode, S.M. Budge, and G.W. Thiemann. 2015. Distance
+measures and optimization spaces in quantitative fatty acid signature
+analysis. <em>Ecology and Evolution</em> 5:1249-1262.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">gof(prey_sigs = matrix(c(0.06, 0.09, 0.31, 0.54,
+                         0.05, 0.09, 0.30, 0.56,
+                         0.03, 0.10, 0.30, 0.57,
+                         0.08, 0.07, 0.30, 0.55,
+                         0.09, 0.05, 0.33, 0.53,
+                         0.09, 0.06, 0.34, 0.51,
+                         0.09, 0.07, 0.34, 0.50,
+                         0.08, 0.11, 0.35, 0.46,
+                         0.06, 0.14, 0.36, 0.44), ncol = 9),
+    prey_loc = matrix(c(1, 4, 7, 3, 6, 9), ncol=2),
+    mean_sigs = matrix(c(0.047, 0.093, 0.303, 0.557,
+                         0.087, 0.050, 0.323, 0.530,
+                         0.077, 0.106, 0.350, 0.467), ncol = 3),
+    diet_est = matrix(c(0.394, 0.356, 0.250,
+                        0.336, 0.365, 0.299), ncol = 2),
+    conv = c(TRUE, TRUE),
+    obj_func = c(1.13, 2.24),
+    dist_meas = 1,
+    boot_gof = 10)
+
+
+</code></pre>
+
+
+</div>

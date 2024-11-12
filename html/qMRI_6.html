@@ -1,0 +1,318 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>estimateESTATICS</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Estimate parameters in the ESTATICS model.
+</h2>
+
+<h3>Description</h3>
+
+<p>Evaluation of the
+ESTATICS model (Weisskopf (2013) using nonlinear least squares regression
+and a quasi-likelihood approach assuming a noncentral chi- or a Rician distribuion
+for the data. The latter  should be preferred in case of low SNR (high resolution)
+data to avoid biased parameter estimates. Quasi-likelihood estimation requires
+a specification of the scale parameter sigma of the data distribution.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">estimateESTATICS(mpmdata, TEScale = 100, dataScale = 1000, method = c("NLR", "QL"),
+                 sigma = NULL, L = 1, maxR2star = 50,
+                 varest = c("RSS", "data"), verbose = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>mpmdata</code></td>
+<td>
+
+<p>Object of class MPMData as created by <code>readMPMData</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>TEScale</code></td>
+<td>
+
+<p>scale factor for TE (used for improved numerical stability)
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dataScale</code></td>
+<td>
+
+<p>scale factor for image intensities (used for improved numerical stability)
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+
+<p>either "NLR" or "QL". Specifies non-linear regression or quasi-likelihood.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sigma</code></td>
+<td>
+
+<p>scale parameter sigma of signal distribution (either a scalar or a 3D array).
+(only needed in case of <code>method="QL"</code>.)
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>L</code></td>
+<td>
+
+<p>effective number of receiver coils (2*L is degrees of freedom of the signal distribution).
+L=1 for Rician distribution. (only needed in case of <code>method="QL"</code>.)
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>maxR2star</code></td>
+<td>
+
+<p>maximum value allowed for the R2star parameter in the ESTATICS model.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>varest</code></td>
+<td>
+
+<p>For parameter covariance estimation use either residual sum of squares (RSS)
+or estimate variances for T1, MT (is available) and PD from higest intensity
+images using function <code>awsLocalSigma</code>from package <span class="pkg">aws</span>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+
+<p>logical: Monitor process.
+</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>list with components
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>modelCoeff </code></td>
+<td>
+<p>Estimated parameter maps</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>invCov </code></td>
+<td>
+<p> map of inverse covariance matrices</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rsigma</code></td>
+<td>
+<p>map of residual standard deviations</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>isConv </code></td>
+<td>
+<p> convergence indicator map</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>isThresh</code></td>
+<td>
+<p> logical map indicating where <code>R2star==maxR2star</code>. </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sdim </code></td>
+<td>
+<p> image dimension</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nFiles </code></td>
+<td>
+<p> number of images</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>t1Files </code></td>
+<td>
+<p> vector of T1 filenames</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pdFiles </code></td>
+<td>
+<p> vector of PD filenames</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mtFiles </code></td>
+<td>
+<p> vector of MT filenames</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>model </code></td>
+<td>
+<p> model used (depends on specification of MT files)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>maskFile </code></td>
+<td>
+<p> filename of brain mask</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mask </code></td>
+<td>
+<p> brain mask</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sigma </code></td>
+<td>
+<p> sigma</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>L </code></td>
+<td>
+<p> L</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>TR </code></td>
+<td>
+<p> TR values</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>TE </code></td>
+<td>
+<p> TE values</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>FA </code></td>
+<td>
+<p> Flip angles (FA)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>TEScale </code></td>
+<td>
+<p> TEScale</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dataScale </code></td>
+<td>
+<p>dataScale</p>
+</td>
+</tr>
+</table>
+<p>and class-attribute 'ESTATICSModel'
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Karsten Tabelow <a href="mailto:tabelow@wias-berlin.de">tabelow@wias-berlin.de</a><br>
+J\"org Polzehl <a href="mailto:polzehl@wias-berlin.de">polzehl@wias-berlin.de</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Weiskopf, N.; Suckling, J.; Williams, G.; Correia, M. M.; Inkster, B.; Tait, R.;
+Ooi, C.; Bullmore, E. T. &amp; Lutti, A. Quantitative multi-parameter mapping of R1,
+PD(*), MT, and R2(*) at 3T: a multi-center validation. Front Neurosci,
+Wellcome Trust Centre for Neuroimaging, UCL Institute of Neurology,
+University College London, UK., 2013, 7, 95
+</p>
+<p>J. Polzehl and K. Tabelow (2023), Magnetic Resonance Brain Imaging:
+Modeling and Data Analysis Using R, 2nd Edition, Chapter 6, Springer, Use R! Series.
+&lt;doi:10.1007/978-3-031-38949-8_6&gt;.
+</p>
+<p>J. Polzehl and K. Tabelow (2023), Magnetic Resonance Brain Imaging - 
+Modeling and Data Analysis Using R: Code and Data.
+&lt;doi:10.20347/WIAS.DATA.6&gt;.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>readMPMData</code>, <code>calculateQI</code>,
+<code>smoothESTATICS</code>, <code>writeESTATICS</code>,
+<code>awsLocalSigma</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+dataDir &lt;- system.file("extdata",package="qMRI")
+#
+#  set file names for T1w, MTw and PDw images
+#
+t1Names &lt;- paste0("t1w_",1:8,".nii.gz")
+mtNames &lt;- paste0("mtw_",1:6,".nii.gz")
+pdNames &lt;- paste0("pdw_",1:8,".nii.gz")
+t1Files &lt;- file.path(dataDir, t1Names)
+mtFiles &lt;- file.path(dataDir, mtNames)
+pdFiles &lt;- file.path(dataDir, pdNames)
+#
+#  file names of mask and B1 field map
+#
+B1File &lt;- file.path(dataDir, "B1map.nii.gz")
+maskFile &lt;- file.path(dataDir, "mask0.nii.gz")
+#
+#  Acquisition parameters (TE, TR, Flip Angle) for T1w, MTw and PDw images
+#
+TE &lt;- c(2.3, 4.6, 6.9, 9.2, 11.5, 13.8, 16.1, 18.4,
+        2.3, 4.6, 6.9, 9.2, 11.5, 13.8,
+        2.3, 4.6, 6.9, 9.2, 11.5, 13.8, 16.1, 18.4)
+TR &lt;- rep(25, 22)
+FA &lt;- c(rep(21, 8), rep(6, 6), rep(6, 8))
+#
+#   read MPM example data
+#
+library(qMRI)
+mpm &lt;- readMPMData(t1Files, pdFiles, mtFiles,
+                   maskFile, TR = TR, TE = TE,
+                   FA = FA, verbose = FALSE)
+#
+#  Estimate Parameters in the ESTATICS model
+#
+modelMPM &lt;- estimateESTATICS(mpm, method = "NLR")
+# Alternatively using Quasi-Likelihood
+sigma &lt;- 50
+modelMPMQL &lt;- estimateESTATICS(mpm, method = "QL",
+                  sigma = array(sigma,mpm$sdim), L = 1)
+
+</code></pre>
+
+
+</div>

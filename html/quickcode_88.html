@@ -1,0 +1,76 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>or</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Nullish coalescing operator</h2>
+
+<h3>Description</h3>
+
+<p>Alternative return for empty, null or na statements.Return alternative if the value of expression is empty or NA or NULL
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">or(test, alternative)
+
+test %or% alternative
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>test</code></td>
+<td>
+<p>an object to return</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>alternative</code></td>
+<td>
+<p>alternative object to return</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>value of test if not null or empty, else return value of alternative
+</p>
+
+
+<h3>Note</h3>
+
+<p>Equivalent to Nullish coalescing operator ?? in javascript or PHP like $Var = $operand1 ?? $operand2;
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+test1 &lt;- c(4,NA,5,2,0,21)
+
+test2 &lt;- data.frame(ID = 1:10,ED = LETTERS[10:1])
+
+or(test1[which(test1==4)],100)
+
+
+or(test1[which(test1==43)],100)
+
+or(test2[which(test2$ID == 10),2],"BBBBB")
+
+or(test2[which(test2$ID == 323),2],"CCCCC")
+
+# One may also choose to use
+test2[which(test2$ID == 323),2] %or% "CCCCC"
+NA %or% "Random"
+NULL %or% "Random"
+"" %or% "Random"
+
+</code></pre>
+
+
+</div>

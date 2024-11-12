@@ -1,0 +1,135 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>pointwisebound</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Estimating pointwise comparisons for qgcompint fits</h2>
+
+<h3>Description</h3>
+
+<p>Calculates: expected outcome (on the link scale), mean difference (link scale) and the standard error of the mean difference (link scale) for pointwise comparisons
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">pointwisebound(x, alpha = 0.05, pointwiseref = 1, emmval = 0, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>qgcompemmfit object from qgcomp.emm.noboot</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>alpha</code></td>
+<td>
+<p>alpha level for confidence intervals</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pointwiseref</code></td>
+<td>
+<p>referent quantile (e.g. 1 uses the lowest joint-exposure category as the referent category for calculating all mean differences/standard deviations)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>emmval</code></td>
+<td>
+<p>fixed value for effect measure modifier at which pointwise comparisons are calculated</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>not used</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The comparison of interest following a qgcomp fit is often comparisons of model predictions at various values of the joint-exposures (e.g. expected outcome at all exposures at the 1st quartile vs. the 3rd quartile). The expected outcome at a given joint exposure and at a given level of non-exposure covariates (W) is given as E(Y|S,W=w), where S takes on integer values 0 to q-1. Thus, comparisons are of the type E(Y|S=s,W=w) - E(Y|S=s2,W=w) where s and s2 are two different values of the joint exposures (e.g. 0 and 2). This function yields E(Y|S,W=w) as well as E(Y|S=s,W=w) - E(Y|S=p,W=w) where s is any value of S and p is the value chosen via "pointwise ref" - e.g. for binomial variables this will equal the risk/ prevalence difference at all values of S, with the referent category S=p-1. For the non-boostrapped version of quantile g-computation (under a linear model)
+Note that function only works with standard "qgcompint" objects from qgcomp.emm.noboot (so it doesn't work with zero inflated, hurdle, or Cox models)
+Variance for the overall effect estimate is given by: <code class="reqn">transpose(G) Cov(\beta) G</code>
+Where the "gradient vector" G is given by
+</p>
+<p style="text-align: center;"><code class="reqn">G = [\partial(f(\beta))/\partial\beta_1 = 1, ..., \partial(f(\beta))/\partial\beta_3= 1]</code>
+</p>
+
+<p><code class="reqn">f(\beta) = \sum_i^p \beta_i, and \partial y/ \partial x</code> denotes the partial derivative/gradient. The vector G takes on values that equal the difference in quantiles of S for each pointwise comparison (e.g. for a comparison of the 3rd vs the 5th category, G is a vector of 2s)
+This variance is used to create pointwise confidence intervals via a normal approximation: (e.g. upper 95% CI = psi + variance*1.96)
+</p>
+
+
+<h3>Value</h3>
+
+<p>A data frame containing
+</p>
+
+<dl>
+<dt>hx: </dt>
+<dd>
+<p>The "partial" linear predictor <code class="reqn">\beta_0 + \psi\sum_j X_j^q w_j</code>, or the effect of the mixture + intercept after
+conditioning out any confounders. This is similar to the h(x) function in bkmr. This is not a full prediction of the outcome, but
+only the partial outcome due to the intercept and the confounders</p>
+</dd>
+<dt>rr/or/mean.diff: </dt>
+<dd>
+<p>The canonical effect measure (risk ratio/odds ratio/mean difference) for the marginal structural model link</p>
+</dd>
+<dt>se....: </dt>
+<dd>
+<p>the stndard error of the effect measure</p>
+</dd>
+<dt>ul..../ll....: </dt>
+<dd>
+<p>Confidence bounds for the effect measure</p>
+</dd>
+</dl>
+<h3>See Also</h3>
+
+<p><code>qgcomp.emm.noboot</code>, <code>pointwisebound.noboot</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">set.seed(50)
+# linear model, binary modifier
+dat &lt;- data.frame(y=runif(50), x1=runif(50), x2=runif(50),
+z=rbinom(50,1,0.5), r=rbinom(50,1,0.5))
+(qfit &lt;- qgcomp.emm.noboot(f=y ~ z + x1 + x2, emmvar="z",
+  expnms = c('x1', 'x2'), data=dat, q=4, family=gaussian()))
+pointwisebound(qfit, pointwiseref = 2, emmval = 0.1)
+# linear model, categorical modifier
+dat3 &lt;- data.frame(y=runif(50), x1=runif(50), x2=runif(50),
+z=as.factor(sample(0:2, 50,replace=TRUE)), r=rbinom(50,1,0.5))
+(qfit3 &lt;- qgcomp.emm.noboot(f=y ~ z + x1 + x2, emmvar="z",
+expnms = c('x1', 'x2'), data=dat3, q=5, family=gaussian()))
+pointwisebound(qfit3, pointwiseref = 2, emmval = 0)
+pointwisebound(qfit3, pointwiseref = 2, emmval = 1)
+pointwisebound(qfit3, pointwiseref = 2, emmval = 2)
+# linear model, categorical modifier, bootstrapped
+# set B larger for real examples
+(qfit3b &lt;- qgcomp.emm.boot(f=y ~ z + x1 + x2, emmvar="z",
+expnms = c('x1', 'x2'), data=dat3, q=5, family=gaussian(), B=10))
+pointwisebound(qfit3b, pointwiseref = 2, emmval = 0)
+pointwisebound(qfit3b, pointwiseref = 2, emmval = 1)
+pointwisebound(qfit3b, pointwiseref = 2, emmval = 2)
+# logistic model, binary modifier
+dat4 &lt;- data.frame(y=rbinom(50, 1, 0.3), x1=runif(50), x2=runif(50),
+  z=as.factor(sample(0:1, 50,replace=TRUE)), r=rbinom(50,1,0.5))
+(qfit4 &lt;- qgcomp.emm.boot(f=y ~ z + x1 + x2, emmvar="z",
+expnms = c('x1', 'x2'), data=dat4, q=5, family=binomial(), B=10))
+pointwisebound(qfit4, pointwiseref = 2, emmval = 0) # reverts to odds ratio
+
+</code></pre>
+
+
+</div>

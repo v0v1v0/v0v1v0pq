@@ -1,0 +1,182 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>ZhouMethod</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>The second step of Zhou method for multiple environments</h2>
+
+<h3>Description</h3>
+
+<p>The second step of Zhou method for multiple environments
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">ZhouMethod(
+  Model = NULL,
+  pheRaw = NULL,
+  genRaw = NULL,
+  mapRaw = NULL,
+  CriLOD = NULL,
+  NUM = NULL,
+  EnvNum = NULL,
+  yygg = NULL,
+  genoname = NULL,
+  Ax0 = NULL,
+  Hx0 = NULL,
+  Bx0 = NULL,
+  Ax = NULL,
+  Hx = NULL,
+  Bx = NULL,
+  dir = NULL,
+  CriDis = NULL,
+  CLO = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>Model</code></td>
+<td>
+<p>Random or fixed model.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pheRaw</code></td>
+<td>
+<p>phenotype matrix.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>genRaw</code></td>
+<td>
+<p>genotype matrix.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mapRaw</code></td>
+<td>
+<p>linkage map matrix.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>CriLOD</code></td>
+<td>
+<p>Critical LOD scores for significant QTL.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>NUM</code></td>
+<td>
+<p>The serial number of the trait to be analyzed.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>EnvNum</code></td>
+<td>
+<p>The number of environments for each trait is a vector.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>yygg</code></td>
+<td>
+<p>covariate matrix.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>genoname</code></td>
+<td>
+<p>linkage map matrix with pseudo markers inserted.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Ax0</code></td>
+<td>
+<p>AA genotype matrix.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Hx0</code></td>
+<td>
+<p>Aa genotype matrix.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Bx0</code></td>
+<td>
+<p>aa genotype matrix.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Ax</code></td>
+<td>
+<p>AA genotype matrix with pseudo markers inserted.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Hx</code></td>
+<td>
+<p>Aa genotype matrix with pseudo markers inserted.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Bx</code></td>
+<td>
+<p>aa genotype matrix with pseudo markers inserted.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dir</code></td>
+<td>
+<p>file storage path.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>CriDis</code></td>
+<td>
+<p>The distance of optimization.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>CLO</code></td>
+<td>
+<p>Number of CPUs.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>a list
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(F2data)
+readraw&lt;-Readdata(file=F2data,fileFormat="GCIM",
+method="GCIM-QEI",filecov=NULL,
+MCIMmap=NULL,MultiEnv=TRUE)
+DoResult&lt;-Dodata(fileFormat="GCIM",
+Population="F2",method="GCIM-QEI",
+Model="Random",readraw,MultiEnv=TRUE)
+ZhouMatrices&lt;-ZhouF(pheRaw=DoResult$pheRaw,
+genRaw=DoResult$genRaw,mapRaw1=DoResult$mapRaw1,
+WalkSpeed=1,CriLOD=3,dir=tempdir())
+OutputZhou&lt;-ZhouMethod(Model="Random",
+pheRaw=DoResult$pheRaw,genRaw=DoResult$genRaw,
+mapRaw=ZhouMatrices$mapRaw,CriLOD=3,NUM=1,
+EnvNum=DoResult$EnvNum,yygg=DoResult$yygg1,
+genoname=ZhouMatrices$genoname,
+Ax0=ZhouMatrices$Ax0,Hx0=ZhouMatrices$Hx0,
+Bx0=ZhouMatrices$Bx0,Ax=ZhouMatrices$Ax,
+Hx=ZhouMatrices$Hx,Bx=ZhouMatrices$Bx,
+dir=tempdir(),CriDis=5,CLO=2)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,47 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>runGUI</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>run the GUI shiny app for the QCA package</h2>
+
+<h3>Description</h3>
+
+<p>Runs the graphical user interface app based on the <span class="pkg">shiny</span> package.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">runGUI(x)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>Path to the shiny app.</p>
+</td>
+</tr></table>
+<h3>Details</h3>
+
+<p>This function is a wrapper to the <b><code>runApp()</code></b> function in package
+<span class="pkg">shiny</span>. If <b><code>x</code></b> is not provided, it automatically locates the <b><code>gui</code></b>
+directory in the path where the QCA package has been installed, and runs it.
+</p>
+<p>The user interface has an interactive R console in the webpage. Commands are
+parsed and evaluated into a dedicated environment, with efforts to capture errors and
+warnings.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Adrian Dusa
+</p>
+
+
+</div>

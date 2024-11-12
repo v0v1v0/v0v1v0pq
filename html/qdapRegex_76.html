@@ -1,0 +1,286 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>regex_supplement</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Supplemental Canned Regular Expressions</h2>
+
+<h3>Description</h3>
+
+<p>A dataset containing a list of supplemental, canned regular expressions.  The 
+regular expressions in this data set are considered useful but have not been 
+included in a formal function (of the type <code>rm_XXX</code>).  Users can utilize 
+the <code>rm_</code> function to generate functions that can sub/replace/extract as
+desired.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">data(regex_supplement)
+</code></pre>
+
+
+<h3>Format</h3>
+
+<p>A list with 24 elements
+</p>
+
+
+<h3>Details</h3>
+
+<p>The following canned regular expressions are included:
+</p>
+
+<dl>
+<dt>after_a</dt>
+<dd>
+<p>single word after the word "a"</p>
+</dd>
+<dt>after_the</dt>
+<dd>
+<p>single word after the word "the"</p>
+</dd>
+<dt>after_</dt>
+<dd>
+<p>find single word after ? word (? = user defined); note contains <code>"%s"</code> that is replaced by <code>sprintf</code> and is not a valid regex on its own (user supplies (1) n before, (2) the point, &amp; (3) n after)</p>
+</dd>
+<dt>around_</dt>
+<dd>
+<p>find n words (not including punctuation) before or after  ? word (? = user defined); note contains <code>"%s"</code> that is replaced by <code>sprintf</code> and is not a valid regex on its own (user supplies (1) n before, (2) the point, &amp; (3) n after)</p>
+</dd>
+<dt>around2_</dt>
+<dd>
+<p>find n words (plus punctuation) before or after  ? word (? = user defined); note contains <code>"%s"</code> that is replaced by <code>sprintf</code> and is not a valid regex on its own</p>
+</dd>
+<dt>before_</dt>
+<dd>
+<p>find sing word before ? word (? = user defined); note contains <code>"%s"</code> that is replaced by <code>sprintf</code> and is not a valid regex on its own</p>
+</dd>
+<dt>except_first</dt>
+<dd>
+<p>find all occurrences of a substring except the first; regex pattern retrieved from  <a href="https://stackoverflow.com/users/3732271/akrun">StackOverflow's akrun</a>: <a href="https://stackoverflow.com/a/31458261/1000343">https://stackoverflow.com/a/31458261/1000343</a></p>
+</dd> 
+<dt>hexadecimal</dt>
+<dd>
+<p>substring beginning with hash (#) followed by either 3 or 6 select characters (a-f, A-F, and 0-9)</p>
+</dd>
+<dt>ip_address</dt>
+<dd>
+<p>substring of four chunks of 1-3 consecutive digits separated with dots (.)</p>
+</dd>
+<dt>last_occurrence</dt>
+<dd>
+<p>last occurrence of a delimiter; note contains <code>"%s"</code> that is replaced by <code>sprintf</code> and is not a valid regex on its own (user supplies the delimiter)</p>
+</dd>
+<dt>pages</dt>
+<dd>
+<p>substring with "pp." or "p.", optionally followed by a space, followed by 1 or more digits, optionally followed by a dash, optionally followed by 1 or more digits, optionally followed by a semicolon, optionally followed by a space, optionally followed by 1 or more digits; intended for extraction/removal purposes</p>
+</dd>
+<dt>pages2</dt>
+<dd>
+<p>substring 1 or more digits, optionally followed by a dash, optionally followed by 1 or more digits, optionally followed by a semicolon, optionally followed by a space, optionally followed by 1 or more digits; intended for validation purposes</p>
+</dd>
+<dt>punctuation</dt>
+<dd>
+<p>punctuation characters (<code>[:punct:]</code>) with the ability to negate; note contains <code>"%s"</code> that is replaced by <code>sprintf</code> and is not a valid regex on its own</p>
+</dd>
+<dt>run_split</dt>
+<dd>
+<p>a regex that is useful for splitting strings in the characters runs (e.g., "wwxyyyzz" becomes "ww", "x", "yyy", "zz"); regex pattern retrieved from <a href="https://stackoverflow.com/users/2994949/rawr">Robert Redd</a>: <a href="https://stackoverflow.com/a/29383435/1000343">https://stackoverflow.com/a/29383435/1000343</a></p>
+</dd>
+<dt>split_keep_delim</dt>
+<dd>
+<p>regex string that splits on a delimiter and retains the delimiter</p>
+</dd>
+<dt>thousands_separator</dt>
+<dd>
+<p>chunks digits &gt; 4 into groups of 3 from right to left allowing for easy insertion of thousands separator; regex pattern retrieved from <a href="https://stackoverflow.com/">StackOverflow</a>'s stema: <a href="https://stackoverflow.com/a/10612685/1000343">https://stackoverflow.com/a/10612685/1000343</a></p>
+</dd>
+<dt>time_12_hours</dt>
+<dd>
+<p>substring of valid hours (1-12) followed by a colon (:) followed by valid minutes (0-60), followed by an optional space and the character chunk <em>am</em> or <em>pm</em></p>
+</dd> 
+<dt>version</dt>
+<dd>
+<p>substring starting with "v" or "version" optionally followed by a space and then period separated digits for &lt;major&gt;.&lt;minor&gt;.&lt;release&gt;.&lt;build&gt;; the build sequence is optional and the "version"/"v" IS NOT contained in the substring</p>
+</dd>
+<dt>version2</dt>
+<dd>
+<p>substring starting with "v" or "version" optionally followed by a space and then period separated digits for &lt;major&gt;.&lt;minor&gt;.&lt;release&gt;.&lt;build&gt;; the build sequence is optional and the "version"/"v" IS contained in the substring</p>
+</dd>
+<dt>white_after_comma</dt>
+<dd>
+<p>substring of white space after a comma</p>
+</dd>
+<dt>word_boundary</dt>
+<dd>
+<p>A true word boundary that only includes alphabetic characters; based on <a href="https://www.rexegg.com/">https://www.rexegg.com/</a>'s suggestion taken from <a href="https://www.rexegg.com/regex-boundaries.html#real-word-boundary">discussion of true word boundaries</a>; note contains <code>"%s"</code> that is replaced by <code>sprintf</code> and is not a valid regex on its own</p>
+</dd>
+<dt>word_boundary_left</dt>
+<dd>
+<p>A true left word boundary that only includes alphabetic characters; based on <a href="https://www.rexegg.com/">https://www.rexegg.com/</a>'s suggestion taken from <a href="https://www.rexegg.com/regex-boundaries.html#real-word-boundary">discussion of true word boundaries</a></p>
+</dd>
+<dt>word_boundary_right</dt>
+<dd>
+<p>A true right word boundary that only includes alphabetic characters; based on <a href="https://www.rexegg.com/">https://www.rexegg.com/</a>'s suggestion taken from <a href="https://www.rexegg.com/regex-boundaries.html#real-word-boundary">discussion of true word boundaries</a></p>
+</dd>	
+<dt>youtube_id</dt>
+<dd>
+<p>substring of the video id from a <a href="https://www.youtube.com">YouTube</a> video; taken from Jacob Overgaard's submission found https://regex101.com/r/kU7bP8/1</p>
+</dd>
+</dl>
+<p>Regexes from this data set can be added to the <code>pattern</code> argument of any 
+<code>rm_XXX</code> function via an at sign (@) followed by a regex name from
+this data set (e.g., <code>pattern = "@after_the"</code>) provided the regular 
+expression does not contain non-regex such as <code>sprintf</code> 
+character string <code>%s</code>.
+</p>
+<p>Use <code>qdapRegex:::examine_regex(regex_supplement)</code> to 
+interactively explore the regular expressions in <code>regex_usa</code>.  This will 
+provide a browser + console based break down of each regex in the dictionary.
+</p>
+
+
+<h3>Warning</h3>
+
+<p>Note that regexes containing <code>%s</code> are replaced by 
+<code>sprintf</code> and are not a valid regex on their own. The
+<code>S</code> is useful for adding these missing <code>%s</code> 
+parameters.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">time &lt;- rm_(pattern="@time_12_hours")
+time("I will go at 12:35 pm")
+
+x &lt;- "v6.0.156 for Windows 2000/2003/XP/Vista
+Server version 1.1.20
+Client Manager version 1.1.24"
+
+rm_default(x, pattern = "@version", extract=TRUE)
+rm_default(x, pattern = "@version2", extract=TRUE)
+
+x &lt;- "this is 1000000 big 4356.  And little 123 number."
+rm_default(x, pattern="@thousands_separator", replacement="\\1,")
+rm_default(x, pattern="@thousands_separator", replacement="\\1.")
+
+rm_default("I was,but it costs 10,000.", pattern="@white_after_comma", 
+    replacement=", ")
+
+x &lt;- "I like; the donuts; a lot"
+strsplit(x, ";")
+strsplit(x, S(grab("split_keep_delim"), ";"), perl=TRUE)
+stringi::stri_split_regex(x, S(grab("split_keep_delim"), ";"))
+stringi::stri_split_regex("I like; the donuts; a lot:cool", 
+    S(grab("split_keep_delim"), ";|:"))
+
+## Grab words around a point
+x &lt;- c(
+    "the magic word is e",
+    "the dog is red and they are blue",
+    "I am new but she is not new",
+    "hello world",
+    "why is it so cold?  Perhaps it is Winter.",
+    "It is not true the 7 is 8.",
+    "Is that my drink?"
+)
+
+rm_default(x, pattern = S("@around_", 1, "is", 1), extract=TRUE)
+rm_default(x, pattern = S("@around_", 2, "is", 2), extract=TRUE)
+rm_default(x, pattern = S("@around_", 1, "is|are|am", 1), extract=TRUE)
+rm_default(x, pattern = S("@around_", 1, "is not|is|are|am", 1), extract=TRUE)
+rm_default(x, pattern = S("@around_", 1, 
+    "is not|[Ii]s|[Aa]re|[Aa]m", 1), extract=TRUE)
+
+x &lt;- c(
+    "hello world",
+    "45",
+    "45 &amp; 5 makes 50",
+    "x and y",
+    "abc and def",
+    "her him foo &amp; bar for Jack and Jill then"
+)
+
+around_and &lt;- rm_(pattern = S("@around_", 1, "and|\\&amp;", 1), extract=TRUE)
+around_and(x)
+
+## Split runs into chunks
+x &lt;- "1111100000222000333300011110000111000"
+strsplit(x, grab("@run_split"), per = TRUE)
+
+## Not run: 
+library(qdap);library(ggplot2);library(reshape2)
+
+out &lt;- setNames(lapply(c("@after_a", "@after_the"), function(x) {
+    o &lt;- rm_default(stringi:::stri_trans_tolower(pres_debates2012$dialogue), 
+        pattern = x, extract=TRUE)
+    m &lt;- qdapTools::matrix2df(data.frame(freq=sort(table(unlist(o)), TRUE)), "word")
+    m[m$freq&gt; 7, ]
+}), c("a", "the"))
+
+
+dat &lt;- setNames(Reduce(function(x, y) {
+    merge(x, y, by = "word", all = TRUE)}, out), c("Word", "A", "THE"))
+
+dat &lt;- reshape2::melt(dat, id="Word", variable.name="Article", value.name="freq")
+
+dat &lt;- dat[order(dat$freq, dat$Word), ]
+
+ord &lt;- aggregate(freq ~ Word, dat, sum)
+
+dat$word &lt;- factor(dat$Word, levels=ord[order(ord[[2]]), 1])
+ggplot(dat, aes(x=freq, y=Word)) + geom_point()+ facet_grid(~Article)
+
+## End(Not run)
+
+## remove/extract pages numbers
+x &lt;- c("I read p. 36 and then pp. 45-49", "it's on pp. 23-24;28")
+
+rm_pages &lt;- rm_(pattern="@pages", extract=TRUE)
+rm_pages(x)
+
+rm_default(x, pattern = "@pages")
+rm_default(x, pattern = "@pages", extract=TRUE)
+rm_default(x, pattern = "@pages2", extract=TRUE)
+
+## Validate pages
+page_val &lt;- validate("@pages2", FALSE)
+page_val(c(66, "78-82", "hello world", TRUE, "44-45; 56"))
+
+## Split on last occurrence
+x &lt;- c(
+    "test@aol@fg.mm.com", 
+    "test@hotmail.com", 
+    "test@xyz@rr@lk.edu", 
+    "test@abc.xx@zz.vv.net"
+)
+
+strsplit(x, S("@last_occurrence", "\\."), perl=TRUE)
+strsplit(x, S("@last_occurrence", "@"), perl=TRUE)
+
+## True Word Boundaries
+x &lt;- "this is _not a word666 and this is not a word too." 
+## Standard regex word boundary
+rm_default(x, pattern=bind("not a word"))
+## Alphabetic only word boundaries
+rm_default(x, pattern=S("@word_boundary", "not a word"))
+
+## Remove all but first occurrence of something
+x &lt;- c(
+    "12-3=4-5=678-9", 
+    "ABC-D=EF2-GHI-JK3=L-MN=", 
+    "9-87=65", 
+    "a - de=4fgh --= i5jkl", 
+    NA
+)
+
+rm_default(x, pattern = S("@except_first", "-"))
+rm_default(x, pattern = S("@except_first", "="))
+</code></pre>
+
+
+</div>

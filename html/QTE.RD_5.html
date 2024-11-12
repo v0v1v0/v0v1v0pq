@@ -1,0 +1,214 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>make.band.cq</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Uniform confidence bands for conditional quantile processes</h2>
+
+<h3>Description</h3>
+
+<p><code>make.band.cq</code> constructs uniform confidence bands for conditional quantile processes as functions of tau for each side of the cutoff.
+See <code>make.band</code> as well. The function <code>rdq.band</code> calls this function to generates uniform bands for conditional quantiles.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">make.band.cq(n.sam,Dc.p,Dc.m,Dr.p,Dr.m,dz,cov,taus,hh,Qy.p,Qy.m,
+     bias.p,bias.m,alpha,n.sim)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>n.sam</code></td>
+<td>
+<p>the sample size.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Dc.p</code></td>
+<td>
+<p>simulated values from <code class="reqn">D_{1,v}(x_{0}^{+},z,\tau)</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Dc.m</code></td>
+<td>
+<p>simulated values from <code class="reqn">D_{1,v}(x_{0}^{-},z,\tau)</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Dr.p</code></td>
+<td>
+<p>simulated values from <code class="reqn">D_{1,v}(x_{0}^{+},z,\tau) - D_{2,v}(x_{0}^{+},z,\tau)</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Dr.m</code></td>
+<td>
+<p>simulated values from <code class="reqn">D_{1,v}(x_{0}^{-},z,\tau) - D_{2,v}(x_{0}^{-},z,\tau)</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dz</code></td>
+<td>
+<p>the number of covariates.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cov</code></td>
+<td>
+<p>either 0 or 1. Set <em>cov=1</em> if covariates are present in the model;
+otherwise set <em>cov=0</em>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>taus</code></td>
+<td>
+<p>a vector of quantiles of interest.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>hh</code></td>
+<td>
+<p>the bandwidth values.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Qy.p</code></td>
+<td>
+<p>estimated conditional quantiles at <code class="reqn">(x_{0}^{+},z)</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Qy.m</code></td>
+<td>
+<p>estimated conditional quantiles at <code class="reqn">(x_{0}^{-},z)</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bias.p</code></td>
+<td>
+<p>estimated bias terms at <code class="reqn">(x_{0}^{+},z)</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bias.m</code></td>
+<td>
+<p>estimated bias terms at <code class="reqn">(x_{0}^{-},z)</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>alpha</code></td>
+<td>
+<p>a number between 0 and 1, the desired significance level.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n.sim</code></td>
+<td>
+<p>the number of simulation repetitions.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list with elements:
+</p>
+
+<dl>
+<dt>qp</dt>
+<dd>
+<p>conditional quantile estimates at <code class="reqn">x_{0}^{+}</code> (i.e., above the cutoff) without bias correction.</p>
+</dd>
+<dt>qp.r</dt>
+<dd>
+<p>bias corrected conditional quantile estimates at <code class="reqn">x_{0}^{+}</code>.</p>
+</dd>
+<dt>qm</dt>
+<dd>
+<p>conditional quantile estimates at <code class="reqn">x_{0}^{-}</code> (i.e., below the cutoff) without bias correction.</p>
+</dd>
+<dt>qm.r</dt>
+<dd>
+<p>bias corrected conditional quantile estimates at <code class="reqn">x_{0}^{-}</code>.</p>
+</dd>
+<dt>ubandp</dt>
+<dd>
+<p>uniform confidence band for conditional quantiles at <code class="reqn">x_{0}^{+}</code>
+without bias correction.</p>
+</dd>
+<dt>ubandp.r</dt>
+<dd>
+<p>uniform confidence band for conditional quantiles at <code class="reqn">x_{0}^{+}</code>
+with robust bias correction.</p>
+</dd>
+<dt>ubandm</dt>
+<dd>
+<p>uniform confidence band for conditional quantiles at <code class="reqn">x_{0}^{-}</code>
+without bias correction.</p>
+</dd>
+<dt>ubandm.r</dt>
+<dd>
+<p>uniform confidence band for conditional quantiles at <code class="reqn">x_{0}^{-}</code>
+with robust bias correction.</p>
+</dd>
+<dt>sp</dt>
+<dd>
+<p>standard errors of the conditional quantile estimates without bias correction
+at <code class="reqn">x_{0}^{+}</code>.</p>
+</dd>
+<dt>sp.r</dt>
+<dd>
+<p>standard errors of the conditional quantile estimates with robust
+bias correction at <code class="reqn">x_{0}^{+}</code>.</p>
+</dd>
+<dt>sm</dt>
+<dd>
+<p>standard errors of the conditional quantile estimates without bias correction
+at <code class="reqn">x_{0}^{-}</code>.</p>
+</dd>
+<dt>sm.r</dt>
+<dd>
+<p>standard errors of the conditional quantile estimates with robust
+bias correction at <code class="reqn">x_{0}^{-}</code>.</p>
+</dd>
+</dl>
+<h3>See Also</h3>
+
+<p>make.band
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">n = 500
+x = runif(n,min=-4,max=4)
+d = (x &gt; 0)
+y = x + 0.3*(x^2) - 0.1*(x^3) + 1.5*d + rnorm(n)
+tlevel = seq(0.1,0.9,by=0.1)
+tlevel2 = c(0.05,tlevel,0.95)
+hh = rep(2,length(tlevel))
+hh2 = rep(2,length(tlevel2))
+sel = tlevel2 %in% tlevel
+
+ab = rdq(y=y,x=x,d=d,x0=0,z0=NULL,tau=tlevel2,h.tau=hh2,cov=0)
+delta = c(0.05,0.09,0.14,0.17,0.19,0.17,0.14,0.09,0.05)
+fp = rdq.condf(x=x,Q=ab$qp.est,bcoe=ab$bcoe.p,taus=tlevel,taul=tlevel2,delta,cov=0)
+fm = rdq.condf(x=x,Q=ab$qm.est,bcoe=ab$bcoe.m,taus=tlevel,taul=tlevel2,delta,cov=0)
+bp = rdq.bias(y[d==1],x[d==1],dz=0,x0=0,z0=NULL,taus=tlevel,hh,hh,fx=fp$ff[(d==1),],cov=0)
+bm = rdq.bias(y[d==0],x[d==0],dz=0,x0=0,z0=NULL,taus=tlevel,hh,hh,fx=fm$ff[(d==0),],cov=0)
+
+sa = rdq.sim(x=x,d=d,x0=0,z0=NULL,dz=0,cov=0,tt=tlevel,hh,hh,fxp=fp$ff,fxm=fm$ff,n.sim=200)
+ba.cq = make.band.cq(n,Dc.p=sa$dcp,Dc.m=sa$dcm,Dr.p=sa$drp,Dr.m=sa$drm,dz=0,cov=0,
+taus=tlevel,hh,Qy.p=as.matrix(ab$qp.est[sel,]),Qy.m=as.matrix(ab$qm.est[sel,]),
+bias.p=bp$bias,bias.m=bm$bias,alpha=0.1,n.sim=200)
+
+</code></pre>
+
+
+</div>

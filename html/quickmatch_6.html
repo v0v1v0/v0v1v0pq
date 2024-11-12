@@ -1,0 +1,128 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>matching_weights</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Unit weights implied by matching</h2>
+
+<h3>Description</h3>
+
+<p><code>matching_weights</code> derives the weights implied by a matching for units
+assigned to matched groups. If the matching is exact, reweighting the units
+with this function will produce a sample where all treatment groups are
+identical on the matching covariates. If the matching is approximate but of
+good quality, the reweighted treatment groups will be close to identical.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">matching_weights(treatments, matching, target = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>treatments</code></td>
+<td>
+<p>factor specifying the units' treatment assignments.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>matching</code></td>
+<td>
+<p><code>qm_matching</code> or <code>scclust</code> object with
+the matched groups.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>target</code></td>
+<td>
+<p>units to target the weights for. If <code>NULL</code>, the weights will target
+all units, so that the reweighted treatment groups are as similar as
+possible to the complete sample (i.e., corresponding to ATE). A non-null
+value specifies a subset of units that the weights should be targeted for
+(e.g., ATT or ATC). If <code>target</code> is a logical vector with the same
+length as the sample size, units indicated with <code>TRUE</code> will be
+targeted. If <code>target</code> is an integer vector, the units with indices
+in <code>target</code> are targeted. If <code>target</code> is a character vector, it
+should contain treatment labels, and the weights target the corresponding
+units (as given by <code>treatments</code>).</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Let <code class="reqn">S(g)</code> be the number of units indicated by <code>target</code> in group
+<code class="reqn">g</code> (or the total number of units in the group if <code>target</code> is
+<code>NULL</code>). Let <code class="reqn">T</code> be the total number of units indicated by
+<code>target</code> in the sample (or the sample size if <code>target</code> is <code>NULL</code>).
+Let <code class="reqn">A(t, g)</code> be the number of units assigned to treatment <code class="reqn">t</code> in
+group <code class="reqn">g</code>. The weight for a unit in group <code class="reqn">g</code> that is assigned to
+treatment <code class="reqn">t</code> is given by:
+</p>
+<p style="text-align: center;"><code class="reqn">\frac{S(g)}{T \times A(t, g)}.</code>
+</p>
+
+<p>Consider, for example, a matched group with one treated unit and two control
+units when we are interested in the average effect of the treated (ATT) and
+we have 50 treated units in total (<code class="reqn">T=50</code>). For all three units in the
+group, we have <code class="reqn">S(g)=1</code>. For the treated unit we have <code class="reqn">A(t, g)=1</code>,
+so its weight becomes <code class="reqn">1/50</code>. The two control units have <code class="reqn">A(t, g)=2</code>,
+so their weights are both <code class="reqn">1/100</code>.
+</p>
+<p>These weights are such that the difference between the weighted averages of
+the outcomes in two treatment conditions is the same as the average
+within-group difference-in-means between the two conditions.
+</p>
+<p>If a matched group <code class="reqn">g</code> with <code class="reqn">S(g) &gt; 0</code> lacks some treatment condition
+<code class="reqn">t</code>, no weights exist for the units assigned to <code class="reqn">t</code> (in other groups)
+so to replicate group <code class="reqn">g</code>; the matching does not contain enough
+information to impute the missing treatment in group <code class="reqn">g</code>. Subsequently,
+all units assigned to <code class="reqn">t</code> will be given the weight <code>NA</code>. There is
+two ways to solve this problem. First, one can change the target estimand by
+setting <code class="reqn">S(g) = 0</code> for all groups that are missing units assigned to
+<code class="reqn">t</code>. This is done with the <code>target</code> parameter. Second, one can change
+the matching so that all groups contain at least one unit assigned to <code class="reqn">t</code>
+(e.g., by merging groups).
+</p>
+<p>Units not assigned to matched groups are given zero weights.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns a numeric vector with the weights of the units in the matching.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># Construct example data
+my_data &lt;- data.frame(y = rnorm(100),
+                      x1 = runif(100),
+                      x2 = runif(100),
+                      treatment = factor(sample(rep(c("T1", "T2", "C"), c(25, 25, 50)))))
+
+# Make distances
+my_distances &lt;- distances(my_data, dist_variables = c("x1", "x2"))
+
+# Make matching
+my_matching &lt;- quickmatch(my_distances, my_data$treatment)
+
+# Weights for ATE
+weights_ate &lt;- matching_weights(my_data$treatment, my_matching)
+
+# Weights for ATT for T1
+weights_att &lt;- matching_weights(my_data$treatment, my_matching, target = "T1")
+
+# Estimate treatment effects with WLS estimator (see `lm_match`)
+effects &lt;- lm(y ~ treatment + x1 + x2, data = my_data, weights = weights_att)
+
+</code></pre>
+
+
+</div>

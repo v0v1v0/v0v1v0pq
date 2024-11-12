@@ -1,0 +1,66 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>LagEstimator-class</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Class for a lag-window type estimator.</h2>
+
+<h3>Description</h3>
+
+<p>For a given time series Y a lag-window estimator of the Form
+</p>
+<p style="text-align: center;"><code class="reqn">\hat{f}(\omega) = \sum_{|k|&lt; n-1 } K_n(k) \Gamma(Y_0,Y_k) \exp(-i \omega k)</code>
+</p>
+ 
+<p>will be calculated on initalization. The <code>LagKernelWeight</code> K_n is determined
+by the slot <code>weight</code> and the <code>LagOperator</code> <code class="reqn">\Gamma(Y_0,Y_k)</code> is defined 
+by the slot lagOp.
+</p>
+
+
+<h3>Details</h3>
+
+<p>Currently, the implementation of this class allows only for the analysis of
+univariate time series.
+</p>
+
+
+<h3>Slots</h3>
+
+
+<dl>
+<dt><code>Y</code></dt>
+<dd>
+<p>the time series where the lag estimator was applied one</p>
+</dd>
+<dt><code>weight</code></dt>
+<dd>
+<p>a <code>Weight</code> object to be used as lag window</p>
+</dd>
+<dt><code>lagOp</code></dt>
+<dd>
+<p>a <code>LagOperator</code> object that determines which
+kind of bivariate structure should be calculated.</p>
+</dd>
+<dt><code>env</code></dt>
+<dd>
+<p>An environment to allow for slots which need to be
+accessable in a call-by-reference manner:
+</p>
+
+<dl>
+<dt><code>sdNaive</code></dt>
+<dd>
+<p>An array used for storage of the naively
+estimated standard deviations of the smoothed periodogram.</p>
+</dd>
+<dt><code>sdNaive.done</code></dt>
+<dd>
+<p>a flag indicating whether <code>sdNaive</code>
+has been set yet.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</div>

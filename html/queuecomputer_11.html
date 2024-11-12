@@ -1,0 +1,128 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>queue_step</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Compute the departure times and queue lengths for a queueing system from arrival and service times.</h2>
+
+<h3>Description</h3>
+
+<p>Compute the departure times and queue lengths for a queueing system from arrival and service times.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">queue_step(arrivals, service, servers = 1, labels = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>arrivals</code></td>
+<td>
+<p>numeric vector of non-negative arrival times</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>service</code></td>
+<td>
+<p>numeric vector of service times with the same ordering as arrival_df.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>servers</code></td>
+<td>
+<p>a non-zero natural number, an object of class <code>server.stepfun</code>
+or an object of class <code>server.list</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>labels</code></td>
+<td>
+<p>character vector of customer labels (deprecated).</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>If only departure times are needed, the <code>queue</code> function is faster.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An list object of class <code>queue_list</code> with the following components: <br><br></p>
+
+<ul>
+<li> <p><code>departures</code> - A vector of response times for the input of arrival times and service times.
+</p>
+</li>
+<li> <p><code>server</code> - A vector of server assignments for the input of arrival times and service times.
+</p>
+</li>
+<li> <p><code>departures_df</code> - A data frame with arrivals, service, departures, waiting, system time, and server assignments for each customer.
+</p>
+</li>
+<li> <p><code>queuelength_df</code> - A data frame describing the evolution of queue length over time
+</p>
+</li>
+<li> <p><code>systemlength_df</code> - A data frame describing the evolution of system length over time
+</p>
+</li>
+<li> <p><code>servers_input</code> - A copy of the server argument
+</p>
+</li>
+<li> <p><code>state</code> - A vector of availability times for the servers
+</p>
+</li>
+</ul>
+<h3>See Also</h3>
+
+<p><code>queue</code>, <code>summary.queue_list</code>, <code>plot.queue_list</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+# With two servers
+set.seed(1)
+n &lt;- 100
+
+arrivals &lt;- cumsum(rexp(n, 3))
+service &lt;- rexp(n)
+
+
+queue_obj &lt;- queue_step(arrivals,
+    service = service, servers = 2)
+
+
+summary(queue_obj)
+plot(queue_obj, which = 5)
+
+# It seems like the customers have a long wait.
+# Let's put two more servers on after time 20
+
+
+server_list &lt;- as.server.stepfun(c(20),c(2,4))
+
+queue_obj2 &lt;- queue_step(arrivals,
+    service = service,
+    servers = server_list)
+
+summary(queue_obj2)
+if(require(ggplot2, quietly = TRUE)){
+
+    plot(queue_obj2, which = 5)
+
+}
+
+
+</code></pre>
+
+
+</div>

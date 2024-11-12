@@ -1,0 +1,71 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>.StatusToMatrix</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Status vector to matrix</h2>
+
+<h3>Description</h3>
+
+<p>Converts a vector to a matrix that can be analysed by the <code>DoNotConflict()</code>
+function family.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">.StatusToMatrix(statusVector)
+
+.StatusToArray(status)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>statusVector</code></td>
+<td>
+<p>Either (i) a named vector of integers, with
+names <code>N</code>, <code>s</code>, <code>r1</code>, <code>r2</code>, either <code>d</code> or <code>d1</code> and <code>d2</code>, and optionally <code>u</code>;
+or (ii) a matrix whose named rows correspond to the same quantities.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>status</code></td>
+<td>
+<p>A named three-dimensional array of integers, with slices
+named <code>s</code>, <code>r1</code>, <code>r2</code>, either <code>d</code> or <code>d1</code> and <code>d2</code>, and either <code>N</code> or <code>u</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A matrix, containing the input columns plus <code style="white-space: pre;">⁠2d⁠</code>, representing
+either <code>2 * d</code> or <code>d1 + d2</code>, and row names.
+</p>
+<p>The row name means that column names are dropped in
+the output of <code>DoNotConflict</code> etc.
+</p>
+<p>A three-dimensional array containing a slice labelled <code style="white-space: pre;">⁠2d⁠</code>,
+equivalent to either <code>d + d</code> or <code>d1 + d2</code> as appropriate.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p><a href="https://orcid.org/0000-0001-5660-1727">Martin R. Smith</a>
+(<a href="mailto:martin.smith@durham.ac.uk">martin.smith@durham.ac.uk</a>)
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data("sq_trees")
+
+.StatusToArray(ManyToManyQuartetAgreement(sq_trees[5:7]))
+</code></pre>
+
+
+</div>

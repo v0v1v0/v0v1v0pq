@@ -1,0 +1,85 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>fAddDate</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Append date to filename</h2>
+
+<h3>Description</h3>
+
+<p>Add today's date to the filename
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">fAddDate(..., format = "%d-%b-%Y")
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>file name or path to concat</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>format</code></td>
+<td>
+<p>time format e.g. %d-%b-%Y , refer to <code>date3to1</code> for date formats</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The present function enables users to add the current date to the file name,
+facilitating the straightforward saving of files with their respective dates.
+It accepts different file paths and names as arguments, as demonstrated
+in the example section. This functionality simplifies the process of associating
+a file's creation date with its name, aiding users in recalling when a file was
+saved. Moreover, it serves as a preventive measure against unintentional
+overwriting of files created on different dates.
+</p>
+
+
+<h3>Value</h3>
+
+<p>file name with the current date added as suffix
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+# Task 1
+fAddDate("path1/","path2/filepre","filemid","fileend.png")
+
+# Task 2
+fAddDate(c("path1/","path2/"),"filepre","filemid","fileend.png")
+
+# Task 3
+fAddDate("one_file_name_fileend.pdf")
+
+# Task 4
+fAddDate(c("path1/","path2/"),"file1-","filemid",c("fileend.png",".pdf"))
+
+# Task 5
+data("USArrests")
+USArrests$fn = paste0(row.names(USArrests), ".txt")
+head(fAddDate(USArrests$fn),10)
+
+# Task 6: format date - month.day.year
+fAddDate("sample_file_name.pdf", format = "%B.%d.%YYYY")
+
+# Task 7: format date - year_month
+fAddDate("sample_file_name.pdf", format = "%YYYY_%m")
+
+
+</code></pre>
+
+
+</div>

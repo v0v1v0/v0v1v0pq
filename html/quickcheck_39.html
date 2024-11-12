@@ -1,0 +1,80 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>hms_</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>hms generators</h2>
+
+<h3>Description</h3>
+
+<p>A set of generators for hms vectors.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">hms_(len = c(1L, 10L), any_na = FALSE)
+
+hms_bounded(left, right, len = c(1L, 10L), any_na = FALSE)
+
+hms_left_bounded(left, len = c(1L, 10L), any_na = FALSE)
+
+hms_right_bounded(right, len = c(1L, 10L), any_na = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>len</code></td>
+<td>
+<p>Length of the generated vectors. If <code>len</code> is a
+single number all vectors will have this length. If
+<code>len</code> is a numeric vector of length 2 it will produce
+vectors with lengths between a minimum and maximum,
+inclusive. For example <code>len = c(1L, 10L)</code> would produce
+vectors with lengths between 1 and 10. To produce empty vectors
+set <code>len = 0L</code> or a range like <code>len = c(0L, 10L)</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>any_na</code></td>
+<td>
+<p>Whether <code>NA</code> values should be allowed.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>left</code></td>
+<td>
+<p>The minimum possible value for generated
+numbers, inclusive.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>right</code></td>
+<td>
+<p>The maximum possible value for generated
+numbers, inclusive.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A <code>quickcheck_generator</code> object.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">hms_() %&gt;% show_example()
+hms_bounded(
+  left = hms::as_hms("00:00:00"),
+  right = hms::as_hms("12:00:00")
+) %&gt;% show_example()
+hms_(len = 10L, any_na = TRUE) %&gt;% show_example()
+</code></pre>
+
+
+</div>

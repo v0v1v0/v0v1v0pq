@@ -1,0 +1,76 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>print_cards</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>print_cards</h2>
+
+<h3>Description</h3>
+
+<p>print_cards creates a pdf document in a specified directory, with item’s
+descriptions displayed on separate cards.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">print_cards(qset, desc_col = "description", dir.print)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>qset</code></td>
+<td>
+<p>A data frame containing the Q-set items' descriptions.
+For details see for example ?qset_aqs, ?qset_cqq, ?qset_mbqs and ?qset_pq.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>desc_col</code></td>
+<td>
+<p>Column name of qsets data frame containing items'
+descriptions.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dir.print</code></td>
+<td>
+<p>Directory path where .pdf file will be saved</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>a pdf document with item’s descriptions displayed on separate cards.
+</p>
+
+
+<h3>References</h3>
+
+<p>Baumrind, D. (1968). Manual for the Preschool Behaviour Q-set.
+Parental Research Project. Berkeley, CA: Institute of Human Development,
+University of California.
+</p>
+<p>Block, J. H., &amp; Block, J. (1969). The California Child Q-Set. Berkeley, CA:
+Institute of Human Development, University of California.
+</p>
+<p>Pederson, D. R., Moran, G., &amp; Bento, S. (1999). Maternal Behaviour Q-sort
+(version 3.1). London, ON: Psychology Department, Western University.
+</p>
+<p>Waters, E. (1995). Appendix A: The attachment Q-set (Version 3. 0).
+Monographs of the Society for Research in Child Development, 60, 234-246.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">print_cards(qset_aqs, desc_col = "description", dir.print = tempdir())
+
+</code></pre>
+
+
+</div>

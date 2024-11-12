@@ -1,0 +1,163 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>rdq.test</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>tests for QTE</h2>
+
+<h3>Description</h3>
+
+<p><code>rdq.test</code> provides testing results for hypotheses on the treatment effects concerning (i) treatment significance, (ii) homogeneity of effects over quantiles,
+and (iii) positive or negative dominance hypothesis.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">rdq.test(y,x,d,x0,z0=NULL,tau,bdw,cov,bias,alpha,type,std.opt=1)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>a numeric vector, the outcome variable.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a vector (or a matrix) of covariates, the first column is the running variable.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>d</code></td>
+<td>
+<p>a numeric vector, the treatment status.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x0</code></td>
+<td>
+<p>the cutoff point.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>z0</code></td>
+<td>
+<p>the value of the covariates at which to evaluate the effects.
+For example, if a female dummy is included, z0 = 1 indicates the female subgroup.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tau</code></td>
+<td>
+<p>a vector of quantiles of interest.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bdw</code></td>
+<td>
+<p>the bandwidth value(s). If 'bdw' is a scalar, it is interpreted as the
+bandwidth for the median. The bandwidths for the rest of the quantiles are
+computed automatically using the formula in Yu and Jones (1998).
+If it is a vector with the same dimension as 'tau',
+the function will use these values for the respective quantiles accordingly.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cov</code></td>
+<td>
+<p>either 0 or 1. Set cov=1 when covariates are present in the model;
+otherwise set cov=0.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bias</code></td>
+<td>
+<p>either 0 or 1. If bias=1, the QTE estimate is bias corrected and
+the robust confidence band in Qu, Yoon, and Perron (2024) is produced.
+If bias=0, no bias correction is implemented.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>alpha</code></td>
+<td>
+<p>a number between 0 and 1, the desired significance level.
+When alpha=0.1, one will get a 90% uniform band.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>type</code></td>
+<td>
+<p>a value in 1–4. Set <em>type</em> to 1 to test the null hypothesis of a zero
+treatment effect against the alternative hypothesis of significant treatment effects;
+set <em>type</em> to 2 to test the null hypothesis of homogeneous treatment against heterogeneous treatment effects;
+set <em>type</em> to 3 to test the null hypothesis of uniformly non-negative treatment effects against the presence of negative effects;
+and set <em>type</em> to 4 to test the null hypothesis of uniformly non-positive treatment effects against the presence of positive effects at some quantiles.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>std.opt</code></td>
+<td>
+<p>either 0 or 1. If <em>std.opt=1</em>, the test statistic is standardized so that
+the variance is equalized across quantiles; if <em>std.opt=0</em>, the test is not standardized.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list with elements:
+</p>
+
+<dl>
+<dt>statistic</dt>
+<dd>
+<p>test statistics.</p>
+</dd>
+<dt>cr.va</dt>
+<dd>
+<p>critical values.</p>
+</dd>
+<dt>p.value</dt>
+<dd>
+<p>p values.</p>
+</dd>
+</dl>
+<h3>References</h3>
+
+<p>Zhongjun Qu, Jungmo Yoon, Pierre Perron (2024), "Inference on Conditional Quantile
+Processes in Partially Linear Models with Applications to the Impact of Unemployment Benefits,"
+The Review of Economics and Statistics; https://doi.org/10.1162/rest_a_01168
+</p>
+<p>Zhongjun Qu and Jungmo Yoon (2019), "Uniform Inference on Quantile Effects
+under Sharp Regression Discontinuity Designs," Journal of Business and Economic Statistics,
+37(4), 625–647; https://doi.org/10.1080/07350015.2017.1407323
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># Without covariate
+n = 500
+x = runif(n,min=-4,max=4)
+d = (x &gt; 0)
+y = x + 0.3*(x^2) - 0.1*(x^3) + 1.5*d + rnorm(n)
+tlevel = seq(0.1,0.9,by=0.1)
+B = rdq.test(y=y,x=x,d=d,x0=0,z0=NULL,tau=tlevel,bdw=2,cov=0,bias=1,alpha=c(0.1,0.05),type=c(1,2,3))
+
+# (continued) With covariates
+z = sample(c(0,1),n,replace=TRUE)
+y = x + 0.3*(x^2) - 0.1*(x^3) + 1.5*d + d*z + rnorm(n)
+B = rdq.test(y=y,x=cbind(x,z),d=d,x0=0,z0=c(0,1),tau=tlevel,bdw=2,cov=1,bias=1,
+alpha=c(0.1,0.05),type=c(3,4))
+
+
+</code></pre>
+
+
+</div>

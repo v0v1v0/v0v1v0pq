@@ -1,0 +1,178 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>QZ Decomposition Reordering</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2> Reordering QZ Decomposition </h2>
+
+<h3>Description</h3>
+
+<p>This function performs QZ decomposition on input paired matrices (A,B)
+or a single matrix A with reordering.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">  ordqz(A, B = NULL, cluster = NULL,
+        keyword = c("lhp", "rhp", "udi", "udo", "ref", "cef",
+                    "lhp.fo", "rhp.fo", "udi.fo", "udo.fo"),
+        ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>A</code></td>
+<td>
+<p>a 'complex/real' matrix, dim = c(N, N).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>B</code></td>
+<td>
+<p>a 'complex/real' matrix, dim = c(N, N).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cluster</code></td>
+<td>
+<p>specifies the eigenvalues in the selected cluster.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>keyword</code></td>
+<td>
+<p>as similarly used in MATLAB.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>options to <code>qz.*</code> functions.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Either <code>cluster</code> or <code>keyword</code> should be specified.
+</p>
+<p><code>cluster</code> actually is the same as <code>select</code> in all <code>qz.*</code>
+functions.
+</p>
+<p><code>keywork</code> actually is similar as MATLAB.
+</p>
+
+<table>
+<tr>
+<td style="text-align: left;">
+  keyword </td>
+<td style="text-align: left;"> Selected Region </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+  'lhp'   </td>
+<td style="text-align: left;"> Left-half plane (real(E) &lt; 0) </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+  'rhp'   </td>
+<td style="text-align: left;"> Right-half plane (real(E) &gt;= 0) </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+  'udi'   </td>
+<td style="text-align: left;"> Interior of unit disk (abs(E) &lt; 1) </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+  'udo'   </td>
+<td style="text-align: left;"> Exterior of unit disk (abs(E) &gt;= 1) </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+  'ref'   </td>
+<td style="text-align: left;"> Real eigenvalues first (top-left conner) </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+  'cef'   </td>
+<td style="text-align: left;"> Complex eigenvalues first (top-left conner) </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+  'lhp'   </td>
+<td style="text-align: left;"> Left-half plane (real(E) &lt; 0) and finite only </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+  'rhp'   </td>
+<td style="text-align: left;"> Right-half plane (real(E) &gt;= 0) and finite only </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+  'udi'   </td>
+<td style="text-align: left;"> Interior of unit disk (abs(E) &lt; 1) and finite only </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+  'udo'   </td>
+<td style="text-align: left;"> Exterior of unit disk (abs(E) &gt;= 1) and finite only </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Returns a list from the call.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Wei-Chen Chen <a href="mailto:wccsnow@gmail.com">wccsnow@gmail.com</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Anderson, E., et al. (1999) <em>LAPACK User's Guide,</em>
+3rd edition, SIAM, Philadelphia.
+</p>
+<p><a href="https://en.wikipedia.org/wiki/Schur_decomposition">https://en.wikipedia.org/wiki/Schur_decomposition</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>qz</code>, <code>geigen</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+library(QZ, quiet = TRUE)
+
+# Reordering eigenvalues
+(ret &lt;- ordqz(exAB1$A, exAB1$B, keyword = "lhp"))
+(ret &lt;- ordqz(exAB1$A, exAB1$B, keyword = "rhp"))
+(ret &lt;- ordqz(exAB1$A, exAB1$B, keyword = "udi"))
+(ret &lt;- ordqz(exAB1$A, exAB1$B, keyword = "udo"))
+(ret &lt;- ordqz(exAB1$A, exAB1$B, keyword = "ref"))
+(ret &lt;- ordqz(exAB1$A, exAB1$B, keyword = "cef"))
+(ret &lt;- ordqz(exAB1$A, exAB1$B, keyword = "lhp.fo"))
+(ret &lt;- ordqz(exAB1$A, exAB1$B, keyword = "rhp.fo"))
+(ret &lt;- ordqz(exAB1$A, exAB1$B, keyword = "udi.fo"))
+(ret &lt;- ordqz(exAB1$A, exAB1$B, keyword = "udo.fo"))
+
+
+</code></pre>
+
+
+</div>

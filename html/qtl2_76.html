@@ -1,0 +1,90 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>interp_genoprob</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Interpolate genotype probabilities</h2>
+
+<h3>Description</h3>
+
+<p>Linear interpolation of genotype probabilities, mostly to get two sets onto the same map for comparison purposes.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">interp_genoprob(probs, map, cores = 1)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>probs</code></td>
+<td>
+<p>Genotype probabilities, as calculated from
+<code>calc_genoprob()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>map</code></td>
+<td>
+<p>List of vectors of map positions.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cores</code></td>
+<td>
+<p>Number of CPU cores to use, for parallel calculations.
+(If <code>0</code>, use <code>parallel::detectCores()</code>.)
+Alternatively, this can be links to a set of cluster sockets, as
+produced by <code>parallel::makeCluster()</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>We reduce <code>probs</code> to the positions present in <code>map</code> and then
+interpolate the genotype probabilities at additional positions
+in <code>map</code> by linear interpolation using the two adjacent
+positions. Off the ends, we just copy over the first or last
+value unchanged.
+</p>
+<p>In general, it's better to use <code>insert_pseudomarkers()</code> and
+<code>calc_genoprob()</code> to get genotype probabilities at additional
+positions along a chromosome. This function is a <strong>very</strong> crude
+alternative that was implemented in order to compare genotype
+probabilities derived by different methods, where we first need to
+get them onto a common set of positions.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>"calc_genoprob"</code>, like the input,
+but with additional positions present in <code>map</code>. See <code>calc_genoprob()</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>calc_genoprob()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">iron &lt;- read_cross2(system.file("extdata", "iron.zip", package="qtl2"))
+
+probs &lt;- calc_genoprob(iron, iron$gmap, error_prob=0.002)
+
+# you generally wouldn't want to do this, but this is an illustration
+map &lt;- insert_pseudomarkers(iron$gmap, step=1)
+probs_map &lt;- interp_genoprob(probs, map)
+
+</code></pre>
+
+
+</div>

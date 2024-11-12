@@ -1,0 +1,80 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>calc_covs</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Calculate Vg and Ve from d-variate phenotype and kinship</h2>
+
+<h3>Description</h3>
+
+<p>Calculate Vg and Ve from d-variate phenotype and kinship
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">calc_covs(
+  pheno,
+  kinship,
+  X1pre = rep(1, nrow(kinship)),
+  max_iter = 1e+06,
+  max_prec = 1/1e+08,
+  covariates = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>pheno</code></td>
+<td>
+<p>n by d matrix of phenotypes</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>kinship</code></td>
+<td>
+<p>a kinship matrix, n by n</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>X1pre</code></td>
+<td>
+<p>n by c design matrix. c = 1 to ignore genotypes</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>max_iter</code></td>
+<td>
+<p>maximum number of EM iterations</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>max_prec</code></td>
+<td>
+<p>maximum precision for stepwise increments in EM algorithm</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>covariates</code></td>
+<td>
+<p>a n by n.cov matrix of numeric covariates</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>a list with 2 named components, Vg and Ve. Each is a d by d covariance matrix.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">calc_covs(pheno = matrix(data = rnorm(100), nrow = 50, ncol = 2), kinship = diag(50))
+</code></pre>
+
+
+</div>

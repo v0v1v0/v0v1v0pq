@@ -1,0 +1,104 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>Double Descent</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Double Descent Phenomenon</h2>
+
+<h3>Description</h3>
+
+<p>Belkin and others have shown that some machine learning algorithms
+exhibit surprising behavior when in overfitting settings.  The classic
+U-shape of mean loss plotted against model complexity may be followed by
+a surprise second "mini-U."
+</p>
+<p>Alternatively, one might keep the model complexity fixed while varying
+the number of data points n, including over a region in which n is
+smaller than the complexity value of the model.  The surprise here is
+that mean loss may actually increase with n in the overfitting region.
+</p>
+<p>The function <code>doubleD</code> facilitates easy exploration of this
+phenomenon.  </p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">doubleD(qeFtnCall,xPts,nReps,makeDummies=NULL,classif=FALSE)</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>qeFtnCall</code></td>
+<td>
+<p>Quoted string; somewhere should include 'xPts[i]'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xPts</code></td>
+<td>
+<p>Range of values to be used in the experiments, e.g.
+a vector of degrees for polynomial models.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nReps</code></td>
+<td>
+<p>Number of repetitions for each experiment, typically the
+number in the holdout set.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>makeDummies</code></td>
+<td>
+<p>If non-NULL, call <code>regtools::factorsToDummies</code>
+on the dataset of this name.  This avoids the problem of some
+levels of a factor appearing in the holdout set but not the
+training set.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>classif</code></td>
+<td>
+<p>Set TRUE if this is a classification problem.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The function will run the code in <code>qeFtnCall</code> <code>nreps</code>
+times for each level specified in <code>xPts</code>, recording the test and
+training error in each case.  So, for each level, we will have a mean
+test and training error.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Each call in <code>xPts</code> results in one line in the return value
+of <code>doubleD</code>.  The return matrix can then be plotted, using the
+generic <code>plot.doubleD</code>.  Mean test (red) and training (blue) accuracy 
+will be plotted against <code>xPts</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Norm Matloff
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">   ## Not run: 
+      data(mlb1)
+      hw &lt;- mlb1[,2:3]
+      doubleD('qePolyLin(hw,"Weight",deg=xPts[i])',1:20,250)
+   
+## End(Not run)
+</code></pre>
+
+
+</div>

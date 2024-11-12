@@ -1,0 +1,119 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>summary_scan1perm</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Summarize scan1perm results</h2>
+
+<h3>Description</h3>
+
+<p>Summarize permutation test results from <code>scan1perm()</code>, as significance thresholds.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">summary_scan1perm(object, alpha = 0.05)
+
+## S3 method for class 'scan1perm'
+summary(object, alpha = 0.05, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>An object of class <code>"scanoneperm"</code>, as output by <code>scan1perm()</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>alpha</code></td>
+<td>
+<p>Vector of significance levels</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Ignored</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>In the case of X-chromosome-specific permutations (when
+<code>scan1perm()</code> was run with <code>perm_Xsp=TRUE</code>, we
+follow the approach of Broman et al. (2006) to get separate
+thresholds for the autosomes and X chromosome, using
+</p>
+<p>Let <code class="reqn">L_A</code> and <code class="reqn">L_X</code> be total the genetic lengths of the
+autosomes and X chromosome, respectively, and let <code class="reqn">L_T = L_A +
+L_X</code> Then in place of <code class="reqn">\alpha</code>, we use </p>
+<p style="text-align: center;"><code class="reqn">\alpha_A =
+1 - (1-\alpha)^{L_A/L_T}</code>
+</p>
+<p> as
+the significance level for the autosomes and </p>
+<p style="text-align: center;"><code class="reqn">\alpha_X = 1 -
+(1-\alpha)^{L_X/L_T}</code>
+</p>
+<p> as the
+significance level for the X chromosome.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>summary.scan1perm</code>. If
+<code>scan1perm()</code> was run with <code>perm_Xsp=FALSE</code>, this is
+a single matrix of significance thresholds, with rows being
+signicance levels and columns being the columns in the input. If
+<code>scan1perm()</code> was run with <code>perm_Xsp=TRUE</code>, this is
+a list of two matrices, with the significance thresholds for the
+autosomes and X chromosome, respectively.
+</p>
+<p>The result has an attribute <code>"n_perm"</code> that has the numbers of
+permutation replicates (either a matrix or a list of two matrices).
+</p>
+
+
+<h3>References</h3>
+
+<p>Broman KW, Sen Ś, Owens SE, Manichaikul A, Southard-Smith EM,
+Churchill GA (2006) The X chromosome in quantitative trait locus
+mapping. Genetics 174:2151-2158
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># read data
+iron &lt;- read_cross2(system.file("extdata", "iron.zip", package="qtl2"))
+
+
+# insert pseudomarkers into map
+map &lt;- insert_pseudomarkers(iron$gmap, step=1)
+
+# calculate genotype probabilities
+probs &lt;- calc_genoprob(iron, map, error_prob=0.002)
+
+# grab phenotypes and covariates; ensure that covariates have names attribute
+pheno &lt;- iron$pheno
+covar &lt;- match(iron$covar$sex, c("f", "m")) # make numeric
+names(covar) &lt;- rownames(iron$covar)
+Xcovar &lt;- get_x_covar(iron)
+
+# permutations with genome scan (just 3 replicates, for illustration)
+operm &lt;- scan1perm(probs, pheno, addcovar=covar, Xcovar=Xcovar,
+                   n_perm=3)
+
+summary(operm, alpha=c(0.20, 0.05))
+
+</code></pre>
+
+
+</div>

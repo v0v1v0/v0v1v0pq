@@ -1,0 +1,73 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>growth.drFitModel</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Fit various models to response vs. concentration data of a single sample to determine the EC50.</h2>
+
+<h3>Description</h3>
+
+<p>Fit various models to response vs. concentration data of a single sample to determine the EC50.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">growth.drFitModel(conc, test, drID = "undefined", control = growth.control())
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>conc</code></td>
+<td>
+<p>Vector of concentration values.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>test</code></td>
+<td>
+<p>Vector of response parameter values of the same length as <code>conc</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>drID</code></td>
+<td>
+<p>(Character) The name of the analyzed condition</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>control</code></td>
+<td>
+<p>A <code>grofit.control</code> object created with <code>growth.control</code>, defining relevant fitting options.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A <code>drFitModel</code> object.
+</p>
+
+
+<h3>References</h3>
+
+<p>Christian Ritz, Florent Baty, Jens C. Streibig, Daniel Gerhard (2015). <em>Dose-Response Analysis Using R</em>. PLoS ONE 10(12): e0146021. DOI: 10.1371/journal.pone.0146021
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">conc &lt;- c(0, rev(unlist(lapply(1:18, function(x) 10*(2/3)^x))),10)
+response &lt;- c(1/(1+exp(-0.7*(4-conc[-20])))+rnorm(19)/50, 0)
+
+TestRun &lt;- growth.drFitModel(conc, response, drID = 'test')
+
+print(summary(TestRun))
+plot(TestRun)
+</code></pre>
+
+
+</div>

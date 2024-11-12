@@ -1,0 +1,51 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>.arrangeViewports</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Determine optimal plotting arrangement of plot objects</h2>
+
+<h3>Description</h3>
+
+<p>Internal function. Assesses the device geometry, the map geometry, and the
+number of spatial objects to plot and builds an object that will be used by
+the Plot functions to plot them efficiently.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">.arrangeViewports(sPlot, arr = NULL)
+
+## S4 method for signature '.quickPlot'
+.arrangeViewports(sPlot, arr = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>sPlot</code></td>
+<td>
+<p>A <code>.quickPlot</code> object.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>arr</code></td>
+<td>
+<p>A vector of length 2 indicating a desired arrangement of plot
+areas indicating number of rows, number of columns.
+Default NULL, meaning
+let Plot function do it automatically.</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Eliot McIntire
+</p>
+
+
+</div>

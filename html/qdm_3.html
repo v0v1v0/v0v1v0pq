@@ -1,0 +1,73 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>persp.qdm</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Perspective Plot for Predictions of Quadrilateral Dissimilarity Model</h2>
+
+<h3>Description</h3>
+
+<p>Draws a perspective plot of the predictions of a Quadrilateral
+Dissimilarity Model fitted with <code>qdm</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'qdm'
+persp(x, col = "gray", zlim = 0:1, phi = 10, theta = -25,
+      xlab = "OA1", ylab = "OA2", zlab = "Predictions", ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>object of class 'qdm'. See <code>qdm</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>col</code></td>
+<td>
+<p>the color(s) of the surface facets.  Transparent colours are
+ignored. This is recycled to the (nx-1)(ny-1) facets.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>zlim</code></td>
+<td>
+<p>Defaults to zlim=c(0,1) since probabilities are plotted.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>theta, phi</code></td>
+<td>
+<p>angles defining the viewing direction. 'theta' gives the
+azimuthal direction and 'phi' the colatitude.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xlab, ylab, zlab</code></td>
+<td>
+<p>titles for the axes. N.B. These must be character
+strings; expressions are not accepted. Numbers will be
+coerced to character strings.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>additional graphical parameters (see 'par').</p>
+</td>
+</tr>
+</table>
+<h3>See Also</h3>
+
+<p><code>qdm</code>, <code>persp</code></p>
+
+
+</div>

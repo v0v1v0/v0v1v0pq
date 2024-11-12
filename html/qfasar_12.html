@@ -1,0 +1,427 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>est_diet</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Estimate predator diet composition</h2>
+
+<h3>Description</h3>
+
+<p><code>est_diet</code> estimates the diet of one or more predators.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">est_diet(
+  pred_sigs,
+  pred_uniq_types,
+  pred_loc,
+  prey_sigs,
+  prey_uniq_types,
+  prey_loc,
+  cc,
+  space = 1,
+  dist_meas = 1,
+  gamma = 1,
+  ind_boot = 100,
+  mean_meth = 1,
+  var_meth = 1,
+  mean_boot = 100
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>pred_sigs</code></td>
+<td>
+<p>A vector or matrix of predator signatures ready for
+analysis, intended to be the object <code>sig_scale</code> returned by a call to
+the function <code>prep_sig</code> with the predator data frame.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pred_uniq_types</code></td>
+<td>
+<p>A character vector of the unique predator types,
+intended to be the object <code>uniq_types</code> returned by a call to the
+function <code>prep_sig</code> with the predator data frame.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pred_loc</code></td>
+<td>
+<p>A vector or matrix giving the first and last locations of the
+signatures of each predator type within <code>pred_sigs</code>, intended to be
+the object <code>loc</code> returned by a call to the function
+<code>prep_sig</code> with the predator data frame.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>prey_sigs</code></td>
+<td>
+<p>A matrix of prey signatures ready for analysis, intended to
+be the object <code>sig_scale</code> returned by a call to the function
+<code>prep_sig</code> with the prey data frame or the object
+<code>sig_part</code> returned by <code>make_prey_part</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>prey_uniq_types</code></td>
+<td>
+<p>A character vector of the unique prey types, intended
+to be the object <code>uniq_types</code> returned by a call to the function
+<code>prep_sig</code> with the prey data frame.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>prey_loc</code></td>
+<td>
+<p>A matrix giving the first and last locations of the
+signatures of each prey type within <code>prey_sigs</code>, intended to be the
+object <code>loc</code> returned by a call to the function
+<code>prep_sig</code> with the prey data frame.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cc</code></td>
+<td>
+<p>A vector of calibration coefficients, intended to be a subset of
+the object <code>cc</code> returned by the function <code>prep_fa</code> or the
+object <code>cc</code> returned by the function <code>cc_aug</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>space</code></td>
+<td>
+<p>An integer indicator of the estimation space to be used. Default
+value 1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dist_meas</code></td>
+<td>
+<p>An integer indicator of the distance measure to be used.
+Default value 1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gamma</code></td>
+<td>
+<p>The power parameter of the chi-square distance measure. Default
+value 1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ind_boot</code></td>
+<td>
+<p>The number of bootstrap replications to use in the estimation
+of the variance of an individual predator's diet. Default value 100.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mean_meth</code></td>
+<td>
+<p>An integer indicator of the estimation method for mean diet.
+Default value 1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>var_meth</code></td>
+<td>
+<p>An integer indicator of the estimation method for the
+variance of mean diet. Default value 1 (bootstrap estimator).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mean_boot</code></td>
+<td>
+<p>The number of bootstrap replications to use, needed only if
+the bootstrap method of estimating the variance of meat diet is selected
+(var_meth == 1). Default value 100.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list containing the following elements: </p>
+
+<dl>
+<dt>pred_sigs</dt>
+<dd>
+<p>A numeric matrix of predator signatures, potentially
+transformed to the prey space.</p>
+</dd>
+<dt>prey_sigs</dt>
+<dd>
+<p>A numeric matrix of prey signatures, potentially
+transformed to the predator space.</p>
+</dd>
+<dt>mean_sigs</dt>
+<dd>
+<p>A numeric matrix of mean prey-type signatures, potentially
+transformed to the predator space.</p>
+</dd>
+<dt>est_ind</dt>
+<dd>
+<p>A numeric matrix of the estimated diet compositions of
+individual predators.</p>
+</dd>
+<dt>conv</dt>
+<dd>
+<p>A logical vector indicating whether the optimization function
+successfully converged.</p>
+</dd>
+<dt>obj_func</dt>
+<dd>
+<p>A numeric vector of the values of the objective function at
+each predator's estimated diet.</p>
+</dd>
+<dt>mod_sigs</dt>
+<dd>
+<p>A numeric matrix of the modeled signature of each predator
+at its estimated diet.</p>
+</dd>
+<dt>var_ind</dt>
+<dd>
+<p>A numeric array containing the estimated variance matrix for
+the estimated mean diet of each predator.</p>
+</dd>
+<dt>est_mean</dt>
+<dd>
+<p>A numeric matrix containing the estimated mean diet of each
+predator type.</p>
+</dd>
+<dt>conv_mean</dt>
+<dd>
+<p>A logical vector indicating whether the estimated mean
+diet of each predator type is based on at least one diet estimate that
+converged.</p>
+</dd>
+<dt>var_mean</dt>
+<dd>
+<p>A numeric array containing the estimated variance matrix
+for the estimated mean diet of each predator type.</p>
+</dd>
+<dt>err_code</dt>
+<dd>
+<p>An integer error code (0 if no error is detected).</p>
+</dd>
+<dt>err_message</dt>
+<dd>
+<p>A string contains a brief summary of the execution.</p>
+</dd>
+</dl>
+<h3>Details</h3>
+
+<p><code>est_diet</code> estimates the diet of one or more predators.  It implements a
+variety of estimation options, and is therefore one of the more complicated
+functions in <code>qfasar</code>.  Please read the following information and the
+Diet Estimation section of the vignette for a description of the options.
+</p>
+<p>The objects passed via the arguments <code>pred_sig</code>, <code>pred_uniq_types</code>,
+and <code>pred_loc</code> are presumed to be the objects <code>sig_scale</code>,
+<code>uniq_types</code>, and <code>loc</code>, respectively, returned by a call to the
+function <code>prep_sig</code> with the predator data frame.
+</p>
+<p>The objects passed via the arguments <code>prey_sig</code>, <code>prey_uniq_types</code>,
+and <code>prey_loc</code> are presumed to be the objects <code>sig_scale</code>,
+<code>uniq_types</code>, and <code>loc</code>, respectively, returned by a call to the
+function <code>prep_sig</code> with the prey data frame.
+</p>
+<p>The object passed via the argument <code>cc</code> is presumed to be a subset of
+the object <code>cc</code> returned by a call to the function
+<code>prep_fa</code> with the fatty acid suite data frame. Use the logical
+vector <code>use</code> returned by <code>prep_fa</code> to subset the list of
+all calibration coefficients to the suite to be used for diet estimation.
+Alternatively, if signature augmentation is used, pass the object <code>cc</code>
+returned by the funtion <code>cc_aug</code>.
+</p>
+<p>Bromaghin et al. (2015) introduced the terms <strong>prey space</strong> and
+<strong>predator space</strong>. These terms refer to the simplexes in which the prey
+and predator signatures reside. The spaces differ due to predator metabolism
+of ingested prey tissue and the resulting modification of signature
+proportions. The calibration coefficients <code>cc</code> provide a one-to-one
+mapping or transformation between the prey and predator spaces.  Diet
+estimation can be performed in either space. Iverson et al. (2004) used
+calibration coefficients to map predator signatures to the prey space, while
+Bromaghin et al. (2013) took the opposite approach and mapped prey signatures
+to the predator space. Simulation work has not revealed any strong reason
+to prefer one space over the other (Bromaghin et al. 2015). However, be aware
+that some distance measures will produce different diet estimates in the two
+spaces.  Please see the vignette for more information.
+</p>
+<p>Estimation space options:
+</p>
+
+<ul>
+<li>
+<p> space == 1 Estimation in the predator space, the default value.
+</p>
+</li>
+<li>
+<p> space == 2 Estimation in the prey space.
+</p>
+</li>
+</ul>
+<p><code>qfasar</code> implements three distance measures that have been used by QFASA
+practitioners and researchers: Aitchison, Kullback-Leibler, and chi-square.
+The argument <code>gamma</code> is a parameter of the chi-square distance measure
+and its value must be strictly greater than 0 and less than or equal to 1.
+The distance measure options are:
+</p>
+
+<ul>
+<li>
+<p> dist_meas == 1 yields the Aitchison distance measure (Stewart et al.
+2014).  This is the default value.
+</p>
+</li>
+<li>
+<p> dist_meas == 2 yields the Kullback-Leibler distance measure of
+Iverson et al. (2004).
+</p>
+</li>
+<li>
+<p> dist_meas == 3 yields the chi-square distance measure (Stewart et
+al. 2014).
+</p>
+</li>
+</ul>
+<p>Please refer to the vignette for additional information about distance
+measures.
+</p>
+<p>The covariance matrix of each estimated diet can be estimated by bootstrap
+sampling the prey library.  The signatures of each prey type are
+independently sampled with replacement and the predator diet is
+estimated with the bootstrapped library.  This is replicated <code>ind_boot</code>
+times and the covariance matrix is estimated from the replicated estimates
+(Beck et al. 2007, Bromaghin et al. 2015). If you do not wish to estimate
+variances for the individual diet estimates, pass a bootstrap sample size
+of 0 via the argument ind_boot.
+</p>
+<p><code>qfasar</code> implements two methods of estimating the mean diet of each
+class of predator.  The first is the empirical mean of the estimated diets.
+In the second method, called the <strong>parameterized mean</strong> method, the
+model is parameterized with a single vector of diet proportions common to all
+predators and mean diet is estimated by minimizing the distance between the
+signature modeled from the mean diet proportions and each predator's
+observed signature, summed over all predators.  The parameterized mean method
+has not yet been thoroughly tested and its inclusion is intended to
+facilitate future research.  Our limited and unpublished work with the
+parameterized mean estimator suggests it may perform well when predator
+signatures are homogeneous, but may be more sensitive to the presence of
+predators with quite different signatures than the empirical estimator.
+The options for <code>mean_meth</code> are:
+</p>
+
+<ul>
+<li>
+<p> mean_meth == 0 skips estimation of mean diet.
+</p>
+</li>
+<li>
+<p> mean_meth == 1 yields the empirical estimate of mean diet.  This is the
+default value.
+</p>
+</li>
+<li>
+<p> mean_meth == 2 yields the parameterized mean estimate of mean diet.
+</p>
+</li>
+</ul>
+<p><code>qfasar</code> implements two methods of estimating the variance of mean diet
+estimates, the variance estimator of Beck et al. (2007) and a bootstrap
+estimator, controlled by the argument <code>var_meth</code>.  The bootstrap
+estimator draws independent samples of each prey type to form a bootstrap
+prey library and a random sample of each predator type, with sample sizes
+equal to the observed sample sizes.  Mean diet is estimated using the method
+indicated by <code>mean_meth</code>.  The argument <code>mean_boot</code> controls the
+number of times this is repeated, and the replications are used to estimate
+the covariance matrix for each predator type. Unpublished work suggests
+that the bootstrap estimator is more reliable. Note that if using the
+parameterized-mean estimator for mean diet composition, the Beck estimator
+is not appropriate.  The options for
+<code>var_meth</code> are:
+</p>
+
+<ul>
+<li>
+<p> var_meth == 0 skips variance estimation for mean diets.
+</p>
+</li>
+<li>
+<p> var_meth == 1 yields the bootstrap estimator.  This is the default
+value.
+</p>
+</li>
+<li>
+<p> var_meth == 2 yields the Beck et al. (2007) estimator.
+</p>
+</li>
+</ul>
+<p>NOTE: The numerical optimization and bootstrap sampling performed by
+<code>est_diet</code> are numerically intensive and can cause long runs times.
+Patience is advised!  The primary factors causing slow execution are the
+number of predator signatures, the number of predator and prey types, and
+bootstrap sample sizes.
+</p>
+
+
+<h3>References</h3>
+
+<p>Beck, C.A., S.J. Iverson, W.D. Bowen, and W. Blanchard. 2007. Sex differences
+in grey seal diet reflect seasonal variation in foraging behaviour and
+reproductive espenditure: evidence from quantitative fatty acid signature
+analysis. <em>Journal of Animal Ecology</em> 76:490-502.
+</p>
+<p>Bromaghin, J.F., M.M. Lance, E.W. Elliott, S.J. Jeffries, A.
+Acevedo-Gutierrez, and J.M. Kennish. 2013. New insights into the diets of
+harbor seals (<em>Phoca vitulina</em>) in the Salish Sea revealed by analysis
+of fatty acid signatures. <em>Fishery Bulletin</em> 111:13-26.
+</p>
+<p>Bromaghin, J.F., K.D. Rode, S.M. Budge, and G.W. Thiemann. 2015. Distance
+measures and optimization spaces in quantitative fatty acid signature
+analysis. <em>Ecology and Evolution</em> 5:1249-1262.
+</p>
+<p>Iverson, S.J., C. Field, W.D. Bowen, and W. Blanchard. 2004.
+Quantitative fatty acid signature analysis: A new method of
+estimating predator diets. <em>Ecological Monographs</em> 74:211-235.
+</p>
+<p>Stewart, C., S. Iverson, and C. Field. 2014. Testing for a change in diet
+using fatty acid signatures. <em>Environmental and Ecological Statistics</em>
+21:775-792.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">est_diet(pred_sigs = matrix(c(0.05, 0.10, 0.30, 0.55,
+                              0.04, 0.11, 0.29, 0.56,
+                              0.10, 0.06, 0.35, 0.49,
+                              0.05, 0.15, 0.35, 0.45), ncol=4),
+         pred_uniq_types = c("Pred_1", "Pred_2"),
+         pred_loc = matrix(c(1, 3, 2, 4), ncol=2),
+         prey_sigs = matrix(c(0.06, 0.09, 0.31, 0.54,
+                              0.05, 0.09, 0.30, 0.56,
+                              0.03, 0.10, 0.30, 0.57,
+                              0.08, 0.07, 0.30, 0.55,
+                              0.09, 0.05, 0.33, 0.53,
+                              0.09, 0.06, 0.34, 0.51,
+                              0.09, 0.07, 0.34, 0.50,
+                              0.08, 0.11, 0.35, 0.46,
+                              0.06, 0.14, 0.36, 0.44), ncol=9),
+         prey_uniq_types = c("Prey_1", "Prey_2", "Prey_3"),
+         prey_loc = matrix(c(1, 4, 7, 3, 6, 9), ncol=2),
+         cc = c(0.75, 1.00, 1.50, 1.15),
+         space = 1, dist_meas = 1, ind_boot = 2,
+         mean_meth = 0)
+
+</code></pre>
+
+
+</div>

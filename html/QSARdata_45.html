@@ -1,0 +1,73 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>PLD</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Drug-Induced Phospholipidosis Data</h2>
+
+<h3>Description</h3>
+
+<p>These data were compiled and described by Goracci et al. (2013). The data set consists compounds that were designated as phospholipidosis inducers or non-inducers. The structures and outcomes were obtained from the supporting information at <a href="http://pubs.acs.org/doi/abs/10.1021/ci400113t">http://pubs.acs.org/doi/abs/10.1021/ci400113t</a>. These data are from their curated database although some compounds failed in descriptor calculations so the total sample size here is 324 compounds (instead of 331).
+</p>
+<p>The package contains none sets of molecular descriptors: atom pair distances, Dragon descriptors (<a href="http://www.talete.mi.it/products/dragon_plus.htm">http://www.talete.mi.it/products/dragon_plus.htm</a>), LCALC descriptors , PipelinePilot fingerprints (<a href="http://accelrys.com/products/pipeline-pilot/">http://accelrys.com/products/pipeline-pilot/</a>), QuickProp descriptors (<a href="http://www.chem.ac.ru/Chemistry/Soft/QIKPROP.en.html">http://www.chem.ac.ru/Chemistry/Soft/QIKPROP.en.html</a>) and VolSurf descriptors (<a href="http://www.moldiscovery.com/soft_volsurf.php">http://www.moldiscovery.com/soft_volsurf.php</a>).
+</p>
+<p>For fingerprints, the 500 most variable bits were selected whenever possible.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">data(PLD)</code></pre>
+
+
+<h3>Format</h3>
+
+<p>The data consist of several data frames. The first column of the descriptor data frames is called "Molecule" representing the compounds.
+</p>
+
+<dl>
+<dt>PLD_AtomPair</dt>
+<dd>
+<p>Atom pair descriptors</p>
+</dd>
+<dt>PLD_Dragon</dt>
+<dd>
+<p>Dragon descriptors (<a href="http://www.talete.mi.it/products/dragon_plus.htm">http://www.talete.mi.it/products/dragon_plus.htm</a>)</p>
+</dd> 
+<dt>PLD_PipelinePilot_FP</dt>
+<dd>
+<p>PipelinePilot fingerprints (<a href="http://accelrys.com/products/pipeline-pilot/">http://accelrys.com/products/pipeline-pilot/</a>)</p>
+</dd>
+<dt>PLD_QuickProp</dt>
+<dd>
+<p>QuickProp descriptors</p>
+</dd>
+<dt>PLD_VolSurfPlus</dt>
+<dd>
+<p>VolSurf descriptors</p>
+</dd>
+<dt>PLD_LCALC</dt>
+<dd>
+<p>LCALC descriptors</p>
+</dd>
+<dt>PLD_Outcome</dt>
+<dd>
+<p>a data frame with columns for the molecule name and the outcome (for merging)</p>
+</dd>
+</dl>
+<h3>References</h3>
+
+<p>Goracci, L., Ceccarelli, M., Bonelli, D., &amp; Cruciani, G. (2013). Modeling Phospholipidosis Induction: Reliability and Warnings. Journal of Chemical Information and Modeling, 53(6), 1436-1446. doi:10.1021/ci400113t
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(PLD)
+head(PLD_Outcome)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,214 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>quickpsy_</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Fits psychometric functions</h2>
+
+<h3>Description</h3>
+
+<p><code>quickpsy_</code> is the standard evaluation SE function associated
+to the non-standard evaluation NSE function <code>quickpsy</code>.
+<a href="http://adv-r.had.co.nz/Computing-on-the-language.html">SE functions can be more easily called from other functions.</a>
+In SE functions, you need to quote the names of the variables.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">quickpsy_(d, x = "x", k = "k", n = "n", grouping, random, within, between,
+  xmin = NULL, xmax = NULL, log = FALSE, fun = "cum_normal_fun",
+  parini = NULL, guess = 0, lapses = 0, prob = NULL, thresholds = T,
+  bootstrap = "parametric", B = 100, ci = 0.95, optimization = "optim")
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>d</code></td>
+<td>
+<p>Data frame with the results of a Yes-No experiment to fit.
+It should have a
+<a href="http://vita.had.co.nz/papers/tidy-data.html">tidy</a> form in which
+each column corresponds to a variable and each row is an observation.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>Name of the explanatory variable.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>k</code></td>
+<td>
+<p>Name of the response variable. The response variable could be the
+number of trials in which a yes-type response was given or a vector of 0s
+(or -1s; no-type response) and 1s (yes-type response) indicating the
+response on each trial.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p>Only necessary if <code>k</code> refers to the number of trials
+in which a yes-type response was given. It corresponds to the name of the
+variable indicating the total number of trials.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>grouping</code></td>
+<td>
+<p>Name of the grouping variables. It should be specified as
+<code>grouping = .(variable_name1, variable_name2)</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>random</code></td>
+<td>
+<p>Name of the random variable. It should be specified as
+<code>random = .(variable_name1, variable_name2)</code>. In the current version
+of quickpsy, the random variable has not special treatment. It does the
+same as <code>grouping</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>within</code></td>
+<td>
+<p>Name of the within variable. It should be specified as
+<code>within = .(variable_name1, variable_name2)</code>. In the current version
+of quickpsy, the within variable has not special treatment. It does the
+same as <code>grouping</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>between</code></td>
+<td>
+<p>Name of the between variable.  It should be specified as
+<code>between = .(variable_name1, variable_name2)</code>. In the current version
+of quickpsy, the between variable has not special treatment. It does the
+same as <code>grouping</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xmin</code></td>
+<td>
+<p>Minimum value of the explanatory variable for which the curves
+should be calculated (the default is the minimum value of the explanatory
+variable).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xmax</code></td>
+<td>
+<p>Maximum value of the explanatory variable for which the curves
+should be calculated (the default is the maximum value of the explanatory
+variable).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>log</code></td>
+<td>
+<p>If <code>TRUE</code>, the logarithm of the explanatory variable is used
+to fit the curves (default is <code>FALSE</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fun</code></td>
+<td>
+<p>Name of the shape of the curve to fit. It could be a predefined
+shape (<code>cum_normal_fun</code>, <code>logistic_fun</code>, <code>weibull_fun</code>)
+or the name of a function introduced by the user
+(default is <code>cum_normal_fun</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>parini</code></td>
+<td>
+<p>Initial parameters. quickpsy calculates default
+initial parameters using probit analysis, but it is also possible to
+specify a vector of initial parameters or a list of the form
+<code>list(c(par1min, par1max), c(par2min, par2max))</code> to
+constraint the lower and upper bounds of the parameters (when
+<code>optimization = 'DE'</code>, parini should be also a list).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>guess</code></td>
+<td>
+<p>Value indicating the guess rate <code class="reqn">\gamma</code> (default is 0). If
+<code>TRUE</code>, the guess rate is estimated as the i + 1 parameter where
+i corresponds to the number of parameters of <code>fun</code>. If, for
+example, <code>fun</code> is a predefined shape with parameters p1 and p2,
+then the guess rate corresponds to parameter p3.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lapses</code></td>
+<td>
+<p>Value indicating the lapse rate <code class="reqn">\lambda</code> (default is 0).
+If <code>TRUE</code>, the lapse rate is estimated as the i + 1 parameter where
+i corresponds to the number of parameters of <code>fun</code> plus one if
+the guess rate is estimated. If, for example, <code>fun</code> is a
+predefined shape with parameters p1 and p2,
+then the lapse rate corresponds to parameter p3. If the guess rate is also
+estimated, p3 will be the guess rate and p4 the lapse rate.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>prob</code></td>
+<td>
+<p>Probability to calculate the threshold (default is
+<code>guess + .5 * (1 - guess)</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>thresholds</code></td>
+<td>
+<p>If <code>FALSE</code>, thresholds are not calculated
+(default is <code>TRUE</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bootstrap</code></td>
+<td>
+<p><code>'parametric'</code> performs parametric bootstrap;
+<code>'nonparametric'</code> performs non-parametric bootstrap;
+<code>'none'</code> does not perform bootstrap (default is <code>'parametric'</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>B</code></td>
+<td>
+<p>number of bootstrap samples (default is 100 ONLY).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ci</code></td>
+<td>
+<p>Confidence intervals level based on percentiles (default is .95).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>optimization</code></td>
+<td>
+<p>Method used for optimizization. The default is 'optim' which uses
+the <code>optim</code> function. It can also be <code>'DE'</code> which uses de function
+<code>DEoptim</code> from the package DEoptim, which performs differential
+evolution optimization. By using <code>DEoptim</code>, it is less likely that the
+optimization finishes in a local minimum, but the optimization is slow.
+When <code>'DE'</code> is used, <code>parini</code> should be specified as a list with
+lower and upper bounds.</p>
+</td>
+</tr>
+</table>
+<h3>See Also</h3>
+
+<p><code>quickpsy</code>
+</p>
+
+
+</div>

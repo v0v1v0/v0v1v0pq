@@ -1,0 +1,109 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>mult.norm</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2> Tests for Multivariate Normality</h2>
+
+<h3>Description</h3>
+
+<p>Returns tests for multivariate Skewness and kurtosis as well as Mahalanobis' D-squared.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">mult.norm(x, s = var(x), chicrit = 0.005)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p> A multivariate data object as in columns from a data.frame</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>s</code></td>
+<td>
+<p> Covariance matrix of x (not necessary to specify) </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>chicrit</code></td>
+<td>
+<p> p-value corresponding to critical value of chi-square distribution for detecting multivariate outliers</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Tests for multivariate skewness and kurtosis were adapted from SAS macros in Khatree &amp; Naik (1999). They attribute the formula to Mardia (1970; 1974). Mahalanobis' Dsq is based on Mahalanobis (1936). Dsq is multivariate analogue to z scores, but based on the chi-sq distribution rather than normal distribution. Once can specify at what level one wishes to define multivariate outliers (e.g., .005, .001)
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list containing the following:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>mult.test </code></td>
+<td>
+<p>Values for multivariate skeweness and kurtosis and their significance</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Dsq </code></td>
+<td>
+<p>Mahalanobis' distances</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>CriticalDsq </code></td>
+<td>
+<p>Critical value of chi-sq distribution based on df and specified critical level</p>
+</td>
+</tr>
+</table>
+<h3>Note</h3>
+
+<p> Mahalanobis is returned without regard to NAs (missing observations) and is useful only in detecting IF multivariate outliers are present. If one wishes to determine which cases are multivariate outliers and if one has missing observations, <code>mahalanobis</code> is perhaps a better choice. <br></p>
+<p>These statistics are known to be susceptible to sample size (as in their univariate counterparts). One should always use graphical methods such as <code>qqplot</code> in addition to statistical.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Thomas D. Fletcher <a href="mailto:t.d.fletcher05@gmail.com">t.d.fletcher05@gmail.com</a> </p>
+
+
+<h3>References</h3>
+
+ 
+<p>Khattree, R. &amp; Naik, D. N. (1999). <em>Applied multivariate statistics with SAS software (2nd ed.).</em> Cary, NC: SAS Institute Inc.<br></p>
+
+
+<h3>See Also</h3>
+
+ <p><code>mahalanobis</code>, <code>qqplot</code> </p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+# assess the multivariate normality of variables 4,5,6 in USJudgeRatings
+data(USJudgeRatings)	
+mn &lt;- mult.norm(USJudgeRatings[,4:6],chicrit=.001)
+mn
+
+mn$Dsq &gt; mn$CriticalDsq
+
+</code></pre>
+
+
+</div>

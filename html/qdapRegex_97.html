@@ -1,0 +1,175 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>rm_endmark</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Remove/Replace/Extract Endmarks</h2>
+
+<h3>Description</h3>
+
+<p>Remove/replace/extract endmarks from a string.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">rm_endmark(
+  text.var,
+  trim = !extract,
+  clean = TRUE,
+  pattern = "@rm_endmark",
+  replacement = "",
+  extract = FALSE,
+  dictionary = getOption("regex.library"),
+  ...
+)
+
+ex_endmark(
+  text.var,
+  trim = !extract,
+  clean = TRUE,
+  pattern = "@rm_endmark",
+  replacement = "",
+  extract = TRUE,
+  dictionary = getOption("regex.library"),
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>text.var</code></td>
+<td>
+<p>The text variable.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>trim</code></td>
+<td>
+<p>logical.  If <code>TRUE</code> removes leading and trailing white 
+spaces.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>clean</code></td>
+<td>
+<p>trim logical.  If <code>TRUE</code> extra white spaces and escaped 
+character will be removed.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pattern</code></td>
+<td>
+<p>A character string containing a regular expression (or 
+character string for <code>fixed = TRUE</code>) to be matched in the given 
+character vector.  Default, <code>@rm_endmark</code> uses the 
+<code>rm_dollar</code> regex from the regular expression dictionary from 
+the <code>dictionary</code> argument.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>replacement</code></td>
+<td>
+<p>Replacement for matched <code>pattern</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>extract</code></td>
+<td>
+<p>logical.  If <code>TRUE</code> the endmark strings are extracted into a 
+list of vectors.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dictionary</code></td>
+<td>
+<p>A dictionary of canned regular expressions to search within 
+if <code>pattern</code> begins with <code>"@rm_"</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Other arguments passed to <code>gsub</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The default regular expression used by <code>rm_endmark</code> finds 
+endmark punctuation used in the <span class="pkg">qdap</span> package; this includes ! . ? * AND
+|.  This behavior can be altered (to ; AND : or to use just ! . AND ?) by 
+using a secondary regular expression from the 
+<code>regex_usa</code> data (or other dictionary) via 
+(<code>pattern = "@rm_endmark2"</code> or <code>pattern = "@rm_endmark3"</code>). See 
+<b>Examples</b> for example usage.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns a character string with endmarks removed.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>gsub</code>,
+<code>stri_extract_all_regex</code>
+</p>
+<p>Other rm_ functions: 
+<code>rm_abbreviation()</code>,
+<code>rm_between()</code>,
+<code>rm_bracket()</code>,
+<code>rm_caps_phrase()</code>,
+<code>rm_caps()</code>,
+<code>rm_citation_tex()</code>,
+<code>rm_citation()</code>,
+<code>rm_city_state_zip()</code>,
+<code>rm_city_state()</code>,
+<code>rm_date()</code>,
+<code>rm_default()</code>,
+<code>rm_dollar()</code>,
+<code>rm_email()</code>,
+<code>rm_emoticon()</code>,
+<code>rm_hash()</code>,
+<code>rm_nchar_words()</code>,
+<code>rm_non_ascii()</code>,
+<code>rm_non_words()</code>,
+<code>rm_number()</code>,
+<code>rm_percent()</code>,
+<code>rm_phone()</code>,
+<code>rm_postal_code()</code>,
+<code>rm_repeated_characters()</code>,
+<code>rm_repeated_phrases()</code>,
+<code>rm_repeated_words()</code>,
+<code>rm_tag()</code>,
+<code>rm_time()</code>,
+<code>rm_title_name()</code>,
+<code>rm_url()</code>,
+<code>rm_white()</code>,
+<code>rm_zip()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">x &lt;- c("I like the dog.", "I want it *|", "I;", 
+    "Who is| that?", "Hello world", "You...")
+
+rm_endmark(x)
+ex_endmark(x)
+
+rm_endmark(x, pattern="@rm_endmark2")
+ex_endmark(x, pattern="@rm_endmark2")
+
+rm_endmark(x, pattern="@rm_endmark3")
+ex_endmark(x, pattern="@rm_endmark3")
+</code></pre>
+
+
+</div>

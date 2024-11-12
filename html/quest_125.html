@@ -1,0 +1,108 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>winsor</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Winsorize a Numeric Vector</h2>
+
+<h3>Description</h3>
+
+<p><code>winsor</code> winsorizes a numeric vector by recoding extreme values as a user-identified boundary value, which is defined by z-score units. The <code>to.na</code>
+argument provides the option of recoding the extreme values as missing.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">winsor(x, z.min = -3, z.max = 3, rtn.int = FALSE, to.na = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>numeric vector</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>z.min</code></td>
+<td>
+<p>numeric vector of length 1 specifying the lower boundary value
+in z-score units.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>z.max</code></td>
+<td>
+<p>numeric vector of length 1 specifying the upper boundary value
+in z-score units.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rtn.int</code></td>
+<td>
+<p>logical vector of length 1 specifying whether the recoded values
+should be rounded to the nearest integer. This can be useful when working with
+count data and decimal values are impossible.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>to.na</code></td>
+<td>
+<p>logical vector of length 1 specifying whether the extreme values
+should be recoded to NA rather than winsorized to the boundary values.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Note, the psych package also has a function called <code>winsor</code>, which offers
+the option to winsorize a numeric vector by quantiles rather than z-scores. If you have both the quest package and the psych
+package attached in your current R session (e.g., using <code>library</code>),
+depending on which package you attached first, R might default to using the
+<code>winsor</code> function in either the quest package or the psych package. One
+way to deal with this issue is to explicitly call which package you want to
+use the <code>winsor</code> package from. You can do this using the <code>::</code>
+function in base R where the package name comes before the <code>::</code> and the
+function names comes after it (e.g., <code>quest::winsor</code>).
+</p>
+
+
+<h3>Value</h3>
+
+<p>numeric vector of the same length as <code>x</code> with extreme values
+recoded as either the boundary values or NA.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>winsors</code>
+<code>winsor</code> # psych package
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+# winsorize
+table(quakes$"stations")
+new &lt;- winsor(quakes$"stations")
+table(new)
+
+# recode as NA
+vecNA(quakes$"stations")
+new &lt;- winsor(quakes$"stations", to.na = TRUE)
+vecNA(new)
+
+# rtn.int = TRUE
+winsor(x = cars[[1]], z.min = -2, z.max = 2, rtn.int = FALSE)
+winsor(x = cars[[1]], z.min = -2, z.max = 2, rtn.int = TRUE)
+</code></pre>
+
+
+</div>

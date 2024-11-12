@@ -1,0 +1,76 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>CompareQueueingModels</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Compare several queueing models in a tabulated format</h2>
+
+<h3>Description</h3>
+
+<p>Compare several queueing models in a tabulated format
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">  CompareQueueingModels(model, ...)
+  CompareQueueingModels2(models)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>model</code></td>
+<td>
+<p>A Queueing Model obtained calling QueueingModel from classes described in the details section</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>a separated by comma list of queueing models obtained calling QueueingModel from classes described in the details section</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>models</code></td>
+<td>
+<p>A list of queueing models obtained calling QueueingModel from classes described in the details section</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Compare several queueing models in a tabulated format. By now, only o_MM1, o_MMC, o_MMInf, o_MM1K, o_MMCK, o_MMCC, o_MM1KK, o_MMCKK, o_MMCKM, o_MMInfKK classes can be compared</p>
+
+
+<h3>References</h3>
+
+<p>[Sixto2004] Sixto Rios Insua, Alfonso Mateos Caballero, M Concepcion Bielza Lozoya, Antonio Jimenez Martin (2004).<br><em>Investigacion Operativa. Modelos deterministicos y estocasticos</em>.<br>
+Editorial Centro de Estudios Ramon Areces.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>QueueingModel</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+q1 &lt;- QueueingModel(NewInput.MM1(lambda=5, mu=7))
+q2 &lt;- QueueingModel(NewInput.MMC(lambda=5, mu=3, c=4))
+q3 &lt;- QueueingModel(NewInput.MMInf(lambda=3, mu=4))
+q4 &lt;- QueueingModel(NewInput.MMCC(lambda=5, mu=3, c=4))
+
+CompareQueueingModels(q1, q2, q3)
+CompareQueueingModels2(list(q1, q2, q3, q4))
+
+</code></pre>
+
+
+</div>

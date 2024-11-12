@@ -1,0 +1,144 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>plotRF</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Plot recombination fractions</h2>
+
+<h3>Description</h3>
+
+<p>Plot a grid showing the recombination fractions for all pairs of
+markers, and/or the LOD scores for tests of linkage between pairs of
+markers.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">plotRF(x, chr, what=c("both","lod","rf"), alternate.chrid=FALSE,
+        zmax=12, mark.diagonal=FALSE,
+        col.scheme=c("viridis", "redblue"), ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>An object of class <code>cross</code>. See
+<code>read.cross</code> for details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>chr</code></td>
+<td>
+<p>Optional vector indicating the chromosomes to plot.
+This should be a vector of character strings referring to chromosomes
+by name; numeric values are converted to strings.  Refer to
+chromosomes with a preceding <code>-</code> to have all chromosomes but
+those considered.  A logical (TRUE/FALSE) vector may also be used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>what</code></td>
+<td>
+<p>Indicate whether to plot LOD scores, recombination
+fractions or both.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>alternate.chrid</code></td>
+<td>
+<p>If TRUE and more than one chromosome is
+plotted, alternate the placement of chromosome
+axis labels, so that they may be more easily distinguished.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>zmax</code></td>
+<td>
+<p>Maximum LOD score plotted; values above this are all
+thresholded at this value.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mark.diagonal</code></td>
+<td>
+<p>If TRUE, include black line segments around the
+pixels along the diagonal, to better separate the upper left triangle
+from the lower right triangle.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>col.scheme</code></td>
+<td>
+<p>The color palette. The default is "viridis"; see
+Option D at <a href="https://bids.github.io/colormap/">https://bids.github.io/colormap/</a></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Generally ignored, but you can include <code>main</code> to
+change or omit the title of the figure.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Uses <code>image</code> to plot a grid showing the
+recombination fractions and/or LOD scores for all pairs of markers.
+(The LOD scores are for a test of <code class="reqn">r = 1/2</code>.)
+If both are plotted, the recombination fractions are in the upper left
+triangle while the LOD scores are in the lower right triangle.
+</p>
+<p>With <code>col.scheme="viridis"</code> (the default), purple corresponds to
+a large LOD score or a small recombination fraction, while yellow is
+the reverse. With <code>col.scheme="redblue"</code>, red corresponds to a
+large LOD or a small recombination fraction, while blue is the
+reverse.  Note that missing values appear in light gray.
+</p>
+<p>Recombination fractions are transformed by <code class="reqn">-4(\log_2{r}+1)</code> to make them on the same sort of scale as LOD
+scores.  Values of LOD or the transformed recombination fraction that
+are above 12 are set to 12.
+</p>
+
+
+<h3>Value</h3>
+
+<p>None.</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Karl W Broman, <a href="mailto:broman@wisc.edu">broman@wisc.edu</a> </p>
+
+
+<h3>See Also</h3>
+
+ <p><code>est.rf</code>, <code>pull.rf</code>, <code>plot.rfmatrix</code>,
+<code>image</code>,
+<code>badorder</code>, <code>ripple</code> </p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(badorder)
+badorder &lt;- est.rf(badorder)
+plotRF(badorder)
+
+# plot just chr 1
+plotRF(badorder, chr=1)
+
+# plot just the recombination fractions
+plotRF(badorder, what="rf")
+
+# plot just the LOD scores, and just for chr 2 and 3
+plotRF(badorder, chr=2:3, what="lod")
+</code></pre>
+
+
+</div>

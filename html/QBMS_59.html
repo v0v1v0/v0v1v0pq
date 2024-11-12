@@ -1,0 +1,56 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>set_token</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Set Access Token Response</h2>
+
+<h3>Description</h3>
+
+<p>Stores the access token and associated details (such as username and expiration time) in the internal state.
+The token is typically retrieved from the server during login and used for subsequent API requests.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">set_token(token, user = "", expires_in = 3600)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>token</code></td>
+<td>
+<p>The access token string issued by the authorization server.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>user</code></td>
+<td>
+<p>The username associated with the token (optional).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>expires_in</code></td>
+<td>
+<p>The lifetime of the access token in seconds (optional, default is 3600 seconds).</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>No return value. Updates the internal state with the token info.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Khaled Al-Shamaa, <a href="mailto:k.el-shamaa@cgiar.org">k.el-shamaa@cgiar.org</a>
+</p>
+
+
+</div>

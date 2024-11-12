@@ -1,0 +1,147 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>calc.genoprob</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Calculate conditional genotype probabilities</h2>
+
+<h3>Description</h3>
+
+<p>Uses the hidden Markov model technology to calculate the
+probabilities of the true underlying genotypes given the observed
+multipoint marker data, with possible allowance for genotyping
+errors.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">calc.genoprob(cross, step=0, off.end=0, error.prob=0.0001,
+              map.function=c("haldane","kosambi","c-f","morgan"),
+              stepwidth=c("fixed", "variable", "max"))
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>cross</code></td>
+<td>
+<p>An object of class <code>cross</code>. See
+<code>read.cross</code> for details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>step</code></td>
+<td>
+<p>Maximum distance (in cM) between positions at which the
+genotype probabilities are calculated, though for <code>step = 0</code>,
+probabilities are calculated only at the marker locations.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>off.end</code></td>
+<td>
+<p>Distance (in cM) past the terminal markers on each
+chromosome to which the genotype probability calculations will be
+carried.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>error.prob</code></td>
+<td>
+<p>Assumed genotyping error rate used in the calculation
+of the penetrance Pr(observed genotype | true genotype).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>map.function</code></td>
+<td>
+<p>Indicates whether to use the Haldane, Kosambi or
+Carter-Falconer map function when converting genetic distances into
+recombination fractions.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>stepwidth</code></td>
+<td>
+<p>Indicates whether the intermediate points should with
+fixed or variable step sizes.  We recommend using
+<code>"fixed"</code>; <code>"variable"</code> was included for the qtlbim
+package (<a href="https://cran.r-project.org/src/contrib/Archive/qtlbim/">https://cran.r-project.org/src/contrib/Archive/qtlbim/</a>).  The <code>"max"</code>
+option inserts the minimal number of intermediate points so that the
+maximum distance between points is <code>step</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Let <code class="reqn">O_k</code> denote the observed marker genotype at position
+<code class="reqn">k</code>, and <code class="reqn">g_k</code> denote the corresponding true underlying
+genotype.
+</p>
+<p>We use the forward-backward equations to calculate
+<code class="reqn">\alpha_{kv} = \log Pr(O_1, \ldots, O_k, g_k = v)</code>
+and
+<code class="reqn">\beta_{kv} = \log Pr(O_{k+1}, \ldots, O_n | g_k = v)</code>
+</p>
+<p>We then obtain
+<code class="reqn">Pr(g_k | O_1, \ldots, O_n) = \exp(\alpha_{kv} + \beta_{kv}) / s</code>
+where
+<code class="reqn">s = \sum_v \exp(\alpha_{kv} + \beta_{kv})</code>
+</p>
+<p>In the case of the 4-way cross, with a sex-specific map, we assume a
+constant ratio of female:male recombination rates within the
+inter-marker intervals.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The input <code>cross</code> object is returned with a component,
+<code>prob</code>, added to each component of <code>cross$geno</code>.
+<code>prob</code> is an array of size [n.ind x n.pos x n.gen] where n.pos is
+the number of positions at which the probabilities were calculated and
+n.gen = 3 for an intercross, = 2 for a backcross, and = 4 for a 4-way
+cross.  Attributes <code>"error.prob"</code>, <code>"step"</code>,
+<code>"off.end"</code>, and <code>"map.function"</code> are set to the values of
+the corresponding arguments, for later reference (especially by the
+function <code>calc.errorlod</code>).
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Karl W Broman, <a href="mailto:broman@wisc.edu">broman@wisc.edu</a> </p>
+
+
+<h3>References</h3>
+
+<p>Lange, K. (1999) <em>Numerical analysis for statisticians</em>.
+Springer-Verlag. Sec 23.3.
+</p>
+<p>Rabiner, L. R. (1989) A tutorial on hidden Markov models and selected
+applications in speech recognition.  <em>Proceedings of the IEEE</em>
+<b>77</b>, 257–286.
+</p>
+
+
+<h3>See Also</h3>
+
+ <p><code>sim.geno</code>, <code>argmax.geno</code>,
+<code>calc.errorlod</code> </p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(fake.f2)
+fake.f2 &lt;- calc.genoprob(fake.f2, step=2, off.end=5)
+
+data(fake.bc)
+fake.bc &lt;- calc.genoprob(fake.bc, step=0, off.end=0, err=0.01)
+</code></pre>
+
+
+</div>

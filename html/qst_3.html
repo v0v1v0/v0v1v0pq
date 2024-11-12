@@ -1,0 +1,68 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>read_qst</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Read a data.frame from an SQLite database</h2>
+
+<h3>Description</h3>
+
+<p>This function reads a data.frame from an SQLite database.
+The database has one table, named data, containing the data.
+Additional tables, prefixed with meta_, may be added in the
+future to support additional data types not supported
+in a native way by SQLite.
+</p>
+<p>By specifying lazy=TRUE, the data.frame will not be read into
+memory on the read operation, but instead a lazy
+evaluated data.frame will be returned. This results in a
+near-instantaneous read operation, but subsequent operation
+will then be done from disk using SQL translation when the
+data.frame is passed to other functions or collect() is
+called on it.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">read_qst(path, lazy = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>path</code></td>
+<td>
+<p>The path to read from.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lazy</code></td>
+<td>
+<p>If TRUE, the full data.frame will not be read into
+memory, but instead a lazy evaluated data.frame will
+be returned.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A data.frame read from the SQLite file found at path
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># Write the cars data set to a file, then read it back
+cars_db &lt;- tempfile()
+write_qst(cars, cars_db, indexes=list("speed"))
+dat &lt;- read_qst(cars_db)
+unlink(cars_db)
+
+</code></pre>
+
+
+</div>

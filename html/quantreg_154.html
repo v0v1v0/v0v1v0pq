@@ -1,0 +1,94 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>srisk</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2> Markowitz (Mean-Variance) Portfolio Optimization</h2>
+
+<h3>Description</h3>
+
+<p>This function estimates optimal mean-variance portfolio weights from a matrix
+of historical or simulated asset returns.  
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">srisk(x, mu = 0.07, lambda = 1e+08, alpha = 0.1, eps = 1e-04)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p> Matrix of asset returns </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mu</code></td>
+<td>
+<p>Required mean rate of return for the portfolio </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lambda</code></td>
+<td>
+<p>Lagrange multiplier associated with mean return constraint</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>alpha</code></td>
+<td>
+<p>Choquet risk parameter, unimplemented </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>eps</code></td>
+<td>
+<p> tolerance parameter for mean return constraint</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The portfolio weights are estimated by solving a constrained least squares problem.
+</p>
+
+
+<h3>Value</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>pihat</code></td>
+<td>
+<p>Optimal portfolio weights</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>muhat </code></td>
+<td>
+<p>Mean return in sample</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sighat </code></td>
+<td>
+<p>Standard deviation of returns in sample</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p> R. Koenker </p>
+
+
+<h3>See Also</h3>
+
+ <p><code>qrisk</code></p>
+
+
+</div>

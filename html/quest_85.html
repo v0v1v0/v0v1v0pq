@@ -1,0 +1,103 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>nom2dum</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Nominal Variable to Dummy Variables</h2>
+
+<h3>Description</h3>
+
+<p><code>nom2dum</code> converts a nominal variable into a set of dummy variables.
+There is one dummy variable for each unique value in the nominal variable.
+Note, base R does this recoding internally through the
+<code>model.matrix.default</code> function, but it is used in the context of
+regression-like models and it is not clear how to simplify it for general use
+cases outside that context.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">nom2dum(nom, yes = 1L, no = 0L, prefix = "", rtn.fct = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>nom</code></td>
+<td>
+<p>character vector (or any atomic vector, including factors, which
+will be then coerced to a character vector) specifying the nominal
+variable.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>yes</code></td>
+<td>
+<p>atomic vector of length 1 specifying what unique value should
+represent rows when the nominal category of interest is present. For a
+traditional dummy variable this value would be 1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>no</code></td>
+<td>
+<p>atomic vector of length 1 specifying what unique value should
+represent rows when the nominal category of interest is absent. For a
+traditional dummy variable this value would be 0.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>prefix</code></td>
+<td>
+<p>character vector of length 1 specifying the string that should
+be appended to the beginning of each colname in the return object.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rtn.fct</code></td>
+<td>
+<p>logical vector of length 1 specifying whether the columns of
+the return object should be factors where the first level is <code>no</code> and
+the second level is <code>yes</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Note, that <code>yes</code> and <code>no</code> are assumed to be the same typeof. If
+they are not, then the columns in the return object will be coerced to the
+most complex typeof (i.e., most to least: character, double, integer,
+logical).
+</p>
+
+
+<h3>Value</h3>
+
+<p>data.frame of dummy columns with colnames specified by
+<code>paste0(prefix, unique(nom))</code> and rownames specified by
+<code>names(nom)</code> or default <code>data.frame</code> rownames (i.e.,
+c("1","2","3", etc.) if <code>names(nom)</code> is <code>NULL</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>model.matrix.default</code>
+<code>dum2nom</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">nom2dum(infert$"education") # default
+nom2dum(infert$"education", prefix = "edu_") # use of the `prefix` argument
+nom2dum(nom = infert$"education", yes = "one", no = "zero",
+   rtn.fct = TRUE) # returns factor columns
+</code></pre>
+
+
+</div>

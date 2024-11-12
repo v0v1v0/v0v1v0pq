@@ -1,0 +1,341 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qkIsomap</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+qKernel Isometric Feature Mapping
+</h2>
+
+<h3>Description</h3>
+
+<p>Computes the Isomap embedding as introduced in 2000 by Tenenbaum, de Silva and Langford.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S4 method for signature 'matrix'
+qkIsomap(x, kernel = "rbfbase", qpar = list(sigma = 0.1, q = 0.9),
+dims = 2, k, mod = FALSE, plotResiduals = FALSE, verbose = TRUE, na.action = na.omit, ...)
+
+## S4 method for signature 'cndkernmatrix'
+qkIsomap(x, dims = 2, k, mod = FALSE, plotResiduals = FALSE,
+verbose = TRUE, na.action = na.omit, ...)
+
+## S4 method for signature 'qkernmatrix'
+qkIsomap(x, dims = 2, k, mod = FALSE, plotResiduals = FALSE,
+verbose = TRUE, na.action = na.omit, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+
+<p>N x D matrix (N samples, D features) or a kernel matrix of <code>cndkernmatrix</code> or <code>qkernmatrix</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>kernel</code></td>
+<td>
+<p>the kernel function used in training and predicting.
+This parameter can be set to any function, of class kernel, which computes a kernel function value between two
+vector arguments. qkerntool provides the most popular kernel functions
+which can be used by setting the kernel parameter to the following
+strings:
+</p>
+
+<ul>
+<li> <p><code>rbfbase</code> Radial Basis qkernel function "Gaussian"
+</p>
+</li>
+<li> <p><code>nonlbase</code> Non Linear qkernel function
+</p>
+</li>
+<li> <p><code>laplbase</code> Laplbase qkernel function
+</p>
+</li>
+<li> <p><code>ratibase</code> Rational Quadratic qkernel function
+</p>
+</li>
+<li> <p><code>multbase</code> Multiquadric qkernel function
+</p>
+</li>
+<li> <p><code>invbase</code> Inverse Multiquadric qkernel function
+</p>
+</li>
+<li> <p><code>wavbase</code> Wave qkernel function
+</p>
+</li>
+<li> <p><code>powbase</code> Power qkernel function
+</p>
+</li>
+<li> <p><code>logbase</code> Log qkernel function
+</p>
+</li>
+<li> <p><code>caubase</code> Cauchy qkernel function
+</p>
+</li>
+<li> <p><code>chibase</code> Chi-Square qkernel function
+</p>
+</li>
+<li> <p><code>studbase</code> Generalized T-Student qkernel function
+</p>
+</li>
+<li> <p><code>nonlcnd</code> Non Linear cndkernel function
+</p>
+</li>
+<li> <p><code>polycnd</code> Polynomial cndkernel function
+</p>
+</li>
+<li> <p><code>rbfcnd</code> Radial Basis cndkernel function "Gaussian"
+</p>
+</li>
+<li> <p><code>laplcnd</code> Laplacian cndkernel function
+</p>
+</li>
+<li> <p><code>anocnd</code> ANOVA cndkernel function
+</p>
+</li>
+<li> <p><code>raticnd</code> Rational Quadratic cndkernel function
+</p>
+</li>
+<li> <p><code>multcnd</code> Multiquadric cndkernel function
+</p>
+</li>
+<li> <p><code>invcnd</code> Inverse Multiquadric cndkernel function
+</p>
+</li>
+<li> <p><code>wavcnd</code> Wave cndkernel function
+</p>
+</li>
+<li> <p><code>powcnd</code> Power cndkernel function
+</p>
+</li>
+<li> <p><code>logcnd</code> Log cndkernel function
+</p>
+</li>
+<li> <p><code>caucnd</code> Cauchy cndkernel function
+</p>
+</li>
+<li> <p><code>chicnd</code> Chi-Square cndkernel function
+</p>
+</li>
+<li> <p><code>studcnd</code> Generalized T-Student cndkernel function
+</p>
+</li>
+</ul>
+<p>The kernel parameter can also be set to a user defined function of
+class kernel by passing the function name as an argument.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qpar</code></td>
+<td>
+<p>the list of hyper-parameters (kernel parameters).
+This is a list which contains the parameters to be used with the
+kernel function. Valid parameters for existing kernels are :
+</p>
+
+<ul>
+<li> <p><code>sigma, q</code>  for the Radial Basis qkernel function "rbfbase" , the Laplacian qkernel function "laplbase" and the Cauchy qkernel function "caubase".
+</p>
+</li>
+<li> <p><code>alpha, q</code> for the Non Linear qkernel function "nonlbase".
+</p>
+</li>
+<li> <p><code>c, q</code> for the Rational Quadratic qkernel function "ratibase" , the Multiquadric qkernel function "multbase" and the Inverse Multiquadric qkernel function "invbase".
+</p>
+</li>
+<li> <p><code>theta, q</code> for the Wave qkernel function "wavbase".
+</p>
+</li>
+<li> <p><code>d, q</code> for the Power qkernel function "powbase" , the Log qkernel function "logbase" and the Generalized T-Student qkernel function "studbase".
+</p>
+</li>
+<li> <p><code>alpha</code> for the Non Linear cndkernel function "nonlcnd".
+</p>
+</li>
+<li> <p><code>d, alpha, c</code> for the Polynomial cndkernel function "polycnd".
+</p>
+</li>
+<li> <p><code>gamma</code> for the Radial Basis cndkernel function "rbfcnd" and the Laplacian cndkernel function "laplcnd" and the Cauchy cndkernel function "caucnd".
+</p>
+</li>
+<li> <p><code>d, sigma</code> for the ANOVA cndkernel function "anocnd".
+</p>
+</li>
+<li> <p><code>c</code> for the Rational Quadratic cndkernel function "raticnd" , the Multiquadric cndkernel function "multcnd" and the Inverse Multiquadric cndkernel function "invcnd".
+</p>
+</li>
+<li> <p><code>theta</code> for the Wave cndkernel function "wavcnd".
+</p>
+</li>
+<li> <p><code>d</code> for the Power cndkernel function "powcnd" , the Log cndkernel function "logcnd" and the Generalized T-Student cndkernel function "studcnd".
+</p>
+</li>
+</ul>
+<p>Hyper-parameters for user defined kernels can be passed through the
+qpar parameter as well.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dims</code></td>
+<td>
+<p>vector containing the target space dimension(s)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>k</code></td>
+<td>
+<p>	number of neighbours</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mod</code></td>
+<td>
+<p>	use modified Isomap algorithm</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>plotResiduals</code></td>
+<td>
+
+<p>show a plot with the residuals between the high and the low dimensional data</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p>show a summary of the embedding procedure at the end</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>na.action</code></td>
+<td>
+<p>A function to specify the action to be taken if <code>NA</code>s are
+found. The default action is <code>na.omit</code>, which leads to rejection of cases
+with missing values on any required variable. An alternative
+is <code>na.fail</code>, which causes an error if <code>NA</code> cases
+are found. (NOTE: If given, this argument must be named.)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p> additional parameters</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The qkIsomap is a nonlinear dimension reduction technique, that preserves
+global properties of the data. That means, that geodesic distances
+between all samples are captured best in the low dimensional
+embedding. <br>
+This R version is based on the Matlab implementation by Tenenbaum and
+uses Floyd's Algorithm to compute the neighbourhood graph of shortest
+distances, when calculating the geodesic distances. <br>
+A modified version of the original Isomap algorithm is included. It
+respects nearest and farthest neighbours. <br>
+To estimate the intrinsic dimension of the data, the function can plot
+the residuals between the high and the low dimensional data for a
+given range of dimensions.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>qkIsomap</code> gives out an S4 object which is a LIST with components
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>prj</code></td>
+<td>
+<p>a N x dim matrix (N samples, dim features) with the reduced input data (list of several matrices if more than one dimension was specified). </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dims</code></td>
+<td>
+<p>the dimension of the target space.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Residuals</code></td>
+<td>
+<p>the residual variances for all dimensions.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>eVal</code></td>
+<td>
+<p>the corresponding eigenvalues.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>eVec</code></td>
+<td>
+<p>the corresponding eigenvectors.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cndkernf</code></td>
+<td>
+<p>the kernel function used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>kcall</code></td>
+<td>
+<p>The formula of the function called</p>
+</td>
+</tr>
+</table>
+<p>all the slots of the object can be accessed by accessor functions.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Yusen Zhang <br><a href="mailto:yusenzhang@126.com">yusenzhang@126.com</a></p>
+
+
+<h3>References</h3>
+
+<p>Tenenbaum, J. B. and de Silva, V. and Langford, J. C., "A global geometric framework for nonlinear dimensionality reduction.", 2000;
+Matlab code is available at http://waldron.stanford.edu/~isomap/
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"> # another example using the iris
+  data(iris)
+  testset &lt;- sample(1:150,20)
+  train &lt;- as.matrix(iris[-testset,-5])
+  labeltrain&lt;- as.integer(iris[-testset,5])
+  test &lt;- as.matrix(iris[testset,-5])
+  # ratibase(c=1,q=0.8)
+  d_low = qkIsomap(train, kernel = "ratibase", qpar = list(c=1,q=0.8),
+                    dims=2,  k=5, plotResiduals = TRUE)
+  #plot the data projection on the components
+  plot(prj(d_low),col=labeltrain, xlab="1st Principal Component",ylab="2nd  Principal Component")
+
+  prj(d_low)
+	dims(d_low)
+	Residuals(d_low)
+	eVal(d_low)
+	eVec(d_low)
+	kcall(d_low)
+	cndkernf(d_low)
+</code></pre>
+
+
+</div>

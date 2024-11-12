@@ -1,0 +1,64 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>QRegEstimator-class</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Class for quantile regression-based estimates in the harmonic linear model.</h2>
+
+<h3>Description</h3>
+
+<p><code>QRegEstimator</code> is an S4 class that implements the necessary
+calculations to determine the frequency representation based on the weigthed
+<code class="reqn">L_1</code>-projection of a time series as described in
+Dette et. al (2015). As a subclass to <code>FreqRep</code>
+it inherits slots and methods defined there.
+</p>
+
+
+<h3>Details</h3>
+
+<p>For each frequency <code class="reqn">\omega</code> from <code>frequencies</code> and level
+<code class="reqn">\tau</code> from <code>levels</code> the statistic
+</p>
+<p style="text-align: center;"><code class="reqn">\hat b^{\tau}_n(\omega) := \arg\max_{a \in R, b \in C}
+      \sum_{t=0}^{n-1}
+      \rho_{\tau}(Y_t - a - Re(b) \cos(\omega t) - Im(b) \sin(\omega t)),</code>
+</p>
+
+<p>is determined and stored to the array <code>values</code>.
+</p>
+<p>The solution to the minimization problem is determined using the function
+<code>rq</code> from the <span class="pkg">quantreg</span> package.
+</p>
+<p>All remarks made in the documentation of the super-class
+<code>FreqRep</code> apply.
+</p>
+
+
+<h3>Slots</h3>
+
+
+<dl>
+<dt><code>method</code></dt>
+<dd>
+<p>method used for computing the quantile regression estimates.
+The choice is passed to <code>qr</code>; see the
+documentation of <code>quantreg</code> for details.</p>
+</dd>
+<dt><code>parallel</code></dt>
+<dd>
+<p>a flag that signalizes that parallelization mechanisms from
+the package <span class="pkg">snowfall</span> may be used.</p>
+</dd>
+</dl>
+<h3>References</h3>
+
+<p>Dette, H., Hallin, M., Kley, T. &amp; Volgushev, S. (2015).
+Of Copulas, Quantiles, Ranks and Spectra: an <code class="reqn">L_1</code>-approach to
+spectral analysis. <em>Bernoulli</em>, <b>21</b>(2), 781–831.
+[cf. <a href="http://arxiv.org/abs/1111.7205">http://arxiv.org/abs/1111.7205</a>]
+</p>
+
+
+</div>

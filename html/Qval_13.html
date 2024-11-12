@@ -1,0 +1,110 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>Wald.test</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Wald.test for two q-vecotrs</h2>
+
+<h3>Description</h3>
+
+<p>This function flexibly provides the Wald test for any two q-vectors of a given item in the Q-matrix, 
+but requires that the two q-vectors differ by only one attribute. Additionally, this function needs 
+to accept a <code>CDM.obj</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">Wald.test(CDM.obj, Q.i, Q.i.k, i = 1)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>CDM.obj</code></td>
+<td>
+<p>An object of class <code>CDM.obj</code>. @seealso <code>CDM</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Q.i</code></td>
+<td>
+<p>A q-vector</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Q.i.k</code></td>
+<td>
+<p>Another q-vector</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>i</code></td>
+<td>
+<p>the item you focusing on</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p style="text-align: center;"><code class="reqn">
+   Wald = (\mathbf{R} \times P_{i}(\mathbf{\alpha}))^{'}
+   (\mathbf{R} \times \mathbf{V}_{i} \times \mathbf{R})^{-1}
+   (\mathbf{R} \times P_{i}(\mathbf{\alpha}))
+</code>
+</p>
+
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>list</code> containing the following components:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>Wald.statistic</code></td>
+<td>
+<p>The statistic of the Wald test.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p.value</code></td>
+<td>
+<p>The p value</p>
+</td>
+</tr>
+</table>
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+set.seed(123)
+
+K &lt;- 3
+I &lt;- 20
+N &lt;- 500
+IQ &lt;- list(
+  P0 = runif(I, 0.0, 0.2),
+  P1 = runif(I, 0.8, 1.0)
+)
+Q &lt;- sim.Q(K, I)
+data &lt;- sim.data(Q = Q, N = N, IQ = IQ, model = "GDINA", distribute = "horder")
+
+CDM.obj &lt;- CDM(data$dat, Q)
+
+Q.i &lt;- c(1, 0, 0)
+Q.i.k &lt;- c(1, 1, 0)
+
+## Discuss whether there is a significant difference when 
+## the q-vector of the 2nd item in the Q-matrix is Q.i or Q.i.k.
+Wald.test.obj &lt;- Wald.test(CDM.obj, Q.i, Q.i.k, i=2)
+
+print(Wald.test.obj)
+
+
+</code></pre>
+
+
+</div>

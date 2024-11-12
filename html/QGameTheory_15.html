@@ -1,0 +1,83 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>QBOS</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Quantum Battle of the Sexes game</h2>
+
+<h3>Description</h3>
+
+<p>This function returns the expected payoffs to Alice and Bob with respect to the probabilities <code>p</code> and <code>q</code>. <code>p+q</code> should equal 1 and <code>moves</code> is a list of two possible strategies for each of the players and <code>alpha, beta, gamma</code> are the payoffs for the players corresponding to the choices available to them with the chain of inequalities, <code>alpha&gt;beta&gt;gamma</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">QBOS(p, q, moves, alpha, beta, gamma)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>p</code></td>
+<td>
+<p>a real number between 0 and 1 including the end points</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>q</code></td>
+<td>
+<p>a real number between 0 and 1 including the end points</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>moves</code></td>
+<td>
+<p>alist of matrices</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>alpha</code></td>
+<td>
+<p>a number</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>beta</code></td>
+<td>
+<p>a number</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gamma</code></td>
+<td>
+<p>a number</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A vector consisting of the Payoffs to Alice and Bob as its two elements depending on the inputs.
+</p>
+
+
+<h3>References</h3>
+
+<p><a href="https://arxiv.org/pdf/quant-ph/0506219.pdf">https://arxiv.org/pdf/quant-ph/0506219.pdf</a><br><a href="https://arxiv.org/pdf/quant-ph/0208069.pdf">https://arxiv.org/pdf/quant-ph/0208069.pdf</a><br><a href="https://arxiv.org/abs/quant-ph/0110096">https://arxiv.org/abs/quant-ph/0110096</a><br></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">init()
+moves &lt;- list(Q$I2, sigmaX(Q$I2))
+QBOS(0, 1, moves, 5, 3, 1)
+QBOS(1, 1, moves, 5, 3, 1)
+QBOS(0.5, 0.5, moves, 5, 3, 1)
+
+</code></pre>
+
+
+</div>

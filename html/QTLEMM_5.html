@@ -1,0 +1,151 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>EQF.permu</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>EQF Permutation</h2>
+
+<h3>Description</h3>
+
+<p>The EQF matrix cluster permutation process for QTL hotspot detection.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">EQF.permu(
+  LOD.QTLdetect.result,
+  ptime = 1000,
+  alpha = 0.05,
+  Q = TRUE,
+  console = TRUE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>LOD.QTLdetect.result</code></td>
+<td>
+<p>list. The data list of the output from
+LOD.QTLdetect().</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ptime</code></td>
+<td>
+<p>integer. The permutation times.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>alpha</code></td>
+<td>
+<p>numeric. The type 1 error rate of detecting the hotspot.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Q</code></td>
+<td>
+<p>logical. When set to TRUE, the function will additionally carry
+out the permutation of the Q method as the control group, which will be
+indicated as 'B' in the output.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>console</code></td>
+<td>
+<p>logical. Determines whether the process of the algorithm
+will be displayed in the R console or not.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>EQF.matrix</code></td>
+<td>
+<p>The matrix denotes the EQF value of each bin.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bin</code></td>
+<td>
+<p>The bin information matrix used in this analysis.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>LOD.threshold</code></td>
+<td>
+<p>The LOD threshold used in this analysis.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cluster.number</code></td>
+<td>
+<p>The number of QTLs in each cluster group.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cluster.id</code></td>
+<td>
+<p>The serial number of traits in each cluster group.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cluster.matrix</code></td>
+<td>
+<p>The new EQF matrix after the clustering process.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>permu.matrix.cluster</code></td>
+<td>
+<p>The permutation result of the clustering
+method, which has been sorted by order.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>permu.matrix.Q</code></td>
+<td>
+<p>The permutation result of the Q method, which has
+been sorted by order.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>EQF.threshold</code></td>
+<td>
+<p>The EQF threshold is calculated from the
+permutation process.</p>
+</td>
+</tr>
+</table>
+<h3>References</h3>
+
+<p>Wu, P.-Y., M.-.H. Yang, and C.-H. KAO 2021 A Statistical Framework
+for QTL Hotspot Detection. G3: Genes, Genomes, Genetics: jkab056. &lt;doi: 10.1093/g3journal/jkab056&gt;
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>LOD.QTLdetect</code>
+<code>EQF.plot</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># load the example data
+load(system.file("extdata", "LODexample.RDATA", package = "QTLEMM"))
+
+# run and result
+result &lt;- EQF.permu(LOD.QTLdetect.result, ptime = 50)
+result$cluster.number
+</code></pre>
+
+
+</div>

@@ -1,0 +1,194 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>lazyload_cache_dir</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Lazyload Cache</h2>
+
+<h3>Description</h3>
+
+<p>Lazyload Cached label(s) or a whole directory.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">lazyload_cache_dir(
+  path = "./cache",
+  envir = parent.frame(),
+  ask = FALSE,
+  verbose = TRUE,
+  ...
+)
+
+lazyload_cache_labels(
+  labels,
+  path = "./cache/",
+  envir = parent.frame(),
+  verbose = TRUE,
+  filter,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>path</code></td>
+<td>
+<p>the path to the cache directory.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>envir</code></td>
+<td>
+<p>the environment to load the objects into</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ask</code></td>
+<td>
+<p>if TRUE ask the user to confirm loading each database found in
+<code>path</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p>if TRUE display the chunk labels being loaded</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>additional arguments passed to <code>list.files</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>labels</code></td>
+<td>
+<p>a character vector of the chunk labels to load.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>filter</code></td>
+<td>
+<p>an optional function passed to <code>lazyLoad</code>.
+when called on a character vector of object names returns a logical vector:
+only objects for which this is true will be loaded.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>These functions helpful for loading cached chunks into an interactive R
+session.  Consider the following scenario: you use knitr and have cached
+chunks for lazyloading.  You've created the document, close up your IDE and
+move on to the next project.  Later, you revisit the initial project and need
+to retrieve the objects created in the cached chunks.  One option is to
+reevaluate all the code, but this could be time consuming.  The other option
+is to use <code>lazyload_cache_labels</code> or <code>lazyload_cache_dir</code> to
+quickly (lazy)load the chunks into an active R session.
+</p>
+<p>Use <code>lazyload_cache_dir</code> to load a whole directory of cached objects.
+</p>
+<p>Use <code>lazyload_cache_labels</code> to load and explicit set of cached chunks.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># this example is based on \url{https://stackoverflow.com/a/41439691/1104685}
+
+# create a temp directory for a and place a .Rmd file within
+tmpdir &lt;- normalizePath(paste0(tempdir(), "/llcache_eg"), mustWork = FALSE)
+tmprmd &lt;- tempfile(pattern = "report", tmpdir = tmpdir, fileext = "Rmd")
+dir.create(tmpdir)
+oldwd &lt;- getwd()
+setwd(tmpdir)
+
+# build and example .Rmd file
+# note that the variable x is created in the first chunck and then over
+# written in the second chunk
+cat("---",
+    "title: \"A Report\"",
+    "output: html_document",
+    "---",
+    "",
+    "```{r first-chunk, cache = TRUE}",
+    "mpg_by_wt_hp &lt;- lm(mpg ~ wt + hp, data = mtcars)",
+    "x_is_pi &lt;- pi",
+    "x &lt;- pi",
+    "```",
+    "",
+    "```{r second-chunk, cache = TRUE}",
+    "mpg_by_wt_hp_am &lt;- lm(mpg ~ wt + hp + am, data = mtcars)",
+    "x_is_e &lt;- exp(1)",
+    "x &lt;- exp(1)",
+    "```",
+    sep = "\n",
+    file = tmprmd)
+
+# knit the file.  evaluate the chuncks in a new environment so we can compare
+# the objects after loading the cache.
+kenv &lt;- new.env()
+knitr::knit(input = tmprmd, envir = kenv)
+
+# The objects defined in the .Rmd file are now in kenv
+ls(envir = kenv)
+
+# view the cache
+list.files(path = tmpdir, recursive = TRUE)
+
+# create three more environment, and load only the first chunk into the
+# first, and the second chunck into the second, and then load all of the
+# cache into the third
+env1 &lt;- new.env()
+env2 &lt;- new.env()
+env3 &lt;- new.env()
+
+lazyload_cache_labels(labels = "first-chunk",
+                      path = paste0(tmpdir, "/cache"),
+                      envir = env1)
+
+lazyload_cache_labels(labels = "second-chunk",
+                      path = paste0(tmpdir, "/cache"),
+                      envir = env2)
+
+lazyload_cache_dir(path = paste0(tmpdir, "/cache"), envir = env3)
+
+# Look at the conents of each of these environments
+ls(envir = kenv)
+ls(envir = env1)
+ls(envir = env2)
+ls(envir = env3)
+
+# The regression models are only fitted once an should be the same in all the
+# environments where they exist, as should the variables x_is_e and x_is_pi
+all.equal(kenv$mpg_by_wt_hp, env1$mpg_by_wt_hp)
+all.equal(env1$mpg_by_wt_hp, env3$mpg_by_wt_hp)
+
+all.equal(kenv$mpg_by_wt_hp_am, env2$mpg_by_wt_hp_am)
+all.equal(env2$mpg_by_wt_hp_am, env3$mpg_by_wt_hp_am)
+
+# The value of x, however, should be different in the differnet
+# environments.  For kenv, env2, and env3 the value should be exp(1) as that
+# was the last assignment value.  In env1 the value should be pi as that is
+# the only relevent assignment.
+
+all.equal(kenv$x, exp(1))
+all.equal(env1$x, pi)
+all.equal(env2$x, exp(1))
+all.equal(env3$x, exp(1))
+
+# cleanup
+setwd(oldwd)
+unlink(tmpdir, recursive = TRUE)
+
+</code></pre>
+
+
+</div>

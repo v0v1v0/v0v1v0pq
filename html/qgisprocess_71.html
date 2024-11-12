@@ -1,0 +1,54 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qgis_unconfigure</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Clean the package cache</h2>
+
+<h3>Description</h3>
+
+<p>Empties the qgisprocess cache environment.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qgis_unconfigure()
+</code></pre>
+
+
+<h3>Value</h3>
+
+<p><code>NULL</code>, invisibly.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Other topics about programming or debugging utilities: 
+<code>qgis_result_status()</code>,
+<code>qgis_run()</code>,
+<code>qgis_tmp_file()</code>,
+<code>qgis_using_json_input()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+# not running this function in example() as it clears the cache environment.
+qgis_unconfigure()
+
+## End(Not run)
+
+# undoing qgis_unconfigure() by repopulating the cache environment from file:
+
+# not running in R CMD check to save time
+qgis_configure(use_cached_data = TRUE)
+
+
+</code></pre>
+
+
+</div>

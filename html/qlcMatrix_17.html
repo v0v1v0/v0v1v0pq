@@ -1,0 +1,153 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>dimRed</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Dimensionality Reduction for sparse matrices, based on Cholesky decomposition
+</h2>
+
+<h3>Description</h3>
+
+<p>To inspect the structure of a large sparse matrix, it is often highly useful to reduce the matrix to a few major dimensions (cf. multidimensional scaling). This functions implements a rough approach to provide a few major dimensions. The function provides a simple wrapper around <code>Cholesky</code> and <code>sparsesvd</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">dimRed(sim, k = 2, method = "svd")
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>sim</code></td>
+<td>
+
+<p>Sparse, symmetric, positive-definite matrix (typically a similarity matrix produces by <code>sim</code> or <code>assoc</code> functions)
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>k</code></td>
+<td>
+
+<p>Number of dimensions to be returned, defaults to two.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+
+<p>Method used for the decomposition. Currently implemted are <code>svd</code> and <code>cholesky</code>. 
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Based on the Cholesky decomposition, the Matrix <code>sim</code> is decomposed into:
+</p>
+<p style="text-align: center;"><code class="reqn"> L D L'</code>
+</p>
+
+<p>The D Matrix is a diagonal matrix, the values of which are returned here as <code>$D</code>. Only the first few columns of the L Matrix are returned (possibly after permutation, see the details at <code>Cholesky</code>).
+</p>
+<p>Based on the svd decomposition, the Matrix <code>sim</code> is decomposed into:
+</p>
+<p style="text-align: center;"><code class="reqn"> U D V</code>
+</p>
+
+<p>The U Matrix and the values from D are returned.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list of two elements is returned:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>L </code></td>
+<td>
+<p>: a sparse matrix of type <code>dgCMatrix</code> with <code>k</code> columns</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>D </code></td>
+<td>
+<p>: the diagional values from the Cholesky decomposition, or the eigenvalues from the svd decomposition</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Michael Cysouw &lt;cysouw@mac.com&gt;
+</p>
+
+
+<h3>See Also</h3>
+
+<p>See Also as <code>Cholesky</code> and <code>sparsesvd</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># some random points in two dimensions
+coor &lt;- cbind(sample(1:30), sample(1:30))
+
+# using cmdscale() to reconstruct the coordinates from a distance matrix
+d &lt;- dist(coor)
+mds &lt;- cmdscale(d)
+
+# using dimRed() on a similarity matrix.
+# Note that normL works much better than other norms in this 2-dimensional case
+s &lt;- cosSparse(t(coor), norm = normL)
+red &lt;- as.matrix(dimRed(s)$L)
+
+# show the different point clouds
+
+oldpar&lt;-par("mfrow")
+par(mfrow = c(1,3))
+
+  plot(coor, type = "n", axes = FALSE, xlab = "", ylab = "")
+  text(coor, labels = 1:30)
+  title("Original coordinates")
+  
+  plot(mds, type = "n", axes = FALSE, xlab = "", ylab = "")
+  text(mds, labels = 1:30)
+  title("MDS from euclidean distances")
+  
+  plot(red, type = "n", axes = FALSE, xlab = "", ylab = "")
+  text(red, labels = 1:30)
+  title("dimRed from cosSparse similarity")
+
+par(mfrow = oldpar)
+
+# ======
+
+# example, using the iris data
+data(iris)
+X &lt;- t(as.matrix(iris[,1:4]))
+cols &lt;- rainbow(3)[iris$Species]
+
+s &lt;- cosSparse(X, norm = norm1)
+d &lt;- dist(t(X), method = "manhattan")
+
+svd &lt;- as.matrix(dimRed(s, method = "svd")$L)
+mds &lt;- cmdscale(d)
+
+oldpar&lt;-par("mfrow")
+par(mfrow = c(1,2))
+  plot(mds, col = cols, main = "cmdscale\nfrom euclidean distances")
+  plot(svd, col = cols, main = "dimRed with svd\nfrom cosSparse with norm1")
+par(mfrow = oldpar)
+</code></pre>
+
+
+</div>

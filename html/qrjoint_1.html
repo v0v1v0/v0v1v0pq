@@ -1,0 +1,66 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>chull.center</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Fast Interior Point Center of Multivariate Data</h2>
+
+<h3>Description</h3>
+
+<p>Calculates an interior point by averaging a small number of near-extreme points of the cloud.</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R"> 
+chull.center(x, maxEPts = ncol(x) + 1, plot = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a matrix giving the data cloud.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>maxEPts</code></td>
+<td>
+<p>integer giving the maximum number of (near)-extreme points to be used in averaging. Default is <code>ncol(x)+1</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>plot</code></td>
+<td>
+<p>logical indicating whether a pairwise scatter plot should be made</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Near extreme points are found in a space-filling manner by adding points with minimum residual conditional variance given points already included under a smooth GP specification. See Yang and Tokdar (2015), Section B.1. for more details.</p>
+
+
+<h3>Value</h3>
+
+<p>Returns an interior point of the data cloud. The positions of the near extreme points are returned as the attribute <code>"EPts"</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"> 
+p &lt;- 9
+n &lt;- 200
+u &lt;- runif(n)
+require(splines)
+x &lt;- bs(u, df = p)
+chull.center(x, plot = TRUE)
+</code></pre>
+
+
+</div>

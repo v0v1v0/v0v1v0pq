@@ -1,0 +1,137 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qm_summarize</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Summarize Clusters</h2>
+
+<h3>Description</h3>
+
+<p>This function creates a column that contains a single observation for each unique value
+in the key variable. For each feature, a count corresponding to the number of times that feature is
+identified in a cluster for the give category is also provided.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qm_summarize(ref, key, clusters, category, count, geometry = TRUE, use.na = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>ref</code></td>
+<td>
+<p>An <code>sf</code> object that serves as a master list of features</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>key</code></td>
+<td>
+<p>Name of geographic id variable in the <code>ref</code> object to match input values to</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>clusters</code></td>
+<td>
+<p>A tibble created by <code>qm_combine</code> with two or more clusters worth of data</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>category</code></td>
+<td>
+<p>Value of the <code>CAT</code> variable to be analyzed</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>count</code></td>
+<td>
+<p>How should clusters be summarized: by counting each time a feature is included
+in a cluster (<code>"clusters"</code>) or by counting the number of respondents
+(<code>"respondents"</code>) who associated a feature with the given category.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>geometry</code></td>
+<td>
+<p>A logical scalar that returns the full geometry and attributes of <code>ref</code>
+when <code>TRUE</code> (default). If <code>FALSE</code>, only the <code>key</code> and count of features is
+returned after validation.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>use.na</code></td>
+<td>
+<p>A logical scalar that returns <code>NA</code> values in the count variable if a feature
+is not included in any clusters when <code>TRUE</code>. If <code>FALSE</code> (default), a <code>0</code> value
+is returned in the count variable for each feature that is not included in any clusters. This
+parameter only impacts output if the <code>geometry</code> argument is <code>TRUE</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A tibble or a <code>sf</code> object (if geometry = <code>TRUE</code>) that contains a count of the number
+of clusters a given feature is included in. The tibble option (when <code>geometry = FALSE</code>) will only
+return valid features. The <code>sf</code> option (default; when <code>geometry = TRUE</code>) will return all
+features with either zeros (when <code>use.na = FALSE</code>) or <code>NA</code> values (when <code>use.na = TRUE</code>)
+for features not included in any clusters.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>qm_combine</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># load and format reference data
+stl &lt;- stLouis
+stl &lt;- dplyr::mutate(stl, TRACTCE = as.numeric(TRACTCE))
+
+# create clusters
+cluster1 &lt;- qm_define(118600, 119101, 119300)
+cluster2 &lt;- qm_define(119300, 121200, 121100)
+
+# create cluster objects
+cluster_obj1 &lt;- qm_create(ref = stl, key = TRACTCE, value = cluster1,
+    rid = 1, cid = 1, category = "positive")
+cluster_obj2 &lt;- qm_create(ref = stl, key = TRACTCE, value = cluster2,
+    rid = 1, cid = 2, category = "positive")
+
+# combine cluster objects
+clusters &lt;- qm_combine(cluster_obj1, cluster_obj2)
+
+# summarize cluster objects
+positive1 &lt;- qm_summarize(ref = stl, key = TRACTCE, clusters = clusters, category = "positive",
+    count = "clusters")
+class(positive1)
+mean(positive1$positive)
+
+# summarize cluster objects with NA's instead of 0's
+positive2 &lt;- qm_summarize(ref = stl, key = TRACTCE, clusters = clusters, category = "positive",
+    count = "clusters", use.na = TRUE)
+class(positive2)
+mean(positive2$positive, na.rm = TRUE)
+
+# return tibble of valid features only
+positive3 &lt;- qm_summarize(ref = stl, key = TRACTCE, clusters = clusters, category = "positive",
+    count = "clusters", geometry = FALSE)
+class(positive3)
+mean(positive3$positive)
+
+# count respondents instead of clusters
+positive4 &lt;- qm_summarize(ref = stl, key = TRACTCE, clusters = clusters, category = "positive",
+    count = "respondents")
+mean(positive4$positive)
+
+</code></pre>
+
+
+</div>

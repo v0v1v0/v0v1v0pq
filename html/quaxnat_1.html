@@ -1,0 +1,72 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>extract_dist</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Extracting distances to nearest seed source for point data</h2>
+
+<h3>Description</h3>
+
+<p>Extracts a distance for the inventory plots. The distance to the
+nearest seed source is used for the analysis of the regeneration potential.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">extract_dist(raster, geom, species)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>raster</code></td>
+<td>
+<p>Raster dataset with tree species classification of specific
+tree species and tree species groups.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>geom</code></td>
+<td>
+<p>Geodata representing the study area. This can be a polygon
+or point dataset. This describes the outer boundary of the study area.
+A buffer of 1000 m is placed around the Bounding box to possibly take into
+account seed trees outside the study area.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>species</code></td>
+<td>
+<p>Represents the numerical value by which the tree species
+of interest was encoded in the raster dataset.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Numeric vector with distances of every inventory plot to the
+nearest seed source of a specific tree species.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Create raster data set
+set.seed(2023)
+rr &lt;- terra::rast(
+matrix(sample(0:10, 20 * 20, replace = TRUE),
+        nrow = 20, ncol = 20))
+
+## Create vector data set
+vec &lt;- terra::vect(rbind(c(5,10), c(5,15)))
+
+## Extract distance for the inventory plot
+extract_dist(raster=rr, geom=vec, species=10)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,275 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>rm_citation</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Remove/Replace/Extract Citations</h2>
+
+<h3>Description</h3>
+
+<p>Remove/replace/extract APA6 style citations from a string.
+</p>
+<p>Counts of normalized citations ("et al." to  original author converted to author + year standarization).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">rm_citation(
+  text.var,
+  trim = !extract,
+  clean = TRUE,
+  pattern = "@rm_citation",
+  replacement = "",
+  extract = FALSE,
+  dictionary = getOption("regex.library"),
+  ...
+)
+
+ex_citation(
+  text.var,
+  trim = !extract,
+  clean = TRUE,
+  pattern = "@rm_citation",
+  replacement = "",
+  extract = TRUE,
+  dictionary = getOption("regex.library"),
+  ...
+)
+
+as_count(x, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>text.var</code></td>
+<td>
+<p>The text variable.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>trim</code></td>
+<td>
+<p>logical.  If <code>TRUE</code> removes leading and trailing white 
+spaces.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>clean</code></td>
+<td>
+<p>trim logical.  If <code>TRUE</code> extra white spaces and escaped 
+character will be removed.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pattern</code></td>
+<td>
+<p>A character string containing a regular expression (or 
+character string for <code>fixed = TRUE</code>) to be matched in the given 
+character vector (see <b>Details</b> for additional information).  Default,
+<code>@rm_citation</code> uses the <code>rm_citation</code> regex from the regular 
+expression dictionary from the <code>dictionary</code> argument.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>replacement</code></td>
+<td>
+<p>Replacement for matched <code>pattern</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>extract</code></td>
+<td>
+<p>logical.  If <code>TRUE</code> the dates are extracted into a 
+list of vectors.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dictionary</code></td>
+<td>
+<p>A dictionary of canned regular expressions to search within 
+if <code>pattern</code> begins with <code>"@rm_"</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Ignored.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>The output from <code>ex_citation</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The default regular expression used by <code>rm_citation</code> finds 
+in-text and parenthetical citations.  This behavior can be altered by using a 
+secondary regular expression from the <code>regex_usa</code> 
+data (or other dictionary) via (<code>pattern = "@rm_citation2"</code> or 
+<code>pattern = "@rm_citation3"</code>). See <b>Examples</b> for example usage.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns a character string with citations removed.
+</p>
+<p>Returns a <code>data.frame</code> of Authors, Years, and n (counts).
+</p>
+
+
+<h3>Note</h3>
+
+<p>This function is experimental.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>gsub</code>,
+<code>stri_extract_all_regex</code>
+</p>
+<p>Other rm_ functions: 
+<code>rm_abbreviation()</code>,
+<code>rm_between()</code>,
+<code>rm_bracket()</code>,
+<code>rm_caps_phrase()</code>,
+<code>rm_caps()</code>,
+<code>rm_citation_tex()</code>,
+<code>rm_city_state_zip()</code>,
+<code>rm_city_state()</code>,
+<code>rm_date()</code>,
+<code>rm_default()</code>,
+<code>rm_dollar()</code>,
+<code>rm_email()</code>,
+<code>rm_emoticon()</code>,
+<code>rm_endmark()</code>,
+<code>rm_hash()</code>,
+<code>rm_nchar_words()</code>,
+<code>rm_non_ascii()</code>,
+<code>rm_non_words()</code>,
+<code>rm_number()</code>,
+<code>rm_percent()</code>,
+<code>rm_phone()</code>,
+<code>rm_postal_code()</code>,
+<code>rm_repeated_characters()</code>,
+<code>rm_repeated_phrases()</code>,
+<code>rm_repeated_words()</code>,
+<code>rm_tag()</code>,
+<code>rm_time()</code>,
+<code>rm_title_name()</code>,
+<code>rm_url()</code>,
+<code>rm_white()</code>,
+<code>rm_zip()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## All Citations
+x &lt;- c("Hello World (V. Raptor, 1986) bye",
+    "Narcissism is not dead (Rinker, 2014)",
+    "The R Core Team (2014) has many members.",
+    paste("Bunn (2005) said, \"As for elegance, R is refined, tasteful, and",
+        "beautiful. When I grow up, I want to marry R.\""),
+    "It is wrong to blame ANY tool for our own shortcomings (Baer, 2005).",
+    "Wickham's (in press) Tidy Data should be out soon.",
+    "Rinker's (n.d.) dissertation not so much.",
+    "I always consult xkcd comics for guidance (Foo, 2012; Bar, 2014).",
+    "Uwe Ligges (2007) says, \"RAM is cheap and thinking hurts\""
+)
+
+rm_citation(x)
+ex_citation(x)
+as_count(ex_citation(x))
+rm_citation(x, replacement="[CITATION HERE]")
+## Not run: 
+qdapTools::vect2df(sort(table(unlist(rm_citation(x, extract=TRUE)))), 
+    "citation", "count")
+
+## End(Not run)
+
+## In-Text
+ex_citation(x, pattern="@rm_citation2")
+
+## Parenthetical
+ex_citation(x, pattern="@rm_citation3")
+
+## Not run: 
+## Mining Citation
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(qdap, qdapTools, dplyr, ggplot2)
+
+url_dl("http://umlreading.weebly.com/uploads/2/5/2/5/25253346/whole_language_timeline-updated.docx")
+
+parts &lt;- read_docx("whole_language_timeline-updated.docx") %&gt;%
+    rm_non_ascii() %&gt;%
+    split_vector(split = "References", include = TRUE, regex=TRUE)
+    
+parts[[1]]
+
+parts[[1]] %&gt;%
+    unbag() %&gt;%
+    ex_citation() %&gt;%
+    c()
+
+## Counts
+parts[[1]] %&gt;%
+    unbag() %&gt;%
+    ex_citation() %&gt;%
+    as_count()
+    
+
+## By line
+ex_citation(parts[[1]])
+
+## Frequency
+cites &lt;- parts[[1]] %&gt;%
+    unbag() %&gt;%
+    ex_citation() %&gt;%
+    c() %&gt;%
+    data_frame(citation=.) %&gt;%
+    count(citation) %&gt;%
+    arrange(n) %&gt;%
+    mutate(citation=factor(citation, levels=citation))
+
+## Distribution of citations (find locations and then plot)
+cite_locs &lt;- do.call(rbind, lapply(cites[[1]], function(x){
+    m &lt;- gregexpr(x, unbag(parts[[1]]), fixed=TRUE)
+    data.frame(
+        citation=x,
+        start = m[[1]] -5,
+        end =  m[[1]] + 5 + attributes(m[[1]])[["match.length"]]
+    )
+}))
+
+ggplot(cite_locs) +
+    geom_segment(aes(x=start, xend=end, y=citation, yend=citation), size=3,
+        color="yellow") +
+    xlab("Duration") +
+    scale_x_continuous(expand = c(0,0),
+        limits = c(0, nchar(unbag(parts[[1]])) + 25)) +
+    theme_grey() +
+    theme(
+        panel.grid.major=element_line(color="grey20"),
+        panel.grid.minor=element_line(color="grey20"),
+        plot.background = element_rect(fill="black"),
+        panel.background = element_rect(fill="black"),
+        panel.border = element_rect(colour = "grey50", fill=NA, size=1),
+        axis.text=element_text(color="grey50"),    
+        axis.title=element_text(color="grey50")  
+    )
+
+## End(Not run)
+</code></pre>
+
+
+</div>

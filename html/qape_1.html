@@ -1,0 +1,181 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>bootPar</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Parametric bootstrap estimators of prediction accuracy
+</h2>
+
+<h3>Description</h3>
+
+<p>The function computes values of parametric bootstrap estimators of RMSE and QAPE prediction accuracy measures.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">bootPar(predictor, B, p)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>predictor</code></td>
+<td>
+<p>one of objects: EBLUP, ebpLMMne or plugInLMM.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>B</code></td>
+<td>
+<p>number of iterations in the bootstrap procedure.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p</code></td>
+<td>
+<p>orders of quantiles in the QAPE.
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>We use bootstrap model presented by Chatterjee, Lahiri and  Li (2008) p. 1229 but assumed for all population elements. Vectors of random effects and random components are generated from the multivariate normal distribution where REML estimates of model parameters are used. Random effects are generated for all population elements even for subsets with zero sample sizes (for which random effects are not estimated). We use the MSE estimator defined as the mean of squared bootstrap errors considered by Rao and Molina (2015) p. 141 and given by equation (6.2.22). The QAPE is a quantile of absolute prediction error which means that at least p100% of realizations of absolute prediction errors are smaller or equal to QAPE. It is estimated as a quantile of absolute bootstrap errors as proposed by Zadlo (2017) in Section 2.  
+</p>
+
+
+<h3>Value</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>estQAPE</code></td>
+<td>
+<p>estimated value/s of QAPE - number of rows is equal to the number of orders of quantiles to be considered (declared in <em>p</em>), number of columns is equal to the number of predicted characteristics (declared in <em>thetaFun</em>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>estRMSE</code></td>
+<td>
+<p>estimated value/s of RMSE (more than one value is computed if in <em>thetaFun</em> more than one population characteristic is defined).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>summary</code></td>
+<td>
+<p>estimated accuracy measures for the predictor of characteristics defined in thetaFun.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>predictorSim</code></td>
+<td>
+<p>bootstrapped values of the predictor/s.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>thetaSim</code></td>
+<td>
+<p>bootstrapped values of the predicted population or subpopulation characteristic/s.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Ysim</code></td>
+<td>
+<p>simulated values of the (possibly tranformed) variable of interest.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>error</code></td>
+<td>
+<p>differences between bootstrapped values of the predictor/s and bootstrapped values of the predicted characteristic/s.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>positiveDefiniteEstG</code></td>
+<td>
+<p>logical indicating if the estimated covariance matrix of random effects, used to generate bootstrap realizations of the dependent variable, is positive definite.</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Alicja Wolny-Dominiak, Tomasz Zadlo</p>
+
+
+<h3>References</h3>
+
+<p>1. Butar, B. F., Lahiri, P. (2003) On measures of uncertainty of empirical Bayes small-area estimators, Journal of Statistical Planning and Inference, 112, 63-76.<br></p>
+<p>2. Chatterjee, S., Lahiri, P. Li, H. (2008) Parametric bootstrap approximation to the distribution of EBLUP and related prediction intervals in linear mixed models, Annals of Statistics, Vol. 36 (3), 1221-1245.<br></p>
+<p>3. Rao, J.N.K. and Molina, I. (2015) Small Area Estimation. Second edition, John Wiley &amp; Sons, New Jersey.<br></p>
+<p>4. Zadlo T. (2017), On asymmetry of prediction errors in small area estimation, Statistics in Transition, 18 (3), 413-432. <br></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(lme4)
+library(Matrix)
+library(mvtnorm)
+library(matrixcalc) 
+
+
+data(invData) 
+# data from one period are considered: 
+invData2018 &lt;- invData[invData$year == 2018,] 
+attach(invData2018)
+
+N &lt;- nrow(invData2018) # population size
+
+con &lt;- rep(1,N) 
+con[c(379,380)] &lt;- 0 # last two population elements are not observed 
+
+YS &lt;- log(investments[con == 1]) # log-transformed values
+backTrans &lt;- function(x) exp(x) # back-transformation of the variable of interest
+fixed.part &lt;- 'log(newly_registered)'
+random.part &lt;- '(1|NUTS2)'
+
+reg &lt;- invData2018[, -which(names(invData2018) == 'investments')]
+weights &lt;- rep(1,N) # homoscedastic random components
+
+# Characteristics to be predicted:
+# values of the variable for last two population elements  
+thetaFun &lt;- function(x) {x[c(379,380)]}
+set.seed(123456)
+
+predictor &lt;- plugInLMM(YS, fixed.part, random.part, reg, con, weights, backTrans, thetaFun)
+predictor$thetaP
+
+### Estimation of prediction accuracy
+est_accuracy &lt;- bootPar(predictor, 10, c(0.75,0.9))
+
+# Estimation of prediction RMSE
+est_accuracy$estRMSE
+
+# Estimation of prediction QAPE
+est_accuracy$estQAPE
+
+#        [,1]     [,2]
+# 75% 2888.291 115.6076
+# 90% 5472.738 127.0623
+
+####### Interpretations in case of prediction of investments 
+####### for population element no. 379:
+### It is estimated that at least 75% of absolute prediction errors are
+# smaller or equal 2888.291 milion Polish zloty
+# and at least 25% of absolute prediction errors are
+# greater or equal 2888.291 milion Polish zloty. 
+### It is estimated that at least 90% of absolute prediction errors are
+# smaller or equal 5472.738 milion Polish zloty
+# and at least 10% of absolute prediction errors are
+# greater or equal 5472.738 milion Polish zloty. 
+
+detach(invData2018)
+</code></pre>
+
+
+</div>

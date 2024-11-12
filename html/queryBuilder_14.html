@@ -1,0 +1,100 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>query-condition</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Register new or list existing query conditions</h2>
+
+<h3>Description</h3>
+
+<p>Condition is two-argument function such as '|' or '&amp;' used to combine pair of rules.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">queryCondition(method)
+
+setQueryConditions(..., .queryBuilderConfig = queryBuilderConfig)
+
+listQueryConditions(.queryBuilderConfig = queryBuilderConfig, print = TRUE)
+
+default_conditions
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+<p>R function of two parameters that is used to combine a pair of rules.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Name-value pairs defining condition name and method respectively.
+Should be defined with usage of <code>queryCondition</code> function.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>.queryBuilderConfig</code></td>
+<td>
+<p>R6 class object storing query configuration. See queryBuilderConfigClass.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>print</code></td>
+<td>
+<p>Should the list of operators be printed into console?</p>
+</td>
+</tr>
+</table>
+<h3>Format</h3>
+
+<p>An object of class <code>list</code> of length 2.
+</p>
+
+
+<h3>Details</h3>
+
+
+<ul>
+<li>
+<p><code>queryCondition</code>: defines condition method.
+</p>
+</li>
+<li>
+<p><code>setQueryConditions</code>:
+is used to register the defined conditions in the default or custom queryBuilderConfigClass object.
+
+</p>
+</li>
+<li>
+<p><code>listQueryConditions</code>: returns list of registered conditions.
+</p>
+</li>
+<li>
+<p><code>default_conditions</code>: an object storing default definitions for conditions.
+</p>
+</li>
+</ul>
+<h3>Examples</h3>
+
+<pre><code class="language-R">setQueryConditions(
+  "XOR" = queryCondition(xor)
+)
+query &lt;- queryGroup(
+  condition = "XOR",
+  queryRule("am", "equal", 1),
+  queryRule("vs", "equal", 1)
+)
+queryToExpr(query)
+
+</code></pre>
+
+
+</div>

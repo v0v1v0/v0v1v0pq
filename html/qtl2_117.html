@@ -1,0 +1,143 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>plot_peaks</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Plot QTL peak locations</h2>
+
+<h3>Description</h3>
+
+<p>Plot QTL peak locations (possibly with intervals) for multiple traits.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">plot_peaks(
+  peaks,
+  map,
+  chr = NULL,
+  tick_height = 0.3,
+  gap = NULL,
+  lod_labels = FALSE,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>peaks</code></td>
+<td>
+<p>Data frame such as that produced by
+<code>find_peaks()</code>) containing columns
+<code>chr</code>, <code>pos</code>, <code>lodindex</code>, and <code>lodcolumn</code>.
+May also contain columns <code>ci_lo</code> and <code>ci_hi</code>, in
+which case intervals will be plotted.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>map</code></td>
+<td>
+<p>Marker map, used to get chromosome lengths (and start
+and end positions).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>chr</code></td>
+<td>
+<p>Selected chromosomes to plot; a vector of character
+strings.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tick_height</code></td>
+<td>
+<p>Height of tick marks at the peaks (a number between 0 and 1).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gap</code></td>
+<td>
+<p>Gap between chromosomes. The default is 1% of the total genome length.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lod_labels</code></td>
+<td>
+<p>If TRUE, plot LOD scores near the intervals. Uses
+three hidden graphics parameters, <code>label_gap</code> (distance between
+CI and LOD text label), <code>label_left</code> (vector that indicates
+whether the labels should go on the left side; TRUE=on left,
+FALSE=on right, NA=put into larger gap on that chromosome), and
+<code>label_cex</code> that controls the size of these labels</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Additional graphics parameters</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>None.
+</p>
+
+
+<h3>Hidden graphics parameters</h3>
+
+<p>A number of graphics parameters can be passed via <code>...</code>. For
+example, <code>bgcolor</code> to control the background color and
+<code>altbgcolor</code> to control the background color on alternate chromosomes.
+These are not included as formal parameters in order to avoid
+cluttering the function definition.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>find_peaks()</code>, <code>plot_lodpeaks()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># read data
+iron &lt;- read_cross2(system.file("extdata", "iron.zip", package="qtl2"))
+
+
+# insert pseudomarkers into map
+map &lt;- insert_pseudomarkers(iron$gmap, step=1)
+
+# calculate genotype probabilities
+probs &lt;- calc_genoprob(iron, map, error_prob=0.002)
+
+# grab phenotypes and covariates; ensure that covariates have names attribute
+pheno &lt;- iron$pheno
+covar &lt;- match(iron$covar$sex, c("f", "m")) # make numeric
+names(covar) &lt;- rownames(iron$covar)
+Xcovar &lt;- get_x_covar(iron)
+
+# perform genome scan
+out &lt;- scan1(probs, pheno, addcovar=covar, Xcovar=Xcovar)
+
+# find peaks above lod=3.5 (and calculate 1.5-LOD support intervals)
+peaks &lt;- find_peaks(out, map, threshold=3.5, drop=1.5)
+
+plot_peaks(peaks, map)
+
+# show LOD scores
+plot_peaks(peaks, map, lod_labels=TRUE)
+
+# show LOD scores, controlling whether they go on the left or right
+plot_peaks(peaks, map, lod_labels=TRUE,
+           label_left=c(TRUE, TRUE, TRUE, FALSE, TRUE, FALSE))
+</code></pre>
+
+
+</div>

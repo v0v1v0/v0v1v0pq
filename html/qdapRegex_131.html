@@ -1,0 +1,109 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>validate</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Regex Validation Function Generator</h2>
+
+<h3>Description</h3>
+
+<p>Generate function to validate regular expressions.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">validate(
+  pattern,
+  single = TRUE,
+  trim = FALSE,
+  clean = FALSE,
+  dictionary = getOption("regex.library")
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>pattern</code></td>
+<td>
+<p>A character string containing a regular expression (or 
+character string for <code>fixed = TRUE</code>) to be matched in the given 
+character vector.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>single</code></td>
+<td>
+<p>logical.  If <code>TRUE</code> only returns true if the output string 
+is of length one.  If <code>FALSE</code> multiple strings and multiple outputs are 
+accepted.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>trim</code></td>
+<td>
+<p>logical.  If <code>TRUE</code> removes leading and trailing white 
+spaces.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>clean</code></td>
+<td>
+<p>trim logical.  If <code>TRUE</code> extra white spaces and escaped 
+character will be removed.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dictionary</code></td>
+<td>
+<p>A dictionary of canned regular expressions to search within 
+if <code>pattern</code> begins with <code>"@rm_"</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Returns a function that operates typical of other <span class="pkg">qdapRegex</span> 
+<code>rm_XXX</code> functions but with user defined defaults.
+</p>
+
+
+<h3>Warning</h3>
+
+<p><code>validate</code> uses <span class="pkg">qdapRegex</span>'s built in regular 
+expressions.  As this patterns are used for text analysis they tend to be 
+flexible and thus liberal.  The user may wish to define more conservative 
+validation regular expressions and supply to <code>pattern</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Single element email
+valid_email &lt;- validate("@rm_email")
+valid_email(c("tyler.rinker@gmail.com", "@trinker"))
+
+## Multiple elements
+valid_email_1 &lt;- validate("@rm_email", single=FALSE)
+valid_email_1(c("tyler.rinker@gmail.com", "@trinker"))
+
+## single element address
+valid_address &lt;- validate("@rm_city_state_zip")
+valid_address("Buffalo, NY 14217")
+valid_address("buffalo,NY14217")
+valid_address("buffalo NY 14217")
+
+valid_address2 &lt;- validate(paste0("(\\b([A-Z][\\w-]*)+),", 
+    "\\s([A-Z]{2})\\s(?&lt;!\\d)\\d{5}(?:[ -]\\d{4})?\\b"))
+valid_address2("Buffalo, NY 14217")
+valid_address2("buffalo, NY 14217")
+valid_address2("buffalo,NY14217")
+valid_address2("buffalo NY 14217")    
+</code></pre>
+
+
+</div>

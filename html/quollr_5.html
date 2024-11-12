@@ -1,0 +1,91 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>cal_2d_dist</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Calculate 2D Euclidean distances between vertices</h2>
+
+<h3>Description</h3>
+
+<p>This function calculates the 2D distances between pairs of points in a data frame.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">cal_2d_dist(tr_coord_df, start_x, start_y, end_x, end_y, select_vars)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>tr_coord_df</code></td>
+<td>
+<p>A data frame containing columns for the
+x and y coordinates of start and end points.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>start_x</code></td>
+<td>
+<p>Column name for the x-coordinate of the starting point.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>start_y</code></td>
+<td>
+<p>Column name for the y-coordinate of the starting point.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>end_x</code></td>
+<td>
+<p>Column name for the x-coordinate of the ending point.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>end_y</code></td>
+<td>
+<p>Column name for the y-coordinate of the ending point.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>select_vars</code></td>
+<td>
+<p>A character vector specifying the columns to be
+selected in the resulting data frame.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A data frame with columns for the starting point, ending point,
+and calculated distances.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">num_bins_list &lt;- calc_bins(data = s_curve_noise_umap_scaled, x = "UMAP1",
+y = "UMAP2", hex_size = NA, buffer_x = NA, buffer_y = NA)
+num_bins_x &lt;- num_bins_list$num_x
+num_bins_y &lt;- num_bins_list$num_y
+hb_obj &lt;- hex_binning(data = s_curve_noise_umap_scaled,
+x = "UMAP1", y = "UMAP2", num_bins_x = num_bins_x,
+num_bins_y = num_bins_y, x_start = NA, y_start = NA, buffer_x = NA,
+buffer_y = NA, hex_size = NA, col_start = "UMAP")
+all_centroids_df &lt;- as.data.frame(do.call(cbind, hb_obj$centroids))
+counts_df &lt;- as.data.frame(do.call(cbind, hb_obj$std_cts))
+df_bin_centroids &lt;- extract_hexbin_centroids(centroids_df = all_centroids_df, counts_df = counts_df)
+tr1_object &lt;- tri_bin_centroids(hex_df = df_bin_centroids, x = "c_x", y = "c_y")
+tr_from_to_df &lt;- gen_edges(tri_object = tr1_object)
+cal_2d_dist(tr_coord_df = tr_from_to_df, start_x = "x_from", start_y = "y_from",
+end_x = "x_to", end_y = "y_to", select_vars = c("from", "to", "distance"))
+
+</code></pre>
+
+
+</div>

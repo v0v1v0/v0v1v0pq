@@ -1,0 +1,93 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>phen_hiv</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Calculate Final State and Payoffs in Quantum Game</h2>
+
+<h3>Description</h3>
+
+<p>This function calculates the final quantum state and expected payoffs for two
+players in a quantum game based on their strategies. The function uses quantum
+gates and unitary transformations to simulate the game dynamics.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">phen_hiv(strategy1, strategy2, alpha, beta, gamma, theta)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>strategy1</code></td>
+<td>
+<p>A 2x2 matrix representing the strategy of player 1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>strategy2</code></td>
+<td>
+<p>A 2x2 matrix representing the strategy of player 2.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>alpha</code></td>
+<td>
+<p>A numeric value representing the payoff for outcome |00&gt;.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>beta</code></td>
+<td>
+<p>A numeric value representing the payoff for outcome |01&gt;.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gamma</code></td>
+<td>
+<p>A numeric value representing the payoff for outcome |10&gt;.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>theta</code></td>
+<td>
+<p>A numeric value representing the payoff for outcome |11&gt;.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list containing the final quantum state (<code>final_state</code>), the payoffs
+for each basis state (<code>payoffs</code>), and the expected payoffs for player 1 (<code>pi_v</code>)
+and player 2 (<code>pi_V</code>).
+</p>
+
+
+<h3>References</h3>
+
+<p>Özlüer Başer, B. (2022). "Analyzing the competition of HIV-1 phenotypes with quantum game theory".
+Gazi University Journal of Science, 35(3), 1190–1198. <a href="https://doi.org/10.35378/gujs.772616">doi:10.35378/gujs.772616</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(qsimulatR)
+strategy1 &lt;- diag(2) # Identity matrix for strategy 1
+strategy2 &lt;- diag(2) # Identity matrix for strategy 2
+alpha &lt;- 1
+beta &lt;- 0.5
+gamma &lt;- 2
+theta &lt;- 0.1
+result &lt;- phen_hiv(strategy1, strategy2, alpha, beta, gamma, theta)
+print(result)
+
+</code></pre>
+
+
+</div>

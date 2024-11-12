@@ -1,0 +1,82 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>fwd2spot</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Forward curve conversion</h2>
+
+<h3>Description</h3>
+
+<p>Uses a recursive method to calculate the implicit spot rates of
+a given forward curve. Calculations and formulas based on the definition of
+forward rates where <code class="reqn">\exp{-rT} = \exp{-\int{f(t)dt}}</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">fwd2spot(dates, fwd, approximation = "constant")
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>dates</code></td>
+<td>
+<p>Term structure of rates.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fwd</code></td>
+<td>
+<p>Numeric vector of forward rates to be converted.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>approximation</code></td>
+<td>
+<p>String that establish the approximation. Set
+<code>'linear'</code> for a piecewise linear approximation, or <code>'constant'</code> for a
+piecewise constant curve.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Requires continuous rates. Recommended that the input forward curve
+starts with maturity 0, if not, function will approximate zero node
+as equal to node 1 (first term structure). Output forward
+curve slightly differs from empirical curve as it calculates an implicit
+forward curve.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Implicit spot curve based on the input forward rates and input term
+structure.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># Inputs for calibration of forward curve
+yield.curve &lt;- c(0.015,0.0175, 0.0225, 0.0275, 0.0325, 0.0375,0.04,0.0425,0.045,0.0475,0.05)
+names(yield.curve) &lt;- c(0.5,1,2,3,4,5,6,7,8,9,10)
+nodes &lt;- seq(0,10,0.5)
+# Calibration
+fwd &lt;- curve.calibration (yield.curve = yield.curve, market.assets = NULL,
+                          analysis.date = "2019-01-03", asset.type = "IBRSwaps",
+                          freq = 4, rate.type = 0, daycount = "ACT/365",  fwd = 1,
+                          npieces = NULL, nodes = nodes, approximation = "constant")
+# Forward to Spot
+dates &lt;- names(fwd)
+fwd2spot(dates, fwd, approximation = "constant")
+
+</code></pre>
+
+
+</div>

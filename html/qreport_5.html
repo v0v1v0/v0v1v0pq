@@ -1,0 +1,104 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>dataChk</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>dataChk</h2>
+
+<h3>Description</h3>
+
+<p>Run a Series of Data Checks and Report
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">dataChk(
+  d,
+  checks,
+  id = character(0),
+  html = FALSE,
+  omit0 = FALSE,
+  byid = FALSE,
+  nrows = 500
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>d</code></td>
+<td>
+<p>a data table</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>checks</code></td>
+<td>
+<p>a vector of expressions that if satisfied causes records to be listed</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>id</code></td>
+<td>
+<p>option vector of variable names to serve as IDs</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>html</code></td>
+<td>
+<p>set to <code>TRUE</code> to create HTML output and put each check in a separate tab, also creating summary tabs</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>omit0</code></td>
+<td>
+<p>set to <code>TRUE</code> to ignore checks finding no observations</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>byid</code></td>
+<td>
+<p>if <code>id</code> is given set <code>byid=TRUE</code> to also list a data frame with all flagged conditions, sorted by <code>id</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nrows</code></td>
+<td>
+<p>maximum number of rows to allow to be printed</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Function to run various data checks on a data table.
+</p>
+<p>Checks are run separately for each part of the <code>expression</code> vector <code>checks</code>.  For each single expression, the variables listed in the output are all the variables mentioned in the expression plus optional variables whose names are in the character vector <code>id</code>. <code style="white-space: pre;">⁠%between% c(a,b)⁠</code> in expressions is printed as <code style="white-space: pre;">⁠[a,b]⁠</code>.  The output format is plain text unless <code>html=TRUE</code> which also puts each table in a separate Quarto tab.  See <a href="https://www.fharrell.com/post/rflow/">here</a> for examples.
+</p>
+
+
+<h3>Value</h3>
+
+<p>an invisible data frame containing variables <code>check</code> (the expression checked) and <code>n</code> (the number of records satisfying the expression)
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Frank Harrell
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+dataChk(mydata)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

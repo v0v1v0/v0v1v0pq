@@ -1,0 +1,222 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qz.dtrsen</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Reordered QZ Decomposition for a Real Matrix</h2>
+
+<h3>Description</h3>
+
+<p>This function call 'dtrsend' in Fortran to reorder 'double'
+matrices (T,Q).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">  qz.dtrsen(T, Q, select, job = c("B", "V", "E", "N"),
+            want.Q = TRUE, LWORK = NULL, LIWORK = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>T</code></td>
+<td>
+<p>a 'double' generalized Schur form, dim = c(N, N).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Q</code></td>
+<td>
+<p>a 'double' Schur vectors, dim = c(N, N).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>select</code></td>
+<td>
+<p>specifies the eigenvalues in the selected cluster.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>job</code></td>
+<td>
+<p>Specifies whether condition numbers are required for the
+cluster of eigenvalues (S) or the invariant subspace (SEP).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>want.Q</code></td>
+<td>
+<p>if update Q.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>LWORK</code></td>
+<td>
+<p>optional, dimension of array WORK for workspace. (&gt;= N(N+1)/2)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>LIWORK</code></td>
+<td>
+<p>optional, dimension of array IWORK for workspace. (&gt;= N(N+1)/4)</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>See 'dtrsen.f' for all details.
+</p>
+<p>DTRSEN reorders the real Schur factorization of a real matrix
+A = Q*T*Q**T, so that a selected cluster of eigenvalues appears in
+the leading diagonal blocks of the upper quasi-triangular matrix T,
+and the leading columns of Q form an orthonormal basis of the
+corresponding right invariant subspace.
+</p>
+<p>Optionally the routine computes the reciprocal condition numbers of
+the cluster of eigenvalues and/or the invariant subspace.
+</p>
+<p>T must be in Schur canonical form (as returned by DHSEQR), that is,
+block upper triangular with 1-by-1 and 2-by-2 diagonal blocks; each
+2-by-2 diagonal block has its diagonal elements equal and its
+off-diagonal elements of opposite sign.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Return a list contains next:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>'T'</code></td>
+<td>
+<p>T's reorded generalized Schur form.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>'WR'</code></td>
+<td>
+<p>original returns from 'dtrsen.f'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>'WI'</code></td>
+<td>
+<p>original returns from 'dtrsen.f'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>'M'</code></td>
+<td>
+<p>original returns from 'dtrsen.f'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>'S'</code></td>
+<td>
+<p>original returns from 'dtrsen.f'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>'SEP'</code></td>
+<td>
+<p>original returns from 'dtrsen.f'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>'WORK'</code></td>
+<td>
+<p>optimal LWORK (for dtrsen.f only)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>'IWORK'</code></td>
+<td>
+<p>optimal LIWORK (for dtrsen.f only)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>'INFO'</code></td>
+<td>
+<p>= 0: successful. &lt; 0: if INFO = -i, the i-th argument had
+an illegal value. =1: reordering of T failed.</p>
+</td>
+</tr>
+</table>
+<p>Extra returns in the list:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>'W'</code></td>
+<td>
+<p>WR + WI * i.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>'Q'</code></td>
+<td>
+<p>the reorded Schur vectors.</p>
+</td>
+</tr>
+</table>
+<h3>Warning(s)</h3>
+
+<p>There is no format checking for <code>T</code> and <code>Q</code>
+which are usually returned by <code>qz.dgees</code>.
+</p>
+<p>There is also no checking for <code>select</code> which is usually according to
+the returns of <code>qz.dgeev</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Wei-Chen Chen <a href="mailto:wccsnow@gmail.com">wccsnow@gmail.com</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Anderson, E., et al. (1999) <em>LAPACK User's Guide,</em>
+3rd edition, SIAM, Philadelphia.
+</p>
+<p><a href="https://www.netlib.org/lapack/double/dtrsen.f">https://www.netlib.org/lapack/double/dtrsen.f</a>
+</p>
+<p><a href="https://en.wikipedia.org/wiki/Schur_decomposition">https://en.wikipedia.org/wiki/Schur_decomposition</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>qz.zgees</code>, <code>qz.dgees</code>, <code>qz.ztrsen</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+library(QZ, quiet = TRUE)
+
+### https://www.nag.com/numeric/fl/nagdoc_fl22/xhtml/f08/f08qgf.xml
+T &lt;- exA4$T
+Q &lt;- exA4$Q
+select &lt;- c(TRUE, FALSE, FALSE, TRUE)
+ret &lt;- qz.dtrsen(T, Q, select)
+
+# Verify 1
+A &lt;- Q %*% T %*% solve(Q)
+A.new &lt;- ret$Q %*% ret$T %*% solve(ret$Q)
+round(A - A.new)
+
+# verify 2
+round(ret$Q %*% t(ret$Q))
+
+</code></pre>
+
+
+</div>

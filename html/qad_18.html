@@ -1,0 +1,227 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qad</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Measure of (asymmetric and directed) dependence</h2>
+
+<h3>Description</h3>
+
+<p>Quantification of (asymmetric and directed) dependence structures between two random variables X and Y.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qad(x, ...)
+
+## S3 method for class 'data.frame'
+qad(
+  x,
+  resolution = NULL,
+  p.value = TRUE,
+  nperm = 1000,
+  p.value_asymmetry = FALSE,
+  nboot = 1000,
+  print = TRUE,
+  remove.00 = FALSE,
+  ...
+)
+
+## S3 method for class 'numeric'
+qad(
+  x,
+  y,
+  resolution = NULL,
+  p.value = TRUE,
+  nperm = 1000,
+  p.value_asymmetry = FALSE,
+  nboot = 1000,
+  print = TRUE,
+  remove.00 = FALSE,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a data.frame containing two columns with the observations of the bi-variate sample or a (non-empty) numeric vector of data values</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Further arguments passed to 'qad' will be ignored</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>resolution</code></td>
+<td>
+<p>an integer indicating the number of strips for the checkerboard aggregation (see ECBC). We recommend to use the default value (resolution = NULL)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p.value</code></td>
+<td>
+<p>a logical indicating whether to return a p-value of rejecting independence (based on permutation).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nperm</code></td>
+<td>
+<p>an integer indicating the number of permutation runs (if p.value = TRUE)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p.value_asymmetry</code></td>
+<td>
+<p>a logical indicating whether to return a (heuristic) p-value for the measure of asymmetry (based on bootstrap).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nboot</code></td>
+<td>
+<p>an integer indicating the number of runs for the bootstrap.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>print</code></td>
+<td>
+<p>a logical indicating whether the result of qad is printed.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>remove.00</code></td>
+<td>
+<p>a logical indicating whether double 0 entries should be excluded (default = FALSE)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>a (non-empty) numeric vector of data values.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>qad is the implementation of a strongly consistent estimator of the copula based dependence measure zeta_1 introduced in Trutschnig 2011.
+We first compute the empirical copula of a two-dimensional sample, aggregate it to the so called empirical checkerboard copula (ECBC), and
+calculate zeta_1 of the ECBC and its transpose. In order to test for independence (in both directions), a built-in p-value
+is implemented (a permutation test with nperm permutation runs to estimate the p-value).
+Furthermore, a (heuristic) bootstrap test with nboot runs can be applied to estimate a p-value for the measure of asymmetry a.
+</p>
+
+
+<h3>Value</h3>
+
+<p>qad returns an object of class qad containing the following components:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p> a data.frame containing the input data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>q(X,Y)</code></td>
+<td>
+<p>influence of X on Y</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>q(Y,X)</code></td>
+<td>
+<p>influence of Y on X</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>max.dependence</code></td>
+<td>
+<p>maximal dependence</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>results</code></td>
+<td>
+<p> a data.frame containing the results of the dependence measures.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mass_matrix</code></td>
+<td>
+<p> a matrix containing the mass distribution of the empirical checkerboard copula.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>resolution</code></td>
+<td>
+<p>an integer containing the used resolution of the checkerboard aggregation.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p>Sample size.</p>
+</td>
+</tr>
+</table>
+<h3>References</h3>
+
+<p>Trutschnig, W. (2011). On a strong metric on the space of copulas and its induced dependence measure, Journal of Mathematical Analysis and Applications 384, 690-705.
+</p>
+<p>Junker, R., Griessenberger, F. and Trutschnig, W. (2021). Estimating scale-invariant directed dependence of bivariate distributions.  Computational Statistics and Data Analysis, 153.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>A tutorial can be found at <a href="http://www.trutschnig.net/software.html">http://www.trutschnig.net/software.html</a>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">#Example 1 (independence)
+
+n &lt;- 100
+x &lt;- runif(n,0,1)
+y &lt;- runif(n,0,1)
+sample &lt;- data.frame(x,y)
+qad(sample)
+
+###
+
+#Example 2 (mutual complete dependence)
+
+n &lt;- 500
+x &lt;- runif(n,0,1)
+y &lt;- x^2
+sample &lt;- data.frame(x,y)
+qad(sample)
+
+#Example 3 (complete dependence)
+
+n &lt;- 1000
+x &lt;- runif(n,-10,10)
+y &lt;- sin(x)
+sample &lt;- data.frame(x,y)
+qad(sample)
+
+#Example 4 (Asymmetry)
+
+n &lt;- 100
+x &lt;- runif(n,0,1)
+y &lt;- (2*x) %% 1
+qad(x, y)
+</code></pre>
+
+
+</div>

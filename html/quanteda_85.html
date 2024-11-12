@@ -1,0 +1,88 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>corpus_reshape</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Recast the document units of a corpus</h2>
+
+<h3>Description</h3>
+
+<p>For a corpus, reshape (or recast) the documents to a different level of aggregation.
+Units of aggregation can be defined as documents, paragraphs, or sentences.
+Because the corpus object records its current "units" status, it is possible
+to move from recast units back to original units, for example from documents,
+to sentences, and then back to documents (possibly after modifying the sentences).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">corpus_reshape(
+  x,
+  to = c("sentences", "paragraphs", "documents"),
+  use_docvars = TRUE,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>corpus whose document units will be reshaped</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>to</code></td>
+<td>
+<p>new document units in which the corpus will be recast</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>use_docvars</code></td>
+<td>
+<p>if <code>TRUE</code>, repeat the docvar values for each
+segmented text; if <code>FALSE</code>, drop the docvars in the segmented corpus.
+Dropping the docvars might be useful in order to conserve space or if these
+are not desired for the segmented corpus.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>additional arguments passed to <code>tokens()</code>, since the
+syntactic segmenter uses this function)</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A corpus object with the documents defined as the new units,
+including document-level meta-data identifying the original documents.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># simple example
+corp1 &lt;- corpus(c(textone = "This is a sentence.  Another sentence.  Yet another.",
+                 textwo = "Premiere phrase.  Deuxieme phrase."),
+                 docvars = data.frame(country=c("UK", "USA"), year=c(1990, 2000)))
+summary(corp1)
+summary(corpus_reshape(corp1, to = "sentences"))
+
+# example with inaugural corpus speeches
+(corp2 &lt;- corpus_subset(data_corpus_inaugural, Year&gt;2004))
+corp2para &lt;- corpus_reshape(corp2, to = "paragraphs")
+corp2para
+summary(corp2para, 50, showmeta = TRUE)
+## Note that Bush 2005 is recorded as a single paragraph because that text
+## used a single \n to mark the end of a paragraph.
+</code></pre>
+
+
+</div>

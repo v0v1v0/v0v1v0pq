@@ -1,0 +1,126 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>cv.bandwidth</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Cross-validation bandwidth</h2>
+
+<h3>Description</h3>
+
+<p><code>cv.bandwidth</code> implements the cross-validation bandwidth selection rule. The function <code>rdq.bandwidth</code> calls this function to obtain the CV bandwidth.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">cv.bandwidth(y, x, z, dz, x0, val, xl, order, bdy)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>a numeric vector, the outcome variable.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>the running variable.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>z</code></td>
+<td>
+<p>additional covariates.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dz</code></td>
+<td>
+<p>the number of covariates z.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x0</code></td>
+<td>
+<p>the cutoff point.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>val</code></td>
+<td>
+<p>a set of candidate values for the CV bandwidth.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xl</code></td>
+<td>
+<p>if <em>xl=0.5</em>, the CV bandwidth is computed using the 50% of observations closest to <code class="reqn">x_0</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>order</code></td>
+<td>
+<p>either 1 or 2. When <em>order=1</em>, a local linear regression is used, and
+when <em>order=2</em>, a local quadratic regression is used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bdy</code></td>
+<td>
+<p>either 0 or 1. When <em>bdy=1</em>, the CV bandwidth is computed by
+treating x as a boundary point. Otherwise, x is treated as an interior point.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list with elements:
+</p>
+
+<dl>
+<dt>h.cv</dt>
+<dd>
+<p>the selected CV bandwidth values at the median.</p>
+</dd>
+<dt>cand</dt>
+<dd>
+<p>values of the criterion function evaluated at each of candidate value.</p>
+</dd>
+</dl>
+<h3>References</h3>
+
+<p>Zhongjun Qu, Jungmo Yoon, Pierre Perron (2024), "Inference on Conditional Quantile
+Processes in Partially Linear Models with Applications to the Impact of Unemployment Benefits,"
+The Review of Economics and Statistics; https://doi.org/10.1162/rest_a_01168
+</p>
+<p>Zhongjun Qu and Jungmo Yoon (2019), "Uniform Inference on Quantile Effects
+under Sharp Regression Discontinuity Designs," Journal of Business and Economic Statistics,
+37(4), 625–647; https://doi.org/10.1080/07350015.2017.1407323
+</p>
+
+
+<h3>See Also</h3>
+
+<p>rdq.bandwidth
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">n = 500
+x = runif(n,min=-4,max=4)
+d = (x &gt; 0)
+y = x + 0.3*(x^2) - 0.1*(x^3) + 1.5*d + rnorm(n)
+cv.bandwidth(y=y, x=x, z=NULL, dz=0, x0=0, val=c(1,2,3,4), xl=0.5, order=2, bdy=1)
+cv.bandwidth(y=y, x=x, z=NULL, dz=0, x0=0, val=c(1,2,3,4), xl=0.5, order=1, bdy=1)
+
+</code></pre>
+
+
+</div>

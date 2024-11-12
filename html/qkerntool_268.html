@@ -1,0 +1,299 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qtSNE</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>qKernel t-Distributed Stochastic Neighbor Embedding</h2>
+
+<h3>Description</h3>
+
+<p>Wrapper for the qkernel t-distributed stochastic neighbor embeddingg. qtSNE is a method for constructing a low dimensional embedding of high-dimensional data, distances or similarities.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">
+## S4 method for signature 'matrix'
+qtSNE(x,kernel = "rbfbase", qpar = list(sigma = 0.1, q = 0.9),
+        initial_config = NULL, no_dims=2, initial_dims=30, perplexity=30, max_iter= 1300,
+         min_cost=0, epoch_callback=NULL, epoch=100, na.action = na.omit, ...)
+## S4 method for signature 'cndkernmatrix'
+qtSNE(x,initial_config = NULL, no_dims=2, initial_dims=30,
+        perplexity=30, max_iter = 1000, min_cost=0, epoch_callback=NULL,epoch=100)
+## S4 method for signature 'qkernmatrix'
+qtSNE(x,initial_config = NULL, no_dims=2, initial_dims=30,
+        perplexity=30, max_iter = 1000, min_cost=0, epoch_callback=NULL,epoch=100)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>the matrix of data to be clustered or a kernel Matrix of class
+<code>qkernmatrix</code> or <code>cndkernmatrix</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>kernel</code></td>
+<td>
+<p>the kernel function used in computing the affinity matrix.
+This parameter can be set to any function, of class kernel, which computes a kernel function value between two
+vector arguments. kernlab provides the most popular kernel functions
+which can be used by setting the kernel parameter to the following strings:
+</p>
+
+<ul>
+<li> <p><code>rbfbase</code> Radial Basis qkernel function "Gaussian"
+</p>
+</li>
+<li> <p><code>nonlbase</code> Non Linear qkernel function
+</p>
+</li>
+<li> <p><code>laplbase</code> Laplbase qkernel function
+</p>
+</li>
+<li> <p><code>ratibase</code> Rational Quadratic qkernel function
+</p>
+</li>
+<li> <p><code>multbase</code> Multiquadric qkernel function
+</p>
+</li>
+<li> <p><code>invbase</code> Inverse Multiquadric qkernel function
+</p>
+</li>
+<li> <p><code>wavbase</code> Wave qkernel function
+</p>
+</li>
+<li> <p><code>powbase</code> Power qkernel function
+</p>
+</li>
+<li> <p><code>logbase</code> Log qkernel function
+</p>
+</li>
+<li> <p><code>caubase</code> Cauchy qkernel function
+</p>
+</li>
+<li> <p><code>chibase</code> Chi-Square qkernel function
+</p>
+</li>
+<li> <p><code>studbase</code> Generalized T-Student qkernel function
+</p>
+</li>
+<li> <p><code>nonlcnd</code> Non Linear cndkernel function
+</p>
+</li>
+<li> <p><code>polycnd</code> Polynomial cndkernel function
+</p>
+</li>
+<li> <p><code>rbfcnd</code> Radial Basis cndkernel function "Gaussian"
+</p>
+</li>
+<li> <p><code>laplcnd</code> Laplacian cndkernel function
+</p>
+</li>
+<li> <p><code>anocnd</code> ANOVA cndkernel function
+</p>
+</li>
+<li> <p><code>raticnd</code> Rational Quadratic cndkernel function
+</p>
+</li>
+<li> <p><code>multcnd</code> Multiquadric cndkernel function
+</p>
+</li>
+<li> <p><code>invcnd</code> Inverse Multiquadric cndkernel function
+</p>
+</li>
+<li> <p><code>wavcnd</code> Wave cndkernel function
+</p>
+</li>
+<li> <p><code>powcnd</code> Power cndkernel function
+</p>
+</li>
+<li> <p><code>logcnd</code> Log cndkernel function
+</p>
+</li>
+<li> <p><code>caucnd</code> Cauchy cndkernel function
+</p>
+</li>
+<li> <p><code>chicnd</code> Chi-Square cndkernel function
+</p>
+</li>
+<li> <p><code>studcnd</code> Generalized T-Student cndkernel function
+</p>
+</li>
+</ul>
+<p>The kernel parameter can also be set to a user defined function of
+class kernel by passing the function name as an argument.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qpar</code></td>
+<td>
+<p>a character string or the list of hyper-parameters (kernel parameters).
+The default character string <code>list(sigma = 2, q = 0.9)</code> uses a heuristic to determine a
+suitable value for the width parameter of the RBF kernel.
+The second option <code>"local"</code> (local scaling) uses a more advanced heuristic
+and sets a width parameter for every point in the data set. This is
+particularly useful when the data incorporates multiple scales.
+A list can also be used containing the parameters to be used with the
+kernel function. Valid parameters for existing kernels are :
+</p>
+
+<ul>
+<li> <p><code>sigma</code>  for the Radial Basis qkernel function "rbfbase" , the Laplacian qkernel function "laplbase" the Cauchy qkernel function "caubase" and for the ANOVA cndkernel function "anocnd".
+</p>
+</li>
+<li> <p><code>alpha</code>  for the Non Linear qkernel function "nonlbase",for the Non Linear cndkernel function "nonlcnd",and for the Polynomial cndkernel function "polycnd".
+</p>
+</li>
+<li> <p><code>c</code>  for the Rational Quadratic qkernel function "ratibase" , the Multiquadric qkernel function "multbase", the Inverse Multiquadric qkernel function "invbase",for the Polynomial cndkernel function "polycnd",for the Rational Quadratic cndkernel function "raticnd" , the Multiquadric cndkernel function "multcnd" and the Inverse Multiquadric cndkernel function "invcnd".
+</p>
+</li>
+<li> <p><code>d</code>   for qkernel function "powbase" , the Log qkernel function "logbase", the Generalized T-Student qkernel function "studbase", for the Polynomial cndkernel function "polycnd", for the ANOVA cndkernel function "anocnd",for the d cndkernel function "powcnd" , the Log cndkernel function "logcnd" and the Generalized T-Student cndkernel function "studcnd".
+</p>
+</li>
+<li> <p><code>theta</code>  for the Wave qkernel function "wavbase" and for the Wave cndkernel function "wavcnd".
+</p>
+</li>
+<li> <p><code>gamma</code>  for the Chi-Square qkernel function "chibase",for the Radial Basis cndkernel function "rbfcnd" and the Laplacian cndkernel function "laplcnd" and the Cauchy cndkernel function "caucnd".
+</p>
+</li>
+<li> <p><code>q</code>  For all qkernel Function.
+where length is the length of the strings considered, lambda the
+decay factor and normalized a logical parameter determining if the
+kernel evaluations should be normalized.
+</p>
+</li>
+</ul>
+<p>Hyper-parameters for user defined kernels can be passed through the
+qkpar parameter as well.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>initial_config</code></td>
+<td>
+<p>An intitial configure about x (default: NULL)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>no_dims</code></td>
+<td>
+<p>the dimension of the resulting embedding. (default: 2)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>initial_dims</code></td>
+<td>
+<p> The number of dimensions to use in reduction method. (default: 30)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>perplexity</code></td>
+<td>
+<p>Perplexity parameter</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>max_iter</code></td>
+<td>
+<p>Number of iterations (default: 1300)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>min_cost</code></td>
+<td>
+<p>The minimum cost for every object after the final iteration</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>epoch_callback</code></td>
+<td>
+<p>A callback function used after each epoch (an epoch here means a set number of iterations)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>epoch</code></td>
+<td>
+<p>The interval of the number of iterations displayed (default: 100)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>na.action</code></td>
+<td>
+<p>the action to perform on NA</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Other arguments that can be passed to qtSNE</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>When the initial_config argument is specified, the algorithm will automatically enter the final momentum stage. This stage has less large scale adjustment to the embedding, and is intended for small scale tweaking of positioning. This can greatly speed up the generation of embeddings for various similar X datasets, while also preserving overall embedding orientation.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>qtSNE</code> gives out an S4 object which is a LIST with components
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>dimRed</code></td>
+<td>
+<p> Matrix containing the new representations for the objects after qtSNE</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cndkernf</code></td>
+<td>
+<p>The kernel function used</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Yusen Zhang <br><a href="mailto:yusenzhang@126.com">yusenzhang@126.com</a></p>
+
+
+<h3>References</h3>
+
+<p>Maaten, L. Van Der, 2014. Accelerating t-SNE using Tree-Based Algorithms. Journal of Machine Learning Research, 15, p.3221-3245.
+</p>
+<p>van der Maaten, L.J.P. &amp; Hinton, G.E., 2008. Visualizing High-Dimensional Data Using t-SNE. Journal of Machine Learning Research, 9, pp.2579-2605.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+#use iris data set
+data(iris)
+testset &lt;- sample(1:150,20)
+train &lt;- as.matrix(iris[,1:4])
+
+colors = rainbow(length(unique(iris$Species)))
+names(colors) = unique(iris$Species)
+#for matrix
+ecb = function(x,y){
+  plot(x,t='n');
+  text(x,labels=iris$Species, col=colors[iris$Species])
+}
+kpc2 &lt;- qtSNE(train, kernel = "rbfbase", qpar = list(sigma=1,q=0.8),
+              epoch_callback = ecb, perplexity=10, max_iter = 500)
+
+
+## End(Not run)
+</code></pre>
+
+
+</div>

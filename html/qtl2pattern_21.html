@@ -1,0 +1,63 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>pattern_label</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Turn genotype probabilities into labels</h2>
+
+<h3>Description</h3>
+
+<p>Turn genotype probabilities into labels
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">pattern_label(genos, allele = TRUE)
+
+pattern_sdp(label, sdp = NULL, geno_names = sort(unique(label)))
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>genos</code></td>
+<td>
+<p>matrix of genotype probabilities at locus</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>allele</code></td>
+<td>
+<p>Driver has alleles if <code>TRUE</code>, otherwise allele pairs.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>label</code></td>
+<td>
+<p>character string from <code>pattern_label</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sdp</code></td>
+<td>
+<p>SNP distribution pattern for plot colors</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>geno_names</code></td>
+<td>
+<p>unique genotype names (alleles or allele pairs)</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>character vector of genotype names.
+</p>
+
+
+</div>

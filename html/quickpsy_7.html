@@ -1,0 +1,58 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>cum_normal_fun</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Cumulative normal function</h2>
+
+<h3>Description</h3>
+
+<p>Cumulative normal function.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">cum_normal_fun(x, p)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>Vector of values of the explanatory variable.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p</code></td>
+<td>
+<p>Vector of parameters <code>p = c(mean, standard_deviation)</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Probability at each <code>x</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>inv_cum_normal_fun</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">xseq &lt;- seq(0,4,.01)
+yseq &lt;- cum_normal_fun(xseq, c(2, .5))
+curve &lt;- data.frame(x = xseq, y = yseq)
+ggplot(curve, aes(x = x, y = y)) + geom_line()
+</code></pre>
+
+
+</div>

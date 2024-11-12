@@ -1,0 +1,70 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>fake.f2</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Simulated data for an F2 intercross</h2>
+
+<h3>Description</h3>
+
+<p>Simulated data for an F2 intercross, obtained using
+<code>sim.cross</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">data(fake.f2)</code></pre>
+
+
+<h3>Format</h3>
+
+<p>An object of class <code>cross</code>.  See <code>read.cross</code>
+for details.
+</p>
+
+
+<h3>Details</h3>
+
+<p>There are 200 F2 individuals typed at 94 markers, including 3 on the X
+chromosome.  There is one quantitative phenotype, along with an
+indication of sex (0=female, 1=male) and the direction of the cross (pgm
+= paternal grandmother, 0=A, meaning the cross was (AxB)x(AxB), and
+1=B, meaning the cross was (AxB)x(BxA)).
+</p>
+<p>Note that the X chromosome genotypes are coded in a special way (see
+<code>read.cross</code>).  For the individuals with pgm=0, sex=0,
+1=AA and 2=AB; for individuals with pgm=0, sex=1, 1=A and 2=B
+(hemizygous); for individuals with pgm=1, sex=0, 1=BB and 2=AB; for
+individuals with pgm=1, sex=1, 1=A and 2=B.  <b>This requires special
+care!</b>
+</p>
+<p>The data were simulated using an additive model with three QTLs on
+chromosome 1 (at 30, 50 and 70 cM), one QTL on chromosome 13 (at 30
+cM), and one QTL on the X chromosome (at 10 cM).
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Karl W Broman, <a href="mailto:broman@wisc.edu">broman@wisc.edu</a> </p>
+
+
+<h3>See Also</h3>
+
+ <p><code>sim.cross</code>, <code>fake.bc</code>,
+<code>fake.4way</code>, <code>listeria</code>,
+<code>hyper</code>,
+<code>bristle3</code>, <code>bristleX</code> </p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(fake.f2)
+summary(fake.f2)
+plot(fake.f2)
+</code></pre>
+
+
+</div>

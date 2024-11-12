@@ -1,0 +1,55 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>PairSharedSplitStatus</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Pair shared split status</h2>
+
+<h3>Description</h3>
+
+<p>Removes all tips that do not occur in both <code>ref</code> and <code>cf</code>, then calculates
+the status of the remaining splits.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">PairSharedSplitStatus(ref, cf)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>ref, cf</code></td>
+<td>
+<p>Trees of class <code>phylo</code> to compare.</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>Named integer of length 6, as per <code>CompareSplits()</code>
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p><a href="https://orcid.org/0000-0001-5660-1727">Martin R. Smith</a>
+(<a href="mailto:martin.smith@durham.ac.uk">martin.smith@durham.ac.uk</a>)
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+library("TreeTools")
+ref &lt;- BalancedTree(letters[1:9])
+cf &lt;- BalancedTree(letters[3:13])
+
+PairSharedSplitStatus(ref, cf)
+
+</code></pre>
+
+
+</div>

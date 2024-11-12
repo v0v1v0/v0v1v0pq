@@ -1,0 +1,93 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>zip_datafiles</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Zip a set of data files</h2>
+
+<h3>Description</h3>
+
+<p>Zip a set of data files (in format read by <code>read_cross2()</code>).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">zip_datafiles(control_file, zip_file = NULL, overwrite = FALSE, quiet = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>control_file</code></td>
+<td>
+<p>Character string with path to the control file
+(<a href="https://yaml.org">YAML</a> or <a href="https://json.org">JSON</a>)
+containing all of the control information.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>zip_file</code></td>
+<td>
+<p>Name of zip file to use. If NULL, we use the
+stem of <code>control_file</code> but with a <code>.zip</code> extension.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>overwrite</code></td>
+<td>
+<p>If <code>TRUE</code>, overwrite file if it exists. If <code>FALSE</code>
+(the default) and the file exists, stop with an error.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>quiet</code></td>
+<td>
+<p>If <code>FALSE</code>, print progress messages.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The input <code>control_file</code> is the control file (in
+<a href="https://yaml.org">YAML</a> or <a href="https://json.org">JSON</a> format)
+to be read by <code>read_cross2()</code>.  (See the
+<a href="https://kbroman.org/qtl2/pages/sampledata.html">sample data files</a> and the
+<a href="https://kbroman.org/qtl2/assets/vignettes/input_files.html">vignette describing the input file format</a>.)
+</p>
+<p>The <code>utils::zip()</code> function is used to do the zipping.
+</p>
+<p>The files should all be contained within the directory where the
+<code>control_file</code> sits, or in a subdirectory of that directory.
+If file paths use <code>..</code>, these get stripped by zip, and so the
+resulting zip file may not work with <code>read_cross2()</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Character string with the file name of the zip file that
+was created.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>read_cross2()</code>, sample data files at <a href="https://kbroman.org/qtl2/pages/sampledata.html">https://kbroman.org/qtl2/pages/sampledata.html</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+zipfile &lt;- file.path(tempdir(), "grav2.zip")
+zip_datafiles("grav2.yaml", zipfile)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,96 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>read_qaplib</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Read QAPLIB Files</h2>
+
+<h3>Description</h3>
+
+<p>Reads example file in the format used by QAPLIB.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">read_qaplib(file)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>file</code></td>
+<td>
+<p> file name. </p>
+</td>
+</tr></table>
+<h3>Details</h3>
+
+<p>Problems end with the extension <code>.dat</code> and solutions with <code>.sln</code>.
+The code tries to read the problem and, if available in the same directory,
+it also reads the solution and the known optimal value from the
+solution file.
+</p>
+<p>The package contains a copy of the problem instances and solutions
+from QAPLIB. The data is stored in the package in directory <code>qaplib</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns a list with the components
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>D</code></td>
+<td>
+<p> distance matrix. </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>W</code></td>
+<td>
+<p> weight matrix. </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>solution</code></td>
+<td>
+<p> a known optimal solution (if available). </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>opt</code></td>
+<td>
+<p> known optimal value (if available). </p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Michael Hahsler
+</p>
+
+
+<h3>References</h3>
+
+<p>R.E. Burkard, E. Cela, S.E. Karisch and F. Rendl,
+QAPLIB - A Quadratic Assignment Problem Library,
+<a href="https://www.opt.math.tugraz.at/qaplib/">https://www.opt.math.tugraz.at/qaplib/</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## load a QAPLIB problem instance
+p &lt;- read_qaplib(system.file("qaplib", "had12.dat", package="qap"))
+p
+
+## list all QAPLIB instances
+dir(system.file("qaplib", package="qap"), pattern = "*.dat")
+</code></pre>
+
+
+</div>

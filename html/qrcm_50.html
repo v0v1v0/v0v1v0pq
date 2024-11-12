@@ -1,0 +1,122 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>plot.iqrL</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Plot Quantile Regression Coefficients with Longitudinal Data
+</h2>
+
+<h3>Description</h3>
+
+<p>Plots quantile regression coefficients 
+<code class="reqn">\beta(u)</code> and <code class="reqn">\gamma(v)</code>,
+based on a fitted model of class “<code>iqrL</code>”.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'iqrL'
+plot(x, conf.int = TRUE, polygon = TRUE, which = NULL, ask = TRUE, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+
+<p>an object of class “<code>iqrL</code>”, the result of a call to <code>iqrL</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>conf.int</code></td>
+<td>
+
+<p>logical. If <kbd>TRUE</kbd>, asymptotic 95% confidence intervals are added to the plot.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>polygon</code></td>
+<td>
+
+<p>logical. If <kbd>TRUE</kbd>, confidence intervals are represented by shaded areas via <code>polygon</code>.
+Otherwise, dashed lines are used.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>which</code></td>
+<td>
+
+<p>an optional numerical vector indicating which coefficient(s) to plot. If <kbd>which = NULL</kbd>, 
+all coefficients are plotted.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ask</code></td>
+<td>
+<p>logical. If <kbd>which = NULL</kbd> and <kbd>ask = TRUE</kbd> (the default), you will be asked
+interactively which coefficients to plot. Additional options will permit
+creating Q-Q plots of <code>u</code> or <code>v</code>, which should be independently distributed according to a Uniform(0,1) 
+distribution. The option <code>ppplot(u,v)</code> will generate a P-P plot that compares
+the empirical distribution of <code>(u,v)</code> with its theoretical
+value, <code>F(u,v) = uv</code>, at a discrete grid of points.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>additional graphical parameters, that can include <kbd>xlim, ylim, xlab, ylab, col, lwd, cex.lab, cex.axis, axes, frame.plot</kbd>. 
+See <code>par</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Paolo Frumento <a href="mailto:paolo.frumento@unipi.it">paolo.frumento@unipi.it</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>iqrL</code> for model fitting; <code>summary.iqrL</code> and <code>predict.iqrL</code>
+for model summary and prediction.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">  
+  # using simulated data
+  
+  n &lt;- 1000 # n. of observations
+  n.id &lt;- 100 # n. of clusters
+  id &lt;- rep(1:n.id, each = n/n.id) # cluster id
+
+  x1 &lt;- runif(n) # a level-1 covariate
+  z1 &lt;- rnorm(n.id) # a level-2 covariate
+
+  V &lt;- runif(n.id) # V_i
+  U &lt;- runif(n) # U_it
+
+  alpha &lt;- 2*(V - 1) + z1 # alpha
+  y_alpha &lt;- 1 + 2*qnorm(U) + 3*U*x1 # y - alpha
+  y &lt;- y_alpha + alpha[id] # observed outcome
+  mydata &lt;- data.frame(id = id, y = y, x1 = x1, z1 = z1[id])
+
+  model &lt;- iqrL(fx = y ~ x1, fu = ~ I(qnorm(u)) + u, 
+    fz = ~ z1, fv = ~ -1 + I(qnorm(v)), id = id, data = mydata)
+  par(mfrow = c(2,2))
+  plot(model, ask = FALSE) 
+</code></pre>
+
+
+</div>

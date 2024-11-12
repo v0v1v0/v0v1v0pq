@@ -1,0 +1,135 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>bernexp</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+The Bernoulli-Exponential distribution
+</h2>
+
+<h3>Description</h3>
+
+<p>Density, distribution function, quantile function and random
+generation for the Bernoulli-Exponential distribution with parameters 
+<code>prob</code>, and <code>rate</code>. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">dbernexp(x, prob, rate)
+pbernexp(q, prob, rate)
+qbernexp(p, prob, rate)
+rbernexp(n, prob, rate)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x,q</code></td>
+<td>
+
+<p>vector of quantiles.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p</code></td>
+<td>
+
+<p>vector of probabilities.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>prob</code></td>
+<td>
+
+<p>probability of non-zero event.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+
+<p>number of random samples.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rate</code></td>
+<td>
+
+<p>rate parameter of the Exponential distribution.
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Mixture of the Bernoulli and the Exponential distribution. The mixture
+is analogue to the one described for the <code>berngamma</code>
+distribution.  
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>dbernexp</code> gives the density (pdf), <code>pbernexp</code> gives
+the distribution function (cdf), <code>qbernexp</code> gives the
+quantile function (inverse cdf), and <code>rbernexp</code> generates
+random numbers.  
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Lukas Gudmundsson
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>Exponential</code>, <code>berngamma</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(obsprecip)
+
+(ts &lt;- startbernexp(obsprecip[,1]))
+hist(obsprecip[,1],freq=FALSE) 
+lines(seq(0,max(obsprecip[,1])),
+      dbernexp(seq(0,max(obsprecip[,1])),
+               prob=ts$prob,
+               rate=ts$rate),
+      col="red")
+
+pp &lt;- seq(0.01,0.99,by=0.01)
+qq &lt;-quantile(obsprecip[,1],probs=pp) 
+
+plot(qq,pp)
+lines(qbernexp(pp,
+               prob=ts$prob,
+               rate=ts$rate),
+      pp,col="red")
+
+plot(qq,pp)
+lines(qq,
+      pbernexp(qq,
+               prob=ts$prob,
+               rate=ts$rate),
+      col="red")
+
+hist(rbernexp(1000,prob=ts$prob,
+              rate=ts$rate),freq=FALSE)
+
+</code></pre>
+
+
+</div>

@@ -1,0 +1,141 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>check_integer</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Validate input vectors</h2>
+
+<h3>Description</h3>
+
+<p>Check the range of values and the length of input vectors
+before used in control flow or passed to C++ functions.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">check_integer(
+  x,
+  min_len = 1,
+  max_len = 1,
+  min = -Inf,
+  max = Inf,
+  strict = FALSE,
+  allow_null = FALSE
+)
+
+check_double(
+  x,
+  min_len = 1,
+  max_len = 1,
+  min = -Inf,
+  max = Inf,
+  strict = FALSE,
+  allow_null = FALSE
+)
+
+check_logical(
+  x,
+  min_len = 1,
+  max_len = 1,
+  strict = FALSE,
+  allow_null = FALSE,
+  allow_na = FALSE
+)
+
+check_character(
+  x,
+  min_len = 1,
+  max_len = 1,
+  min_nchar = 0,
+  max_nchar = Inf,
+  strict = FALSE,
+  allow_null = FALSE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>min_len</code></td>
+<td>
+<p>minimum length of the vector</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>max_len</code></td>
+<td>
+<p>maximum length of the vector</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>min</code></td>
+<td>
+<p>minimum value in the vector</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>max</code></td>
+<td>
+<p>maximum value in the vector</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>strict</code></td>
+<td>
+<p>raise error when <code>x</code> is a different type</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>allow_null</code></td>
+<td>
+<p>if <code>TRUE</code>, returns <code>NULL</code> when <code>is.null(x)</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>allow_na</code></td>
+<td>
+<p>if <code>TRUE</code>, convert <code>NA</code> to <code>FALSE</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>min_nchar</code></td>
+<td>
+<p>minimum character length of values in the vector</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>max_nchar</code></td>
+<td>
+<p>maximum character length of values in the vector</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Note that value checks are performed after coercion to expected input types.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+check_integer(0, min = 1) # error
+check_integer(-0.1, min = 0) # return 0
+check_double(-0.1, min = 0) # error
+check_double(numeric(), min_len = 0) # return numeric()
+check_double("1.1", min = 1) # returns 1.1
+check_double("1.1", min = 1, strict = TRUE) # error
+check_double("xyz", min = 1) # error
+check_logical(c(TRUE, FALSE), min_len = 3) # error
+check_character("_", min_nchar = 1) # return "_"
+check_character("", min_nchar = 1) # error
+
+## End(Not run)
+</code></pre>
+
+
+</div>

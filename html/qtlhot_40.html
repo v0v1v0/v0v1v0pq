@@ -1,0 +1,121 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>SimCrossCausal</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Simulate Cross for Causal Tests</h2>
+
+<h3>Description</h3>
+
+<p>Creates cross with certain pattern of dependence across phenotypes.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">SimCrossCausal(n.ind, len, n.mar, beta, add.eff, dom.eff, 
+  sig2.1 = 1, sig2.2 = 1, eq.spacing = FALSE, 
+  cross.type = c("bc", "f2"), normalize = FALSE)
+SimCrossIndep(n.ind, len, n.mar, beta, add.eff.1, dom.eff.1,
+  add.eff.h, dom.eff.h, sig2.1 = 1, sig2.2 = 1, sig2.h = 1, 
+  eq.spacing = FALSE, cross.type = "f2", normalize = FALSE)
+data(CMSTCross)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>n.ind</code></td>
+<td>
+<p>number of individuals to simulate</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>len</code></td>
+<td>
+<p>vector specifying the chromosome lengths (in cM)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n.mar</code></td>
+<td>
+<p>vector specifying the number of markers per chromosome</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>beta</code></td>
+<td>
+<p>causal effect (slope) of first phenotype on others</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>add.eff, add.eff.1, add.eff.h</code></td>
+<td>
+<p>additive genetic effect</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dom.eff, dom.eff.1, dom.eff.h</code></td>
+<td>
+<p>dominance genetic effect</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sig2.1</code></td>
+<td>
+<p>residual variance for first phenotype</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sig2.2, sig2.h</code></td>
+<td>
+<p>residual variance for all other phenotypes</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>eq.spacing</code></td>
+<td>
+<p>if <code>TRUE</code>, markers will be equally spaced</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cross.type</code></td>
+<td>
+<p>type of cross (<code>bc</code> and <code>f2</code> for now)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>normalize</code></td>
+<td>
+<p>normalize values if <code>TRUE</code></p>
+</td>
+</tr>
+</table>
+<h3>References</h3>
+
+<p>Chaibub Neto E, Broman AT, Keller MP, Attie AD, Zhang B, Zhu J, Yandell BS,
+Causal model selection hypothesis tests in systems genetics.
+Genetics (in review).
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">set.seed(987654321)
+CMSTCross &lt;- SimCrossCausal(n.ind = 100, 
+  len = rep(100, 3), n.mar = 101,
+  beta = rep(0.5, 2), add.eff = 1, dom.eff = 0, 
+  sig2.1 = 0.4, sig2.2 = 0.1, eq.spacing = FALSE, 
+  cross.type = "bc", normalize = TRUE)
+CMSTCross &lt;- calc.genoprob(CMSTCross, step = 1)
+## Not run: 
+save(CMSTCross, file = "CMSTCross.RData", compress = TRUE)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

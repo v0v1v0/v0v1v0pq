@@ -1,0 +1,69 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>tidy.qgcompfit</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Tidy method for qgcompfit object</h2>
+
+<h3>Description</h3>
+
+<p>Tidy summarizes information about the components of a model. A model component
+might be a single term in a regression, a single hypothesis, a cluster, or a class.
+Exactly what tidy considers to be a model component varies cross models but is usually
+self-evident. If a model has several distinct types of components, you will need to
+specify which components to return. (Description taken from <code>tidyr::tidy</code> help file.)
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'qgcompfit'
+tidy(x, conf.level = 1 - x$alpha, exponentiate = FALSE, quick = FALSE, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a agcompfit object created by qgcomp().</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>conf.level</code></td>
+<td>
+<p>Real number between 0 and 1 corresponding to nominal percentage/100 of confidence limit
+(e.g. conf.level=0.95 means 95 per cent confidence intervals). Defaults to 1-alpha level of qgcompfit.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>exponentiate</code></td>
+<td>
+<p>Logical indicating whether or not to exponentiate the the coefficient
+estimates. This is typical for logistic and multinomial regressions, but a bad idea if there
+is no log or logit link. Defaults to FALSE.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>quick</code></td>
+<td>
+<p>Logical indiciating if the only the term and estimate columns should be returned.
+Often useful to avoid time consuming covariance and standard error calculations. Defaults to FALSE.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Additional arguments. Not used. Needed to match generic signature only.
+Cautionary note: Misspelled arguments will be absorbed in ..., where they will be ignored.
+If the misspelled argument has a default value, the default value will be used. For example,
+if you pass conf.lvel = 0.9, all computation will proceed using conf.level = 0.95.
+Additionally, if you pass newdata = my_tibble to an augment() method that does not
+accept a newdata argument, it will use the default value for the data argument.</p>
+</td>
+</tr>
+</table>
+</div>

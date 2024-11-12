@@ -1,0 +1,41 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>replace_dictionary_values</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Internal function to replace dictionary values</h2>
+
+<h3>Description</h3>
+
+<p>Internal function to replace dictionary values
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">replace_dictionary_values(dict, from, to)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>dict</code></td>
+<td>
+<p>a dictionary object</p>
+</td>
+</tr></table>
+<h3>Examples</h3>
+
+<pre><code class="language-R">dict &lt;- list(KEY1 = list(SUBKEY1 = list("A_B"),
+                          SUBKEY2 = list("C_D")),
+              KEY2 = list(SUBKEY3 = list("E_F"),
+                          SUBKEY4 = list("G_F_I")),
+              KEY3 = list(SUBKEY5 = list(SUBKEY7 = list("J_K")),
+                          SUBKEY6 = list(SUBKEY8 = list("L"))))
+quanteda:::replace_dictionary_values(dict, "_", " ")
+</code></pre>
+
+
+</div>

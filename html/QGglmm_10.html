@@ -1,0 +1,119 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>QGmvpsi</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Compute a multivariate "Psi" (used to compute the additive genetic variance on the observed scale).</h2>
+
+<h3>Description</h3>
+
+<p>This function computes a multivariate version of the parameter "Psi" which relates the additive genetic variance-covariance matrix on the latent scale to the additive genetic variance-covariance matrix on the observed scale: G.obs = Psi %*% G %*% t(Psi)
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">QGmvpsi(mu = NULL, vcov, d.link.inv, predict = NULL, 
+        rel.acc = 0.001, width = 10, mask = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>mu</code></td>
+<td>
+<p>Vector of latent intercepts estimated from a GLMM (ignored if predict is not <code>NULL</code>). (numeric)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vcov</code></td>
+<td>
+<p>Latent total phenotypic variance-covariance matrix estimated from a GLMM. Usually, the sum of all the estimated variance-covariance matrices. (numeric)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>d.link.inv</code></td>
+<td>
+<p>Derivative of the inverse-link functions. This function should accept a vector and yield a vector of the same length, see Details and Example below. (function)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>predict</code></td>
+<td>
+<p>Optional matrix of predicted values on the latent scale (each trait in each column). The latent predicted values must be computed while only accounting for the fixed effects (marginal to the random effects). (numeric)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rel.acc</code></td>
+<td>
+<p>Relative accuracy of the integral approximation. (numeric)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>width</code></td>
+<td>
+<p>Parameter for the integral computation. The default value is 10, which should be sensible for most models. (numeric)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mask</code></td>
+<td>
+<p>Masking filter for removing predictions that don't exist in the population (e.g. female predictions for males for a sex - based bivariate model). Should the same dimensions as <code>predict</code> and values should be <code>FALSE</code> when the predictions should be filtered out.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The multivariate parameter "Psi" is a diagonal matrix which elements are the average of the derivative of the inverse-link function. The additive genetic variance-covariance matrix on the latent scale G is linked to the additive genetic variance-covariance matrix on the observed scale G.obs through Psi: G.obs = Psi %*% G %*% t(Psi).
+</p>
+<p>This function requires the derivatives of the inverse-link functions (<code>d.link.inv</code>). For an analysis with d traits, the function given to the <code>d.link.inv</code> argument should use a vector of length d and yield a vector of length d (see Example below).
+</p>
+
+
+<h3>Value</h3>
+
+<p>This function yields the matrix "Psi". (numeric)</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Pierre de Villemereuil &amp; Michael B. Morrissey
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>QGpsi</code>, <code>QGmvparams</code>, <code>QGlink.funcs</code>, <code>QGvcov</code>, <code>QGmvpsi</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Example using a bivariate model (Binary trait/Gaussian trait)
+# Parameters
+mu &lt;- c(0, 1)
+G &lt;- diag(c(0.5, 2))
+P &lt;- diag(c(1, 4))
+
+# Setting up the derivatives of the inverse-link functions
+dinvs &lt;- function(mat) {matrix(c(dnorm(mat[1, ]), rep(1, length(mat[2, ]))),
+                               nrow = 2, 
+                               byrow = TRUE)}
+# The derivative of pnorm() is dnorm(), and the derivative of the identity is 1
+
+# Computing Psi
+Psi &lt;- QGmvpsi(mu = mu, vcov = P, d.link.inv = dinvs)
+# Computing genetic additive variance-covariance matrix on the observed scale
+Psi
+G.obs &lt;- Psi %*% G %*% t(Psi)
+
+QGparams(mu = 0, var.a = 0.5, var.p = 1, model = "binom1.probit")
+# Same additive variance than trait 1
+# Reminder: the results are the same here because we have no correlation between the two traits
+</code></pre>
+
+
+</div>

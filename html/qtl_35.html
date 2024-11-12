@@ -1,0 +1,88 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>c.scanone</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Combine columns from multiple scanone results</h2>
+
+<h3>Description</h3>
+
+<p>Concatenate the columns from different runs of
+<code>scanone</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'scanone'
+c(..., labels)
+## S3 method for class 'scanone'
+cbind(..., labels)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>A set of objects of class <code>scanone</code>. (This can also
+be a list of <code>scanone</code> objects.) These are
+the results from  <code>scanone</code> (with <code>n.perm=0</code>),
+generally run with different phenotypes or methods.  All must
+conform with each other, meaning that
+<code>calc.genoprob</code> and/or <code>sim.geno</code>
+were run with the same values for <code>step</code> and <code>off.end</code> and
+with data having the same genetic map.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>labels</code></td>
+<td>
+<p>A vector of character strings, of length 1 or of the same
+length as the input, to be appended to the column names
+in the output.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The aim of this function is to concatenate the results from multiple
+runs <code>scanone</code>, generally for
+different phenotypes and/or methods, to be used in parallel with
+<code>summary.scanone</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The concatenated input, as a <code>scanone</code> object.</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Karl W Broman, <a href="mailto:broman@wisc.edu">broman@wisc.edu</a> </p>
+
+
+<h3>See Also</h3>
+
+ <p><code>summary.scanone</code>,
+<code>scanone</code>, <code>cbind.scanoneperm</code> </p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(fake.f2)
+fake.f2 &lt;- calc.genoprob(fake.f2)
+
+out.hk &lt;- scanone(fake.f2, method="hk")
+out.np &lt;- scanone(fake.f2, model="np")
+
+out &lt;- c(out.hk, out.np, labels=c("hk","np"))
+plot(out, lod=1:2, col=c("blue", "red"))
+</code></pre>
+
+
+</div>

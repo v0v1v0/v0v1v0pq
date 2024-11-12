@@ -1,0 +1,99 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>vector_pop</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Remove last n elements or specified elements from a vector like array_pop in PHP</h2>
+
+<h3>Description</h3>
+
+<p>Shorthand to remove elements from a vector and save as the same name
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">vector_pop(., n = 1, el = NULL, ret = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>.</code></td>
+<td>
+<p>parent vector</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p>number of elements to remove</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>el</code></td>
+<td>
+<p>vector to remove</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ret</code></td>
+<td>
+<p>TRUE or FALSE. whether to return value instead of setting it to the parent vector</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>vector with elements removed
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">num1 &lt;- sample(330:400,10)
+name1 &lt;- "ObinnaObianomObiObianom"
+
+#task: remove 1 element from the end of the vector and set it to the vector name
+num1 #num1 vector before pop
+vector_pop(num1) #does not return anything
+num1 #num1 vector updated after pop
+
+#task: remove 5 elements from the end, but do not set it to the vector name
+num1 #num1 vector before pop
+vector_pop(num1,5, ret = TRUE) #return modified vector
+num1 #num1 vector remains the same after pop
+
+
+#task: remove 6 elements from a word, set it back to vector name
+name1 #name1 before pop
+vector_pop(name1,6) #does not return anything
+name1 #name updated after pop
+
+#task: remove 3 elements from a word, Do not set it back to vector name
+name1 #name1 before pop
+vector_pop(name1,3, ret = TRUE) #returns modified name1
+name1 #name1 not updated after pop
+
+#task: remove 4 elements from the end of a vector and return both the removed content and remaining
+v_f_num &lt;- paste0(number(20),c("TI")) #simulate 20 numbers and add TI suffix
+v_f_num #show simulated numbers
+vector_pop(v_f_num, n = 4, ret = TRUE) #get the modified vector
+vector_pop(v_f_num, n = 4, ret = "removed") #get the content removed
+
+#task: remove specific items from vector
+#note that this aspect of the functionality ignores the 'n' argument
+v_f_num_2 &lt;- paste0(number(6, seed = 33),c("AB")) #simulate 6 numbers using seed and add AB suffix
+v_f_num_2 #show numbers
+vector_pop(v_f_num_2, el = c("403211378AB")) #remove 1 specific entries
+v_f_num_2 #show results
+vector_pop(v_f_num_2, el = c("803690460AB","66592309AB")) #remove 2 specific entries
+v_f_num_2 #show results
+
+</code></pre>
+
+
+</div>

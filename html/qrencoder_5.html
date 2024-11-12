@@ -1,0 +1,41 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qrencode_png</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Return a QR encoded string as a base 64 encoded inline png</h2>
+
+<h3>Description</h3>
+
+<p>Return a QR encoded string as a base 64 encoded inline png
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qrencode_png(to_encode)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>to_encode</code></td>
+<td>
+<p>the data to encode</p>
+</td>
+</tr></table>
+<h3>Note</h3>
+
+<p><code>data:image/png;base64,</code> is prepended to the encoded png
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">cat(qrencode_png("http://rud.is/b"))
+</code></pre>
+
+
+</div>

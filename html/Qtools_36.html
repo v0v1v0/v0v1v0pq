@@ -1,0 +1,88 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>dqcControl</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Control parameters for dqc estimation
+</h2>
+
+<h3>Description</h3>
+
+<p>A list of parameters for controlling the fitting process.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">dqcControl(tau.range = c(0.001, 0.999), nt = 10, ndir = 50, seed = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>tau.range</code></td>
+<td>
+
+<p>vector with range of quantile probabilities. See details. 
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nt</code></td>
+<td>
+
+<p>length of grid of quantiles within <code>tau.range</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ndir</code></td>
+<td>
+
+<p>number of directions.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>seed</code></td>
+<td>
+
+<p>seed for <code>set.seed</code>.
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>A directional quantile classifier (Viroli et al, 2020) is computed over a grid of quantile probabilities. The vector <code>tau.range</code> must be of length 2, providing a minimum and a maximum for the grid, or of length 1, in which case the grid will have only one probability equal to tau.range. In the latter case <code>nt</code> is ignored and set equal to 1.
+</p>
+
+
+<h3>Value</h3>
+
+<p>a list of control parameters.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Marco Geraci</p>
+
+
+<h3>References</h3>
+
+<p>Viroli C, Farcomeni A, Geraci M (2020). Directional quantile-based classifiers (in preparation).
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>dqc</code>
+</p>
+
+
+</div>

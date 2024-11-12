@@ -1,0 +1,184 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>Power calculations</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Power, sample size, and detectable effect size calculations </h2>
+
+<h3>Description</h3>
+
+<p>Power, sample size, and minimum detectable effect size calculations are
+performed for backcross, F2 intercross, and recombinant inbred (RI)
+lines.</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">powercalc(cross,n,effect,sigma2,env.var,gen.var,thresh=3,sel.frac=1,
+          theta=0,bio.reps=1)
+detectable(cross,n,effect=NULL,sigma2,env.var,gen.var,power=0.8,thresh=3,
+           sel.frac=1,theta=0,bio.reps=1)
+samplesize(cross,effect,sigma2,env.var,gen.var,power=0.8,thresh=3,
+           sel.frac=1,theta=0,bio.reps=1)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>cross</code></td>
+<td>
+<p>String indicating cross type which is "bc", for
+backcross, "f2" for intercross, and "ri" for recombinant inbred lines.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p>Sample size</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sigma2</code></td>
+<td>
+<p>Error variance; if this argument is absent,
+<code>env.var</code> and <code>gen.var</code> must be specified.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>env.var</code></td>
+<td>
+<p>Environmental (within genotype) variance</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gen.var</code></td>
+<td>
+<p>Genetic (between genotype) variance due to all loci
+segregating between the parental lines.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>effect</code></td>
+<td>
+<p>The QTL effect we want to detect.  For
+<code>powercalc</code> and <code>samplesize</code> this is a numeric (vector).
+For <code>detectable</code> it specifies the relative magnitude of the
+additive and dominance components for the intercross.
+The specification of <code>effect</code> depends on the cross.  For
+backcross, it is the difference in means the heterozygote and
+homozygote.  For RI lines it is half the difference in means of the
+homozygotes, for intercross, it is a two component vector of the form
+<code>c(a,d)</code>, where <code>a</code> is the additive effect (half the
+difference between the homozygotes), and <code>d</code> is the dominance
+effect (difference between the heterozygote and the average of the
+homozygotes). The genotype means will be <code>-a-d/2</code>, <code>d/2</code>,
+and <code>a-d/2.</code>  For <code>detectable</code>, optionally for the
+intercross, one can use a string to specify the QTL effect type.
+The  strings "add" or "dom" are used to denote an additive or
+dominant model respectively for the phenotype.  It may be 
+it can be a numerical vector of the form <code>c(a,d)</code> indicating
+the relative magnitudes of the additive and dominance components (as
+defined above).  The default is "add".</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>power</code></td>
+<td>
+<p>Proportion indicating power desired</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>thresh</code></td>
+<td>
+<p>LOD threshold for declaring significance</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sel.frac</code></td>
+<td>
+<p>Selection fraction</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>theta</code></td>
+<td>
+<p>Recombination fraction corresponding to a marker interval</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bio.reps</code></td>
+<td>
+<p>Number of biological replicates per unique genotype.
+This is usually 1 for backcross and intercross, but may be larger
+for RI lines.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>These calculations are done assuming that the asymptotic chi-square
+regimes apply.  A warning message is printed if the effective sample size
+is less than 30 and either <code>sel.frac</code> is less than 1 or <code>theta</code>
+is greater than 0.  First we calculate the effective sample size using the
+width of the marker interval and the selection fraction.  The QTL is
+assumed to be in the middle of the marker interval.  Then we use the fact
+that the non-centrality parameter of the likelihood ration test is
+<code class="reqn">m*\delta^2</code>, where <code class="reqn">m</code> is the effctive sample size and
+<code class="reqn">\delta</code> is the QTL effect measured as the deviation of the genotype
+means from the overall mean.  The chi-squared approximation is used to
+calculate the power.  The minimum detectable effect size is obtained by
+solving the power equation numerically using <code>uniroot</code>.  The theory
+behind the information calculations is described by Sen et. al. (2005).
+</p>
+<p>A key input is the error variance, <code>sigma2</code> which is generally
+unknown.  The user can enter the error variance directly, or estimate it
+using <code>env.var</code> and <code>gen.var</code>.  The function <code>error.var</code>
+is used to the error variance using estimates of the environmental variance
+and genetic variance.  Another key input is the effect segregating in
+a cross, which can be calculated using <code>gmeans2model</code>.  </p>
+
+
+<h3>Value</h3>
+
+<p>For <code>powercalc</code> the power is returned, along with the
+proportion of variance explained.  For <code>detectable</code> the effect size
+detectable is returned, along with the proportion of variance explained.
+For backcross and RI lines this is the effect of an allelic
+substitution.  For F2 intercross the additive and dominance components
+are returned.  For <code>samplesize</code> the sample size (rounded up to the
+nearest integer) is returned along with the proportion of variance
+explained.</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Saunak Sen, Jaya Satagopan, Karl Broman, and Gary Churchill</p>
+
+
+<h3>References</h3>
+
+<p>Sen S, Satagopan JM, Churchill GA (2005) 	
+Quantitative trait locus study design from an information perspective.
+Genetics, 170:447-64.</p>
+
+
+<h3>See Also</h3>
+
+<p><code>uniroot</code>. <code>error.var</code>,
+<code>gmeans2effect</code>.</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">powercalc("bc",100,5,sigma2=1,sel.frac=1,theta=0)
+powercalc(cross="ri",n=30,effect=5,env.var=64,gen.var=25,bio.rep=6)
+detectable("bc",100,sigma2=1)
+detectable(cross="ri",n=30,env.var=64,gen.var=25,bio.rep=8)
+samplesize(cross="f2",effect=c(5,0),env.var=64,gen.var=25)
+</code></pre>
+
+
+</div>

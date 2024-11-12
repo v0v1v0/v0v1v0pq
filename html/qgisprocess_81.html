@@ -1,0 +1,97 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>st_as_stars</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Convert a qgis_result object or one of its elements to a stars object</h2>
+
+<h3>Description</h3>
+
+<p>Convert a qgis_result object or one of its elements to a stars object
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'qgis_outputRaster'
+st_as_stars(x, ...)
+
+## S3 method for class 'qgis_outputLayer'
+st_as_stars(x, ...)
+
+## S3 method for class 'qgis_result'
+st_as_stars(x, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>A <code>qgis_result</code> object from <code>qgis_run_algorithm()</code> or a
+<code style="white-space: pre;">⁠qgis_output*⁠</code> object from one of the <code>qgis_extract_output()</code> functions.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Arguments passed to <code>stars::read_stars()</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The stars package must be loaded explicitly to use these methods.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A <code>stars</code> or a <code>stars_proxy</code> object.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Other topics about coercing processing output: 
+<code>qgis_as_raster()</code>,
+<code>qgis_as_terra()</code>,
+<code>st_as_sf</code>
+</p>
+<p>Other topics about accessing or managing processing results: 
+<code>qgis_as_raster()</code>,
+<code>qgis_as_terra()</code>,
+<code>qgis_clean_result()</code>,
+<code>qgis_extract_output()</code>,
+<code>qgis_result_status()</code>,
+<code>st_as_sf</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+
+# not running below examples in R CMD check to save time
+result &lt;- qgis_run_algorithm(
+  "native:slope",
+  INPUT = system.file("longlake/longlake_depth.tif", package = "qgisprocess")
+)
+
+# most direct approach, autoselecting a `qgis_outputRaster` type
+# output from the `result` object and reading as stars or stars_proxy:
+stars::st_as_stars(result)
+stars::st_as_stars(result, proxy = TRUE)
+
+# if you need more control, extract the needed output element first:
+output_raster &lt;- qgis_extract_output(result, "OUTPUT")
+stars::st_as_stars(output_raster)
+
+
+</code></pre>
+
+
+</div>

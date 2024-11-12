@@ -1,0 +1,46 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>collinearQsprays</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Whether two 'qspray' polynomials are collinear</h2>
+
+<h3>Description</h3>
+
+<p>Checks whether the polynomials represented by two <code>qspray</code>
+objects are collinear, that is, whether they are equal up to a scalar 
+factor.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">collinearQsprays(qspray1, qspray2)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>qspray1, qspray2</code></td>
+<td>
+<p>two <code>qspray</code> objects</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>A Boolean value.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(qspray)
+qspray1 &lt;- qsprayMaker(string = "1/2 x^(1, 1) + 4 x^(0, 2) + 5")
+qspray2 &lt;- "4/7" * qspray1
+collinearQsprays(qspray1, qspray2)
+</code></pre>
+
+
+</div>

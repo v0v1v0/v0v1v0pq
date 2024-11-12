@@ -1,0 +1,108 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>pQF_depratio</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Cumulative Distribution Function of the Dependent QFs Ratio</h2>
+
+<h3>Description</h3>
+
+<p>The function computes the CDF of the ratio of two dependent and possibly indefinite quadratic forms.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">pQF_depratio(
+  q = NULL,
+  lambdas = NULL,
+  A = NULL,
+  B = NULL,
+  eps = 1e-06,
+  maxit_comp = 1e+05,
+  lambdas_tol = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>q</code></td>
+<td>
+<p>quantile.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lambdas</code></td>
+<td>
+<p>vector of eigenvalues of the matrix (A-qB).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>A</code></td>
+<td>
+<p>matrix of the numerator QF. If not specified but <code>B</code> is passed, it is assumed to be the identity.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>B</code></td>
+<td>
+<p>matrix of the numerator QF. If not specified but <code>A</code> is passed, it is assumed to be the identity.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>eps</code></td>
+<td>
+<p>requested absolute error.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>maxit_comp</code></td>
+<td>
+<p>maximum number of iterations.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lambdas_tol</code></td>
+<td>
+<p>maximum value admitted for the weight skewness for both the numerator and the denominator. When it is not NULL (default), elements of lambdas such that the ratio max(lambdas)/lambdas is greater than the specified value are removed.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The distribution function of the following ratio of dependent quadratic forms is computed:
+</p>
+<p style="text-align: center;"><code class="reqn">P\left(\frac{Y^TAY }{Y^TBY}&lt;q\right),</code>
+</p>
+
+<p>where <code class="reqn">Y\sim N(0, I)</code>.
+</p>
+<p>The transformation to the following indefinite quadratic form is exploited:
+</p>
+<p style="text-align: center;"><code class="reqn">P\left(Y^T(A-qB)Y &lt;0\right).</code>
+</p>
+
+<p>The following inputs can be provided:
+</p>
+
+<ul>
+<li>
+<p>vector <code>lambdas</code> that contains the eigenvalues of the matrix <code class="reqn">(A-qB)</code>. Input <code>q</code> is ignored.
+</p>
+</li>
+<li>
+<p>matrix <code>A</code> and/or matrix <code>B</code>: in these cases <code>q</code> is required to be not null and an eventual missing specification of one matrix make it equal to the identity.
+</p>
+</li>
+</ul>
+<h3>Value</h3>
+
+<p>The values of the CDF at quantiles <code>q</code>.
+</p>
+
+
+</div>

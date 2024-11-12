@@ -1,0 +1,115 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>BusinessDays</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>BusinessDays</h2>
+
+<h3>Description</h3>
+
+<p>Calculate business days for a given location. Currently, data availability
+goes from 1990 to 2100.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">BusinessDays(loc = "BOG", from = NULL, to = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>loc</code></td>
+<td>
+<p>String that determines the location for business days. See details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>from</code></td>
+<td>
+<p>If provided returns available business dates after this date (inclusive).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>to</code></td>
+<td>
+<p>If provided returns available business dates until this date (inclusive).</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>loc refers to the location for business days:
+</p>
+
+<ul>
+<li>
+<p> NYGB for New York Government Bonds Market.
+</p>
+</li>
+<li>
+<p> NY for New York Stock Exchange Market.
+</p>
+</li>
+<li>
+<p> LDN for London.
+</p>
+</li>
+<li>
+<p> NYLDN for the intersection of business days in New York Stock Exchange and London.
+</p>
+</li>
+<li>
+<p> NYGBLDN for the intersection of business days in New York Government Bond and London.
+</p>
+</li>
+<li>
+<p> BOG for Bogota.
+</p>
+</li>
+<li>
+<p> BOGNYGB for the intersection of business days in Bogota and New York Government Bond.
+</p>
+</li>
+<li>
+<p> BOGNY for the intersection of business days in Bogota and New York Stock Exchange.
+</p>
+</li>
+</ul>
+<h3>Value</h3>
+
+<p>Vector of business days. Data availability from 1990 up to 2100.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Diego Jara, Julian Chitiva and Juan Pablo Bermudez
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># Returns all business days available for the location
+BusinessDays(loc='BOG')
+
+# Returns business days within given range for the location and Dates as
+# character
+BusinessDays(loc='BOG', from='2020-10-10', to='2020-11-10')
+
+# Returns business days within given range for the location and Dates as
+# Dates
+BusinessDays(loc='BOG', from=as.Date('2020-10-10'), to='2020-11-10')
+
+# Returns all available business days for the location after given
+# 'from' date as character
+BusinessDays(loc='BOG', from='2020-10-10')
+
+</code></pre>
+
+
+</div>

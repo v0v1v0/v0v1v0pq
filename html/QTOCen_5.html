@@ -1,0 +1,127 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>Gene_Mean_CenIPWE</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>A low-level function for the generic optimization step in estimating Mean-optimal
+treatment regime for censored data</h2>
+
+<h3>Description</h3>
+
+<p>This function supports the <code>IPWE_mean_IndCen</code> function.
+It does the genetic algorithm based method with inverse probability weighting for censored data. 
+In the future, if more complicated applications/scenarios is sought after for mean optimality, 
+users may create their own wrapper function
+based on <code>Gene_Mean_CenIPWE</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">Gene_Mean_CenIPWE(data_aug, ph, p_level, regimeClass, Domains = NULL,
+  cluster = FALSE, s.tol = 1e-04, it.num = 8, pop.size = 3000)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data_aug</code></td>
+<td>
+<p>a data.frame of the observed data after preprocessing. It should include be
+augmented with two new columns: <code>ph</code> for the enstimated propensity scores and 
+<code>ghat</code> for the estimated conditional survival probabilities.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ph</code></td>
+<td>
+<p>propensity score estimates. For example, if the treatment is denoted by <code>A</code>,
+then <code>ph</code> should be P(A=1|X)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p_level</code></td>
+<td>
+<p>printing level</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>regimeClass</code></td>
+<td>
+<p>a formula indicating the form of treatment regimes</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Domains</code></td>
+<td>
+<p>default is NULL. Otherwise, the object should be a <code>nvars *2</code> 
+matrix used as the space of parameters, which will be supplied to <code>rgenoud::genoud</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cluster</code></td>
+<td>
+<p>default is FALSE. This can also be an object of the 'cluster' class 
+returned by one of the makeCluster commands in the parallel package or
+a vector of machine names so rgenoud::genoud can setup the cluster automatically.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>s.tol</code></td>
+<td>
+<p>tolerance level for the GA algorithm. This is input for parameter <code>solution.tolerance</code>
+in function <code>rgenoud::genoud</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>it.num</code></td>
+<td>
+<p>the maximum GA iteration number</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pop.size</code></td>
+<td>
+<p>an integer with the default set to be 3000. This is roughly the 
+number individuals for the first generation
+in the genetic algorithm (<code>rgenoud::genoud</code>).</p>
+</td>
+</tr>
+</table>
+<h3>Examples</h3>
+
+<pre><code class="language-R">GenerateData &lt;- function(n)
+{
+  x1 &lt;- runif(n, min=-0.5,max=0.5)
+  x2 &lt;- runif(n, min=-0.5,max=0.5)
+  error &lt;- rnorm(n, sd= 1)
+  ph &lt;- rep(0.5,n)
+  a &lt;- rbinom(n = n, size = 1, prob=ph)
+  c &lt;- 1.5 +  + runif(n = n, min=0, max=2)
+  cmplt_y &lt;-  pmin(2+x1+x2 +  a*(1 - x1 - x2) +  (0.2 + a*(1+x1+x2)) * error, 4.4)
+  censor_y &lt;- pmin(cmplt_y, c)
+  delta &lt;- as.numeric(c &gt; cmplt_y)
+  return(data.frame(x1=x1,x2=x2,a=a, censor_y = censor_y, delta=delta))
+}
+n &lt;- 100
+data &lt;- GenerateData(n)
+
+# preprocessing
+data_aug &lt;- data
+data_aug$ph &lt;- rep(mean(data$a), n)
+data_aug$deltaC &lt;- 1 - data_aug$delta
+library(survival)
+survfit_all &lt;- survfit(Surv(censor_y, event = deltaC)~1, data=data_aug)
+survest &lt;- stepfun(survfit_all$time, c(1, survfit_all$surv))
+data_aug$ghat &lt;- survest(data_aug$censor_y)
+
+# estimate the mean-optimal treatment regime
+meanopt_fit &lt;- Gene_Mean_CenIPWE(data=data_aug, ph = data_aug$ph, p_level=1, regimeClass=a~x1*x2) 
+
+</code></pre>
+
+
+</div>

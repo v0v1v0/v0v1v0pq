@@ -1,0 +1,54 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>%l*%</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Hash/Dictionary Lookup</h2>
+
+<h3>Description</h3>
+
+<p><code>%l*%</code> - A deprecated binary operator version of <code>lookup</code>.  This
+will be removed in a subsequent version of <span class="pkg">qdapTools</span>.  Use <code>%l%</code>
+instead.
+</p>
+<p><code>%ha%</code> - A deprecated binary operator version of <code>hash_look</code>.
+This will be removed in a subsequent version of <span class="pkg">qdapTools</span>.  Use
+<code>%hl%</code> instead.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">terms %l*% key.match
+
+terms %ha% key
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>terms</code></td>
+<td>
+<p>A vector of terms to undergo a lookup.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>key.match</code></td>
+<td>
+<p>Takes one of the following: (1) a two column data.frame of a
+match key and reassignment column, (2) a named list of vectors (Note: if
+data.frame or named list supplied no key reassign needed) or (3) a single
+vector match key.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>key</code></td>
+<td>
+<p>The hash key to use.</p>
+</td>
+</tr>
+</table>
+</div>

@@ -1,0 +1,98 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>mqmplot.singletrait</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Plot LOD curves of a multiple-QTL model</h2>
+
+<h3>Description</h3>
+
+<p>Plot the LOD curve for a genome scan for a single trait, with a multiple-QTL model (the
+output of <code>mqmscan</code>).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">mqmplot.singletrait(result, extended = 0 ,...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>result</code></td>
+<td>
+ <p><code>mqmscan</code> result.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>extended</code></td>
+<td>
+<p> Extended plotting of the information content </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p> Extra arguments passed to <code>plot.scanone</code> </p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Danny Arends <a href="mailto:danny.arends@gmail.com">danny.arends@gmail.com</a> 
+</p>
+
+
+<h3>See Also</h3>
+
+
+
+<ul>
+<li>
+<p> The MQM tutorial: <a href="https://rqtl.org/tutorials/MQM-tour.pdf">https://rqtl.org/tutorials/MQM-tour.pdf</a>
+</p>
+</li>
+<li> <p><code>MQM</code> - MQM description and references
+</p>
+</li>
+<li> <p><code>mqmscan</code> - Main MQM single trait analysis
+</p>
+</li>
+<li> <p><code>mqmscanall</code> - Parallellized traits analysis
+</p>
+</li>
+<li> <p><code>mqmaugment</code> - Augmentation routine for estimating missing data
+</p>
+</li>
+<li> <p><code>mqmautocofactors</code> - Set cofactors using marker density
+</p>
+</li>
+<li> <p><code>mqmsetcofactors</code> - Set cofactors at fixed locations
+</p>
+</li>
+<li> <p><code>mqmpermutation</code> - Estimate significance levels
+</p>
+</li>
+<li> <p><code>scanone</code> - Single QTL scanning
+
+</p>
+</li>
+</ul>
+<h3>Examples</h3>
+
+<pre><code class="language-R">#Simulated F2 Population
+f2qtl &lt;- c(3,15,1,0)                                    # QTL at chromosome 3
+data(map10)                                             # Mouse genetic map
+
+f2cross &lt;- sim.cross(map10,f2qtl,n=100,type="f2")       # Simulate a F2 Cross
+f2cross &lt;- mqmaugment(f2cross)
+f2result &lt;- mqmscan(f2cross)                        # Do a MQM scan of the genome
+mqmplot.singletrait(f2result)					# Use our fancy plotting routine
+</code></pre>
+
+
+</div>

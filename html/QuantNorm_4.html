@@ -1,0 +1,112 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>QuantNorm</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Adjust the distance matrix by quantile normalization for data with batch effect</h2>
+
+<h3>Description</h3>
+
+<p>This function applies quantile normalization on the distance matrix (dissimilarity matrix) and return the corrected distance matrix.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">QuantNorm(dat, batch, method = "row/column", cor_method = "spearman",
+  tol = 0.01, max = 50, logdat = TRUE, standardize = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>dat</code></td>
+<td>
+<p>The original p*n batch effect data with n subjects and p RNA-seq measurements or the n by n distance matrix.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>batch</code></td>
+<td>
+<p>The vector of length n indicating which batch the subjects belong to.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+<p>Method for the quantile normalization. There are two options: "row/column" and "vectorize".</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cor_method</code></td>
+<td>
+<p>Method to calculate the correlation matrix, can be 'spearman'(default), 'pearson' or 'kendall'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tol</code></td>
+<td>
+<p>The tolerance for the iterative method "row/column", which is the Euclidean distance of the vectorized two dissimilarity matrices before and after each iteration.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>max</code></td>
+<td>
+<p>Maximum number of the iteration if the tolerance is not reached.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>logdat</code></td>
+<td>
+<p>Whether conducting log transformation to data or not.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>standardize</code></td>
+<td>
+<p>Whether conducting standardization [(dat - mean)/sqrt(var)] to data or not.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Returns the corrected 1-correlation matrix between subjects.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Teng Fei. Email: tfei@emory.edu
+</p>
+
+
+<h3>References</h3>
+
+<p>Fei et al (2018), Mitigating the adverse impact of batch effects in sample pattern detection, Bioinformatics, &lt;https://doi.org/10.1093/bioinformatics/bty117&gt;.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+library(pheatmap) #drawing heatmap
+
+data("ENCODE") #load the ENCODE data
+
+#Before correction, the subjects are clustered by species
+pheatmap(cor(ENCODE))
+
+#Assigning the batches based on species
+batches &lt;- c(rep(1,13),rep(2,13))
+
+#QuantNorm correction
+corrected.distance.matrix &lt;- QuantNorm(ENCODE,batches,method='row/column', cor_method='pearson',
+                                       logdat=FALSE, standardize = TRUE, tol=1e-4)
+pheatmap(1-corrected.distance.matrix)
+</code></pre>
+
+
+</div>

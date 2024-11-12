@@ -1,0 +1,135 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>window</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Producing windows of class "owin"
+</h2>
+
+<h3>Description</h3>
+
+<p>These functions are deprecated: use weightedMap instead.
+</p>
+<p>Different ways to easily produce windows of class "owin" from the package "spatstat" are presented here. These are used by voronoi.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">hullToOwin(points, shift, alpha)
+mapsToOwin(country, database = "world")
+gadmToOwin(country, sub = NULL, level = 0)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>points</code></td>
+<td>
+
+<p>Set of points that need a window around them. Two column matrix.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>shift</code></td>
+<td>
+
+<p>The amount of space around the outer points at determining the window.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>alpha</code></td>
+<td>
+
+<p>Parameter for the 'curviness': lower values show more detail. Passed internally to ahull.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>country</code></td>
+<td>
+
+<p>Name of the country to obtain borders and turn them into an <code>owin</code> object needed for the function <code>voronoi</code>. For <code>mapsToOwin</code> check <code>map</code> how to specify the names. For <code>gadmToOwin</code>, check <a href="https://gadm.org">https://gadm.org</a>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>database</code></td>
+<td>
+
+<p>Database as used by <code>map</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sub, level</code></td>
+<td>
+
+<p>Names for Subdivisions of countries as available in the GADM database
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>For <code>hullToOwin</code>, the function ahull is used to make a hull around the points. This is then converted to an "owin" window.
+</p>
+<p>The functions <code>mapsToOwin</code> and <code>GadmToWin</code> use external topogaphic boundaries to produce windows.
+</p>
+
+
+<h3>Value</h3>
+
+<p>All functions return an object of class <code>owin</code> from the package <code>spatstat</code>.
+</p>
+
+
+<h3>Note</h3>
+
+<p>Includes code from code from Andrew Bevan, based on code from Dylan Beaudette, see <a href="https://stat.ethz.ch/pipermail/r-sig-geo/2012-March/014409.html">https://stat.ethz.ch/pipermail/r-sig-geo/2012-March/014409.html</a>.
+</p>
+<p>The function <code>gadmToOwin</code> needs online access to download the data. The data is saved in the current working directory, and will not be downloaded again when it is already available there.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Michael Cysouw &lt;cysouw@mac.com&gt;
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+# Boundary of the German state "Hessen"
+# This will need to access the online GADM database
+# and might take some time
+boundary &lt;- gadmToOwin("DEU", "Hessen", 1)
+
+# A window does not have to be continuous
+random &lt;- mapsToOwin(c("Germany", "Greece"))
+plot(random, main = NULL)
+
+# hull around some points
+# note influence of alpha and shift
+data(hessen)
+
+hull &lt;- hullToOwin(hessen$villages, shift = 0.2, alpha = 1)
+plot(hull)
+points(hessen$villages)
+
+hull &lt;- hullToOwin(hessen$villages, shift = 0.1, alpha = 0.2)
+plot(hull)
+points(hessen$villages)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

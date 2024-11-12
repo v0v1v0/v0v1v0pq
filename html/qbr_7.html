@@ -1,0 +1,62 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>delete_token</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Delete a user token</h2>
+
+<h3>Description</h3>
+
+<p>Permanently delete an active user token.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">delete_token(subdomain, auth, agent = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>subdomain</code></td>
+<td>
+<p>Character vector with one element. Found at the beginning of
+the Quickbase URL. Realm specific.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>auth</code></td>
+<td>
+<p>Character vector with one element. The Quickbase authentication
+scheme you are using to authenticate the request (e.g., user token).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>agent</code></td>
+<td>
+<p>Optional. Character vector with one element. Describes
+user/agent making API call.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A message confirming deactivation was successful.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+   x &lt;- delete_token(subdomain = "abc",
+                    auth = keyring::key_get("qb_example"))
+
+## End(Not run)
+</code></pre>
+
+
+</div>

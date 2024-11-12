@@ -1,0 +1,157 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>boot_pvl</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Perform bootstrap sampling and calculate test statistic for each bootstrap sample</h2>
+
+<h3>Description</h3>
+
+<p>Create a bootstrap sample, perform multivariate QTL scan, and calculate log10 LRT statistic
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">boot_pvl(
+  probs,
+  pheno,
+  addcovar = NULL,
+  kinship = NULL,
+  start_snp = 1,
+  n_snp,
+  pleio_peak_index,
+  nboot = 1,
+  max_iter = 10000,
+  max_prec = 1/1e+08,
+  cores = 1
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>probs</code></td>
+<td>
+<p>founder allele probabilities three-dimensional array for one chromosome only (not a list)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pheno</code></td>
+<td>
+<p>n by d matrix of phenotypes</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>addcovar</code></td>
+<td>
+<p>n by c matrix of additive numeric covariates</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>kinship</code></td>
+<td>
+<p>a kinship matrix, not a list</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>start_snp</code></td>
+<td>
+<p>positive integer indicating index within probs for start of scan</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n_snp</code></td>
+<td>
+<p>number of (consecutive) markers to use in scan</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pleio_peak_index</code></td>
+<td>
+<p>positive integer index indicating genotype matrix for bootstrap sampling. Typically acquired by using 'find_pleio_peak_tib'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nboot</code></td>
+<td>
+<p>number of bootstrap samples to acquire and scan</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>max_iter</code></td>
+<td>
+<p>maximum number of iterations for EM algorithm</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>max_prec</code></td>
+<td>
+<p>stepwise precision for EM algorithm. EM stops once incremental difference in log likelihood is less than max_prec</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cores</code></td>
+<td>
+<p>number of cores to use when calling mclapply to parallelize the bootstrap analysis.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Performs a parametric bootstrap method to calibrate test statistic values in the test of
+pleiotropy vs. separate QTL. It begins by inferring parameter values at
+the 'pleio_peak_index' index value in the object 'probs'. It then uses
+these inferred parameter values in sampling from a multivariate normal
+distribution. For each of the 'nboot' sampled phenotype vectors, a two-dimensional QTL
+scan, starting at the marker indexed by 'start_snp' within the object
+'probs' and extending for a total of 'n_snp' consecutive markers. The
+two-dimensional scan is performed via the function 'scan_pvl_clean'. For each
+two-dimensional scan, a log10 likelihood ratio test statistic is calculated. The
+outputted object is a vector of 'nboot' log10 likelihood ratio test
+statistics from 'nboot' distinct bootstrap samples.
+</p>
+
+
+<h3>Value</h3>
+
+<p>numeric vector of (log) likelihood ratio test statistics from 'nboot_per_job' bootstrap samples
+</p>
+
+
+<h3>References</h3>
+
+<p>Knott SA, Haley CS (2000) Multitrait
+least squares for quantitative trait loci detection.
+Genetics 156: 899–911.
+</p>
+<p>Walling GA, Visscher PM, Haley CS (1998) A comparison of
+bootstrap methods to construct confidence intervals in QTL mapping.
+Genet. Res. 71: 171–180.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+n &lt;- 50
+pheno &lt;- matrix(rnorm(2 * n), ncol = 2)
+rownames(pheno) &lt;- paste0("s", 1:n)
+colnames(pheno) &lt;- paste0("tr", 1:2)
+probs &lt;- array(dim = c(n, 2, 5))
+probs[ , 1, ] &lt;- rbinom(n * 5, size = 1, prob = 0.2)
+probs[ , 2, ] &lt;- 1 - probs[ , 1, ]
+rownames(probs) &lt;- paste0("s", 1:n)
+colnames(probs) &lt;- LETTERS[1:2]
+dimnames(probs)[[3]] &lt;- paste0("m", 1:5)
+boot_pvl(probs = probs, pheno = pheno,
+        start_snp = 1, n_snp = 5, pleio_peak_index = 3, nboot = 1, cores = 1)
+
+
+</code></pre>
+
+
+</div>

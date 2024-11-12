@@ -1,0 +1,62 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>CalRTable</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Calculate RNA volume for reverse transcription.</h2>
+
+<h3>Description</h3>
+
+<p>The first step of qPCR is usually the preparation of cDNA.
+We need to calculate the column of RNA for reverse transcription to cDNA.
+So, if we have the concentration of RNA, we can use the function 'CalRTable' to do that.
+</p>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>A data.frame contained the sample names and the concentration value. The default unit of concentration is ng/uL.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>template</code></td>
+<td>
+<p>A data.frame contained the information of reverse transcription. In this data.frame there must be a column called 'all'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>RNA.weight</code></td>
+<td>
+<p>RNA weight required for reverse transcription. Default is 1 ug.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list contain a table and a figure.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Xiang LI &lt;lixiang117423@gmail.com&gt;
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">df.1.path &lt;- system.file("examples", "crtv.data.txt", package = "qPCRtools")
+df.2.path &lt;- system.file("examples", "crtv.template.txt", package = "qPCRtools")
+df.1 &lt;- read.table(df.1.path, sep = "\t", header = TRUE)
+df.2 &lt;- read.table(df.2.path, sep = "\t", header = TRUE)
+result &lt;- CalRTable(data = df.1, template = df.2, RNA.weight = 2)
+head(result)
+</code></pre>
+
+
+</div>

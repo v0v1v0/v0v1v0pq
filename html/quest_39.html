@@ -1,0 +1,101 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>cor_miss</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Point-biserial Correlations of Missingness</h2>
+
+<h3>Description</h3>
+
+<p><code>cor_miss</code> computes (point-biserial) correlations between missingness on
+data columns and scores on other data columns.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">cor_miss(
+  data,
+  x.nm,
+  m.nm,
+  ov = FALSE,
+  use = "pairwise.complete.obs",
+  method = "pearson"
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>data.frame of data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x.nm</code></td>
+<td>
+<p>character vector of colnames in <code>data</code> to be the predictors
+of missingness.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>m.nm</code></td>
+<td>
+<p>character vector of colnames in <code>data</code> to specify missing
+data on.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ov</code></td>
+<td>
+<p>logical vector of length 1 specifying whether the correlations
+should be with "observedness" rather than missingness.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>use</code></td>
+<td>
+<p>character vector of length 1 specifying how to deal with missing
+data in the predictor columns. See <code>cor</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+<p>character vector of length 1 specifying what type of
+correlations to compute. See <code>cor</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p><code>cor_miss</code> calls <code>make.dumNA</code> to create dummy vectors representing
+missingness on the <code>data[m.nm]</code> columns.
+</p>
+
+
+<h3>Value</h3>
+
+<p>numeric matrix of (point-biserial) correlations between rows of
+predictors and columns of missingness.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+cor_miss(data = airquality, x.nm = c("Wind","Temp","Month","Day"),
+   m.nm = c("Ozone","Solar.R"))
+cor_miss(data = airquality, x.nm = c("Wind","Temp","Month","Day"),
+   m.nm = c("Ozone","Solar.R"), ov = TRUE) # correlations with "observedness"
+cor_miss(data = airquality, x.nm = c("Wind","Temp","Month","Day"),
+   m.nm = c("Ozone","Solar.R"), use = "complete.obs", method = "kendall")
+
+</code></pre>
+
+
+</div>

@@ -1,0 +1,263 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>flFitLinear</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Data fit via a heuristic linear method</h2>
+
+<h3>Description</h3>
+
+<p>Determine maximum slopes from using a heuristic approach similar to the “growth rates made easy”-method of
+Hall et al. (2013).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">flFitLinear(
+  time = NULL,
+  growth = NULL,
+  fl_data,
+  ID = "undefined",
+  quota = 0.95,
+  control = fl.control(x_type = c("growth", "time"), log.x.lin = FALSE, log.y.lin =
+    FALSE, t0 = 0, min.growth = NA, lin.h = NULL, lin.R2 = 0.98, lin.RSD = 0.05, lin.dY =
+    0.05, biphasic = FALSE)
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>time</code></td>
+<td>
+<p>Vector of the independent time variable (if x_type = "time" in control object).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>growth</code></td>
+<td>
+<p>Vector of the independent time growth (if x_type = "growth" in control object).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fl_data</code></td>
+<td>
+<p>Vector of the dependent fluorescence variable.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ID</code></td>
+<td>
+<p>(Character) The name of the analyzed sample.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>quota</code></td>
+<td>
+<p>(Numeric, between 0 an 1) Define what fraction of <code>max_slope</code> the slope of regression windows adjacent to the window with highest slope should have to be included in the overall linear fit.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>control</code></td>
+<td>
+<p>A <code>fl.control</code> object created with <code>fl.control</code>, defining relevant fitting options.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A <code>gcFitLinear</code> object with parameters of the fit. The lag time is
+estimated as the intersection between the fit and the horizontal line with
+<code class="reqn">y=y_0</code>, where <code>y0</code> is the first value of the dependent variable.
+Use <code>plot.gcFitSpline</code> to visualize the linear fit.
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>raw.x</code></td>
+<td>
+<p>Filtered x values used for the spline fit.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>raw.fl</code></td>
+<td>
+<p>Filtered fluorescence values used for the spline fit.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>filt.x</code></td>
+<td>
+<p>Filtered x values.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>filt.fl</code></td>
+<td>
+<p>Filtered fluorescence values.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ID</code></td>
+<td>
+<p>(Character) Identifies the tested sample.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>FUN</code></td>
+<td>
+<p>Linear <em>function</em> used for plotting the tangent at mumax.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fit</code></td>
+<td>
+<p><code>lm</code> object; result of the final call of <code>lm</code> to perform the linear regression.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>par</code></td>
+<td>
+<p>List of determined fluorescence parameters:</p>
+</td>
+</tr>
+</table>
+<ul>
+<li> <p><code>y0</code>: Minimum fluorescence value considered for the heuristic linear method.
+</p>
+</li>
+<li> <p><code>dY</code>: Difference in maximum fluorescence and minimum fluorescence
+</p>
+</li>
+<li> <p><code>A</code>: Maximum fluorescence
+</p>
+</li>
+<li> <p><code>y0_lm</code>: Intersection of the linear fit with the abscissa.
+</p>
+</li>
+<li> <p><code>max_slope</code>: Maximum slope of the linear fit.
+</p>
+</li>
+<li> <p><code>tD</code>: Doubling time.
+</p>
+</li>
+<li> <p><code>slope.se</code>: Standard error of the maximum slope.
+</p>
+</li>
+<li> <p><code>lag</code>: Lag X.
+</p>
+</li>
+<li> <p><code>x.max_start</code>: X value of the first data point within the window used for the linear regression.
+</p>
+</li>
+<li> <p><code>x.max_end</code>: X value of the last data point within the window used for the linear regression.
+</p>
+</li>
+<li> <p><code>x.turn</code>: For biphasic: X at the inflection point that separates two phases.
+</p>
+</li>
+<li> <p><code>max.slope2</code>: For biphasic: Slope of the second phase.
+</p>
+</li>
+<li> <p><code>tD2</code>: Doubling time of the second phase.
+</p>
+</li>
+<li> <p><code>y0_lm2</code>: For biphasic: Intersection of the linear fit of the second phase with the abscissa.
+</p>
+</li>
+<li> <p><code>lag2</code>: For biphasic: Lag time determined for the second phase..
+</p>
+</li>
+<li> <p><code>x.max2_start</code>: For biphasic: X value of the first data point within the window used for the linear regression of the second phase.
+</p>
+</li>
+<li> <p><code>x.max2_end</code>: For biphasic: X value of the last data point within the window used for the linear regression of the second phase.
+</p>
+</li>
+</ul>
+<table>
+<tr style="vertical-align: top;">
+<td><code>ndx</code></td>
+<td>
+<p>Index of data points used for the linear regression.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ndx2</code></td>
+<td>
+<p>Index of data points used for the linear regression for the second phase.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>control</code></td>
+<td>
+<p>Object of class <code>grofit.control</code> containing list of options passed to the function as <code>control</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rsquared</code></td>
+<td>
+R<sup>2</sup><p> of the linear regression.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rsquared2</code></td>
+<td>
+R<sup>2</sup><p> of the linear regression for the second phase.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fitFlag</code></td>
+<td>
+<p>(Logical) Indicates whether linear regression was successfully performed on the data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fitFlag2</code></td>
+<td>
+<p>(Logical) Indicates whether a second phase was identified.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>reliable</code></td>
+<td>
+<p>(Logical) Indicates whether the performed fit is reliable (to be set manually).</p>
+</td>
+</tr>
+</table>
+<h3>References</h3>
+
+<p>Hall, BG., Acar, H, Nandipati, A and Barlow, M (2014) Growth Rates Made Easy. Mol. Biol. Evol. 31: 232-38, DOI: 10.1093/molbev/mst187
+</p>
+<p>Petzoldt T (2022). <em>growthrates: Estimate Growth Rates from Experimental Data</em>. R package version 0.8.3, <a href="https://CRAN.R-project.org/package=growthrates">https://CRAN.R-project.org/package=growthrates</a>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># load example dataset
+input &lt;- read_data(data.growth = system.file("lac_promoters_growth.txt", package = "QurvE"),
+                   data.fl = system.file("lac_promoters_fluorescence.txt", package = "QurvE"),
+                   csvsep = "\t",
+                   csvsep.fl = "\t")
+
+# Extract time and normalized fluorescence data for single sample
+time &lt;- input$time[4,]
+data &lt;- input$norm.fluorescence[4,-(1:3)] # Remove identifier columns
+
+# Perform linear fit
+TestFit &lt;- flFitLinear(time = time,
+                       fl_data = data,
+                       ID = "TestFit",
+                       control = fl.control(fit.opt = "l", x_type = "time",
+                       lin.R2 = 0.95, lin.RSD = 0.1,
+                       lin.h = 20))
+
+plot(TestFit)
+</code></pre>
+
+
+</div>

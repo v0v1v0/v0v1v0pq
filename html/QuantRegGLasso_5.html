@@ -1,0 +1,69 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>plot.qrglasso</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Display BIC Results from <code>qrglasso</code>
+</h2>
+
+<h3>Description</h3>
+
+<p>Visualize the HDIC BIC results corresponding to hyperparameters obtained from <code>qrglasso</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'qrglasso'
+plot(x, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>An object of class <code>qrglasso</code> for the <code>plot</code> method.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Additional parameters not used directly.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p><code>NULL</code>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>qrglasso</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">set.seed(123)
+n &lt;- 100
+p &lt;- 5
+L &lt;- 5
+Y &lt;- matrix(rnorm(n), n, 1)
+W &lt;- matrix(rnorm(n * p * (L - 1)), n, p * (L - 1))
+
+# Call qrglasso with default parameters
+result &lt;- qrglasso(Y = Y, W = W, p = p)
+
+# Visualize the BIC results
+plot(result)
+
+</code></pre>
+
+
+</div>

@@ -1,0 +1,200 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>test_functions</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Test Functions</h2>
+
+<h3>Description</h3>
+
+<p>Functions for testing low-discrepancy sequences.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">sum_of_squares(u)
+sobol_g(u, copula = copula::indepCopula(dim = ncol(u)), alpha = 1:ncol(u), ...)
+exceedance(x, q, p = 0.99, method = c("indicator", "individual.given.sum.exceeds",
+                                      "sum.given.sum.exceeds"))
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>u</code></td>
+<td>
+<p><code class="reqn">(n, d)</code>-matrix containing <code class="reqn">n</code>
+<code class="reqn">d</code>-dimensional realizations (of a potential quasi-random number
+generator). For <code>sum_of_squares()</code> these need to be marginally
+standard uniform and for <code>sobol_g()</code> they need to follow the
+copula specified by <code>copula</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>copula</code></td>
+<td>
+<p><code>Copula</code> object for which the inverse
+Rosenblatt transformation exists.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>alpha</code></td>
+<td>
+<p>vector of parameters of Sobol's g test function.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>additional arguments passed to the underlying
+<code>cCopula()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p><code class="reqn">(n, d)</code>-matrix containing <code class="reqn">n</code> <code class="reqn">d</code>-dimensional
+realizations.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>q</code></td>
+<td>
+
+
+<dl>
+<dt>"indicator"</dt>
+<dd>
+<p><code class="reqn">d</code>-vector containing the componentwise
+thresholds; if a number it is recycled to a <code class="reqn">d</code>-vector.</p>
+</dd>
+<dt>"individual.given.sum.exceeds", "sum.given.sum.exceeds"</dt>
+<dd>
+<p>threshold for the sum (row sums of <code>x</code>).</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p</code></td>
+<td>
+
+<p>If <code>q</code> is not provided, the probability <code>p</code> is used to
+determine <code>q</code>.
+</p>
+
+<dl>
+<dt>"indicator"</dt>
+<dd>
+<p><code class="reqn">d</code>-vector containing the probabilities
+determining componentwise thresholds via empirical quantiles;
+if a number, it is recycled to a <code class="reqn">d</code>-vector.</p>
+</dd>
+<dt>"individual.given.sum.exceeds", "sum.given.sum.exceeds"</dt>
+<dd>
+<p>probability determining the threshold for the sum (row sums of
+<code>x</code>) via the corresponding empirical quantile.</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+<p><code>character</code> string indicating the type of
+exceedance computed (see Section Value below).</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>For examples see the demo <code>man_test_functions</code>.
+</p>
+<p>See <code>ES_np(&lt;matrix&gt;)</code> from <span class="pkg">qrmtools</span> for another test function.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>sum_of_squares()</code> returns an <code class="reqn">n</code>-vector
+(<code>numeric(n)</code>) with the rowwise computed scaled sum
+of squares (theoretically integrating to 1).
+</p>
+<p><code>sobol_g()</code> returns an <code class="reqn">n</code>-vector (<code>numeric(n)</code>)
+with the rowwise computed Sobol' g functions.
+</p>
+<p><code>exceedance()</code>'s return value depends on <code>method</code>:
+</p>
+
+<dl>
+<dt>"indicator"</dt>
+<dd>
+<p>returns indicators whether,
+componentwise, <code>x</code> exceeds the threshold determined by <code>q</code>.</p>
+</dd>
+<dt>"individual.given.sum.exceeds"</dt>
+<dd>
+<p>returns all rows of <code>x</code>
+whose sum exceeds the threshold determined by <code>q</code>.</p>
+</dd>
+<dt>"sum.given.sum.exceeds"</dt>
+<dd>
+<p>returns the row sums of those
+rows of <code>x</code> whose sum exceeds the threshold determined by <code>q</code>.</p>
+</dd>
+</dl>
+<h3>Author(s)</h3>
+
+<p>Marius Hofert and Christiane Lemieux</p>
+
+
+<h3>References</h3>
+
+<p>Radovic, I., Sobol', I. M. and Tichy, R. F. (1996). Quasi-Monte Carlo
+methods for numerical integration: Comparison of different low
+discrepancy sequences. <em>Monte Carlo Methods and Applications</em>
+<b>2</b>(1), 1–14.
+</p>
+<p>Faure, H., Lemieux, C. (2009). Generalized Halton Sequences in 2008:
+A Comparative Study. <em>ACM-TOMACS</em> <b>19</b>(4), Article 15.
+</p>
+<p>Owen, A. B. (2003). The dimension distribution and quadrature test
+functions. <em>Stat. Sinica</em> <b>13</b>, 1-–17.
+</p>
+<p>Sobol', I. M. and Asotsky, D. I. (2003). One more experiment on
+estimating high-dimensional integrals by quasi-Monte Carlo methods.
+<em>Math. Comput. Simul.</em> <b>62</b>, 255–-263.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Generate some (here: copula, pseudo-random) data
+library(copula)
+set.seed(271)
+cop &lt;- claytonCopula(iTau(claytonCopula(), tau = 0.5)) # Clayton copula
+U &lt;- rCopula(1000, copula = cop)
+
+## Compute sum of squares test function
+mean(sum_of_squares(U)) # estimate of E(3(sum_{j=1}^d U_j^2)/d)
+
+## Compute the Sobol' g test function
+if(packageVersion("copula") &gt;= "0.999-20")
+    mean(sobol_g(U)) # estimate of E(&lt;Sobol's g function&gt;)
+
+## Compute an exceedance probability
+X &lt;- qnorm(U)
+mean(exceedance(X, q = qnorm(0.99))) # fixed threshold q
+mean(exceedance(X, p = 0.99)) # empirically estimated marginal p-quantiles as thresholds
+
+## Compute 99% expected shortfall for the sum
+mean(exceedance(X, p = 0.99, method = "sum.given.sum.exceeds"))
+## Or use ES_np(X, level = 0.99) from 'qrmtools'
+</code></pre>
+
+
+</div>

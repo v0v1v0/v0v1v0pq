@@ -1,0 +1,82 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>LocalKM</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Kernel-based Local Kaplan-Meier Estimator</h2>
+
+<h3>Description</h3>
+
+<p>This is the local KM estimator customized for this library to run
+in batch mode.
+It returns the estimated conditional survival probabilities given a user specified
+set of covariate names that the survival time depends on,
+a.k.a  <code class="reqn">F(T &gt; y_0 \mid x_0).</code>
+</p>
+<p>More specifically, for uncensored data points, we return <code> (1 - tauhat_func()) </code>.
+If the observed data point is censored, then this function returns value -1
+as a flag meaning we cannot .
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">LocalKM(D, bw, NamesCov)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>D</code></td>
+<td>
+<p>a data.frame with column <code>censor_y</code>, column <code>delta</code>, and additional covaraites.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bw</code></td>
+<td>
+<p>the bandwidth parameter</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>NamesCov</code></td>
+<td>
+<p>the vector of column names in data.frame <code>D</code> such that the
+survival time depends on.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A vector of estimated conditional survival probability evaluated at the 
+observed actual survival time on the same individual
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">GenerateData &lt;- function(n)
+{
+  x1 &lt;- runif(n, min=-0.5,max=0.5)
+  x2 &lt;- runif(n, min=-0.5,max=0.5)
+  error &lt;- rnorm(n, sd= 1)
+  ph &lt;- exp(-0.5+1*(x1+x2))/(1+exp(-0.5 + 1*(x1+x2)))
+  a &lt;- rbinom(n = n, size = 1, prob=ph)
+  c &lt;- 1.5 +  + runif(n = n, min=0, max=2)
+  cmplt_y &lt;-  pmin(2+x1+x2 +  a*(1 - x1 - x2) +  (0.2 + a*(1+x1+x2)) * error, 4.4)
+  censor_y &lt;- pmin(cmplt_y, c)
+  delta &lt;- as.numeric(c &gt; cmplt_y)
+  return(data.frame(x1=x1,x2=x2,a=a, censor_y = censor_y, delta=delta))
+}
+n &lt;- 20
+D &lt;- GenerateData(n)
+mean_hat &lt;- LocalKM(D, 5, c("x1","x2"))
+
+
+</code></pre>
+
+
+</div>

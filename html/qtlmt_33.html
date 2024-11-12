@@ -1,0 +1,89 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>varSelect</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Variable selection
+</h2>
+
+<h3>Description</h3>
+
+<p>Select a specific number of variables via variable selection that are optimal for multivariate analysis.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">varSelect(x, group, scope, nv, direction=c("backward","forward"))
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+
+<p>a data matrix/frame. Columns are variables to select from.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>group</code></td>
+<td>
+
+<p>a grouping indicator of observations.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>scope</code></td>
+<td>
+
+<p>which variables (i.e., columns of <code>x</code>) to select from.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nv</code></td>
+<td>
+
+<p>how many variables to be selected.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>direction</code></td>
+<td>
+
+<p>forward selection or backward elimination.
+</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>variables selected in the model.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>varGroup</code> and <code>varStep</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(etrait)
+g55&lt;- varGroup(traits, mdat, zscope=55, method="best")
+idx&lt;- sample(1:nrow(traits), replace=FALSE)
+varSelect(traits[idx,], group=mdat[,55], scope=1:ncol(traits[idx,]),
+   nv=length(g55[[1]]))
+</code></pre>
+
+
+</div>

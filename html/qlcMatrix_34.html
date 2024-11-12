@@ -1,0 +1,145 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>rKhatriRao</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+‘reduced’ Khatri-Rao product (sparse matrices)
+</h2>
+
+<h3>Description</h3>
+
+<p>This function performs a Khatri-Rao product (‘column-wise Kronecker product’, see <code>KhatriRao</code> for more info) on two sparse matrices. However, the result of such a product on sparse matrices normally results in very many empty rows. This function removes those empty rows, and, most importantly, it produces row names only for the remaining rows. For large sparse matrices this is <em>much</em> more efficient than first producing all rownames, and then removing the one with the empty rows.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">rKhatriRao(X, Y, 
+	rownamesX = rownames(X), rownamesY = rownames(Y), 
+	simplify = FALSE, binder = ":", FUN = "*")
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>X,Y</code></td>
+<td>
+
+<p>matrices of with the same number of columns.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rownamesX, rownamesY</code></td>
+<td>
+
+<p>row names of matrices X and Y. These can be specified separately, but they default to the row names of the matrices.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>simplify</code></td>
+<td>
+
+<p>by default, the names of rows and columns are not included into the matrix to keep the matrix as lean as possible: the row names are returned separately. Using <code>include.dimnames=T</code> adds the row names into the matrix. The column names are directly taken from X.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>binder</code></td>
+<td>
+
+<p>symbol to include between the row names of X and Y for the resulting matrix
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>FUN</code></td>
+<td>
+
+<p>function to be used in the KhatriRao product, passed internally to the workhorse <code>KhatriRao</code>
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Up to 1e6 row names to be produced goes reasonably quick with the basic <code>KhatriRao</code> function. However, larger amounts of pasting of row names becomes very slow, and the row names take an enormous amount of RAM. This function solves that problem by only producing row names for the non-empty rows.
+</p>
+
+
+<h3>Value</h3>
+
+<p>By default, the result is a list of two items:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>M</code></td>
+<td>
+<p>resulting sparse product matrix with empty rows removed</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rownames</code></td>
+<td>
+<p>a vector with the resulting row names for the non-empty rows</p>
+</td>
+</tr>
+</table>
+<p>When <code>simplify=T</code>, then the matrix is return with the row names included.
+</p>
+
+
+<h3>Note</h3>
+
+<p>This function allows for the row names of the input matrices to be added separately, and the resulting row names are returned separately by default. This might seem a bit unusual, given the nice way how R integrates row names into matrices. However, it turns out often to be easier to store row- and column names separately to efficiently work with large sparse matrices.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Michael Cysouw
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>KhatriRao</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># two sparse matrices with row names
+
+X &lt;- rSparseMatrix(1e4, 1e3, 1e4)
+Y &lt;- rSparseMatrix(1e4, 1e3, 1e4)
+
+rownames(X) &lt;- 1:nrow(X)
+rownames(Y) &lt;- 1:nrow(Y)
+
+# the basic KhatriRao product from the Matrix package is very fast
+# but almost all rows are empty
+
+system.time(M &lt;- KhatriRao(X, Y))
+sum(rowSums(M)==0)/nrow(M) # 99.9% empty rows
+
+# To produce all row names takes a long time with KhatriRao from Matrix
+# with the current example with 1e8 row names it took a minute on my laptop
+# so: don't try the following, except on a large machine!
+
+
+system.time(M &lt;- KhatriRao(X, Y, make.dimnames = TRUE))
+
+
+# Using the current special version works just fine and is reasonably quick
+system.time(M &lt;- rKhatriRao(X, Y))
+
+</code></pre>
+
+
+</div>

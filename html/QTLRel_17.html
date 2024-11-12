@@ -1,0 +1,106 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>hapSim</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Generate Genotypic Data
+</h2>
+
+<h3>Description</h3>
+
+<p>Simulate gametic data from a pedigree.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">hapSim(ped, gmap, ids, hap, method = c("Haldane", "Kosambi"))
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>ped</code></td>
+<td>
+
+<p>A pedigree, which is a data frame (id, sex, father/sire, mother/dam, ...). In "sex", male should be "M", "Male" or 1, and female should be "F", "Female" or 2 (other than 0 and 1). If given, "generation" can be numeric 0, 1, 2, ... or non-numeric "F0", "F1", "F2", ..., which should be in an increasing order. Note that 0 is reserved for missing values. If a father/mother is an inbred founder, its ID should be tagged by character 'i' (e.g. 1i, 2i, etc.). See <code>pedRecode</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gmap</code></td>
+<td>
+
+<p>A genetic map. Should be data frame (snp, chr, dist, ...), where "snp" is the SNP (marker) name, "chr" is the chromosome where the "snp" is, and "dist" is the genetic distance in centi-Morgan (cM) from the left of the chromosome. If <code>gmap</code> is missing but <code>hap</code> not, all but the first two columns of <code>hap</code> are ignored.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ids</code></td>
+<td>
+
+<p>Genotypic data are extracted only for individuals with IDs specified by <code>ids</code>. If missing, genotypic data are extracted for all individuals in the pedigree. If <code>ped</code> is an object of <code>pedRecode</code>, <code>ids</code> should be referred to "old" IDs.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>hap</code></td>
+<td>
+
+<p>Founders' haplotype data if not missing. Rows correspond to founders as specified by row names, and columns correspond to loci in the genetic map <code>gmap</code> in the exact order. For an individual, the haplotype should be (f1 m1 f2 m2 ...) where fi is the allele from father at the i-th locus and mi is the allele from mother at the i-th locus. Elements should be non-negative integers that are not larger than 16384. If <code>hap</code> is not supplied, founders are assumed to be inbred.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+
+<p>Whether "Haldane" or "Kosambi" mapping function should be used. This will be ignored if the recombination rate <code>recRate</code> is a component of <code>gmap</code>.
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The pedigree should be in the same format as an output of <code>pedRecode</code>. Founders mean those whose parents
+have 0 or negative IDs after the pedigree is recoded by <code>pedRecode</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A matrix giving haplotypes.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>pedRecode</code> for more information.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(miscEx)
+
+## Not run: 
+# prepare pedigree in desired format
+pedR&lt;- pedRecode(pedF8)
+pedR[1:5,] # check to find out three founders
+# fake founder haplotypes
+hapDat&lt;- rbind(rep(1:2,nrow(gmapF8)),rep(3:4,nrow(gmapF8)),rep(5:6,nrow(gmapF8)))
+rownames(hapDat)&lt;- c("32089","1","2")
+# simulate hyplotypes for F8 individuals
+hd&lt;- hapSim(pedF8, gmapF8, ids=pedF8$id[pedF8$gen=="F8"], hap=hapDat)
+dim(hd)
+hd[1:5,1:10]
+
+## End(Not run)
+</code></pre>
+
+
+</div>

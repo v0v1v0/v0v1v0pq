@@ -1,0 +1,224 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>splitText</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Construct sparse matrices from parallel texts
+</h2>
+
+<h3>Description</h3>
+
+<p>Convenience functions to read parallel texts and to split parallel texts into sparse matrices.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">splitText(text, globalSentenceID = NULL, localSentenceID = names(text), sep = " ",
+	simplify = FALSE, lowercase = TRUE)
+
+read.text(file)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>text</code></td>
+<td>
+
+<p>vector of strings, typically sentences with wordforms separated by space (see <code>sep</code> below). names of the vector elements are typically IDs to link across texts (cf. the format as used in <code>bibles</code>).
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>globalSentenceID</code></td>
+<td>
+
+<p>Vector of all IDs that might possibly occur in the parallel texts, used to parallelize the texts. Can for example be constructed by using <code>union</code> on the localSentenceIDs.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>localSentenceID</code></td>
+<td>
+
+<p>Vector of the IDs for the actual sentences in the present text. Typically present as names of the text.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sep</code></td>
+<td>
+
+<p>Separator on which the sentences should be parsed into wordforms. The implementation is very simple here, there are no advanced options for guessing punctuation. The variation in punctuation across a wide variety of languages and scripts normally turns out to be too large to be easily automatically parsed. Any advanced parsing has to be done externally, and here simply the parsed symbol is used to actually split the text into parts. Typically, this parsing of sentences into wordforms will be performed using space <code>sep = " "</code>. See also <code>bibles</code> for some examples of such pre-parsing.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>simplify</code></td>
+<td>
+
+<p>By default (when <code>simplify = F</code>), this function returns a list of objects that represent the encoding of the text into sparse matrices. With <code>simplify = T</code> this list is reduced to a single matrix (wordforms x globalSentenceID), with the actual wordforms as row names.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lowercase</code></td>
+<td>
+
+<p>By default, a mapping between the text and a lowercase version of the same text. In the default output (with <code>simplify = F</code>), this is a sparse matrix linking strings with mixed upper/lower case to string with only lower case. Note that case folding is locale-specific, but here a simple universal case-folding is used (as available through <code>tolower</code>).
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>file</code></td>
+<td>
+
+<p>file name (or full path) for a file to be read.
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The function <code>splitText</code> is actually just a nice examples of how <code>pwMatrix</code>, <code>jMatrix</code>, and <code>ttMatrix</code> can be used to work with parallel texts. 
+</p>
+<p>The function <code>read.text</code> is a convenience function to read parallel texts.
+</p>
+
+
+<h3>Value</h3>
+
+<p>When <code>simplify = F</code>, a list is returned with the following elements:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>runningWords</code></td>
+<td>
+<p>single vector with complete text (ignoring original sentence breaks), separated into strings according to <code>sep</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>wordforms</code></td>
+<td>
+<p>vector with all wordforms as attested in the text (according to the specified separator). Ordering of wordforms is done by <code>ttMatrix</code>, which by default uses the "C" collation locale.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lowercase</code></td>
+<td>
+<p>only returned when <code>lowercase = T</code>. Vector with all unique wordforms after conversion to lowercase.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>RS</code></td>
+<td>
+<p>Sparse pattern matrix of class <code>ngCMatrix</code> with runningWords (R) as rows and sentence IDs (S) as columns. When <code>globalSentenceID = NULL</code>, then the sentences are the elements of the original text. Else, they are the specified globalSentenceIDs.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>WR</code></td>
+<td>
+<p>Sparse pattern matrix of class <code>ngCMatrix</code> with wordforms (W) as rows and running words (R) as columns.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>wW</code></td>
+<td>
+<p>only returned when <code>lowercase = T</code>. Sparse pattern matrix of class <code>ngCMatrix</code> linking between lowercased wordforms and original wordforms.</p>
+</td>
+</tr>
+</table>
+<p>When <code>simplify = T</code> the result is a single sparse Matrix (of type <code>dgCMatrix</code>) linking wordforms (either with or without case) to sentences (either global or local). Note that the result with options <code>(simplify = T, lowercase = F)</code> will result in the sparse matrix as available at paralleltext.info (there the matrix is in <code>.mtx</code> format), with the wordforms included into the matrix as row names. However, note that the resulting matrix from the code here will include frequencies for words that occur more than once per sentence. These have been removed for the <code>.mtx</code> version available online.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Michael Cysouw
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>bibles</code> for some texts that led to the development of this function.
+<code>sim.words</code> for a convenience function to easily extract possible translations equivalents through co-occurrence (using <code>splitText</code> for the data-preparation.)
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># a trivial examples to see the results of this function:
+text &lt;- c("This is a sentence .","A sentence this is !","Is this a sentence ?")
+splitText(text)
+splitText(text, simplify = TRUE, lowercase = FALSE)
+
+# reasonably quick with complete bibles (about 1-2 second per complete bible)
+# texts with only New Testament is even quicker
+data(bibles)
+system.time(eng &lt;- splitText(bibles$eng, bibles$verses))
+system.time(deu &lt;- splitText(bibles$deu, bibles$verses))
+
+# Use example: Number of co-ocurrences between two bibles
+# (this is more conveniently performed by the function sim.words)
+# How often do words from the one language cooccur with words from the other language?
+ENG &lt;- (eng$wW * 1) %*% (eng$WR * 1) %*% (eng$RS * 1)
+DEU &lt;- (deu$wW * 1) %*% (deu$WR * 1) %*% (deu$RS * 1)
+C &lt;- tcrossprod(ENG,DEU)
+rownames(C) &lt;- eng$lowercase
+colnames(C) &lt;- deu$lowercase
+C[	c("father","father's","son","son's"),
+	c("vater","vaters","sohn","sohne","sohnes","sohns")
+	]
+
+# Pure counts are not very interesting. This is better:
+R &lt;- assocSparse(t(ENG), t(DEU))
+rownames(R) &lt;- eng$lowercase
+colnames(R) &lt;- deu$lowercase
+R[	c("father","father's","son","son's"),
+	c("vater","vaters","sohn","sohne","sohnes","sohns")
+	]
+
+# For example: best co-occurrences for the english word "mine"
+sort(R["mine",], decreasing = TRUE)[1:10]
+
+
+# To get a quick-and-dirty translation matrix:
+# adding maxima from both sides work quite well
+# but this takes some time
+
+cm &lt;- colMax(R, which = TRUE, ignore.zero = FALSE)$which
+rm &lt;- rowMax(R, which = TRUE, ignore.zero = FALSE)$which
+best &lt;- cm + rm
+best &lt;- as(best, "nMatrix")
+
+which(best["your",])
+which(best["went",])
+
+# A final speed check:
+# split all 4 texts, and simplify them into one matrix
+# They have all the same columns, so they can be rbind
+system.time(all &lt;- sapply(bibles[-1], function(x){splitText(x, bibles$verses, simplify = TRUE)}))
+all &lt;- do.call(rbind, all)
+
+# then try a single co-occerrence measure on all pairs from these 72K words
+# (so we are doing about 2.6e9 comparisons here!)
+system.time( S &lt;- cosSparse(t(all)) )
+
+# this goes extremely fast! As long as everything fits into RAM this works nicely.
+# Note that S quickly gets large
+print(object.size(S), units = "auto")
+
+# but most of it can be thrown away, because it is too low anyway
+# this leads to a factor 10 reduction in size:
+S &lt;- drop0(S, tol = 0.2)
+print(object.size(S), units = "auto")
+
+</code></pre>
+
+
+</div>

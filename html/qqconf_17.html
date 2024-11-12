@@ -1,0 +1,250 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qq_conf_plot</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>QQ Plot with Simultaneous and Pointwise Testing Bounds.</h2>
+
+<h3>Description</h3>
+
+<p>Create a qq-plot with with a shaded simultaneous acceptance region and,
+optionally, lines for a point-wise region. The observed values are plotted
+against their expected values had they come from the specified distribution.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qq_conf_plot(
+  obs,
+  distribution = qnorm,
+  method = c("ell", "ks"),
+  alpha = 0.05,
+  difference = FALSE,
+  log10 = FALSE,
+  right_tail = FALSE,
+  add = FALSE,
+  dparams = list(),
+  bounds_params = list(),
+  line_params = list(),
+  plot_pointwise = FALSE,
+  pointwise_lines_params = list(),
+  points_params = list(),
+  polygon_params = list(border = NA, col = "gray"),
+  prob_pts_method = c("best_available", "normal", "uniform", "median"),
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>obs</code></td>
+<td>
+<p>The observed data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>distribution</code></td>
+<td>
+<p>The quantile function for the specified distribution. Defaults to <code>qnorm</code>.
+Custom distributions are allowed as long as all parameters are supplied in dparams.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+<p>Method for simultaneous testing bands. Must be either "ell" (equal local levels test), which applies a level <code class="reqn">\eta</code> pointwise
+test to each order statistic such that the Type I error of the global test is <code>alpha</code>, or "ks" to apply a
+Kolmogorov-Smirnov test. "ell" is recommended.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>alpha</code></td>
+<td>
+<p>Type I error of global test of whether the data come from the reference distribution.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>difference</code></td>
+<td>
+<p>Whether to plot the difference between the observed and
+expected values on the vertical axis.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>log10</code></td>
+<td>
+<p>Whether to plot axes on -log10 scale (e.g. to see small p-values). Can only be used for strictly
+positive distributions.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>right_tail</code></td>
+<td>
+<p>This argument is only used if <code>log10</code> is <code>TRUE</code>. When <code>TRUE</code>,
+the x-axis is -log10(1 - Expected Quantile) and the y-axis is -log10(1 - Observed Quantile).
+When <code>FALSE</code> (default) the x-axis is -log10(Expected Quantile) and the y-axis is
+-log10(Observed Quantile). The argument should be set to <code>TRUE</code> only when the support
+of the distribution lies in (0, 1), and one wants to make
+observations in the right tail of the distribution easier to see. The argument should be
+set to <code>FALSE</code> when one wants to make
+observations in the left tail of the distribution easier to see.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>add</code></td>
+<td>
+<p>Whether to add points to an existing plot.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dparams</code></td>
+<td>
+<p>List of additional arguments for the quantile function of the distribution
+(e.g. df=1). Note that if any parameters of the distribution are specified, parameter estimation will not be performed
+on the unspecified parameters, and instead they will take on the default values set by the distribution function.
+For the uniform distribution, parameter estimation is not performed, and
+the default parameters are max = 1 and min = 0.
+For other distributions parameters will be estimated if not provided.
+For the normal distribution, we estimate the mean as the median and the standard deviation as <code class="reqn">Sn</code> from the paper by Rousseeuw and Croux 1993
+"Alternatives to the Median Absolute Deviation". For all other distributions besides uniform and normal,
+the code uses MLE to estimate the parameters. Note that estimation is not implemented for custom distributions, so all
+parameters of the distribution must be provided by the user.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bounds_params</code></td>
+<td>
+<p>List of optional arguments for <code>get_bounds_two_sided</code>
+(i.e. <code>tol</code>, <code>max_it</code>, <code>method</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>line_params</code></td>
+<td>
+<p>Arguments passed to the <code>lines</code> function to modify the line that indicates a perfect fit of the
+reference distribution.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>plot_pointwise</code></td>
+<td>
+<p>Boolean indicating whether pointwise bounds should be added to the plot</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pointwise_lines_params</code></td>
+<td>
+<p>Arguments passed to the <code>lines</code> function that modifies pointwise bounds when plot_pointwise is
+set to TRUE.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>points_params</code></td>
+<td>
+<p>Arguments to be passed to the <code>points</code> function to plot the data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>polygon_params</code></td>
+<td>
+<p>Arguments to be passed to the polygon function to construct simultaneous confidence region.
+By default <code>border</code> is set to NA and <code>col</code> is set to grey.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>prob_pts_method</code></td>
+<td>
+<p>(optional) method used to get probability points for plotting.
+The quantile function will be applied to these points to
+get the expected values.  When this argument is set to <code>"normal"</code>
+(recommended for a normal QQ plot) <code>ppoints(n)</code> will be used,  which is what
+most other plotting software uses. When this argument is set to <code>"uniform"</code>
+(recommended for a uniform QQ plot) <code>ppoints(n, a=0)</code>, which are the expected
+values of the order statistics of Uniform(0, 1), will be used.  Finally,
+when this argument is set to <code>"median"</code> (recommended for all other
+distributions) <code>qbeta(.5, c(1:n), c(n:1))</code> will be used. Under the default
+setting, <code>"best_available"</code>, the probability points as recommended above will
+be used. Note that <code>"median"</code> is suitable for all distributions and is
+particularly recommended when alpha is large.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Additional arguments passed to the plot function.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>If any of the points of the qq-plot fall outside the simultaneous acceptance region for the selected
+level alpha test, that means that we can reject the null hypothesis that the data are i.i.d. draws from the
+specified distribution. If <code>difference</code> is set to TRUE, the vertical axis plots the
+observed quantile minus expected quantile. If pointwise bounds are used, then on average, alpha * n of the points will fall outside
+the bounds under the null hypothesis, so the chance that the qq-plot has any points falling outside of the pointwise bounds
+is typically much higher than alpha under the null hypothesis. For this reason, a simultaneous region is preferred.
+</p>
+
+
+<h3>Value</h3>
+
+<p>None, QQ plot is produced.
+</p>
+
+
+<h3>References</h3>
+
+<p>Weine, E., McPeek, MS., &amp; Abney, M. (2023).
+Application of Equal Local Levels to Improve
+Q-Q Plot Testing Bands with R Package qqconf
+Journal of Statistical Software, 106(10).
+https://doi:10.18637/jss.v106.i10
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">set.seed(0)
+smp &lt;- runif(100)
+
+# Plot QQ plot against uniform(0, 1) distribution
+qq_conf_plot(
+  obs=smp,
+  distribution = qunif
+)
+
+# Make same plot on -log10 scale to highlight small p-values,
+# with radius of plot circles also reduced by .5
+qq_conf_plot(
+  obs=smp,
+  distribution = qunif,
+  points_params = list(cex = .5),
+  log10 = TRUE
+)
+
+# Make same plot with difference between observed and expected values on the y-axis
+qq_conf_plot(
+  obs=smp,
+  distribution = qunif,
+  difference = TRUE
+)
+
+# Make same plot with sample plotted as a blue line, expected value line plotted as a red line,
+# and with pointwise bounds plotted as black lines
+qq_conf_plot(
+  obs=smp,
+  distribution = qunif,
+  plot_pointwise = TRUE,
+  points_params = list(col="blue", type="l"),
+  line_params = list(col="red")
+)
+
+</code></pre>
+
+
+</div>

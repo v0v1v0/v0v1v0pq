@@ -1,0 +1,55 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qread_fd</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>qread_fd</h2>
+
+<h3>Description</h3>
+
+<p>Reads an object from a file descriptor.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qread_fd(fd, use_alt_rep=FALSE, strict=FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>fd</code></td>
+<td>
+<p>A file descriptor.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>use_alt_rep</code></td>
+<td>
+<p>Use ALTREP when reading in string data (default <code>FALSE</code>). On R versions prior to 3.5.0, this parameter does nothing.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>strict</code></td>
+<td>
+<p>Whether to throw an error or just report a warning (default: <code>FALSE</code>, i.e. report warning).</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>See <code>qsave_fd()</code> for additional details and examples.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The de-serialized object.
+</p>
+
+
+</div>

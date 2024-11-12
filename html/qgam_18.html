@@ -1,0 +1,97 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>UKload</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>UK electricity load data</h2>
+
+<h3>Description</h3>
+
+<p>Dataset on UK electricity demand, taken from the national grid (<a href="https://www.nationalgrid.com/">https://www.nationalgrid.com/</a>).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">data(UKload)
+</code></pre>
+
+
+<h3>Format</h3>
+
+ <p><code>UKload</code> contains the following variables:
+</p>
+
+<dl>
+<dt>NetDemand</dt>
+<dd>
+<p>net electricity demand between 11:30am and 12am.</p>
+</dd>
+<dt>wM</dt>
+<dd>
+<p>instantaneous temperature, averaged over several English cities.</p>
+</dd>
+<dt>wM_s95</dt>
+<dd>
+<p>exponential smooth of <code>wM</code>, that is <code>wM_s95[i] = a*wM_s95[i-1] + (1-a)*wM[i]</code> with <code>a=0.95</code></p>
+</dd>
+</dl>
+<p>.
+</p>
+<dl>
+<dt>Posan</dt>
+<dd>
+<p>periodic index in <code>[0, 1]</code> indicating the position along the year.</p>
+</dd>
+<dt>Dow</dt>
+<dd>
+<p>factor variable indicating the day of the week.</p>
+</dd>
+<dt>Trend</dt>
+<dd>
+<p>progressive counter, useful for defining the long term trend.</p>
+</dd>
+<dt>NetDemand.48</dt>
+<dd>
+<p>lagged version of <code>NetDemand</code>, that is <code>NetDemand.48[i] = NetDemand[i-2]</code>.</p>
+</dd>
+<dt>Holy</dt>
+<dd>
+<p>binary variable indicating holidays.</p>
+</dd>
+<dt>Year</dt>
+<dd>
+<p>should be obvious.</p>
+</dd>
+<dt>Date</dt>
+<dd>
+<p>should be obvious.</p>
+</dd>
+</dl>
+<h3>Details</h3>
+
+<p> See Fasiolo et al. (2017) for details.</p>
+
+
+<h3>Value</h3>
+
+<p>matrix of replicate data series
+</p>
+
+
+<h3>References</h3>
+
+<p>Fasiolo, M., Goude, Y., Nedellec, R. and Wood, S. N. (2017). Fast calibrated additive quantile regression. Available at <a href="https://arxiv.org/abs/1707.03307">https://arxiv.org/abs/1707.03307</a>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">  library(qgam)
+  data(UKload)
+  plot(UKload$NetDemand, type = 'l')
+</code></pre>
+
+
+</div>

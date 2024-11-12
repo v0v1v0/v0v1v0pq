@@ -1,0 +1,82 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>huber</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Huber norm and Huber approximations to the ramp and tilted absolute value functions
+</h2>
+
+<h3>Description</h3>
+
+<p>Huber norm function providing a hybrid L1/L2 norm. Huber approximations to the ramp <code>hramp</code> and tilted absolute value <code>tilted.approx</code> functions. <code>huber.prime</code>, <code>hramp.prime</code>, and <code>tilted.approx.prime</code> provide the corresponding derivatives.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">huber(x, eps)
+huber.prime(x, eps)
+hramp(x, lower, eps)
+hramp.prime(x, lower, eps)
+tilted.approx(x, tau, eps)
+tilted.approx.prime(x, tau, eps)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+
+<p>numeric vector.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>eps</code></td>
+<td>
+
+<p>epsilon value used in <code>huber</code> and related functions.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tau</code></td>
+<td>
+
+<p>desired tau-quantile.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lower</code></td>
+<td>
+
+<p>left censoring point.
+</p>
+</td>
+</tr>
+</table>
+<h3>See Also</h3>
+
+<p><code>tilted.abs</code>, <code>qrnn.cost</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">x &lt;- seq(-10, 10, length=100)
+plot(x, huber(x, eps=1), type="l", col="black", ylim=c(-2, 10), ylab="")
+lines(x, hramp(x, lower=0, eps=1), col="red")
+lines(x, tilted.approx(x, tau=0.1, eps=1), col="blue")
+lines(x, huber.prime(x, eps=1), col="black", lty=2)
+lines(x, hramp.prime(x, lower=0, eps=1), lty=2, col="red")
+lines(x, tilted.approx.prime(x, tau=0.1, eps=1), lty=2, col="blue")
+</code></pre>
+
+
+</div>

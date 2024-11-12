@@ -1,0 +1,293 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qpNCA</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Perform Non-compartmental Analysis</h2>
+
+<h3>Description</h3>
+
+<p>Consecutively executes the following NCA steps:
+</p>
+
+<ul>
+<li> <p>correct.loq impute LOQ values
+</p>
+</li>
+<li> <p>est.thalf calculate lambda_z and half-life
+</p>
+</li>
+<li> <p>plot_reg plot each regression curve
+</p>
+</li>
+<li> <p>calc.ctmax calculate Cmax and Tmax
+</p>
+</li>
+<li> <p>correct.time correct time deviations at critical time points
+</p>
+</li>
+<li> <p>correct.conc impute missing concentrations at critical time points
+</p>
+</li>
+<li> <p>tab.corr tabulate data alterations
+</p>
+</li>
+<li> <p>calc.par calculates parameters not dependent on lambda_z
+</p>
+</li>
+<li> <p>calc.par.th calculates parameters dependent on lambda_z
+</p>
+</li>
+</ul>
+<h3>Usage</h3>
+
+<pre><code class="language-R">qpNCA(
+  x,
+  by = character(0),
+  nomtimevar = "ntad",
+  timevar = "time",
+  depvar = "dv",
+  bloqvar = "bloq",
+  loqvar = "loq",
+  loqrule = 1,
+  includeCmax = "Y",
+  exclvar = NA,
+  plotdir = NA,
+  timelab = "timevar",
+  deplab = "depvar",
+  tau = NA,
+  tstart = NA,
+  tend = NA,
+  teval = NA,
+  covariates = NA,
+  dose = "dose",
+  factor = 1,
+  reg = "SD",
+  ss = "N",
+  route = "EV",
+  method = 1
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>input dataset name</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>by</code></td>
+<td>
+<p>column names in x indicating grouping variables</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nomtimevar</code></td>
+<td>
+<p>variable name containing the nominal sampling time after dose</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>timevar</code></td>
+<td>
+<p>variable name containing the actual sampling time after dose</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>depvar</code></td>
+<td>
+<p>variable name containing the dependent variable (e.g., concentration)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bloqvar</code></td>
+<td>
+<p>variable name containing the BLOQ flag (0: no, 1: yes)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>loqvar</code></td>
+<td>
+<p>variable name containing the LOQ value</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>loqrule</code></td>
+<td>
+<p>rule number to be applied to the LOQ values in the curve; x$loqrule overrides if provided</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>includeCmax</code></td>
+<td>
+<p>include Cmax in half-life estimation? (y/n); x$includeCmax overrides if provided</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>exclvar</code></td>
+<td>
+<p>variable name indicating points to be excluded in half-life estimation (these should have exclvar = 1)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>plotdir</code></td>
+<td>
+<p>directory where regression plots (.PNG) will be saved; NA gives default location, NULL skips regression plots</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>timelab</code></td>
+<td>
+<p>label for time axis in regression plots</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>deplab</code></td>
+<td>
+<p>label for dependent variable axis in regression plots</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tau</code></td>
+<td>
+<p>dosing interval (for multiple dosing); NA (default) if single dose; x$tau overrides</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tstart</code></td>
+<td>
+<p>start time of partial AUC (start&gt;0); NA (default) if not requested; x$tstart overrides</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tend</code></td>
+<td>
+<p>end time of partial AUC; NA (default) if not requested; x$tend overrides</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>teval</code></td>
+<td>
+<p>user selected AUC interval (starting at t=0); NA (default) if not requested; x$teval overrides</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>covariates</code></td>
+<td>
+<p>covariates dataset; Must contain the dose variable</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dose</code></td>
+<td>
+<p>variable containing the dose amount</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>factor</code></td>
+<td>
+<p>conversion factor for CL and V calculation (e.g. dose in mg, conc in ng/mL, factor=1000); x$factor overrides if provided</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>reg</code></td>
+<td>
+<p>regimen, "SD" or "MD"; x$reg overrides if provided</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ss</code></td>
+<td>
+<p>is steady state reached (y/n); x$ss overrides if provided</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>route</code></td>
+<td>
+<p>route of drug administration ("EV","IVB", "IVI"); x$route overrides if provided</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+<p>method for trapezoidal rule; x$method overrides if provided
+</p>
+
+<ul>
+<li>
+<p> 1: linear up - linear down
+</p>
+</li>
+<li>
+<p> 2: linear up - logarithmic down
+</p>
+</li>
+<li>
+<p> 3: linear before first Tmax, logarithmic after first Tmax
+</p>
+</li>
+</ul>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>(list)
+</p>
+
+<ul>
+<li> <p><strong>covariates</strong> covariates selected with the <code>covariates</code> argument
+</p>
+</li>
+<li> <p><strong>half_life</strong> linear regression parameters
+</p>
+</li>
+<li> <p><strong>ct_corr</strong> the time and concentration corrected dataset
+</p>
+</li>
+<li> <p><strong>corrections</strong> descriptions of the corrections applied
+</p>
+</li>
+<li> <p><strong>pkpar</strong> all estimated PK parameters
+</p>
+</li>
+<li> <p><strong>plots</strong> generated plots
+</p>
+</li>
+</ul>
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+library(magrittr)
+library(dplyr)
+library(qpNCA)
+x &lt;- Theoph
+ntad &lt;- c(0,0.25,0.5,1,2,4,5,7,9,12,24)
+for(i in 1:nrow(x)){
+  time  &lt;- x$Time[[i]]
+  delta &lt;- abs(ntad - time)
+  best  &lt;- min(delta)
+  index &lt;- match(best, delta)
+  nom   &lt;- ntad[[index]]
+  x$ntad[[i]] &lt;- nom
+}
+rm(list = c('time','delta','best','index','nom', 'i','ntad'))
+x %&lt;&gt;% rename(time = Time, dv = conc, subject = Subject)
+x %&lt;&gt;% mutate(bloq = 0, loq = 0.01, tad = time,excl_th=0,
+              subject=as.numeric(subject),ntad=as.numeric(ntad))
+x %&lt;&gt;% filter(dv &gt; 0)
+covs &lt;- x %&gt;%
+  select(subject, Wt, dose = Dose) %&gt;%
+  distinct(subject,.keep_all=TRUE) %&gt;%
+  mutate(dose = dose * Wt) # see ?Theoph
+z &lt;- qpNCA(x, by = 'subject', covariates = covs, exclvar='excl_th')
+
+</code></pre>
+
+
+</div>

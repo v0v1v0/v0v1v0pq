@@ -1,0 +1,85 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>poly.wrap</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Orthogonal Polynomial Wrapper
+</h2>
+
+<h3>Description</h3>
+
+<p>A wrapper for <code>poly</code>, <code>dpoly</code>, and <code>ddpoly</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">poly.wrap(x, degree = 1, coefs = NULL, nderivs = 1, raw = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+
+<p>a numeric vector at which to evaluate the polynomial. <code>x</code> can also be a matrix. Missing values are not allowed in <code>x</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>degree</code></td>
+<td>
+
+<p>the degree of the polynomial. Must be less than the number of unique points if <code>raw = TRUE</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>coefs</code></td>
+<td>
+
+<p>for prediction, coefficients from a previous fit.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nderivs</code></td>
+<td>
+
+<p>allowable values are 0, 1, and 2. If <code>nderivs = 0</code>, all other arguments are passed to <code>poly</code>. If <code>nderivs = 1</code>, all other arguments are passed to <code>dpoly</code>. If <code>nderivs = 2</code>, all other arguments are passed to <code>ddpoly</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>raw</code></td>
+<td>
+
+<p>if true, use raw and not orthogonal polynomials.
+</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p><code>poly.wrap</code> returns the value returned by <code>poly</code>, <code>dpoly</code>, or <code>ddpoly</code>, depending on the value of <code>nderivs</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Michael Lipsitz, Alexandre Belloni, Victor Chernozhukov, Ivan Fernandez-Val
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>poly</code>, <code>dpoly</code>, <code>ddpoly</code>
+</p>
+
+
+</div>

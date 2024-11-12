@@ -1,0 +1,304 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>quadtree</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Create a <code>Quadtree</code> from a raster or matrix</h2>
+
+<h3>Description</h3>
+
+<p>Creates a <code>Quadtree</code> from a 
+<code>SpatRaster</code>,
+<code>RasterLayer</code> or a matrix.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S4 method for signature 'ANY'
+quadtree(
+  x,
+  split_threshold = NULL,
+  split_method = "range",
+  split_fun = NULL,
+  split_args = list(),
+  split_if_any_na = TRUE,
+  split_if_all_na = FALSE,
+  combine_method = "mean",
+  combine_fun = NULL,
+  combine_args = list(),
+  max_cell_length = NULL,
+  min_cell_length = NULL,
+  adj_type = "expand",
+  resample_n_side = NULL,
+  resample_pad_nas = TRUE,
+  extent = NULL,
+  projection = "",
+  proj4string = NULL,
+  template_quadtree = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a <code>RasterLayer</code>,
+<code>SpatRaster</code>, or
+<code>matrix</code>. If <code>x</code> is a <code>matrix</code>, the <code>extent</code> and
+<code>projection</code> parameters can be used to set the extent and projection
+of the quadtree. If <code>x</code> is a
+<code>RasterLayer</code> or
+<code>SpatRaster</code>, the extent and
+projection are derived from the raster.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>split_threshold</code></td>
+<td>
+<p>numeric; the threshold value used by the split method
+(specified by <code>split_method</code>) to decide whether to split a quadrant.
+If the value for a quadrant is greater than this value, it is split into
+its four child cells. If <code>split_method</code> is <code>"custom"</code>, this
+parameter is ignored.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>split_method</code></td>
+<td>
+<p>character; one of <code>"range"</code> (the default),
+<code>"sd"</code> (standard deviation), <code>"cv"</code> (coefficient of variation) or
+<code>"custom"</code>. Determines the method used for calculating the value used
+to determine whether or not to split a quadrant (this calculated value is
+compared with <code>split_threshold</code> to decide whether to split a cell). If
+<code>"custom"</code>, a function must be supplied to <code>split_fun</code>. See
+'Details' for more.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>split_fun</code></td>
+<td>
+<p>function; function used on each quadrant to decide whether
+or not to split the quadrant. Only used when <code>split_method</code> is
+<code>"custom"</code>. Must take two arguments, <code>vals</code> (a numeric vector of
+the cell values in a quadrant) and <code>args</code> (a named list of arguments
+used within the function), and must output <code>TRUE</code> if the quadrant is
+to be split and <code>FALSE</code> otherwise. It must be able to handle <code>NA</code>
+values - if <code>NA</code> is ever returned, an error will occur.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>split_args</code></td>
+<td>
+<p>list; named list that contains the arguments needed by
+<code>split_fun</code>. This list is given to the <code>args</code> parameter of
+<code>split_fun</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>split_if_any_na</code></td>
+<td>
+<p>boolean; if <code>TRUE</code> (the default), a quadrant is
+automatically split if any of the values within the quadrant are <code>NA</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>split_if_all_na</code></td>
+<td>
+<p>boolean; if <code>FALSE</code> (the default), a quadrant
+that contains only <code>NA</code> values is not split. If <code>TRUE</code>, quadrants
+that contain all <code>NA</code> values are split to the smallest possible cell
+size.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>combine_method</code></td>
+<td>
+<p>character; one of <code>"mean"</code>, <code>"median"</code>,
+<code>"min"</code>, <code>"max"</code>, or <code>"custom"</code>. Determines the method used
+for aggregating the values of multiple cells into a single value for a
+larger, aggregated cell. Default is <code>"mean"</code>. If <code>"custom"</code>, a
+function must be supplied to <code>combine_fun</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>combine_fun</code></td>
+<td>
+<p>function; function used to calculate the value of a
+quadrant. Only used when <code>combine_method</code> is <code>"custom"</code>. Must
+take two arguments, <code>vals</code> (a numeric vector of the cell values in a
+quadrant) and <code>args</code> (a named list of arguments used within the
+function), and must output a single numeric value, which will be used as
+the cell value.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>combine_args</code></td>
+<td>
+<p>list; named list that contains the arguments needed by
+<code>combine_fun</code>. This list is given to the <code>args</code> parameter of
+<code>combine_fun</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>max_cell_length</code></td>
+<td>
+<p>numeric; the maximum side length allowed for a
+quadtree cell. Any quadrants larger than <code>max_cell_length</code> will
+automatically be split. If <code>NULL</code> (the default) no restrictions are
+placed on the maximum cell length.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>min_cell_length</code></td>
+<td>
+<p>numeric; the minimum side length allowed for a
+quadtree cell. A quadrant will not be split if its children would be
+smaller than <code>min_cell_length</code>. If <code>NULL</code> (the default) no
+restrictions are placed on the minimum cell length.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>adj_type</code></td>
+<td>
+<p>character; one of <code>"expand"</code> (the default),
+<code>"resample"</code>, or <code>"none"</code>. Specifies the method used to adjust
+<code>x</code> so that its dimensions are suitable for quadtree creation (i.e.
+square and with the number of cells in each direction being a power of 2).
+See 'Details' for more on the two methods of adjustment.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>resample_n_side</code></td>
+<td>
+<p>integer; if <code>adj_type</code> is <code>'resample'</code>, this
+number is used to determine the dimensions to resample the raster to.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>resample_pad_nas</code></td>
+<td>
+<p>boolean; only applicable if <code>adj_type</code> is
+<code>'resample'</code>. If <code>TRUE</code> (the default), <code>NA</code>s are added to
+the shorter side of the raster to make it square before resampling. This
+ensures that the cells of the resulting quadtree will be square. If
+<code>FALSE</code>, no <code>NA</code>s are added - the cells in the quadtree will not
+be square.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>extent</code></td>
+<td>
+<p><code>Extent</code> object or else a
+four-element numeric vector describing the extent of the data (in this
+order: xmin, xmax, ymin, ymax). Only used when <code>x</code> is a matrix - this
+parameter is ignored if <code>x</code> is a raster since the extent is derived
+directly from the raster. If no value is provided and <code>x</code> is a matrix,
+the extent is assumed to be <code>c(0,ncol(x),0,nrow(x))</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>projection</code></td>
+<td>
+<p>character; string describing the projection of the
+data. Only used when <code>x</code> is a matrix - this parameter is ignored if
+<code>x</code> is a raster since the proj4ection of the raster is automatically
+used. If no value is provided and <code>x</code> is a matrix, the projection of
+the quadtree is set to <code>NA</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>proj4string</code></td>
+<td>
+<p>deprecated. Use <code>projection</code> instead.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>template_quadtree</code></td>
+<td>
+<p><code>Quadtree</code>; if provided, the new
+quadtree will be created so that it has the exact same structure as the
+template quadtree. Thus, no split function is used because the decision
+about whether to split is pre-determined by the template quadtree. The
+raster used to create the template quadtree should have the exact same
+extent and dimensions as <code>x</code>. If <code>template_quadtree</code> is
+non-<code>NULL</code>, all <code>split_</code>* parameters are disregarded, as are
+<code>max_cell_length</code> and <code>min_cell_length</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The 'quadtree-creation' vignette contains detailed explanations and
+examples for all of the various creation options - run
+<code>vignette("quadtree-creation", package = "quadtree")</code> to view the
+vignette.
+</p>
+<p>If <code>adj_type</code> is <code>"expand"</code>, <code>NA</code> cells are added to the
+raster in order to create an expanded raster whose dimensions are a power
+of two. The smallest number that is a power of two but greater than the
+larger dimension is used as the dimensions of the expanded raster. If
+<code>adj_type</code> is <code>"resample"</code>, the raster is resampled to a raster
+with <code>resample_n_side</code> rows and columns. If <code>resample_pad_nas</code> is
+<code>TRUE</code>, <code>NA</code> rows or columns are are added to the shorter
+dimension before resampling to make the raster square. This ensures that
+the quadtree cells will be square (assuming the original raster cells were
+square).
+</p>
+<p>When <code>split_method</code> is <code>"range"</code>, the difference between the
+maximum and minimum cell values in a quadrant is calculated - if this value
+is greater than <code>split_threshold</code>, the quadrant is split. When
+<code>split_method</code> is <code>"sd"</code>, the standard deviation of the cell
+values in a quadrant is calculated - if this value is greater than
+<code>split_threshold</code>, the quadrant is split.
+</p>
+
+
+<h3>Value</h3>
+
+<p>a <code>Quadtree</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">####### NOTE #######
+# see the "quadtree-creation" vignette for more details and examples of all
+# the different parameter options:
+# vignette("quadtree-creation", package = "quadtree")
+####################
+
+library(quadtree)
+habitat &lt;- terra::rast(system.file("extdata", "habitat.tif", package="quadtree"))
+
+qt &lt;- quadtree(habitat, .15)
+plot(qt)
+# we can make it look nicer by customizing the plotting parameters
+plot(qt, crop = TRUE, na_col = NULL, border_lwd = .3)
+
+# try a different splitting method
+qt &lt;- quadtree(habitat, .05, "sd")
+plot(qt)
+
+# ---- using a custom split function ----
+
+# split a cell if any of the values are below a given value
+split_fun = function(vals, args) {
+  if (any(is.na(vals))) { # check for NAs first
+    return(TRUE) # if there are any NAs we'll split automatically
+  } else {
+    return(any(vals &lt; args$threshold))
+  }
+}
+
+qt &lt;- quadtree(habitat, split_method = "custom", split_fun = split_fun,
+                split_args = list(threshold = .8))
+plot(qt)
+</code></pre>
+
+
+</div>

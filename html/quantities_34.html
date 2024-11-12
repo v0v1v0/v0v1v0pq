@@ -1,0 +1,74 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>rep.quantities</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Replicate Elements of Vectors and Lists</h2>
+
+<h3>Description</h3>
+
+<p>S3 method for <code>quantities</code> objects (see <code>rep</code>).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'quantities'
+rep(x, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a vector (of any mode including a <code>list</code>) or a factor or (for
+<code>rep</code> only) a <code>POSIXct</code> or <code>POSIXlt</code> or <code>Date</code>
+object; or an S4 object containing such an object.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>further arguments to be passed to or from other methods.
+For the internal default method these can include:
+</p>
+
+<dl>
+<dt><code>times</code></dt>
+<dd>
+<p>an integer-valued vector giving the
+(non-negative) number of times to repeat each element if of
+length <code>length(x)</code>, or to repeat the whole vector if of
+length 1.  Negative or <code>NA</code> values are an error.  A
+<code>double</code> vector is accepted, other inputs being coerced to
+an integer or double vector.</p>
+</dd>
+<dt><code>length.out</code></dt>
+<dd>
+<p>non-negative integer.  The desired length of the
+output vector.  Other inputs will be coerced to a double
+vector and the first element taken.  Ignored if <code>NA</code> or invalid.</p>
+</dd>
+<dt><code>each</code></dt>
+<dd>
+<p>non-negative integer.  Each element of <code>x</code>
+is repeated <code>each</code> times.  Other inputs will be coerced to
+an integer or double vector and the first element taken.  Treated as
+<code>1</code> if <code>NA</code> or invalid.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</table>
+<h3>Examples</h3>
+
+<pre><code class="language-R">rep(set_quantities(1, m/s, 0.1), 4)
+
+</code></pre>
+
+
+</div>

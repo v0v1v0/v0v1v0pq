@@ -1,0 +1,242 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>composites</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Composite Reliability of Multiple Scores</h2>
+
+<h3>Description</h3>
+
+<p><code>composites</code> computes the composite reliability coefficient (sometimes
+referred to as omega) for multiple sets of variables/items. The composite
+reliability computed in <code>composites</code> assumes a undimensional factor
+model for each set of variables/items with no error covariances. In addition
+to the coefficients themselves, their standard errors and confidence
+intervals are returned, the average standardized factor loading from the
+factor models and number of variables/items in each set, and (optional) model
+fit indices of the factor models. Note, any reverse coded items need to be
+recoded ahead of time so that all items are keyed in the same direction for
+each set of variables/items.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">composites(
+  data,
+  vrb.nm.list,
+  level = 0.95,
+  std = FALSE,
+  ci.type = "delta",
+  boot.ci.type = "bca.simple",
+  R = 200L,
+  fit.measures = c("chisq", "df", "tli", "cfi", "rmsea", "srmr"),
+  se = "standard",
+  test = "standard",
+  missing = "fiml",
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>data.frame of data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vrb.nm.list</code></td>
+<td>
+<p>list of character vectors containing colnames in
+<code>data</code> specifying the multiple sets of variables/items.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>level</code></td>
+<td>
+<p>double vector of length 1 with a value between 0 and 1
+specifying what confidence level to use.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>std</code></td>
+<td>
+<p>logical element of length 1 specifying if the composite
+reliability should be computed for the standardized version of the
+variables/items <code>data[unlist(vrb.nm.list)]</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ci.type</code></td>
+<td>
+<p>character vector of length 1 specifying which type of
+confidence interval to compute. The "delta" option uses the delta method to
+compute a standard error and a symmetrical confidence interval. The "boot"
+option uses bootstrapping to compute an asymmetrical confidence interval as
+well as a (pseudo) standard error.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>boot.ci.type</code></td>
+<td>
+<p>character vector of length 1 specifying which type of
+bootstrapped confidence interval to compute. The options are: 1) "norm", 2)
+"basic", 3) "perc", 4) "bca.simple". Only used if <code>ci.type</code> = "boot".
+See <code>parameterEstimates</code> and its <code>boot.ci.type</code>
+argument for details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>R</code></td>
+<td>
+<p>integer vector of length 1 specifying how many bootstrapped
+resamples to compute. Note, as the number of bootstrapped resamples
+increases, the computation time will increase. Only used if <code>ci.type</code>
+is "boot".</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fit.measures</code></td>
+<td>
+<p>character vector specifying which model fit indices to
+include in the return object. The default option includes the chi-square
+test statistic ("chisq"), degrees of freedom ("df"), tucker-lewis index
+("tli"), comparative fit index ("cfi"), root mean square error of
+approximation ("rmsea"), and standardized root mean residual ("srmr"). If
+NULL, then no model fit indices are included in the return object. See
+<code>fitMeasures</code> for details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>se</code></td>
+<td>
+<p>character vector of length 1 specifying which type of standard
+errors to compute. If ci.type = "boot", then the input value is ignored and
+implicitly set to "bootstrap". See <code>lavOptions</code> and its
+<code>se</code> argument for details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>test</code></td>
+<td>
+<p>character vector of length 1 specifying which type of test
+statistic to compute. If ci.type = "boot", then the input value is ignored
+and implicitly set to "bootstrap". See <code>lavOptions</code> and
+its <code>test</code> argument for details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>missing</code></td>
+<td>
+<p>character vector of length 1 specifying how to handle missing
+data. The default is "fiml" for full information maximum likelihood. See
+<code>lavOptions</code> and its <code>missing</code> argument for
+details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>other arguments passed to <code>cfa</code>. Use at your
+own peril as some argument values could cause the function to break.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The factor models are estimated using the R package <code>lavaan</code>. The
+reliability coefficients are calculated based on the square of the sum of the
+factor loadings divided by the sum of the square of the sum of the factors
+loadings and the sum of the error variances (Raykov, 2001).
+</p>
+<p><code>composites</code> is only able to use the "ML" estimator at the moment and
+cannot model items as categorical/ordinal. However, different versions of
+standard errors and test statistics are possible. For example, the "MLM"
+estimator can be specified by <code>se</code> = "robust.sem" and <code>test</code> =
+"satorra.bentler"; the "MLR" estimator can be specified by <code>se</code> =
+"robust.huber.white" and <code>test</code> = "yuan.bentler.mplus". See
+<code>lavOptions</code> and scroll down to Estimation options for
+details.
+</p>
+
+
+<h3>Value</h3>
+
+<p>data.frame containing the composite reliability of each set of variables/items.
+</p>
+
+<dl>
+<dt>est</dt>
+<dd>
+<p>estimate of the reliability coefficient</p>
+</dd>
+<dt>se</dt>
+<dd>
+<p>standard error of the reliability coefficient</p>
+</dd>
+<dt>lwr</dt>
+<dd>
+<p>lower bound of the confidence interval of the reliability coefficient</p>
+</dd>
+<dt>upr</dt>
+<dd>
+<p>upper bound of the confidence interval of the reliability coefficient</p>
+</dd>
+<dt>average_l</dt>
+<dd>
+<p>average standardized factor loading from the factor model</p>
+</dd>
+<dt>nvrb</dt>
+<dd>
+<p>number of variables/items</p>
+</dd>
+<dt>???</dt>
+<dd>
+<p>any model fit indices requested by the <code>fit.measures</code> argument</p>
+</dd>
+</dl>
+<h3>References</h3>
+
+<p>Raykov, T. (2001). Estimation of congeneric scale reliability using covariance
+structure analysis with nonlinear constraints. British Journal of Mathematical
+and Statistical Psychology, 54(2), 315–323.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>composite</code>
+<code>cronbachs</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+dat0 &lt;- psych::bfi[1:250, ]
+dat1 &lt;- str2str::pick(x = dat0, val = c("A1","C4","C5","E1","E2","O2","O5",
+   "gender","education","age"), not = TRUE, nm = TRUE)
+vrb_nm_list &lt;- lapply(X = str2str::sn(c("E","N","C","A","O")), FUN = function(nm) {
+   str2str::pick(x = names(dat1), val = nm, pat = TRUE)})
+composites(data = dat1, vrb.nm.list = vrb_nm_list)
+## Not run: 
+start_time &lt;- Sys.time()
+composites(data = dat1, vrb.nm.list = vrb_nm_list, ci.type = "boot",
+   R = 5000L) # the function is not optimized for speed at the moment
+   # since it will bootstrap separately for each set of variables/items
+end_time &lt;- Sys.time()
+print(end_time - start_time) # takes 10 minutes on my laptop
+
+## End(Not run)
+composites(data = attitude,
+   vrb.nm.list = list(names(attitude))) # also works with only one set of variables/items
+
+</code></pre>
+
+
+</div>

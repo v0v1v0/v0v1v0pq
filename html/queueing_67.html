@@ -1,0 +1,84 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>Lk.o_CJN</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Returns the vector with the mean number of customers in each node (server) of a Closed Jackson Network</h2>
+
+<h3>Description</h3>
+
+<p>Returns the vector with the mean number of customers in each node (server) of a Closed Jackson Network
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">  ## S3 method for class 'o_CJN'
+Lk(x, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a object of class o_CJN</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>aditional arguments</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Returns the vector with the mean number of customers in each node (server) of a Closed Jackson Network</p>
+
+
+<h3>References</h3>
+
+<p>[Sixto2004] Sixto Rios Insua, Alfonso Mateos Caballero, M Concepcion Bielza Lozoya, Antonio Jimenez Martin (2004).<br><em>Investigacion Operativa. Modelos deterministicos y estocasticos</em>.<br>
+Editorial Centro de Estudios Ramon Areces.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>QueueingModel.i_CJN</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## See example 11.13 in reference [Sixto2004] for more details.
+## create the nodes
+n &lt;- 2
+n1 &lt;- NewInput.MM1(lambda=0, mu=1/0.2, n=0)
+n2 &lt;- NewInput.MM1(lambda=0, mu=1/0.4, n=0)
+
+# think time = 0
+z &lt;- 0
+
+# operational value
+operational &lt;- FALSE
+
+# definition of the transition probabilities
+prob &lt;- matrix(data=c(0.5, 0.5, 0.5, 0.5), nrow=2, ncol=2, byrow=TRUE)
+
+# Define a new input
+cjn1 &lt;- NewInput.CJN(prob, n, z, operational, 0, 0.001, n1, n2)
+
+# Check the inputs and build the model
+m_cjn1 &lt;- QueueingModel(cjn1)
+
+Lk(m_cjn1)
+
+</code></pre>
+
+
+</div>

@@ -1,0 +1,34 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>is_big_endian</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>System Endianness</h2>
+
+<h3>Description</h3>
+
+<p>Tests system endianness. Intel and AMD based systems are little endian, and so this function will likely return <code>FALSE</code>.
+The <code>qs</code> package is not capable of transferring data between systems of different endianness. This should not matter for the large majority of use cases.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">is_big_endian()
+</code></pre>
+
+
+<h3>Value</h3>
+
+<p><code>TRUE</code> if big endian, <code>FALSE</code> if little endian.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">is_big_endian() # returns FALSE on Intel/AMD systems
+</code></pre>
+
+
+</div>

@@ -1,0 +1,83 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>get_neighbors</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Get the neighbors of a <code>Quadtree</code> cell</h2>
+
+<h3>Description</h3>
+
+<p>Returns a matrix with information about the neighbors of a
+quadtree cell.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S4 method for signature 'Quadtree,numeric'
+get_neighbors(x, y)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p><code>Quadtree</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>two-element numeric vector; the x and y coordinates of a point -
+this is used to identify which quadtree cell to find neighbors for.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A six-column matrix with one row per neighboring cell. It has the following
+columns: </p>
+
+<ul>
+<li> <p><code>id</code>: the ID of the cell
+</p>
+</li>
+<li> <p><code>xmin</code>, <code>xmax</code>, <code>ymin</code>, <code>ymax</code>: the x and y
+limits of the cell
+</p>
+</li>
+<li> <p><code>value</code>: the value of the cell
+</p>
+</li>
+</ul>
+<p>Note that this return matrix only includes terminal nodes/cells - that is,
+cells that have no children. Also note that cells that are diagonal from each
+other are considered to be neighbors.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(quadtree)
+habitat &lt;- terra::rast(system.file("extdata", "habitat.tif", package="quadtree"))
+
+# create a quadtree
+qt &lt;- quadtree(habitat, split_threshold = .1, adj_type = "expand")
+
+# get the cell's neighbors
+pt &lt;- c(27000, 10000)
+nbs &lt;- get_neighbors(qt, pt)
+
+# plot the neighbors
+plot(qt, border_lwd = .3)
+points(pt[1], pt[2], col = "black", bg = "lightblue", pch = 21)
+with(data.frame(nbs),
+   rect(xmin, ymin, xmax, ymax, col = "red", border = "black", lwd = 2))
+</code></pre>
+
+
+</div>

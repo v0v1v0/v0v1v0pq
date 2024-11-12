@@ -1,0 +1,436 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>quarry</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Create a Quarry Object
+</h2>
+
+<h3>Description</h3>
+
+<p>This function create a S3 object of type <code>quarry</code> characterizing a quarry
+and the groundwater in the quarry's area.
+</p>
+<p>A <code>quarry</code> object has 6 attributes, each classified (by default) in 4
+modalities coded as an integer in the range [1, 4]. These attributes are grouped
+in 2 distinct categories:
+</p>
+
+<ul>
+<li>
+<p> the geological (<code>geological.context</code>), hydrological
+(<code>hydrogeological.context</code>) and piezometric
+(<code>piezometric.context</code>) contexts defining the hazard that a quarry
+represents;
+</p>
+</li>
+<li>
+<p> the relative position of the quarry and the water catchments
+(<code>quarry.position</code>), the production of the catchments
+(<code>production.catchment</code>) and the potential quality
+(<code>quality.catchment</code>)of the groundwater characterising the
+vulnerability of the groundwater ressources.
+</p>
+</li>
+</ul>
+<p>The possible values for each attribue are described in the Argument Section.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">quarry(geological.context = 1, hydrogeological.context = 1,
+       piezometric.context = 1, quarry.position = 1, production.catchment = 1,
+       quality.catchment = 1, ...)
+
+## S3 method for class 'quarry'
+print(x, verbose = FALSE, ...)
+
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>geological.context</code></td>
+<td>
+
+<p>The geological context of the quarry. Characterizes the lithology and
+extension of the geological formation exploited in the quarry and those of
+the neighbouring geological formations that will govern the groundwater flow
+directions. By default the possible values are:
+</p>
+
+<ul>
+<li>
+<p> 1: completely isolated by other formations with low permeability
+(default);
+</p>
+</li>
+<li>
+<p> 2: limited extension and partly compartmentalized;
+</p>
+</li>
+<li>
+<p> 3: local extension;
+</p>
+</li>
+<li>
+<p> 4: regional extension.
+</p>
+</li>
+</ul>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>hydrogeological.context</code></td>
+<td>
+
+<p>The hydrogeological context of the quarry. Refers to the combinations of
+geological formations according to their hydrodynamic characteristics. By
+default the possible values are:
+</p>
+
+<ul>
+<li>
+<p> 1: aquiclude formation (default);
+</p>
+</li>
+<li>
+<p> 2: aquitard formation;
+</p>
+</li>
+<li>
+<p> 3: aquifer formation;
+</p>
+</li>
+<li>
+<p> 4: carbonate aquifer formation.
+</p>
+</li>
+</ul>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>piezometric.context</code></td>
+<td>
+
+<p>The piezometric context of the quarry, i.e. the altimetric level of the
+quarry floor. Characterizes the relative position between the quarry pit
+bottom and the groundwater piezometric level. By default the possible values
+are:
+</p>
+
+<ul>
+<li>
+<p> 1: higher than the piezometric level of the water table (default);
+</p>
+</li>
+<li>
+<p> 2: lower than the piezometric level of the water table but higher
+than the river thalweg which is the regional base level;
+</p>
+</li>
+<li>
+<p> 3: lower than the piezometric level of the water table and the
+altimetric level of the river thalweg which is the regional base
+level;
+</p>
+</li>
+<li>
+<p> 4: lower than the piezometric level of the water table and the
+altimetric level of the river thalweg which is not the regional
+level any more (the river is perched).
+</p>
+</li>
+</ul>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>quarry.position</code></td>
+<td>
+
+<p>Relative position of the quarry and the water catchments. By default the
+possible values are:
+</p>
+
+<ul>
+<li>
+<p> 1: outside the drainage zone of a catchment (default);
+</p>
+</li>
+<li>
+<p> 2: in the drainage zone of a catchment;
+</p>
+</li>
+<li>
+<p> 3: in the distant prevention area of a catchment;
+</p>
+</li>
+<li>
+<p> 4: in the close prevention area of a catchment.
+</p>
+</li>
+</ul>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>production.catchment</code></td>
+<td>
+
+<p>Production of the catchments. Volume exploited in catchments for public
+distribution in the hydrogeological formation near the quarry. By default
+the possible values are:
+</p>
+
+<ul>
+<li>
+<p> 1: lower than 2 m3/h (default);
+</p>
+</li>
+<li>
+<p> 2: between 2 and 10 m3/h;
+</p>
+</li>
+<li>
+<p> 3: between 10 and 30 m3/h;
+</p>
+</li>
+<li>
+<p> 4: greater than 30 m3/h.
+</p>
+</li>
+</ul>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>quality.catchment</code></td>
+<td>
+
+<p>Potential quality of the catchments. Quality and the potability of the
+groundwater. By default the possible values are:
+</p>
+
+<ul>
+<li>
+<p> 1: poor quality (default);
+</p>
+</li>
+<li>
+<p> 2: water potabilisable with minor treatment
+</p>
+</li>
+<li>
+<p> 3: good quality water;
+</p>
+</li>
+<li>
+<p> 4: water of exceptional quality (mineral water).
+</p>
+</li>
+</ul>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+
+<p>If set to TRUE, then the <code>print</code> method will
+print the description of parameters' values instead of the integer value.
+Default is FALSE. Note that this parameter is only meaningfull when the
+parameters have values in the default range [1, 4].
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+
+<p>Further arguments passed to or from other methods. For instance if
+the values of the variables must be in the range <code>[l, u]</code> instead of
+<code>[1, 4]</code>, then it can be achieved using <code>low.bound = l</code> and
+<code>up.bound = u</code> as the function relies on
+<code>int.in.range</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+
+<p>An object of type <code>quarry</code>.
+</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A quarry object consisting of a list whose elements are
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>G</code></td>
+<td>
+
+<p>The geological context of the quarry.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>H</code></td>
+<td>
+
+<p>The hydrogeological context of the quarry.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Z</code></td>
+<td>
+
+<p>The piezometric context of the quarry.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>C</code></td>
+<td>
+
+<p>The relative position of the quarry and the water catchment.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>T</code></td>
+<td>
+
+<p>The production of the water catchments.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>L</code></td>
+<td>
+
+<p>The potential quality of the water catchments.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>G.dummy</code></td>
+<td>
+
+<p>A vector of binary components for the dummy variable encoding of <code>G</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>H.dummy</code></td>
+<td>
+
+<p>A vector of binary components for the dummy variable encoding of <code>H</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Z.dummy</code></td>
+<td>
+
+<p>A vector of binary components for the dummy variable encoding of <code>Z</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>C.dummy</code></td>
+<td>
+
+<p>A vector of binary components for the dummy variable encoding of <code>C</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>T.dummy</code></td>
+<td>
+
+<p>A vector of binary components for the dummy variable encoding of <code>T</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>L.dummy</code></td>
+<td>
+
+<p>A vector of binary components for the dummy variable encoding of <code>L</code>.
+</p>
+</td>
+</tr>
+</table>
+<h3>Note</h3>
+
+<p>By default, the modalities are integer in [1,4], but that can be changed
+to be an integer in any given range by passing in <code>...</code> the arguments
+<code>low.bound</code> and <code>up.bound</code> of the function
+<code>int.in.range</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Johan Barthelemy.
+</p>
+<p>Maintainer: Johan Barthelemy <a href="mailto:johan@uow.edu.au">johan@uow.edu.au</a>.
+</p>
+
+
+<h3>References</h3>
+
+<p>Barthelemy, J., Carletti, T., Collier L., Hallet, V., Moriame, M.,
+Sartenaer, A. (2016)
+Interaction prediction between groundwater and quarry extension using discrete
+choice models and artificial neural networks
+<em>Environmental Earth Sciences</em> (sumbitted)
+</p>
+<p>Collier, L., Barthelemy, J., Carletti, T., Moriame, M., Sartenaer, A.,
+Hallet, V. (2015)
+Calculation of an Interaction Index between the Extractive Activity and
+Groundwater Resources
+<em>Energy Procedia</em> 76, 412-420
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>int.in.range</code> to a use custom range for the
+values of the paramters.
+</p>
+<p><code>print</code> to print a <code>quarry</code> object.
+</p>
+<p><code>as.data.frame</code> to coerce a quarry to
+a data frame.
+</p>
+<p><code>compute.interaction</code> to predict the
+interaction between between the quarry and the groundwater.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># creating a quarry for which every parameter is within the default range
+q1 &lt;- quarry(geological.context = 2, hydrogeological.context = 4,
+             piezometric.context = 1, quarry.position = 4,
+             production.catchment = 4, quality.catchment = 3)
+print(q1, verbose = TRUE)
+
+# creating a quarry for which the parameters are within a custom range [0, 10]
+q2 &lt;- quarry(geological.context = 8, hydrogeological.context = 4,
+             piezometric.context = 0, quarry.position = 4,
+             production.catchment = 6, quality.catchment = 3,
+             low.bound = 0, up.bound = 10)
+print(q2)
+</code></pre>
+
+
+</div>

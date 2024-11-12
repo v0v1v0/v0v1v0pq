@@ -1,0 +1,98 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>calc_errorlod</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Calculate genotyping error LOD scores</h2>
+
+<h3>Description</h3>
+
+<p>Use the genotype probabilities calculated with
+<code>calc_genoprob()</code> to calculate genotyping error LOD
+scores, to help identify potential genotyping errors (and problem
+markers and/or individuals).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">calc_errorlod(cross, probs, quiet = TRUE, cores = 1)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>cross</code></td>
+<td>
+<p>Object of class <code>"cross2"</code>. For details, see the
+<a href="https://kbroman.org/qtl2/assets/vignettes/developer_guide.html">R/qtl2 developer guide</a>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>probs</code></td>
+<td>
+<p>Genotype probabilities as calculated from <code>calc_genoprob()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>quiet</code></td>
+<td>
+<p>If <code>FALSE</code>, print progress messages.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cores</code></td>
+<td>
+<p>Number of CPU cores to use, for parallel calculations.
+(If <code>0</code>, use <code>parallel::detectCores()</code>.)
+Alternatively, this can be links to a set of cluster sockets, as
+produced by <code>parallel::makeCluster()</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Let <code class="reqn">O_k</code> denote the observed marker genotype at position
+<code class="reqn">k</code>, and <code class="reqn">g_k</code> denote the corresponding true underlying
+genotype.
+</p>
+<p>Following Lincoln and Lander (1992), we calculate
+LOD = <code class="reqn">log_{10} [ Pr(O_k | g_k = O_k) / Pr(O_k | g_k \ne O_K) ]</code>
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list of matrices of genotyping error LOD scores. Each
+matrix corresponds to a chromosome and is arranged as
+individuals x markers.
+</p>
+
+
+<h3>References</h3>
+
+<p>Lincoln SE, Lander ES (1992) Systematic detection of errors in genetic linkage data. Genomics 14:604–610.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>calc_genoprob()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">iron &lt;- read_cross2(system.file("extdata", "iron.zip", package="qtl2"))
+probs &lt;- calc_genoprob(iron, error_prob=0.002, map_function="c-f")
+errorlod &lt;- calc_errorlod(iron, probs)
+
+# combine into one matrix
+errorlod &lt;- do.call("cbind", errorlod)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,86 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qiita_tag</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Qiita Tag API</h2>
+
+<h3>Description</h3>
+
+<p>Get, follow or unfollow tags via Qiita API.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qiita_get_tags(
+  tag_id = NULL,
+  user_id = NULL,
+  per_page = 100L,
+  page_offset = 0L,
+  page_limit = 1L
+)
+
+qiita_follow_tag(tag_id)
+
+qiita_unfollow_tag(tag_id)
+
+qiita_is_following_tag(tag_id)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>tag_id</code></td>
+<td>
+<p>Tag ID (e.g. <code>"R"</code>, <code>"dplyr"</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>user_id</code></td>
+<td>
+<p>User ID (e.g. <code>"yutannihilation"</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>per_page</code></td>
+<td>
+<p>Number of items per one page.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>page_offset</code></td>
+<td>
+<p>Page offset.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>page_limit</code></td>
+<td>
+<p>Max number of pages to aquire.</p>
+</td>
+</tr>
+</table>
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+# get a tag by Tag IDs
+qiita_get_tags(tag_id = "R")
+
+# get tags by user ID
+qiita_get_tags(user_id = "yutannihilation")
+
+# follow a tag
+qiita_follow_tag("RStudio")
+
+# unfollow a tag
+qiita_unfollow_tag("RStudio")
+
+## End(Not run)
+</code></pre>
+
+
+</div>

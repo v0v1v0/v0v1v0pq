@@ -1,0 +1,85 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>discount.factors</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Discount factors</h2>
+
+<h3>Description</h3>
+
+<p>Function that calculates discount factors given effective payment dates
+and a discount rate. Optional parameters available to calculate discrete
+or continuous discount factors.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">discount.factors(
+  dates,
+  rates,
+  analysis.date = Sys.Date(),
+  rate.type = 1,
+  freq = 1
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>dates</code></td>
+<td>
+<p>Coupon payment dates.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rates</code></td>
+<td>
+<p>Discount rates given by the zero coupon rate curve.
+Can also be a unique discount rate.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>analysis.date</code></td>
+<td>
+<p>Date in which the asset is valued. By default, the
+current date.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rate.type</code></td>
+<td>
+<p>(1) for discrete compounded discount rates and (0) for continuosly
+compounded discount rates. By default rates are assumed to be discrete.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>freq</code></td>
+<td>
+<p>Frequency of payments of a given asset in a year. For LIBOR and
+IBR the default frequency is four (quarterly payments). TES has a default
+frequency of one (annual payments).</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Discount factors.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">discount.factors(dates = c("2020-09-10", "2020-12-10", "2021-03-10"), rates = c(0.07, 0.075, 0.08),
+                 analysis.date = "2010-09-01")
+discount.factors(dates = c("2025-09-01", "2025-12-01", "2026-03-01", "2026-06-01"),
+                 rates = c(0.01, 0.015, 0.017, 0.02), analysis.date = "2025-06-01",
+                 rate.type = 1, freq = 4)
+
+</code></pre>
+
+
+</div>

@@ -1,0 +1,182 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>SmoothedPG-constructor</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Create an instance of the <code>SmoothedPG</code> class.</h2>
+
+<h3>Description</h3>
+
+<p>A <code>SmoothedPG</code> object can be created from either
+</p>
+
+<ul>
+<li>
+<p> a <code>numeric</code>, a <code>ts</code>, or a <code>zoo</code> object
+</p>
+</li>
+<li>
+<p> a <code>QuantilePG</code> object.
+</p>
+</li>
+</ul>
+<p>If a <code>QuantilePG</code> object is used for smoothing, only the <code>weight</code>,
+<code>frequencies</code> and <code>levels.1</code> and <code>levels.2</code> parameters are
+used; all others are ignored. In this case the default values for the levels
+are the levels of the <code>QuantilePG</code> used for smoothing. Any subset of the
+levels available there can be chosen.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">smoothedPG(
+  object,
+  frequencies = 2 * pi/lenTS(object) * 0:(lenTS(object) - 1),
+  levels.1 = 0.5,
+  levels.2 = levels.1,
+  isRankBased = TRUE,
+  type = c("clipped", "qr"),
+  type.boot = c("none", "mbb"),
+  method = c("br", "fn", "pfn", "fnc", "lasso", "scad"),
+  parallel = FALSE,
+  B = 0,
+  l = 1,
+  weight = kernelWeight()
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>a time series (<code>numeric</code>, <code>ts</code>, or <code>zoo</code> object)
+from which to determine the smoothed periodogram; alternatively
+a <code>QuantilePG</code> object can be supplied.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>frequencies</code></td>
+<td>
+<p>A vector containing frequencies at which to determine the
+smoothed periodogram.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>levels.1</code></td>
+<td>
+<p>A vector of length <code>K1</code> containing the levels <code>x1</code>
+at which the SmoothedPG is to be determined.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>levels.2</code></td>
+<td>
+<p>A vector of length <code>K2</code> containing the levels <code>x2</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>isRankBased</code></td>
+<td>
+<p>If true the time series is first transformed to pseudo
+data [cf. <code>FreqRep</code>].</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>type</code></td>
+<td>
+<p>A flag to choose the type of the estimator. Can be either
+<code>"clipped"</code> or <code>"qr"</code>. In the first case
+<code>ClippedFT</code> is used as a frequency representation, in
+the second case <code>QRegEstimator</code> is used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>type.boot</code></td>
+<td>
+<p>A flag to choose a method for the block bootstrap; currently
+two options are implemented: <code>"none"</code> and <code>"mbb"</code>
+which means to do a moving blocks  bootstrap with <code>B</code>
+and <code>l</code> as specified.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+<p>method used for computing the quantile regression estimates.
+The choice is passed to <code>qr</code>; see the
+documentation of <code>quantreg</code> for details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>parallel</code></td>
+<td>
+<p>a flag to allow performing parallel computations,
+where possible.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>B</code></td>
+<td>
+<p>number of bootstrap replications</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>l</code></td>
+<td>
+<p>(expected) length of blocks</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>weight</code></td>
+<td>
+<p>Object of type <code>Weight</code> to be used for smoothing.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The parameter <code>type.boot</code> can be set to choose a block bootstrapping
+procedure. If <code>"none"</code> is chosen, a moving blocks bootstrap with
+<code>l=length(Y)</code> and  <code>N=length(Y)</code> would be done. Note that in that
+case one would also chose <code>B=0</code> which means that <code>getPositions</code>
+would never be called. If <code>B&gt;0</code> then each bootstrap replication would
+be the undisturbed time series.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns an instance of <code>SmoothedPG</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">Y &lt;- rnorm(64)
+levels.1 &lt;- c(0.25,0.5,0.75)
+weight &lt;- kernelWeight(W=W0)
+
+# Version 1a of the constructor -- for numerics:
+sPG.ft &lt;- smoothedPG(Y, levels.1 = levels.1, weight = weight, type="clipped")
+sPG.qr &lt;- smoothedPG(Y, levels.1 = levels.1, weight = weight, type="qr")
+
+# Version 1b of the constructor -- for ts objects:
+sPG.ft &lt;- smoothedPG(wheatprices, levels.1 = c(0.05,0.5,0.95), weight = weight)
+
+# Version 1c of the constructor -- for zoo objects:
+sPG.ft &lt;- smoothedPG(sp500, levels.1 = c(0.05,0.5,0.95), weight = weight)
+
+# Version 2 of the constructor:
+qPG.ft &lt;- quantilePG(Y, levels.1 = levels.1, type="clipped")
+sPG.ft &lt;- smoothedPG(qPG.ft, weight = weight)
+qPG.qr &lt;- quantilePG(Y, levels.1 = levels.1, type="qr")
+sPG.qr &lt;- smoothedPG(qPG.qr, weight = weight)
+</code></pre>
+
+
+</div>

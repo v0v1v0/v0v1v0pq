@@ -1,0 +1,184 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>day_count</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>day_count</h2>
+
+<h3>Description</h3>
+
+<p>Function to count the number of years between two dates according to
+the given convention.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">day_count(tfinal, tinitial, convention = "ACT/365")
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>tfinal</code></td>
+<td>
+<p>Final date.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tinitial</code></td>
+<td>
+<p>Initial date.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>convention</code></td>
+<td>
+<p>Character that specifies the convention. See details.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The convention accepts the following values:
+</p>
+
+<ul>
+<li>
+<p> 30/360.
+</p>
+<p style="text-align: center;"><code class="reqn">DayCount = \frac{360\times(Y_2-Y_1)+30\times (M_2-M_1) + (D_2-D_1)}{360}</code>
+</p>
+
+<p>Here the dates are in the following format
+</p>
+
+<ul>
+<li>
+<p> tfinal = <code class="reqn">Y_2</code>-<code class="reqn">M_2</code>-<code class="reqn">D_2</code> (YYYY-MM-DD).
+</p>
+</li>
+<li>
+<p> tinitial = <code class="reqn">Y_1</code>-<code class="reqn">M_1</code>-<code class="reqn">D_1</code> (YYYY-MM-DD).
+</p>
+</li>
+</ul>
+<p>It is important to note that
+</p>
+
+<ul>
+<li> <p><code class="reqn">D_1=\min(D_1,30)</code>
+</p>
+</li>
+<li>
+<p> If <code class="reqn">D_1=30</code> then <code class="reqn">D_2=\min(D_2,30)</code>
+</p>
+</li>
+</ul>
+</li>
+<li>
+<p> ACT/365 (Default).
+</p>
+<p style="text-align: center;"><code class="reqn">DayCount = \frac{Days(tintial, tfinal)}{365}</code>
+</p>
+
+<p>Also known as ACT/365 Fixed.
+</p>
+</li>
+<li>
+<p> ACT/360.
+</p>
+<p style="text-align: center;"><code class="reqn">DayCount = \frac{Days(tintial, tfinal)}{360}</code>
+</p>
+
+</li>
+<li>
+<p> ACT/365L.
+</p>
+<p style="text-align: center;"><code class="reqn">DayCount = \frac{Days(tintial, tfinal)}{DiY}</code>
+</p>
+
+<p>If February 29 is in the range from Date1 (exclusive) to Date2 (inclusive),
+then DiY = 366, else DiY = 365.
+</p>
+</li>
+<li>
+<p> NL/365.
+</p>
+<p>If February 29 is not in the period then actual number of days between
+dates is used. Else actual number of days minus 1 is used. Day count basis = 365.
+</p>
+</li>
+<li>
+<p> ACT/ACT-ISDA.
+</p>
+<p style="text-align: center;"><code class="reqn">DayCount = \frac{Days\; not\; in\; leap\; year}{365} + \frac{Days\; in\; leap\; year}{366}</code>
+</p>
+
+</li>
+<li>
+<p> ACT/ACT-AFB.
+</p>
+<p style="text-align: center;"><code class="reqn">DayCount = \frac{Days(tintial, tfinal)}{DiY}</code>
+</p>
+
+<p>The basic rule is that if February 29 is in the range from Date1 (inclusive)
+to Date2 (exclusive), then DiY = 366, else DiY = 365.
+</p>
+<p>If the period from Date1 to Date2 is more than one year, the calculation
+is split into two parts:
+</p>
+
+<ul>
+<li>
+<p> The number of complete years, counted back from the last day of the period.
+</p>
+</li>
+<li>
+<p> The remaining initial stub, calculated using the basic rule.
+</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3>Value</h3>
+
+<p>Number of years between the specified dates according to the convention.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Julian Chitiva
+</p>
+
+
+<h3>Source</h3>
+
+<p>International Swaps and Derivatives Association - ISDA.
+</p>
+
+
+<h3>References</h3>
+
+<p>International Swaps and Derivatives Association. (2006). 2006 ISDA definitions. New York, N.Y: International Swaps and Derivatives Association.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">#Function accepts Dates as Dates or as characters.
+day_count(tfinal='2023-03-08',tinitial='2019-02-28',convention='ACT/365')
+day_count(tfinal=as.Date('2023-03-08'),tinitial=as.Date('2019-02-28'),convention='ACT/360')
+day_count(tfinal='2023-03-08',tinitial=as.Date('2019-02-28'),convention='30/360')
+day_count(tfinal='2023-03-08',tinitial='2019-02-28',convention='NL/365')
+day_count(tfinal='2023-03-08',tinitial='2019-02-28',convention='ACT/ACT-ISDA')
+day_count(tfinal='2023-03-08',tinitial='2019-02-28',convention='ACT/ACT-AFB')
+
+</code></pre>
+
+
+</div>

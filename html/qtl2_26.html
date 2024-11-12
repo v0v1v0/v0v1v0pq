@@ -1,0 +1,44 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>cbind_expand</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Combine matrices by columns, expanding and aligning rows</h2>
+
+<h3>Description</h3>
+
+<p>This is like <code>base::cbind()</code> but using row names to align the rows and expanding
+with missing values if there are rows in some matrices but not others.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">cbind_expand(...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>A set of matrices or data frames</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>The matrices combined by columns, using row names to align the rows, and expanding with missing values if there are rows in some matrices but not others.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">df1 &lt;- data.frame(x=c(1,2,3,NA,4), y=c(5,8,9,10,11), row.names=c("A", "B", "C", "D", "E"))
+df2 &lt;- data.frame(w=c(7,8,0,9,10), z=c(6,NA,NA,9,10), row.names=c("A", "B", "F", "C", "D"))
+cbind_expand(df1, df2)
+</code></pre>
+
+
+</div>

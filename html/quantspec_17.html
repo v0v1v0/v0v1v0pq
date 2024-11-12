@@ -1,0 +1,61 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>closest.pos</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Positions of elements which are closest to some reference elements.</h2>
+
+<h3>Description</h3>
+
+<p>For two vectors <code>X</code> and <code>Y</code> a vector of indices <code>I</code> is returned,
+such that <code>length(Y)</code> and <code>length(I)</code> coincide and <code>X[I[j]]</code>
+is an element of <code>X</code> which has minimal distance to <code>Y[j]</code>, for all
+<code>j=1,...,length(Y)</code>.
+In case that there are multiple elements with minimal distance, the smallest
+index (the index of the first element with minimal distance) is returned.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">closest.pos(X, Y)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>X</code></td>
+<td>
+<p>Vector of elements among which to find the closest one for each
+element in <code>Y</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Y</code></td>
+<td>
+<p>Vector of elements for which to find the clostest element in <code>X</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Returns a vector of same length as <code>X</code>, with indices indicating
+which element in <code>Y</code> is closest.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">X1 &lt;- c(1,2,3)
+closest.pos(X1, 1.7)
+closest.pos(X1, c(1.3,2.2))
+
+X2 &lt;- c(2,1,3)
+closest.pos(X2, 1.5)
+</code></pre>
+
+
+</div>

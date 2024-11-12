@@ -1,0 +1,74 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>AllQuartets</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>List all quartets</h2>
+
+<h3>Description</h3>
+
+<p>Lists all choices of four taxa from a tree.
+</p>
+<p>A more computationally efficient alternative to <code>combn</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">AllQuartets(nTips)
+
+## S3 method for class 'numeric'
+AllQuartets(nTips)
+
+## S3 method for class 'phylo'
+AllQuartets(nTips)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>nTips</code></td>
+<td>
+<p>Integer, specifying the number of tips in a tree; or a tree,
+whose tips will be counted.</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p><code>AllQuartets()</code> returns a matrix with four rows and
+<code>choose(n_tips, 4)</code> columns, with each column corresponding to a unique
+selection of four different integers less than or equal to <code>nTips</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p><a href="https://orcid.org/0000-0001-5660-1727">Martin R. Smith</a>
+(<a href="mailto:martin.smith@durham.ac.uk">martin.smith@durham.ac.uk</a>)
+</p>
+
+
+<h3>See Also</h3>
+
+<p>States of quartets in given trees: <code>QuartetStates()</code>
+</p>
+<p>Other quartet counting functions: 
+<code>CompareQuartetsMulti()</code>,
+<code>CompareQuartets()</code>,
+<code>ResolvedQuartets()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">AllQuartets(5)
+ 
+combn(5, 4) # Provides the same information, but for large 
+            # values of n_tips is significantly slower.
+
+</code></pre>
+
+
+</div>

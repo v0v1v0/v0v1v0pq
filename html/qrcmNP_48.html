@@ -1,0 +1,94 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>testfit.niqr</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Goodness-of-Fit Test
+</h2>
+
+<h3>Description</h3>
+
+<p>Goodness-of-fit test for a model
+fitted with <code>niqr</code>. The Kolmogorov-Smirnov statistic and the Cramer-Von Mises statistic
+are computed. Their distribution under the null hypothesis is estimated
+with Monte Carlo (see ‘Details’).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">testfit.niqr(obj, R = 100)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>obj</code></td>
+<td>
+
+<p>an object of class “<code>niqr</code>”.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>R</code></td>
+<td>
+
+<p>number of Monte Carlo replications.
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>This function permits assessing goodness of fit by testing the null hypothesis
+that the <abbr><span class="acronym">CDF</span></abbr> values follow a <code class="reqn">U(0,1)</code> distribution, indicating that
+the model is correctly specified.
+Since the <abbr><span class="acronym">CDF</span></abbr> values depend on estimated parameters, the distribution of
+the test statistic is not known. To evaluate it, the model is fitted on <kbd>R</kbd> simulated datasets
+generated under the null hypothesis.
+</p>
+
+
+<h3>Value</h3>
+
+<p>a matrix with columns <code>statistic</code> and <code>p.value</code>,
+reporting the Kolmogorov-Smirnov and Cramer-Von Mises statistic and the associated
+p-values evaluated with Monte Carlo.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Gianluca Sottile <a href="mailto:gianluca.sottile@unipa.it">gianluca.sottile@unipa.it</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Frumento, P., and Bottai, M. (2015). <em>Parametric modeling of quantile regression coefficient functions</em>.
+Biometrics, doi: 10.1111/biom.12410.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+n &lt;- 300
+x &lt;- runif(n)
+fun &lt;- function(theta, p){
+  beta0 &lt;- theta[1] + exp(theta[2]*p)
+  beta1 &lt;- theta[3] + theta[4]*p
+  cbind(beta0, beta1)}
+beta &lt;- fun(c(1,1,1,1), runif(n))
+y &lt;- beta[, 1] + beta[, 2]*x
+model &lt;- niqr(fun=fun, x0=rep(0, 4), X=cbind(1,x), y=y)
+## Not run: testfit.niqr(model, R=100)
+</code></pre>
+
+
+</div>

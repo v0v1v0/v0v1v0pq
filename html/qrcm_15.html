@@ -1,0 +1,113 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>diagnose.qc</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Diagnose Quantile Crossing
+</h2>
+
+<h3>Description</h3>
+
+<p>Diagnose quantile crossing in a model estimated with <code>iqr</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">diagnose.qc(obj)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>obj</code></td>
+<td>
+
+<p>an object created with <code>iqr</code>.
+</p>
+</td>
+</tr></table>
+<h3>Details</h3>
+
+<p>The function determines if quantile crossing occurs in your fitted model, and provides a number of diagnostic tools.
+</p>
+<p><em>Local</em> quantile crossing is defined by <code>obj$PDF &lt; 0</code>, and is obtained when the quantile function, say <code class="reqn">Q(p | x)</code>, has negative first derivatives at the values of <code class="reqn">p</code> that correspond to the observed data.
+<em>Global</em> quantile crossing occurs when the conditional quantile function has negative first derivatives at <em>some</em> values of <code class="reqn">p</code>. To assess global crossing, a grid of approximately 1000 quantiles is used. Note that local crossing is a special case of global crossing.
+</p>
+<p>The function will assess local and global crossing, and return a summary <kbd>pcross</kbd> of the quantiles at which <em>global</em> crossing occurs. It is important to understand that crossing at extremely low or high quantiles is very common, but may be considered irrelevant in practice. For example, if <em>all</em> observations have crossing quantiles, implying that global crossing is 100%, but crossing only occurs at quantile above  0.999, the fitted model can be safely used for prediction. Very frequently, crossing occurs at extreme quantiles that do not correspond to any observation in the data. 
+</p>
+<p>This command will also compute a <kbd>crossIndex</kbd>, that represents the average length, across observations, of the sub-intervals <code class="reqn">p*</code> such that <code class="reqn">Q'(p* | x) &lt; 0</code>. For example, if <code class="reqn">Q'(p | x) &lt; 0</code> in the interval <code class="reqn">p* = (0.3,0.5)</code>, the contribution to the <kbd>crossIndex</kbd> is <kbd>0.5 - 0.3 = 0.2</kbd>. If crossing is detected at a single quantile, the interval is assumed to have length <kbd>1e-6</kbd>. In principle, the <kbd>crossIndex</kbd> is always between <kbd>0</kbd> (no quantile crossing) and <kbd>1</kbd> (<em>all</em> observations crossing at <em>all</em> quantiles, which is clearly impossible). In practice, values of <kbd>crossIndex</kbd> greater than 0.05 are relatively rare.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list with the following items:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>qc</code></td>
+<td>
+<p>a data frame with two columns <kbd>(qc.local, qc.global)</kbd> containing logical indicators of local and global quantile crossing for each observation in the data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qc.local, qc.global</code></td>
+<td>
+<p>the absolute number of observations for which local/global quantile crossing was detected.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pcross</code></td>
+<td>
+<p>a frequency table of the values of <code class="reqn">p</code> at which global quantile crossing was detected.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>crossIndex</code></td>
+<td>
+<p>the estimated index of crossing described above.</p>
+</td>
+</tr>
+</table>
+<p>If no quantile crossing is detected, <code>pcross = NULL</code>, and <code>crossIndex = 0</code>. 
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Paolo Frumento <a href="mailto:paolo.frumento@unipi.it">paolo.frumento@unipi.it</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Sottile, G., and Frumento, P. (2023). <em>Parametric estimation of non-crossing quantile functions</em>. Statistical Modelling, 23(2), 173-195.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>iqr</code>, <code>qc.control</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"> # Using simulated data
+
+ n &lt;- 1000
+ x1 &lt;- runif(n,0,3)
+ x2 &lt;- rbinom(n,1,0.5)
+
+ u &lt;- runif(n)
+ y &lt;- 1*qexp(u) + (2 + 3*u)*x1 + 5*x2
+ m &lt;- iqr(y ~ x1 + x2, formula.p = ~ slp(p,7))
+ diagnose.qc(m)
+</code></pre>
+
+
+</div>

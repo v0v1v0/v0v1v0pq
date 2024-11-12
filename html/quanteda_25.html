@@ -1,0 +1,108 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>as.dictionary</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Coercion and checking functions for dictionary objects</h2>
+
+<h3>Description</h3>
+
+<p>Convert a dictionary from a different format into a <span class="pkg">quanteda</span>
+dictionary, or check to see if an object is a dictionary.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">as.dictionary(x, ...)
+
+## S3 method for class 'data.frame'
+as.dictionary(x, format = c("tidytext"), separator = " ", tolower = FALSE, ...)
+
+is.dictionary(x)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a object to be coerced to a dictionary object.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>additional arguments passed to underlying functions.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>format</code></td>
+<td>
+<p>input format for the object to be coerced to a
+dictionary; current legal values are a data.frame with the fields
+<code>word</code> and <code>sentiment</code> (as per the <strong>tidytext</strong> package)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>separator</code></td>
+<td>
+<p>the character in between multi-word dictionary values. This
+defaults to <code>" "</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tolower</code></td>
+<td>
+<p>if <code>TRUE</code>, convert all dictionary values to lowercase</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p><code>as.dictionary</code> returns a <span class="pkg">quanteda</span> dictionary
+object.  This conversion function differs from the <code>dictionary()</code>
+constructor function in that it converts an existing object rather than
+creates one from components or from a file.
+</p>
+<p><code>is.dictionary</code> returns <code>TRUE</code> if an object is a
+<span class="pkg">quanteda</span> dictionary.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+data(sentiments, package = "tidytext")
+as.dictionary(subset(sentiments, lexicon == "nrc"))
+as.dictionary(subset(sentiments, lexicon == "bing"))
+# to convert AFINN into polarities - adjust thresholds if desired
+datafinn &lt;- subset(sentiments, lexicon == "AFINN")
+datafinn[["sentiment"]] &lt;-
+    with(datafinn,
+         sentiment &lt;- ifelse(score &lt; 0, "negative",
+                             ifelse(score &gt; 0, "positive", "netural"))
+    )
+with(datafinn, table(score, sentiment))
+as.dictionary(datafinn)
+
+dat &lt;- data.frame(
+    word = c("Great", "Horrible"),
+    sentiment = c("positive", "negative")
+    )
+as.dictionary(dat)
+as.dictionary(dat, tolower = FALSE)
+
+## End(Not run)
+
+is.dictionary(dictionary(list(key1 = c("val1", "val2"), key2 = "val3")))
+# [1] TRUE
+is.dictionary(list(key1 = c("val1", "val2"), key2 = "val3"))
+# [1] FALSE
+</code></pre>
+
+
+</div>

@@ -1,0 +1,126 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>lodci</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Estimate LOD Support Intervals
+</h2>
+
+<h3>Description</h3>
+
+<p>Estimate LOD support intervals.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">lodci(llk, cv = 0, lod = 1.5, drop = 3)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>llk</code></td>
+<td>
+
+<p>A data frame with components (chr, dist, y, ...), where "chr" is the chromosome on which the scanning locus is located, "dist" is the genetic or physical position of the scanning locus, and "y" is the test statistic.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cv</code></td>
+<td>
+
+<p>Threshold. Reported support intervals cover at least one scanning locus where <code>llk$y &gt; cv</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lod</code></td>
+<td>
+
+<p>LOD (specified by <code>lod</code>, which is 1.5 by default) support intervals to be reported when <code>llk$y</code> is converted to LOD score.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>drop</code></td>
+<td>
+
+<p>3 by default. See "details".
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>In case of multiple peaks on a chromosome, a peak has to satisfy: a) above the threshold <code>cv</code>; b) drops, e.g., 3 LOD on both sides except chromosome ends. So if two peaks close to each other but LOD between them doesn't drop, e.g., 3 LOD, only one of them is considered.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A data frame with the following components:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>chr</code></td>
+<td>
+<p>The chromosome</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lower</code></td>
+<td>
+<p>The lower bound</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>upper</code></td>
+<td>
+<p>The upper bound</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>index</code></td>
+<td>
+<p>Indicates which scanning loci</p>
+</td>
+</tr>
+</table>
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(miscEx)
+
+## Not run: 
+# impute missing genotypes
+pheno&lt;- pdatF8[!is.na(pdatF8$bwt) &amp; !is.na(pdatF8$sex),]
+ii&lt;- match(rownames(pheno), rownames(gdatF8))
+geno&lt;- gdatF8[ii,]
+ii&lt;- match(rownames(pheno), rownames(gmF8$AA))
+v&lt;- list(A=gmF8$AA[ii,ii], D=gmF8$DD[ii,ii])
+
+gdtmp&lt;- geno
+   gdtmp&lt;- replace(gdtmp,is.na(gdtmp),0)
+# run 'genoProb'
+prDat&lt;- genoProb(gdat=gdtmp, gmap=gmapF8,
+   gr=8, method="Haldane", msg=TRUE)
+# estimate variance components
+o&lt;- estVC(y=pheno$bwt, x=pheno$sex, v=v)
+
+# genome scan
+llk.hk&lt;- scanOne(y=pheno$bwt, x=pheno$sex, vc=o, prdat=prDat)
+
+# extract LOD support intervals
+tmp&lt;- data.frame(y=llk.hk$LRT, chr=llk.hk$chr, dist=llk.hk$dist)
+lodci(tmp, cv=10, lod=1.5, drop=3)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

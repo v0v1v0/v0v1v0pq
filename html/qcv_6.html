@@ -1,0 +1,136 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qcv</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Quantifying Construct Validity</h2>
+
+<h3>Description</h3>
+
+<p>Computes key indices related to the Quantifyting Construct Validity (QCV) procedure (Westen &amp; Rosenthal, 2003; see also Furr &amp; Heuckeroth, in prep.)
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qcv(n, actr, predr, medr)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p>sample size</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>actr</code></td>
+<td>
+<p>vector of actual validity correlations</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>predr</code></td>
+<td>
+<p>vector of predicted validity correlations (in same order as actr)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>medr</code></td>
+<td>
+<p>median intercorrelation among criterion variables</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>This function applies procedures outlined by Westen and Rosenthal (2003; see also Furr &amp; Heuckeroth, in prep).
+</p>
+<p>Important: When entering values for the "actr" and "predr" arguments, order them identically. For example, if
+the "actr" values are ordered in terms of c(criterion A, criterion B, criterion C), then the values in "predr" should
+be placed in that same order. Otherwise all results will be incorrect.
+</p>
+<p>Note that extreme zcontrast values (e.g., z &gt; 38) create problems. The rcontrast-CV effect size is computed
+by converting z to p to t to r (see Westen &amp; Rosenthal, Appendix A &amp; B). However, R (and most other packages)
+doesn't have precision to convert an extremely large z (e.g., Z = 38) to a p value. For such z values, the p is converted to exactly
+zero. This makes it impossible to obtain t and rcontrast values. The qcv() function handles this by:
+a) identifying cases where p is initially exactly zero, and b) re-setting p to the smallest value possible, given the
+machine on which R us running (usually  2.225074e-308). It then proceeds to compute a t and rcontrast from that adjusted p value. It also prints a note
+stating that the adjustment has been made and that the p, t, and rcontrast values are lower-bound approximations.
+</p>
+
+
+<h3>Value</h3>
+
+
+<dl>
+<dt>ralerting-CV</dt>
+<dd>
+<p>The ralerting-CV effect size</p>
+</dd>
+<dt>rcontrast-CV</dt>
+<dd>
+<p>The rcontrast-CV effect size</p>
+</dd>
+<dt>zcontrast</dt>
+<dd>
+<p>The zcontrast value</p>
+</dd>
+<dt>p</dt>
+<dd>
+<p>p values associated with Zcontrast</p>
+</dd>
+<dt>N</dt>
+<dd>
+<p>Sample size</p>
+</dd>
+<dt>k</dt>
+<dd>
+<p>Number of criterion variables</p>
+</dd>
+<dt>szr</dt>
+<dd>
+<p>Standard deviation of (z-transformed) actual correlations</p>
+</dd>
+<dt>medr</dt>
+<dd>
+<p>Median intercorrelation between the critertion variables</p>
+</dd>
+<dt>rbarsq</dt>
+<dd>
+<p>Mean of the squared actual correlations (between focal test and criterion variables) </p>
+</dd>
+<dt>t</dt>
+<dd>
+<p>t-value associated with p value</p>
+</dd>
+<dt>rem</dt>
+<dd>
+<p>"Remarkablness" of size of contrast</p>
+</dd>
+</dl>
+<p>Additional values are returned in a list, but not printed
+</p>
+
+
+<h3>References</h3>
+
+<p>Westen, D., &amp; Rosenthal, R. (2003). Quantifying construct validity: Two simple measures. Journal of Personality and Social Psychology, 84, 608-618.
+</p>
+<p>Furr, R. M., &amp; Heukeroth, S. (In prep).Advancing the Interpretation and Computation of the "Quantifying Construct Validity" Procedure
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">actrIM  &lt;- c(.46, .13, -.24, -.03, .12, .03, .39, .06, .51, .08, .24, .66)
+predrIM &lt;- c(.58, .24, -.04, .06, -.04, .18, .36, .08, .64, .56, .36, .56)
+qcv(n=90, actr=actrIM, predr=predrIM, medr=.075)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,81 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>QPD</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Quantum Prisoner's Dilemma game</h2>
+
+<h3>Description</h3>
+
+<p>This function returns the expected payoffs to Alice and Bob, with the strategy moves by Alice and Bob as two of the inputs. <code>w, x, y, z</code> are the payoffs to the players corresponding to the choices available to them with the chain of inequalities, <code>z&gt;w&gt;x&gt;y</code>.
+This function also plots the probability distribution plots of the qubits for one of all the combinations of the strategies of the players.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">QPD(U_Alice, U_Bob, w, x, y, z)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>U_Alice</code></td>
+<td>
+<p>a matrix lying in SU(2)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>U_Bob</code></td>
+<td>
+<p>a matrix lying in SU(2)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>w</code></td>
+<td>
+<p>a number</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a number</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>a number</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>z</code></td>
+<td>
+<p>a number</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A vector consisting of the expected payoffs to Alice and Bob as its elements according to the strategies played by Alice and Bob and also the payoff values.
+</p>
+
+
+<h3>References</h3>
+
+<p><a href="https://arxiv.org/pdf/quant-ph/0506219.pdf">https://arxiv.org/pdf/quant-ph/0506219.pdf</a><br><a href="https://arxiv.org/pdf/quant-ph/0208069.pdf">https://arxiv.org/pdf/quant-ph/0208069.pdf</a><br><a href="https://arxiv.org/pdf/quant-ph/0004076.pdf">https://arxiv.org/pdf/quant-ph/0004076.pdf</a><br></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">init()
+QPD(Hadamard(Q$I2), sigmaZ(Q$I2), 3, 1, 0, 5)
+
+</code></pre>
+
+
+</div>

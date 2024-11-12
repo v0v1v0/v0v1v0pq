@@ -1,0 +1,60 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>create_data_origin</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Create data origin file</h2>
+
+<h3>Description</h3>
+
+<p>Data frame with attributes about the data origin, written to a CSV file
+and optionally returned.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">create_data_origin(file_path, return = FALSE, force = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>file_path</code></td>
+<td>
+<p>File path where the data origin file should be saved.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>return</code></td>
+<td>
+<p>Logical value indicating whether the data origin should be
+returned.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>force</code></td>
+<td>
+<p>Logical value indicating whether to overwrite the file if it
+already exists.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A data frame containing the data origin information.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">tmp_file &lt;- tempfile(fileext = ".csv")
+create_data_origin(tmp_file)
+read.csv(tmp_file)
+</code></pre>
+
+
+</div>

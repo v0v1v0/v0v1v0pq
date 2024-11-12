@@ -1,0 +1,121 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>predict.gcrq</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Prediction for "gcrq" objects
+</h2>
+
+<h3>Description</h3>
+
+<p>Takes a "gcrq" objects and computes fitted values
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'gcrq'
+predict(object, newdata, se.fit=FALSE, transf=NULL, xreg, 
+                      type=c("sandw","boot"), ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+
+<p>a fitted <code>"gcrq"</code> object.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>newdata</code></td>
+<td>
+
+<p>a dataframe including <em>all</em> the covariates of the model. The smooth term is represented by a covariate 
+and proper basis functions will be build accordingly. If omitted, the fitted values are used. Ignored if <code>xreg</code> is provided. 
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>se.fit</code></td>
+<td>
+
+<p>logical. If <code>TRUE</code>, standard errors of the fitted quantiles are computed using the bootstrap or the sandwich covariance matrix, according to the argument <code>type</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>transf</code></td>
+<td>
+
+<p>An optional character string (with <code>"y"</code> as argument) meaning a function to apply to the predicted values. E.g. <code>"(exp(y)-0.1)"</code>. 
+If <code>NULL</code> (default) it is taken as the inverse of function <code>transf</code> (*if*) supplied in <code>gcrq</code>. The standard errors (provided <code>se.fit=TRUE</code> has been set) are adjusted accordingly via the Delta method. See argument <code>"transf"</code> in <code>gcrq()</code>. If <code>transf</code> has been specified in <code>gcrq()</code>, use <code>transf="y"</code> to force predictions on the transformed scale, i.e. without back transforming.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xreg</code></td>
+<td>
+
+<p>the design matrix for which predictions are requested. If provided, <code>xreg</code> has to include the basis functions of the B-spline.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>type</code></td>
+<td>
+
+<p>If <code>se.fit=TRUE</code>, which cov matrix should be used? <code>'boot'</code> means case-resampling bootstrap (see <code>n.boot</code> in <code>gcrq()</code>), <code>'sandw'</code> mean via the sandwich formula.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p> arguments passed to other functions </p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p><code>predict.gcrq</code> computes fitted quantiles as a function of observations included in <code>newdata</code> or <code>xreg</code>. 
+Either <code>newdata</code> or <code>xreg</code> have to be supplied, but <code>newdata</code> is ignored 
+when <code>xreg</code> is provided.
+</p>
+
+
+<h3>Value</h3>
+
+<p>If <code>se.fit=FALSE</code>, a matrix of fitted values with number of rows equal to number of rows of input data 
+and number of columns depending on the number of fitted quantile curves (i.e length of <code>taus</code>). If <code>se.fit=TRUE</code>, a list of matrices (fitted values and standard errors).
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Vito M.R. Muggeo
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>gcrq</code>, <code>plot.gcrq</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">##see ?gcrq
+## predict(m1, newdata=data.frame(x=c(.3,.7)))
+
+
+</code></pre>
+
+
+</div>

@@ -1,0 +1,194 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>fcm</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Create a feature co-occurrence matrix</h2>
+
+<h3>Description</h3>
+
+<p>Create a sparse feature co-occurrence matrix, measuring co-occurrences of
+features within a user-defined context. The context can be defined as a
+document or a window within a collection of documents, with an optional
+vector of weights applied to the co-occurrence counts.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">fcm(
+  x,
+  context = c("document", "window"),
+  count = c("frequency", "boolean", "weighted"),
+  window = 5L,
+  weights = NULL,
+  ordered = FALSE,
+  tri = TRUE,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a tokens, or dfm object from which to generate the feature
+co-occurrence matrix</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>context</code></td>
+<td>
+<p>the context in which to consider term co-occurrence:
+<code>"document"</code> for co-occurrence counts within document; <code>"window"</code>
+for co-occurrence within a defined window of words, which requires a
+positive integer value for <code>window</code>.  Note: if <code>x</code> is a dfm
+object, then <code>context</code> can only be <code>"document"</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>count</code></td>
+<td>
+<p>how to count co-occurrences:
+</p>
+
+<dl>
+<dt><code>"frequency"</code></dt>
+<dd>
+<p>count the number of co-occurrences within the
+context</p>
+</dd>
+<dt><code>"boolean"</code></dt>
+<dd>
+<p>count only the co-occurrence or not within the
+context, irrespective of how many times it occurs.</p>
+</dd>
+<dt><code>"weighted"</code></dt>
+<dd>
+<p>count a weighted function of counts, typically as
+a function of distance from the target feature.  Only makes sense for
+<code>context = "window"</code>.</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>window</code></td>
+<td>
+<p>positive integer value for the size of a window on either side
+of the target feature, default is 5, meaning 5 words before and after the
+target feature</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>weights</code></td>
+<td>
+<p>a vector of weights applied to each distance from
+<code>1:window</code>, strictly decreasing by default; can be a custom-defined
+vector of the same length as <code>window</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ordered</code></td>
+<td>
+<p>if <code>TRUE</code>, count only the forward co-occurrences for each
+target token for bigram models, so that the <code style="white-space: pre;">⁠i, j⁠</code> cell of the fcm is the
+number of times that token <code>j</code> occurs before the target token <code>i</code> within
+the window. Only makes sense for <code>context = "window"</code>, and when <code>ordered = TRUE</code>, the argument <code>tri</code> has no effect.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tri</code></td>
+<td>
+<p>if <code>TRUE</code> return only upper triangle (including diagonal).
+Ignored if <code>ordered = TRUE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>not used here</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The function <code>fcm()</code> provides a very general
+implementation of a "context-feature" matrix, consisting of a count of
+feature co-occurrence within a defined context.  This context, following
+Momtazi et. al. (2010), can be defined as the <em>document</em>,
+<em>sentences</em> within documents, <em>syntactic relationships</em> between
+features (nouns within a sentence, for instance), or according to a
+<em>window</em>.  When the context is a window, a weighting function is
+typically applied that is a function of distance from the target word (see
+Jurafsky and Martin 2015, Ch. 16) and ordered co-occurrence of the two
+features is considered (see Church &amp; Hanks 1990).
+</p>
+<p>fcm provides all of this functionality, returning a <code class="reqn">V * V</code>
+matrix (where <code class="reqn">V</code> is the vocabulary size, returned by
+<code>nfeat()</code>). The <code>tri = TRUE</code> option will only return the
+upper part of the matrix.
+</p>
+<p>Unlike some implementations of co-occurrences, fcm counts feature
+co-occurrences with themselves, meaning that the diagonal will not be zero.
+</p>
+<p>fcm also provides "boolean" counting within the context of "window",
+which differs from the counting within "document".
+</p>
+<p><code>is.fcm(x)</code> returns <code>TRUE</code> if and only if its x is an object of
+type fcm.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Kenneth Benoit (R), Haiyan Wang (R, C++), Kohei Watanabe (C++)
+</p>
+
+
+<h3>References</h3>
+
+<p>Momtazi, S., Khudanpur, S., &amp; Klakow, D. (2010). "A comparative study of
+word co-occurrence for term clustering in language model-based sentence
+retrieval. <em>Human Language Technologies: The 2010 Annual Conference of the
+North American Chapter of the ACL</em>, Los Angeles, California, June 2010,
+325-328.  https://aclanthology.org/N10-1046/
+</p>
+<p>Jurafsky, D. &amp; Martin, J.H. (2018). From <em>Speech and Language Processing:
+An Introduction to Natural Language Processing, Computational Linguistics,
+and Speech Recognition</em>. Draft of September 23, 2018 (Chapter 6, Vector
+Semantics). Available at <a href="https://web.stanford.edu/~jurafsky/slp3/">https://web.stanford.edu/~jurafsky/slp3/</a>.
+</p>
+<p>Church, K. W. &amp; P. Hanks (1990). <a href="https://dl.acm.org/doi/10.5555/89086.89095">Word association norms, mutual information, and lexicography</a>.
+<em>Computational Linguistics</em>, 16(1), 22-29.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># see http://bit.ly/29b2zOA
+toks1 &lt;- tokens(c("A D A C E A D F E B A C E D"))
+fcm(toks1, context = "window", window = 2)
+fcm(toks1, context = "window", count = "weighted", window = 3)
+fcm(toks1, context = "window", count = "weighted", window = 3,
+    weights = c(3, 2, 1), ordered = TRUE, tri = FALSE)
+
+# with multiple documents
+toks2 &lt;- tokens(c("a a a b b c", "a a c e", "a c e f g"))
+fcm(toks2, context = "document", count = "frequency")
+fcm(toks2, context = "document", count = "boolean")
+fcm(toks2, context = "window", window = 2)
+
+txt3 &lt;- c("The quick brown fox jumped over the lazy dog.",
+         "The dog jumped and ate the fox.")
+toks3 &lt;- tokens(char_tolower(txt3), remove_punct = TRUE)
+fcm(toks3, context = "document")
+fcm(toks3, context = "window", window = 3)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,93 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>Gumbel</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Gumbel Distribution 
+</h2>
+
+<h3>Description</h3>
+
+<p>Density, quantiles, and cumulative probability of the Gumbel
+distribution. The standard Gumbel has <code class="reqn">\mu</code> value of 0 and
+<code class="reqn">\sigma</code> value of one. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">dGumbel(x, mu = 0, sigma = 1, log = FALSE) 
+qGumbel(p, mu = 0, sigma = 1) 
+pGumbel(q, mu = 0, sigma = 1)
+rGumbel(n, mu = 0, sigma = 1)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>log</code></td>
+<td>
+<p><code>logical</code>, whether log values of density should be
+returned.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mu</code></td>
+<td>
+<p><code>numeric</code>, location parameter.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p><code>integer</code>, count of random variates.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p</code></td>
+<td>
+<p><code>vector</code>, probabilities.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>q</code></td>
+<td>
+<p><code>vector</code>, quantiles.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sigma</code></td>
+<td>
+<p><code>numeric</code>, scale parameter.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p><code>vector</code>, values to evaluate density.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>numeric, probability (<code>pGumbel()</code>), quantile (<code>qGumbel()</code>),
+density (<code>dGumbel()</code>) or random variates (<code>rGumbel()</code>) for
+the Gumbel distribution with location parameter <code class="reqn">\mu</code> and
+scale parameter <code class="reqn">\sigma</code>.  
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">rGumbelSim &lt;- rGumbel(1000, 1.0, 2.5)
+quantValue &lt;- 4.5
+pGEV(q = quantValue, xi = 0, mu = 1.0, sigma = 2.5) 
+pGumbel(q = quantValue, mu = 1.0, sigma = 2.5)
+</code></pre>
+
+
+</div>

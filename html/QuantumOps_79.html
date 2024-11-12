@@ -1,0 +1,59 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>Uf</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Uf</h2>
+
+<h3>Description</h3>
+
+<p>Generates an operator (oracle) of specified size that implements the function that is passed to it. Assumes there are n qubits in data register and m qubits in target register.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">Uf(fun,n,m)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>fun</code></td>
+<td>
+<p> Function of an n-bit argument that produces an m-bit result</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p>Integer that specifies the number of qubits in the data register, same as number of bits to function</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>m</code></td>
+<td>
+<p>Integer that specifies the number of qubits in the target register, same as number of bits as output of function</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Matrix of the operator (oracle) which implements the specified function)
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"> Uf(function(x){x - floor(x/2)*2},1,1)
+ Uf(function(x){0},2,2)
+ Uf(function(x){1},2,2)
+ Uf(function(x){x - floor(x/4)*4},2,2)
+ Uf(function(x){x^3},3,4)
+</code></pre>
+
+
+</div>

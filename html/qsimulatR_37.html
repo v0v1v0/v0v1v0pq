@@ -1,0 +1,77 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>measure</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Method measure</h2>
+
+<h3>Description</h3>
+
+<p>performs a masurement on a <code>qstate</code> object.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">measure(e1, bit = NA, repetitions = NA)
+
+## S4 method for signature 'qstate'
+measure(e1, bit = NA, repetitions = 1)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>e1</code></td>
+<td>
+<p>object to measure</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bit</code></td>
+<td>
+<p>bit to project on</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>repetitions</code></td>
+<td>
+<p>number of measurements</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p><code>measure(e1, bit, repetitions)</code> performs <code>repetitions</code> many
+projections/measurements of the qubit <code>bit</code>. If <code>bit</code> is not given
+explicitly, all qubits are projected.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>measure(e1, bit, repetitions)</code> returns a list with the measured <code>bit</code>,
+the number of <code>repetitions</code>, the probability distribution of all states
+<code>prob</code> and the results vector <code>value</code>. If all bits are measured, the
+basis is added to the list as <code>basis</code>. The collapsed state is stored as
+<code>psi</code> if exactly one measurement is performed.
+In the case of a single qubit measurement <code>value</code> is of length <code>repetitions</code>
+and contains all the results of this projection. Otherwise <code>value</code> is of
+length 2^nbits and it contains the counts how often each state has been
+obtained.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## measure the separate bits
+x &lt;- H(1) * (H(2) * qstate(nbits=2))
+summary(measure(x, bit=1))
+hist(measure(x, rep=100))
+</code></pre>
+
+
+</div>

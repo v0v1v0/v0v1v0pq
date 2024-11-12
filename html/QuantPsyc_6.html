@@ -1,0 +1,77 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>eda.uni</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2> Plots for Exploratory Data Analysis  </h2>
+
+<h3>Description</h3>
+
+<p>This function is a modified version of <code>eda.shape</code> found in the S+ <em>Guide to Statistics, v1</em>, p. 124. It is based on work by Tukey (1977) and each plot is described in more detail in Ch. 4 of Cohen et al. Creates 4 plots useful in assesing univariate distributions of data.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">eda.uni(x, title = "")
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p> A univariate data object such as column of variable from a data.frame()</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>title</code></td>
+<td>
+<p> Title printed above first plot in upper left corner </p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Simply provides a histogram, smoothed histogram, qq-plot, and boxplot for x. 
+</p>
+
+
+<h3>Value</h3>
+
+<p>A single graph object with 4 basic plots. 
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Thomas D. Fletcher <a href="mailto:t.d.fletcher05@gmail.com">t.d.fletcher05@gmail.com</a> </p>
+
+
+<h3>References</h3>
+
+ 
+<p>Cohen, J., Cohen, P., West, S. G., &amp; Aiken, L. S. (2003). <em>Applied multiple regression/ correlation analysis for the behavioral sciences, 3rd ed.</em> Mahwah, NJ: Lawrence Erlbaum Associates. Chapter 4, Data Visualization, exploration, and assumption checking: Diagnosing and solving regression problems.<br></p>
+<p>Insightful (2001). <em>S-Plus 6 for Windows Guide to Statistics, Volume 1.</em> Seattle: Insightful.<br></p>
+<p>Tukey (1977). <em>Exploratory Data Analysis.</em> Reading, MA: Addison-Wesley.<br></p>
+
+
+<h3>See Also</h3>
+
+ <p><code>hist</code>, <code>plot.density</code>, <code>qqnorm</code>, <code>boxplot</code>  </p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+# create negatively skewed dat with 100 observations
+xc &lt;-  -rchisq(100,3)	
+eda.uni(xc)
+
+</code></pre>
+
+
+</div>

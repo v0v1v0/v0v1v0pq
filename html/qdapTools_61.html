@@ -1,0 +1,149 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>v_outer</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Vectorized Version of outer</h2>
+
+<h3>Description</h3>
+
+<p>Vectorized <code>outer</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">v_outer(x, FUN, ...)
+
+## S3 method for class 'list'
+v_outer(x, FUN, ...)
+
+## S3 method for class 'data.frame'
+v_outer(x, FUN, ...)
+
+## S3 method for class 'matrix'
+v_outer(x, FUN, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>A <code>matrix</code>, <code>dataframe</code> or equal length <code>list</code> of 
+vectors.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>FUN</code></td>
+<td>
+<p>A vectorized function.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Other arguments passed to the function supplied to <code>FUN</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Returns a matrix with the vectorized <code>outer</code> 
+function.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Vincent Zoonekynd, eddi of stackoverflow.com, and Tyler Rinker &lt;tyler.rinker@gmail.com&gt;.
+</p>
+
+
+<h3>References</h3>
+
+<p><a href="https://stackoverflow.com/a/9917425/1000343">https://stackoverflow.com/a/9917425/1000343</a> <br><a href="https://stackoverflow.com/q/23817341/1000343">https://stackoverflow.com/q/23817341/1000343</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>outer</code>,
+<code>cor</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">#|------------------------------------------------------|
+#|    SETTING UP VARIOUS FUNCTIONS THAT WILL BE USED    |
+#|------------------------------------------------------|
+pooled_sd &lt;- function(x, y) {
+    n1 &lt;- length(x)
+    n2 &lt;- length(y)
+    s1 &lt;- sd(x)
+    s2 &lt;- sd(y)
+    sqrt(((n1-1)*s1 + (n2-1)*s2)/((n1-1) + (n2-1)))
+}
+
+## Effect Size: Cohen's d 
+cohens_d &lt;- function(x, y) {
+    (mean(y) - mean(x))/pooled_sd(x, y)
+}
+
+
+## Euclidean Distance
+euc_dist &lt;- function(x,y) sqrt(sum((x - y) ^ 2))
+
+## Cosine similarity
+cos_sim &lt;- function(x, y) x %*% y / sqrt(x%*%x * y%*%y)
+
+sum2 &lt;- function(x, y) sum(x, y)
+arbitrary &lt;- function(x, y) round(sqrt(sum(x)) - sum(y), digits=1)
+#--------------------------------------------------------#
+
+## A data.frame
+v_outer(mtcars, cor)
+v_outer(mtcars, pooled_sd)
+v_outer(mtcars[, 1:7], euc_dist)
+v_outer(mtcars[, 1:7], sum2)
+v_outer(mtcars[, 1:7], arbitrary)
+
+## mtcars as a list
+mtcars2 &lt;- lapply(mtcars[, 1:7], "[")
+v_outer(mtcars2, cor)
+v_outer(mtcars2, cor,  method = "spearman")
+v_outer(mtcars2, pooled_sd)
+v_outer(split(mtcars[["mpg"]], mtcars[["carb"]]), cohens_d)
+v_outer(split(CO2[["uptake"]], CO2[["Plant"]]), cohens_d)
+print(v_outer(mtcars[, 1:7], pooled_sd), digits = 1)
+print(v_outer(mtcars[, 1:7], pooled_sd), digits = NULL)
+v_outer(mtcars2, euc_dist)
+v_outer(mtcars2, sum2)
+v_outer(mtcars2, arbitrary)
+
+## A matrix
+mat &lt;- matrix(rbinom(500, 0:1, .45), ncol=10)
+v_outer(mat, cos_sim)
+v_outer(mat, euc_dist)
+v_outer(mat, arbitrary)
+
+## Not run: 
+library(qdap)
+wc3 &lt;- function(x, y) sum(sapply(list(x, y), wc, byrow = FALSE))
+L1 &lt;- word_list(DATA$state, DATA$person)$cwl
+(x &lt;- v_outer(L1, wc3))
+diag(x) &lt;- (sapply(L1, length))
+x
+
+v_outer(with(DATA, wfm(state, person)), cos_sim)
+with(DATA, Dissimilarity(state, person))
+
+## End(Not run)
+</code></pre>
+
+
+</div>

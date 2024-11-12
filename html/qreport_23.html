@@ -1,0 +1,137 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>missChk</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>missChk</h2>
+
+<h3>Description</h3>
+
+<p>Produce a Report Section Detailing Missing Values in a Dataset
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">missChk(
+  data,
+  use = NULL,
+  exclude = NULL,
+  type = c("report", "seq"),
+  maxpat = 15,
+  maxcomb = 25,
+  excl1pat = TRUE,
+  sortpatterns = TRUE,
+  prednmiss = FALSE,
+  omitpred = NULL,
+  baselabel = NULL,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>data frame or table to analyze</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>use</code></td>
+<td>
+<p>a formula or character vector specifying which variables to consider if not all those in <code>data</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>exclude</code></td>
+<td>
+<p>a formula or character vector specifying which variables to exclude from consideration</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>type</code></td>
+<td>
+<p>specify <code>'seq'</code> to return a summary of sequential exclusions rather than produce a report</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>maxpat</code></td>
+<td>
+<p>maximum number of missing data patterns allowed when counting occurrences of all combinations of variables' <code>NA</code>s</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>maxcomb</code></td>
+<td>
+<p>maximum number of combinations for which to produce a combination dot plot</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>excl1pat</code></td>
+<td>
+<p>set to <code>FALSE</code> to not list distinct combinatons that only occur for one observation</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sortpatterns</code></td>
+<td>
+<p>set to <code>FALSE</code> to not sort patterns in decreasing frequency of missingness</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>prednmiss</code></td>
+<td>
+<p>set to <code>TRUE</code> to use ordinal regression to predict the number of missing variables on an observation from the values of all the non-missing variables</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>omitpred</code></td>
+<td>
+<p>a formula or character vector specifying a list of predictors not to use when predicting number of missing variables</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>baselabel</code></td>
+<td>
+<p>base label for Quarto tabs made with <code>maketabs()</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>passed to <code>combplotp()</code></p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Quantifies frequencies of missing observations on a variable and missing variables on an observaton and produces variables tables and (depending on the number of <code>NA</code>s) multiple graphic displays in Quarto tabs.  The results are best understood by referring to <a href="https://hbiostat.org/rflow/case.html#missing-data/">this</a>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>nothing; outputs Quarto/RMarkdown text and tabs for a full report section
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Frank Harrell
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+missChk(mydata)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

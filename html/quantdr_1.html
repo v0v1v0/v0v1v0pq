@@ -1,0 +1,132 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>cqs</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Central quantile subspace</h2>
+
+<h3>Description</h3>
+
+<p><code>cqs</code> estimates the directions of the central quantile subspace.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">cqs(x, y, tau = 0.5, dtau = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>A design matrix (n x p).  The rows represent observations and the
+columns represent predictor variables.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>A vector of the response variable.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tau</code></td>
+<td>
+<p>A quantile level, a number strictly between 0 and 1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dtau</code></td>
+<td>
+<p>An optional dimension of the central quantile subspace.  If
+specified, it should be an integer between 1 and p, the number of columns
+of the design matrix <code>x</code>.  In the context of the algorithm, if
+<code>dtau</code> is known to be one, i.e., the assumed model is a single-index
+model, then the algorithm stops after estimating the initial vector and
+saves computational time.  However, if <code>dtau</code> is greater than one or
+(more realistically) unknown, then the algorithm continues on creating more
+vectors.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The function computes the directions that span the <code class="reqn">\tau</code>th central
+quantile subspace, i.e., the directions that define linear combinations of
+the predictor <code>x</code> that contain all the information available on the
+conditional quantile function.
+</p>
+<p>The function starts by estimating the initial vector, which is defined as the
+least-squares estimator from regressing the conditional quantile on the
+predictor variable <code>x</code>. Then, if the dimension of the central quantile
+subspace is one, the algorithm stops and reports that vector as the basis of
+the central quantile subspace. Otherwise, the algorithm continues by creating
+more vectors and applying an eigenvalue decomposition to extract linearly
+independent vectors.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>cqs</code> computes the directions of the central quantile subspace
+and returns:
+</p>
+
+<ul>
+<li>
+<p>qvectors: The estimated directions of the
+<code class="reqn">\tau</code>th central quantile subspace.
+</p>
+</li>
+<li>
+<p>qvalues: The eigenvalues resulting from the eigenvalue decomposition
+of the matrix with column vectors that span the central quantile subspace.
+If <code>dtau</code> is one, the <code>qvalues</code> output is not produced.
+</p>
+</li>
+<li>
+<p>dtau: Suggested dimension of the central quantile subspace.  If
+<code>dtau</code> is specified by the user then the algorithm outputs the
+user-defined value.  If <code>dtau</code> is not specified by the user then the
+algorithm outputs a suggested dimension using the modified-BIC type
+criterion of Zhu et al. (2010).  Note that this is one suggested method to
+estimate the structural dimension and is not necessarily a perfect one. The
+user has the option to use the eigenvalues <code>qvalues</code> on other
+criteria, like cross-validation, and determine the estimated dimension of
+the subspace.</p>
+</li>
+</ul>
+<h3>References</h3>
+
+<p>Zhu, L.-P., Zhu, L.-X., Feng, Z.-H. (2010) Dimension reduction in
+regression through cumulative slicing estimation. <em>Journal of the
+American Statistical Association</em>, 105, 1455-1466.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># estimate the directions of a single-index model
+set.seed(1234)
+n &lt;- 100
+p &lt;- 10
+x &lt;- matrix(rnorm(n * p), n, p)
+error &lt;- rnorm(n)
+y &lt;- 3 * x[, 1] + x[, 2] + error
+tau &lt;- 0.5
+out &lt;- cqs(x, y, tau, dtau = 1)
+out
+# without specifying dtau
+out &lt;- cqs(x, y, tau)
+out
+out$qvectors[, 1:out$dtau]
+
+</code></pre>
+
+
+</div>

@@ -1,0 +1,92 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>vcov.qrr</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Variance-Covariance Matrix for a Fitted Quantile Ratio Regression Model Object
+</h2>
+
+<h3>Description</h3>
+
+<p>This functions returns the variance-covariance matrix of the coefficients of a fitted <code>qrr</code> model object.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'qrr'
+vcov(object, method = "approximate", R = 200, update = TRUE, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+
+<p>an object of <code>class</code> <code>qrr</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+
+<p>if <code>"approximate"</code>, the variance-covariance estimate is approximated by the inverse of the numerical Hessian. The latter is calculated as detailed in Farcomeni and Geraci (2023). If <code>"boot"</code>, the variance-covariance estimate is calculated by means of ordinary bootstrap (see <code>boot</code>).
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>R</code></td>
+<td>
+
+<p>the number of bootstrap replications.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>update</code></td>
+<td>
+
+<p>logical flag. If <code>TRUE</code> (the default), the statistic to be resampled is obtained via an <code>update</code> of the <code>qrr</code> object. If <code>FALSE</code>, then the statistic to be resampled is obtained via a <code>do.call</code> of the <code>qrr</code> object. See details.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+
+<p>not used.
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The use of <code>update = FALSE</code> is preferred when the function <code>vcov.qrr</code> is called from within another function.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Marco Geraci with contributions from Alessio Farcomeni
+</p>
+
+
+<h3>References</h3>
+
+<p>Farcomeni A. and Geraci M. Quantile ratio regression. 2023. Working Paper.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>qrr</code>
+</p>
+
+
+</div>

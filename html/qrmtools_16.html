@@ -1,0 +1,276 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>VaR_ES_bounds_analytical</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>“Analytical” Best and Worst Value-at-Risk for Given Marginals</h2>
+
+<h3>Description</h3>
+
+<p>Compute the best and worst Value-at-Risk (VaR) for given marginal
+distributions with an “analytical” method.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## ``Analytical'' methods
+crude_VaR_bounds(level, qF, d = NULL, ...)
+VaR_bounds_hom(level, d, method = c("Wang", "Wang.Par", "dual"),
+               interval = NULL, tol = NULL, ...)
+dual_bound(s, d, pF, tol = .Machine$double.eps^0.25, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>level</code></td>
+<td>
+<p>confidence level <code class="reqn">\alpha</code> for VaR and ES
+(e.g., 0.99).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qF</code></td>
+<td>
+<p><code>d</code>-list containing the marginal quantile functions.
+In the homogeneous case, <code>qF</code> can also be a single function.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>d</code></td>
+<td>
+<p>dimension (number of risk factors; <code class="reqn">\ge 2</code>). For
+<code>crude_VaR_bounds()</code>, <code>d</code> only needs to be given in
+the homogeneous case in which <code>qF</code> is a <code>function</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+<p><code>character</code> string. <code>method = "Wang"</code> and
+<code>method = "Wang.Par"</code>
+apply the approach of McNeil et al. (2015,
+Proposition 8.32) for computing best (i.e., smallest) and
+worst (i.e., largest) VaR. The
+latter method assumes Pareto margins and thus does
+not require numerical integration.
+<code>method = "dual"</code> applies the dual bound approach as
+in Embrechts et al. (2013, Proposition 4)
+for computing worst VaR (no value for the best
+VaR can be obtained with this approach and thus
+<code>NA</code> is returned for the best VaR).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>interval</code></td>
+<td>
+<p>initial interval (a <code>numeric(2)</code>) for
+computing worst VaR. If not provided, these are the defaults chosen:
+</p>
+
+<dl>
+<dt>
+<code>method = "Wang"</code>:</dt>
+<dd>
+<p>initial
+interval is <code class="reqn">[0,(1-\alpha)/d]</code>.</p>
+</dd>
+<dt>
+<code>method = "Wang.Par"</code>:</dt>
+<dd>
+<p>initial
+interval is <code class="reqn">[c_l,c_u]</code>, where <code class="reqn">c_l</code> and <code class="reqn">c_u</code>
+are chosen as in Hofert et al. (2015).</p>
+</dd>
+<dt>
+<code>method = "dual"</code>:</dt>
+<dd>
+<p>in this case, no good defaults are known.
+Note that the lower endpoint of the initial interval has to be
+sufficiently large in order for the the inner root-finding algorithm
+to find a root; see Details.</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tol</code></td>
+<td>
+<p>tolerance for
+<code>uniroot()</code>
+for computing worst VaR. This defaults (for <code>tol = NULL</code>) to
+<code class="reqn">2.2204*10^{-16}</code>
+for <code>method = "Wang"</code> or <code>method = "Wang.Par"</code> (where a
+smaller tolerance is crucial) and to <code>uniroot()</code>'s
+default <code>.Machine$double.eps^0.25</code> otherwise. Note that for
+<code>method = "dual"</code>, <code>tol</code> is used for both the outer
+and the inner root-finding procedure.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>s</code></td>
+<td>
+<p>dual bound evaluation point.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pF</code></td>
+<td>
+<p>marginal loss distribution function (homogeneous case only).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+
+
+<dl>
+<dt>
+<code>crude_VaR_bounds()</code>:</dt>
+<dd>
+<p>ellipsis argument passed
+to (all provided) quantile functions.</p>
+</dd>
+<dt>
+<code>VaR_bounds_hom()</code>:</dt>
+<dd>
+<p>case <code>method = "Wang"</code>
+requires the quantile function <code>qF()</code> to be provided
+and additional arguments passed via the ellipsis argument are passed
+on to
+
+
+the underlying <code>integrate()</code>. For
+<code>method = "Wang.Par"</code>
+the ellipsis argument must contain the parameter <code>shape</code>
+(the shape parameter <code class="reqn">\theta&gt;0</code> of the Pareto distribution).
+For <code>method = "dual"</code>, the ellipsis argument must contain the
+distribution function <code>pF()</code> and the initial interval
+<code>interval</code> for the outer root finding procedure (not for
+<code>d = 2</code>); additional arguments are passed on to the underlying
+<code>integrate()</code> for computing the dual bound
+<code class="reqn">D(s)</code>.</p>
+</dd>
+<dt>
+<code>dual_bound()</code>:</dt>
+<dd>
+<p>ellipsis argument is passed to the
+underlying <code>integrate()</code>.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>For <code>d = 2</code>, <code>VaR_bounds_hom()</code> uses the method of
+Embrechts et al. (2013,
+Proposition 2). For <code>method = "Wang"</code> and <code>method = "Wang.Par"</code>
+the method presented in McNeil et al. (2015, Prop. 8.32) is
+implemented; this goes back to Embrechts et al. (2014, Prop. 3.1; note that
+the published version of this paper contains typos for both bounds).
+This requires
+one <code>uniroot()</code> and, for the generic <code>method = "Wang"</code>,
+one <code>integrate()</code>. The critical part for the
+generic <code>method = "Wang"</code> is the lower endpoint of the initial
+interval for <code>uniroot()</code>. If the (marginal)
+distribution function has finite first moment, this can be taken as
+0. However, if it has infinite first moment, the lower endpoint has to
+be positive (but must lie below the unknown root). Note that the upper
+endpoint <code class="reqn">(1-\alpha)/d</code> also happens to be a
+root and thus one needs a proper initional interval containing the
+root and being stricticly contained in
+<code class="reqn">(0,(1-\alpha)/d</code>.
+In the case of Pareto margins, Hofert et al. (2015) have
+derived such an initial (which is used by
+<code>method = "Wang.Par"</code>).
+Also note that the chosen smaller default tolerances for
+<code>uniroot()</code> in case of <code>method = "Wang"</code> and
+<code>method = "Wang.Par"</code> are crucial for obtaining reliable
+VaR values; see Hofert et al. (2015).
+</p>
+<p>For <code>method = "dual"</code> for computing worst VaR, the method
+presented of Embrechts et al. (2013, Proposition 4) is implemented.
+This requires two (nested) <code>uniroot()</code>, and an
+<code>integrate()</code>. For the inner root-finding procedure to
+find a root, the lower endpoint of the provided initial
+<code>interval</code> has to be “sufficiently large”.
+</p>
+<p>Note that these approaches for computing the
+VaR bounds in the homogeneous case are numerically non-trivial;
+see the source code and <code>vignette("VaR_bounds",
+    package = "qrmtools")</code>
+for more details. As a
+rule of thumb, use <code>method = "Wang"</code> if you have to (i.e., if the
+margins are not Pareto) and <code>method = "Wang.Par"</code> if you can (i.e.,
+if the margins are Pareto). It is not recommended to use
+(the numerically even more challenging) <code>method = "dual"</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>crude_VaR_bounds()</code> returns crude lower and upper bounds for
+VaR at confidence level <code class="reqn">\alpha</code> for any
+<code class="reqn">d</code>-dimensional model with marginal quantile functions
+specified by <code>qF</code>.
+</p>
+<p><code>VaR_bounds_hom()</code> returns the best and worst VaR at
+confidence level <code class="reqn">\alpha</code> for <code class="reqn">d</code> risks with equal
+distribution function specified by the ellipsis <code>...</code>.
+</p>
+<p><code>dual_bound()</code> returns the value of the dual bound <code class="reqn">D(s)</code> as
+given in Embrechts, Puccetti, Rüschendorf
+(2013, Eq. (12)).
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Marius Hofert</p>
+
+
+<h3>References</h3>
+
+<p>Embrechts, P., Puccetti, G., Rüschendorf, L.,
+Wang, R. and Beleraj, A. (2014).  An Academic Response to Basel
+3.5. <em>Risks</em> <b>2</b>(1), 25–48.
+</p>
+<p>Embrechts, P., Puccetti, G. and Rüschendorf, L. (2013).
+Model uncertainty and VaR aggregation. <em>Journal of Banking &amp;
+Finance</em> <b>37</b>, 2750–2764.
+</p>
+<p>McNeil, A. J., Frey, R. and Embrechts, P. (2015).
+<em>Quantitative Risk Management: Concepts, Techniques, Tools</em>.
+Princeton University Press.
+</p>
+<p>Hofert, M., Memartoluie, A., Saunders, D. and Wirjanto, T. (2017).
+Improved Algorithms for Computing Worst
+Value-at-Risk. <em>Statistics &amp; Risk Modeling</em>
+or, for an earlier version, <a href="https://arxiv.org/abs/1505.02281">https://arxiv.org/abs/1505.02281</a>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>RA()</code>, <code>ARA()</code>, <code>ABRA()</code>
+for empirical solutions in the inhomogeneous case.
+</p>
+<p><code>vignette("VaR_bounds", package = "qrmtools")</code>
+for more example calls, numerical challenges
+encoutered and a comparison of the different methods for computing
+the worst (i.e., largest) Value-at-Risk.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## See ?rearrange
+</code></pre>
+
+
+</div>

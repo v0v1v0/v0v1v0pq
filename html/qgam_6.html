@@ -1,0 +1,185 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>cqcheck</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Visually checking a fitted quantile model</h2>
+
+<h3>Description</h3>
+
+<p>Given an additive quantile model, fitted using <code>qgam</code>, <code>cqcheck</code> provides some plots
+that allow to check what proportion of responses, <code>y</code>, falls below the fitted quantile.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">cqcheck(
+  obj,
+  v,
+  X = NULL,
+  y = NULL,
+  nbin = c(10, 10),
+  bound = NULL,
+  lev = 0.05,
+  scatter = FALSE,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>obj</code></td>
+<td>
+<p>the output of a <code>qgam</code> call.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>v</code></td>
+<td>
+<p>if a 1D plot is required, <code>v</code> should be either a single character or a numeric vector. In the first case
+<code>v</code> should be the names of one of the variables in the dataframe <code>X</code>. In the second case, the length
+of <code>v</code> should be equal to the number of rows of <code>X</code>. If a 2D plot is required, <code>v</code> should be 
+either a vector of two characters or a matrix with two columns.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>X</code></td>
+<td>
+<p>a dataframe containing the data used to obtain the conditional quantiles. By default it is NULL, in which
+case predictions are made using the model matrix in <code>obj$model</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>vector of responses. Its i-th entry corresponds to the i-th row of X.  By default it is NULL, in which
+case it is internally set to <code>obj$y</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nbin</code></td>
+<td>
+<p>a vector of integers of length one (1D case) or two (2D case) indicating the number of bins to be used
+in each direction. Used only if <code>bound==NULL</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bound</code></td>
+<td>
+<p>in the 1D case it is a numeric vector whose increasing entries represent the bounds of each bin.
+In the 2D case a list of two vectors should be provided. <code>NULL</code> by default.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lev</code></td>
+<td>
+<p>the significance levels used in the plots, this determines the width of the confidence 
+intervals. Default is 0.05.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>scatter</code></td>
+<td>
+<p>if TRUE a scatterplot is added (using the <code>points</code> function). FALSE by default.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>extra graphical parameters to be passed to <code>plot()</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Having fitted an additive model for, say, quantile <code>qu=0.4</code> one would expect that about 40
+responses fall below the fitted quantile. This function allows to visually compare the empirical number
+of responses (<code>qu_hat</code>) falling below the fit with its theoretical value (<code>qu</code>). In particular, 
+the responses are binned, which the bins being constructed along one or two variables (given be arguments
+<code>v</code>). Let (<code>qu_hat[i]</code>) be the proportion of responses below the fitted quantile in the ith bin.
+This should be approximately equal to <code>qu</code>, for every i. In the 1D case, when <code>v</code> is a single
+character or a numeric vector, <code>cqcheck</code> provides a plot where: the horizontal line is <code>qu</code>, 
+the dots correspond to <code>qu_hat[i]</code> and the grey lines are confidence intervals for <code>qu</code>. The
+confidence intervals are based on <code>qbinom(lev/2, siz, qu)</code>, if the dots fall outside them, then 
+<code>qu_hat[i]</code> might be deviating too much from <code>qu</code>. In the 2D case, when <code>v</code> is a vector of two
+characters or a matrix with two columns, we plot a grid of bins. The responses are divided between the bins
+as before, but now don't plot the confidence intervals. Instead we report the empirical proportions <code>qu_hat[i]</code>
+for the non-empty bin, and with colour the bins in red if <code>qu_hat[i]&lt;qu</code> and in green otherwise. If       
+<code>qu_hat[i]</code> falls outside the confidence intervals we put an * next to the numeric <code>qu_hat[i]</code> and
+we use more intense colours.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Simply produces a plot.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Matteo Fasiolo &lt;matteo.fasiolo@gmail.com&gt;.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">#######
+# Bivariate additive model y~1+x+x^2+z+x*z/2+e, e~N(0, 1)
+#######
+## Not run: 
+library(qgam)
+set.seed(15560)
+n &lt;- 500
+x &lt;- rnorm(n, 0, 1); z &lt;- rnorm(n)
+X &lt;- cbind(1, x, x^2, z, x*z)
+beta &lt;- c(0, 1, 1, 1, 0.5)
+y &lt;- drop(X %*% beta) + rnorm(n) 
+dataf &lt;- data.frame(cbind(y, x, z))
+names(dataf) &lt;- c("y", "x", "z")
+
+#### Fit a constant model for median
+qu &lt;- 0.5
+fit &lt;- qgam(y~1, qu = qu, data = dataf)
+
+# Look at what happens along x: clearly there is non linear pattern here
+cqcheck(obj = fit, v = c("x"), X = dataf, y = y) 
+
+#### Add a smooth for x
+fit &lt;- qgam(y~s(x), qu = qu, data = dataf)
+cqcheck(obj = fit, v = c("x"), X = dataf, y = y) # Better!
+
+# Lets look across x and z. As we move along z (x2 in the plot) 
+# the colour changes from green to red
+cqcheck(obj = fit, v = c("x", "z"), X = dataf, y = y, nbin = c(5, 5))
+
+# The effect look pretty linear
+cqcheck(obj = fit, v = c("z"), X = dataf, y = y, nbin = c(10))
+
+#### Lets add a linear effect for z 
+fit &lt;- qgam(y~s(x)+z, qu = qu, data = dataf)
+
+# Looks better!
+cqcheck(obj = fit, v = c("z"))
+
+# Lets look across x and y again: green prevails on the top-left to bottom-right
+# diagonal, while the other diagonal is mainly red.
+cqcheck(obj = fit, v = c("x", "z"), nbin = c(5, 5))
+
+### Maybe adding an interaction would help?
+fit &lt;- qgam(y~s(x)+z+I(x*z), qu = qu, data = dataf)
+
+# It does! The real model is: y ~ 1 + x + x^2 + z + x*z/2 + e, e ~ N(0, 1)
+cqcheck(obj = fit, v = c("x", "z"), nbin = c(5, 5))
+
+## End(Not run)
+
+</code></pre>
+
+
+</div>

@@ -1,0 +1,63 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qp_run_plot</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Plot of power estimate against the number of simulations</h2>
+
+<h3>Description</h3>
+
+<p><code>qp_run_plot</code> allows you to plot the running power estimate to
+determine whether <code>sims</code> is sufficiently large to derive a reliable
+estimate
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qp_run_plot(power_est, title = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>power_est</code></td>
+<td>
+<p>Dataframe containing the simulation results (see
+<code>qcapower</code>)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>title</code></td>
+<td>
+<p>Option for adding title to plot (default <code>FALSE</code>)</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Creates a plot with <code>ggplot2</code>
+</p>
+
+
+<h3>Value</h3>
+
+<p>A line plot ('gg' object).
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">power_data &lt;- qcapower(cases = 20, null_hypo = 0.8, alt_hypo = 0.95, sims = 10, perms = 1000)
+qp_run_plot(power_data)
+
+# Using data with 10000 estimates
+data(qp_sina_data)
+qp_run_plot(qp_sina_data)
+</code></pre>
+
+
+</div>

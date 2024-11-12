@@ -1,0 +1,80 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>q.sort</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Sort and truncate genes according to the strength of gene-environment interaction</h2>
+
+<h3>Description</h3>
+
+<p>Sort and truncate genes according to the strength of gene-environment interaction
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">q.sort(x, y, method = "linear", n.gene = ncol(x), trunc = 1)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>A data matrix (raw: samples, col: genes).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>A vector of an environment in which the samples were collected.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+<p>A string to specify the method of regression for calculating R-squared values.
+"linear" (default), "quadratic" or "cubic" regression model can be specified.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n.gene</code></td>
+<td>
+<p>The number of genes to be included in QuEST model (default: ncol(x)).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>trunc</code></td>
+<td>
+<p>a threshold to be truncated (default: 1).</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A data matrix (raw: samples, col: sorted genes)
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Takahiko Koizumi
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(Pinus)
+train &lt;- q.clean(Pinus$train)
+target &lt;- Pinus$target
+cor(target, train[, 1])
+
+train &lt;- q.sort(train, target, trunc = 0.5)
+cor(target, train[, 1])
+</code></pre>
+
+
+</div>

@@ -1,0 +1,224 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>crossq.plot</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Plot of Cross-Quantilogram</h2>
+
+<h3>Description</h3>
+
+<p>This function creates a plot of the cross-quantilogram with confidence intervals.
+It computes the cross-quantilogram and its confidence intervals using stationary bootstrap,
+then creates a ggplot visualization of the results.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">crossq.plot(
+  DATA,
+  vecA,
+  Kmax,
+  Bsize,
+  sigLev = 0.05,
+  vec.lag,
+  vec.CQ,
+  mat.CI,
+  y.min = -1,
+  y.max = 1,
+  ribbon_color = "gray",
+  ribbon_alpha = 0.8,
+  bar_color = "black",
+  bar_width = 0.2,
+  title = "",
+  subtitle = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>DATA</code></td>
+<td>
+<p>A matrix of dimensions T x 2, where T is the number of observations.
+Column 1 contains the first variable and Column 2 contains the second variable.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vecA</code></td>
+<td>
+<p>A numeric vector of quantiles for the first variable.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Kmax</code></td>
+<td>
+<p>An integer representing the maximum lag to compute.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Bsize</code></td>
+<td>
+<p>Bootstrap sample size for stationary bootstrap.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sigLev</code></td>
+<td>
+<p>Significance level for confidence intervals. Default is 0.05 (95% confidence level).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vec.lag</code></td>
+<td>
+<p>A vector of lag values (integer values). Not used in computation, only for plotting.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vec.CQ</code></td>
+<td>
+<p>A numeric vector of cross-quantilogram values. Not used in computation, only for plotting.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mat.CI</code></td>
+<td>
+<p>A matrix with two columns representing the lower and upper bounds of the confidence interval. Not used in computation, only for plotting.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y.min</code></td>
+<td>
+<p>The minimum y-axis value. Default is -1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y.max</code></td>
+<td>
+<p>The maximum y-axis value. Default is 1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ribbon_color</code></td>
+<td>
+<p>Color for the confidence interval ribbon. Default is "gray".</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ribbon_alpha</code></td>
+<td>
+<p>Alpha (transparency) for the confidence interval ribbon. Default is 0.8.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bar_color</code></td>
+<td>
+<p>Color for the quantilogram bars. Default is "black".</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bar_width</code></td>
+<td>
+<p>Width of the quantilogram bars. Default is 0.2.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>title</code></td>
+<td>
+<p>Plot title. Default is an empty string.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>subtitle</code></td>
+<td>
+<p>Plot subtitle. Default is NULL (no subtitle).</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list containing two elements:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>plot</code></td>
+<td>
+<p>A ggplot object representing the cross-quantilogram plot over lags.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>df.res</code></td>
+<td>
+<p>A data frame containing cross-quantilogram values and critical values. It includes the following columns:
+</p>
+
+<ul>
+<li>
+<p> lag: lag orders.
+</p>
+</li>
+<li>
+<p> crossQ: The cross-quantilogram values.
+</p>
+</li>
+<li>
+<p> CI_lower: The lower critical values for the confidence interval.
+</p>
+</li>
+<li>
+<p> CI_upper: The upper critical values for the confidence interval.
+</p>
+</li>
+</ul>
+</td>
+</tr>
+</table>
+<p>A list containing two elements:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>plot</code></td>
+<td>
+<p>A ggplot object representing the cross-quantilogram plot.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>df.res</code></td>
+<td>
+<p>A data frame containing lag values, cross-quantilogram values, and confidence intervals.</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Heejoon Han, Oliver Linton, Tatsushi Oka and Yoon-Jae Whang
+</p>
+
+
+<h3>References</h3>
+
+<p>Han, H., Linton, O., Oka, T., and Whang, Y. J. (2016).
+"The cross-quantilogram: Measuring quantile dependence and testing directional predictability between time series." <em>Journal of Econometrics</em>, 193(1), 251-270.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+data("sys.risk")
+DATA = sys.risk[,c("JPM", "Market")]
+vecA = 0.05
+Kmax = 20
+Bsize = 200
+result = crossq.plot(DATA, vecA, Kmax, Bsize)
+print(result$plot)
+
+## End(Not run)
+
+</code></pre>
+
+
+</div>

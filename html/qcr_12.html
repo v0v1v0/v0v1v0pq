@@ -1,0 +1,49 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>mqcd</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>It creates a data object to be used in Multivariante Quality Control</h2>
+
+<h3>Description</h3>
+
+<p>Create an object of class 'mqcd' to perform statistical quality control.
+This object is used to plot Multivariate Control Charts.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">mqcd(data, data.name = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>a matrix or data-frame or array where it should contain data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data.name</code></td>
+<td>
+<p>a string that specifies the title displayed on the plots. 
+If not provided it is taken from the name of the object's data.</p>
+</td>
+</tr>
+</table>
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(qcr)
+data(dowel1)
+str(dowel1)
+data.mqcd &lt;- mqcd(dowel1)
+str(data.mqcd)
+</code></pre>
+
+
+</div>

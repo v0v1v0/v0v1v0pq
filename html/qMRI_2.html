@@ -1,0 +1,237 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>awssigmc</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Estimate noise variance for multicoil MR systems
+</h2>
+
+<h3>Description</h3>
+
+<p>The distribution of image intensity values <code class="reqn">S_i</code> divided by the noise standard deviation in <code class="reqn">K</code>-space <code class="reqn">\sigma</code> 
+in dMRI experiments is assumed
+to follow a non-central chi-distribution with <code class="reqn">2L</code> degrees of freedom and noncentrality parameter <code class="reqn">\eta</code>, where <code class="reqn">L</code> refers to the number of receiver 
+coils in the system and <code class="reqn">\sigma \eta</code> is the signal of interest. This is an idealization in the sense that 
+each coil is assumed to have the same contribution at each location. For realistic modeling <code class="reqn">L</code> should 
+be a locally smooth function in voxel space that reflects the varying local influence of the receiver coils in the
+the reconstruction algorithm used. 
+</p>
+<p>The functions assume <code class="reqn">L</code> to be known and estimate either a local 
+(function <code>awslsigmc</code>) or global ( function <code>awssigmc</code>) 
+<code class="reqn">\sigma</code> employing an assumption of local homogeneity for
+the noncentrality parameter <code class="reqn">\eta</code>.
+</p>
+<p>Function <code>afsigmc</code> implements estimates from Aja-Fernandez (2009). 
+Function <code>aflsigmc</code> implements the estimate from Aja-Fernandez (2013). 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">awssigmc(y, steps, mask = NULL, ncoils = 1, vext = c(1, 1), lambda = 20, 
+         h0 = 2, verbose = FALSE, sequence = FALSE, hadj = 1, q = 0.25, 
+         qni = .8, method=c("VAR","MAD"))
+awslsigmc(y, steps, mask = NULL, ncoils = 1, vext = c(1, 1), lambda = 5, minni = 2, 
+         hsig = 5, sigma = NULL, family = c("NCchi"), verbose = FALSE, 
+         trace=FALSE, u=NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+
+<p>3D array, usually obtained from an object of class <code>dwi</code> as
+<code>obj@si[,,,i]</code> for some <code>i</code>, i.e. one 3D image from an dMRI experiment.
+Alternatively a vector of length <code>sum(mask)</code> may be suppied together with a brain mask in <code>mask</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>steps</code></td>
+<td>
+
+<p>number of steps in adapive weights smoothing, used to reveal the unerlying
+mean structure.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mask</code></td>
+<td>
+
+<p>restrict computations to voxel in mask, if <code>is.null(mask)</code> all voxel are used.
+In function <code>afsigmc</code> mask should refer to background for <code>method %in% c("modem1chi","bkm2chi","bkm1chi")</code> and to voxel within the head for 
+<code>method=="modevn"</code>. 
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ncoils</code></td>
+<td>
+
+<p>number of coils, or equivalently number of effective degrees of freedom of non-central chi distribution
+divided by 2.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vext</code></td>
+<td>
+
+<p>voxel extentions
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lambda</code></td>
+<td>
+
+<p>scale parameter in adaptive weights smoothing
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>h0</code></td>
+<td>
+
+<p>initial bandwidth
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+
+<p>if <code>verbose==TRUE</code> density plots 
+and quantiles of local estimates of <code>sigma</code> are provided.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>trace</code></td>
+<td>
+
+<p>if <code>trace==TRUE</code> intermediate results for each step are
+returned in component tergs for all voxel in mask.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sequence</code></td>
+<td>
+
+<p>if <code>sequence=TRUE</code> a vector of estimates for the noise
+standard deviation <code>sigma</code> for the individual steps is returned
+instead of the final value only.  
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>hadj</code></td>
+<td>
+
+<p>adjustment factor for bandwidth (chosen by <code>bw.nrd</code>) in mode estimation 
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>q</code></td>
+<td>
+
+<p>quantile to be used for interquantile-differences. 
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qni</code></td>
+<td>
+
+<p>quantile of distribution of actual sum of weights <code class="reqn">N_i=\sum_j w_{ij}</code> in adaptive smoothing. Only voxel i with <code class="reqn">N_i &gt; q_{qni}(N_.)</code> are used for variance estimation. Should be larger than 0.5.  
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+<p> in case of function <code>awssigmc</code> the
+method for variance estimation, either "VAR" (variance) or "MAD" (mean absolute deviation). In function <code>afsigmc</code> see last column in Table 2 in Aja-Fernandez (2009). 
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>minni</code></td>
+<td>
+<p>Minimum sum of weights for updating values of <code>sigma</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>hsig</code></td>
+<td>
+<p>Bandwidth of the median filter.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sigma</code></td>
+<td>
+<p>Initial estimate for <code>sigma</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>family</code></td>
+<td>
+<p>One of <code>"Gauss"</code> or <code>"NCchi"</code> (default) defining the 
+probability distribution to use.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>u</code></td>
+<td>
+<p>if <code>verbose==TRUE</code> an array of noncentrality paramters for
+comparisons. Internal use for tests only</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>a list with components
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>sigma</code></td>
+<td>
+<p>either a scalar or a vector of estimated noise standard deviations.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>theta</code></td>
+<td>
+<p>the estimated mean structure</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>J\"org Polzehl <a href="mailto:polzehl@wias-berlin.de">polzehl@wias-berlin.de</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>K. Tabelow, H.U. Voss, J. Polzehl, Local estimation of the noise level in MRI using structural adaptation, Medical Image Analysis, 20 (2015), pp. 76–86.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>aws</code>
+</p>
+
+
+</div>

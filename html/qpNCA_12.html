@@ -1,0 +1,157 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>plot_reg</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Plot Regression Curves</h2>
+
+<h3>Description</h3>
+
+<p>Plots regression curves for each set of records defined using <code>by</code>.
+A log-linear plot will be made for each curve.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">plot_reg(
+  x,
+  by = character(0),
+  th = NA,
+  bloqvar = "bloq",
+  timevar = "tad",
+  depvar = "dv",
+  timelab = "timevar",
+  deplab = "depvar",
+  exclvar = NA,
+  plotdir = NA,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>input dataset name</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>by</code></td>
+<td>
+<p>column names in x indicating grouping variables</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>th</code></td>
+<td>
+<p>file name of file with half-life estimation information for each curve</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bloqvar</code></td>
+<td>
+<p>variable name containing the BLOQ flag (0: no, 1: yes)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>timevar</code></td>
+<td>
+<p>variable name containing the actual sampling time after dose</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>depvar</code></td>
+<td>
+<p>variable name containing the dependent variable (e.g., concentration)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>timelab</code></td>
+<td>
+<p>X-axis label (default: "timevar")</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>deplab</code></td>
+<td>
+<p>Y-axis label (default: "depvar")</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>exclvar</code></td>
+<td>
+<p>variable name containing information about points to be excluded (these should have exclvar = 1)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>plotdir</code></td>
+<td>
+<p>directory where individual plot files will be saved</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>ignored</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>If elimination half-life was estimated for that curve,
+the following will be indicated in the plot:
+</p>
+
+<ul>
+<li>
+<p> Cmax (Yellow, even if no half-life was estimated)
+</p>
+</li>
+<li>
+<p> points used in regression and resulting regression line (green)
+</p>
+</li>
+<li>
+<p> points excluded from regression (red crossed)
+</p>
+</li>
+<li>
+<p> estimate of elimination half-life and adjusted R-squared
+</p>
+</li>
+</ul>
+<p>Input dataset:
+</p>
+
+<ul>
+<li>
+<p> uncorrected dataset, used for half-life estimation
+</p>
+</li>
+<li>
+<p> dataset containing results of the half-life estimation
+</p>
+</li>
+</ul>
+<h3>Value</h3>
+
+<p>(invisible) plotdir.  If the attribute 'plotdir' is empty, plots will be generated in standard output, otherwise plots will be saved as
+PNG file in the designated directory.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+example(est.thalf)
+x %&gt;% filter(dv &gt; 0) %&gt;% plot_reg(by = 'subject', th = th)
+
+</code></pre>
+
+
+</div>

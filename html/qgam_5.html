@@ -1,0 +1,99 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>check.qgam</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Some diagnostics for a fitted qgam model</h2>
+
+<h3>Description</h3>
+
+<p>Takes a fitted gam object produced by <code>qgam()</code> and produces some diagnostic information 
+about the fitting procedure and results. It is partially based on <code>mgcv::gam.check</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'qgam'
+check(obj, nbin = 10, lev = 0.05, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>obj</code></td>
+<td>
+<p>the output of a <code>qgam()</code> call.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nbin</code></td>
+<td>
+<p>number of bins used in the internal call to <code>cqcheck()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lev</code></td>
+<td>
+<p>the significance levels used by <code>cqcheck()</code>, which determines the width of the confidence 
+intervals.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>extra arguments to be passed to <code>plot()</code></p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>This function provides two plots. The first shows how the number of responses falling below the fitted
+quantile (y-axis) changes with the fitted quantile (x-axis). To be clear: if the quantile is fixed to, say, 0.5
+we expect 50% of the responses to fall below the fit. See <code>?cqcheck()</code> for details. The second plot related
+to <code>|F(hat(mu)) - F(mu0)|</code>, which is the absolute bias attributable to the fact that qgam is using 
+a smoothed version of the pinball-loss. The absolute bias is evaluated at each observation, and an histogram
+is produced. See Fasiolo et al. (2017) for details. The function also prints out the integrated absolute bias,
+and the proportion of observations lying below the regression line. It also provides some convergence 
+diagnostics (regarding the optimization), which are the same as in <code>mgcv::gam.check</code>. 
+It reports also the maximum (k') and the selected degrees of freedom of each smooth term.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Simply produces some plots and prints out some diagnostics.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Matteo Fasiolo &lt;matteo.fasiolo@gmail.com&gt;, Simon N. Wood.
+</p>
+
+
+<h3>References</h3>
+
+<p>Fasiolo, M., Wood, S.N., Zaffran, M., Nedellec, R. and Goude, Y., 2020. 
+Fast calibrated additive quantile regression. 
+Journal of the American Statistical Association (to appear).
+<a href="https://www.tandfonline.com/doi/full/10.1080/01621459.2020.1725521">https://www.tandfonline.com/doi/full/10.1080/01621459.2020.1725521</a>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(qgam)
+set.seed(0)
+dat &lt;- gamSim(1, n=200)
+b&lt;-qgam(y~s(x0)+s(x1)+s(x2)+s(x3), data=dat, qu = 0.5)
+plot(b, pages=1)
+check.qgam(b, pch=19, cex=.3)
+
+</code></pre>
+
+
+</div>

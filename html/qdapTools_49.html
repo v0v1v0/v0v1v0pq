@@ -1,0 +1,136 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>repo2github</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Upload a Local Repo to GitHub</h2>
+
+<h3>Description</h3>
+
+<p>Allows uploading a local repository to <a href="https://github.com/">GitHub</a> 
+without first creating the repository in the clouds. 
+<code>repo2github</code> is designed for the initial push to 
+GitHub.  Future pushes can be handled via RStudio or other 
+<a href="https://git-scm.com/">Git</a> interface.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">repo2github(
+  password,
+  project.dir = getwd(),
+  repo = basename(getwd()),
+  github.user = getOption("github.user"),
+  gitpath = NULL,
+  readme = TRUE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>password</code></td>
+<td>
+<p>GitHub user password (character string).  If this is not 
+supplied the user will be prompted to enter a password.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>project.dir</code></td>
+<td>
+<p>The path to the root directory of the report/presentation.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>repo</code></td>
+<td>
+<p>A character string naming the repo; default attempts to use the 
+report project directory name.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>github.user</code></td>
+<td>
+<p>GitHub user name (character string).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gitpath</code></td>
+<td>
+<p>Path to the location of <a href="https://git-scm.com/">Git</a>.  If 
+<code>NULL</code> <code>repo2github</code> will attempt to locate the path if necessary.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>readme</code></td>
+<td>
+<p>logical.  If <code>TRUE</code> repo initializes with a README.md file.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The arguments <code>project.dir</code> and <code>repo</code> use 
+<code>getwd</code>.  This assumes is the current working directory is 
+the root directory and is done for convenience.  The user should ensure that 
+either their working directory is the root directory or supply the correct 
+root directory/name to these arguments.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Creates GitHub repository.
+</p>
+
+
+<h3>Warning</h3>
+
+<p>For Windows users this function creates a temporary _netrc 
+file in the home directory and attempts to delete this file.  The _netrc 
+contains username and password information for GitHub. 
+<code>repo2github</code> attempts to delete this file but care 
+should be taken.  The file is created in: <br><code>file.path(Sys.getenv()["HOME"], "DELETE_ME_REPORTS_PACKAGE/_nectrc")</code>.
+</p>
+
+
+<h3>Suggestion</h3>
+
+<p>The user may want to set <code>options</code> for 
+<code>github.user</code> in the user's primary <code>.Rprofile</code>.
+</p>
+
+
+<h3>Note</h3>
+
+<p>The user will need to have a <a href="https://github.com/">GitHub</a> account 
+established.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Simon O'Hanlon, Daniel Chaffiol, and Tyler Rinker &lt;tyler.rinker@gmail.com&gt;
+</p>
+
+
+<h3>References</h3>
+
+<p><a href="https://stackoverflow.com/a/15047013/1000343">https://stackoverflow.com/a/15047013/1000343</a> <br><a href="https://stackoverflow.com/a/18692400/1000343">https://stackoverflow.com/a/18692400/1000343</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+repo2github()
+
+## End(Not run)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,71 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>eLP.poly</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+A function to compute the LP basis functions
+</h2>
+
+<h3>Description</h3>
+
+<p>Given a random sample from X (which can be discrete, continuous, or even mixed), this function computes the empirical LP-basis functions.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">eLP.poly(x,m)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+
+<p>The random samples
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>m</code></td>
+<td>
+
+<p>Number of basis functions to compute
+</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>LP basis functions  
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Subhadeep Mukhopadhyay
+</p>
+
+
+<h3>References</h3>
+
+ 
+<p>Jungreis, D., (2019) "Unification of Continuous, Discrete, and Mixed Distribution Two-Sample Testing with Inferences in the Quantile Domain"
+</p>
+<p>Mukhopadhyay, S. and Parzen, E. (2014), "LP Approach to Statistical Modeling", arXiv:1405.2601.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">x &lt;- c(rep(0,200),rep(1,200))
+m &lt;- 6
+eLP.poly(x,m)</code></pre>
+
+
+</div>

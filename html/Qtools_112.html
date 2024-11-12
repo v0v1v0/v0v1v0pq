@@ -1,0 +1,197 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qrr</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Quantile Ratio Regression
+</h2>
+
+<h3>Description</h3>
+
+<p>This function fits a quantile ratio regression model
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qrr(formula, data, taus, start = "rq", beta = NULL,
+tsf = "bc", symm = TRUE, dbounded = FALSE, linearize = TRUE, 
+kernel = "Gaussian", maxIter = 10, epsilon = 1e-05,
+verbose = FALSE, method.rq = "fn", method.nlrq = "L-BFGS-B")
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>formula</code></td>
+<td>
+
+<p>a formula object, with the response on the left of a <code>~</code> operator, and the terms, separated by <code>+</code> operators, on the right.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+
+<p>a data frame in which to interpret the variables named in the formula.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>taus</code></td>
+<td>
+
+<p>a vector of two quantiles for the ratio to be estimated (the order is irrelevant).
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>start</code></td>
+<td>
+
+<p>the algorithm with which obtain the starting values for one of the quantiles in the ratio. Possible options are <code>"rq"</code> (linear regression model – see <code>rq</code>), <code>"tsrq"</code> (quantile regression transformation model – see <code>tsrq</code>), <code>"conquer"</code> (fast linear regression model – see <code>conquer</code>), <code>"llqr"</code> (nonparametric linear regression model – see <code>llqr</code>)
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>beta</code></td>
+<td>
+
+<p>starting values for the regression coefficients. If left <code>NULL</code>, these are set to 0.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tsf</code></td>
+<td>
+
+<p>if <code>start = "tsrq"</code>, see <code>tsrq</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>symm</code></td>
+<td>
+
+<p>if <code>start = "tsrq"</code>, see <code>tsrq</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dbounded</code></td>
+<td>
+
+<p>if <code>start = "tsrq"</code>, see <code>tsrq</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>linearize</code></td>
+<td>
+
+<p>logical flag. If <code>TRUE</code> (default), estimation is carried out with the linearized iterative algorithm of Farcomeni and Geraci (2023) by repeated calls to an appropriate linear estimation algorithm. Otherwise, the algorithm calls a nonlinear estimation routine. See argument <code>method.rq</code> and <code>method.nlrq</code> further below.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>kernel</code></td>
+<td>
+
+<p>an optional vector of weights to be used in the fitting process. Should be NULL or a numeric vector. 
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>maxIter</code></td>
+<td>
+
+<p>maximum number of iterations for fitting.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>epsilon</code></td>
+<td>
+
+<p>tolerance for convergence.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+
+<p>logical flag. If <code>TRUE</code>, progress on estimation is print out.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method.rq</code></td>
+<td>
+
+<p>the method used to compute the linear fit. If <code>linearize = TRUE</code>, the options are <code>"conquer"</code> or any of those from <code>rq</code> (see the argument <code>method</code>).
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method.nlrq</code></td>
+<td>
+
+<p>the method used to compute the nonlinear fit. If <code>linearize = FALSE</code>, the options are those from <code>nlrq</code> (see the argument <code>method</code>).
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>These function implements quantile ratio regression as discussed by Farcomeni and Geraci (see references). The general model is assumed to be <code class="reqn">g(Q_{Y|X}(\tau_{1})/Q_{Y|X}(\tau_{2})) = \eta = Xb</code> where <code class="reqn">Q</code> denotes the conditional quantile function, <code class="reqn">Y</code> is the response variable, <code class="reqn">X</code> a design matrix, <code class="reqn">g</code> is a monotone link function, and <code class="reqn">\tau_{1}</code> and <code class="reqn">\tau_{2}</code> the levels of the two quantiles in the ratio. In the current implementation, <code class="reqn">g(u) = log(u - 1)</code>, which ensures monotonocity (non-crossing) of the quantiles and leads to the familiar interpretation of the inverse logistic transformation. 
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Marco Geraci
+</p>
+
+
+<h3>References</h3>
+
+<p>Farcomeni A. and Geraci M. Quantile ratio regression. 2023. Working Paper.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>coef.qrr</code>, <code>predict.qrr</code>, <code>summary.qrr</code>, <code>vcov.qrr</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+set.seed(123)
+n &lt;- 5000
+x &lt;- runif(n, -0.5, 0.5)
+R &lt;- 1 + exp(0.5 + 0.5*x)
+
+# fit quintile ratio regression
+alpha &lt;- 1/log(R)*log(log(1-0.8)/log(1-0.2))
+y &lt;- rweibull(n, shape = alpha, scale = 1)
+dd &lt;- data.frame(x = x, y = y)
+qrr(y ~ x, data = dd, taus = c(.2,.8))
+
+# fit Palma ratio regression
+alpha &lt;- 1/log(R)*log(log(1-0.9)/log(1-0.4))
+y &lt;- rweibull(n, shape = alpha, scale = 1)
+dd &lt;- data.frame(x = x, y = y)
+qrr(y ~ x, data = dd, taus = c(.4,.9))
+
+</code></pre>
+
+
+</div>

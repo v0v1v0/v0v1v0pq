@@ -1,0 +1,191 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qz.ztrsen</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Reordered QZ Decomposition for a Complex Matrix</h2>
+
+<h3>Description</h3>
+
+<p>This function call 'ztrsend' in Fortran to reorder 'complex'
+matrix (T,Q).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">  qz.ztrsen(T, Q, select, job = c("B", "V", "E", "N"),
+            want.Q = TRUE, LWORK = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>T</code></td>
+<td>
+<p>a 'complex' generalized Schur form, dim = c(N, N).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Q</code></td>
+<td>
+<p>a 'complex' Schur vectors, dim = c(N, N).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>select</code></td>
+<td>
+<p>specifies the eigenvalues in the selected cluster.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>job</code></td>
+<td>
+<p>Specifies whether condition numbers are required for the
+cluster of eigenvalues (S) or the invariant subspace (SEP).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>want.Q</code></td>
+<td>
+<p>if update Q.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>LWORK</code></td>
+<td>
+<p>optional, dimension of array WORK for workspace. (&gt;= N(N+1)/2)</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>See 'ztrsen.f' for all details.
+</p>
+<p>ZTRSEN reorders the Schur factorization of a complex matrix
+A = Q*T*Q**H, so that a selected cluster of eigenvalues appears in
+the leading positions on the diagonal of the upper triangular matrix
+T, and the leading columns of Q form an orthonormal basis of the
+corresponding right invariant subspace.
+</p>
+<p>Optionally the routine computes the reciprocal condition numbers of
+the cluster of eigenvalues and/or the invariant subspace.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Return a list contains next:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>'T'</code></td>
+<td>
+<p>T's reorded generalized Schur form.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>'W'</code></td>
+<td>
+<p>generalized eigenvalues.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>'M'</code></td>
+<td>
+<p>original returns from 'ztrsen.f'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>'S'</code></td>
+<td>
+<p>original returns from 'ztrsen.f'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>'SEP'</code></td>
+<td>
+<p>original returns from 'ztrsen.f'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>'WORK'</code></td>
+<td>
+<p>optimal LWORK (for ztrsen.f only)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>'INFO'</code></td>
+<td>
+<p>= 0: successful. &lt; 0: if INFO = -i, the i-th argument had
+an illegal value.</p>
+</td>
+</tr>
+</table>
+<p>Extra returns in the list:
+</p>
+<table><tr style="vertical-align: top;">
+<td><code>'Q'</code></td>
+<td>
+<p>the reorded Schur vectors.</p>
+</td>
+</tr></table>
+<h3>Warning(s)</h3>
+
+<p>There is no format checking for <code>T</code> and <code>Q</code>
+which are usually returned by <code>qz.zgees</code>.
+</p>
+<p>There is also no checking for <code>select</code> which is usually according to
+the returns of <code>qz.zgeev</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Wei-Chen Chen <a href="mailto:wccsnow@gmail.com">wccsnow@gmail.com</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Anderson, E., et al. (1999) <em>LAPACK User's Guide,</em>
+3rd edition, SIAM, Philadelphia.
+</p>
+<p><a href="https://www.netlib.org/lapack/complex16/ztrsen.f">https://www.netlib.org/lapack/complex16/ztrsen.f</a>
+</p>
+<p><a href="https://en.wikipedia.org/wiki/Schur_decomposition">https://en.wikipedia.org/wiki/Schur_decomposition</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>qz.zgees</code>, <code>qz.dgees</code>, <code>qz.dtrsen</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+library(QZ, quiet = TRUE)
+
+### https://www.nag.com/numeric/fl/nagdoc_fl23/xhtml/f08/f08quf.xml
+T &lt;- exA3$T
+Q &lt;- exA3$Q
+select &lt;- c(TRUE, FALSE, FALSE, TRUE)
+ret &lt;- qz.ztrsen(T, Q, select)
+
+# Verify 1
+A &lt;- Q %*% T %*% solve(Q)
+A.new &lt;- ret$Q %*% ret$T %*% solve(ret$Q)
+round(A - A.new)
+
+# verify 2
+round(ret$Q %*% solve(ret$Q))
+
+</code></pre>
+
+
+</div>

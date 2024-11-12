@@ -1,0 +1,85 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>make.dumNA</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Make Dummy Columns For Missing Data.</h2>
+
+<h3>Description</h3>
+
+<p><code>make.dumNA</code> makes dummy columns (i.e., dichomotous numeric vectors
+coded 0 and 1) for missing data. Each variable is treated in isolation.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">make.dumNA(data, vrb.nm, ov = FALSE, rtn.lgl = FALSE, suffix = "_m")
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>data.frame of data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vrb.nm</code></td>
+<td>
+<p>character vector of colnames from <code>data</code> specifying the
+variables.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ov</code></td>
+<td>
+<p>logical vector of length 1 specifying whether the dummy columns
+should be reverse coded such that missing values = 0/FALSE and observed
+values = 1/TRUE.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rtn.lgl</code></td>
+<td>
+<p>logical vector of length 1 specifying whether the dummy columns
+should be logical vectors (TRUE) rather than numeric vectors (FALSE).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>suffix</code></td>
+<td>
+<p>character vector of length 1 specifying the string that should
+be appended to the end of the colnames in the return object.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>data.frame of numeric (logical if <code>rtn.lgl</code> = TRUE) columns
+where missing = 1 and observed = 0 (flipped if <code>ov</code> = TRUE) for each
+variable. The colnames are created by <code>paste0(vrb.nm, suffix)</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>make.dummy</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">make.dumNA(data = airquality, vrb.nm = c("Ozone","Solar.R"))
+make.dumNA(data = airquality, vrb.nm = c("Ozone","Solar.R"),
+   rtn.lgl = TRUE) # logical vectors returned
+make.dumNA(data = airquality, vrb.nm = c("Ozone","Solar.R"),
+   ov = TRUE, suffix = "_o") # 1 = observed value
+</code></pre>
+
+
+</div>

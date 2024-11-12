@@ -1,0 +1,58 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>sp2sl</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Convert pairs of coordinates to <code>SpatialLines</code>
+</h2>
+
+<h3>Description</h3>
+
+<p>This will convert 2 objects whose coordinates can be extracted with <code>coordinates</code>
+(e.g., <code style="white-space: pre;">⁠sp::SpatialPoints*⁠</code>) to a single <code>SpatialLines</code> object.
+The first object is treated as the "to" (destination), and the second object the "from" (source).
+This can be used to represent directional <code>SpatialLines</code>, especially with with arrow heads,
+as in <code>Plot(sl, length = 0.1)</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">sp2sl(sp1, from)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>sp1</code></td>
+<td>
+<p>a <code style="white-space: pre;">⁠SpatialPoints*⁠</code> object</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>from</code></td>
+<td>
+<p>a <code style="white-space: pre;">⁠SpatialPoints*⁠</code> object. Optional. If not provided, then the function will
+attempt to find the "previous" coordinates as columns (<code>prevX</code>, <code>prevY</code>)
+in the <code>sp1</code> object.</p>
+</td>
+</tr>
+</table>
+<h3>Examples</h3>
+
+<pre><code class="language-R">caribou &lt;- terra::vect(x = cbind(x = stats::runif(1e1, -50, 50),
+                                        y = stats::runif(1e1, -50, 50)))
+caribouFrom &lt;- terra::vect(x = cbind(x = stats::runif(1e1, -50, 50),
+                                        y = stats::runif(1e1, -50, 50)))
+caribouLines &lt;- sp2sl(caribou, caribouFrom)
+if (interactive()) {
+  clearPlot()
+  Plot(caribouLines, length = 0.1)
+}
+</code></pre>
+
+
+</div>

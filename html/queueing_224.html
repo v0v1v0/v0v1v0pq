@@ -1,0 +1,69 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>summary.o_MMCKK</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Summary of the results of a M/M/c/K/K queueing model</h2>
+
+<h3>Description</h3>
+
+<p>Summary of the results of a M/M/c/K/K queueing model.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">  ## S3 method for class 'o_MMCKK'
+summary(object, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>a object of class o_MMCKK</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>aditional arguments</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Summaries a M/M/c/K/K queueing model</p>
+
+
+<h3>References</h3>
+
+<p>[Sixto2004] Sixto Rios Insua, Alfonso Mateos Caballero, M Concepcion Bielza Lozoya, Antonio Jimenez Martin (2004).<br><em>Investigacion Operativa. Modelos deterministicos y estocasticos</em>.<br>
+Editorial Centro de Estudios Ramon Areces.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>QueueingModel.i_MMCKK</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## create input parameters
+i_mmckk &lt;- NewInput.MMCKK(lambda=8, mu=2, c=5, k=12, method=0)
+
+## Build the model
+o_mmckk &lt;- QueueingModel(i_mmckk)
+
+## Report the results
+summary(o_mmckk)
+</code></pre>
+
+
+</div>

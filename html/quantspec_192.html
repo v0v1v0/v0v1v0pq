@@ -1,0 +1,76 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>plot-FreqRep</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Plot the values of the <code>FreqRep</code>.</h2>
+
+<h3>Description</h3>
+
+<p>Creates a <code>K</code> x <code>2</code> plot depicting a
+<code>FreqRep</code> object.
+Each of the <code>K</code> “lines” of subplots shows the frequency representation
+for one value of <code class="reqn">\tau</code>. The real and imaginary part are shown on
+the left and the right, respectively.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S4 method for signature 'FreqRep,ANY'
+plot(
+  x,
+  ratio = 2,
+  frequencies = 2 * pi * (1:(floor(lenTS(x@Y)/2)))/lenTS(x@Y),
+  levels = x@levels,
+  d = 1:(dim(x@Y)[2])
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>The <code>FreqRep</code> to plot.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ratio</code></td>
+<td>
+<p>quotient of width over height of the subplots; use this
+parameter to produce landscape or portrait shaped plots.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>frequencies</code></td>
+<td>
+<p>a set of frequencies for which the values are to be
+plotted.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>levels</code></td>
+<td>
+<p>a set of levels for which the values are to be plotted.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>d</code></td>
+<td>
+<p>vector indicating which components of a multivariate time series
+should be in the plot.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Plots the <code>FreqRep</code> for all
+<code>frequencies</code> and <code>levels</code> specified.
+</p>
+
+
+</div>

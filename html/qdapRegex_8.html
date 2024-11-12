@@ -1,0 +1,91 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>bind</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Add Left/Right Character(s) Boundaries</h2>
+
+<h3>Description</h3>
+
+<p>This convenience function wraps left and right boundaries of each element of 
+a character vector.  The default is to use <code>"\b"</code> for left and right 
+boundaries.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">bind(
+  ...,
+  left = "\\b",
+  right = left,
+  dictionary = getOption("regex.library")
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>left</code></td>
+<td>
+<p>A single length character vector to use as the left bound.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>right</code></td>
+<td>
+<p>A single length character vector to use as the right bound.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dictionary</code></td>
+<td>
+<p>A dictionary of canned regular expressions to search within.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Regular expressions to add grouping parenthesis to a named 
+expression from the default regular expression dictionary prefixed with 
+single at (<code>@</code>) (e.g., <code>"@rm_hash"</code>) or a regular expression from 
+<code>regex_supplement</code> dictionary prefixed with an at 
+(<code>@</code>) (e.g., <code>"@time_12_hours"</code>).</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Returns a character vector.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>paste0</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">bind(LETTERS, "[", "]")
+
+## More useful default parameters/usage
+x &lt;- c("Computer is fun. Not too fun.", "No it's not, it's dumb.", 
+    "What should we do?", "You liar, it stinks!", "I am telling the truth!", 
+    "How can we be certain?", "There is no way.", "I distrust you.", 
+    "What are you talking about?", "Shall we move on?  Good then.", 
+    "I'm hungry.  Let's eat.  You already?")
+
+Fry25 &lt;- c("the", "of", "and", "a", "to", "in", "is", "you", "that", "it", 
+    "he", "was", "for", "on", "are", "as", "with", "his", "they", 
+    "I", "at", "be", "this", "have", "from")
+
+gsub(pastex(list(bind(Fry25))), "[[ELIM]]", x)
+</code></pre>
+
+
+</div>

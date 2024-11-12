@@ -1,0 +1,85 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>rbind.scan1perm</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Combine data from scan1perm objects</h2>
+
+<h3>Description</h3>
+
+<p>Row-bind multiple scan1perm objects with the same set of columns
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'scan1perm'
+rbind(...)
+
+## S3 method for class 'scan1perm'
+c(...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>A set of permutation results from
+<code>scan1perm()</code> (objects of class <code>"scan1perm"</code>).
+They must have the same set of columns. If any include
+autosome/X chromosome-specific permutations, they must all be
+such.</p>
+</td>
+</tr></table>
+<h3>Details</h3>
+
+<p>The aim of this function is to concatenate the results
+from multiple runs of a permutation test with
+<code>scan1perm()</code>, to assist in the case that such
+permutations are done on multiple processors in parallel.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The combined row-binded input, as an object of class <code>"scan1perm"</code>; see <code>scan1perm()</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>cbind.scan1perm()</code>, <code>scan1perm()</code>, <code>scan1()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># read data
+iron &lt;- read_cross2(system.file("extdata", "iron.zip", package="qtl2"))
+
+
+# insert pseudomarkers into map
+map &lt;- insert_pseudomarkers(iron$gmap, step=1)
+
+# calculate genotype probabilities
+probs &lt;- calc_genoprob(iron, map, error_prob=0.002)
+
+# grab phenotypes and covariates; ensure that covariates have names attribute
+pheno &lt;- iron$pheno
+covar &lt;- match(iron$covar$sex, c("f", "m")) # make numeric
+names(covar) &lt;- rownames(iron$covar)
+Xcovar &lt;- get_x_covar(iron)
+
+# permutations with genome scan (just 3 replicates, for illustration)
+operm1 &lt;- scan1perm(probs, pheno, addcovar=covar, Xcovar=Xcovar, n_perm=3)
+operm2 &lt;- scan1perm(probs, pheno, addcovar=covar, Xcovar=Xcovar, n_perm=3)
+
+operm &lt;- rbind(operm1, operm2)
+
+</code></pre>
+
+
+</div>

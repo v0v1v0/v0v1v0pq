@@ -1,0 +1,42 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>GroverDiffusion</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>GroverDiffusion</h2>
+
+<h3>Description</h3>
+
+<p>If integer is input, returns the matrix of Grover Diffusion operation on the integer number of qubits. If ket given as input, applies a Grover Diffusion operation to the input ket and returns the resulting ket
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">GroverDiffusion(input)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>input</code></td>
+<td>
+<p> Either integer specifying size of operation (in number of qubits it is applied to) or input ket to apply Grover Diffusion to   </p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>Either the matrix of the Grover Diffusion gate of the specified size or ket after a Grover Diffusion operation is applied
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"> GroverDiffusion(ket(1,1,1,1,1,1,1,1))
+ GroverDiffusion(3)
+</code></pre>
+
+
+</div>

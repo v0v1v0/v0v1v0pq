@@ -1,0 +1,78 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>get_eigproj.spectral</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Extract an Eigen-Projector from a Hermitian Matrix</h2>
+
+<h3>Description</h3>
+
+<p>Get the orthogonal projector associated with an eigenspace based on the representation
+of a Hermitian Matrix given by class <code>spectral</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'spectral'
+get_eigproj(object, id, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>an instance of class <code>spectral</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>id</code></td>
+<td>
+<p>index for the desired eigenspace according to the ordered (decreasing) spectra.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>further arguments passed to or from other methods.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>The orthogonal projector of the desired eigenspace.
+</p>
+<p>A Hermitian matrix <code>S</code> admits the spectral decomposition <code class="reqn">S = \sum_{r}\lambda_r E_r</code>
+such that <code class="reqn">E_r</code> is the orthogonal projector onto the <code class="reqn">\lambda_r</code>-eigenspace. If <code class="reqn">V_{id}</code>
+is the matrix associated to the eigenspace, then
+</p>
+<p style="text-align: center;"><code class="reqn">E_{id} = V_{id}V_{id}^*</code>
+</p>
+
+
+
+<h3>See Also</h3>
+
+<p><code>spectral()</code>, <code>get_eigproj()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># Spectra is {2, -1} with multiplicities one and two respectively.
+decomp &lt;- spectral(matrix(c(0,1,1,1,0,1,1,1,0), nrow=3))
+
+# Returns the projector associated to the eigenvalue -1.
+get_eigproj(decomp, id=2)
+
+# Returns the projector associated to the eigenvalue 2.
+get_eigproj(decomp, id=1)
+
+</code></pre>
+
+
+</div>

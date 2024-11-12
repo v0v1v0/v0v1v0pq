@@ -1,0 +1,80 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>smooth_gmap</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Smooth genetic map</h2>
+
+<h3>Description</h3>
+
+<p>Smooth a genetic map by mixing it with a bit of constant
+recombination (using a separate recombination rate for each
+chromosome), to eliminate intervals that have exactly 0
+recombination.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">smooth_gmap(gmap, pmap, alpha = 0.02)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>gmap</code></td>
+<td>
+<p>Genetic map, as a list of numeric vectors; each vector gives marker
+positions for a single chromosome.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pmap</code></td>
+<td>
+<p>Physical map, as a list of numeric vectors; each vector gives marker
+positions for a single chromosome, with the same chromosomes and markers as <code>gmap</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>alpha</code></td>
+<td>
+<p>Proportion of mixture to take from constant recombination.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>An interval of genetic length <code class="reqn">d_g</code> and physical
+length <code class="reqn">d_p</code> is changed to have length
+<code class="reqn">(1-\alpha)d_g + \alpha d_p r</code>
+where <code class="reqn">r = L_g / L_p</code> is the chromosome-specific
+recombination rate.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A genetic map like the input <code>gmap</code>, but smoothed by mixing
+it with a proportion <code>alpha</code> of constant recombination on each
+chromosome.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>unsmooth_gmap()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">iron &lt;- read_cross2(system.file("extdata", "iron.zip", package="qtl2"))
+gmap_adj &lt;- smooth_gmap(iron$gmap, iron$pmap)
+
+</code></pre>
+
+
+</div>

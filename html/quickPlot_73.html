@@ -1,0 +1,149 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>getColors</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Get and set colours for plotting <code style="white-space: pre;">⁠Raster*⁠</code> objects</h2>
+
+<h3>Description</h3>
+
+<p>Get and set colours for plotting <code style="white-space: pre;">⁠Raster*⁠</code> objects
+</p>
+<p><code>setColors</code> works as a replacement method or a normal function call.
+This function can accept <code>RColorBrewer</code> colours by name. See examples.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">getColors(object)
+
+setColors(object, ..., n, verbose = getOption("quickPlot.verbose")) &lt;- value
+
+setColors(object, value, n, verbose = getOption("quickPlot.verbose"))
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>A <code style="white-space: pre;">⁠Raster*⁠</code> object.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Additional arguments to <code>colorRampPalette</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p>An optional vector of values specifying the number
+of levels from which to interpolate the colour palette.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p>Numeric or logical. If <code>TRUE</code> or <code style="white-space: pre;">⁠&gt;0⁠</code>, then messages will be
+shown. If <code>FALSE</code> or <code>0</code>, most messages will be suppressed.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>value</code></td>
+<td>
+<p>Named list of hex colour codes (e.g., from
+<code>RColorBrewer::brewer.pal</code>), corresponding to the names
+of <code>RasterLayer</code>s in <code>x</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Returns a named list of colours.
+</p>
+<p>Returns a Raster with the <code>colortable</code> slot set to <code>values</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Alex Chubaty
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>setColors&lt;-()</code>, <code>brewer.pal()</code>, RColorBrewer::ColorBrewer
+</p>
+<p><code>brewer.pal()</code>, <code>RColorBrewer::ColorBrewer</code>,
+<code>colorRampPalette()</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(terra)
+
+ras &lt;- rast(matrix(c(0, 0, 1, 2), ncol = 2, nrow = 2))
+
+getColors(ras) ## none
+
+# Use replacement method
+setColors(ras, n = 3) &lt;- c("red", "blue", "green")
+getColors(ras)
+
+clearPlot()
+Plot(ras)
+
+# Use function method
+ras &lt;- setColors(ras, n = 3, c("red", "blue", "yellow"))
+getColors(ras)
+
+clearPlot()
+Plot(ras)
+
+# Using the wrong number of colors, e.g., here 2 provided,
+# for a raster with 3 values... causes interpolation, which may be surprising
+ras &lt;- setColors(ras, c("red", "blue"))
+clearPlot()
+Plot(ras)
+
+# Real number rasters - interpolation is used
+ras &lt;- rast(matrix(runif(9), ncol = 3, nrow = 3)) |&gt;
+  setColors(c("red", "yellow")) # interpolates when real numbers, gives warning
+
+clearPlot()
+Plot(ras)
+
+# Factor rasters, can be contiguous (numerically) or not, in this case not:
+ras &lt;- rast(matrix(sample(c(1, 3, 6), size = 9, replace = TRUE), ncol = 3, nrow = 3))
+levels(ras) &lt;- data.frame(ID = c(1, 3, 6), Names = c("red", "purple", "yellow"))
+ras &lt;- setColors(ras, n = 3, c("red", "purple", "yellow"))
+getColors(ras)
+
+clearPlot()
+Plot(ras)
+
+# if a factor raster, and not enough labels are provided, then a warning
+#   will be given, and colors will be interpolated
+#   The level called purple is not purple, but interpolated betwen red and yellow
+suppressWarnings({
+  ras &lt;- setColors(ras, c("red", "yellow"))
+  clearPlot()
+  Plot(ras)
+})
+
+# use RColorBrewer colors
+setColors(ras) &lt;- "Reds"
+clearPlot()
+Plot(ras)
+</code></pre>
+
+
+</div>

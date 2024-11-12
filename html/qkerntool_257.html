@@ -1,0 +1,84 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>cndkernel-class</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Class "cndkernel" "nonlkernel" "polykernel" "rbfkernel" "laplkernel"</h2>
+
+<h3>Description</h3>
+
+<p>  The built-in kernel classes in <span class="pkg">qkerntool</span></p>
+
+
+<h3>Objects from the Class</h3>
+
+<p>Objects can be created by calls of the form <code>new("nonlkernel")</code>,
+<code>new{"polykernel"}</code>, <code>new{"rbfkernel"}</code>,
+<code>new{"laplkernel"}</code>, <code>new{"anokernel"}</code>,
+<code>new{"ratikernel"}</code>, <code>new{"multkernel"}</code>,
+<code>new{"invkernel"}</code>, <code>new{"wavkernel"}</code>,
+<code>new{"powkernel"}</code>, <code>new{"logkernel"}</code>,
+<code>new{"caukernel"}</code>, <code>new{"chikernel"}</code>,
+<code>new{"studkernel"}</code>,<code>new{"norkernel"}</code>
+</p>
+<p>or by calling the <code>nonlcnd</code>,<code>polycnd</code>, <code>rbfcnd</code>,
+<code>laplcnd</code>, <code>anocnd</code>, <code>raticnd</code>, <code>multcnd</code>,
+<code>invcnd</code>, <code>wavcnd</code>, <code>powcnd</code>, <code>logcnd</code>,
+<code>caucnd</code>, <code>chicnd</code>, <code>studcnd</code>, <code>norcnd</code>  functions etc..
+</p>
+
+
+<h3>Slots</h3>
+
+
+<dl>
+<dt>
+<code>.Data</code>:</dt>
+<dd>
+<p>Object of class <code>"function"</code> containing
+the kernel function </p>
+</dd>
+<dt>
+<code>qpar</code>:</dt>
+<dd>
+<p>Object of class <code>"list"</code> containing the
+kernel parameters </p>
+</dd>
+</dl>
+<h3>Methods</h3>
+
+
+<dl>
+<dt>cndkernmatrix</dt>
+<dd>
+<p><code>signature(kernel = "rbfkernel", x ="matrix")</code>: computes the kernel matrix</p>
+</dd>
+</dl>
+<h3>Author(s)</h3>
+
+<p>Yusen Zhang<br><a href="mailto:yusenzhang@126.com">yusenzhang@126.com</a> </p>
+
+
+<h3>See Also</h3>
+
+<p><code>qkernmatrix</code>,<code>cndkernmatrix</code></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">cndkfunc &lt;- rbfcnd(gamma = 1)
+cndkfunc
+
+qpar(cndkfunc)
+
+## create two vectors
+x &lt;- rnorm(10)
+y &lt;- rnorm(10)
+
+
+cndkfunc(x,y)
+</code></pre>
+
+
+</div>

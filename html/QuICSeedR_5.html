@@ -1,0 +1,56 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>ConvertTime</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Extract and Convert Time Data to Decimal Hours</h2>
+
+<h3>Description</h3>
+
+<p>The function extracts and converts run time information from MARS output.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">ConvertTime(raw)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>raw</code></td>
+<td>
+<p>Output from MARS.</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>A data frame containing the time information in decimal hours.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># Example with "hours and minutes" format
+raw_data &lt;- data.frame(
+  V1 = c("Header", "Row1", "Row2"),
+  V2 = c("Time", "1 h 30 min", "2 h 45 min")
+)
+plate_time &lt;- ConvertTime(raw_data)
+print(plate_time)
+
+# Example with decimal hours format
+raw_data2 &lt;- data.frame(
+  V1 = c("Header", "Row1", "Row2"),
+  V2 = c("Time", "1.5", "2.75")
+)
+plate_time2 &lt;- ConvertTime(raw_data2)
+print(plate_time2)
+
+</code></pre>
+
+
+</div>

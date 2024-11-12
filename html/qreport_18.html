@@ -1,0 +1,99 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>makecodechunk</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>makecodechunk</h2>
+
+<h3>Description</h3>
+
+<p>Create Text for Running Code Chunk
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">makecodechunk(
+  cmd,
+  opts = NULL,
+  results = "asis",
+  lang = "r",
+  callout = NULL,
+  h = NULL,
+  w = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>cmd</code></td>
+<td>
+<p>character string vector of commands to run inside chunk</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>opts</code></td>
+<td>
+<p>optional list of chunk options, e.g. <code>list(fig.width=6, fig.cap="This is a caption")</code>.  See <a href="https://yihui.org/knitr/options/">https://yihui.org/knitr/options/</a> for a complete list of options.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>results</code></td>
+<td>
+<p>format of results, default is <code>'asis'</code>.  May specify <code>results='markup'</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lang</code></td>
+<td>
+<p>language for the chunk</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>callout</code></td>
+<td>
+<p>an optional Quarto callout to include after <code style="white-space: pre;">⁠#|⁠</code> after the chunk header that affects how the result appears, e.g. <code>callout='column: margin'</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>h</code></td>
+<td>
+<p>optional height to place after the chunk header after <code style="white-space: pre;">⁠#|⁠</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>w</code></td>
+<td>
+<p>optional width</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Creates text strings suitable for running through <code>knitr</code>.  The chunk is given a random name because certain operations are not allowed by <code>knitr</code> without it.
+</p>
+
+
+<h3>Value</h3>
+
+<p>character vector
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Frank Harrell
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">makecodechunk('x &lt;- pi; print(x)')
+</code></pre>
+
+
+</div>

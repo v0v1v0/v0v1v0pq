@@ -1,0 +1,94 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>add_data</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Add data to existing data frame.</h2>
+
+<h3>Description</h3>
+
+<p>Using key identifying columns, add additional columns to an
+existing data frame. This function allows you to match new columns
+based on specified IDs and you can choose what columns to add. Additionally
+you can specify the column number at which to add the new columns, so they
+are not added to the end of the data frame. Helpful for adding environmental
+or taxonomic data to your quadrat data.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">add_data(data, add, cols, data_id, add_id, number = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>A data frame you want to add columns to.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>add</code></td>
+<td>
+<p>A data frame with columns you want to add to <code>data</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cols</code></td>
+<td>
+<p>The column names from <code>add</code> that you wish to add to <code>data</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data_id</code></td>
+<td>
+<p>The ID column in <code>data</code> that will be used to match rows in <code>add</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>add_id</code></td>
+<td>
+<p>The ID column in <code>add</code> that will be used to match rows in <code>data</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>number</code></td>
+<td>
+<p>The column number to start at to add the new columns, so they
+are not added to the end of the data frame. If not specified they will
+be added to the end of the data frame by default.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A data frame with added columns.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">Sites &lt;- as.factor(c("One", "One", "One", "Two", "Two", "Three"))
+Transect &lt;- as.factor(c("1-Deep", "1-Shallow", "2-Shallow", "1-Shallow", "1-Deep", "1"))
+coral_name &lt;- c("Acropora.sp", "Leptastrea.sp", "Sinularia.sp", "Psammocora.sp", "
+    Psammocora.sp", "Leptastrea.sp")
+prop_cover &lt;- c(0.1, 0.6, 0.4, 0.9, 0.2, 0.5)
+coral_cover &lt;- data.frame(Sites, Transect, coral_name, prop_cover)
+
+corals &lt;- c("Acropora.sp", "Leptastrea.sp", "Psammocora.sp")
+lifehistory &lt;- c("compeditive", "weedy",  "stresstolerant")
+functionalgroup &lt;- c("hardcoral", "hardcoral", "hardcoral")
+coral_info &lt;- data.frame(corals, lifehistory, functionalgroup)
+
+add_data(data = coral_cover, add = coral_info, cols = c("lifehistory", "functionalgroup"),
+         data_id = "coral_name", add_id = "corals", number = 4)
+
+</code></pre>
+
+
+</div>

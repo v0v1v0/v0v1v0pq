@@ -1,0 +1,126 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>convert-wrappers</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Convenience wrappers for dfm convert</h2>
+
+<h3>Description</h3>
+
+<p>To make the usage as consistent as possible with other packages, quanteda
+also provides shortcut wrappers to <code>convert()</code>, designed to be
+similar in syntax to analogous commands in the packages to whose format they
+are converting.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">dfm2austin(x)
+
+dfm2tm(x, weighting = tm::weightTf)
+
+dfm2lda(x, omit_empty = TRUE)
+
+dtm2lda(x, omit_empty = TRUE)
+
+dfm2dtm(x, omit_empty = TRUE)
+
+dfm2stm(x, docvars = NULL, omit_empty = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>the dfm to be converted</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>weighting</code></td>
+<td>
+<p>a <span class="pkg">tm</span> weight, see <code>tm::weightTf()</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>omit_empty</code></td>
+<td>
+<p>logical; if <code>TRUE</code>, omit empty documents and features
+from the converted dfm. This is required for some formats (such as STM)
+that do not accept empty documents.  Only used when <code>to = "lda"</code> or
+<code>to = "topicmodels"</code>.  For <code>to = "stm"</code> format, <code>omit_empty</code> is
+always <code>TRUE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>docvars</code></td>
+<td>
+<p>optional data.frame of document variables used as the
+<code>meta</code> information in conversion to the <span class="pkg">stm</span> package format.
+This aids in selecting the document variables only corresponding to the
+documents with non-zero counts.  Only affects the "stm" format.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p><code>dfm2lda</code> provides converts a dfm into the list representation
+of terms in documents used by the <span class="pkg">lda</span> package (a list with components
+"documents" and "vocab" as needed by
+<code>lda::lda.collapsed.gibbs.sampler()</code>).
+</p>
+<p><code>dfm2ldaformat</code> provides converts a dfm into the list
+representation of terms in documents used by the <span class="pkg">lda</span> package (a list
+with components "documents" and "vocab" as needed by
+<code>lda::lda.collapsed.gibbs.sampler()</code>).
+</p>
+
+
+<h3>Value</h3>
+
+<p>A converted object determined by the value of <code>to</code> (see above).
+See conversion target package documentation for more detailed descriptions
+of the return formats.
+</p>
+
+
+<h3>Note</h3>
+
+<p>Additional coercion methods to base R objects are also available:
+</p>
+ <dl>
+<dt><code style="white-space: pre;">⁠[as.data.frame](x)⁠</code></dt>
+<dd>
+<p>converts a dfm into
+a data.frame</p>
+</dd>
+<dt><code style="white-space: pre;">⁠[as.matrix](x)⁠</code></dt>
+<dd>
+<p>converts a dfm into a
+matrix</p>
+</dd> </dl>
+<h3>Examples</h3>
+
+<pre><code class="language-R">dfmat &lt;- corpus_subset(data_corpus_inaugural, Year &gt; 1970) |&gt;
+    tokens() |&gt;
+    dfm()
+
+## Not run: 
+# shortcut conversion to lda package list format
+identical(quanteda:::dfm2lda(dfmat), convert(dfmat, to = "lda"))
+
+## End(Not run)
+
+## Not run: 
+# shortcut conversion to lda package list format
+identical(dfm2ldaformat(dfmat), convert(dfmat, to = "lda"))
+
+## End(Not run)
+</code></pre>
+
+
+</div>

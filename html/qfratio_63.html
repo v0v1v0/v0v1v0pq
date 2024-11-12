@@ -1,0 +1,112 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>range_qfr</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Get range of ratio of quadratic forms</h2>
+
+<h3>Description</h3>
+
+<p><code>range_qfr()</code>: internal function to obtain the possible range of
+a ratio of quadratic forms,
+<code class="reqn">\frac{ \mathbf{x^{\mathit{T}} A x} }{ \mathbf{x^{\mathit{T}} B x} }
+</code>.
+</p>
+<p><code>gen_eig()</code> is an internal function to obtain generalized eigenvalues,
+i.e., roots of
+<code class="reqn">\det{\mathbf{A} - \lambda \mathbf{B}} = 0</code>,
+which are the eigenvalues of <code class="reqn">\mathbf{B}^{-1} \mathbf{A}</code> if
+<code class="reqn">\mathbf{B}</code> is nonsingular.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">range_qfr(
+  A,
+  B,
+  eigB = eigen(B, symmetric = TRUE),
+  tol = .Machine$double.eps * 100,
+  t = 0.001
+)
+
+gen_eig(
+  A,
+  B,
+  eigB = eigen(B, symmetric = TRUE),
+  Ad = with(eigB, crossprod(crossprod(A, vectors), vectors)),
+  tol = .Machine$double.eps * 100,
+  t = 0.001
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>A, B</code></td>
+<td>
+<p>Symmetric matrices.  No check is done.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>eigB</code></td>
+<td>
+<p>Result of <code>eigen(B)</code> can be passed when already computed</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tol</code></td>
+<td>
+<p>Tolerance to determine numerical zero</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>t</code></td>
+<td>
+<p>Tolerance used to determine whether estimates are numerically stable;
+<code class="reqn">t</code> in Jennings et al. (1978).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Ad</code></td>
+<td>
+<p><code>A</code> rotated with eigenvectors of <code>B</code> can be passed
+when already computed</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p><code>gen_eig()</code> solves the generalized eigenvalue problem with
+Jennings et al.'s (1978) algorithm.  The sign of infinite eigenvalue
+(when present) cannot be determined from this algorithm, so is deduced
+as follows: (1) <code class="reqn">\mathbf{A}</code> and <code class="reqn">\mathbf{B}</code> are rotated by
+the eigenvectors of <code class="reqn">\mathbf{B}</code>; (2) the submatrix of rotated
+<code class="reqn">\mathbf{A}</code> corresponding to the null space of <code class="reqn">\mathbf{B}</code>
+is examined; (3) if this is nonnegative (nonpositive) definite, the result
+must have positive (negative, resp.) infinity; if this is indefinite,
+the result must have both positive and negative infinities;
+if this is (numerically) zero, the result must have <code>NaN</code>.  The last
+case is expeted to happen very rarely, as in this case Jennings algorithm
+would fail.  This is where the null space of <code class="reqn">\mathbf{B}</code> is
+a subspace of that of <code class="reqn">\mathbf{A}</code>, so that the range of ratio of
+quadratic forms can be well-behaved.  <code>range_qfr()</code> tries to detect
+this case and handle the range accordingly, but if that is infeasible
+it returns <code>c(-Inf, Inf)</code>.
+</p>
+
+
+<h3>References</h3>
+
+<p>Jennings, A., Halliday, J. and Cole, M. J. (1978) Solution of linear
+generalized eigenvalue problems containing singular matrices.
+<em>Journal of the Institute of Mathematics and Its Applications</em>, <strong>22</strong>,
+401–410.
+<a href="https://doi.org/10.1093/imamat/22.4.401">doi:10.1093/imamat/22.4.401</a>.
+</p>
+
+
+</div>

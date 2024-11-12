@@ -1,0 +1,64 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>make_qrcode</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Make QR codes</h2>
+
+<h3>Description</h3>
+
+<p>A helper function for QR code generation using the 'qrencoder' library for faster QR code generation.
+It converts the generated QR code into a raster grob image that can
+be plotted using the ‘grid.draw()' function in the ’grid' package.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">make_qrcode(my_id, ec_level = 3)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>my_id</code></td>
+<td>
+<p>Unique ID string to be encoded to QR code.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ec_level</code></td>
+<td>
+<p>The error correction level ('0' - '3', lowest to highest).</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A QR code as a raster grob image object that can be plotted with the 'grid.draw()' 
+function in the 'grid' package.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+library(qrlabelr)
+qr &lt;- make_qrcode("KUMASI2023_PYT_101_1_1", ec_level = 1)
+
+# Plot QR code using the grid package
+grid::pushViewport(grid::viewport(x = grid::unit(0.5, "npc"),
+                                  y = grid::unit(0.5, "npc"),
+                                  width = grid::unit(1, "in"),
+                                  height = grid::unit(1, "in")))
+grid::grid.draw(qr)
+# clean up any open graphical device
+# grDevices::graphics.off()
+
+</code></pre>
+
+
+</div>

@@ -1,0 +1,68 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>table_group_growth_linear</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Generate a grouped results table for linear fits with average and standard deviations</h2>
+
+<h3>Description</h3>
+
+<p>Generate a grouped results table for linear fits with average and standard deviations
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">table_group_growth_linear(gcTable, html = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>gcTable</code></td>
+<td>
+<p>An object of class <code>gcTable</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>html</code></td>
+<td>
+<p>(Logical) Should column headers contain html formatting?</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A data frame with grouped linear fit results. Empty cells indicate that no reliable fit could be determined.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+# Create random growth data set
+rnd.data &lt;- rdm.data(d = 30, mu = 0.6, A = 4.5, label = "Test2")
+
+
+# Run growth curve analysis workflow
+res &lt;- growth.workflow(time = rnd.data$time,
+                       data = rnd.data$data,
+                       fit.opt = "l",
+                       ec50 = FALSE,
+                       export.res = FALSE,
+                       parallelize = FALSE,
+                       suppress.messages = TRUE)
+
+table_group_growth_linear(res$gcFit$gcTable)
+
+# with HTML formatting
+DT::datatable(table_group_growth_linear(res$gcFit$gcTable, html = TRUE),
+              escape = FALSE) # Do not escape HTML entities
+
+</code></pre>
+
+
+</div>

@@ -1,0 +1,58 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>chr_lengths</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Calculate chromosome lengths</h2>
+
+<h3>Description</h3>
+
+<p>Calculate chromosome lengths for a map object
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">chr_lengths(map, collapse_to_AX = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>map</code></td>
+<td>
+<p>A list of vectors, each specifying locations of the markers.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>collapse_to_AX</code></td>
+<td>
+<p>If TRUE, collapse to the total lengths of the
+autosomes and X chromosome.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>We take <code>diff(range(v))</code> for each vector, <code>v</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A vector of chromosome lengths. If
+<code>collapse_to_AX=TRUE</code>, the result is a vector of length 2
+(autosomal and X chromosome lengths).
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>scan1perm()</code>
+</p>
+
+
+</div>

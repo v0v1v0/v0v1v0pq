@@ -1,0 +1,96 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>replace_ids</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Replace individual IDs</h2>
+
+<h3>Description</h3>
+
+<p>Replace the individual IDs in an object with new ones
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">replace_ids(x, ids)
+
+## S3 method for class 'cross2'
+replace_ids(x, ids)
+
+## S3 method for class 'calc_genoprob'
+replace_ids(x, ids)
+
+## S3 method for class 'viterbi'
+replace_ids(x, ids)
+
+## S3 method for class 'sim_geno'
+replace_ids(x, ids)
+
+## S3 method for class 'matrix'
+replace_ids(x, ids)
+
+## S3 method for class 'data.frame'
+replace_ids(x, ids)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>Object whose IDs will be replaced</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ids</code></td>
+<td>
+<p>Vector of character strings with the new individual IDs, with the names being the original IDs.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>The input <code>x</code> object, but with individual IDs replaced.
+</p>
+
+
+<h3>Methods (by class)</h3>
+
+
+<ul>
+<li> <p><code>replace_ids(cross2)</code>: Replace IDs in a <code>"cross2"</code> object
+</p>
+</li>
+<li> <p><code>replace_ids(calc_genoprob)</code>: Replace IDs in output from <code>calc_genoprob()</code>
+</p>
+</li>
+<li> <p><code>replace_ids(viterbi)</code>: Replace IDs in output from <code>viterbi()</code>
+</p>
+</li>
+<li> <p><code>replace_ids(sim_geno)</code>: Replace IDs in output from <code>sim_geno()</code>
+</p>
+</li>
+<li> <p><code>replace_ids(matrix)</code>: Replace IDs in a matrix
+</p>
+</li>
+<li> <p><code>replace_ids(data.frame)</code>: Replace IDs in a data frame
+</p>
+</li>
+</ul>
+<h3>Examples</h3>
+
+<pre><code class="language-R">iron &lt;- read_cross2(system.file("extdata", "iron.zip", package="qtl2"))
+ids &lt;- as.numeric(ind_ids(iron))
+
+# replace the numeric IDs with IDs like "mouse003"
+new_ids &lt;- setNames( sprintf("mouse%03d", as.numeric(ids)), ids)
+
+iron &lt;- replace_ids(iron, new_ids)
+</code></pre>
+
+
+</div>

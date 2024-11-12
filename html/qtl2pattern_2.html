@@ -1,0 +1,142 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>allele1</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Allele plot for SNPs, alleles and allele pairs</h2>
+
+<h3>Description</h3>
+
+<p>Create table of alleles for various model fits.
+</p>
+<p>Plot alleles for haplotype, diplotype and top patterns and genome position.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">allele1(
+  probD,
+  phe_df = NULL,
+  cov_mx = NULL,
+  map = NULL,
+  K_chr = NULL,
+  patterns = NULL,
+  alt = NULL,
+  blups = FALSE,
+  ...
+)
+
+ggplot_allele1(
+  object,
+  scan1_object = NULL,
+  map = NULL,
+  pos = NULL,
+  trim = TRUE,
+  legend.position = "none",
+  ...
+)
+
+## S3 method for class 'allele1'
+autoplot(object, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>probD</code></td>
+<td>
+<p>object of class <code>calc_genoprob</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>phe_df</code></td>
+<td>
+<p>data frame with one phenotype</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cov_mx</code></td>
+<td>
+<p>covariate matrix</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>map</code></td>
+<td>
+<p>Genome map (required if <code>scan1_object</code> present).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>K_chr</code></td>
+<td>
+<p>kinship matrix</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>patterns</code></td>
+<td>
+<p>data frame of pattern information</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>alt</code></td>
+<td>
+<p>Haplotype allele letter(s) for alternative to reference.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>blups</code></td>
+<td>
+<p>Create BLUPs if <code>TRUE</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Other parameters ignored.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>Object of class <code>allele1</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>scan1_object</code></td>
+<td>
+<p>Optional object of class <code>scan1</code> to find peak.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pos</code></td>
+<td>
+<p>Genome position in Mbp (supercedes <code>scan1_object</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>trim</code></td>
+<td>
+<p>If <code>TRUE</code>, trim extreme alleles.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>legend.position</code></td>
+<td>
+<p>Legend position (default is <code>"none"</code>).</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Table with allele effects across sources.
+</p>
+<p>object of class <code>ggplot</code>
+</p>
+
+
+</div>

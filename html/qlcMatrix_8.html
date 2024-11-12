@@ -1,0 +1,99 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>bibles</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+A selection of bible-texts
+</h2>
+
+<h3>Description</h3>
+
+<p>A selection of six bible texts as prepared by the paralleltext project.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">data(bibles)</code></pre>
+
+
+<h3>Format</h3>
+
+<p>A list of five elements
+</p>
+
+<dl>
+<dt><code>verses</code></dt>
+<dd>
+<p>a character vector with all 43904 verse numbers as occurring throughout all translations as collected in the paralleltext project. This vector is used to align all texts to each other. The verse-numbers are treated as characters so ordering and matching works as expected.</p>
+</dd>
+<dt><code>eng</code></dt>
+<dd>
+<p>The English ‘Darby’ Bible translation from 1890 by John Nelson Darby.
+</p>
+</dd>
+<dt><code>deu</code></dt>
+<dd>
+<p>The Bible in German. Schlachter Version von 1951. Genfer Bibelgesellschaft 1951.
+</p>
+</dd>
+<dt><code>tgl</code></dt>
+<dd>
+<p>The New Testament in Tagalog. Philippine Bible Society 1996.
+</p>
+</dd>
+<dt><code>aak</code></dt>
+<dd>
+<p>The New Testament in the Ankave language of Papua New Guinea. Wycliffe Bible Translators, Inc. 1990.
+</p>
+</dd>
+</dl>
+<h3>Details</h3>
+
+<p>Basically, all verse-numbering is harmonized, the text is unicode normalized, translations that capture multiple verses are included in the first of those verses, with the others left empty. Empty verses are thus a sign of combined translations. Verses that are not translated simply do not occur in the original files. Most importantly, the text are tokenized as to wordform, i.e. all punctuation and other non-word-based symbols are separated by spaces. In this way, space can be used for a quick wordform-based tokenization. The addition of spaces has been manually corrected to achieve a high precision of language-specific wordform tokenization.
+</p>
+<p>The Bible texts are provided as named vectors of strings, each containing one verse. The names of the vector are codes for the verses. See Mayer &amp; Cysouw (2014) for more information about the verse IDs and other formatting issues.
+</p>
+
+
+<h3>References</h3>
+
+<p>Mayer, Thomas and Michael Cysouw. 2014. Creating a massively parallel Bible corpus. <em>Proceedings of LREC 2014</em>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># ----- load data -----
+
+data(bibles)
+
+# ----- separate into sparse matrices -----
+
+# use splitText to turn a bible into a sparse matrix of wordforms x verses
+E &lt;- splitText(bibles$eng, simplify = TRUE, lowercase = FALSE)
+
+# all wordforms from the first verse
+# (internally using pure Unicode collation, i.e. ordering is determined by Unicode numbering)
+which(E[,1] &gt; 0)
+
+# ----- co-occurrence across text -----
+
+# how often do 'father' and 'mother' co-occur in one verse?
+# (ignore warnings of chisq.test, because we are not interested in p-values here)
+
+( cooc &lt;- table(E["father",] &gt; 0, E["mother",] &gt; 0) )
+suppressWarnings( chisq.test(cooc)$residuals )
+
+# the function 'sim.words' does such computations efficiently 
+# for all 15000 x 15000 pairs of words at the same time
+
+system.time( sim &lt;- sim.words(bibles$eng, lowercase = FALSE) )
+sim["father", "mother"]
+
+</code></pre>
+
+
+</div>

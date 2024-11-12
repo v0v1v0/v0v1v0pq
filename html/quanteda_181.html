@@ -1,0 +1,41 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>lowercase_dictionary_values</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Internal function to lowercase dictionary values</h2>
+
+<h3>Description</h3>
+
+<p>Internal function to lowercase dictionary values
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">lowercase_dictionary_values(dict)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>dict</code></td>
+<td>
+<p>the dictionary whose values will be lowercased</p>
+</td>
+</tr></table>
+<h3>Examples</h3>
+
+<pre><code class="language-R">dict &lt;- list(KEY1 = list(SUBKEY1 = c("A", "B"),
+                          SUBKEY2 = c("C", "D")),
+              KEY2 = list(SUBKEY3 = c("E", "F"),
+                          SUBKEY4 = c("G", "F", "I")),
+              KEY3 = list(SUBKEY5 = list(SUBKEY7 = c("J", "K")),
+                          SUBKEY6 = list(SUBKEY8 = c("L"))))
+quanteda:::lowercase_dictionary_values(dict)
+</code></pre>
+
+
+</div>

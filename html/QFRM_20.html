@@ -1,0 +1,62 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>DeferredPaymentLT</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>DeferredPaymentLT</h2>
+
+<h3>Description</h3>
+
+<p>A binomial tree pricer of a Deferred Payment option.
+An American option that has payment at expiry no matter when exercise,
+causing differences in present value (PV) of a payoff.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">DeferredPaymentLT(o = OptPx(Opt(Style = "DeferredPayment")))
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>o</code></td>
+<td>
+<p>An object of class <code>OptPx</code></p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>An object of class <code>OptPx</code> with price included
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Max Lee, Department of Statistics, Rice University, Spring 2015
+</p>
+
+
+<h3>References</h3>
+
+<p>Hull, J.C., <em>Options, Futures and Other Derivatives</em>, 9ed, 2014. Prentice Hall.
+ISBN 978-0-13-345631-8, <a href="http://www-2.rotman.utoronto.ca/~hull/ofod/index.html">http://www-2.rotman.utoronto.ca/~hull/ofod/index.html</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">(o = DeferredPaymentLT())$PxLT
+
+o = Opt(Style='DeferredPayment', Right="Call", S0=110,ttm=.5,K=110)
+(o = DeferredPaymentLT(OptPx(o,r=.05,q=.04,vol=.2,NSteps=5)))$PxLT
+
+o = Opt(Style='DeferredPayment', Right="Put", S0 = 50, ttm=2,K=47)
+(o = DeferredPaymentLT(OptPx(o,r=.05,q=.04,vol=.25,NSteps=3)))$PxLT
+</code></pre>
+
+
+</div>

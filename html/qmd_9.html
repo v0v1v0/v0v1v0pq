@@ -1,0 +1,64 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>ECBC</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Compute empirical checkerboard copula in arbitrary dimension</h2>
+
+<h3>Description</h3>
+
+<p>The function ECBC computes the mass distribution of the empirical (checkerboard) copula,
+given a rho-dimensional sample X. If resolution equals sample size, the bi-linearly extended empirical copula is returned.
+Note, if there are ties in the sample an adjusted empirical copula is calculated.
+If bin.size is set to "adaptive" the sizes of the bins will be adjusted to fit the data without overspilling into neighboring bins.
+This might affects the result, but is more efficient with samples having many ties as no adjustment is needed.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">ECBC(X, resolution, bin.size = "fixed")
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>X</code></td>
+<td>
+<p>a numeric matrix of dimension rho indicating a sample of rho variables</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>resolution</code></td>
+<td>
+<p>an integer indicating the resolution N of the checkerboard copula</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bin.size</code></td>
+<td>
+<p>either "fixed" or "adaptive", indicating whether the checkerboard copula may vary its bin sizes (defaults to "fixed")</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>array of dimension resolution^rho.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">n &lt;- 1000
+x1 &lt;- runif(n)
+x2 &lt;- runif(n)
+y &lt;- x1 + x2 + rnorm(n)
+M &lt;- ECBC(X = cbind(x1,x2,y), resolution = 8)
+
+</code></pre>
+
+
+</div>

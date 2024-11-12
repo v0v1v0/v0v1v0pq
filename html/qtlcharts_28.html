@@ -1,0 +1,165 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>iplotMScanone</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Interactive LOD curve</h2>
+
+<h3>Description</h3>
+
+<p>Creates an interactive graph of a set of single-QTL genome scans, as
+calculated by [qtl::scanone()]. If 'cross' or
+'effects' are provided, LOD curves will be linked to a panel
+with estimated QTL effects.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">iplotMScanone(
+  scanoneOutput,
+  cross = NULL,
+  lodcolumn = NULL,
+  pheno.col = NULL,
+  times = NULL,
+  effects = NULL,
+  chr = NULL,
+  chartOpts = NULL,
+  digits = 5
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>scanoneOutput</code></td>
+<td>
+<p>Object of class '"scanone"', as output
+from [qtl::scanone()].</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cross</code></td>
+<td>
+<p>(Optional) Object of class '"cross"', see
+[qtl::read.cross()].</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lodcolumn</code></td>
+<td>
+<p>Numeric value indicating LOD score column to plot.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pheno.col</code></td>
+<td>
+<p>(Optional) Phenotype column in cross object.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>times</code></td>
+<td>
+<p>(Optional) Vector (length equal to the number of LOD
+score columns) with quantitative values to which the different LOD
+score columns correspond (times of measurements, or something like
+age or dose).  These need to be ordered and equally-spaced. If
+omitted, the names of the columns in 'scanoneOutput' are used
+and treated as qualitative.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>effects</code></td>
+<td>
+<p>(Optional) Estimated QTL effects, as obtained with
+[estQTLeffects()].</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>chr</code></td>
+<td>
+<p>(Optional) Optional vector indicating the chromosomes
+for which LOD scores should be calculated. This should be a vector
+of character strings referring to chromosomes by name; numeric
+values are converted to strings. Refer to chromosomes with a
+preceding - to have all chromosomes but those considered. A logical
+(TRUE/FALSE) vector may also be used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>chartOpts</code></td>
+<td>
+<p>A list of options for configuring the chart (see
+the coffeescript code). Each element must be named using the
+corresponding option.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>digits</code></td>
+<td>
+<p>Round data to this number of significant digits
+before passing to the chart function. (Use NULL to not round.)</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>If 'cross' is provided, Haley-Knott regression is
+used to estimate QTL effects at each pseudomarker.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class 'htmlwidget' that will
+intelligently print itself into HTML in a variety of contexts
+including the R console, within R Markdown documents, and within
+Shiny output bindings.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>[iplotScanone()]
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(grav)
+library(qtl)
+grav &lt;- calc.genoprob(grav, step=1)
+grav &lt;- reduce2grid(grav)
+
+# we're going to subset the phenotypes
+phecol &lt;- seq(1, nphe(grav), by=5)
+
+# the times were saved as an attributed
+times &lt;- attr(grav, "time")[phecol]
+
+# genome scan
+out &lt;- scanone(grav, phe=phecol, method="hk")
+
+
+# plot with qualitative labels on y-axis
+iplotMScanone(out)
+
+
+# plot with quantitative y-axis
+iplotMScanone(out, times=times)
+
+# estimate QTL effect for each time point at each genomic position
+eff &lt;- estQTLeffects(grav, phe=seq(1, nphe(grav), by=5), what="effects")
+
+
+# plot with QTL effects included (and with quantitative y-axis)
+iplotMScanone(out, effects=eff, times=times,
+              chartOpts=list(eff_ylab="QTL effect", eff_xlab="Time (hrs)"))
+
+</code></pre>
+
+
+</div>

@@ -1,0 +1,33 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>ClippedCov-class</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Class to calculate copula covariances from a time series with given levels.
+Calculates for each combination of levels <code class="reqn">(\tau_1,\tau_2)</code> 
+and for all <code class="reqn">k &lt; \code{maxLag}</code> the copula covariances
+<code class="reqn">Cov(1_{X_0 &lt; \tau_1},1_{X_k &lt; \tau_2})</code>
+and writes it to <code>values[k]</code> from its superclass <code>LagOperator</code>.</h2>
+
+<h3>Description</h3>
+
+<p>For each lag <code>k = 0, ..., maxLag</code> and combination of levels
+<code class="reqn">(\tau_1, \tau_2)</code> from <code>levels.1 x levels.2</code> the
+statistic
+</p>
+<p style="text-align: center;"><code class="reqn">\frac{1}{n} \sum_{t=1}^{n-k} ( I\{\hat F_n(Y_t) \leq \tau_1\} - \tau_1) ( I\{\hat F_n(Y_{t+k}) \leq \tau_2\} - \tau_2)</code>
+</p>
+
+<p>is determined and stored to the array <code>values</code>.
+</p>
+
+
+<h3>Details</h3>
+
+<p>Currently, the implementation of this class allows only for the analysis of
+univariate time series.
+</p>
+
+
+</div>

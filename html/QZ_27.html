@@ -1,0 +1,171 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qz.dgees</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>QZ Decomposition for a Real Matrix</h2>
+
+<h3>Description</h3>
+
+<p>This function call 'dgees' in Fortran to decompose a 'real' matrix A.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">  qz.dgees(A, vs = TRUE, LWORK = NULL)
+
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>A</code></td>
+<td>
+<p>a 'real' matrix, dim = c(N, N).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vs</code></td>
+<td>
+<p>if compute 'real' Schur vectors. (Q)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>LWORK</code></td>
+<td>
+<p>optional, dimension of array WORK for workspace. (&gt;= 3N)</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>See 'dgees.f' for all details.
+</p>
+<p>DGEES computes for an N-by-N real non-symmetric matrix A, the
+eigenvalues, the real Schur form T, and, optionally, the matrix of
+Schur vectors Q.  This gives the Schur factorization A = Q*T*(Q**T).
+</p>
+<p>Optionally, it also orders the eigenvalues on the diagonal of the
+real Schur form so that selected eigenvalues are at the top left.
+The leading columns of Q then form an orthonormal basis for the
+invariant subspace corresponding to the selected eigenvalues.
+</p>
+<p>A matrix is in real Schur form if it is upper quasi-triangular with
+1-by-1 and 2-by-2 blocks. 2-by-2 blocks will be standardized in the
+form
+</p>
+<p>[  a  b  ]
+[  c  a  ]
+</p>
+<p>where b*c &lt; 0. The eigenvalues of such a block are a +- sqrt(bc).
+</p>
+
+
+<h3>Value</h3>
+
+<p>Return a list contains next:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>'T'</code></td>
+<td>
+<p>A's generalized Schur form.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>'WR'</code></td>
+<td>
+<p>original returns from 'dgees.f'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>'WI'</code></td>
+<td>
+<p>original returns from 'dgees.f'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>'VS'</code></td>
+<td>
+<p>original returns from 'dgees.f'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>'WORK'</code></td>
+<td>
+<p>optimal LWORK (for dgees.f only)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>'INFO'</code></td>
+<td>
+<p>= 0: successful. &lt; 0: if INFO = -i, the i-th argument had
+an illegal value. &lt;= N: QZ iteration failed.
+=N+1: reordering problem.
+=N+2: reordering failed.</p>
+</td>
+</tr>
+</table>
+<p>Extra returns in the list:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>'W'</code></td>
+<td>
+<p>WR + WI * i.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>'Q'</code></td>
+<td>
+<p>the Schur vectors.</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Wei-Chen Chen <a href="mailto:wccsnow@gmail.com">wccsnow@gmail.com</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Anderson, E., et al. (1999) <em>LAPACK User's Guide,</em>
+3rd edition, SIAM, Philadelphia.
+</p>
+<p><a href="https://www.netlib.org/lapack/double/dgees.f">https://www.netlib.org/lapack/double/dgees.f</a>
+</p>
+<p><a href="https://en.wikipedia.org/wiki/Schur_decomposition">https://en.wikipedia.org/wiki/Schur_decomposition</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>qz.dgeev</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+library(QZ, quiet = TRUE)
+
+### https://www.nag.com/lapack-ex/node89.html
+A &lt;- exA2$A
+ret &lt;- qz.dgees(A)
+
+# Verify 1
+A.new &lt;- ret$Q %*% ret$T %*% solve(ret$Q)
+round(A - A.new)
+
+# verify 2
+round(ret$Q %*% solve(ret$Q))
+
+</code></pre>
+
+
+</div>

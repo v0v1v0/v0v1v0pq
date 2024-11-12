@@ -1,0 +1,169 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>plot_pxg</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Plot phenotype vs genotype</h2>
+
+<h3>Description</h3>
+
+<p>Plot phenotype vs genotype for a single putative QTL and a single phenotype.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">plot_pxg(
+  geno,
+  pheno,
+  sort = TRUE,
+  SEmult = NULL,
+  pooledSD = TRUE,
+  swap_axes = FALSE,
+  jitter = 0.2,
+  force_labels = TRUE,
+  alternate_labels = FALSE,
+  omit_points = FALSE,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>geno</code></td>
+<td>
+<p>Vector of genotypes, for example as produced by
+<code>maxmarg()</code> with specific <code>chr</code> and <code>pos</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pheno</code></td>
+<td>
+<p>Vector of phenotypes.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sort</code></td>
+<td>
+<p>If TRUE, sort genotypes from largest to smallest.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>SEmult</code></td>
+<td>
+<p>If specified, interval estimates of the within-group
+averages will be displayed, as <code style="white-space: pre;">⁠mean +/- SE * SEmult⁠</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pooledSD</code></td>
+<td>
+<p>If TRUE and <code>SEmult</code> is specified, calculated
+a pooled within-group SD. Otherwise, get separate estimates of
+the within-group SD for each group.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>swap_axes</code></td>
+<td>
+<p>If TRUE, swap the axes, so that the genotypes are
+on the y-axis and the phenotype is on the x-axis.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>jitter</code></td>
+<td>
+<p>Amount to jitter the points horizontally, if a vector
+of length &gt; 0, it is taken to be the actual jitter amounts
+(with values between -0.5 and 0.5).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>force_labels</code></td>
+<td>
+<p>If TRUE, force all genotype labels to be shown.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>alternate_labels</code></td>
+<td>
+<p>If TRUE, place genotype labels in two rows</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>omit_points</code></td>
+<td>
+<p>If TRUE, omit the points, just plotting the averages (and, potentially, the +/- SE intervals).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Additional graphics parameters, passed to <code>plot()</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>(Invisibly) A matrix with rows being the genotype groups
+and columns for the means and (if <code>SEmult</code> is specified) the SEs.
+</p>
+
+
+<h3>Hidden graphics parameters</h3>
+
+<p>A number of graphics parameters can be passed via <code>...</code>. For
+example, <code>bgcolor</code> to control the background color, and
+<code>seg_width</code>, <code>seg_lwd</code>, and <code>seg_col</code> to control the lines at the
+confidence intervals. Further, <code>hlines</code>, <code>hlines_col</code>,
+<code>hlines_lwd</code>, and <code>hlines_lty</code> to control the horizontal grid
+lines. (Use <code>hlines=NA</code> to avoid plotting horizontal grid lines.)
+Similarly <code>vlines</code>, <code>vlines_col</code>, <code>vlines_lwd</code>, and <code>vlines_lty</code>
+for vertical grid lines. These are not included as formal
+parameters in order to avoid cluttering the function definition.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>plot_coef()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># read data
+iron &lt;- read_cross2(system.file("extdata", "iron.zip", package="qtl2"))
+
+
+# insert pseudomarkers into map
+map &lt;- insert_pseudomarkers(iron$gmap, step=1)
+
+# calculate genotype probabilities
+probs &lt;- calc_genoprob(iron, map, error_prob=0.002)
+
+# inferred genotype at a 28.6 cM on chr 16
+geno &lt;- maxmarg(probs, map, chr=16, pos=28.6, return_char=TRUE)
+
+# plot phenotype vs genotype
+plot_pxg(geno, log10(iron$pheno[,1]), ylab=expression(log[10](Liver)))
+
+# include +/- 2 SE intervals
+plot_pxg(geno, log10(iron$pheno[,1]), ylab=expression(log[10](Liver)),
+         SEmult=2)
+
+# plot just the means
+plot_pxg(geno, log10(iron$pheno[,1]), ylab=expression(log[10](Liver)),
+         omit_points=TRUE)
+
+# plot just the means +/- 2 SEs
+plot_pxg(geno, log10(iron$pheno[,1]), ylab=expression(log[10](Liver)),
+         omit_points=TRUE, SEmult=2)
+</code></pre>
+
+
+</div>

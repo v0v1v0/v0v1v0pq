@@ -1,0 +1,69 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>rbind.scan1</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Join genome scan results for different chromosomes.</h2>
+
+<h3>Description</h3>
+
+<p>Join multiple <code>scan1()</code> results for different
+chromosomes; must have the same set of lod score column.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'scan1'
+rbind(...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Genome scan objects of class <code>"scan1"</code>, as produced by <code>scan1()</code>.
+Must have the same lod score columns.</p>
+</td>
+</tr></table>
+<h3>Details</h3>
+
+<p>If components <code>addcovar</code>, <code>Xcovar</code>,
+<code>intcovar</code>, <code>weights</code>, <code>sample_size</code> do not match
+between objects, we omit this information.
+</p>
+<p>If <code>hsq</code> present, we simply <code>rbind()</code> the contents.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class '"scan1", like the inputs, but with
+the results for different sets of chromosomes combined.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>cbind.scan1()</code>, <code>scan1()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">grav2 &lt;- read_cross2(system.file("extdata", "grav2.zip", package="qtl2"))
+map &lt;- insert_pseudomarkers(grav2$gmap, step=1)
+probs &lt;- calc_genoprob(grav2, map, error_prob=0.002)
+phe &lt;- grav2$pheno[,1,drop=FALSE]
+
+out1 &lt;- scan1(probs[,1], phe) # chr 1
+out2 &lt;- scan1(probs[,5], phe) # chr 5
+out &lt;- rbind(out1, out2)
+
+</code></pre>
+
+
+</div>

@@ -1,0 +1,183 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>d1_i</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Coefficients in polynomial expansion of generating function—single matrix</h2>
+
+<h3>Description</h3>
+
+<p>These are internal functions to calculate the coefficients
+in polynomial expansion of generating functions for quadratic forms
+in multivariate normal variables.
+</p>
+<p><code>d1_i()</code> is for standard multivariate normal variables,
+<code class="reqn">\mathbf{x} \sim N_n(\mathbf{0}_n, \mathbf{I}_n)</code>.
+</p>
+<p><code>dtil1_i_v()</code> is for noncentral multivariate normal variables,
+<code class="reqn">\mathbf{x} \sim N_n(\bm{\mu}, \mathbf{I}_n)</code>.
+</p>
+<p><code>dtil1_i_m()</code> is a wrapper for <code>dtil1_i_v()</code>
+and takes the argument matrix rather than its eigenvalues.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">d1_i(L, m = 100L, thr_margin = 100)
+
+dtil1_i_v(L, mu = rep.int(0, n), m = 100L, thr_margin = 100)
+
+dtil1_i_m(A, mu = rep.int(0, n), m = 100L, thr_margin = 100)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>L</code></td>
+<td>
+<p>Vector of eigenvalues of the argument matrix</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>m</code></td>
+<td>
+<p>Integer-alike to specify the order of polynomials</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>thr_margin</code></td>
+<td>
+<p>Optional argument to adjust the threshold for scaling
+(see “Details”)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mu</code></td>
+<td>
+<p>Mean vector <code class="reqn">\bm{\mu}</code> for <code class="reqn">\mathbf{x}</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>A</code></td>
+<td>
+<p>Argument matrix.  Assumed to be symmetric in these functions.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p><code>d1_i()</code> calculates <code class="reqn">d_k(\mathbf{A})</code>, and
+<code>dtil1_i_v()</code> and <code>dtil1_i_m()</code> calculate
+<code class="reqn">\tilde{d}_k(\mathbf{A})</code> in
+Hillier et al. (2009, 2014) and Bao and Kan (2013).  The former is
+related to the top-order zonal polynomial
+<code class="reqn">C_{[k]}(\mathbf{A})</code> in the following way:
+<code class="reqn"> d_k(\mathbf{A}) = \frac{1}{k!} \left( \frac{1}{2} \right)_k
+     C_{[k]}(\mathbf{A}) </code>,
+where <code class="reqn">(x)_k = x (x + 1) \dots (x + k - 1)</code>.
+</p>
+<p>These functions calculate the coefficients based on the super-short
+recursion algorithm described in Hillier et al. (2014: 3.2, eqs. 28–30).
+</p>
+
+
+<h4>Scaling</h4>
+
+<p>The coefficients described herein (and in <code>d2_ij</code> and
+<code>d3_ijk</code>) can become very large for higher-order terms,
+so there is a practical risk of numerical overflow when applied to
+large matrices or matrices with many large eigenvalues
+(note that the latter typically arises from those with many small
+eigenvalues for the front-end <code>qfrm()</code> functions).  To avoid
+numerical overflow, these functions automatically scale
+coefficients (and temporary objects used to calculate them) by a large number
+(<code>1e10</code> at present) when any value in the temporary objects exceeds
+a threshold, <code>.Machine$double.xmax / thr_margin / n</code>, where <code>n</code>
+is the number of variables.  This default value empirically seems to work well
+in most conditions, but use a large <code>thr_margin</code> (e.g., <code>1e5</code>)
+if you encounter numerical overflow.  (The C++ functions use
+an equivalent expression,
+<code>std::numeric_limits&lt;Scalar&gt;::max() / thr_margin / Scalar(n)</code>, with
+<code>Scalar</code> being <code>double</code> or <code>long double</code>.)
+</p>
+<p>In these <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> functions, the scaling happens order-wise;
+i.e., it influences all the coefficients of the same order in
+multidimensional coefficients (in <code>d2_ij</code> and
+<code>d3_ijk</code>) and the coefficients of the subsequent orders.
+</p>
+<p>These scaling factors are recorded in the attribute <code>"logscale"</code> of the
+return value, which is a vector/matrix/array whose size is identical to the
+return value, so that <code>value / exp(attr(value, "logscale"))</code> equals
+the original quantities to be obtained (if there were no overflow).
+</p>
+<p>The <code>qfrm</code> and <code>qfmrm</code> functions handle return values of these
+functions by first multiplying them with hypergeometric coefficients
+(which are typically <code class="reqn">\ll 1</code>) and then scaling the products back
+to the original scale using the recorded scaling factors.  (To be precise,
+this typically happens within <code>hgs</code> functions.)  The
+C++ functions handle the problem similarly (but by using
+separate objects rather than attributes).
+</p>
+<p>However, this procedure does not always mitigate the problem in
+multiple series; when there are very large and very small
+coefficients in the same order, smaller ones can diminish/underflow to
+the numerical <code>0</code> after repeated scaling.  (The <code>qfrm</code> and
+<code>qfmrm</code> functions try to detect and warn against
+this by examining whether any of the highest-order terms is <code>0</code>.)
+The present version of this package has implemented two methods to mitigate
+this problem, but only through C++ functions.  One is to use the
+<code>long double</code> variable type, and the other is to use coefficient-wise
+scaling (see <code>qfrm</code> and <code>qfmrm</code>).
+</p>
+
+
+
+<h3>Value</h3>
+
+<p>Vector of length <code>m + 1</code>, corresponding to
+the 0th, 1st, ..., and mth order terms.  Hence, the <code>[m + 1]</code>-th
+element should be extracted when the coefficient for the <code class="reqn">m</code>th order
+term is required.
+</p>
+<p>Has the attribute <code>"logscale"</code> as described in “Scaling” above.
+</p>
+
+
+<h3>References</h3>
+
+<p>Bao, Y. and Kan, R. (2013) On the moments of ratios of quadratic forms in
+normal random variables. <em>Journal of Multivariate Analysis</em>, <strong>117</strong>,
+229–245.
+<a href="https://doi.org/10.1016/j.jmva.2013.03.002">doi:10.1016/j.jmva.2013.03.002</a>.
+</p>
+<p>Hillier, G., Kan, R. and Wang, X. (2009) Computationally efficient recursions
+for top-order invariant polynomials with applications.
+<em>Econometric Theory</em>, <strong>25</strong>, 211–242.
+<a href="https://doi.org/10.1017/S0266466608090075">doi:10.1017/S0266466608090075</a>.
+</p>
+<p>Hillier, G., Kan, R. and Wang, X. (2014) Generating functions and
+short recursions, with applications to the moments of quadratic forms
+in noncentral normal vectors. <em>Econometric Theory</em>, <strong>30</strong>, 436–473.
+<a href="https://doi.org/10.1017/S0266466613000364">doi:10.1017/S0266466613000364</a>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>qfpm</code>, <code>qfrm</code>, and <code>qfmrm</code> are
+major front-end functions that utilize these functions
+</p>
+<p><code>dtil2_pq</code> for <code class="reqn">\tilde{d}</code>
+used for moments of a product of quadratic forms
+</p>
+<p><code>d2_ij</code> and <code>d3_ijk</code> for <code class="reqn">d</code>, <code class="reqn">h</code>,
+<code class="reqn">\tilde{h}</code>, and <code class="reqn">\hat{h}</code> used for moments of ratios
+of quadratic forms
+</p>
+
+
+</div>

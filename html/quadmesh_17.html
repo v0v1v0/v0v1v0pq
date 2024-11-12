@@ -1,0 +1,57 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qm_as_raster</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Quadmesh to raster</h2>
+
+<h3>Description</h3>
+
+<p>Approximate re-creation of a raster from a quadmesh.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qm_as_raster(x, index = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>'mesh3d' object</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>index</code></td>
+<td>
+<p>optional index to specify which z coordinate to use as raster values</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The raster is populated with the mean of the values at each corner, which is
+closest to the interpretation use to create mesh3d from rasters. This can be over ridden
+by setting 'index' to 1, 2, 3, or 4.
+</p>
+
+
+<h3>Value</h3>
+
+<p>RasterLayer
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">qm_as_raster(quadmesh(etopo))
+</code></pre>
+
+
+</div>

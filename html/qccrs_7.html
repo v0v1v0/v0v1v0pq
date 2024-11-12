@@ -1,0 +1,114 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>xrs</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Xbar Control Charts Under Repetitive Sampling</h2>
+
+<h3>Description</h3>
+
+<p>Calculates the Average Sample Number and Average Run Length as given in Aslam et al. (2014)
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">xrs(.c, .n, .k1, .k2)
+
+## Default S3 method:
+xrs(.c, .n, .k1, .k2)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>.c</code></td>
+<td>
+<p>Size of the Shift</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>.n</code></td>
+<td>
+<p>Sample Size</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>.k1</code></td>
+<td>
+<p>Positive Integer</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>.k2</code></td>
+<td>
+<p>Positive Integer</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Average Sample Number (ASN) and Average Run Length (ARL1) for xbar control charts under repetitive sampling
+</p>
+
+
+<h3>Author(s)</h3>
+
+
+<ol>
+<li>
+<p> Muhammad Yaseen (<a href="mailto:myaseen208@gmail.com">myaseen208@gmail.com</a>)
+</p>
+</li>
+<li>
+<p> Muhammad Aslam (<a href="mailto:aslam_ravian@hotmail.com">aslam_ravian@hotmail.com</a>)
+</p>
+</li>
+<li>
+<p> Sami Ullah (<a href="mailto:samiullahuos@gmail.com">samiullahuos@gmail.com</a>)
+</p>
+</li>
+<li>
+<p> Muhammad Azam   (<a href="mailto:mazam@uvas.edu.pk">mazam@uvas.edu.pk</a>)
+</p>
+</li>
+<li>
+<p> Chi-Hyuck Jun   (<a href="mailto:chjun@postech.ac.kr">chjun@postech.ac.kr</a>)
+</p>
+</li>
+<li>
+<p> Muhammad Kashif (<a href="mailto:mkashif@uaf.edu.pk">mkashif@uaf.edu.pk</a>)
+</p>
+</li>
+</ol>
+<h3>References</h3>
+
+<p>Aslam, M., Azam, M. and Jun, C. (2014).
+New Attributes and Variables Control Charts under Repetitive Sampling.
+<em>Industrial Engineering &amp; Management Systems</em>.
+<strong>1</strong>(13):101-106.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+library(magrittr)
+library(purrr)
+
+c(0.0, 0.1, 0.20, 0.3, 0.4, 0.5, 1.0, 1.5, 2, 3) %&gt;%
+purrr::map(
+function(x) 
+    xrs(
+        .c     = x
+      , .n     = 10
+      , .k1    = 2.9301
+      , .k2    = 0.9825))
+
+</code></pre>
+
+
+</div>

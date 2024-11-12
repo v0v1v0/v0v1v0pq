@@ -1,0 +1,58 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>Bisquare</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Tukey's Bisquare Loss
+</h2>
+
+<h3>Description</h3>
+
+<p><code>"Bisquare"</code> evaluates Tukey's Bisquare function defined as
+</p>
+<p style="text-align: center;"><code class="reqn"> f(r) = \left\{
+\begin{array}{ll}
+1-(1-(\frac{r}{c})^2)^3) &amp; |r| \le c \\
+1  &amp; |r| &gt; c
+\end{array}
+\right. </code>
+</p>
+
+
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">Bisquare(r, c = 4.685)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>r </code></td>
+<td>
+<p>a real number or vector.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>c </code></td>
+<td>
+<p>a positive number. If the value is negative, it's absolute value will be used.</p>
+</td>
+</tr>
+</table>
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+set.seed(1)
+x = rnorm(200, mean = 3)
+y = Bisquare(x)
+plot(x, y)
+
+</code></pre>
+
+
+</div>

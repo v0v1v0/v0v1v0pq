@@ -1,0 +1,125 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>ll</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>List Object Aliases</h2>
+
+<h3>Description</h3>
+
+<p>Aliases for <code>ls</code> providing additional details.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">ll(
+  pos = 1,
+  pattern,
+  order_by = "size",
+  decreasing = order_by %in% c("size", "rows", "columns")
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>pos</code></td>
+<td>
+<p>specifies the environment as a position in the search list</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pattern</code></td>
+<td>
+<p>an optional regular expression.  Only names matching
+<code>pattern</code> are returned.  <code>glob2rx</code> can be used to
+convert wildcard patterns to regular expressions.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>order_by</code></td>
+<td>
+<p>a character, order the results by “object”,
+“size” (default), “class”, “rows”, or “columns”.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>decreasing</code></td>
+<td>
+<p>logical, defaults to <code>TRUE</code>, decreasing order? passed
+to <code>order</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>a data.frame with columns
+</p>
+
+<ul>
+<li>
+<p> object: name of the object
+</p>
+</li>
+<li>
+<p> class: class, or mode if class is not present, of the object
+</p>
+</li>
+<li>
+<p> size: approximate size, in bytes, of the object in memory
+</p>
+</li>
+<li>
+<p> rows: number of rows for data.frames or matrices, or the number of
+elements for a list like structure
+</p>
+</li>
+<li>
+<p> columns: number of columns for data.frames or matrices
+</p>
+</li>
+</ul>
+<h3>References</h3>
+
+<p>The basis for this work came from a Stack Overflow posting:
+<a href="https://stackoverflow.com/q/1358003/1104685">https://stackoverflow.com/q/1358003/1104685</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>ls</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># View your current workspace
+## Not run: 
+ls()
+ll()
+
+## End(Not run)
+
+# View another environment
+e &lt;- new.env()
+ll(e)
+
+e$fit &lt;- lm(mpg ~ wt, mtcars)
+e$fit2 &lt;- lm(mpg ~ wt + am + vs, data = mtcars)
+e$x &lt;- rnorm(1e5)
+e$y &lt;- runif(1e4)
+e$z &lt;- with(e, x * y)
+e$w &lt;- sum(e$z)
+
+ls(e)
+ll(e)
+
+</code></pre>
+
+
+</div>

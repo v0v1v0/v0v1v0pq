@@ -1,0 +1,68 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>table_group_fluorescence_linear</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Generate a grouped results table for linear fits with average and standard deviations</h2>
+
+<h3>Description</h3>
+
+<p>Generate a grouped results table for linear fits with average and standard deviations
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">table_group_fluorescence_linear(flTable, html = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>flTable</code></td>
+<td>
+<p>An object of class <code>flTable</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>html</code></td>
+<td>
+<p>(Logical) Should column headers contain html formatting?</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A data frame with grouped linear fit results. Empty cells indicate that no reliable fit could be determined.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+# load example dataset
+input &lt;- read_data(data.growth = system.file("lac_promoters_growth.txt", package = "QurvE"),
+                   data.fl = system.file("lac_promoters_fluorescence.txt", package = "QurvE"),
+                   csvsep = "\t",
+                   csvsep.fl = "\t")
+
+# Run workflow
+res &lt;- fl.workflow(grodata = input, ec50 = FALSE, fit.opt = "l",
+                   x_type = "time", norm_fl = TRUE,
+                   dr.parameter = "max_slope.spline",
+                   suppress.messages = TRUE,
+                   parallelize = FALSE)
+
+table_group_fluorescence_linear(res$flFit$flTable)
+
+# with HTML formatting
+DT::datatable(table_group_fluorescence_linear(res$flFit$flTable, html = TRUE),
+              escape = FALSE) # Do not escape HTML entities
+
+</code></pre>
+
+
+</div>

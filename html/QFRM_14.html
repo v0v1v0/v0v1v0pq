@@ -1,0 +1,103 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>BS_Simple</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Black-Scholes formula</h2>
+
+<h3>Description</h3>
+
+<p>Black-Scholes (aka Black-Scholes-Merton, BS, BSM) formula for simple parameters
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">BS_Simple(S0 = 42, K = 40, r = 0.1, q = 0, ttm = 0.5, vol = 0.2)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>S0</code></td>
+<td>
+<p>The spot price of the underlying security</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>K</code></td>
+<td>
+<p>The srike price of the underlying (same currency as S0)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>r</code></td>
+<td>
+<p>The annualized risk free interest rate, as annual percent / 100
+(i.e. fractional form. 0.1 is 10 percent per annum)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>q</code></td>
+<td>
+<p>The annualized dividiend yield, same units as <code>r</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ttm,</code></td>
+<td>
+<p>The time to maturity, fraction of a year (annualized)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vol</code></td>
+<td>
+<p>The volatility, in units of standard deviation.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Uses BS formula to calculate call/put option values and elements of BS model
+</p>
+
+
+<h3>Value</h3>
+
+<p>a list of BS formula elements and BS price,
+such as <code>d1</code> for <code class="reqn">d_1</code>, <code>d2</code> for <code class="reqn">d_2</code>, <code>Nd1</code> for <code class="reqn">N(d_1)</code>,
+<code>Nd2</code> for <code class="reqn">N(d_2)</code>, N<code>CallPxBS</code> for BSM call price, <code>PutPxBS</code> for BSM put price
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Robert Abramov, Department of Statistics, Rice University, Spring 2015
+</p>
+
+
+<h3>References</h3>
+
+<p>Hull, J.C., <em>Options, Futures and Other Derivatives</em>, 9ed, 2014. Prentice Hall.
+ISBN 978-0-13-345631-8, <a href="http://www-2.rotman.utoronto.ca/~hull/ofod">http://www-2.rotman.utoronto.ca/~hull/ofod</a>. <a href="http://amzn.com/0133456315">http://amzn.com/0133456315</a>
+<a href="http://www.theresearchkitchen.com/archives/106">http://www.theresearchkitchen.com/archives/106</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">#See Hull p.339, Ex.15.6.
+(o &lt;- BS_Simple(S0=42,K=40,r=.1,q=0,ttm=.5,vol=.2))$Px$Call #returns 4.759422
+o$Px$Put # returns 0.8085994 as the price of the put
+
+BS_Simple(100,90,0.05,0,2,0.30)
+BS_Simple(50,60,0.1,.2,3,0.25)
+BS_Simple(90,90,0.15,0,.5,0.20)
+BS_Simple(15,15,.01,0.0,0.5,.5)
+</code></pre>
+
+
+</div>

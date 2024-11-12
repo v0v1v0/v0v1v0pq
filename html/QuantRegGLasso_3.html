@@ -1,0 +1,67 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>check_predict_parameters</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Internal Function: Validate Parameters for Prediction with a <code>qrglasso</code> Object</h2>
+
+<h3>Description</h3>
+
+<p>Internal function to validate parameters for predicting with a <code>qrglasso</code> class object.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">check_predict_parameters(
+  qrglasso_object,
+  metric_type,
+  top_k,
+  degree,
+  boundaries
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>qrglasso_object</code></td>
+<td>
+<p>A <code>qrglasso</code> class object.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>metric_type</code></td>
+<td>
+<p>Character. Metric type for gamma selection, e.g., <code>BIC</code>, <code>BIC-log</code>. Default is <code>BIC</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>top_k</code></td>
+<td>
+<p>Integer. Top K estimated functions.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>degree</code></td>
+<td>
+<p>Integer. Degree of the piecewise polynomial.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>boundaries</code></td>
+<td>
+<p>Array. Two boundary points.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p><code>NULL</code>.
+</p>
+
+
+</div>

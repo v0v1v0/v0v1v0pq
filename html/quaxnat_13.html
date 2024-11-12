@@ -1,0 +1,84 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>summary.quax</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Summarizing quantile regression fits of potential regeneration densities</h2>
+
+<h3>Description</h3>
+
+<p>This function is the <code>summary</code> method for class <code>quax</code> objects as returned
+by <code>quax</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'quax'
+summary(object, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>The function returned by <code>quax</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>not in use here</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The <code>value</code> component of the result can be used to compare the
+quality of the fit of different dispersal kernels for the same quantile
+to the same data.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list with the following components:
+</p>
+
+<dl>
+<dt><code>coefficients</code></dt>
+<dd>
+<p>The parameters of the estimated dispersal kernel.</p>
+</dd>
+<dt><code>value</code></dt>
+<dd>
+<p>The attained value of the objective function that is
+minimised in the quantile regression.</p>
+</dd>
+</dl>
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Prepare artificial data:
+set.seed(0)
+r &lt;- rgamma(200, shape=2, scale=150)
+simulated.data &lt;- data.frame(distance = r, density =
+  rpois(length(r), k_lognormal(r, par=c(6,0), N=1000000, d=2)))
+plot(density ~ distance, simulated.data)
+
+## Fit a log-normal and a power-law dispersal kernel to the data:
+f1 &lt;- quax(density ~ distance, simulated.data,
+  tau = 0.9, fun = k_lognormal)
+f2 &lt;- quax(density ~ distance, simulated.data,
+  tau = 0.9, fun = k_power)
+
+## Compare both fits:
+summary(f1)
+summary(f2)
+</code></pre>
+
+
+</div>

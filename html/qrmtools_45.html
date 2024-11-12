@@ -1,0 +1,108 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>matrix_density_plota</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Density Plot of the Values from a Lower Triangular Matrix</h2>
+
+<h3>Description</h3>
+
+<p>Density plot of all values in the lower triangular part of a matrix.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">matrix_density_plot(x, xlab = "Entries in the lower triangular matrix",
+                    main = "", text = NULL, side = 4, line = 1, adj = 0, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p><code>matrix</code>-like object.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xlab</code></td>
+<td>
+<p>x-axis label.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>main</code></td>
+<td>
+<p>title.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>text</code></td>
+<td>
+<p>see <code>mtext()</code>. The <code>text = ""</code>, it is omitted.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>side</code></td>
+<td>
+<p>see <code>mtext()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>line</code></td>
+<td>
+<p>see <code>mtext()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>adj</code></td>
+<td>
+<p>see <code>mtext()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>additional arguments passed to the underlying <code>plot()</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p><code>matrix_density_plot()</code> is typically used for symmetric matrices
+(like correlation matrices, matrices of pairwise Kendall's tau or tail
+dependence parameters) to check the distribution of their off-diagonal
+entries.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>invisible()</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Marius Hofert</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Generate a random correlation matrix
+d &lt;- 50
+L &lt;- diag(1:d)
+set.seed(271)
+L[lower.tri(L)] &lt;- runif(choose(d,2))
+Sigma &lt;- L 
+P &lt;- cor(Sigma)
+## Density of its lower triangular entries
+matrix_density_plot(P)
+</code></pre>
+
+
+</div>

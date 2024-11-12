@@ -1,0 +1,66 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>ndoc</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Count the number of documents or features</h2>
+
+<h3>Description</h3>
+
+<p>Get the number of documents or features in an object.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">ndoc(x)
+
+nfeat(x)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a <span class="pkg">quanteda</span> object: a corpus, dfm, tokens, or
+tokens_xptr object, or a readtext object from the <span class="pkg">readtext</span> package</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p><code>ndoc()</code> returns an integer count of the number of documents in an
+object whose texts are organized as "documents" (a corpus, dfm, or
+tokens/tokens_xptr object.
+</p>
+<p><code>nfeat()</code> returns an integer count of the number of features.  It is
+an alias for <code>ntype()</code> for a dfm. This function is only defined for dfm
+objects because only these have "features".
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>ntoken()</code>, <code>ntype()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># number of documents
+ndoc(data_corpus_inaugural)
+ndoc(corpus_subset(data_corpus_inaugural, Year &gt; 1980))
+ndoc(tokens(data_corpus_inaugural))
+ndoc(dfm(tokens(corpus_subset(data_corpus_inaugural, Year &gt; 1980))))
+
+# number of features
+toks1 &lt;- tokens(corpus_subset(data_corpus_inaugural, Year &gt; 1980), remove_punct = FALSE)
+toks2 &lt;- tokens(corpus_subset(data_corpus_inaugural, Year &gt; 1980), remove_punct = TRUE)
+nfeat(dfm(toks1))
+nfeat(dfm(toks2))
+</code></pre>
+
+
+</div>

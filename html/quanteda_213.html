@@ -1,0 +1,62 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>nsentence</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Count the number of sentences</h2>
+
+<h3>Description</h3>
+
+<p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated"><img src="../help/figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a>
+</p>
+<p>Return the count of sentences in a corpus or character object.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">nsentence(x)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a character or corpus whose sentences will be counted</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>count(s) of the total sentences per text
+</p>
+
+
+<h3>Note</h3>
+
+<p><code>nsentence()</code> is now deprecated for all usages except tokens objects that
+have already been tokenised with <code>tokens(x, what = "sentence")</code>.  Using it
+on character or corpus objects will now generate a warning.
+</p>
+<p><code>nsentence()</code> relies on the boundaries definitions in the <span class="pkg">stringi</span>
+package (see stri_opts_brkiter).  It does not
+count sentences correctly if the text has been transformed to lower case,
+and for this reason <code>nsentence()</code> will issue a warning if it detects all
+lower-cased text.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># simple example
+txt &lt;- c(text1 = "This is a sentence: second part of first sentence.",
+         text2 = "A word. Repeated repeated.",
+         text3 = "Mr. Jones has a PhD from the LSE.  Second sentence.")
+tokens(txt, what = "sentence") |&gt;
+    nsentence()
+</code></pre>
+
+
+</div>

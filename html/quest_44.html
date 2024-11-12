@@ -1,0 +1,113 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>decompose</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Decompose a Numeric Vector by Group</h2>
+
+<h3>Description</h3>
+
+<p><code>decompose</code> decomposes a numeric vector into within-group and
+between-group components via within-group centering and group-mean
+aggregation. There is an option to create a grand-mean centered version of
+the between-person component as well as lead/lag versions of the original
+vector and the within-group component.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">decompose(x, grp, grand = TRUE, n.shift = NULL, undefined = NA)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>numeric vector.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>grp</code></td>
+<td>
+<p>list of atomic vector(s) and/or factor(s) (e.g., data.frame),
+which each have same length as <code>x</code>. It can also be an atomic vector or
+factor, which will then be made the first element of a list internally.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>grand</code></td>
+<td>
+<p>logical vector of length 1 specifying whether a grand-mean
+centered version of the the between-group component should be computed.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n.shift</code></td>
+<td>
+<p>integer vector specifying the direction and magnitude of the
+shifts. For example a one-lead is +1 and a two-lag is -2. See <code>shift</code>
+details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>undefined</code></td>
+<td>
+<p>atomic vector with length 1 (probably makes sense to be the
+same typeof as <code>x</code>). Specifies what to insert for undefined values
+after the shifting takes place. See <code>shift</code> details.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>data.frame with nrow = <code>length(x)</code> and <code>row.names =
+  names(x)</code>. The first two columns correspond to the within-group component
+(i.e., "wth") and the between-group component (i.e., "btw"). If grand =
+TRUE, then the third column corresponds to the grand-mean centered
+between-group component (i.e., "btw_c"). If shift != NULL, then the last
+columns are the shifts indicated by n.shift, where the shifts of <code>x</code>
+are first (i.e., "tot") and then the shifts of the within-group component
+are second (i.e., "wth"). The naming of the shifted columns is based on the
+default behavior of <code>Shift_by</code>. See the details of <code>Shift_by</code>. If
+you don't like the default naming, then call <code>Decompose</code> instead and
+use the different suffix arguments.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>decomposes</code>
+<code>center_by</code>
+<code>agg</code>
+<code>shift_by</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+# single grouping variable
+chick_data &lt;- as.data.frame(ChickWeight) # because the "groupedData" class
+   # calls `[.groupedData`, which is different than `[.data.frame`
+decompose(x = ChickWeight[["weight"]], grp = ChickWeight[["Chick"]])
+decompose(x = ChickWeight[["weight"]], grp = ChickWeight[["Chick"]],
+   grand = FALSE) # no grand-mean centering
+decompose(x = setNames(obj = ChickWeight[["weight"]],
+   nm = paste0(row.names(ChickWeight),"_row")), grp = ChickWeight[["Chick"]]) # with names
+
+# multiple grouping variables
+tmp_nm &lt;- c("Type","Treatment") # b/c Roxygen2 doesn't like c() in a []
+decompose(x = as.data.frame(CO2)[["uptake"]], grp = as.data.frame(CO2)[tmp_nm])
+decompose(x = as.data.frame(CO2)[["uptake"]], grp = as.data.frame(CO2)[tmp_nm],
+   n.shift = 1)
+decompose(x = as.data.frame(CO2)[["uptake"]], grp = as.data.frame(CO2)[tmp_nm],
+   n.shift = c(+2, +1, -1, -2))
+</code></pre>
+
+
+</div>

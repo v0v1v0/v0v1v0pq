@@ -1,0 +1,76 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qgis_delete_old_cachefiles</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Delete old cache files</h2>
+
+<h3>Description</h3>
+
+<p>Delete old cache files
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qgis_delete_old_cachefiles(
+  type = "all",
+  age_days = NULL,
+  quiet = FALSE,
+  startup = FALSE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>type</code></td>
+<td>
+<p>A string; either <code>"all"</code>, <code>"package"</code> or <code>"help"</code>.
+This selects the type of cache files to delete.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>age_days</code></td>
+<td>
+<p>A number that expresses a cache file's age that must
+be exceeded for it to be deleted, with age defined as days elapsed since the
+file's last modification date.
+The default value of 90 days can also be changed with the option
+<code>qgisprocess.cachefiles_days_keep</code> or the  environment variable
+<code>R_QGISPROCESS_CACHEFILES_DAYS_KEEP</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>quiet</code></td>
+<td>
+<p>Use <code>FALSE</code> to display more information,
+possibly useful for debugging.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>startup</code></td>
+<td>
+<p>Logical.
+Is this command being run while loading the package?</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Note that a currently used package cache file will never be deleted.
+</p>
+<p>This function is called when loading the package.
+</p>
+
+
+<h3>Note</h3>
+
+<p>This is an internal function.
+</p>
+
+
+</div>

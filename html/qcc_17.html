@@ -1,0 +1,120 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>stats.g</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Statistics used in computing and drawing a Shewhart g chart</h2>
+
+<h3>Description</h3>
+
+<p>These functions are used to compute statistics required by the g chart
+(geometric distribution) for use with the qcc package.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">stats.g(data, sizes)
+sd.g(data, sizes, ...)
+limits.g(center, std.dev, sizes, conf)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p> the observed data values </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>center</code></td>
+<td>
+<p> sample center statistic </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sizes</code></td>
+<td>
+<p> sample sizes (not used) </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>std.dev</code></td>
+<td>
+<p> standard deviation of geometric distribution </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>conf</code></td>
+<td>
+<p> a numeric value used to compute control limits,
+specifying the number of standard deviations (if 'conf' &gt; 1) or the
+confidence level (if 0 &lt; 'conf' &lt; 1).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>further arguments are ignored.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The g chart plots the number of non-events between events.  np charts
+do not work well when the probability of an event is rare (see example
+below).  Instead of plotting the number of events, the g chart plots
+the number of non-events between events.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The function <code>stats.g()</code> returns a list with components <code>statistics</code> and <code>center</code>.
+</p>
+<p>The function <code>sd.g()</code> returns <code>std.dev</code> the standard deviation
+<code class="reqn">sqrt(1-p)/p</code>.
+</p>
+<p>The function <code>limits.g()</code> returns a matrix with lower and upper control limits.
+</p>
+
+
+<h3>Note</h3>
+
+<p> The geometric distribution is quite skewed so it is best to set
+conf at the required confidence interval (0 &lt; conf &lt; 1) rather than as
+a multiplier of sigma.</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Greg Snow <a href="mailto:greg.snow@ihc.com">greg.snow@ihc.com</a> </p>
+
+
+<h3>References</h3>
+
+<p>Kaminsky, FC et. al. (1992) <em>Statistical Control Charts Based on a Geometric Distribution</em>, Journal of Quality Technology, 24, pp 63–69. <br>
+Yang, Z et. al. (2002) On the Performance of Geometric Charts with
+Estimated Control Limits, <em>Journal of Quality Technology</em>, 34, pp 448–458.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>qcc</code></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">success &lt;- rbinom(1000, 1, 0.01)
+num.noevent &lt;- diff(which(c(1,success)==1))-1
+qcc(success, type = "np", sizes = 1)
+qcc(num.noevent, type = "g")
+</code></pre>
+
+
+</div>

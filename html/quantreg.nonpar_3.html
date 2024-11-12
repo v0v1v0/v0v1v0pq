@@ -1,0 +1,98 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>dpoly</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Compute Derivative of Orthogonal Polynomials
+</h2>
+
+<h3>Description</h3>
+
+<p>Returns or evaluates the first derivatives of orthogonal polynomials of degree 1 to <code>degree</code> over the specified set of points <code>x</code>: the polynomials are all orthogonal to the constant polynomial of degree 0. Alternatively, evaluates the first derivatives of raw polynomials.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">dpoly(x, ..., degree = 1, coefs = NULL, raw = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+
+<p>a numeric vector at which to evaluate the polynomial. <code>x</code> can also be a matrix. Missing values are not allowed in <code>x</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+
+<p>further vectors.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>degree</code></td>
+<td>
+
+<p>the degree of the polynomial. Must be less than the number of unique points if <code>raw = TRUE</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>coefs</code></td>
+<td>
+
+<p>for prediction, coefficients from a previous fit.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>raw</code></td>
+<td>
+
+<p>if true, use raw and not orthogonal polynomials.
+</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A matrix with rows corresponding to points in <code>x</code> and columns corresponding to the degree, with attributes <code>"degree"</code> specifying the degrees of the columns (prior to taking the derivative) and (unless <code>raw = TRUE</code>) <code>"coefs"</code> which contains the centering and normalization constants used in constructing the orthogonal polynomials. The matrix has been given class <code>c("poly","matrix")</code>.
+</p>
+
+
+<h3>Note</h3>
+
+<p>Both the code and the description of <code>dpoly</code> borrow heavily from the <code>poly</code> command in the <code>stats</code> package.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Michael Lipsitz, Alexandre Belloni, Victor Chernozhukov, Ivan Fernandez-Val
+</p>
+
+
+<h3>References</h3>
+
+<p>Chambers, J.M. and Hastie, T.J. (1992) Statistical Models in S. Wadsworth &amp; Brooks/Cole.
+Kennedy, W.J. Jr and Gentle, J.E. (1980) Statistical Computing. Marcel Dekker.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>poly</code>, <code>ddpoly</code>
+</p>
+
+
+</div>

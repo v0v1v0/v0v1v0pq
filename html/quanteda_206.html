@@ -1,0 +1,74 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>msg</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Conditionally format messages</h2>
+
+<h3>Description</h3>
+
+<p>Conditionally format messages
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">msg(x, values = NULL, indices = NULL, pretty = TRUE, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>message template to be passed to <code>stringi::stri_sprintf()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>values</code></td>
+<td>
+<p>list of values to be used in the template. Coerced to list if vector is given.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>indices</code></td>
+<td>
+<p>list of integer to specify which value to be used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pretty</code></td>
+<td>
+<p>if <code>TRUE</code>, message is passed to <code>base::prettyNum()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>additional arguments passed to <code>base::prettyNum()</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+quanteda:::msg("you cannot delete %s", 
+               c("a document", "documents"), indices = TRUE)
+quanteda:::msg("tokens has %s", 
+               c("sentences", "paragraphs", "documents"), indices = 2)
+
+dfmat &lt;- data_dfm_lbgexample
+quanteda:::msg("dfm has %d %s and %d %s", 
+     list(ndoc(dfmat), c("document", "documents"),
+          nfeat(dfmat), c("feature", "features")), 
+     list(1, ndoc(dfmat) &gt; 1, 
+          1, nfeat(dfmat) &gt; 1))
+
+## End(Not run)      
+</code></pre>
+
+
+</div>

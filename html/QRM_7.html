@@ -1,0 +1,81 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>BiDensPlot</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Bivariate Density Plot 
+</h2>
+
+<h3>Description</h3>
+
+<p>Generates eiether a perspective or a contour plot of a bivariate
+density.  
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">BiDensPlot(func, xpts = c(-2, 2), ypts = c(-2, 2), npts = 50,
+           type = c("persp", "contour"), ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>func</code></td>
+<td>
+<p><code>function</code>, the name of a bivariate density
+function.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xpts</code></td>
+<td>
+<p><code>vector</code>, interval of x.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ypts</code></td>
+<td>
+<p><code>vector</code>, interval of y.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>npts</code></td>
+<td>
+<p><code>integer</code>, number of subdivision points between x and
+y over the specified range xpts to ypts.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>type</code></td>
+<td>
+<p><code>character</code>, the plot type, either a perspective
+or a contour plot.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p><code>ellipsis</code>, arguments are passed to the call of
+<code>func</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Returns invisibly a list of <code>(x, y, z)</code> triplet.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">BiDensPlot(func = dmnorm, mu = c(0, 0), Sigma = equicorr(2, -0.7)) 
+</code></pre>
+
+
+</div>

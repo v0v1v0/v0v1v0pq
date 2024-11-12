@@ -1,0 +1,140 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qkMDS-class</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>qKernel Metric Multi-Dimensional Scaling</h2>
+
+<h3>Description</h3>
+
+<p>The qkernel Metric Multi-Dimensional Scaling class</p>
+
+
+<h3>Objects of class "qkMDS"</h3>
+
+<p>Objects can be created by calls of the form <code>new("qkMDS", ...)</code>.
+or by calling the <code>qkMDS</code> function.
+</p>
+
+
+<h3>Slots</h3>
+
+
+<dl>
+<dt>
+<code>prj</code>:</dt>
+<dd>
+<p>Object of class <code>"matrix"</code> containing the Nxdim matrix (N samples, dim features) with the reduced input data (list of         several matrices if more than one dimension specified)</p>
+</dd>
+<dt>
+<code>dims</code>:</dt>
+<dd>
+<p>Object of class <code>"numeric"</code> containing the
+dimension of the target space (default 2)</p>
+</dd>
+<dt>
+<code>connum</code>:</dt>
+<dd>
+<p>Object of class <code>"numeric"</code> containing the number of connected components in graph</p>
+</dd>
+<dt>
+<code>Residuals</code>:</dt>
+<dd>
+<p>Object of class <code>"vector"</code> containing the
+residual variances for all dimensions</p>
+</dd>
+<dt>
+<code>eVal</code>:</dt>
+<dd>
+<p>Object of class <code>"vector"</code> containing the corresponding eigenvalues</p>
+</dd>
+<dt>
+<code>eVec</code>:</dt>
+<dd>
+<p>Object of class <code>"vector"</code> containing the corresponding eigenvectors </p>
+</dd>
+</dl>
+<h3>Methods</h3>
+
+
+<dl>
+<dt>prj</dt>
+<dd>
+<p><code>signature(object = "qkMDS")</code>: returns the Nxdim
+matrix (N samples, dim features) </p>
+</dd>
+<dt>dims</dt>
+<dd>
+<p><code>signature(object = "qkMDS")</code>: returns the
+dimension </p>
+</dd>
+<dt>Residuals</dt>
+<dd>
+<p><code>signature(object = "qkMDS")</code>: returns the
+residual variances </p>
+</dd>
+<dt>eVal</dt>
+<dd>
+<p><code>signature(object = "qkMDS")</code>: returns the
+eigenvalues</p>
+</dd>
+<dt>eVec</dt>
+<dd>
+<p><code>signature(object = "qkMDS")</code>: returns the
+eigenvectors </p>
+</dd>
+<dt>xmatrix</dt>
+<dd>
+<p><code>signature(object = "qkMDS")</code>: returns the used
+data matrix </p>
+</dd>
+<dt>kcall</dt>
+<dd>
+<p><code>signature(object = "qkMDS")</code>: returns the
+performed call</p>
+</dd>
+<dt>cndkernf</dt>
+<dd>
+<p><code>signature(object = "qkMDS")</code>: returns the used
+kernel function</p>
+</dd>
+</dl>
+<h3>Author(s)</h3>
+
+<p>Yusen Zhang<br><a href="mailto:yusenzhang@126.com">yusenzhang@126.com</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code>qkernel-class</code>,
+<code>cndkernel-class</code>,
+<code>qkMDS</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">   # another example using the iris
+  data(iris)
+  testset &lt;- sample(1:150,20)
+  train &lt;- as.matrix(iris[-testset,-5])
+  labeltrain&lt;- as.integer(iris[-testset,5])
+  test &lt;- as.matrix(iris[testset,-5])
+  # ratibase(c=1,q=0.8)
+  d_low = qkMDS(train, kernel = "ratibase", qpar = list(c=1,q=0.8),
+                    dims=2, plotResiduals = TRUE)
+  #plot the data projection on the components
+  plot(prj(d_low),col=labeltrain, xlab="1st Principal Component",ylab="2nd  Principal Component")
+
+  prj(d_low)
+	dims(d_low)
+	Residuals(d_low)
+	eVal(d_low)
+	eVec(d_low)
+	kcall(d_low)
+	cndkernf(d_low)
+</code></pre>
+
+
+</div>

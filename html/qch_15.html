@@ -1,0 +1,50 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>GetHconfig</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Generate the <code class="reqn">H_0</code>/<code class="reqn">H_1</code> configurations.</h2>
+
+<h3>Description</h3>
+
+<p>Generate all possible combination of simple hypotheses <code class="reqn">H_0</code>/<code class="reqn">H_1</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">GetHconfig(Q, Signed = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>Q</code></td>
+<td>
+<p>The number of test series to be combined.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Signed</code></td>
+<td>
+<p>Should the sign of the effect be taken into account? (optional, default is <code>FALSE</code>).</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list '<code>Hconfig</code>' of all possible combination of <code class="reqn">H_0</code> and <code class="reqn">H_1</code> hypotheses among <code class="reqn">Q</code> hypotheses tested.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">GetHconfig(4)
+
+</code></pre>
+
+
+</div>

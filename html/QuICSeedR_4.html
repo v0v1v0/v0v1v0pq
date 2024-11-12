@@ -1,0 +1,89 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>CleanRaw</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Generate Clean Raw Data</h2>
+
+<h3>Description</h3>
+
+<p>This function takes metadata, raw data, and total cycle information to generate clean raw fluorescence data.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">CleanRaw(meta, raw, plate_time, cycle_total)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>meta</code></td>
+<td>
+<p>A data frame containing the metadata. Output from CleanMeta function.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>raw</code></td>
+<td>
+<p>Raw fluorescence readings from MARS software.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>plate_time</code></td>
+<td>
+<p>Output of <code>ConvertTime()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cycle_total</code></td>
+<td>
+<p>The total number of cycles (rows) to include in the output.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A data frame containing the cleaned raw fluorescence data.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># Define the path to the plate data file
+plate_path &lt;- system.file("extdata/20240716_p3", 
+                          file = '20240716_p3_plate.xlsx', 
+                          package = "QuICSeedR")
+  
+# Read the plate data
+plate &lt;- readxl::read_xlsx(plate_path)
+
+# Define the path to the raw data file
+raw_path &lt;- system.file("extdata/20240716_p3", 
+                        file = '20240716_p3_raw.xlsx', 
+                        package = "QuICSeedR")
+# Read the raw data
+raw &lt;- readxl::read_xlsx(raw_path)
+
+# Get replicate data
+replicate &lt;- GetReplicate(plate)
+
+# Ensure time displayed as decimal hours
+plate_time = ConvertTime(raw)
+
+#Get metadata and display the few rows 
+meta = CleanMeta(raw, plate, replicate)
+
+#Clean data 
+cleaned_data &lt;- CleanRaw(meta, raw, plate_time)
+
+cleaned_data[1:5, 1:5]
+
+</code></pre>
+
+
+</div>

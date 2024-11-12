@@ -1,0 +1,58 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>plot.qgraph</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Plot method for "qgraph"
+</h2>
+
+<h3>Description</h3>
+
+<p>Plots an object created by <code>qgraph</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'qgraph'
+plot(x, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+
+<p>A "qgraph" object
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+
+<p>Not used
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>If the result of <code>qgraph</code> is stored, such as <code>Graph &lt;- qgraph(...)</code>, the plot can be recreated in two ways. <code>qgraph(Graph, ...))</code> reruns <code>qgraph</code> with the same arguments used in the origina call except those restated in the dots. For example <code>qgraph(Graph, shape = "square")</code> will recreate the same plot but now use square nodes instead of circular. <code>plot(Graph)</code> will NOT rerun <code>qgraph</code> but simply plot the qgraph object. This means that now specific graph attributes can be changed before plotting.
+</p>
+<p>More specific, <code>qgraph(Graph)</code> will base the new plot on the <code>Arguments</code> element of the <code>qgraph</code> object and <code>plot(qgraph)</code> will base the new plot on the <code>graphAttributes</code> element of qgraph.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Sacha Epskamp (mail@sachaepskamp.com)
+</p>
+
+
+</div>

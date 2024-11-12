@@ -1,0 +1,110 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>quantities</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Handle Measurement Units and Uncertainty on a Numeric Vector</h2>
+
+<h3>Description</h3>
+
+<p>Set or retrieve measurement units and uncertainty to/from numeric vectors.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">quantities(x)
+
+quantities(x) &lt;- value
+
+set_quantities(x, unit, errors = 0, ...,
+  mode = units_options("set_units_mode"))
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a numeric object, or object of class <code>quantities</code>, <code>units</code>
+or <code>errors</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>value</code></td>
+<td>
+<p>a list of two components: an object of class <code>units</code> or
+<code>symbolic_units</code> (see <code>units</code>), and a numeric vector
+of length 1 or the same length as <code>x</code> (see <code>errors</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>unit</code></td>
+<td>
+<p>a <code>units</code> object, or something coercible to one with
+<code>as_units</code> (see <code>set_units</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>errors</code></td>
+<td>
+<p>a numeric vector of length 1 or the same length as <code>x</code>
+(see <code>set_errors</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>passed on to other methods.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mode</code></td>
+<td>
+<p>if <code>"symbols"</code> (the default), then unit is constructed from
+the expression supplied. Otherwise, if<code>mode = "standard"</code>,
+standard evaluation is used for the supplied value This argument can be set
+via a global option <code>units_options(set_units_mode = "standard")</code></p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p><code>quantities</code> returns a named list with the <code>units</code> and
+<code>errors</code> attributes.
+</p>
+<p><code>`quantities&lt;-`</code> sets the units and error values (and converts <code>x</code>
+into an object of class <code>quantities</code>). <code>set_quantities</code> is a
+pipe-friendly version of <code>`quantities&lt;-`</code> and returns an object of class
+<code>quantities</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>errors</code>, <code>units</code>, <code>groupGeneric.quantities</code>.
+<code>Extract.quantities</code>, <code>c.quantities</code>,
+<code>rep.quantities</code>, <code>cbind.quantities</code>.
+<code>as.data.frame.quantities</code>, <code>as.matrix.quantities</code>,
+<code>t.quantities</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">x = 1:3
+class(x)
+x
+quantities(x) &lt;- list("m/s", 0.1)
+class(x)
+x
+
+(x &lt;- set_quantities(x, m/s, seq(0.1, 0.3, 0.1)))
+
+</code></pre>
+
+
+</div>

@@ -1,0 +1,87 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>pred.ci</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Extract Cumulative Incidence Estimates at a Specified Time Point</h2>
+
+<h3>Description</h3>
+
+<p>Extracts the cumulative incidence estimates from a <code>cuminc</code> object for the cause of interest at a specified time point into a <code>data.frame</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">pred.ci(cum, tm1, failcode = 1)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>cum</code></td>
+<td>
+<p>A <code>cuminc</code> object</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tm1</code></td>
+<td>
+<p>A single time point to return the cumulative incidence at</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>failcode</code></td>
+<td>
+<p>The value of the status column that indicates the event of interest</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A <code>data.frame</code> with 3 columns:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>Group</code></td>
+<td>
+<p>The group name. If the <code>group</code> argument was used in the <code>cuminc</code> fit, there will be one row per group. Otherwise this is non-informative.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>CI.Prob</code></td>
+<td>
+<p>The cumulative incidence probability at the desired time point</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>CI.Var</code></td>
+<td>
+<p>The estimated variance of the cumulative incidence estimate</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Michael W. Kattan, Ph.D. and Changhong Yu.<br> Department of Quantitative Health Sciences, Cleveland Clinic
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>cuminc</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"> cum &lt;- cmprsk::cuminc(prostate.dat$TIME_EVENT, prostate.dat$EVENT_DOD, cencode = 0)
+ pred.ci(cum, 60, failcode = 1)
+
+</code></pre>
+
+
+</div>

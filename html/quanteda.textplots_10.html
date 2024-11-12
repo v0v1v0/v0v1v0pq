@@ -1,0 +1,165 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>textplot_scale1d</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Plot a fitted scaling model</h2>
+
+<h3>Description</h3>
+
+<p>Plot the results of a fitted scaling model, from (e.g.) a predicted
+quanteda.textmodels::textmodel_wordscores model or a fitted
+quanteda.textmodels::textmodel_wordfish or
+quanteda.textmodels::textmodel_ca model. Either document or feature
+parameters may be plotted: an ideal point-style plot (estimated document
+position plus confidence interval on the x-axis, document labels on the
+y-axis) with optional renaming and sorting, or as a plot of estimated
+feature-level parameters (estimated feature positions on the x-axis, and a
+measure of relative frequency or influence on the y-axis, with feature names
+replacing plotting points with some being chosen by the user to be
+highlighted).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">textplot_scale1d(
+  x,
+  margin = c("documents", "features"),
+  doclabels = NULL,
+  sort = TRUE,
+  groups = NULL,
+  highlighted = NULL,
+  alpha = 0.7,
+  highlighted_color = "black"
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>the fitted or predicted scaling model object to be plotted</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>margin</code></td>
+<td>
+<p><code>"documents"</code> to plot estimated document scores (the
+default) or <code>"features"</code> to plot estimated feature scores by a measure
+of relative frequency</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>doclabels</code></td>
+<td>
+<p>a vector of names for document; if left NULL (the default),
+docnames will be used</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sort</code></td>
+<td>
+<p>if <code>TRUE</code> (the default), order points from low to high
+score. If a vector, order according to these values from low to high. Only
+applies when <code>margin = "documents"</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>groups</code></td>
+<td>
+<p>grouping variable for sampling, equal in length to the number
+of documents. This will be evaluated in the docvars data.frame, so that
+docvars may be referred to by name without quoting. This also changes
+previous behaviours for <code>groups</code>. See <code>news(Version &gt;= "3.0", package = "quanteda")</code> for details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>highlighted</code></td>
+<td>
+<p>a vector of feature names to draw attention to in a
+feature plot; only applies if <code>margin = "features"</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>alpha</code></td>
+<td>
+<p>A number between 0 and 1 (default 0.5) representing the level of
+alpha transparency used to overplot feature names in a feature plot; only
+applies if <code>margin = "features"</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>highlighted_color</code></td>
+<td>
+<p>colour for highlighted terms in <code>highlighted</code></p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>a <span class="pkg">ggplot2</span> object
+</p>
+
+
+<h3>Note</h3>
+
+<p>The <code>groups</code> argument only applies when <code>margin = "documents"</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Kenneth Benoit, Stefan Müller, and Adam Obeng
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>quanteda.textmodels::textmodel_wordfish()</code>,
+<code>quanteda.textmodels::textmodel_wordscores()</code>,
+<code>quanteda.textmodels::textmodel_ca()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library("quanteda")
+if (require("quanteda.textmodels")) {
+dfmat &lt;- dfm(tokens(data_corpus_irishbudget2010))
+
+## wordscores
+refscores &lt;- c(rep(NA, 4), 1, -1, rep(NA, 8))
+tmod1 &lt;- textmodel_wordscores(dfmat, y = refscores, smooth = 1)
+# plot estimated document positions
+textplot_scale1d(predict(tmod1, se.fit = TRUE),
+                 groups = data_corpus_irishbudget2010$party)
+# plot estimated word positions
+textplot_scale1d(tmod1, margin = "features",
+                 highlighted = c("minister", "have", "our", "budget"))
+
+## wordfish
+tmod2 &lt;- quanteda.textmodels::textmodel_wordfish(dfmat, dir = c(6,5))
+# plot estimated document positions
+textplot_scale1d(tmod2)
+textplot_scale1d(tmod2, groups = data_corpus_irishbudget2010$party)
+# plot estimated word positions
+textplot_scale1d(tmod2, margin = "features",
+                 highlighted = c("government", "global", "children",
+                                 "bank", "economy", "the", "citizenship",
+                                 "productivity", "deficit"))
+
+## correspondence analysis
+tmod3 &lt;- textmodel_ca(dfmat)
+# plot estimated document positions
+textplot_scale1d(tmod3, margin = "documents",
+                 groups = docvars(data_corpus_irishbudget2010, "party"))
+}
+</code></pre>
+
+
+</div>

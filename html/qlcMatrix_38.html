@@ -1,0 +1,165 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>sim.nominal</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Similarity-measures for nominal variables
+</h2>
+
+<h3>Description</h3>
+
+<p>Nominal variables can be encoded as a combination of a sparse incidence and index matrix, as discussed at <code>splitTable</code>. The present two functions are easy-to-use shortcuts to use those sparse matrices to computes pairwise similarities, either between observations (<code>sim.obs</code>) or attributes (<code>sim.att</code>).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">sim.att(D, method = "chuprov", sparse = TRUE, ...)
+sim.obs(D, method = "hamming", sparse = TRUE, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>D</code></td>
+<td>
+
+<p>Dataframe with nominal attributes (‘variables’) as columns and observations as rows.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+
+<p>method to be used for similarity computation. See Details below.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sparse</code></td>
+<td>
+
+<p>All methods try to be as sparse as possible. Specifically, when there are no observed co-occurrence, then nothing is computed. This might lead to slight deviations in the results for some methods. Set <code>sparse=F</code> to force computation for all cells. This leads to non-sparse results, so use with caution with large datasets.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+
+<p>Arguments passed internally to <code>splitTable</code>, especially useful for multi-valued cells, using the option <code>split</code>. Note that <code>method = hamming</code> will give unexpected results for the comparison of cells that both are multi-valued. Consider using <code>method = weighted</code> instead.
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The function <code>sim.att</code> and <code>sim.obs</code> are convenience wrappers around the basic <code>cosRow, cosCol</code> and <code>assocRow, assocCol</code> functions. The <code>sim</code> functions take a dataframe as input, internally calling <code>splitTable</code> to turn the dataframe into sparse matrices, and then applying sparse matrix algebra to efficiently compute similarities. Currently only a few exemplary methods are encoded.
+</p>
+<p><code>sim.att</code> computes similarities between the different nominal variables. The method <code>chuprov</code> computes Chuprov's T (very similar to Cramer's V, but easier to compute efficiently). The method <code>g</code> computes the G-test from Sokal and Rohlf (1982), also known as Dunning's G from Dunning (1993). This G is closely related to Mutual Information (G = 2*N*MI, with N being the sample size). The method <code>mutual</code> returns the mutual information, and the method <code>variation</code> returns the so-called ‘variation of information’ (join information - mutual information). Note that the this last one is a metric, not a similarity. All these methods can be abbreviated, e.g use "c", "g", "m", and "v".
+</p>
+<p><code>sim.obs</code> computes similarities between the different observation for the nominal variables. The method <code>hamming</code> computes the relative Hamming similarity, i.e. the number of similarities devided by the number of comparisons made (Goebl 1984 calls this the ‘Relativer Identitaetswert’). The method <code>weighted</code> uses an inverse square root weighting on all similarities, i.e. rare similarities count more. This is very similar to Goebl's ‘Gewichteter Identitaetswert’, though note that his definition is slightly different from the one used here. Further, all methods as defined for <code>assocSparse</code> can be used here, i.e. <code>res, pmi, wpmi, poi</code>, and new methods can be defined according to the explanations as <code>assocSparse</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>All methods return symmetric similarity matrices in the form <code>dsCMatrix</code>, only specifying the upper triangle. The only exception is when <code>sparse=T</code> is chose, then the result will be in the form <code>dsyMatrix</code>.
+</p>
+
+
+<h3>Note</h3>
+
+<p>Note that these methods automatically take missing data into account. They also work with large amount of missing data, but of course the validity of any similarity with much missing data is problematic.
+</p>
+<p>The <code>sim.att</code> and <code>sim.obs</code> methods by default use sparse computations, which leads (among other effects) to errors on the diagonal. The main diagonal should be one everywhere by definition, but this will only be the case with the option <code>sparse = F</code>. The deviations with <code>sparse = T</code> should be minimal in the non-diagonal entries, but computations should be faster, and the results often take up less space. 
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Michael Cysouw
+</p>
+
+
+<h3>References</h3>
+
+<p>Goebl, Hans. 1984. <em>Dialektometrische Studien: anhand italoromanischer, raetoromanischer und galloromanischer Sprachmaterialien aus AIS und AFL.</em> (Beihefte zur Zeitschrift fuer Romanische Philologie). Tuebingen: Niemeyer.
+</p>
+<p>Dunning, Ted. 1993. Accurate methods for the statistics of surprise and coincidence. <em>Computational linguistics</em> 19(1). 61-74.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># first a simple example using the farms-dataset from MASS
+library(MASS)
+
+# similarities between farms
+s &lt;- sim.obs(farms)
+plot(hclust(as.dist(1-s), method = "ward.D"))
+
+# similarities between attributes (`variables`)
+s &lt;- sim.att(farms)
+plot(hclust(as.dist(1-s), method = "ward.D"))
+
+# use the split option for multi-valued cells
+farms2 &lt;- as.matrix(farms)
+farms2[1,1] &lt;- "M1,M5"
+
+s &lt;- sim.obs(farms2, split = ",")
+plot(hclust(as.dist(1-s), method = "ward.D"))
+
+# select only the 168 language from wals with more than 80 datapoints
+data(wals)
+sel &lt;- wals$data[apply(wals$data,1,function(x){sum(!is.na(x))})&gt;80,]
+
+# compare different similarities
+w &lt;- sim.obs(sel, "weighted")
+h &lt;- sim.obs(sel, "hamming")
+r &lt;- sim.obs(sel, "res")
+p &lt;- sim.obs(sel, "poi")
+m &lt;- sim.obs(sel, "wpmi")
+i &lt;- sim.obs(sel, "pmi")
+
+pairs(~ as.dist(w) + as.dist(h) + as.dist(r) + as.dist(p) + as.dist(m) + as.dist(i),
+	labels = c("weighted","hamming","residuals","poisson","weighted PMI","PMI"))
+
+
+# a larger example with lots of missing data: the WALS-data as included here
+# computations go reasonably quick
+# (on 2566 observations and 131 attributes with 630 different values in total)
+data(wals)
+system.time(s &lt;- sim.att(wals$data))
+rownames(s) &lt;- colnames(wals$data)
+plot(hclust(as.dist(1-s), method = "ward.D"), cex = 0.5)
+
+# Note that using sparse=T speeds up computations because it 
+# ignores zero co-occurrences
+system.time(
+	chup.sparse &lt;- sim.att(wals$data,method = "chuprov", sparse = TRUE)
+)
+
+# some more similarities on the attributes
+g &lt;- sim.att(wals$data, method = "g") # Dunning's G
+m &lt;- sim.att(wals$data, method = "mutual") # Mutual Information
+v &lt;- sim.att(wals$data, method = "variation") # Variation of Information
+
+# Note the strong differences between these approaches
+pairs(~ as.dist(chup.sparse) + as.dist(m) + as.dist(g) + as.dist(v),
+	labels=c("Chuprov's T","Mutual Information","G-statistic","Variation of Information"))
+	
+# Relative Hamming similarity on all observations (languages) in WALS
+# time is not a problem, but the data is so sparse
+# that for many language-pairs there is no shared data
+system.time( s &lt;- sim.obs(wals$data))
+
+</code></pre>
+
+
+</div>

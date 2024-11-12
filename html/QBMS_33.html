@@ -1,0 +1,98 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>gigwa_get_variants</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Get Available Variants in the Selected GIGWA Run</h2>
+
+<h3>Description</h3>
+
+<p>Retrieve variant data (e.g., SNP markers) for the selected GIGWA run based on filtering criteria, 
+including minor allele frequency, missing data threshold, and sample subset.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">gigwa_get_variants(
+  max_missing = 1,
+  min_maf = 0.5,
+  samples = NULL,
+  start = NULL,
+  end = NULL,
+  referenceName = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>max_missing</code></td>
+<td>
+<p>The maximum allowable missing data ratio, between 0 and 1 (default is 1, meaning up to 100% missing data).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>min_maf</code></td>
+<td>
+<p>Minimum Minor Allele Frequency (MAF) between 0 and 0.5 (default is 0).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>samples</code></td>
+<td>
+<p>A list of sample names to include in the query (optional). If NULL, all samples will be included.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>start</code></td>
+<td>
+<p>Start position of the query region (zero-based, inclusive).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>end</code></td>
+<td>
+<p>End position of the query region (zero-based, exclusive).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>referenceName</code></td>
+<td>
+<p>The reference sequence name (e.g., chromosome).</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A data frame where the first 4 columns describe the SNP (rs# variant name, alleles, chrom, pos), 
+and subsequent columns contain numerical genotyping information (0 for reference allele, 1 for heterozygous, and 2 for minor allele).
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Khaled Al-Shamaa, <a href="mailto:k.el-shamaa@cgiar.org">k.el-shamaa@cgiar.org</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">if (interactive()) {
+  set_qbms_config("https://gigwa.southgreen.fr/gigwa/", 
+                  time_out = 300, engine = "gigwa", no_auth = TRUE)
+  gigwa_set_db("Sorghum-JGI_v1")
+  gigwa_set_project("Nelson_et_al_2011")
+  gigwa_set_run("run1")
+  marker_matrix &lt;- gigwa_get_variants(max_missing = 0.2, 
+                                      min_maf = 0.35, 
+                                      samples = c("ind1", "ind3", "ind7"))
+}
+
+</code></pre>
+
+
+</div>

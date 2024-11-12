@@ -1,0 +1,106 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>cleanGeno</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Delete genotypes that are possibly in error</h2>
+
+<h3>Description</h3>
+
+<p>Delete genotypes from a cross that are indicated to be possibly in
+error, as they result in apparent tight double-crossovers.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">cleanGeno(cross, chr, maxdist=2.5, maxmark=2, verbose=TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>cross</code></td>
+<td>
+<p>An object of class <code>cross</code>.  See
+<code>read.cross</code> for details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>chr</code></td>
+<td>
+<p>Optional vector indicating the chromosomes to consider.
+This should be a vector of character
+strings referring to chromosomes by name; numeric values are
+converted to strings.  Refer to chromosomes with a preceding <code>-</code>
+to have all chromosomes but those considered.  A logical (TRUE/FALSE)
+vector may also be used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>maxdist</code></td>
+<td>
+<p>A vector specifying the maximum distance between two
+crossovers.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>maxmark</code></td>
+<td>
+<p>A vector specifying the maximum number of typed markers
+between two crossovers.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p>If TRUE, print information on the numbers of genotypes
+omitted from each chromosome.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>We first use <code>locateXO</code> to identify crossover locations.
+If a pair of adjacted crossovers are separated by no more than
+<code>maxdist</code> and contain no more than <code>maxmark</code> genotyped
+markers, the intervening genotypes are omitted (that is, changed to
+<code>NA</code>).
+</p>
+<p>The arguments <code>maxdist</code> and <code>maxmark</code> may be vectors.  (If
+both have length greater than 1, they must have the same length.)  If
+they are vectors, genotypes are omitted if they satisify any one of
+the (<code>maxdist</code>, <code>maxmark</code>) pairs.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The input <code>cross</code> object with suspect genotypes omitted.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Karl W Broman, <a href="mailto:broman@wisc.edu">broman@wisc.edu</a> </p>
+
+
+<h3>See Also</h3>
+
+ <p><code>locateXO</code>,
+<code>countXO</code>, <code>calc.errorlod</code> </p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(hyper)
+sum(ntyped(hyper))
+hyperc &lt;- cleanGeno(hyper, chr=4, maxdist=c(2.5, 10), maxmark=c(2, 1))
+sum(ntyped(hyperc))
+</code></pre>
+
+
+</div>

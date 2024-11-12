@@ -1,0 +1,80 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>encode_geno</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Encode a matrix of genotypes using a set of allele codes</h2>
+
+<h3>Description</h3>
+
+<p>Encode a matrix of genotypes using a set of allele codes.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">encode_geno(
+  geno,
+  allele_codes,
+  output_codes = c("-", "A", "H", "B"),
+  cores = 1
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>geno</code></td>
+<td>
+<p>Character matrix of genotypes (rows as markers, columns as individuals)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>allele_codes</code></td>
+<td>
+<p>Two-column matrix of alleles (rows as markers)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>output_codes</code></td>
+<td>
+<p>Vector of length four, with missing, AA, AB, BB codes</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cores</code></td>
+<td>
+<p>Number of CPU cores to use, for parallel calculations.
+(If <code>0</code>, use <code>parallel::detectCores()</code>.)
+Alternatively, this can be links to a set of cluster sockets, as
+produced by <code>parallel::makeCluster()</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Matrix of same dimensions as <code>geno</code>, but with values in <code>output_codes</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>find_consensus_geno()</code>, <code>find_unique_geno()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">geno &lt;- rbind(c("C", "G", "C",  "GG", "CG"),
+              c("A", "A", "AT", "TA", "TT"),
+              c("T", "G", NA,   "GT", "TT"))
+codes &lt;- rbind(c("C", "G"), c("A", "T"), c("T", "G"))
+geno_encoded &lt;- encode_geno(geno, codes)
+
+</code></pre>
+
+
+</div>

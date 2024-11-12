@@ -1,0 +1,72 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>drop.dupmarkers</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Drop duplicate markers</h2>
+
+<h3>Description</h3>
+
+<p>Drop markers with duplicate names; retaining the first of each set,
+with consensus genotyps
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">drop.dupmarkers(cross, verbose=TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>cross</code></td>
+<td>
+<p>An object of class <code>cross</code>.  See
+<code>read.cross</code> for details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p>If TRUE, print information on the numbers of genotypes
+and markers omitted.  If &gt; 1, give more detailed information
+on genotypes omitted.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>The input <code>cross</code> object, with any duplicate markers omitted
+(except for one).  The marker retained will have consensus genotypes;
+if multiple versions of a marker have different genotypes for an
+individual, they will be replaced by <code>NA</code>.
+</p>
+<p>Any derived data (such as produced by <code>calc.genoprob</code>)
+will be stripped off.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Karl W Broman, <a href="mailto:broman@wisc.edu">broman@wisc.edu</a> </p>
+
+
+<h3>See Also</h3>
+
+ <p><code>drop.nullmarkers</code>, <code>pull.markers</code>, <code>drop.markers</code>,
+<code>summary.cross</code>, <code>clean.cross</code> </p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(listeria)
+
+listeria &lt;- drop.dupmarkers(listeria)
+</code></pre>
+
+
+</div>

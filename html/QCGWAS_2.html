@@ -1,0 +1,102 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>calc_kurtosis</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Skewness and Kurtosis</h2>
+
+<h3>Description</h3>
+
+<p>Functions for calculating skewness and kurtosis</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">calc_kurtosis(input,
+              FRQ_val = NULL, HWE_val = NULL,
+              cal_val = NULL, imp_val = NULL, ...)
+calc_skewness(input,
+              FRQ_val = NULL, HWE_val = NULL,
+              cal_val = NULL, imp_val = NULL, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>input</code></td>
+<td>
+<p>either a vector of effect sizes or a data frame
+using the standard column names.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>FRQ_val, HWE_val, cal_val, imp_val, ...</code></td>
+<td>
+<p>arguments
+passed to <code>HQ_filter</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Kurtosis is a measure of how well a distribution matches a
+Gaussian distribution. A Gaussian distribution has a kurtosis
+of <code>0</code>. Negative kurtosis indicates a flatter
+distribution curve, while positive kurtosis indicates a
+sharper, thinner curve.
+</p>
+<p>Skewness is a measure of distribution asymmetry. A symmetrical
+distribution has skewness <code>0</code>. A positive skewness
+indicates a long tail towards higher values, while a negative
+skewness indicates a long tail towards lower values.
+</p>
+<p>Kurtosis is calculated as:
+</p>
+<p><code>sum( (ES - mean(ES))^4) / ((length(ES)-1) * sd(ES)^4 )</code>
+</p>
+<p>Skewness is calculated as:
+</p>
+<p><code>sum( (ES - mean(ES))^3) / ((length(ES)-1) * sd(ES)^3 )</code>
+</p>
+
+
+<h3>Value</h3>
+
+<p>Respectively the kurtosis and skewness of the input
+effect-size distribution.
+</p>
+
+
+<h3>Note</h3>
+
+<p>Both functions accept vectors as <code>input</code>. If <code>input</code>
+is a data frame, the column names must match the standard
+names used by <code>QC_GWAS</code> (<code>"EFFECT"</code> for
+effect sizes, <code>"EFF_ALL_FREQ"</code> for allele frequency, etc.)
+</p>
+
+
+<h3>See Also</h3>
+
+<p>For plotting skewness and kurtosis:
+<code>plot_skewness</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">  data("gwa_sample")  
+  
+  calc_kurtosis(gwa_sample$EFFECT)
+  calc_kurtosis(gwa_sample)
+  calc_kurtosis(gwa_sample$EFF_ALL_FREQ)
+  calc_kurtosis(gwa_sample,
+                FRQ_val = 0.05, cal_val = 0.95,
+                filter_NA = FALSE)
+</code></pre>
+
+
+</div>

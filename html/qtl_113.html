@@ -1,0 +1,66 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>jittermap</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Jitter marker positions in a genetic map</h2>
+
+<h3>Description</h3>
+
+<p>Jitter the marker positions in a genetic map so that no two markers
+are on top of each other.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">jittermap(object, amount=1e-6)</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>Either a cross (an object of class <code>cross</code>; see
+<code>read.cross</code> for details) or a map (an object of
+class <code>map</code>; see <code>pull.map</code> for details).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>amount</code></td>
+<td>
+<p>The amount by which markers should be moved.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Either the input cross object or the input map, but with marker
+positions slightly jittered.  If the input was a cross, the function
+<code>clean</code> is run to strip off any intermediate
+calculations.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Karl W Broman, <a href="mailto:broman@wisc.edu">broman@wisc.edu</a> </p>
+
+
+<h3>See Also</h3>
+
+ <p><code>pull.map</code>, <code>replace.map</code>,
+<code>summary.cross</code> </p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(hyper)
+hyper &lt;- jittermap(hyper)
+</code></pre>
+
+
+</div>

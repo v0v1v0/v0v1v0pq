@@ -1,0 +1,261 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>fit1</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Fit single-QTL model at a single position</h2>
+
+<h3>Description</h3>
+
+<p>Fit a single-QTL model at a single putative QTL position and get detailed results
+about estimated coefficients and individuals contributions to the LOD score.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">fit1(
+  genoprobs,
+  pheno,
+  kinship = NULL,
+  addcovar = NULL,
+  nullcovar = NULL,
+  intcovar = NULL,
+  weights = NULL,
+  contrasts = NULL,
+  model = c("normal", "binary"),
+  zerosum = TRUE,
+  se = TRUE,
+  hsq = NULL,
+  reml = TRUE,
+  blup = FALSE,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>genoprobs</code></td>
+<td>
+<p>A matrix of genotype probabilities, individuals x genotypes.
+If NULL, we create a single intercept column, matching the individual IDs in <code>pheno</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pheno</code></td>
+<td>
+<p>A numeric vector of phenotype values (just one phenotype, not a matrix of them)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>kinship</code></td>
+<td>
+<p>Optional kinship matrix.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>addcovar</code></td>
+<td>
+<p>An optional numeric matrix of additive covariates.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nullcovar</code></td>
+<td>
+<p>An optional numeric matrix of additional additive
+covariates that are used under the null hypothesis (of no QTL)
+but not under the alternative (with a QTL). This is needed for
+the X chromosome, where we might need sex as a additive
+covariate under the null hypothesis, but we wouldn't want to
+include it under the alternative as it would be collinear with
+the QTL effects.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>intcovar</code></td>
+<td>
+<p>An optional numeric matrix of interactive covariates.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>weights</code></td>
+<td>
+<p>An optional numeric vector of positive weights for the
+individuals. As with the other inputs, it must have <code>names</code>
+for individual identifiers.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>contrasts</code></td>
+<td>
+<p>An optional numeric matrix of genotype contrasts, size
+genotypes x genotypes. For an intercross, you might use
+<code>cbind(mu=c(1,1,1), a=c(-1, 0, 1), d=c(0, 1, 0))</code> to get
+mean, additive effect, and dominance effect. The default is the
+identity matrix.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>model</code></td>
+<td>
+<p>Indicates whether to use a normal model (least
+squares) or binary model (logistic regression) for the phenotype.
+If <code>model="binary"</code>, the phenotypes must have values in
+<code class="reqn">[0, 1]</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>zerosum</code></td>
+<td>
+<p>If TRUE, force the genotype or allele coefficients
+sum to 0 by subtracting their mean and add another column with
+the mean. Ignored if <code>contrasts</code> is provided.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>se</code></td>
+<td>
+<p>If TRUE, calculate the standard errors.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>hsq</code></td>
+<td>
+<p>(Optional) residual heritability; used only if
+<code>kinship</code> provided.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>reml</code></td>
+<td>
+<p>If <code>kinship</code> provided: if <code>reml=TRUE</code>, use
+REML; otherwise maximum likelihood.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>blup</code></td>
+<td>
+<p>If TRUE, fit a model with QTL effects being random, as in <code>scan1blup()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Additional control parameters; see Details;</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>For each of the inputs, the row names are used as
+individual identifiers, to align individuals.
+</p>
+<p>If <code>kinship</code> is absent, Haley-Knott regression is performed.
+If <code>kinship</code> is provided, a linear mixed model is used, with a
+polygenic effect estimated under the null hypothesis of no (major)
+QTL, and then taken as fixed as known in the genome scan.
+</p>
+<p>If <code>contrasts</code> is provided, the genotype probability matrix,
+<code class="reqn">P</code>, is post-multiplied by the contrasts matrix, <code class="reqn">A</code>, prior
+to fitting the model. So we use <code class="reqn">P \cdot A</code> as the <code class="reqn">X</code>
+matrix in the model. One might view the rows of
+<em>A</em><sup>-1</sup>
+as the set of contrasts, as the estimated effects are the estimated
+genotype effects pre-multiplied by
+<em>A</em><sup>-1</sup>.
+</p>
+<p>The <code>...</code> argument can contain several additional control
+parameters; suspended for simplicity (or confusion, depending on
+your point of view). <code>tol</code> is used as a tolerance value for linear
+regression by QR decomposition (in determining whether columns are
+linearly dependent on others and should be omitted); default
+<code>1e-12</code>. <code>maxit</code> is the maximum number of iterations for
+converence of the iterative algorithm used when <code>model=binary</code>.
+<code>bintol</code> is used as a tolerance for converence for the iterative
+algorithm used when <code>model=binary</code>. <code>eta_max</code> is the maximum value
+for the "linear predictor" in the case <code>model="binary"</code> (a bit of a
+technicality to avoid fitted values exactly at 0 or 1).
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list containing
+</p>
+
+<ul>
+<li> <p><code>coef</code> - Vector of estimated coefficients.
+</p>
+</li>
+<li> <p><code>SE</code> - Vector of estimated standard errors (included if <code>se=TRUE</code>).
+</p>
+</li>
+<li> <p><code>lod</code> - The overall lod score.
+</p>
+</li>
+<li> <p><code>ind_lod</code> - Vector of individual contributions to the LOD score (not provided if <code>kinship</code> is used).
+</p>
+</li>
+<li> <p><code>fitted</code>  - Fitted values.
+</p>
+</li>
+<li> <p><code>resid</code>  - Residuals.
+If <code>blup==TRUE</code>, only <code>coef</code> and <code>SE</code> are included at present.
+</p>
+</li>
+</ul>
+<h3>References</h3>
+
+<p>Haley CS, Knott SA (1992) A simple
+regression method for mapping quantitative trait loci in line
+crosses using flanking markers.  Heredity 69:315–324.
+</p>
+<p>Kang HM, Zaitlen NA, Wade CM, Kirby A, Heckerman D, Daly MJ, Eskin
+E (2008) Efficient control of population structure in model
+organism association mapping. Genetics 178:1709–1723.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>pull_genoprobpos()</code>, <code>find_marker()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># read data
+iron &lt;- read_cross2(system.file("extdata", "iron.zip", package="qtl2"))
+
+
+# insert pseudomarkers into map
+map &lt;- insert_pseudomarkers(iron$gmap, step=5)
+
+# calculate genotype probabilities
+probs &lt;- calc_genoprob(iron, map, error_prob=0.002)
+
+# grab phenotypes and covariates; ensure that covariates have names attribute
+pheno &lt;- iron$pheno[,1]
+covar &lt;- match(iron$covar$sex, c("f", "m")) # make numeric
+names(covar) &lt;- rownames(iron$covar)
+
+# scan chromosome 7 to find peak
+out &lt;- scan1(probs[,"7"], pheno, addcovar=covar)
+
+# find peak position
+max_pos &lt;- max(out, map)
+
+# genoprobs at max position
+pr_max &lt;- pull_genoprobpos(probs, map, max_pos$chr, max_pos$pos)
+
+# fit QTL model just at that position
+out_fit1 &lt;- fit1(pr_max, pheno, addcovar=covar)
+
+</code></pre>
+
+
+</div>

@@ -1,0 +1,97 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>change</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Change Score from a Numeric Vector</h2>
+
+<h3>Description</h3>
+
+<p><code>change</code> creates a change score (aka difference score) from a numeric
+vector. It is assumed that the vector is already sorted by time such that the
+first element is earliest in time and the last element is the latest in time.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">change(x, n, undefined = NA)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>numeric vector.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p>integer vector with length 1. Specifies how the change score is
+calculated. If <code>n</code> is positive, then the change score is calculated
+from lead - original; if <code>n</code> is negative, then the change score is
+calculated from original - lag. The magnitude of <code>n</code> determines how
+many elements are shifted for the lead/lag within the calculation. If
+<code>n</code> is zero, then <code>change</code> simply returns a vector or zeros. See
+details of <code>shift</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>undefined</code></td>
+<td>
+<p>atomic vector with length 1 (probably makes sense to be the
+same typeof as <code>x</code>). Specifies what to insert for undefined values
+after the shifting takes place. See details of <code>shift</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>It is recommended to use <code>L</code> when specifying <code>n</code> to prevent
+problems with floating point numbers. <code>shift</code> tries to circumvent this
+issue by a call to <code>round</code> within <code>shift</code> if <code>n</code> is not an
+integer; however that is not a complete fail safe. The problem is that
+<code>as.integer(n)</code> implicit in <code>shift</code> truncates rather than rounds.
+See details of <code>shift</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>an atomic vector of the same length as <code>x</code> that is the change
+score. If <code>x</code> and <code>undefined</code> are different typeofs, then the
+return will be coerced to the most complex typeof (i.e., complex to simple:
+character, double, integer, logical).
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>changes</code>
+<code>change_by</code>
+<code>changes_by</code>
+<code>shift</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">change(x = attitude[[1]], n = -1L) # use L to prevent problems with floating point numbers
+change(x = attitude[[1]], n = -2L) # can specify any integer up to the length of `x`
+change(x = attitude[[1]], n = +1L) # can specify negative or positive integers
+change(x = attitude[[1]], n = +2L, undefined = -999) # user-specified indefined value
+change(x = attitude[[1]], n = -2L, undefined = -999) # user-specified indefined value
+change(x = attitude[[1]], n = 0L) # returns a vector of zeros
+## Not run: 
+change(x = setNames(object = letters, nm = LETTERS), n = 3L) # character vector returns an error
+
+## End(Not run)
+</code></pre>
+
+
+</div>

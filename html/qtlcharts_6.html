@@ -1,0 +1,101 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>iboxplot</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Modern boxplot linked to underlying histrograms</h2>
+
+<h3>Description</h3>
+
+<p>Creates an interactive graph for a large set of box plots (rendered
+as lines connecting the quantiles), linked to underlying histograms.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">iboxplot(
+  dat,
+  qu = c(0.001, 0.01, 0.1, 0.25),
+  orderByMedian = TRUE,
+  breaks = 251,
+  chartOpts = NULL,
+  digits = 5
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>dat</code></td>
+<td>
+<p>Data matrix (individuals x variables)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qu</code></td>
+<td>
+<p>Quantiles to plot (All with 0 &lt; qu &lt; 0.5)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>orderByMedian</code></td>
+<td>
+<p>If TRUE, reorder individuals by their median</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>breaks</code></td>
+<td>
+<p>Number of bins in the histograms, or a vector of
+locations of the breakpoints between bins (as in [graphics::hist()])</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>chartOpts</code></td>
+<td>
+<p>A list of options for configuring the chart (see
+the coffeescript code). Each element must be named using the
+corresponding option.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>digits</code></td>
+<td>
+<p>Round data to this number of significant digits
+before passing to the chart function. (Use NULL to not round.)</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>An object of class 'htmlwidget' that will
+intelligently print itself into HTML in a variety of contexts
+including the R console, within R Markdown documents, and within
+Shiny output bindings.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>[iplotCorr()], [scat2scat()]
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">n.ind &lt;- 500
+n.gene &lt;- 10000
+expr &lt;- matrix(rnorm(n.ind * n.gene, (1:n.ind)/n.ind*3), ncol=n.gene)
+dimnames(expr) &lt;- list(paste0("ind", 1:n.ind),
+                       paste0("gene", 1:n.gene))
+
+iboxplot(expr, chartOpts=list(xlab="Mice", ylab="Gene expression"))
+
+</code></pre>
+
+
+</div>

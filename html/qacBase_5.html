@@ -1,0 +1,99 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>contents</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Detailed description of a data frame</h2>
+
+<h3>Description</h3>
+
+<p><code>contents</code> provides a comprehensive description of a data
+frame, including summary statistics for both quantitative and
+categorical variables
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">contents(data, digits = 2, maxcat = 10, label_length = 20)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>a data frame</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>digits</code></td>
+<td>
+<p>number of decimal digits for statistics.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>maxcat</code></td>
+<td>
+<p>maximum number of levels of a character/factor
+variable to print.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>label_length</code></td>
+<td>
+<p>maximum length of factor level label
+to print. Longer labels will be truncated.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Prints a comprehensive description of a data frame via
+several tables, a general summary table and tables that provide
+a breakdown of quantitative and categorical variables.
+</p>
+
+
+<h3>Value</h3>
+
+<p>a list with 6 components:
+</p>
+
+<dl>
+<dt>dfname</dt>
+<dd>
+<p>name of data frame</p>
+</dd>
+<dt>nrow</dt>
+<dd>
+<p>number of rows</p>
+</dd>
+<dt>ncol</dt>
+<dd>
+<p>number of columns</p>
+</dd>
+<dt>overall</dt>
+<dd>
+<p>data frame of overall dataset characteristics</p>
+</dd>
+<dt>qvars</dt>
+<dd>
+<p>data frame with summary statistics for quantitative variables</p>
+</dd>
+<dt>cvars</dt>
+<dd>
+<p>data frame with summary statistics for categorical variables</p>
+</dd>
+</dl>
+<h3>Examples</h3>
+
+<pre><code class="language-R">contents(cars74)
+
+</code></pre>
+
+
+</div>

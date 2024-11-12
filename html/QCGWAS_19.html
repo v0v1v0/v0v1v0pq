@@ -1,0 +1,150 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>plot_regional</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Regional Association Plot</h2>
+
+<h3>Description</h3>
+
+<p>A regional association plot is essentially a zoomed-in
+Manhattan plot, allowing the researcher to look at associations
+in a small, pre-defined area of the genome.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">plot_regional(dataset,
+              chr, start_pos, end_pos,
+              plot_cutoff_p = 1,
+              name_cutoff_p,
+              data_name = NULL,
+              save_name = "regional_association_plot",
+              save_dir = getwd(),
+              header_translations,
+              main = "Regional association plot", ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>dataset</code></td>
+<td>
+<p>data frame containing the SNPs chromosome number,
+position, p-value and (if a <code>name_cutoff_p</code> is specified)
+their SNP IDs.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>chr</code></td>
+<td>
+<p>character or numeric value indicating the chromosome
+of interest.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>start_pos, end_pos</code></td>
+<td>
+<p>Numeric; the position values of the
+beginning and end of the region of interest.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>plot_cutoff_p</code></td>
+<td>
+<p>numeric - the threshold of p-values to be
+shown in the QQ &amp; Manhattan plots. Higher (less
+significant) p-values are not included in the plot. Note
+that, unlike in <code>QC_GWAS</code> or <code>QC_plots</code>,
+the default value is <code>1</code> (i.e. includes everything),
+rather than <code>0.05</code>. Setting it to <code>0.05</code> excludes
+95% of data-points, which significantly reduces running time
+and memory usage in larger datasets.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>name_cutoff_p</code></td>
+<td>
+<p>numeric; SNPs with p-values lower than or
+equal to this value will have their names plotted in the
+graph. If set to <code>NULL</code> (default), no names will be
+plotted.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data_name</code></td>
+<td>
+<p>character string; the subtitle for the plot.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>save_name</code></td>
+<td>
+<p>character string; the filename, <em>without</em>
+extension, for the graph file.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>save_dir</code></td>
+<td>
+<p>character string; the directory where the
+graph is saved. Note that R uses <em>forward</em>
+slash (/) where Windows uses backslash (\).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>header_translations</code></td>
+<td>
+<p>translation table for column names.
+See <code>translate_header</code> for more information. If
+the argument is left empty, <code>dataset</code> is assumed to use
+the standard column-names of <code>QC_GWAS</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>main, ...</code></td>
+<td>
+<p>arguments passed to <code>plot</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>By default, <code>plot_regional</code> expects <code>dataset</code> to use the
+standard column-names used by <code>QC_GWAS</code>. A
+translation table can be specified in <code>header_translations</code>
+to allow non-standard names. See <code>translate_header</code>
+for more information.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An invisible <code>NULL</code>.</p>
+
+
+<h3>See Also</h3>
+
+<p>For creating a Manhattan plot: <code>QC_plots</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+  data("gwa_sample")
+
+  plot_regional(dataset = gwa_sample,
+          chr = 2, start_pos = 55000000, end_pos = 75000000,
+          data_name = "QC GWAS sample data",
+          save_name = "sample_regional_association")
+          
+## End(Not run)
+</code></pre>
+
+
+</div>

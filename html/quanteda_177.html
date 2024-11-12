@@ -1,0 +1,35 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>get_object_version</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Get the package version that created an object</h2>
+
+<h3>Description</h3>
+
+<p>Return the the <span class="pkg">quanteda</span> package version in which a dfm,
+tokens, or corpus object was created.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">get_object_version(x)
+
+is_pre2(x)
+</code></pre>
+
+
+<h3>Value</h3>
+
+<p>A three-element integer vector of class "package_version". For
+versions of the package &lt; 1.5 for which no version was recorded in the
+object, <code>c(1, 4, 0)</code> is returned.
+</p>
+<p><code>ispre2()</code> returns <code>TRUE</code> if the object was created before
+<span class="pkg">quanteda</span> version 2, or <code>FALSE</code> otherwise
+</p>
+
+
+</div>

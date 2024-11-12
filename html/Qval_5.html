@@ -1,0 +1,136 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>get.PVAF</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Calculate <code class="reqn">PVAF</code>
+</h2>
+
+<h3>Description</h3>
+
+<p>The function is able to caculate the proportion of variance accounted for (<code class="reqn">PVAF</code>) for all items
+after fitting <code>CDM</code> or directly.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">get.PVAF(Y = NULL, Q = NULL, CDM.obj = NULL, model = "GDINA")
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>Y</code></td>
+<td>
+<p>A required <code>N</code> × <code>I</code> matrix or data.frame consisting of the responses of <code>N</code> individuals
+to <code>I</code> items. Missing values should be coded as <code>NA</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Q</code></td>
+<td>
+<p>A required binary <code>I</code> × <code>K</code> matrix containing the attributes not required or required, coded
+as 0 or 1, to master the items. The <code>i</code>th row of the matrix is a binary indicator vector indicating
+which attributes are not required (coded as 0) and which attributes are required (coded as 1) to master item <code>i</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>CDM.obj</code></td>
+<td>
+<p>An object of class <code>CDM.obj</code>. Can can be NULL, but when it is not NULL, it enables
+rapid verification of the Q-matrix without the need for parameter estimation.
+@seealso <code>CDM</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>model</code></td>
+<td>
+<p>Type of model to be fitted; can be <code>"GDINA"</code>, <code>"LCDM"</code>, <code>"DINA"</code>, <code>"DINO"</code>,
+<code>"ACDM"</code>, <code>"LLM"</code>, or <code>"rRUM"</code>. Default = <code>"GDINA"</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The intrinsic essence of the GDI index (as denoted by <code class="reqn">\zeta_{2}</code>) is the weighted variance of
+all <code class="reqn">2^{K\ast}</code> attribute mastery patterns' probabilities of correctly responding to
+item <code class="reqn">i</code>, which can be computed as:
+</p>
+<p style="text-align: center;"><code class="reqn">
+ \zeta^2 =
+ \sum_{l=1}^{2^K} \pi_{l}{(P(X_{pi}=1|\mathbf{\alpha}_{l}) - P_{i}^{mean})}^2
+</code>
+</p>
+
+<p>where <code class="reqn">\pi_{l}</code> represents the prior probability of mastery pattern <code class="reqn">l</code>;
+<code class="reqn">P_{i}^{mean}=\sum_{k=1}^{2^K}\pi_{l}P(X_{pi}=1|\mathbf{\alpha}_{l})</code> is the weighted average of the correct
+response probabilities across all attribute mastery patterns. When the q-vector
+is correctly specified, the calculated <code class="reqn">\zeta^2</code> should be maximized, indicating
+the maximum discrimination of the item.
+</p>
+<p>Theoretically, <code class="reqn">\zeta^{2}</code> is larger when <code class="reqn">\mathbf{q}_{i}</code> is either specified correctly or over-specified,
+unlike when <code class="reqn">\mathbf{q}_{i}</code> is under-specified, and that when <code class="reqn">\mathbf{q}_{i}</code> is over-specified, <code class="reqn">\zeta^{2}</code>
+is larger than but close to the value of <code class="reqn">\mathbf{q}_{i}</code> when specified correctly. The value of <code class="reqn">\zeta^{2}</code> continues to
+increase slightly as the number of over-specified attributes increases, until <code class="reqn">\mathbf{q}_{i}</code> becomes <code class="reqn">\mathbf{q}_{i1:K}</code>.
+Thus, <code class="reqn">\zeta^{2} / \zeta_{max}^{2}</code> is computed to indicate the proportion of variance accounted for by <code class="reqn">\mathbf{q}_{i}</code>
+, called the <code class="reqn">PVAF</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>matrix</code>, which consisted of <code class="reqn">PVAF</code> for each item and each possible attribute mastery pattern.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Haijiang Qin &lt;Haijiang133@outlook.com&gt;
+</p>
+
+
+<h3>References</h3>
+
+<p>de la Torre, J., &amp; Chiu, C. Y. (2016). A General Method of Empirical Q-matrix Validation. Psychometrika, 81(2), 253-273. DOI: 10.1007/s11336-015-9467-8.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>validation</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(Qval)
+
+set.seed(123)
+
+## generate Q-matrix and data
+K &lt;- 3
+I &lt;- 20
+example.Q &lt;- sim.Q(K, I)
+IQ &lt;- list(
+  P0 = runif(I, 0.0, 0.2),
+  P1 = runif(I, 0.8, 1.0)
+)
+example.data &lt;- sim.data(Q = example.Q, N = 500, IQ = IQ, model = "GDINA", distribute = "horder")
+
+## calculate PVAF directly
+PVAF &lt;-get.PVAF(Y = example.data$dat, Q = example.Q)
+print(PVAF)
+
+## caculate PVAF after fitting CDM
+example.CDM.obj &lt;- CDM(example.data$dat, example.Q, model="GDINA")
+PVAF &lt;-get.PVAF(CDM.obj = example.CDM.obj)
+print(PVAF)
+
+</code></pre>
+
+
+</div>

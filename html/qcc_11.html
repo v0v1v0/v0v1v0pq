@@ -1,0 +1,50 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>dyedcloth</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Dyed cloth data</h2>
+
+<h3>Description</h3>
+
+<p>In a textile finishing plant, dyed cloth is inspected for the occurrence of defects per 50 square meters. The data on ten rolls of cloth are presented.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">data(dyedcloth)</code></pre>
+
+
+<h3>Format</h3>
+
+<p>A data frame with 10 observations on the following 2 variables.
+</p>
+
+<dl>
+<dt>x</dt>
+<dd>
+<p>number of nonconformities per 50 square meters (inspection units)</p>
+</dd>
+<dt>size</dt>
+<dd>
+<p>number of inspection units in roll (variable sample size)</p>
+</dd>
+</dl>
+<h3>References</h3>
+
+<p>Montgomery, D.C. (1991) <em>Introduction to Statistical Quality Control</em>, 2nd ed, New York, John Wiley &amp; Sons, pp. 183–184</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(dyedcloth)
+attach(dyedcloth)
+summary(dyedcloth)
+plot(x/size, type="b")
+detach(dyedcloth)
+</code></pre>
+
+
+</div>

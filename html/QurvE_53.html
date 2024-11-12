@@ -1,0 +1,251 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>plot.grodata</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Generic plot function for <code>grodata</code> objects. Plots raw growth, fluorescence, or normalized fluorescence data of multiple samples or conditions.</h2>
+
+<h3>Description</h3>
+
+<p><code>plot.grodata</code> calls <code>plot.grofit</code> or <code>plot.flFitRes</code> based on the chosen <code>data.type</code>, respectively.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'grodata'
+plot(
+  x,
+  data.type = c("growth", "fl", "norm.fl"),
+  IDs = NULL,
+  names = NULL,
+  conc = NULL,
+  mean = TRUE,
+  exclude.nm = NULL,
+  exclude.conc = NULL,
+  log.y = FALSE,
+  n.ybreaks = 6,
+  colors = NULL,
+  color_groups = TRUE,
+  group_pals = c("Green", "Orange", "Purple", "Magenta", "Grey", "Blue", "Grey", "Red",
+    "Cyan", "Brown", "Mint"),
+  basesize = 20,
+  y.lim = NULL,
+  x.lim = NULL,
+  y.title = NULL,
+  x.title = NULL,
+  lwd = 1.1,
+  legend.position = "bottom",
+  legend.ncol = 2,
+  plot = TRUE,
+  export = FALSE,
+  height = NULL,
+  width = NULL,
+  out.dir = NULL,
+  out.nm = NULL,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>A <code>grodata</code> object created with <code>read_data</code> or <code>parse_data</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data.type</code></td>
+<td>
+<p>(Character) Plot either raw growth (<code>data.type = "growth"</code>), raw fluorescence (<code>data.type = "fl"</code>), or fluorescence normalized to growth (<code>data.type = "norm.fl"</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>IDs</code></td>
+<td>
+<p>(String or vector of strings) Define samples or groups (if <code>mean = TRUE</code>) to combine into a single plot based on exact matches with entries in the <code>label</code> or <code>condition</code> columns of <code>grofit$expdesign</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>names</code></td>
+<td>
+<p>(String or vector of strings) Define groups to combine into a single plot. Partial matches with sample/group names are accepted. If <code>NULL</code>, all samples are considered. Note: Ensure to use unique substrings to extract groups of interest. If the name of one condition is included in its entirety within the name of other conditions, it cannot be extracted individually.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>conc</code></td>
+<td>
+<p>(Numeric or numeric vector) Define concentrations to combine into a single plot. If <code>NULL</code>, all concentrations are considered. Note: Ensure to use unique concentration values to extract groups of interest. If the concentration value of one condition is included in its entirety within the name of other conditions (e.g., the dataset contains '1', '10', and '100', <code>code = 10</code> will select both '10 and '100'), it cannot be extracted individually.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mean</code></td>
+<td>
+<p>(Logical) Display the mean and standard deviation of groups with replicates (<code>TRUE</code>) or plot each sample individually (<code>FALSE</code>)?</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>exclude.nm</code></td>
+<td>
+<p>(String or vector of strings) Define groups to exclude from the plot. Partial matches with sample/group names are accepted.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>exclude.conc</code></td>
+<td>
+<p>(Numeric or numeric vector) Define concentrations to exclude from the plot.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>log.y</code></td>
+<td>
+<p>(Logical) Log-transform the y-axis of the plot (<code>TRUE</code>) or not (<code>FALSE</code>)?</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n.ybreaks</code></td>
+<td>
+<p>(Numeric) Number of breaks on the y-axis. The breaks are generated using <code>scales::pretty_breaks</code>. Thus, the final number of breaks can deviate from the user input.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>colors</code></td>
+<td>
+<p>(vector of strings) Define a color palette used to draw the plots. If <code>NULL</code>, default palettes are chosen based on the number of groups/samples within the plot. Note: The number of provided colors should at least match the number of groups/samples.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>color_groups</code></td>
+<td>
+<p>(Logical) Shall samples within the same group but with different concentrations be shown in different shades of the same color?</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>group_pals</code></td>
+<td>
+<p>(String vector) Define the colors used to display sample groups with identical concentrations. The number of selected color palettes must be at least the number of displayed groups. The order of the chosen palettes corresponds to the oder of conditions in the legend. Available options: "Green", "Oranges", "Purple", "Cyan", "Grey", "Red", "Blue", and "Magenta".</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>basesize</code></td>
+<td>
+<p>(Numeric) Base font size.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y.lim</code></td>
+<td>
+<p>(Numeric vector with two elements) Optional: Provide the lower (<code>l</code>) and upper (<code>u</code>) bounds of the y-axis of the growth curve plot as a vector in the form <code>c(l, u)</code>. If only the lower or upper bound should be fixed, provide <code>c(l, NA)</code> or <code>c(NA, u)</code>, respectively.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x.lim</code></td>
+<td>
+<p>(Numeric vector with two elements) Optional: Provide the lower (<code>l</code>) and upper (<code>u</code>) bounds of the x-axis of both growth curve and derivative plots as a vector in the form <code>c(l, u)</code>. If only the lower or upper bound should be fixed, provide <code>c(l, NA)</code> or <code>c(NA, u)</code>, respectively.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y.title</code></td>
+<td>
+<p>(Character) Optional: Provide a title for the y-axis of the growth curve plot.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x.title</code></td>
+<td>
+<p>(Character) Optional: Provide a title for the x-axis of both growth curve and derivative plots.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lwd</code></td>
+<td>
+<p>(Numeric) Line width of the individual plots.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>legend.position</code></td>
+<td>
+<p>(Character) Position of the legend. One of "bottom", "top", "left", "right".</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>legend.ncol</code></td>
+<td>
+<p>(Numeric) Number of columns in the legend.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>plot</code></td>
+<td>
+<p>(Logical) Show the generated plot in the <code>Plots</code> pane (<code>TRUE</code>) or not (<code>FALSE</code>). If <code>FALSE</code>, a ggplot object is returned.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>export</code></td>
+<td>
+<p>(Logical) Export the generated plot as PDF and PNG files (<code>TRUE</code>) or not (<code>FALSE</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>height</code></td>
+<td>
+<p>(Numeric) Height of the exported image in inches.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>width</code></td>
+<td>
+<p>(Numeric) Width of the exported image in inches.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>out.dir</code></td>
+<td>
+<p>(Character) Name or path to a folder in which the exported files are stored. If <code>NULL</code>, a "Plots" folder is created in the current working directory to store the files in.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>out.nm</code></td>
+<td>
+<p>(Character) The name of the PDF and PNG files if <code>export = TRUE</code>. If <code>NULL</code>, a name will be automatically generated including the chosen parameter.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Additional arguments. This has currently no effect and is only meant to fulfill the requirements of a generic function.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A plot with all growth curves (raw measurements) in a dataset, with replicates combined by the group averages (if <code>mean = TRUE</code>) or not (<code>mean = FALSE</code>).
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># Create random growth data sets
+rnd.data1 &lt;- rdm.data(d = 35, mu = 0.8, A = 5, label = "Test1")
+rnd.data2 &lt;- rdm.data(d = 35, mu = 0.6, A = 4.5, label = "Test2")
+
+# Create dataframe with both data sets and a single time vector
+time &lt;- as.data.frame(matrix(t(c("Time",NA,NA, rnd.data1$time[1,])),nrow=1),
+             stringsAsFactors=FALSE)
+colnames(time) &lt;- colnames(rnd.data1$data)
+data &lt;- rbind(time, rnd.data1$data, rnd.data2$data)
+
+
+# Create a grodata object
+grodata &lt;- read_data(data.growth = data, data.format = "row")
+
+plot(grodata, exclude.nm = "Test1", legend.ncol = 4)
+
+</code></pre>
+
+
+</div>

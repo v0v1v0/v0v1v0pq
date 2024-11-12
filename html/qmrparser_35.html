@@ -1,0 +1,164 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>streamParser</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Generic interface for character processing, allowing forward and backwards translation.
+</h2>
+
+<h3>Description</h3>
+
+<p>Generic interface for character processing. It allows going forward sequentially or backwards to a previous arbitrary position.
+</p>
+<p>Each one of these functions performs an operation on or obtains information from a character sequence (stream).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">streamParserNextChar(stream)
+streamParserNextCharSeq(stream)
+streamParserPosition(stream)
+streamParserClose(stream)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>stream</code></td>
+<td>
+<p>object containing information about the text to be processed and, specifically, about the next character to be read</p>
+</td>
+</tr></table>
+<h3>Details</h3>
+
+  
+<ul>
+<li>
+<p>streamParserNextChar
+</p>
+<p>Reads next character, checking if position to be read is correct.
+ 
+</p>
+</li>
+<li>
+<p>streamParserNextCharSeq
+</p>
+<p>Reads next character, without checking if position to be read is correct. Implemented since it is faster than streamParserNextChar
+</p>
+</li>
+<li>
+<p>streamParserPosition
+</p>
+<p>Returns information about text position being read.
+</p>
+</li>
+<li>
+<p>streamParserClose
+</p>
+<p>Closes the stream  
+</p>
+</li>
+</ul>
+<h3>Value</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>streamParserNextChar and streamParserNextCharSeq</code></td>
+<td>
+
+<p>Three field list:
+</p>
+
+<ul>
+<li>
+<p>status      
+</p>
+<p>"ok" or "eof"
+</p>
+</li>
+<li>
+<p>char
+</p>
+<p>Character read (ok) or "" (eof)
+</p>
+</li>
+<li>
+<p>stream      
+</p>
+<p>With information about next character to be read or same position if end of file has been reached ("eof")
+</p>
+</li>
+</ul>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>streamParserPosition</code></td>
+<td>
+
+<p>Three field list:
+</p>
+
+<ul>
+<li>
+<p>fileName   
+File name or "" if the stream is not associated with a file name
+</p>
+</li>
+<li>
+<p>line      
+</p>
+<p>line number
+</p>
+</li>
+<li>
+<p>linePos   
+</p>
+<p>character to be read position within its line
+</p>
+</li>
+<li>
+<p>streamPos
+</p>
+<p>character to be read position from the text beginning
+</p>
+</li>
+</ul>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>streamParserClose</code></td>
+<td>
+<p>NULL</p>
+</td>
+</tr>
+</table>
+<h3>See Also</h3>
+
+<p><code>streamParserFromFileName</code>
+<code>streamParserFromString</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+stream&lt;- streamParserFromString("Hello world")
+
+cstream &lt;- streamParserNextChar(stream)
+
+while( cstream$status == "ok" ) {
+    print(streamParserPosition(cstream$stream))
+    print(cstream$char)
+    cstream &lt;- streamParserNextCharSeq(cstream$stream)
+}
+
+streamParserClose(stream)
+
+</code></pre>
+
+
+</div>

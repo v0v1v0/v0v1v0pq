@@ -1,0 +1,75 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>Bnk_func</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Generate biquadratic kernel weights for a univariate variable</h2>
+
+<h3>Description</h3>
+
+<p>This is the biquadratic kernel function, that weights
+observations by their distances to the target observation.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">Bnk_func(x0k, Xk, bw.bnk)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x0k</code></td>
+<td>
+<p>Numeric scalar. One univariate covariate value of interest 
+from one observation.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Xk</code></td>
+<td>
+<p>Numerical vector. The vector of the same covariate from observations</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bw.bnk</code></td>
+<td>
+<p>The bandwith scalar parameter.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>This function returns a list of kernel weights with the same length of input <code>Xk</code>.
+</p>
+
+
+<h3>Note</h3>
+
+<p>This function is widely used for generating kernel weights for 
+nonparametrically estimating conditional survival functions. See 
+Section 2.3 of (Wang and Wang 2009).
+</p>
+
+
+<h3>References</h3>
+
+<p>Wang HJ, Wang L (2009).
+“Locally weighted censored quantile regression.”
+<em>Journal of the American Statistical Association</em>, <b>104</b>(487), 1117–1128.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"> 
+Bnk_func(x0k=0, Xk=c(-5:5), bw.bnk=10)
+
+</code></pre>
+
+
+</div>

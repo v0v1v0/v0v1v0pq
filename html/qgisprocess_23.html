@@ -1,0 +1,66 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qgis_clean_result</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Clean processing results</h2>
+
+<h3>Description</h3>
+
+<p>Deletes any temporary files that are defined in a
+<code>qgis_result</code> object.
+These may comprise both input and output files.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qgis_clean_result(x)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>A <code>qgis_result</code> object returned by <code>qgis_run_algorithm()</code>.</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>The <code>qgis_result</code> object passed to the function is returned
+invisibly.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Other topics about accessing or managing processing results: 
+<code>qgis_as_raster()</code>,
+<code>qgis_as_terra()</code>,
+<code>qgis_extract_output()</code>,
+<code>qgis_result_status()</code>,
+<code>st_as_sf</code>,
+<code>st_as_stars</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+result &lt;- qgis_run_algorithm(
+  "native:buffer",
+  INPUT = system.file("longlake/longlake_depth.gpkg", package = "qgisprocess"),
+  DISTANCE = 10
+)
+
+file.exists(qgis_extract_output(result))
+qgis_clean_result(result)
+file.exists(qgis_extract_output(result))
+
+</code></pre>
+
+
+</div>

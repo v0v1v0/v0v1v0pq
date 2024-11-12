@@ -1,0 +1,123 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qgis_extract_output</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Access processing output</h2>
+
+<h3>Description</h3>
+
+<p>These functions extract one output element from the result of
+<code>qgis_run_algorithm()</code>, potentially more than one in the case of
+<code>qgis_extract_output_by_class()</code>.
+An output element can be extracted based on its name, its position in the
+printed <code>qgis_result</code> object returned by <code>qgis_run_algorithm()</code>, or its
+class.
+</p>
+<p><code>qgis_extract_output()</code> is an alias to <code>qgis_extract_output_by_name()</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qgis_extract_output_by_name(x, name = "OUTPUT", first = TRUE)
+
+qgis_extract_output(x, name = "OUTPUT", first = TRUE)
+
+qgis_extract_output_by_position(x, which)
+
+qgis_extract_output_by_class(x, class, single = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>A <code>qgis_result</code> object returned by <code>qgis_run_algorithm()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>name</code></td>
+<td>
+<p>The name of an output.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>first</code></td>
+<td>
+<p>Logical.
+Should <code>qgis_extract_output_by_name()</code> fall back to the first
+output element if the default <code>OUTPUT</code> or <code>output</code> element is not available?
+Only takes effect if <code>name</code> is equal to <code>OUTPUT</code> or <code>output</code>, but not found.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>which</code></td>
+<td>
+<p>The index of an output.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>class</code></td>
+<td>
+<p>Character vector of classes.
+At least one class must be inherited by an element of <code>x</code> for that element
+to be selected.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>single</code></td>
+<td>
+<p>Logical.
+Ensures the selection of a single output in <code>qgis_extract_output_by_class()</code>.
+The <code>OUTPUT</code> or <code>output</code> element is taken if available and on condition that
+it inherits a specified class; otherwise falls back
+to the first element that inherits a specified class.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A <code style="white-space: pre;">⁠qgis_output*⁠</code> object.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Other topics about accessing or managing processing results: 
+<code>qgis_as_raster()</code>,
+<code>qgis_as_terra()</code>,
+<code>qgis_clean_result()</code>,
+<code>qgis_result_status()</code>,
+<code>st_as_sf</code>,
+<code>st_as_stars</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+result &lt;- qgis_run_algorithm(
+  "native:buffer",
+  INPUT = system.file("longlake/longlake_depth.gpkg", package = "qgisprocess"),
+  DISTANCE = 10
+)
+
+# the print() method of a qgis_result only prints its output elements:
+result
+
+# nevertheless, more elements are included:
+length(result)
+names(result)
+
+# extract the output element 'OUTPUT':
+qgis_extract_output(result)
+
+</code></pre>
+
+
+</div>

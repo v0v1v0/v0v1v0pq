@@ -1,0 +1,86 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>Optimal selection fraction</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Optimal selection fraction</h2>
+
+<h3>Description</h3>
+
+<p>Functions to find optimal selection fractions given cost.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">optselection(cost,d=0,G=NULL,cross)
+optselection.bc(cost,d=0,G=NULL)
+optselection.f2(cost,d=0,G=NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>cost</code></td>
+<td>
+<p>Cost per genotype in units of raising individual</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>d</code></td>
+<td>
+<p>Marker spacing in Morgans</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>G</code></td>
+<td>
+<p>Genome size in Morgans</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cross</code></td>
+<td>
+<p>Cross type, "bc" or "f2"</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The function <code>optimize</code> is used to search for the optima.</p>
+
+
+<h3>Value</h3>
+
+<p>The optimal selection  fraction.</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Saunak Sen</p>
+
+
+<h3>References</h3>
+
+<p>Sen S, Satagopan JM, Churchill GA (2005) 	
+Quantitative trait locus study design from an information perspective.
+Genetics, 170:447-64.</p>
+
+
+<h3>See Also</h3>
+
+<p><code>optimize</code></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">optselection(1,cross="bc")
+optselection(0.001,10,1450,cross="bc")
+optselection(0.001,10,1450,cross="f2")
+</code></pre>
+
+
+</div>

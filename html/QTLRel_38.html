@@ -1,0 +1,109 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qtlVar</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+QTL Variance
+</h2>
+
+<h3>Description</h3>
+
+<p>Estimate variance in a quantitative trait induced by QTL.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qtlVar(lrt, prdat, simulation = FALSE, nsim = 25)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>lrt</code></td>
+<td>
+
+<p>A data frame (a, d, ...), where 'a' and 'd' are respectively additive and dominance effects.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>prdat</code></td>
+<td>
+
+<p>A 3-D array that provides probabilities of genotypes "AA", "AB" and "BB". If <code>prDat</code> is an object of <code>genoProb</code>, then <code>prdat</code> can be <code>prDat$pr</code>. 
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>simulation</code></td>
+<td>
+
+<p>Whether to use simulations to estimate the variance explained by QTL.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nsim</code></td>
+<td>
+
+<p>Number of simulations to perform if <code>simulation</code> is TRUE.
+</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A vector displaying the estimated variance at each loci.
+</p>
+
+
+<h3>Note</h3>
+
+<p>Correlations among observations are ignored, and this function should be used with caution.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>scanOne</code> and <code>genoProb</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(miscEx)
+
+## Not run: 
+# impute missing genotypes
+pheno&lt;- pdatF8[!is.na(pdatF8$bwt) &amp; !is.na(pdatF8$sex),]
+ii&lt;- match(rownames(pheno), rownames(gdatF8))
+geno&lt;- gdatF8[ii,]
+ii&lt;- match(rownames(pheno), rownames(gmF8$AA))
+v&lt;- list(A=gmF8$AA[ii,ii], D=gmF8$DD[ii,ii])
+
+gdtmp&lt;- geno
+   gdtmp&lt;- replace(gdtmp,is.na(gdtmp),0)
+# rung 'genoProb'
+prDat&lt;- genoProb(gdat=gdtmp, gmap=gmapF8,
+   gr=8, method="Haldane", msg=TRUE)
+# estimate variance components
+o&lt;- estVC(y=pheno$bwt, x=pheno$sex, v=v)
+
+# genome scan
+pv.hk&lt;- scanOne(y=pheno$bwt, x=pheno$sex, prdat=prDat, vc=o)
+
+# run 'qtlVar'
+qef&lt;- pv.hk$par[,c("a","d")]
+   qef&lt;- as.data.frame(qef)
+qv&lt;- qtlVar(qef,prDat$pr)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,316 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>textstat_lexdiv</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Calculate lexical diversity</h2>
+
+<h3>Description</h3>
+
+<p>Calculate the lexical diversity of text(s).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">textstat_lexdiv(
+  x,
+  measure = c("TTR", "C", "R", "CTTR", "U", "S", "K", "I", "D", "Vm", "Maas", "MATTR",
+    "MSTTR", "all"),
+  remove_numbers = TRUE,
+  remove_punct = TRUE,
+  remove_symbols = TRUE,
+  remove_hyphens = FALSE,
+  log.base = 10,
+  MATTR_window = 100L,
+  MSTTR_segment = 100L,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>an dfm or tokens input object
+for whose documents lexical diversity will be computed</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>measure</code></td>
+<td>
+<p>a character vector defining the measure to compute</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>remove_numbers</code></td>
+<td>
+<p>logical; if <code>TRUE</code> remove features or tokens that
+consist only of numerals (the Unicode "Number" <code style="white-space: pre;">⁠[N]⁠</code> class)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>remove_punct</code></td>
+<td>
+<p>logical; if <code>TRUE</code> remove all features or tokens
+that consist only of the Unicode "Punctuation" <code style="white-space: pre;">⁠[P]⁠</code> class)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>remove_symbols</code></td>
+<td>
+<p>logical; if <code>TRUE</code> remove all features or tokens
+that consist only of the Unicode "Punctuation" <code style="white-space: pre;">⁠[S]⁠</code> class)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>remove_hyphens</code></td>
+<td>
+<p>logical; if <code>TRUE</code> split words that are connected
+by hyphenation and hyphenation-like characters in between words, e.g.
+"self-storage" becomes two features or tokens "self" and "storage". Default
+is FALSE to preserve such words as is, with the hyphens.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>log.base</code></td>
+<td>
+<p>a numeric value defining the base of the logarithm (for
+measures using logarithms)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>MATTR_window</code></td>
+<td>
+<p>a numeric value defining the size of the moving window
+for computation of the Moving-Average Type-Token Ratio (Covington &amp; McFall, 2010)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>MSTTR_segment</code></td>
+<td>
+<p>a numeric value defining the size of the each segment
+for the computation of the the Mean Segmental Type-Token Ratio (Johnson, 1944)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>not used directly</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p><code>textstat_lexdiv</code> calculates the lexical diversity of documents
+using a variety of indices.
+</p>
+<p>In the following formulas, <code class="reqn">N</code> refers to the total number of
+tokens, <code class="reqn">V</code> to the number of types, and <code class="reqn">f_v(i, N)</code> to the numbers
+of types occurring <code class="reqn">i</code> times in a sample of length <code class="reqn">N</code>.
+</p>
+
+<dl>
+<dt>
+<code>"TTR"</code>:</dt>
+<dd>
+<p>The ordinary <em>Type-Token Ratio</em>: </p>
+<p style="text-align: center;"><code class="reqn">TTR =
+  \frac{V}{N}</code>
+</p>
+</dd>
+<dt>
+<code>"C"</code>:</dt>
+<dd>
+<p>Herdan's <em>C</em> (Herdan, 1960, as cited in Tweedie &amp;
+Baayen, 1998; sometimes referred to as <em>LogTTR</em>): </p>
+<p style="text-align: center;"><code class="reqn">C =
+  \frac{\log{V}}{\log{N}}</code>
+</p>
+</dd>
+<dt>
+<code>"R"</code>:</dt>
+<dd>
+<p>Guiraud's <em>Root TTR</em> (Guiraud, 1954, as cited in
+Tweedie &amp; Baayen, 1998): </p>
+<p style="text-align: center;"><code class="reqn">R = \frac{V}{\sqrt{N}}</code>
+</p>
+</dd>
+<dt>
+<code>"CTTR"</code>:</dt>
+<dd>
+<p>Carroll's <em>Corrected TTR</em>: </p>
+<p style="text-align: center;"><code class="reqn">CTTR =
+  \frac{V}{\sqrt{2N}}</code>
+</p>
+</dd>
+<dt>
+<code>"U"</code>:</dt>
+<dd>
+<p>Dugast's <em>Uber Index</em>  (Dugast, 1978, as cited in
+Tweedie &amp; Baayen, 1998): </p>
+<p style="text-align: center;"><code class="reqn">U = \frac{(\log{N})^2}{\log{N} - \log{V}}</code>
+</p>
+</dd>
+<dt>
+<code>"S"</code>:</dt>
+<dd>
+<p>Summer's index: </p>
+<p style="text-align: center;"><code class="reqn">S =
+  \frac{\log{\log{V}}}{\log{\log{N}}}</code>
+</p>
+</dd>
+<dt>
+<code>"K"</code>:</dt>
+<dd>
+<p>Yule's <em>K</em>  (Yule, 1944, as presented in Tweedie &amp;
+Baayen, 1998, Eq. 16) is calculated by: </p>
+<p style="text-align: center;"><code class="reqn">K = 10^4 \times
+  \left[ -\frac{1}{N} + \sum_{i=1}^{V} f_v(i, N) \left( \frac{i}{N} \right)^2 \right] </code>
+</p>
+</dd>
+<dt>
+<code>"I"</code>:</dt>
+<dd>
+<p>Yule's <em>I</em>  (Yule, 1944) is calculated by: </p>
+<p style="text-align: center;"><code class="reqn">I = \frac{V^2}{M_2 - V}</code>
+</p>
+
+<p style="text-align: center;"><code class="reqn">M_2 = \sum_{i=1}^{V} i^2 * f_v(i, N)</code>
+</p>
+</dd>
+<dt>
+<code>"D"</code>:</dt>
+<dd>
+<p>Simpson's <em>D</em>  (Simpson 1949, as presented in
+Tweedie &amp; Baayen, 1998, Eq. 17) is calculated by:
+</p>
+<p style="text-align: center;"><code class="reqn">D = \sum_{i=1}^{V} f_v(i, N) \frac{i}{N} \frac{i-1}{N-1}</code>
+</p>
+</dd>
+<dt>
+<code>"Vm"</code>:</dt>
+<dd>
+<p>Herdan's <code class="reqn">V_m</code>  (Herdan 1955, as presented in
+Tweedie &amp; Baayen, 1998, Eq. 18) is calculated by:
+</p>
+<p style="text-align: center;"><code class="reqn">V_m = \sqrt{ \sum_{i=1}^{V} f_v(i, N) (i/N)^2 - \frac{i}{V} }</code>
+</p>
+</dd>
+<dt>
+<code>"Maas"</code>:</dt>
+<dd>
+<p>Maas' indices (<code class="reqn">a</code>, <code class="reqn">\log{V_0}</code> &amp;
+<code class="reqn">\log{}_{e}{V_0}</code>): </p>
+<p style="text-align: center;"><code class="reqn">a^2 = \frac{\log{N} -
+  \log{V}}{\log{N}^2}</code>
+</p>
+ <p style="text-align: center;"><code class="reqn">\log{V_0} =
+  \frac{\log{V}}{\sqrt{1 - \frac{\log{V}}{\log{N}}^2}}</code>
+</p>
+<p> The measure was derived from a formula by
+Mueller (1969, as cited in Maas, 1972). <code class="reqn">\log{}_{e}{V_0}</code> is equivalent
+to <code class="reqn">\log{V_0}</code>, only with <code class="reqn">e</code> as the base for the logarithms. Also
+calculated are <code class="reqn">a</code>, <code class="reqn">\log{V_0}</code> (both not the same as before) and
+<code class="reqn">V'</code> as measures of relative vocabulary growth while the text
+progresses. To calculate these measures, the first half of the text and the
+full text will be examined (see Maas, 1972, p. 67 ff. for details).  Note:
+for the current method (for a dfm) there is no computation on separate
+halves of the text.</p>
+</dd>
+<dt>
+<code>"MATTR"</code>:</dt>
+<dd>
+<p>The Moving-Average Type-Token Ratio (Covington &amp;
+McFall, 2010) calculates TTRs for a moving window of tokens from the first
+to the last token, computing a TTR for each window. The MATTR is the mean
+of the TTRs of each window.</p>
+</dd>
+<dt>
+<code>"MSTTR"</code>:</dt>
+<dd>
+<p>Mean Segmental Type-Token Ratio (sometimes referred
+to as <em>Split TTR</em>) splits the tokens into segments of the given size,
+TTR for each segment is calculated and the mean of these values returned.
+When this value is &lt; 1.0, it splits the tokens into equal, non-overlapping
+sections of that size.  When this value is &gt; 1, it defines the segments as
+windows of that size. Tokens at the end which do not make a full segment
+are ignored.</p>
+</dd>
+</dl>
+<h3>Value</h3>
+
+<p>A data.frame of documents and their lexical diversity scores.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Kenneth Benoit and Jiong Wei Lua. Many of the formulas have been
+reimplemented from functions written by Meik Michalke in the <span class="pkg">koRpus</span>
+package.
+</p>
+
+
+<h3>References</h3>
+
+<p>Covington, M.A. &amp; McFall, J.D. (2010). Cutting the Gordian Knot: The
+Moving-Average Type-Token Ratio (MATTR) <em>Journal of Quantitative
+Linguistics</em>, 17(2), 94–100.
+<a href="https://doi.org/10.1080/09296171003643098">doi:10.1080/09296171003643098</a>
+</p>
+<p>Herdan, G. (1955). <a href="https://link.springer.com/article/10.1007/BF01587632">A New Derivation and Interpretation of Yule's 'Characteristic' <em>K</em></a>. <em>Zeitschrift
+für angewandte Mathematik und Physik</em>, 6(4): 332–334.
+</p>
+<p>Maas, H.D. (1972). Über den Zusammenhang zwischen Wortschatzumfang und
+Länge eines Textes. <em>Zeitschrift für Literaturwissenschaft und Linguistik</em>,
+2(8), 73–96.
+</p>
+<p>McCarthy, P.M. &amp;  Jarvis, S. (2007). vocd: A Theoretical and Empirical
+Evaluation. <em>Language Testing</em>, 24(4), 459–488.
+<a href="https://doi.org/10.1177/0265532207080767">doi:10.1177/0265532207080767</a>
+</p>
+<p>McCarthy, P.M. &amp; Jarvis, S. (2010). <a href="https://link.springer.com/article/10.3758/BRM.42.2.381">MTLD, vocd-D, and HD-D: A Validation Study of Sophisticated Approaches to Lexical Diversity Assessment</a>.
+<em>Behaviour Research Methods</em>, 42(2), 381–392.
+</p>
+<p>Michalke, M. (2014). <em>koRpus: An R Package for Text Analysis (Version
+0.05-4)</em>. Available from <a href="https://reaktanz.de/?c=hacking&amp;s=koRpus">https://reaktanz.de/?c=hacking&amp;s=koRpus</a>.
+</p>
+<p>Simpson, E.H. (1949). Measurement of Diversity. <em>Nature</em>, 163: 688.
+<a href="https://doi.org/10.1038/163688a0">doi:10.1038/163688a0</a>
+</p>
+<p>Tweedie. F.J. and Baayen, R.H. (1998). How Variable May a Constant Be?
+Measures of Lexical Richness in Perspective. <em>Computers and the
+Humanities</em>, 32(5), 323–352.  <a href="https://doi.org/10.1023/A%3A1001749303137">doi:10.1023/A:1001749303137</a>
+</p>
+<p>Yule, G. U. (1944)  <em>The Statistical Study of Literary Vocabulary.</em>
+Cambridge: Cambridge University Press.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library("quanteda")
+
+txt &lt;- c("Anyway, like I was sayin', shrimp is the fruit of the sea. You can
+          barbecue it, boil it, broil it, bake it, saute it.",
+         "There's shrimp-kabobs,
+          shrimp creole, shrimp gumbo. Pan fried, deep fried, stir-fried. There's
+          pineapple shrimp, lemon shrimp, coconut shrimp, pepper shrimp, shrimp soup,
+          shrimp stew, shrimp salad, shrimp and potatoes, shrimp burger, shrimp
+          sandwich.")
+tokens(txt) %&gt;%
+    textstat_lexdiv(measure = c("TTR", "CTTR", "K"))
+dfm(tokens(txt)) %&gt;%
+    textstat_lexdiv(measure = c("TTR", "CTTR", "K"))
+
+toks &lt;- tokens(corpus_subset(data_corpus_inaugural, Year &gt; 2000))
+textstat_lexdiv(toks, c("CTTR", "TTR", "MATTR"), MATTR_window = 100)
+</code></pre>
+
+
+</div>

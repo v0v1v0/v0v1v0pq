@@ -1,0 +1,240 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qgcomp.partials</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Partial effect sizes, confidence intervals, hypothesis tests</h2>
+
+<h3>Description</h3>
+
+<p>Obtain effect estimates for "partial positive" and "partial
+negative" effects using quantile g-computation. This approach uses sample
+splitting to evaluate the overall impact of a set of variables with
+effects in a single direction, where, using training data, all variables
+with effects in the same direction are grouped.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qgcomp.partials(
+  fun = c("qgcomp.glm.noboot", "qgcomp.cox.noboot", "qgcomp.zi.noboot"),
+  traindata = NULL,
+  validdata = NULL,
+  expnms = NULL,
+  .fixbreaks = TRUE,
+  .globalbreaks = FALSE,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>fun</code></td>
+<td>
+<p>character variable in the set "qgcomp.glm.noboot" (binary, count, continuous outcomes),
+"qgcomp.cox.noboot" (survival outcomes),
+"qgcomp.zi.noboot" (zero inflated outcomes). This describes which qgcomp package
+function is used to fit the model. (default = "qgcomp.glm.noboot")</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>traindata</code></td>
+<td>
+<p>Data frame with training data</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>validdata</code></td>
+<td>
+<p>Data frame with validation data</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>expnms</code></td>
+<td>
+<p>Exposure mixture of interest</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>.fixbreaks</code></td>
+<td>
+<p>(logical, overridden by .globalbreaks) Use the same quantile cutpoints in the training and validation data (selected in the training data). As of version 2.8.11, the default is TRUE, whereas it was implicitly FALSE in prior verions. Setting to TRUE increases variance but greatly decreases bias in smaller samples.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>.globalbreaks</code></td>
+<td>
+<p>(logical, if TRUE, overrides .fixbreaks) Use the same quantile cutpoints in the training and validation data (selected in combined training and validation data). As of version 2.8.11, the default is TRUE, whereas it was implicitly FALSE in prior verions. Setting to TRUE increases variance but greatly decreases bias in smaller samples.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Arguments to <code>qgcomp.glm.noboot</code>,
+<code>qgcomp.cox.noboot</code>, or
+<code>qgcomp.zi.noboot</code></p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>In the basic (non bootstrapped) <code>qgcomp</code> functions, the positive and
+negative "sums
+of coefficients" or "partial effect sizes" are given, which equal the sum
+of the negative and positive coefficients in the underlying model. Unfortunately,
+these partial effects don't constitute variables for which we can derive confidence
+intervals or hypothesis tests, so they are mainly for exploratory purposes. By employing
+sample splitting, however, we can obtain better estimates of these partial effects.
+</p>
+<p>Sample splitting proceeds by partitioning the data into two samples (40/60 training/validtion
+split seems acceptable in many circumstances). The "overall mixture effect" is then
+estimated in the training data, and the mixture variables with positive and negative coefficients
+are split into separate groups. These two different groups are then used as
+"the mixture of interest" in two additional qgcomp fits, where the mixture of interest
+is adjusted for the other exposure variables. For example, if the "positive partial effect"
+is of interest, then this effect is equal to the sum of the coefficients in the
+qgcomp model fit to the validation data, with the mixture of interest selected by the
+original fit to the training data (note that some of these coefficients may be negative
+in the fit to the validation data - this is expected and necessary for valid hypothesis tests).
+</p>
+<p>The positive/negative partial effects are necessarily exploratory, but sample splitting preserves
+the statistical properties at the expense of wider confidence intervals and larger variances. The
+two resulting mixture groups groups should be inspected for
+</p>
+
+
+<h3>Value</h3>
+
+<p>A 'qgcompmultifit' object, which inherits from <code>list</code>, which contains
+</p>
+
+<dl>
+<dt>posmix</dt>
+<dd>
+<p>character vector of variable names with positive coefficients in the qgcomp model
+fit to the training data</p>
+</dd>
+<dt>negmix</dt>
+<dd>
+<p>character vector of variable names with negative coefficients in the qgcomp model
+fit to the training data</p>
+</dd>
+<dt>pos.fit</dt>
+<dd>
+<p>a qgcompfit object fit to the validation data, in which the exposures of
+interest are contained in 'posmix'</p>
+</dd>
+<dt>neg.fit</dt>
+<dd>
+<p>a qgcompfit object fit to the validation data, in which the exposures of
+interest are contained in 'negmix'</p>
+</dd>
+</dl>
+<h3>See Also</h3>
+
+<p>Other qgcomp_methods: 
+<code>qgcomp.cch.noboot()</code>,
+<code>qgcomp.cox.boot()</code>,
+<code>qgcomp.cox.noboot()</code>,
+<code>qgcomp.glm.boot()</code>,
+<code>qgcomp.glm.noboot()</code>,
+<code>qgcomp.hurdle.boot()</code>,
+<code>qgcomp.hurdle.noboot()</code>,
+<code>qgcomp.multinomial.boot()</code>,
+<code>qgcomp.multinomial.noboot()</code>,
+<code>qgcomp.zi.boot()</code>,
+<code>qgcomp.zi.noboot()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">set.seed(123223)
+dat = qgcomp::simdata_quantized(n=1000, outcomtype="continuous", cor=c(.75, 0), 
+                                b0=0, coef=c(0.25,-0.25,0,0), q=4)
+cor(dat)
+# overall fit (more or less null due to counteracting exposures)
+(overall &lt;- qgcomp.glm.noboot(f=y~., q=NULL, expnms=c("x1", "x2", "x3", "x4"), data=dat))
+
+# partial effects using 40% training/60% validation split
+trainidx &lt;- sample(1:nrow(dat), round(nrow(dat)*0.4))
+valididx &lt;- setdiff(1:nrow(dat),trainidx)
+traindata = dat[trainidx,]
+validdata = dat[valididx,]
+splitres &lt;- qgcomp.partials(fun="qgcomp.glm.noboot", f=y~., q=NULL, 
+    traindata=traindata,validdata=validdata, expnms=c("x1", "x2", "x3", "x4"))
+splitres
+## Not run: 
+# under the null, both should give null results
+set.seed(123223)
+dat = simdata_quantized(n=1000, outcomtype="continuous", cor=c(.75, 0), 
+                                b0=0, coef=c(0,0,0,0), q=4)
+# 40% training/60% validation
+trainidx2 &lt;- sample(1:nrow(dat), round(nrow(dat)*0.4))
+valididx2 &lt;- setdiff(1:nrow(dat),trainidx2)
+traindata2 &lt;- dat[trainidx2,]
+validdata2 &lt;- dat[valididx2,]
+splitres2 &lt;- qgcomp.partials(fun="qgcomp.glm.noboot", f=y~., 
+   q=NULL, traindata=traindata2,validdata=validdata2, expnms=c("x1", "x2", "x3", "x4"))
+splitres2
+
+# 60% training/40% validation
+trainidx3 &lt;- sample(1:nrow(dat), round(nrow(dat)*0.6))
+valididx3 &lt;- setdiff(1:nrow(dat),trainidx3)
+traindata3 &lt;- dat[trainidx3,]
+validdata3 &lt;- dat[valididx3,]
+splitres3 &lt;- qgcomp.partials(fun="qgcomp.glm.noboot", f=y~., q=NULL, 
+    traindata=traindata3,validdata=validdata3, expnms=c("x1", "x2", "x3", "x4"))
+splitres3
+
+# survival outcome
+set.seed(50)
+N=1000
+dat = simdata_quantized(n=1000, outcomtype="survival", cor=c(.75, 0, 0, 0, 1), 
+                                b0=0, coef=c(1,0,0,0,0,1), q=4)
+names(dat)[which(names(dat=="x5"))] = "z"
+trainidx4 &lt;- sample(1:nrow(dat), round(nrow(dat)*0.6))
+valididx4 &lt;- setdiff(1:nrow(dat),trainidx4)
+traindata4 &lt;- dat[trainidx4,]
+validdata4 &lt;- dat[valididx4,]
+expnms=paste0("x", 1:5)
+f = survival::Surv(time, d)~x1 + x2 + x3 + x4 + x5 + z
+(fit1 &lt;- survival::coxph(f, data = dat))
+(overall &lt;- qgcomp.cox.noboot(f, expnms = expnms, data = dat))
+(splitres4 &lt;- qgcomp.partials(fun="qgcomp.cox.noboot", f=f, q=4,
+               traindata=traindata4,validdata=validdata4,
+                expnms=expnms))
+ 
+ # zero inflated count outcome
+ set.seed(50)
+ n=1000
+ dat &lt;- data.frame(y= (yany &lt;- rbinom(n, 1, 0.5))*(ycnt &lt;- rpois(n, 1.2)), x1=runif(n)+ycnt*0.2, 
+                       x2=runif(n)-ycnt*0.2, x3=runif(n),
+                      x4=runif(n) , z=runif(n))
+ # poisson count model, mixture in both portions, but note that the qgcomp.partials
+ # function defines the "positive" variables only  by the count portion of the model
+ (overall5 &lt;- qgcomp.zi.noboot(f=y ~ z + x1 + x2 + x3 + x4 | x1 + x2 + x3 + x4 + z, 
+                 expnms = c("x1", "x2", "x3", "x4"), 
+                  data=dat, q=4, dist="poisson"))
+
+trainidx5 &lt;- sample(1:nrow(dat), round(nrow(dat)*0.6))
+valididx5 &lt;- setdiff(1:nrow(dat),trainidx5)
+traindata5 &lt;- dat[trainidx5,]
+validdata5 &lt;- dat[valididx5,]
+splitres5 &lt;- qgcomp.partials(fun="qgcomp.zi.noboot", 
+    f=y ~ x1 + x2 + x3 + x4 + z | x1 + x2 + x3 + x4 + z, q=4, 
+    traindata=traindata5, validdata=validdata5, 
+    expnms=c("x1", "x2", "x3", "x4"))
+splitres5
+                
+
+## End(Not run)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,74 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>scan_multi_oneqtl_perm</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Permute the phenotypes matrix and then scan the genome. Record the genomewide greatest LOD score for each permuted data set.</h2>
+
+<h3>Description</h3>
+
+<p>Permute the phenotypes matrix and then scan the genome. Record the genomewide greatest LOD score for each permuted data set.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">scan_multi_oneqtl_perm(
+  probs_list,
+  pheno,
+  kinship_list = NULL,
+  addcovar = NULL,
+  n_perm = 1,
+  cores = 1
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>probs_list</code></td>
+<td>
+<p>a list of founder allele probabilities, one array per chromosome</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pheno</code></td>
+<td>
+<p>a matrix of trait values</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>kinship_list</code></td>
+<td>
+<p>a list of kinship matrices, one per chromosome</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>addcovar</code></td>
+<td>
+<p>a matrix of covariate values</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n_perm</code></td>
+<td>
+<p>positive integer for the number of permuted data sets to scan.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cores</code></td>
+<td>
+<p>number of cores for parallelization</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>a vector of 'n_perm' max lod statistics
+</p>
+
+
+</div>

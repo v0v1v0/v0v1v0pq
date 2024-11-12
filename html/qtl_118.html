@@ -1,0 +1,98 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>lodint</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>LOD support interval</h2>
+
+<h3>Description</h3>
+
+<p>Calculate a LOD support interval for a particular chromosome,
+using output from scanone.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">lodint(results, chr, qtl.index, drop=1.5, lodcolumn=1, expandtomarkers=FALSE)</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>results</code></td>
+<td>
+<p>Output from <code>scanone</code>, or a qtl object
+as output from <code>refineqtl</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>chr</code></td>
+<td>
+<p>A chromosome ID (if input <code>results</code> are from
+<code>scanone</code> (should have length 1).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qtl.index</code></td>
+<td>
+<p>Numeric index for a QTL (if input <code>results</code> are
+from <code>refineqtl</code> (should have length 1).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>drop</code></td>
+<td>
+<p>LOD units to drop to form the interval.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lodcolumn</code></td>
+<td>
+<p>An integer indicating which
+of the LOD score columns should be considered (if input
+<code>results</code> are from <code>scanone</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>expandtomarkers</code></td>
+<td>
+<p>If TRUE, the interval is expanded to the nearest
+flanking markers.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>An object of class <code>scanone</code> indicating the
+estimated QTL position and the approximate endpoints
+for the LOD support interval.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Karl W Broman, <a href="mailto:broman@wisc.edu">broman@wisc.edu</a> </p>
+
+
+<h3>See Also</h3>
+
+ <p><code>scanone</code>, <code>bayesint</code> </p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(hyper)
+
+hyper &lt;- calc.genoprob(hyper, step=0.5)
+out &lt;- scanone(hyper, method="hk")
+lodint(out, chr=1)
+lodint(out, chr=4)
+lodint(out, chr=4, drop=2)
+lodint(out, chr=4, expandtomarkers=TRUE)
+</code></pre>
+
+
+</div>

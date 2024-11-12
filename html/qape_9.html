@@ -1,0 +1,57 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>corrRancomp</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Correction of predicted random components</h2>
+
+<h3>Description</h3>
+
+<p>The function computes the corrected predicted random components as presented in Chambers and Chandra (2013) in Section 2.2 to avoid the problem of underdispersion of residual bootstrap distributions.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">corrRancomp(model)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>model</code></td>
+<td>
+ <p><em>lmer</em> object.
+</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>the vector of corrected predicted random components.</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Tomasz Zadlo</p>
+
+
+<h3>References</h3>
+
+<p>Chambers, R. and Chandra, H. (2013) A Random Effect Block Bootstrap for Clustered Data, Journal of Computational and Graphical Statistics, 22(2), 452-470.  <br></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(lme4)
+data(invData)
+attach(invData)
+model &lt;- lmer(investments ~ newly_registered + ((1|NUTS2) + 
+((newly_registered - 1)|NUTS2) + ((newly_registered)|NUTS4)))
+corrRancomp(model)
+detach(invData)
+</code></pre>
+
+
+</div>

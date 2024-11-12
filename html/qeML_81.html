@@ -1,0 +1,104 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>Variable Importance Measures</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Variable Importance Measures</h2>
+
+<h3>Description</h3>
+
+<p>Various approaches to assessing relative importance of one's features.</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qeLeaveOut1Var(data,yName,qeFtnName,nReps,opts=list())
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>Dataframe, training set. Classification case is signaled
+via labels column being an R factor.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>yName</code></td>
+<td>
+<p>Name of the class labels column.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qeFtnName</code></td>
+<td>
+<p>Quoted <code>qe*</code> function name.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nReps</code></td>
+<td>
+<p>Number of holdout sets to generate.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>opts</code></td>
+<td>
+<p>R list of optional arguments for none, some or all of th
+functions in <code>qeFtnList</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Many methods have been developed assessing relative importance of one's
+features.  A few that we consider most useful are accessible here.
+</p>
+<p>As a quick assessment, the <code>qeLeave1VarOut</code> function, with call
+form as above, simply compares predictive ability with and without
+the given feature.
+</p>
+<p>Some methods rely on reweighting:
+</p>
+
+<ul>
+<li> <p><code>qeKNN</code> 
+</p>
+</li>
+<li> <p><code>qeRFranger</code>
+</p>
+</li>
+</ul>
+<p>Others make use of order of entry of a variable into the prediction
+model:
+</p>
+
+<ul>
+<li> <p><code>qeFOCI</code>
+</p>
+</li>
+<li> <p><code>qeLASSO</code>
+</p>
+</li>
+</ul>
+<h3>Author(s)</h3>
+
+<p>Norm Matloff
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+data(pef)
+qeLeaveOut1Var(pef,'wageinc','qeLin',5)
+# in order of impact, wkswrkd largest, then education etc.
+
+</code></pre>
+
+
+</div>

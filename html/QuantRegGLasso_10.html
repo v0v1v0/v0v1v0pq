@@ -1,0 +1,109 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>predict</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Predict Top-k Coefficient Functions</h2>
+
+<h3>Description</h3>
+
+<p>Predict the top-k coefficient functions based on a <code>qrglasso</code> class object.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">predict(
+  qrglasso_object,
+  metric_type = "BIC",
+  top_k = 5,
+  degree = 2,
+  boundaries = c(0, 1),
+  is_approx = FALSE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>qrglasso_object</code></td>
+<td>
+<p>A <code>qrglasso</code> class object.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>metric_type</code></td>
+<td>
+<p>Character. Metric type for gamma selection, e.g., <code>BIC</code>, <code>BIC-log</code>. Default is <code>BIC</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>top_k</code></td>
+<td>
+<p>Integer. The number of top estimated functions to predict. Default is 5.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>degree</code></td>
+<td>
+<p>Integer. Degree of the piecewise polynomial. Default is 2.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>boundaries</code></td>
+<td>
+<p>Array. Two boundary points for the piecewise polynomial. Default is c(0, 1).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>is_approx</code></td>
+<td>
+<p>Logical. If TRUE, the size of covariate indexes will be 1e6; otherwise, 1e4. Default is FALSE.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list containing:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>coef_functions</code></td>
+<td>
+<p>Matrix. The estimated top-k coefficient functions with dimension (<code class="reqn">m \times k</code>), where <code class="reqn">m</code> is the size of <code>z</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>z</code></td>
+<td>
+<p>Array. Index predictors used in the generation.</p>
+</td>
+</tr>
+</table>
+<h3>See Also</h3>
+
+<p><code>qrglasso</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">set.seed(123)
+n &lt;- 100
+p &lt;- 5
+L &lt;- 5
+Y &lt;- matrix(rnorm(n), n, 1)
+W &lt;- matrix(rnorm(n * p * (L - 1)), n, p * (L - 1))
+
+# Call qrglasso with default parameters
+result &lt;- qrglasso(Y = Y, W = W, p = p)
+estimate &lt;- predict(result) 
+print(dim(estimate$coef_functions))
+
+</code></pre>
+
+
+</div>

@@ -1,0 +1,91 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>textstat_proxy</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>[Experimental] Compute document/feature proximity</h2>
+
+<h3>Description</h3>
+
+<p>This is an underlying function for <code>textstat_dist</code> and
+<code>textstat_simil</code> but returns <code>TsparseMatrix</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">textstat_proxy(
+  x,
+  y = NULL,
+  margin = c("documents", "features"),
+  method = c("cosine", "correlation", "jaccard", "ejaccard", "dice", "edice", "hamann",
+    "simple matching", "euclidean", "chisquared", "hamming", "kullback", "manhattan",
+    "maximum", "canberra", "minkowski"),
+  p = 2,
+  min_proxy = NULL,
+  rank = NULL,
+  use_na = FALSE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>if a dfm object is provided, proximity between
+documents or features in <code>x</code> and <code>y</code> is computed.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>margin</code></td>
+<td>
+<p>identifies the margin of the dfm on which similarity or
+difference will be computed:  <code>"documents"</code> for documents or
+<code>"features"</code> for word/term features.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+<p>character; the method identifying the similarity or distance
+measure to be used; see Details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p</code></td>
+<td>
+<p>The power of the Minkowski distance.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>min_proxy</code></td>
+<td>
+<p>the minimum proximity value to be recoded.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rank</code></td>
+<td>
+<p>an integer value specifying top-n most proximity values to be
+recorded.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>use_na</code></td>
+<td>
+<p>if <code>TRUE</code>, return <code>NA</code> for proximity to empty
+vectors. Note that use of <code>NA</code> makes the proximity matrices denser.</p>
+</td>
+</tr>
+</table>
+<h3>See Also</h3>
+
+<p><code>textstat_dist()</code>, <code>textstat_simil()</code>
+</p>
+
+
+</div>

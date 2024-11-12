@@ -1,0 +1,61 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qp_quant_plot</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Sina plot of 5
+distributions</h2>
+
+<h3>Description</h3>
+
+<p>Depending on the number of cases, the permuted distributions of consistency
+values can differ narrowly or widely in terms of their location on the
+spectrum and their shape.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qp_quant_plot(power_est, title = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>power_est</code></td>
+<td>
+<p>Dataframe containing simulation results (see
+<code>qcapower</code>)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>title</code></td>
+<td>
+<p>Option for adding title to plot (default <code>FALSE</code>)</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Creates a sina plot with <code>ggforce</code>
+</p>
+
+
+<h3>Value</h3>
+
+<p>A sina plot using the cases to visualize the density
+distribution ('gg' object).
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">sim_data &lt;- qp_sina_data
+qp_quant_plot(sim_data)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,79 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>set_diff</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Set Differences</h2>
+
+<h3>Description</h3>
+
+<p>Function for testing for unique values between two vectors, specifically,
+which values are in vector1, and not in vector2, which values are not in
+vector1 and in vector2, which values are in both vector1 and vector2.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">set_diff(x, y)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>x, y</code></td>
+<td>
+<p>vectors (of the same mode)</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>a qwraps2_set_diff object, a list of set comparisons
+</p>
+
+<ul>
+<li> <p><code>all_values</code> = <code>union(x, y)</code>
+</p>
+</li>
+<li> <p><code>x_only</code>     = <code>setdiff(x, y)</code>
+</p>
+</li>
+<li> <p><code>y_only</code>     = <code>setdiff(y, x)</code>
+</p>
+</li>
+<li> <p><code>both</code>       = <code>intersect(x, y)</code>
+</p>
+</li>
+<li> <p><code>equal</code>      = <code>setequal(x, y)</code>
+</p>
+</li>
+</ul>
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+# example with two sets which as a union are the upper and lower case vowels.
+set_a &lt;- c("A", "a", "E",      "I", "i", "O", "o", "U", "u", "E", "I")
+set_b &lt;- c("A", "a", "E", "e",      "i",      "o", "U", "u", "u", "a", "e")
+
+set_diff(set_a, set_b)
+str(set_diff(set_a, set_b))
+
+set_diff(set_b, set_a)
+
+# example
+set_a &lt;- 1:90
+set_b &lt;- set_a[-c(23, 48)]
+set_diff(set_a, set_b)
+set_diff(set_b, set_a)
+
+# example
+set_a &lt;- c("A", "A", "B")
+set_b &lt;- c("B", "A")
+set_diff(set_a, set_b)
+
+</code></pre>
+
+
+</div>

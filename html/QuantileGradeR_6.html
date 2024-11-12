@@ -1,0 +1,152 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>updateGamma</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Update Gamma (percentile value).</h2>
+
+<h3>Description</h3>
+
+<p><code>updateGamma</code> is the percentile update function called by
+<code>percentileSeek</code> as <code>percentileSeek</code> attempts to
+match a set of grade proportions to a set of <code>desired.props</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">updateGamma(scores, z, desired.props, gamma.perc, index.to.update,
+  restaurant.tol = 10, iter = 1, max.iterations = 20, gamma_upper = NA,
+  gamma_lower = NA, resolve.ties = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>scores</code></td>
+<td>
+<p>Numeric vector of size <code>n</code>, where <code>n</code> is the number is restaurants
+to be graded. <code>scores[i]</code> represents the mean or raw
+inspection score for restaurant <code>i</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>z</code></td>
+<td>
+<p>Character vector representing ZIP codes. <code>z[i]</code> is the ZIP code for
+restaurant <code>i</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>desired.props</code></td>
+<td>
+<p>Numeric vector representing desired global grade
+proportions across the entire jurisdiction. <code>desired.props[j]</code> is the desired
+proportion of total (gradeable) restaurants in the <code>j</code>th highest
+grading category.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gamma.perc</code></td>
+<td>
+<p>Numeric vector representing an initial set of percentiles.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>index.to.update</code></td>
+<td>
+<p>Integer value in the set
+<code>1:(length(desired.props)-1)</code> that represents the particular
+percentile to be updated in the current run of <code>updateGamma</code>.
+(Percentiles are not updated simultaneously, but rather are updated
+sequentially with the smallest percentiles being the first to be updated.)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>restaurant.tol</code></td>
+<td>
+<p>Integer value representing the maximum difference in
+number of restaurants suggested by <code>desired.props</code> and the actual
+number of restaurants in each of the top <code>(length(desired.props) -
+1)</code> grade categories.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>iter</code></td>
+<td>
+<p>Integer value representing the current iteration of <code>updateGamma</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>max.iterations</code></td>
+<td>
+<p>Integer value specifying the maximum number of
+calls of the <code>updateGamma</code> percentile update function
+for each of the sought after percentiles.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gamma_upper</code></td>
+<td>
+<p>Numeric or NA value representing a value of
+<code>gamma.perc[index.to.update]</code> that results in too many restaurants
+gaining the desired grade proportion.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gamma_lower</code></td>
+<td>
+<p>Numeric or NA value representing a value of
+<code>gamma.perc[index.to.update]</code> that results in too few restaurants
+gaining the desired grade proportion.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>resolve.ties</code></td>
+<td>
+<p>Boolean value specifying interpretation of how the
+function's returned percentile will be applied across the subunits see:
+percentileSeek. Should <em>as close to</em> (desired.props[1])% of
+restaurants in a ZIP code receive an "A" grade, and <em>as close to</em>
+(desired.props[2])% of restaurants in a ZIP code receive "B" grades
+(<code>resolve.ties = TRUE</code> case)? Or should the returned percentiles be
+interpretted as R quantile <code>Type = 1</code> percentiles, and
+<em>at least</em> (desired.props[1])% of restaurants in a ZIP code receive
+an "A" grade?</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p><code>updateGamma</code> performs the update of
+<code>gamma.perc[index.to.update]</code>. In particular, <code>gamma.perc[index.to.update]</code> will
+be updated until either the number of updates has reached
+<code>max.iterations</code>, or the difference between the proportion of
+(gradeable) restaurants scoring the <code>(index.to.update)</code>th highest grade
+is within <code>(restaurant.tol/ no.gradeable.rests)</code> of the desired
+proportion, where <code>no.gradeable.rests</code> is the number of gradeable
+restaurants (restaurants that have both ZIP code and inspection score
+information).  Initially, <code>gamma.perc[index.to.update]</code> is updated
+according to the rule <code>gamma.perc[index.to.update] &lt;-
+(gamma.perc[index.to.update] - diff.aj.desired)</code>, where <code>diff.aj.desired</code>
+is the difference between the actual proportion of restaurants assigned the grade
+of interest and the desired proportion. However, if the algorithm locates
+values of <code>gamma.perc[index.to.update]</code> that produce grade proportions
+that are both higher and lower than the desired proportion,
+<code>gamma_upper</code> and <code>gamma_lower</code> respectively, the update rule
+becomes <code>gamma.perc[index.to.update]&lt;- 0.5*(gamma_upper +
+gamma_lower)</code>, as in the bisection root finding method.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A numeric value representing a percentile to be applied to each ZIP code
+so as to achieve a particular desired proportion of grades.
+</p>
+
+
+</div>

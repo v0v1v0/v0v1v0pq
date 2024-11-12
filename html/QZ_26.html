@@ -1,0 +1,127 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>QZ Decomposition</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2> QZ Decomposition </h2>
+
+<h3>Description</h3>
+
+<p>This function performs QZ decomposition on input paired matrices (A,B)
+or a single matrix A.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">  qz(A, B = NULL, select = NULL, only.values = FALSE, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>A</code></td>
+<td>
+<p>a 'complex/real' matrix, dim = c(N, N).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>B</code></td>
+<td>
+<p>a 'complex/real' matrix, dim = c(N, N).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>select</code></td>
+<td>
+<p>specifies the eigenvalues in the selected cluster.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>only.values</code></td>
+<td>
+<p>if 'TRUE', only the eigenvalues are computed and returned,
+otherwise both eigenvalues and eigenvectors are returned.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>options to <code>qz.*</code> functions.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>If <code>select</code> is <code>NULL</code>, then
+call one of <code>qz.zgges</code>, <code>qz.dgges</code>,
+<code>qz.zgees</code>, or <code>qz.dgees</code> depending on the
+input arguments and types.
+</p>
+<p>If <code>select</code> is not <code>NULL</code>, then
+call one of <code>qz.zgges + qz.ztgsen</code>,
+<code>qz.dgges + qz.dtgsen</code>, <br><code>qz.zgees + qz.ztrsen</code>, or
+<code>qz.dgees + qz.dtrsen</code> depending on the
+input arguments and types.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns a list from the call.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Wei-Chen Chen <a href="mailto:wccsnow@gmail.com">wccsnow@gmail.com</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Anderson, E., et al. (1999) <em>LAPACK User's Guide,</em>
+3rd edition, SIAM, Philadelphia.
+</p>
+<p><a href="https://en.wikipedia.org/wiki/Schur_decomposition">https://en.wikipedia.org/wiki/Schur_decomposition</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>ordqz</code>, <code>geigen</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+library(QZ, quiet = TRUE)
+
+### https://www.nag.com/lapack-ex/node124.html
+(ret &lt;- qz(exAB1$A, exAB1$B))
+
+### https://www.nag.com/lapack-ex/node119.html
+(ret &lt;- qz(exAB2$A, exAB2$B))
+
+### https://www.nag.com/lapack-ex/node94.html
+(ret &lt;- qz(exA1$A))
+
+### https://www.nag.com/lapack-ex/node89.html
+(ret &lt;- qz(exA2$A))
+
+# Reordering eigenvalues
+select1 &lt;- c(TRUE, FALSE, FALSE, TRUE)
+select2 &lt;- c(FALSE, TRUE, TRUE, FALSE)
+(ret &lt;- qz(exAB1$A, exAB1$B, select = select1))
+(ret &lt;- qz(exAB2$A, exAB2$B, select = select2))
+(ret &lt;- qz(exA1$A, select = select1))
+(ret &lt;- qz(exA2$A, select = select1))
+
+</code></pre>
+
+
+</div>

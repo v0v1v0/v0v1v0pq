@@ -1,0 +1,229 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>calc.par</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Calculate NCA Parameters</h2>
+
+<h3>Description</h3>
+
+<p>Calculates PK parameters for which half-life is not needed in the calculation for each PK curve defined using <code>by</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">calc.par(
+  x,
+  by = character(0),
+  tau = NA,
+  tstart = NA,
+  tend = NA,
+  teval = NA,
+  route = "EV",
+  method = 1
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>contains all data after time/concentration deviation corrections obtained from <code>correct.time</code> and <code>correct.conc</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>by</code></td>
+<td>
+<p>column names in x indicating grouping variables</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tau</code></td>
+<td>
+<p>dosing interval (for multiple dosing); NA (default) for if single dose; x$tau overrides</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tstart</code></td>
+<td>
+<p>start time of partial AUC (start&gt;0); NA (default) if not requested; x$tstart overrides</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tend</code></td>
+<td>
+<p>end time of partial AUC; NA (default) if not requested; x$tend overrides</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>teval</code></td>
+<td>
+<p>user selected AUC interval; NA (default) if not requested; x$teval overrides</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>route</code></td>
+<td>
+<p>route of drug administration ("EV","IVB","IVI"); x$route overrides</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+<p>method for trapezoidal rule
+</p>
+
+<ul>
+<li>
+<p> 1: linear up - linear down
+</p>
+</li>
+<li>
+<p> 2: linear up - logarithmic down
+</p>
+</li>
+<li>
+<p> 3: linear before first Tmax, logarithmic after first Tmax
+</p>
+</li>
+</ul>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A dataset with estimates for the following parameters,
+one observation per subject:</p>
+
+<table>
+<tr>
+<td style="text-align: left;">
+   <strong>Parameter</strong> </td>
+<td style="text-align: left;"> <strong>Description</strong> </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+   t0.ok </td>
+<td style="text-align: left;"> flags if t=0 concentration could be corrected/imputes. If not, no AUCs starting at t=0 are calculated </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+   tlast.ok </td>
+<td style="text-align: left;"> flags if there is at least one measurable concentration. If not, no AUClast can be calculated </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+   tlast </td>
+<td style="text-align: left;"> time of last sample with measurable concentration </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+   clast.obs </td>
+<td style="text-align: left;"> observed concentration at tlast </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+   aucall </td>
+<td style="text-align: left;"> auc calculated over all observations, including values below LOQ (which are set to 0) </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+   auclast </td>
+<td style="text-align: left;"> auc calculated using all observations up to and including the last measurable concentration (clast.obs at tlast) </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+   aumcall </td>
+<td style="text-align: left;"> aumc calculated over all observations, including values below LOQ (which are set to 0) </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+   aumclast </td>
+<td style="text-align: left;"> aumc calculated using all observations up to and including the last measurable concentration (clast.obs at tlast) </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+   tau </td>
+<td style="text-align: left;"> the dosing interval (if specified) </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+   calc.tau </td>
+<td style="text-align: left;"> flags if AUCtau could be calculated </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+   auctau </td>
+<td style="text-align: left;"> auc calculated over the dosing interval, only calculated if tau is specified </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+   aumctau </td>
+<td style="text-align: left;"> aumc calculated over the dosing interval, only calculated if tau is specified </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+   teval </td>
+<td style="text-align: left;"> user selected AUC interval starting at t=0 (if specified) </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+   calc.teval </td>
+<td style="text-align: left;"> flags if AUCteval could be calculated </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+   aucxx </td>
+<td style="text-align: left;"> auc calculated from t=0 up to/including teval, only calculated if teval is specified (xx is substituted by teval) </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+   calc.part </td>
+<td style="text-align: left;"> flags if AUCpart could be calculated </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+   tstart </td>
+<td style="text-align: left;"> start time of partial AUC (if specified) </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+   tend </td>
+<td style="text-align: left;"> end time of partial AUC (if specified) </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+   aucx_y </td>
+<td style="text-align: left;"> partial auc from time=x up to/including time=y, where x&gt;0, only calculated if tstart and tend are specified </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+   c0 </td>
+<td style="text-align: left;"> back-extrapolated concentration at t=0 for IV bolus administration </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+   area.back.extr </td>
+<td style="text-align: left;"> area back-extrapolated to 0 </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+</td>
+</tr>
+</table>
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+example(correct.conc)
+par &lt;- x %&gt;% calc.par(by = 'subject')
+par %&gt;% head
+
+</code></pre>
+
+
+</div>

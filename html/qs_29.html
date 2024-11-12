@@ -1,0 +1,59 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qsavem</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>qsavem</h2>
+
+<h3>Description</h3>
+
+<p>Saves (serializes) multiple objects to disk.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qsavem(...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Objects to serialize. Named arguments will be passed to <code>qsave()</code> during saving. Un-named arguments will be saved. A named <code>file</code> argument is required.</p>
+</td>
+</tr></table>
+<h3>Details</h3>
+
+<p>This function extends <code>qsave()</code> to replicate the functionality of <code>base::save()</code> to save multiple objects. Read them back with <code>qload()</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">x1 &lt;- data.frame(int = sample(1e3, replace=TRUE),
+                 num = rnorm(1e3),
+                 char = sample(starnames$`IAU Name`, 1e3, replace=TRUE),
+                 stringsAsFactors = FALSE)
+x2 &lt;- data.frame(int = sample(1e3, replace=TRUE),
+                 num = rnorm(1e3),
+                 char = sample(starnames$`IAU Name`, 1e3, replace=TRUE),
+                 stringsAsFactors = FALSE)
+myfile &lt;- tempfile()
+qsavem(x1, x2, file=myfile)
+rm(x1, x2)
+qload(myfile)
+exists('x1') &amp;&amp; exists('x2') # returns true
+
+# qs support multithreading
+qsavem(x1, x2, file=myfile, nthreads=2)
+rm(x1, x2)
+qload(myfile, nthreads=2)
+exists('x1') &amp;&amp; exists('x2') # returns true
+</code></pre>
+
+
+</div>

@@ -1,0 +1,80 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>plot.LcpFinder</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Plot a <code>LcpFinder</code> object</h2>
+
+<h3>Description</h3>
+
+<p>Plots a <code>LcpFinder</code> object.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S4 method for signature 'LcpFinder'
+points(x, add = TRUE, ...)
+
+## S4 method for signature 'LcpFinder'
+lines(x, add = TRUE, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a <code>LcpFinder</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>add</code></td>
+<td>
+<p>boolean; if <code>TRUE</code> (the default), the plot is added to the
+existing plot. If <code>FALSE</code>, a new plot is created.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>arguments passed to the default plotting functions</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p><code>points()</code> plots points at the centroids of the cells to which
+a path has been found. <code>lines()</code> plots all of the LCPs found so far by
+the <code>LcpFinder</code> object.
+</p>
+
+
+<h3>Value</h3>
+
+<p>no return value
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(quadtree)
+habitat &lt;- terra::rast(system.file("extdata", "habitat.tif", package="quadtree"))
+
+qt &lt;- quadtree(habitat, .1)
+
+start_point &lt;- c(6989, 34007)
+end_point &lt;- c(12558, 27602)
+lcpf &lt;- lcp_finder(qt, start_point)
+lcp &lt;- find_lcp(lcpf, end_point)
+
+plot(qt, crop = TRUE, border_lwd = .3, na_col = NULL)
+points(lcpf, col = "red", pch = 16, cex = .4)
+lines(lcpf)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,81 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>ltabs</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Cross tabulation with labelled variables</h2>
+
+<h3>Description</h3>
+
+<p>This function is a wrapper around <code>xtabs</code>, adding automatically
+value labels for labelled vectors if <span class="pkg">labelled</span> package eis installed.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">ltabs(
+  formula,
+  data,
+  levels = c("prefixed", "labels", "values"),
+  variable_label = TRUE,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>formula</code></td>
+<td>
+<p>a formula object (see <code>xtabs</code>)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>a data frame</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>levels</code></td>
+<td>
+<p>the desired levels in case of labelled vector: 
+"labels" for value labels, "values" for values or "prefixed" for labels prefixed with values</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>variable_label</code></td>
+<td>
+<p>display variable label if available?</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>additional arguments passed to <code>xtabs</code></p>
+</td>
+</tr>
+</table>
+<h3>See Also</h3>
+
+<p><code>xtabs</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(fecondite)
+ltabs(~radio, femmes)
+ltabs(~radio+tv, femmes)
+ltabs(~radio+tv, femmes, "l")
+ltabs(~radio+tv, femmes, "v")
+ltabs(~radio+tv+journal, femmes)
+ltabs(~radio+tv, femmes, variable_label = FALSE)
+</code></pre>
+
+
+</div>

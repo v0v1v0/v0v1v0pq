@@ -1,0 +1,60 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>Spearman</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Spearman's Rank Correlation 
+</h2>
+
+<h3>Description</h3>
+
+<p>Calculates Sperman's rank correlations. The function is a wrapper to
+<code>cor()</code>.  
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">Spearman(data, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p><code>matrix</code> or <code>data.frame</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>ellipsis, arguments are passed down to <code>cor()</code></p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>matrix 
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>cor</code>, <code>Kendall</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">S &lt;- equicorr(d = 3, rho = 0.5)
+data &lt;- rmnorm(1000, Sigma = S) 
+Spearman(data) 
+</code></pre>
+
+
+</div>

@@ -1,0 +1,129 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>summary.rqt</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Summary for Quantile Regression Tranformation Models
+</h2>
+
+<h3>Description</h3>
+
+<p>This functions gives a summary list for a quantile regression transformation model.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'rqt'
+summary(object, alpha = 0.05, se = "boot", R = 50,
+	sim = "ordinary", stype = "i", conditional = FALSE, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+
+<p>an object of <code>class</code> <code>rqt</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>alpha</code></td>
+<td>
+
+<p>numeric value to determine the confidence level <code>(1-alpha)</code> of the required interval.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>se</code></td>
+<td>
+
+<p>specifies the method used to compute standard errors. For conditional inference (<code>conditional = TRUE</code>), see argument <code>se</code> in <code>summary.rq</code>. For unconditional inference (<code>conditional = FALSE</code>), see details below.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>R</code></td>
+<td>
+
+<p>number of bootstrap replications.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sim</code></td>
+<td>
+
+<p>see argument <code>sim</code> in <code>boot</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>stype</code></td>
+<td>
+
+<p>see argument <code>stype</code> in <code>boot</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>conditional</code></td>
+<td>
+
+<p>logical flag. If <code>TRUE</code>, the transformation parameter is assumed to be known and conditional inference is carried out.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+
+<p>if <code>conditional = TRUE</code>, additional arguments for <code>summary.rq</code> in package <code>quantreg</code>. If <code>conditional = FALSE</code>, additional arguments for <code>boot</code> in package <code>boot</code>.
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>If inference is carried out conditionally on the transformation parameter (ie, assuming this is <em>known</em> rather than estimated), any type of summary for regression quantiles can be used (see <code>summary.rq</code>).
+</p>
+<p>For unconditional inference (<code>conditional = FALSE</code>), there are three methods available: <code>boot</code> for bootstrap; <code>iid</code> for large-<em>n</em> approximation of the standard errors under IID assumptions; <code>nid</code> for large-<em>n</em> approximation of the standard errors under NID assumptions. See Powell (1991), Chamberlain (1994) and Geraci and Jones (2015).
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Marco Geraci
+</p>
+
+
+<h3>References</h3>
+
+<p>Canty A and Ripley B (2014). boot: Bootstrap R (S-Plus) Functions. R package version 1.3-11.
+</p>
+<p>Chamberlain G. Quantile regression, censoring, and the structure of wages. In: Sims C, editor. Advances in Econometrics: Sixth World Congress. 1. Cambridge, UK: Cambridge University Press; 1994.
+</p>
+<p>Davison AC and Hinkley DV (1997). Bootstrap Methods and Their Applications. Cambridge University Press, Cambridge.
+</p>
+<p>Geraci M and Jones MC. Improved transformation-based quantile regression. Canadian Journal of Statistics 2015;43(1):118-132.
+</p>
+<p>Mu YM, He XM. Power transformation toward a linear regression quantile. Journal of the American Statistical Association 2007;102(477):269-279.
+</p>
+<p>Powell JL. Estimation of monotonic regression models under quantile restrictions. In: Barnett W, Powell J, Tauchen G, editors. Nonparametric and Semiparametric Methods in Econometrics and Statistics: Proceedings of the Fifth International Symposium on Economic Theory and Econometrics. New York, NY: Cambridge University Press 1991. p. 357-84.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>tsrq</code>, <code>rcrq</code>, <code>tsrq2</code> or <code>nlrq2</code>
+</p>
+
+
+</div>

@@ -1,0 +1,80 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>heter.QRank</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Heterogeneity index for "QRank"
+</h2>
+
+<h3>Description</h3>
+
+<p>Calculate the heterogeneity index of quantile regression coefficients at multiple quantile levels. It measures the variation of the quantile coefficients across quantile levels.
+</p>
+<p style="text-align: center;"><code class="reqn">heterogeneity=log(sd(\beta)/abs(mean(\beta)))</code>
+</p>
+ 
+<p>where <code class="reqn"> \beta </code> is the vector of quantile regression coefficients at multiple quantile levels.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">heter.QRank(object, newtaus=NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+
+<p>Object returned from "QRank"
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>newtaus</code></td>
+<td>
+
+<p>a vector of quantile levels based on which heterogeneity index are calculated. Default is NULL, in which case the quantile levels inherited from "QRank" will be used. 
+</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>heterogeneity index</code></td>
+<td>
+<p>one hetergeneity index</p>
+</td>
+</tr></table>
+<h3>See Also</h3>
+
+<p><code>QRank</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># continuted from "QRank"
+
+taus=c( 0.25, 0.5, 0.75)
+q = QRank(gene=y, snp=x, cov=z, tau=taus)  
+heter.QRank(q) # default uses taus inherited from "QRank"
+# - output
+#Heterogeneity index:
+#[1] 2.474184
+heter.QRank(q,newtaus = 1:9/10) # calculate based on new taus values
+# - output
+#Heterogeneity index:
+#[1] 2.69242
+
+</code></pre>
+
+
+</div>

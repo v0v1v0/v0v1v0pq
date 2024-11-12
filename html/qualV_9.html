@@ -1,0 +1,121 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>features</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Qualitative Features of Time Series</h2>
+
+<h3>Description</h3>
+
+<p>A time series is characterised by a sequence of characters,
+indicating features of the time series itself, of its first or second
+derivative, steepness or level of values.</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">f.slope(x, y, f = 0.1, scale = c("mean", "range", "IQR", "sd", "none"))
+f.curve(x, y, f = 0.1, scale = c("mean", "range", "IQR", "sd", "none"))
+f.steep(x, y, f1 = 1, f2 = 0.1)
+f.level(y, high = 0.8, low = 0.2)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>vector of time</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>input y values</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>f</code></td>
+<td>
+<p>factor defining the limit for constant (<code>f.slope</code>) or linear 
+(<code>f.curve</code>) sequences</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>f1</code></td>
+<td>
+<p>factor for the upper bound of steepness</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>f2</code></td>
+<td>
+<p>factor for the lower bound of steepness</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>scale</code></td>
+<td>
+<p>method for internal scaling, <code>f</code> is multiplied with mean
+value, range, interquartile range (IQR) or standard deviation of increments 
+(<code class="reqn">abs(\Delta y / \Delta x)</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>high</code></td>
+<td>
+<p>lower limit of high values</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>low</code></td>
+<td>
+<p>upper limit of low values</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>For the first derivative the segment between two values is
+characterised by increasing ('A'), decreasing ('B') or constant ('C') and for
+the second by convex ('K'), concave ('I') or linear ('J'). For the property of
+the first derivative the segment between two values is characterised
+by very steep ('S'), steep ('T') or not steep ('U') or the values are divided
+into high ('H'), low ('L') or values in between ('M'). Note that for
+the last two cases the original values and the not increments are 
+standardised (to <code class="reqn">[0, 1]</code>).</p>
+
+
+<h3>Value</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>v</code></td>
+<td>
+<p>interval sequence</p>
+</td>
+</tr></table>
+<h3>See Also</h3>
+
+<p><code>LCS</code>, <code>qvalLCS</code></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(phyto)
+bbobs    &lt;- dpill(obs$t, obs$y)
+n        &lt;- tail(obs$t, n = 1) - obs$t[1] + 1
+obsdpill &lt;- ksmooth(obs$t, obs$y, kernel = "normal", bandwidth = bbobs,
+            n.points = n)
+obss     &lt;- data.frame(t = obsdpill$x, y = obsdpill$y)
+obss     &lt;- obss[match(sim$t, obss$t), ]
+f.slope(obss$t, obss$y)
+f.curve(obss$t, obss$y)
+f.steep(obss$t, obss$y, f1 = 30, f2 = 10)
+f.level(obss$y)
+</code></pre>
+
+
+</div>

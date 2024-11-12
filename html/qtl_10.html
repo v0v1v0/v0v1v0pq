@@ -1,0 +1,100 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>add.cim.covar</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Indicate marker covariates from composite interval mapping</h2>
+
+<h3>Description</h3>
+
+<p>Add dots at the locations of the selected marker covariates, for a
+plot of composite interval mapping results.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">add.cim.covar(cimresult, chr, gap=25, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>cimresult</code></td>
+<td>
+<p>Composite interval mapping results, as output from
+<code>cim</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>chr</code></td>
+<td>
+<p>Optional vector specifying which chromosomes to plot. (The
+chromosomes must be specified by name.)  This should be identical to
+that used in the call to <code>plot.scanone</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gap</code></td>
+<td>
+<p>Gap separating chromosomes (in cM). This should be identical to
+that used in the call to <code>plot.scanone</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Additional plot arguments, passed to the function
+<code>points</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>One must first have used the function <code>plot.scanone</code>
+to plot the composite interval mapping results.
+</p>
+<p>The arguments <code>chr</code> and <code>gap</code> must be identical to the
+values used in the call to <code>plot.scanone</code>.
+</p>
+<p>Dots indicating the locations of the selected marker covariates are
+displayed on the x-axis.  (By default, solid red circles are plotted;
+this may be modified by specifying the graphics parameters <code>pch</code> and
+<code>col</code>.)
+</p>
+
+
+<h3>Value</h3>
+
+<p>A data frame indicating the marker covariates that were plotted.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Karl W Broman, <a href="mailto:broman@wisc.edu">broman@wisc.edu</a></p>
+
+
+<h3>See Also</h3>
+
+ <p><code>cim</code>, <code>plot.scanone</code> </p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: data(hyper)
+hyper &lt;- calc.genoprob(hyper, step=2.5)
+
+out &lt;- scanone(hyper)
+out.cim &lt;- cim(hyper, n.marcovar=3)
+plot(out, out.cim, chr=c(1,4,6,15), col=c("blue", "red"))
+
+add.cim.covar(out.cim, chr=c(1,4,6,15))
+## End(Not run)
+</code></pre>
+
+
+</div>

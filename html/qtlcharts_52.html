@@ -1,0 +1,68 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>setScreenSize</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Set default maximum screen size</h2>
+
+<h3>Description</h3>
+
+<p>Set the default screen size as a global option.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">setScreenSize(size = c("normal", "small", "large"), height, width)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>size</code></td>
+<td>
+<p>Character vector representing screen size (normal,
+small, large). Ignored if height and width are provided.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>height</code></td>
+<td>
+<p>(Optional) Height in pixels</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>width</code></td>
+<td>
+<p>(Optional) Width in pixels</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Used to set a global option, 'qtlchartsScreenSize', that
+contains the maximum height and maximum width for a chart in the
+browser.
+</p>
+<p>'"small"', '"normal"', and '"large"' correspond to 600x900, 700x1000, and
+1200x1600, for height x width, respectively.
+</p>
+
+
+<h3>Value</h3>
+
+<p>None.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">setScreenSize("large")
+
+</code></pre>
+
+
+</div>

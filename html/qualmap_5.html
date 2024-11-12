@@ -1,0 +1,72 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qm_is_cluster</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Validate cluster object</h2>
+
+<h3>Description</h3>
+
+<p>This function tests to see whether an object contains the characteristics of an object
+created by <code>qm_cluster</code>. It is used as part of the <code>qm_combine</code> and <code>qm_summarize</code>
+functions, and is exported so that it can be used interactively as well.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qm_is_cluster(obj, verbose = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>obj</code></td>
+<td>
+<p>Object to test</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p>A logical scalar; if <code>TRUE</code>, a tibble with test results is returned</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A logical scalar that is <code>TRUE</code> if the given object contains the approprite
+characteristics; if it does not, <code>FALSE</code> is returned.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>qm_combine</code>, <code>qm_summarize</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># load and format reference data
+stl &lt;- stLouis
+stl &lt;- dplyr::mutate(stl, TRACTCE = as.numeric(TRACTCE))
+
+# create cluster
+cluster &lt;- qm_define(118600, 119101, 119300)
+
+# create simple cluster object
+cluster_obj &lt;- qm_create(ref = stl, key = TRACTCE, value = cluster,
+    rid = 1, cid = 1, category = "positive")
+
+# test cluster object
+qm_is_cluster(cluster_obj)
+qm_is_cluster(cluster_obj, verbose = TRUE)
+
+</code></pre>
+
+
+</div>

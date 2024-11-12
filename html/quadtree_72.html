@@ -1,0 +1,106 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>summarize_lcps</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Get a matrix summarizing all LCPs found by a <code>LcpFinder</code>
+</h2>
+
+<h3>Description</h3>
+
+<p>Given a <code>LcpFinder</code>, returns a matrix that
+summarizes all of the LCPs that have been calculated by the
+<code>LcpFinder</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S4 method for signature 'LcpFinder'
+summarize_lcps(x)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a <code>LcpFinder</code></p>
+</td>
+</tr></table>
+<h3>Details</h3>
+
+<p>Note that this function returns <strong>all</strong> of the paths that have
+been calculated. Finding one LCP likely involves finding other LCPs as
+well. Thus, even if the <code>LcpFinder</code> has been used to find one
+LCP, others have most likely been calculated. This function returns all of
+the LCPs that have been calculated so far.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns a nine-column matrix with one row for each LCP (and therefore
+one row per destination cell). The columns are as follows:
+</p>
+
+<ul>
+<li>
+<p><code>id</code>: the ID of the destination cell
+</p>
+</li>
+<li>
+<p><code>xmin, xmax, ymin, ymax</code>: the extent of the destination
+cell
+</p>
+</li>
+<li>
+<p><code>value</code>: the value of the destination cell
+</p>
+</li>
+<li>
+<p><code>area</code>: the area of the destination cell
+</p>
+</li>
+<li>
+<p><code>lcp_cost</code>: the cumulative cost of the LCP to this cell
+</p>
+</li>
+<li>
+<p><code>lcp_dist</code>: the cumulative distance of the LCP to this cell
+- note that this is not straight-line distance, but instead the distance
+along the path </p>
+</li>
+</ul>
+<h3>See Also</h3>
+
+<p><code>lcp_finder()</code> creates the <code>LcpFinder</code>
+object used as input to this function. <code>find_lcp()</code> returns the
+LCP between the start point and another point. <code>find_lcps()</code>
+calculates all LCPs whose cost-distance is less than some value.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(quadtree)
+habitat &lt;- terra::rast(system.file("extdata", "habitat.tif", package="quadtree"))
+
+qt &lt;- quadtree(habitat, split_threshold = .1, adj_type = "expand")
+
+start_pt &lt;- c(19000, 25000)
+end_pt &lt;- c(33015, 38162)
+
+# find LCP from 'start_pt' to 'end_pt'
+lcpf &lt;- lcp_finder(qt, start_pt)
+lcp &lt;- find_lcp(lcpf, end_pt)
+
+# retrieve ALL the paths that have been calculated
+paths &lt;- summarize_lcps(lcpf)
+head(paths)
+</code></pre>
+
+
+</div>

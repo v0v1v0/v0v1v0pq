@@ -1,0 +1,365 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>geom_qq_band</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Quantile-quantile confidence bands</h2>
+
+<h3>Description</h3>
+
+<p>Draws quantile-quantile confidence bands, with an additional detrend option.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">geom_qq_band(
+  mapping = NULL,
+  data = NULL,
+  stat = "qq_band",
+  position = "identity",
+  na.rm = TRUE,
+  show.legend = NA,
+  inherit.aes = TRUE,
+  distribution = "norm",
+  dparams = list(),
+  detrend = FALSE,
+  identity = FALSE,
+  qtype = 7,
+  qprobs = c(0.25, 0.75),
+  bandType = "pointwise",
+  B = 1000,
+  conf = 0.95,
+  mu = NULL,
+  sigma = NULL,
+  ...
+)
+
+stat_qq_band(
+  mapping = NULL,
+  data = NULL,
+  geom = "qq_band",
+  position = "identity",
+  na.rm = TRUE,
+  show.legend = NA,
+  inherit.aes = TRUE,
+  distribution = "norm",
+  dparams = list(),
+  detrend = FALSE,
+  identity = FALSE,
+  qtype = 7,
+  qprobs = c(0.25, 0.75),
+  bandType = "pointwise",
+  B = 1000,
+  conf = 0.95,
+  mu = NULL,
+  sigma = NULL,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>mapping</code></td>
+<td>
+<p>Set of aesthetic mappings created by <code>aes()</code>. If specified and
+<code>inherit.aes = TRUE</code> (the default), it is combined with the default mapping
+at the top level of the plot. You must supply <code>mapping</code> if there is no plot
+mapping.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>The data to be displayed in this layer. There are three
+options:
+</p>
+<p>If <code>NULL</code>, the default, the data is inherited from the plot
+data as specified in the call to <code>ggplot()</code>.
+</p>
+<p>A <code>data.frame</code>, or other object, will override the plot
+data. All objects will be fortified to produce a data frame. See
+<code>fortify()</code> for which variables will be created.
+</p>
+<p>A <code>function</code> will be called with a single argument,
+the plot data. The return value must be a <code>data.frame</code>, and
+will be used as the layer data. A <code>function</code> can be created
+from a <code>formula</code> (e.g. <code>~ head(.x, 10)</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>stat</code></td>
+<td>
+<p>statistic to use to calculate confidence bands. Should be
+'qq_band'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>position</code></td>
+<td>
+<p>Position adjustment, either as a string naming the adjustment
+(e.g. <code>"jitter"</code> to use <code>position_jitter</code>), or the result of a call to a
+position adjustment function. Use the latter if you need to change the
+settings of the adjustment.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>na.rm</code></td>
+<td>
+<p>If <code>FALSE</code>, the default, missing values are removed with
+a warning. If <code>TRUE</code>, missing values are silently removed.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>show.legend</code></td>
+<td>
+<p>logical. Should this layer be included in the legends?
+<code>NA</code>, the default, includes if any aesthetics are mapped.
+<code>FALSE</code> never includes, and <code>TRUE</code> always includes.
+It can also be a named logical vector to finely select the aesthetics to
+display.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>inherit.aes</code></td>
+<td>
+<p>If <code>FALSE</code>, overrides the default aesthetics,
+rather than combining with them. This is most useful for helper functions
+that define both data and aesthetics and shouldn't inherit behaviour from
+the default plot specification, e.g. <code>borders()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>distribution</code></td>
+<td>
+<p>Character. Theoretical probability distribution function
+to use. Do not provide the full distribution function name (e.g.,
+<code>"dnorm"</code>). Instead, just provide its shortened name (e.g.,
+<code>"norm"</code>). If you wish to provide a custom distribution, you may do so
+by first creating the density, quantile, and random functions following the
+standard nomenclature from the <code>stats</code> package (i.e., for
+<code>"custom"</code>, create the <code>dcustom</code>, <code>pcustom</code>,
+<code>qcustom</code>, and <code>rcustom</code> functions).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dparams</code></td>
+<td>
+<p>List of additional parameters passed on to the previously
+chosen <code>distribution</code> function. If an empty list is provided (default)
+then the distributional parameters are estimated via MLE. MLE for custom
+distributions is currently not supported, so you must provide the
+appropriate <code>dparams</code> in that case.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>detrend</code></td>
+<td>
+<p>Logical. Should the plot objects be detrended? If <code>TRUE</code>,
+the objects will be detrended according to the reference Q-Q line. This
+procedure was described by Thode (2002), and may help reducing visual bias
+caused by the orthogonal distances from Q-Q points to the reference line.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>identity</code></td>
+<td>
+<p>Logical. Should an identity line be used as the reference
+line used to construct the confidence bands? If <code>TRUE</code>, the identity
+line is used. If <code>FALSE</code> (default), the commonly-used Q-Q line that
+intercepts two data quantiles specified in <code>qprobs</code> is used. Please
+notice that the chosen reference line will also be used for the detrending
+procedure, if <code>detrend = TRUE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qtype</code></td>
+<td>
+<p>Integer between 1 and 9. Type of the quantile algorithm to be
+used by the <code>quantile</code> function to construct the Q-Q
+line.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qprobs</code></td>
+<td>
+<p>Numeric vector of length two. Represents the quantiles used by
+the <code>quantile</code> function to construct the Q-Q line.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bandType</code></td>
+<td>
+<p>Character. Either <code>"pointwise"</code>, <code>"boot"</code>, <code>"ks"</code> or
+<code>"ts"</code>, or <code>"ell"</code>. <code>"pointwise"</code> constructs pointwise confidence bands based
+on Normal confidence intervals. <code>"boot"</code> creates pointwise confidence
+bands based on a parametric bootstrap; parameters are estimated with MLEs.
+<code>"ks"</code> constructs simultaneous confidence bands based on the Kolmogorov-Smirnov
+test. <code>"ts"</code> constructs tail-sensitive confidence bands, as
+described by Aldor-Noiman et al. (2013) (also, see 'Note' for
+limitations). Finally, <code>"ell"</code> constructs simultaenous bands using the
+equal local levels test describe by Weine et al. (2021).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>B</code></td>
+<td>
+<p>Integer. If <code>bandType = "boot"</code>, then <code>B</code> is the number of
+bootstrap replicates. If <code>bandType = "ts"</code>, then <code>B</code> is the
+number of simulated samples.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>conf</code></td>
+<td>
+<p>Numerical. Confidence level of the bands.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mu</code></td>
+<td>
+<p>Numerical. Only used if <code>bandType = "ts"</code>. Center
+distributional parameter used to construct the simulated tail-sensitive
+confidence bands. If either <code>mu</code> or <code>sigma</code> are <code>NULL</code>, then
+those parameters are estimated using <code>Qn</code> and
+<code>s_Qn</code>, respectively.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sigma</code></td>
+<td>
+<p>Numerical. Only used if <code>bandType = "ts"</code>. Scale
+distributional parameter used to construct the simulated tail-sensitive
+confidence bands. If either <code>mu</code> or <code>sigma</code> are <code>NULL</code>, then
+those parameters are estimated using robust estimates from the <span class="pkg">stats</span>
+package.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Other arguments passed on to <code>layer()</code>. These are
+often aesthetics, used to set an aesthetic to a fixed value, like
+<code>colour = "red"</code> or <code>size = 3</code>. They may also be parameters
+to the paired geom/stat.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>geom</code></td>
+<td>
+<p>The geometric object to use to display the data, either as a
+<code>ggproto</code> <code>Geom</code> subclass or as a string naming the geom stripped of the
+<code>geom_</code> prefix (e.g. <code>"point"</code> rather than <code>"geom_point"</code>)</p>
+</td>
+</tr>
+</table>
+<h3>Note</h3>
+
+
+<ul>
+<li>
+<p>Tail-sensitive confidence bands are only implemented for Normal Q-Q
+plots. As a future update, we intend to generalize to other distributions.
+</p>
+</li>
+<li>
+<p>Bootstrap bands are constructed based on a MLE parametric bootstrap.
+Hence, it is not possible to construct such bands if the sample and
+theoretical distributions present mismatching supports.
+</p>
+</li>
+</ul>
+<h3>References</h3>
+
+
+<ul>
+<li>
+<p>Thode, H. (2002), Testing for Normality. CRC Press, 1st Ed.
+</p>
+</li>
+<li>
+<p><a href="https://www.tandfonline.com/doi/abs/10.1080/00031305.2013.847865">Aldor-Noiman,
+S. et al. (2013). The Power to See: A New Graphical Test of Normality. The
+American Statistician. 67:4.</a>
+</p>
+</li>
+<li>
+<p><a href="https://arxiv.org/abs/2111.15082">Weine, E. et al. (2021).
+Application of Equal Local Levels to Improve Q-Q Plot Testing Bands with R
+Package qqconf.</a>
+</p>
+</li>
+</ul>
+<h3>Examples</h3>
+
+<pre><code class="language-R"># generate random Normal data
+set.seed(0)
+smp &lt;- data.frame(norm = rnorm(100))
+
+# Normal Q-Q plot of Normal data
+gg &lt;- ggplot(data = smp, mapping = aes(sample = norm)) +
+ stat_qq_band() +
+ stat_qq_line() +
+ stat_qq_point()
+gg + labs(x = "Theoretical Quantiles", y = "Sample Quantiles")
+
+# Normal Q-Q plot of Normal data with equal local levels (ell) bands
+bt &lt;- "ell"
+gg &lt;- ggplot(data = smp, mapping = aes(sample = norm)) +
+ stat_qq_band(bandType = bt) +
+ stat_qq_line() +
+ stat_qq_point() +
+ labs(x = "Theoretical Quantiles", y = "Sample Quantiles")
+gg
+
+# Exponential Q-Q plot of mean ozone levels (airquality dataset)
+di &lt;- "exp"
+dp &lt;- list(rate = 1)
+gg &lt;- ggplot(data = airquality, mapping = aes(sample = Ozone)) +
+ stat_qq_band(distribution = di, dparams = dp) +
+ stat_qq_line(distribution = di, dparams = dp) +
+ stat_qq_point(distribution = di, dparams = dp) +
+ labs(x = "Theoretical Quantiles", y = "Sample Quantiles")
+gg
+
+# Detrended Exponential Q-Q plot of mean ozone levels
+di &lt;- "exp"
+dp &lt;- list(rate = 1)
+de &lt;- TRUE
+gg &lt;- ggplot(data = airquality, mapping = aes(sample = Ozone)) +
+ stat_qq_band(distribution = di, detrend = de) +
+ stat_qq_line(distribution = di, detrend = de) +
+ stat_qq_point(distribution = di, detrend = de) +
+ labs(x = "Theoretical Quantiles", y = "Sample Quantiles")
+gg
+
+## Not run: 
+# Normal Q-Q plot of Normal data with bootstrap confidence bands
+bt &lt;- "boot"
+gg &lt;- ggplot(data = smp, mapping = aes(sample = norm)) +
+ stat_qq_band(bandType = bt) +
+ stat_qq_line() +
+ stat_qq_point() +
+ labs(x = "Theoretical Quantiles", y = "Sample Quantiles")
+gg
+
+# Normal Q-Q plot of Normal data with tail-sensitive confidence bands
+bt &lt;- "ts"
+gg &lt;- ggplot(data = smp, mapping = aes(sample = norm)) +
+ stat_qq_band(bandType = bt) +
+ stat_qq_line() +
+ stat_qq_point() +
+ labs(x = "Theoretical Quantiles", y = "Sample Quantiles")
+gg
+
+## End(Not run)
+
+
+</code></pre>
+
+
+</div>

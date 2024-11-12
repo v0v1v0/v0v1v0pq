@@ -1,0 +1,72 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>df_plot</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Visualize a data frame</h2>
+
+<h3>Description</h3>
+
+<p><code>df_plot</code> visualizes the variables in a data frame.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">df_plot(data)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>a data frame.</p>
+</td>
+</tr></table>
+<h3>Details</h3>
+
+<p>For each variable, the plot displays
+</p>
+
+<ul>
+<li>
+<p>type (<code>numeric</code>,
+<code>integer</code>,
+<code>factor</code>,
+<code>ordered factor</code>,
+<code>logical</code>, or <code>date</code>)
+</p>
+</li>
+<li>
+<p>percent of available (and missing) cases
+</p>
+</li>
+</ul>
+<p>Variables are sorted by type and the total number of variables
+and cases are printed in the caption.
+</p>
+
+
+<h3>Value</h3>
+
+<p>a <code>ggplot2</code> graph
+</p>
+
+
+<h3>See Also</h3>
+
+<p>For more descriptive statistics on
+a data frame see contents.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">df_plot(cars74)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,133 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>mqmtestnormal</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2> Shapiro normality test used for MQM </h2>
+
+<h3>Description</h3>
+
+<p>Wraps a shapiro's normality test from the nortest package.
+This function is used in MQM to test the normality of the
+trait under investigation
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">  mqmtestnormal(cross, pheno.col = 1,significance=0.05, verbose=FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>cross</code></td>
+<td>
+
+<p>An object of class <code>cross</code>. See <code>read.cross</code> for details. 
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pheno.col</code></td>
+<td>
+
+<p>Column number in the phenotype matrix which should be used as the phenotype. This can be a vector of integers. 
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>significance</code></td>
+<td>
+
+<p>Significance level used in the normality test. Lower significance levels will accept larger deviations from normality.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+
+<p>If TRUE, print result as well as return it.
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>For augmented data (as from <code>mqmaugment</code>), the cross
+is first reduced to distinct individuals. Furthermore the shapiro used to
+test normality works only for 3 &lt;= nind(cross) &lt;= 5000
+</p>
+
+
+<h3>Value</h3>
+
+<p>Boolean indicating normality of the trait in pheno.col. (FALSE
+when not normally distributed.)
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Danny Arends <a href="mailto:danny.arends@gmail.com">danny.arends@gmail.com</a> 
+</p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li> <p><code>shapiro.test</code> - Function wrapped by our mqmtestnormal
+
+</p>
+</li>
+<li>
+<p> The MQM tutorial: <a href="https://rqtl.org/tutorials/MQM-tour.pdf">https://rqtl.org/tutorials/MQM-tour.pdf</a>
+</p>
+</li>
+<li> <p><code>MQM</code> - MQM description and references
+</p>
+</li>
+<li> <p><code>mqmscan</code> - Main MQM single trait analysis
+</p>
+</li>
+<li> <p><code>mqmscanall</code> - Parallellized traits analysis
+</p>
+</li>
+<li> <p><code>mqmaugment</code> - Augmentation routine for estimating missing data
+</p>
+</li>
+<li> <p><code>mqmautocofactors</code> - Set cofactors using marker density
+</p>
+</li>
+<li> <p><code>mqmsetcofactors</code> - Set cofactors at fixed locations
+</p>
+</li>
+<li> <p><code>mqmpermutation</code> - Estimate significance levels
+</p>
+</li>
+<li> <p><code>scanone</code> - Single QTL scanning
+
+</p>
+</li>
+</ul>
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(multitrait)
+
+# test normality of 7th phenotype
+mqmtestnormal(multitrait, pheno.col=7)
+
+# take log
+multitrait &lt;- transformPheno(multitrait, pheno.col=7, transf=log)
+
+# test again
+mqmtestnormal(multitrait, pheno.col=7)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,111 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qkspecc-class</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Class "qkspecc"</h2>
+
+<h3>Description</h3>
+
+<p> The qKernel Spectral Clustering Class</p>
+
+
+<h3>Objects from the Class</h3>
+
+<p>Objects can be created by calls of the form <code>new("qkspecc", ...)</code>.
+or by calling the function <code>qkspecc</code>.
+</p>
+
+
+<h3>Slots</h3>
+
+
+<dl>
+<dt>
+<code>clust</code>:</dt>
+<dd>
+<p>Object of class <code>"vector"</code> containing the cluster assignments</p>
+</dd>
+<dt>
+<code>eVec</code>:</dt>
+<dd>
+<p>Object of class <code>"matrix"</code> containing
+the corresponding eigenvector in each  cluster</p>
+</dd>
+<dt>
+<code>eVal</code>:</dt>
+<dd>
+<p>Object of class <code>"vector"</code> containing
+the corresponding eigenvalue for each cluster</p>
+</dd>
+<dt>
+<code>withinss</code>:</dt>
+<dd>
+<p>Object of class <code>"vector"</code> containing
+the within-cluster sum of squares for each cluster</p>
+</dd>
+</dl>
+<h3>Methods</h3>
+
+
+<dl>
+<dt>clust</dt>
+<dd>
+<p><code>signature(object = "qkspecc")</code>: returns the cluster assignments</p>
+</dd>
+<dt>eVec</dt>
+<dd>
+<p><code>signature(object = "qkspecc")</code>: returns the corresponding eigenvector in each  cluster</p>
+</dd>
+<dt>eVal</dt>
+<dd>
+<p><code>signature(object = "qkspecc")</code>: returns the corresponding eigenvalue for each cluster </p>
+</dd>
+<dt>xmatrix</dt>
+<dd>
+<p><code>signature(object = "qkspecc")</code>: returns the original data matrix or a kernel Matrix </p>
+</dd>
+<dt>ymatrix</dt>
+<dd>
+<p><code>signature(object = "qkspecc")</code>: returns The eigenvectors corresponding to the <code class="reqn">k</code> smallest eigenvalues of the graph Laplacian matrix. </p>
+</dd>
+<dt>cndkernf</dt>
+<dd>
+<p><code>signature(object = "qkspecc")</code>: returns the used kernel function</p>
+</dd>
+<dt>kcall</dt>
+<dd>
+<p><code>signature(object = "qkspecc")</code>: returns the performed call</p>
+</dd>
+</dl>
+<h3>Author(s)</h3>
+
+<p>Yusen Zhang <br><a href="mailto:yusenzhang@126.com">yusenzhang@126.com</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code>qkspecc</code>, <code>qkernel-class</code>,
+<code>cndkernel-class</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Cluster the iris data set.
+data("iris")
+x=as.matrix(iris[,-5])
+
+qspe &lt;- qkspecc(x,kernel = "rbfbase", qpar = list(sigma = 10, q = 0.9),
+                Nocent=3, normalize="symmetric", maxk=15, iterations=1200)
+clust(qspe)
+eVec(qspe)
+eVal(qspe)
+xmatrix(qspe)
+ymatrix(qspe)
+cndkernf(qspe)
+</code></pre>
+
+
+</div>

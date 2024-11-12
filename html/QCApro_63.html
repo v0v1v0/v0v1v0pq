@@ -1,0 +1,238 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>superSubset</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Find Superset and Subset Relations</h2>
+
+<h3>Description</h3>
+
+<p>This helper function finds all combinations of conditions among all possible 
+combinations that optimize the fulfilment of the specified criteria for a superset (necessity) or subset (sufficiency) relation to the outcome.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">superSubset(data, outcome = "", neg.out = FALSE, exo.facs = c(""), 
+            relation = "nec", incl.cut = 1, cov.cut = 0, 
+            use.tilde = FALSE, use.letters = FALSE, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>A dataset of bivalent or multivalent crisp-set factor or bivalent 
+fuzzy-set variables.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>outcome</code></td>
+<td>
+<p>The name of the outcome.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>neg.out</code></td>
+<td>
+<p>Logical, use negation of <code>outcome</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>exo.facs</code></td>
+<td>
+<p>A character vector with the names of the exogenous factors.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>relation</code></td>
+<td>
+<p>The relation to <code>outcome</code>, either <code>"nec"</code>,
+<code>"suf"</code>, <code>"necsuf"</code> or <code>"sufnec"</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>incl.cut</code></td>
+<td>
+<p>The minimal inclusion score of the relation.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cov.cut</code></td>
+<td>
+<p>The minimal coverage score of the relation.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>use.tilde</code></td>
+<td>
+<p>Logical, use "~" for negation with bivalent variables.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>use.letters</code></td>
+<td>
+<p>Logical, use simple letters instead of original factor
+names.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Other arguments for backward compatibility.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>This helper function to the <code>testTESA</code> function returns a list of those of the 
+<code class="reqn">\prod_{j = 1}^{k}{(p_{j} + 1) - 1}</code> 
+potential value combinations, where <code class="reqn">p_{j}</code> is the number of values 
+for exogenous variable <code class="reqn">j</code> and <code class="reqn">k</code> is the number of exogenous 
+variables, that define minimal condition sets for the specified inclusion 
+(consistency) and coverage score cut-offs with respect to an outcome.
+</p>
+<p>If <code>relation = "nec"</code> (default), the function finds (combinations of) 
+conditions that are supersets of (necessary for) the outcome. It starts with an 
+initiation set, which is comprised of all <code class="reqn">\sum_{j = 1}^{k}{p_{j}}</code> simple 
+condition sets. This set is expanded by incrementally forming set-theoretic 
+intersections of a higher order as long as <code>incl.cut</code> and <code>cov.cut</code> 
+are still met (the former always takes precedence over the latter). If suitable
+conjunctions exist, they will be returned, together with all their lower-order
+conjuncts.
+</p>
+<p>If none of the simple conditions or their negations in the initiation set passes 
+<code>incl.cut</code>, disjunctions instead of conjunctions are formed until 
+<code>incl.cut</code> and <code>cov.cut</code> will have been met. Only the disjunctions thus 
+found will be returned.
+</p>
+<p>If <code>relation = "suf"</code>, the function finds (combinations of) 
+conditions that are subsets of (sufficient for) the outcome. The initiation set 
+is comprised of all <code class="reqn">\prod_{j = 1}^{k}{p_{j}}</code> 
+intersections of order <code class="reqn">k</code>. This set is reduced by incrementally forming 
+intersections of a lower order as long as <code>incl.cut</code> and <code>cov.cut</code> are 
+still met. Only the intersections of the lowest order will be printed. For more 
+details, see Thiem and Dusa (2013). For <code>relation = "necsuf"</code> and 
+<code>relation = "sufnec"</code>, <code>incl.cut</code> will be applied to each relation and 
+<code>cov.cut</code> has no effect.
+</p>
+<p>The argument <code>outcome</code> specifies the outcome. Outcomes from multivalent 
+variables require curly-bracket notation (<code>X{value}</code>).
+</p>
+<p>The logical argument <code>neg.out</code> controls whether <code>outcome</code> is to be 
+used or its negation. If <code>outcome</code> is from a multivalent crisp-set factor, 
+<code>neg.out = TRUE</code> has the effect that the disjunctions of all remaining values 
+becomes the new outcome.
+</p>
+<p>The argument <code>exo.facs</code> specifies the names of the exogenous factors. 
+If omitted, all factors in <code>data</code> are used except the factor of which 
+<code>outcome</code> is a level.
+</p>
+<p>The argument <code>use.tilde</code> only applies to bivalent factors. If factors are 
+already named with single letters, the argument <code>use.letters</code> has no effect.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list with the following two main components:<br></p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>incl.cov</code></td>
+<td>
+<p>A data frame with the parameters of fit.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>coms</code></td>
+<td>
+<p>A data frame with the combination membership scores.</p>
+</td>
+</tr>
+</table>
+<h3>Contributors</h3>
+
+
+<table>
+<tr>
+<td style="text-align: left;">
+Dusa, Adrian</td>
+<td style="text-align: left;">: development, programming</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+Thiem, Alrik</td>
+<td style="text-align: left;">: development, documentation, testing
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Alrik Thiem (<a href="http://www.alrik-thiem.net">Personal Website</a>; <a href="https://www.researchgate.net/profile/Alrik_Thiem">ResearchGate Website</a>)
+</p>
+
+
+<h3>References</h3>
+
+<p>Ragin, Charles C. 2009. “Qualitative Comparative Analysis Using Fuzzy Sets (fsQCA).” In <em>Configurational Comparative Methods: Qualitative Comparative Analysis (QCA) and Related Techniques</em>, ed. B. Rihoux and C. C. Ragin. London: Sage Publications, pp. 87-121.
+</p>
+<p>Schneider, Carsten Q., and Claudius Wagemann. 2013. “Doing Justice to 
+Logical Remainders in QCA: Moving Beyond the Standard Analysis.” <em>Political 
+Research Quarterly</em> <strong>66</strong> (1):211-20. DOI: <a href="http://dx.doi.org/10.1177/1065912912468269">10.1177/1065912912468269</a>.
+</p>
+<p>Thiem, Alrik. 2015. <em>Standards of Good Practice and the Methodology of Necessary Conditions in Qualitative Comparative Analysis: A Critical View on Schneider and Wagemann's Theory-Guided/Enhanced Standard Analysis</em>. COMPASSS WP Series 2015-83. URL: <a href="http://www.compasss.org/wpseries/Thiem2015.pdf">http://www.compasss.org/wpseries/Thiem2015.pdf</a>.   
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>testTESA</code></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># Schneider and Wagemann (2013, 212), using data from Ragin 
+# (2009, 95), only present G and L as minimally necessary conditions
+#-------------------------------------------------------------------
+
+LIP &lt;- data.frame(
+ D = c(0.81,0.99,0.58,0.16,0.58,0.98,0.89,0.04,0.07,
+       0.72,0.34,0.98,0.02,0.01,0.01,0.03,0.95,0.98),
+ U = c(0.12,0.89,0.98,0.07,0.03,0.03,0.79,0.09,0.16,
+       0.05,0.10,1.00,0.17,0.02,0.03,0.30,0.13,0.99),
+ L = c(0.99,0.98,0.98,0.98,0.99,0.99,0.99,0.13,0.88,
+       0.98,0.41,0.99,0.59,0.01,0.17,0.09,0.99,0.99),
+ I = c(0.73,1.00,0.90,0.01,0.08,0.81,0.96,0.36,0.07,
+       0.01,0.47,0.94,0.00,0.11,0.00,0.21,0.67,1.00),
+ G = c(0.43,0.98,0.91,0.91,0.58,0.95,0.31,0.43,0.13,
+       0.95,0.58,0.99,0.00,0.01,0.84,0.20,0.91,0.98),
+ S = c(0.05,0.95,0.89,0.12,0.77,0.95,0.05,0.06,0.42,
+       0.92,0.05,0.95,0.12,0.05,0.21,0.06,0.95,0.95)
+)
+
+rownames(LIP) &lt;- c("AT","BE","CZ","EE","FI","FR","DE","GR","HU",
+                   "IE","IT","NL","PL","PT","RO","ES","SE","UK")
+                   
+rownames(superSubset(LIP, outcome = "S", incl.cut = 0.9)$incl.cov)
+
+# with mv-data from Hartmann and Kemmerzell (2010)
+#-------------------------------------------------
+data(d.partybans)
+head(d.partybans)
+
+HK &lt;- superSubset(d.partybans, outcome = "PB", 
+  exo.facs = c("C", "F", "T", "V"), incl.cut = 0.75)
+HK
+
+# combination membership scores for all cases (only first four 
+# combinations and first ten lines displayed)
+HK$coms[1:10, 1:4, drop = FALSE]
+</code></pre>
+
+
+</div>

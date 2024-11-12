@@ -1,0 +1,116 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>NewInput.MCCN</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Define the inputs of a MultiClass Closed Network</h2>
+
+<h3>Description</h3>
+
+<p>Define the inputs of a MultiClass Closed Network
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">NewInput.MCCN(
+  classes, vNumber, vThink, nodes, vType, vVisit, vService, method=1, tol=0.01
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>classes</code></td>
+<td>
+<p>The number of classes</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vNumber</code></td>
+<td>
+<p>A vector with the number of customers of each class</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vThink</code></td>
+<td>
+<p>A vector with the think time of each class</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nodes</code></td>
+<td>
+<p>The number of nodes in the network</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vType</code></td>
+<td>
+<p>A vector with the type of node: "Q" for queueing nodes or "D" for delay nodes</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vVisit</code></td>
+<td>
+<p>A matrix[i, j]. The rows represents the different visit count for each class i to each node j</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vService</code></td>
+<td>
+<p>A matrix[i, j]. The rows represents the different service time for each class i in each node j</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+<p>If method is 0, the exact MVA algorith is used. If method is 1, the Bard-Schweitzer approximation algorithm is used</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tol</code></td>
+<td>
+<p>If the parameter method is 1, this is the tolerance parameter of the algorithm</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Define the inputs of a MultiClass Closed Network</p>
+
+
+<h3>References</h3>
+
+<p>[Lazowska84]  Edward D. Lazowska, John Zahorjan, G. Scott Graham, and Kenneth C. Sevcik (1984).<br><em>Quantitative System Performance: Computer System Analysis Using Queueing Network Models</em>.<br>
+Prentice-Hall, Inc., Englewood Cliffs, New Jersey
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>QueueingModel.i_MCCN</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## See example in pag 142 in reference [Lazowska84] for more details.
+
+classes &lt;- 2
+vNumber &lt;- c(1, 1)
+vThink &lt;- c(0, 0)
+nodes &lt;- 2
+vType &lt;- c("Q", "Q")
+vVisit &lt;- matrix(data=c(10, 9, 5, 4), nrow=2, ncol=2, byrow=TRUE)
+vService &lt;- matrix(data=c(1/10, 1/3, 2/5, 1), nrow=2, ncol=2, byrow=TRUE)
+
+i_MCCN1 &lt;- NewInput.MCCN(classes, vNumber, vThink, nodes, vType, vVisit, vService)
+
+</code></pre>
+
+
+</div>

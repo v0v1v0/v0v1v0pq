@@ -1,0 +1,149 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qr_vcard</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Create a QR code for a vCard</h2>
+
+<h3>Description</h3>
+
+<p>Create a QR code for a vCard
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qr_vcard(
+  given,
+  family,
+  address,
+  email,
+  telephone,
+  organisation,
+  job_title,
+  url,
+  gender,
+  logo,
+  photo,
+  middle = character(0),
+  prefix = character(0),
+  suffix = character(0),
+  ecl = c("L", "M", "Q", "H"),
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>given</code></td>
+<td>
+<p>The given name.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>family</code></td>
+<td>
+<p>The family name.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>address</code></td>
+<td>
+<p>In case of a single address, a named character vector with
+the following elements: <code>street_nr</code>, <code>city</code>, <code>region</code>, <code>postal_code</code> and
+<code>country</code>.
+In case of multiple addresses, a named list of named character
+vectors.
+The names of the list are used as the type of the address.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>email</code></td>
+<td>
+<p>Optionally one or more email addresses.
+The names of the vector are used as the type of the email address.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>telephone</code></td>
+<td>
+<p>Optionally one of more telephone numbers.
+The names of the vector are used as the type of the telephone number.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>organisation</code></td>
+<td>
+<p>Optionally the name of your organisation and team within
+the organisation.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>job_title</code></td>
+<td>
+<p>Optionally the job title of the person.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>url</code></td>
+<td>
+<p>Optionally one or more URLs.
+The names of the vector are used as the type of the URL.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gender</code></td>
+<td>
+<p>Optionally a string describing the gender of the person.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>logo</code></td>
+<td>
+<p>Optionally a URL to a logo.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>photo</code></td>
+<td>
+<p>Optionally a URL to a photo.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>middle</code></td>
+<td>
+<p>Optionally one or more middle names.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>prefix</code></td>
+<td>
+<p>Optionally one or more prefixes.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>suffix</code></td>
+<td>
+<p>Optionally one or more suffixes.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ecl</code></td>
+<td>
+<p>the required error correction level.
+Available options are <code>"L"</code> (7%), <code>"M"</code> (15%), <code>"Q"</code> (25%) and <code>"H"</code> (30%).
+Defaults to <code>"L"</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Additional arguments are silently ignored.</p>
+</td>
+</tr>
+</table>
+</div>

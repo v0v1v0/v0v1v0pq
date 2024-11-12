@@ -1,0 +1,167 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>filter.threshold</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Summary of threshold results</h2>
+
+<h3>Description</h3>
+
+<p>Summary of threshold results.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">filter.threshold(cross, pheno.col, latent.eff, res.var, lod.thrs, drop.lod = 1.5,
+  s.quant, n.perm, alpha.levels, qh.thrs, ww.thrs, addcovar = NULL,
+  intcovar = NULL, verbose = FALSE, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>cross</code></td>
+<td>
+<p>object of class <code>cross</code>; see <code>read.cross</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pheno.col</code></td>
+<td>
+<p>phenotype columns used for filtering thresholds</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>latent.eff</code></td>
+<td>
+<p>ratio of latent effect SD to residual SD</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>res.var</code></td>
+<td>
+<p>residual variance (=SD^2)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lod.thrs</code></td>
+<td>
+<p>LOD threshold values for range of significance (alpha) levels</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>drop.lod</code></td>
+<td>
+<p>LOD drop from max LOD to keep in analysis</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>s.quant</code></td>
+<td>
+<p>vector of <code>1:Nmax</code> with <code>Nmax</code> the maximum hotspot
+size to be considered</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n.perm</code></td>
+<td>
+<p>number of permutations</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>alpha.levels</code></td>
+<td>
+<p>range of significance levels; same length as <code>lod.thrs</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qh.thrs</code></td>
+<td>
+<p>Results of call to <code>hotperm</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ww.thrs</code></td>
+<td>
+<p>Results of call to <code>ww.perm</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>addcovar</code></td>
+<td>
+<p>additive covariates as vector or matrix; see <code>scanone</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>intcovar</code></td>
+<td>
+<p>interactive covariates as vector or matrix; see <code>scanone</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p>verbose output if <code>TRUE</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>arguments passed along to <code>scanone</code></p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>List with items
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>NL.thrs</code></td>
+<td>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>N.thrs</code></td>
+<td>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>WW.thrs</code></td>
+<td>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>NL</code></td>
+<td>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>N.counts</code></td>
+<td>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>WW.counts</code></td>
+<td>
+</td>
+</tr>
+</table>
+<h3>References</h3>
+
+<p>Manichaikul A, Dupuis J, Sen S, Broman KW (2006) Poor performance of
+bootstrap confidence intervals for the location of a quantitative trait
+locus. Genetics 174: 481-489.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>hotperm</code>, <code>ww.perm</code>, <code>scanone</code></p>
+
+
+</div>

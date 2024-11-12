@@ -1,0 +1,297 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>queryBuilderConfigClass</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>R6 class representing 'queryBuilderConfig' object.</h2>
+
+<h3>Description</h3>
+
+<p>R6 class representing 'queryBuilderConfig' object.
+</p>
+<p>R6 class representing 'queryBuilderConfig' object.
+</p>
+
+
+<h3>Details</h3>
+
+<p>The object is responsible for storing definitions for operators and conditions
+that are used to generate query expression.
+It also allows to manage its objects by the provided methods.
+</p>
+
+
+<h3>Value</h3>
+
+<p>R6 Class constructor for query configuration (operators, conditions and methods for managing the objects).
+</p>
+
+
+<h3>Methods</h3>
+
+
+
+<h4>Public methods</h4>
+
+
+<ul>
+<li> <p><a href="#method-queryBuilderConfig-new"><code>queryBuilderConfigClass$new()</code></a>
+</p>
+</li>
+<li> <p><a href="#method-queryBuilderConfig-add"><code>queryBuilderConfigClass$add()</code></a>
+</p>
+</li>
+<li> <p><a href="#method-queryBuilderConfig-remove"><code>queryBuilderConfigClass$remove()</code></a>
+</p>
+</li>
+<li> <p><a href="#method-queryBuilderConfig-get_from_private"><code>queryBuilderConfigClass$get_from_private()</code></a>
+</p>
+</li>
+<li> <p><a href="#method-queryBuilderConfig-set_to_private"><code>queryBuilderConfigClass$set_to_private()</code></a>
+</p>
+</li>
+<li> <p><a href="#method-queryBuilderConfig-reset"><code>queryBuilderConfigClass$reset()</code></a>
+</p>
+</li>
+<li> <p><a href="#method-queryBuilderConfig-clone"><code>queryBuilderConfigClass$clone()</code></a>
+</p>
+</li>
+</ul>
+<hr>
+<a id="method-queryBuilderConfig-new"></a>
+
+
+
+<h4>Method <code>new()</code>
+</h4>
+
+<p>Create queryBuilderConfig object with initialized conditions and operators.
+</p>
+
+
+<h5>Usage</h5>
+
+<div class="r"><pre>queryBuilderConfigClass$new(
+  conditions = default_conditions,
+  operators = default_operators,
+  ...
+)</pre></div>
+
+
+
+<h5>Arguments</h5>
+
+<div class="arguments">
+
+<dl>
+<dt><code>conditions</code></dt>
+<dd>
+<p>Conditions.</p>
+</dd>
+<dt><code>operators</code></dt>
+<dd>
+<p>Operators.</p>
+</dd>
+<dt><code>...</code></dt>
+<dd>
+<p>Unused.</p>
+</dd>
+</dl>
+</div>
+
+
+
+<h5>Returns</h5>
+
+<p>The object of class 'queryBuilderConfig'.
+</p>
+
+
+<hr>
+<a id="method-queryBuilderConfig-add"></a>
+
+
+
+<h4>Method <code>add()</code>
+</h4>
+
+<p>Add conditions and conditions to 'queryBuilderConfig' object.
+</p>
+
+
+<h5>Usage</h5>
+
+<div class="r"><pre>queryBuilderConfigClass$add(conditions = NULL, operators = NULL)</pre></div>
+
+
+
+<h5>Arguments</h5>
+
+<div class="arguments">
+
+<dl>
+<dt><code>conditions</code></dt>
+<dd>
+<p>Conditions.</p>
+</dd>
+<dt><code>operators</code></dt>
+<dd>
+<p>Operators.</p>
+</dd>
+</dl>
+</div>
+
+
+<hr>
+<a id="method-queryBuilderConfig-remove"></a>
+
+
+
+<h4>Method <code>remove()</code>
+</h4>
+
+<p>Remove conditions or operators from 'queryBuilderConfig' object.
+</p>
+
+
+<h5>Usage</h5>
+
+<div class="r"><pre>queryBuilderConfigClass$remove(conditions_id = NULL, operators_id = NULL)</pre></div>
+
+
+
+<h5>Arguments</h5>
+
+<div class="arguments">
+
+<dl>
+<dt><code>conditions_id</code></dt>
+<dd>
+<p>Id of conditions to remove.</p>
+</dd>
+<dt><code>operators_id</code></dt>
+<dd>
+<p>Id of operators to remove.</p>
+</dd>
+</dl>
+</div>
+
+
+<hr>
+<a id="method-queryBuilderConfig-get_from_private"></a>
+
+
+
+<h4>Method <code>get_from_private()</code>
+</h4>
+
+<p>Get private elements from 'queryBuilderConfig' object.
+</p>
+
+
+<h5>Usage</h5>
+
+<div class="r"><pre>queryBuilderConfigClass$get_from_private(name)</pre></div>
+
+
+
+<h5>Arguments</h5>
+
+<div class="arguments">
+
+<dl>
+<dt><code>name</code></dt>
+<dd>
+<p>Name of the element to get.</p>
+</dd>
+</dl>
+</div>
+
+
+<hr>
+<a id="method-queryBuilderConfig-set_to_private"></a>
+
+
+
+<h4>Method <code>set_to_private()</code>
+</h4>
+
+<p>Set private elements to 'queryBuilderConfig' object.
+</p>
+
+
+<h5>Usage</h5>
+
+<div class="r"><pre>queryBuilderConfigClass$set_to_private(name, value)</pre></div>
+
+
+
+<h5>Arguments</h5>
+
+<div class="arguments">
+
+<dl>
+<dt><code>name</code></dt>
+<dd>
+<p>Name of the element to set.</p>
+</dd>
+<dt><code>value</code></dt>
+<dd>
+<p>New element value.</p>
+</dd>
+</dl>
+</div>
+
+
+<hr>
+<a id="method-queryBuilderConfig-reset"></a>
+
+
+
+<h4>Method <code>reset()</code>
+</h4>
+
+<p>Restore default conditions and conditions of 'queryBuilderConfig' object and clear out remaining private objects.
+</p>
+
+
+<h5>Usage</h5>
+
+<div class="r"><pre>queryBuilderConfigClass$reset()</pre></div>
+
+
+<hr>
+<a id="method-queryBuilderConfig-clone"></a>
+
+
+
+<h4>Method <code>clone()</code>
+</h4>
+
+<p>The objects of this class are cloneable with this method.
+</p>
+
+
+<h5>Usage</h5>
+
+<div class="r"><pre>queryBuilderConfigClass$clone(deep = FALSE)</pre></div>
+
+
+
+<h5>Arguments</h5>
+
+<div class="arguments">
+
+<dl>
+<dt><code>deep</code></dt>
+<dd>
+<p>Whether to make a deep clone.</p>
+</dd>
+</dl>
+</div>
+
+
+
+
+</div>

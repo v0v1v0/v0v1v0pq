@@ -1,0 +1,69 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>npstate.control</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>non parametric process state</h2>
+
+<h3>Description</h3>
+
+<p>This function removes observations from the sample which violates 
+the rules of a process under control
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">npstate.control(x, control = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>Object npqcd (Quality Control Statitical Non Parametric)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>control</code></td>
+<td>
+<p>a logical value indicating whether the initial sample comes from a process under control.</p>
+</td>
+</tr>
+</table>
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+##
+##  Continuous data 
+##
+library(qcr)
+set.seed(356)
+mu&lt;-c(0,0)
+Sigma&lt;- matrix(c(1,0,0,1),nrow = 2,ncol = 2)
+mu &lt;- c(2,2)
+S &lt;- matrix(c(4,0,0,4),nrow = 2,ncol = 2)
+G &lt;- rmvnorm(540, mean = mu, sigma = Sigma)
+x&lt;- rmvnorm(40,mean=mu,sigma = S)
+x &lt;- rbind(G[501:540,],x)
+M &lt;- G[1:500,]
+data.npqcd &lt;- npqcd(x,M)
+str(data.npqcd)
+res.npqcs &lt;- npqcs.r(data.npqcd,method = "Liu", alpha=0.025)
+str(res.npqcs)
+summary(res.npqcs)
+plot(res.npqcs)
+new.npqcd &lt;- npstate.control(x = res.npqcs)
+res.npqcs &lt;- npqcs.r(new.npqcd)
+summary(res.npqcs)
+plot(res.npqcs)  
+
+## End(Not run)
+</code></pre>
+
+
+</div>

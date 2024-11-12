@@ -1,0 +1,93 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>trout</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Rainbow trout doubled haploid data</h2>
+
+<h3>Description</h3>
+
+<p>Data from doubled haploid individuals derived from a cross between Oregon
+State University (OSU) and Clearwater (CW) River rainbow trout clonal lines.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">trout
+</code></pre>
+
+
+<h3>Format</h3>
+
+<p>An object of class <code>cross</code>.  See <code>qtl::read.cross()</code>
+for details.</p>
+
+
+<h3>Details</h3>
+
+<p>Doubled haploid individuals were produced from a cross between Oregon State
+University (OSU) and Clearwater (CW) river rainbow trout (<em>Oncorhynchus
+mykiss</em>) clonal lines.  Eggs from one of eight outbred females, two from
+Troutlodge (TL) and six from Spokane (SP), were irradiated to destroy
+maternal nuclear DNA and fertilized with sperm from a single <code class="reqn">F_1</code>
+male.  The first embryonic cleavage was blocked by heat shock to restore
+diploidy.  There are a total of 554 individuals, with between 8 and 168
+individuals from each of the eight females.
+</p>
+<p>The primary phenotype is time to hatch (<code>tth</code>).  An additional
+"phenotype", <code>female</code>, indicates maternal cytoplasmic environment (the
+source of the egg).
+</p>
+<p>There are genotype data on 171 markers on 28 linkage groups.  The linkage
+groups are named as in Nichols et al. (2002), though a pair of markers are
+assigned to linkage group "un", as they don't connect to any of the linkage
+groups in Nichols et al. (2002).
+</p>
+<p>Note that the data have cross type <code>"dh"</code> (for doubled haploids); in
+R/qtl they are treated just like a backcross, except that genotypes are
+referred to as the homozygotes.
+</p>
+
+
+<h3>Source</h3>
+
+<p>Krista M. Nichols, Department of Biological Sciences, Purdue
+University, <a href="mailto:kmnichol@purdue.edu">kmnichol@purdue.edu</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Nichols, K. M., Broman, K. W., Sundin, K., Young, J. M.,
+Wheeler, P. A. and Thorgaard, G. H.  (2007) Quantitative trait loci by
+maternal cytoplasmic environment interaction for development rate in
+<em>Oncorhynchus mykiss</em>. <em>Genetics</em> <strong>175</strong>, 335–347.
+</p>
+<p>Nichols, K. M., Young, W. P., Danzmann, R. G., Robison, B. D., Rexroad, C.,
+Noakes, M., Phillips, R. B., Bentzen, P., Spies, I., Knudsen, K., Allendorf,
+F. W., Cunningham, B. M., Brunelli, J., Zhang, H., Ristow, S., Drew, R.,
+Brown, K. H., Wheeler, P. A. and Thrgaard, G. H. (2002) A consolidated
+linkage map for rainbow trout (<em>Oncorhynchus mykiss</em>).  <em>Animal
+Genetics</em> <strong>34</strong>, 102–115.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>link{gutlength}</code>, <code>link{iron}</code>, <code>link{myocard}</code>,
+<code>link{nf1}</code>, <code>link{ovar}</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(trout)
+library(qtl)
+plot(trout)
+
+</code></pre>
+
+
+</div>

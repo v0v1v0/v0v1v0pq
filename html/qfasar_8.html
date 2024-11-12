@@ -1,0 +1,102 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>dist_between_2_sigs</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Compute the distance between two fatty acid signatures</h2>
+
+<h3>Description</h3>
+
+<p>The utility function <code>dist_between_2_sigs</code> computes the distance
+between two fatty acid signatures.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">dist_between_2_sigs(sig_1, sig_2, dist_meas = 1, gamma = 1)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>sig_1, sig_2</code></td>
+<td>
+<p>Equal-length numeric vectors of fatty acid signature
+proportions.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dist_meas</code></td>
+<td>
+<p>An integer indicator of the distance measure to compute.
+Default value 1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gamma</code></td>
+<td>
+<p>The power parameter of the chi-square distance measure.  See
+Details. Default value 1.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>The selected distance between the two signatures.
+</p>
+
+
+<h3>Details</h3>
+
+<p>This is an internal utility function.  The signatures in <code>sig_1</code> and
+<code>sig_2</code> are presumed to be ready for analysis, which is best
+accomplished by a call to the function <code>prep_sig</code>.  Consequently,
+to increase execution speed during simulations, no numeric error checking is
+performed.  Please refer to documentation for the function
+<code>prep_sig</code> for additional details.
+</p>
+<p>If the argument <code>dist_meas</code> is not one of the following integers, a
+value of NA is returned:
+</p>
+
+<ul>
+<li>
+<p> dist_meas == 1 yields the Aitchison distance measure (Stewart et al.
+2014).  This is the default value.
+</p>
+</li>
+<li>
+<p> dist_meas == 2 yields the Kullback-Leibler distance measure of
+Iverson et al. (2004).
+</p>
+</li>
+<li>
+<p> dist_meas == 3 yields the chi-square distance measure (Stewart et
+al. 2014).
+</p>
+</li>
+</ul>
+<p>The argument <code>gamma</code> is only used if <code>dist_meas == 3</code> and need not
+be passed otherwise.  If <code>dist_meas == 3</code>, <code>gamma</code> must be greater
+than 0 and cannot exceed 1.  If <code>dist_meas == 3</code> and a value for
+<code>gamma</code> is not passed, a default value of 1 is used.
+</p>
+
+
+<h3>References</h3>
+
+<p>Iverson, S.J., C. Field, W.D. Bowen, and W. Blanchard. 2004.
+Quantitative fatty acid signature analysis: A new method of
+estimating predator diets. <em>Ecological Monographs</em> 74:211-235.
+</p>
+<p>Stewart, C., S. Iverson, and C. Field. 2014. Testing for a change in diet
+using fatty acid signatures. <em>Environmental and Ecological
+Statistics</em> 21:775-792.
+</p>
+
+
+</div>

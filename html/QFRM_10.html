@@ -1,0 +1,78 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>Binary_BOPM</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Binary option valuation vialattice tree (LT) implementation</h2>
+
+<h3>Description</h3>
+
+<p>Compute option price via binomial option pricing model (recombining symmetric binomial tree)
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">Binary_BOPM(o = OptPx(Opt(Style = "Binary")), Type = c("cash-or-nothing",
+  "asset-or-nothing"), Q = 1000, IncBT = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>o</code></td>
+<td>
+<p><code>OptPx</code> object</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Type</code></td>
+<td>
+<p>Binary option type: <code>'cash-or-nothing'</code> or <code>'asset-or-nothing'</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Q</code></td>
+<td>
+<p>A fixed amount of payoff</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>IncBT</code></td>
+<td>
+<p>TRUE/FALSE, indicates whether to include the full binomial tree in the returned object</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>original <code>OptPx</code> object with <code>Px.BOPM</code> property and (optional) binomial tree
+IncBT = FALSE: option price value (type double, class numeric)
+IncBT = TRUE: binomial tree as a list (of length (o$n+1) of numeric matrices (2 x i).
+Each matrix is a set of possible i outcomes at time step i
+columns: (underlying prices, option prices)
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">(o = Binary_BOPM())$PxBT
+
+o = OptPx(o=Opt(Style='Binary'))
+(o = Binary_BOPM(o, Type='cash', Q=100, IncBT=TRUE))$PxBT
+
+o = OptPx(Opt(Style='Binary'), r=0.05, q=0.02, rf=0.0, vol=0.30, NSteps=5)
+(o = Binary_BOPM(o, Type='cash', Q=1000, IncBT=FALSE))$PxBT
+
+o = OptPx(o=Opt(Style='Binary'), r=0.15, q=0.01, rf=0.05, vol=0.35, NSteps=5)
+(o = Binary_BOPM(o,Type='asset',Q=150, IncBT=FALSE))$PxBT
+
+o = OptPx(o=Opt(Style='Binary'), r=0.025, q=0.001, rf=0.0, vol=0.10, NSteps=5)
+(o = Binary_BOPM(o, Type='cash', Q=20, IncBT=FALSE))$PxBT
+</code></pre>
+
+
+</div>

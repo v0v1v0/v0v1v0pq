@@ -1,0 +1,93 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>cbind.fst_genoprob</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Join genotype probabilities for different chromosomes</h2>
+
+<h3>Description</h3>
+
+<p>Join multiple genotype probability objects, as produced by
+<code>fst_genoprob()</code> for different individuals.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'fst_genoprob'
+cbind(..., fbase = NULL, fdir = NULL, overwrite = FALSE, quiet = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Genotype probability objects as produced by
+<code>fst_genoprob()</code>. Must have the same set of individuals.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fbase</code></td>
+<td>
+<p>Base of fileame for fst database.
+Needed if objects have different fst databases.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fdir</code></td>
+<td>
+<p>Directory for fst database.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>overwrite</code></td>
+<td>
+<p>If FALSE (the default), refuse to overwrite existing <code>.fst</code> files.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>quiet</code></td>
+<td>
+<p>If TRUE, don't show any messages. Passed to <code>fst_genoprob()</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A single genotype probability object.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>rbind.fst_genoprob()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(qtl2)
+grav2 &lt;- read_cross2(system.file("extdata", "grav2.zip", package="qtl2"))
+map &lt;- insert_pseudomarkers(grav2$gmap, step=1)
+probsA &lt;- calc_genoprob(grav2[1:5,1:2], map, error_prob=0.002)
+probsB &lt;- calc_genoprob(grav2[1:5,3:4], map, error_prob=0.002)
+dir &lt;- tempdir()
+fprobsA &lt;- fst_genoprob(probsA, "exampleAc", dir, overwrite=TRUE)
+fprobsB &lt;- fst_genoprob(probsB, "exampleBc", dir, overwrite=TRUE)
+
+# use cbind to combine probabilities for same individuals but different chromosomes
+fprobs &lt;- cbind(fprobsA, fprobsB, fbase = "exampleABc", overwrite=TRUE)
+
+# clean up: remove all the files we created
+unlink(fst_files(fprobsA))
+unlink(fst_files(fprobsB))
+unlink(fst_files(fprobs))
+
+</code></pre>
+
+
+</div>

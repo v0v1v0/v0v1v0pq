@@ -1,0 +1,254 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>pof</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Compute Set-Relational Parameters of Fit</h2>
+
+<h3>Description</h3>
+
+<p>This function computes inclusion (consistency) and coverage scores.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">pof(setms, outcome, data, neg.out = FALSE, relation = "suf",
+    inf.test = "", incl.cut1 = 0.75, incl.cut0 = 0.5, ...)
+
+is.pof(x)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>setms</code></td>
+<td>
+<p>A data frame of set membership scores, or a matrix of implicants, 
+or a vector of implicant matrix line numbers.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>outcome</code></td>
+<td>
+<p>The name of the outcome.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>The working data set.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>neg.out</code></td>
+<td>
+<p>Logical, use negation of <code>outcome</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>relation</code></td>
+<td>
+<p>The set relation to <code>outcome</code>, either <code>"nec"</code> or
+<code>"suf"</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>inf.test</code></td>
+<td>
+<p>The inference-statistical test to be performed (currently only
+<code>"binom"</code> for bivalent and multivalent crisp-set variables).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>incl.cut1</code></td>
+<td>
+<p>The upper inclusion cut-off against which the
+empirical inclusion score is tested if <code>inf.test = "binom"</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>incl.cut0</code></td>
+<td>
+<p>The lower inclusion cut-off against which the
+empirical inclusion score is tested if <code>inf.test = "binom"</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Other arguments (not used in this function).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>An object of class "pof".</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The argument <code>setms</code> specifies a data frame of <em>set</em> membership scores, 
+where <em>set</em> refers to any kind of set, including simple sets, combinations 
+returned by the <code>superSubset</code> function (<code>coms</code>), prime implicants returned 
+by the <code>eQMC</code> function (<code>pims</code>), or any other compound set.
+</p>
+<p>The function also accepts a matrix of implicants with the level representation 
+of created by the <code>mintermMatrix</code> function, or even a corresponding vector 
+of implicant matrix line numbers.
+</p>
+<p>The argument <code>outcome</code> specifies the outcome to be analyzed, either in
+curly-bracket notation (e.g., <code>O{value}</code>) if the outcome is from a multivalent
+(or a bivalent) factor, or in upper-case notation if the outcome is from a bivalent
+factor (e.g., <code>O</code> as a short-cut for <code>O{1}</code>). Outcomes from multivalent crisp-set factors always require curly-bracket notation. Outcomes must be single 
+levels of factors not simultaneously passed to <code>exo.facs</code>.
+</p>
+<p>The logical argument <code>neg.out</code> controls whether <code>outcome</code> is to be 
+analyzed or its negation. If <code>outcome</code> is a level from a multivalent factor, 
+<code>neg.out = TRUE</code> causes the disjunction of all remaining levels to become 
+the outcome to be analyzed.
+</p>
+<p>The argument <code>inf.test</code> provides functionality for adjudicating between
+rival hypotheses on the basis of inference-statistical tests. Currently, only an
+exact binomial test (<code>"binom"</code>) is available, which requires the data to
+contain only bivalent or multivalent crisp-set factors. Two one-tailed tests
+are performed. The null hypothesis with respect to <code>incl.cut1</code> is that the
+empirical inclusion score of each element in <code>setms</code> is not lower than the
+upper critical inclusion cut-off provided in <code>incl.cut1</code>. The null hypothesis
+with respect to <code>incl.cut0</code> is that the empirical inclusion score of each
+element in <code>setms</code> is not higher than the lower critical inclusion cut-off
+provided in <code>incl.cut0</code>.
+</p>
+
+
+<h3>Contributors</h3>
+
+
+<table>
+<tr>
+<td style="text-align: left;">
+Dusa, Adrian</td>
+<td style="text-align: left;">: programming</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+Thiem, Alrik</td>
+<td style="text-align: left;">: development, documentation, testing
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Alrik Thiem (<a href="http://www.alrik-thiem.net">Personal Website</a>; <a href="https://www.researchgate.net/profile/Alrik_Thiem">ResearchGate Website</a>)
+</p>
+
+
+<h3>References</h3>
+
+<p>Emmenegger, Patrick. 2011. “Job Security Regulations in Western Democracies: 
+A Fuzzy Set Analysis.” <em>European Journal of Political Research</em> <strong>50</strong> 
+(3):336-64. DOI: <a href="http://dx.doi.org/10.1111/j.1475-6765.2010.01933.x">10.1111/j.1475-6765.2010.01933.x</a>.
+</p>
+<p>Hartmann, Christof, and Joerg Kemmerzell. 2010. “Understanding Variations 
+in Party Bans in Africa.” <em>Democratization</em> <strong>17</strong> (4):642-65.
+DOI: <a href="http://dx.doi.org/10.1080/13510347.2010.491189">10.1080/13510347.2010.491189</a>.
+</p>
+<p>Krook, Mona Lena. 2010. “Women's Representation in Parliament: A Qualitative 
+Comparative Analysis.” <em>Political Studies</em> <strong>58</strong> (5):886-908.
+DOI: <a href="http://dx.doi.org/10.1111/j.1467-9248.2010.00833.x">10.1111/j.1467-9248.2010.00833.x</a>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>eQMC</code></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># csQCA using Krook (2010)
+#-------------------------
+data(d.represent)
+head(d.represent)
+
+# solution with details
+KRO &lt;- eQMC(d.represent, outcome = "WNP", incl.cut1 = 0.9, 
+            details = TRUE)
+KRO
+
+# exact binomial tests of sufficiency inclusion
+pof(KRO$pims, outcome = "WNP", d.represent, inf.test = c("binom", 0.1), 
+    incl.cut1 = 0.75, incl.cut0 = 0.5)
+
+# fsQCA using Emmenegger (2011)
+#------------------------------
+data(d.jobsecurity)
+head(d.jobsecurity)
+
+# solution with details
+EMM.sol &lt;- eQMC(d.jobsecurity, outcome = "JSR", incl.cut1 = 0.9, 
+                details = TRUE)
+EMM.sol
+
+# are the model prime implicants also sufficient for the negation 
+# of the outcome?
+pof(EMM.sol$pims, outcome = "JSR", d.jobsecurity, neg.out = TRUE)
+
+# are the negations of the model prime implicants also sufficient 
+# for the outcome?
+pof(1 - EMM.sol$pims, outcome = "JSR", d.jobsecurity)
+
+# parameters of fit for matrix of implicants;
+# "-1" is the placeholder for an eliminated variable;
+# e.g.: R*p*V and S*c*L*P*v
+#      "S"  "C"  "L"  "R"  "P"  "V"
+#     [,1] [,2] [,3] [,4] [,5] [,6]
+#[1,]   -1   -1   -1    1    0    1
+#[2,]    1    0    1   -1    1    0
+mat &lt;- matrix(c(-1,-1,-1, 1, 0, 1, 
+                 1, 0, 1,-1, 1, 0), nrow = 2, byrow = TRUE)
+
+pof(mat, outcome = "JSR", d.jobsecurity)
+
+# or even vectors of line numbers from the implicant matrix
+pof(c(43, 57), "JSR", d.jobsecurity)
+
+
+# mv-data from Hartmann and Kemmerzell (2010)
+#-------------------------------------------
+data(d.partybans)
+head(d.partybans)
+
+# parameters of fit for several mv-expressions
+expr &lt;- c("C{1}", "F{2}", "T{2}", "T{1}*V{0}")
+dat &lt;- data.frame(ifelse(d.partybans$C == 1, 1, 0),
+                  ifelse(d.partybans$F == 2, 1, 0),
+                  ifelse(d.partybans$T == 2, 1, 0), 
+                  ifelse(d.partybans$T == 1 &amp; d.partybans$V == 0, 1, 0))
+colnames(dat) &lt;- expr                        
+
+pof(dat, outcome = "PB{1}", d.partybans)
+
+# miscellaneous
+#--------------
+# parameters of fit for a data frame
+x &lt;- data.frame(A = c(1,1,1,0,1), B = c(1,1,1,0,1),
+                C = c(0,1,0,0,1), D = c(0,0,1,0,1),
+                O = c(1,1,1,0,1))
+
+pof(x[, -5], outcome = "O", x)
+
+# for a single column from that data frame
+pof(x$A, x$O)
+
+# for multiple columns from that data frame
+pof(x[, 1:2], outcome = "O", x)
+
+</code></pre>
+
+
+</div>

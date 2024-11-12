@@ -1,0 +1,45 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>orderedQspray</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Ordered 'qspray'</h2>
+
+<h3>Description</h3>
+
+<p>Reorders the terms of a <code>qspray</code> object according to the 
+lexicographic order of the powers. This function is rather used 
+internally only but it is exported for internal usage in other packages.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">orderedQspray(qspray)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>qspray</code></td>
+<td>
+<p>a <code>qspray</code> object</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>A <code>qspray</code> object. It defines the same polynomial as the 
+input <code>qspray</code> object but it is ordered.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">qspray &lt;- rQspray()
+qspray == orderedQspray(qspray) # should be TRUE
+</code></pre>
+
+
+</div>

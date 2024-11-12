@@ -1,0 +1,88 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>slice_latent</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Latent Slice Sampler</h2>
+
+<h3>Description</h3>
+
+<p>Single update using the latent slice sampler of Li and Walker (2023).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">slice_latent(x, s, log_target, rate)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>The current state (as a numeric scalar).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>s</code></td>
+<td>
+<p>A random variable that determines the length of the initial shrinking interval.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>log_target</code></td>
+<td>
+<p>A function taking numeric scalar that evaluates the
+(potentially unnormalized) log-target density, returning a numeric scalar.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rate</code></td>
+<td>
+<p>The rate parameter for the distribution of <code>s</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list containing three elements:
+</p>
+<p><code>x</code> is the new state of the target variable.
+</p>
+<p><code>s</code> is the new state of the latent scale variable.
+</p>
+<p><code>nEvaluations</code> is the number of evaluations of the
+target function used to obtain the new state.
+</p>
+
+
+<h3>References</h3>
+
+<p>Li, Y. and Walker, S. G. (2023), "A latent slice sampling algorithm," <em>Computational Statistics and Data Analysis</em>, 179, 107652. <a href="https://doi.org/10.1016/j.csda.2022.107652">doi:10.1016/j.csda.2022.107652</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">lf &lt;- function(x) dbeta(x, 3, 4, log = TRUE)
+draws &lt;- numeric(10) # set to numeric(1e3) for more complete illustration
+nEvaluations &lt;- 0L
+s &lt;- 0.5
+for (i in seq.int(2, length(draws))) {
+  out &lt;- slice_latent(draws[i - 1], s, log_target = lf, rate = 0.3)
+  draws[i] &lt;- out$x
+  s &lt;- out$s
+  nEvaluations &lt;- nEvaluations + out$nEvaluations
+}
+nEvaluations / (length(draws) - 1)
+plot(density(draws), xlim = c(0, 1))
+curve(exp(lf(x)), 0, 1, col = "blue", add = TRUE)
+
+</code></pre>
+
+
+</div>

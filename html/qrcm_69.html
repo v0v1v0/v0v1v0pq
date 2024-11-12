@@ -1,0 +1,192 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>summary.iqr</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Summary After Quantile Regression Coefficients Modeling
+</h2>
+
+<h3>Description</h3>
+
+<p>Summary of an object of class “<code>iqr</code>”.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'iqr'
+summary(object, p, cov = FALSE, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+
+<p>an object of class “<code>iqr</code>”, the result of a call to <code>iqr</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p</code></td>
+<td>
+
+<p>an optional vector of quantiles.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cov</code></td>
+<td>
+
+<p>logical. If <kbd>TRUE</kbd>, the covariance matrix of <code class="reqn">\beta(p)</code> is reported.
+Ignored if <kbd>p</kbd> is missing.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>for future methods.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>If <kbd>p</kbd> is missing, a summary of the fitted model is reported. This includes the
+estimated coefficients, their standard errors, and other summaries (see ‘Value’).
+If <kbd>p</kbd> is supplied, the quantile regression coefficients of order <kbd>p</kbd> are extrapolated
+and summarized.
+</p>
+
+
+<h3>Value</h3>
+
+<p>If <kbd>p</kbd> is supplied, 
+a standard summary of the estimated quantile regression coefficients 
+is returned for each value of <kbd>p</kbd>. If <kbd>cov = TRUE</kbd>, the covariance
+matrix is also reported.
+</p>
+<p>If <kbd>p</kbd> is missing (the default), a list with the following items:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>converged</code></td>
+<td>
+<p>logical value indicating the convergence status.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n.it</code></td>
+<td>
+<p>the number of iterations.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p>the number of observations.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>free.par</code></td>
+<td>
+<p>the number of free parameters in the model.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>coefficients</code></td>
+<td>
+<p>the matrix of estimated coefficients. Each row corresponds to 
+a covariate, while each column corresponds to an element of <code class="reqn">b(p)</code>,
+the set of functions that describe how quantile regression coefficients vary with the 
+order of the quantile. See ‘Examples’.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>se</code></td>
+<td>
+<p>the estimated standard errors.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>test.x</code></td>
+<td>
+<p>Wald test for the covariates. Each <em>row</em> of <code>coefficients</code> is tested for nullity.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>test.p</code></td>
+<td>
+<p>Wald test for the building blocks of the quantile function. Each <em>column</em> of <code>coefficients</code> is tested for nullity.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>obj.function</code></td>
+<td>
+<p>the minimized loss function (<kbd>NULL</kbd> if the data are censored or truncated).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>call</code></td>
+<td>
+<p>the matched call.</p>
+</td>
+</tr>
+</table>
+<h3>Note</h3>
+
+<p>In version 1.0 of the package, a chi-squared goodness-of-fit test was provided.
+The test appeared to be unreliable and has been removed from the subsequent versions. Use <code>test.fit</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Paolo Frumento <a href="mailto:paolo.frumento@unipi.it">paolo.frumento@unipi.it</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>iqr</code>, for model fitting; <code>predict.iqr</code> and <code>plot.iqr</code>,
+for predicting and plotting objects of class “<code>iqr</code>”. <code>test.fit.iqr</code>
+for a goodness-of-fit test.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+# using simulated data
+
+set.seed(1234); n &lt;- 1000
+x1 &lt;- rexp(n)
+x2 &lt;- runif(n)
+qy &lt;- function(p,x){qnorm(p)*(1 + x)}
+# true quantile function: Q(p | x) = beta0(p) + beta1(p)*x, with
+   # beta0(p) = beta1(p) = qnorm(p)
+
+y &lt;- qy(runif(n), x1) # to generate y, plug uniform p in qy(p,x)
+                      # note that x2 does not enter
+
+model &lt;- iqr(y ~ x1 + x2, formula.p = ~ I(qnorm(p)) + p + I(p^2))
+# beta(p) is modeled by linear combinations of b(p) = (1, qnorm(p),p,p^2)
+
+summary(model)
+# interpretation: 
+  # beta0(p) = model$coef[1,]*b(p)
+  # beta1(p) = model$coef[2,]*b(p); etc.
+# x2 and (p, p^2) are not significant
+
+
+summary(model, p = c(0.25, 0.75)) # summary of beta(p) at selected quantiles
+</code></pre>
+
+
+</div>

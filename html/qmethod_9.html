@@ -1,0 +1,106 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>import.q.concourse</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Q methodology: import concourse of Q items</h2>
+
+<h3>Description</h3>
+
+<p>Imports a full set of items (statements in a concourse) from a directory of *.TEX files (one file per item), including possible translations in separate folders.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">import.q.concourse(q.concourse.dir, languages = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>q.concourse.dir</code></td>
+<td>
+
+<p>A directory of <em>individual</em> item wordings in *.TEX files with handles as filenames (e.g. <kbd>happy-feeling.tex</kbd>).
+If <code>languages</code> are specified, the directory should contain one folder per language, with all full item wordings as individual *.TEX files in <em>each</em> language folder.
+Items should have the <em>same</em> file name across all languages (e.g. <kbd>happy-feeling.tex</kbd>).
+Directories end with a trailing slash, such as <code>study/q-sample/q-concourse/</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>languages</code></td>
+<td>
+
+<p>A character vector of languages, same as folders within <code>q.concourse.dir</code>.
+If the concourse is monolingual, leave empty. Defaults to <code>NULL</code>.
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Q studies are conducted by asking participants (or a P set) to rank order a <em>sample</em> (or Q Set) of items, drawn from a universe (or concourse) of items, based on some sampling strategy.
+A concourse is, simply put, <em>the sum of all things people could say about a subject matter</em>.
+</p>
+<p>It is helpful to keep the <em>entire</em> concourse readily available, so as to draw samples from it.
+</p>
+<p>For some studies, it is necessary to have the complete items available in several languages.
+</p>
+<p>This function simply imports all full item wordings and assigns a <em>handle</em> for the item, based on the filename (see qmethod-package).
+These filenames should be short and meaningful to the researcher.
+</p>
+<p>Individual items as *.TEX files should include minimal markup, and no trailing whitespace or empty newlines.
+If you do not need any additional formatting, you can just save plain text files (*.TXT) with the extension *.TEX.
+There is no need to know <a href="https://www.latex-project.org/">LaTeX</a>.
+</p>
+<p>Returns error if items are not available in all translations.
+</p>
+<p>Defaults to monolingual variant.
+</p>
+<p>If you are not familiar with the terminology of Q item <em>handle</em>, <em>ID</em> and <em>wording</em> or the file structure expected for import functions, please read the respective sections in the documentation for qmethod-package first or consider the package <a href="http://aiorazabala.github.io/qmethod/Data-management">website</a>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns a character matrix with handles as row names, languages (if applicable) as columns and full item wording per language in cells.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Maximilian Held</p>
+
+
+<h3>See Also</h3>
+
+<p><code>build.q.set</code>,
+<code>import.q.feedback</code>,
+<code>import.q.sorts</code>,
+<code>make.cards</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Import a full q concourse from 'importexample' dataset
+path.concourse &lt;- paste(            # this part is only for the example!
+  path.package("qmethod"),          # just to make sure, use absolute path
+  # import example files are in root/extdata of package
+  "/extdata/importexample/sample/concourse/",  # location of concourse
+  sep = ""
+  )
+q.concourse &lt;- import.q.concourse(  # import concourse
+  q.concourse.dir = path.concourse, # insert your applicable path here
+  languages = c("english","german") # choose your languages from path here
+  )
+
+</code></pre>
+
+
+</div>

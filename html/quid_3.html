@@ -1,0 +1,72 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>BFBayesFactorConstraint-class</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>S4 class for representing Bayes factor model comparisons and the Bayes factor
+for user-defined constraints</h2>
+
+<h3>Description</h3>
+
+<p><code>BFBayesFactorConstraint</code> is a S4 class that represents the Bayes factors
+of multiple model comparisons and the Bayes factor of all individual effects
+adhering to user-defined constraints. Furthermore, it also has slots
+defined for representing the design matrices of the constraints model, and
+for representing prior and posterior estimates.
+</p>
+
+
+<h3>Slots</h3>
+
+
+<dl>
+<dt><code>generalTestObj</code></dt>
+<dd>
+<p>an object of class <code>BFBayesFactor</code> representing the
+model comparisons. All S4 methods as defined in
+<code>BFBayesFactor-class</code> can be used.</p>
+</dd>
+<dt><code>constraints</code></dt>
+<dd>
+<p>an object of class <code>BFConstraint-class</code>.</p>
+</dd>
+<dt><code>individualEffects</code></dt>
+<dd>
+<p>a list containing a named vector for each level of the
+effect defined in the constraints. Effects are comprised of the common
+effect plus the individual deviation from it.</p>
+</dd>
+<dt><code>posteriorMean</code></dt>
+<dd>
+<p>a named numeric giving the mean of the common effect.</p>
+</dd>
+<dt><code>posteriorSD</code></dt>
+<dd>
+<p>a named numeric giving the standard deviation of
+individual effects.</p>
+</dd>
+<dt><code>totalThetas</code></dt>
+<dd>
+<p>a list containing a <code>data.frame</code> for each level of the
+effect defined in the constraints. Rows are sampling iterations and columns
+comprised of individual estimates plus the common effect estimates.</p>
+</dd>
+<dt><code>mcmcFull</code></dt>
+<dd>
+<p>an object of class <code>BFmcmc</code>, containing the MCMC samples
+from the posterior.</p>
+</dd>
+<dt><code>designIndeces</code></dt>
+<dd>
+<p>a list giving the column indeces of the mcmcFull that
+were used to calculate the estimates of interest.</p>
+</dd>
+<dt><code>observedEffects</code></dt>
+<dd>
+<p>a list containing a named vector for each level of the
+effect defined in the constraints. Values are the mean observed effect for
+each individual.</p>
+</dd>
+</dl>
+</div>

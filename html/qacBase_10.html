@@ -1,0 +1,143 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>groupdiff</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Test of group differences</h2>
+
+<h3>Description</h3>
+
+<p>One-way analysis (ANOVA or Kruskal-Wallis Test)
+with post-hoc comparisons and plots
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">groupdiff(
+  data,
+  y,
+  x,
+  method = c("anova", "kw"),
+  digits = 2,
+  horizontal = FALSE,
+  posthoc = FALSE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>a data frame.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>a numeric response variable</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a categorical explanatory variable. It will coerced to be
+a factor.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+<p>character. Either <code>"anova"</code>, or <code>"kw"</code> (see details).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>digits</code></td>
+<td>
+<p>Number of significant digits to print.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>horizontal</code></td>
+<td>
+<p>logical. If <code>TRUE</code>, boxplots are plotted horizontally.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>posthoc</code></td>
+<td>
+<p>logical. If <code>TRUE</code>, the default, perform pairwise post-hoc comparisons
+(TukeyHSD for ANOVA and Conover Test for Kuskal Wallis). This test
+will only be performed if there are 3 or more levels for X.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The <code>groupdiff</code> function performs one of two analyses:
+</p>
+
+<dl>
+<dt><code>anova</code></dt>
+<dd>
+<p>A one-way analysis of variance, with TukeyHSD
+post-hoc comparisons.</p>
+</dd>
+<dt><code>kw</code></dt>
+<dd>
+<p>A Kruskal Wallis Rank Sum Test, with Conover
+Test post-hoc comparisons.</p>
+</dd>
+</dl>
+<p>In each case, summary statistics and a grouped boxplots are
+provided. In the parametric case, the statistics are n, mean, and
+standard deviation. In the nonparametric case the statistics are
+n, median, and median absolute deviation. If <code>posthoc = TRUE</code>,
+pairwise comparisons of superimposed on the boxplots.
+Groups that share a letter are not significantly different (p &lt; .05),
+controlling for multiple comparisons.
+</p>
+
+
+<h3>Value</h3>
+
+<p>a list with 3 components:
+</p>
+
+<dl>
+<dt><code>result</code></dt>
+<dd>
+<p>omnibus test</p>
+</dd>
+<dt><code>summarystats</code></dt>
+<dd>
+<p>summary statistics</p>
+</dd>
+<dt><code>plot</code></dt>
+<dd>
+<p>ggplot2 graph</p>
+</dd>
+</dl>
+<h3>See Also</h3>
+
+<p>kwAllPairsConoverTest,
+multcompLetters.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># parametric analysis
+groupdiff(cars74, hp, gear)
+
+# nonparametric analysis
+groupdiff(cardata, popularity, vehicle_style, posthoc=TRUE,
+          method="kw", horizontal=TRUE)
+</code></pre>
+
+
+</div>

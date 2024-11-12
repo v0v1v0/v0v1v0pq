@@ -1,0 +1,90 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>recode.na</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Recode values of a variable to missing values, using exact or regular expression matching.</h2>
+
+<h3>Description</h3>
+
+<p>This function recodes selected values of a quantitative or qualitative
+variable by matching its levels to exact or regular expression matches.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">recode.na(x, ..., verbose = FALSE, regex = TRUE, as.numeric = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>variable to recode. The variable is coerced to a factor if necessary.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>levels to recode as missing in the variable. The values are coerced to character strings, meaning that you can pass numeric values to the function.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p>print a table of missing levels before recoding them as missing. Defaults to <code>FALSE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>regex</code></td>
+<td>
+<p>use regular expressions to match values that include the "*" or "|" wildcards. Defaults to <code>TRUE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>as.numeric</code></td>
+<td>
+<p>coerce the recoded variable to <code>numeric</code>. The function recommends the option when the recode returns only numeric values. Defaults to FALSE.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>The result is a factor with properly encoded missing values. If the recoded variable contains only numeric values, it is converted to an object of class <code>numeric</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>François Briatte &lt;f.briatte@gmail.com&gt;
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>regex</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(hdv2003)
+## With exact string matches.
+hdv2003$nivetud = recode.na(hdv2003$nivetud, "Inconnu")
+## With regular expressions.
+hdv2003$relig = recode.na(hdv2003$relig, "[A|a]ppartenance", "Rejet|NSP")
+## Showing missing values. 
+hdv2003$clso = recode.na(hdv2003$clso, "Ne sait pas", verbose = TRUE)
+## Test results with freq.
+freq(recode.na(hdv2003$trav.satisf, "Equilibre"))
+## Truncate a count variable (recommends numeric conversion).
+freq(recode.na(hdv2003$freres.soeurs, 5:22))
+</code></pre>
+
+
+</div>

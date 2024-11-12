@@ -1,0 +1,133 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>pastex</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Paste Regular Expressions</h2>
+
+<h3>Description</h3>
+
+<p><code>pastex</code> - A wrapper for <code>paste(collapse="|")</code> that also searches 
+the default and supplemental (<code>regex_supplement</code>) 
+dictionaries for regular expressions before pasting them together with a pipe 
+(<code>|</code>) separator.
+</p>
+<p><code>%|%</code> - A binary operator version of <code>pastex</code> that joins two 
+character strings with a regex or ("|").  Equivalent to 
+<code>pastex(x, y, sep="|")</code>.
+</p>
+<p><code>%+%</code> - A binary operator version of <code>pastex</code> that joins two 
+character strings with no space. Equivalent to <code>pastex(x, y, sep="")</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">pastex(..., sep = "|", dictionary = getOption("regex.library"))
+
+x %|% y
+
+x %+% y
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>sep</code></td>
+<td>
+<p>The separator to use between the expressions when they are 
+collapsed.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dictionary</code></td>
+<td>
+<p>A dictionary of canned regular expressions to search within.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x, y</code></td>
+<td>
+<p>Two regular expressions to paste together.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Regular expressions to paste together or a named expression 
+from the default regular expression dictionary prefixed with single at 
+(<code>@</code>) (e.g., <code>"@rm_hash"</code>) or a regular expression from 
+<code>regex_supplement</code> dictionary prefixed with an at 
+(<code>@</code>) (e.g., <code>"@time_12_hours"</code>).</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Returns a single string of regular expressions pasted together with 
+pipe(s) (<code>|</code>).
+</p>
+
+
+<h3>Note</h3>
+
+<p>Note that while <code>pastex</code> is designed for pasting purposes it can 
+also be used to call a single regex from the default regional dictionary or 
+the supplemental dictionary (<code>regex_supplement</code>) (see 
+<b>Examples</b>).
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>paste</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">x &lt;- c("There is $5.50 for me.", "that's 45.6% of the pizza",
+    "14% is $26 or $25.99", "It's 12:30 pm to 4:00 am")
+
+pastex("@rm_percent", "@rm_dollar")
+pastex("@rm_percent", "@time_12_hours")
+
+rm_dollar(x, extract=TRUE, pattern=pastex("@rm_percent", "@rm_dollar"))
+rm_dollar(x, extract=TRUE, pattern=pastex("@rm_dollar", "@rm_percent", "@time_12_hours"))
+
+## retrieve regexes from dictionary
+pastex("@rm_email")
+pastex("@rm_url3")
+pastex("@version")
+
+## pipe operator (%|%)
+"x" %|% "y"
+"@rm_url" %|% "@rm_twitter_url"
+
+## pipe operator (%p%)
+"x" %+% "y"
+"@rm_time" %+% "\\s[AP]M"
+
+## Remove Twitter Short URL
+x &lt;- c("download file from http://example.com", 
+         "this is the link to my website http://example.com", 
+         "go to http://example.com from more info.",
+         "Another url ftp://www.example.com",
+         "And https://www.example.net",
+         "twitter type: t.co/N1kq0F26tG",
+         "still another one https://t.co/N1kq0F26tG :-)")
+
+rm_twitter_url(x)
+rm_twitter_url(x, extract=TRUE)
+
+## Combine removing Twitter URLs and standard URLs
+rm_twitter_n_url &lt;- rm_(pattern="@rm_twitter_url" %|% "@rm_url")  
+rm_twitter_n_url(x)
+rm_twitter_n_url(x, extract=TRUE)
+</code></pre>
+
+
+</div>

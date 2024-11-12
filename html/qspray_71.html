@@ -1,0 +1,88 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>showMonomialXYZ</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Print a monomial</h2>
+
+<h3>Description</h3>
+
+<p>Prints a monomial like <code>"x.z^2"</code> if possible (see details).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">showMonomialXYZ(letters = c("x", "y", "z"), collapse = ".")
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>letters</code></td>
+<td>
+<p>a vector of strings, usually some letters such as <code>"x"</code> 
+and <code>"y"</code>, to denote the variables</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>collapse</code></td>
+<td>
+<p>a string to denote the symbol representing the 
+multiplication, e.g. <code>"*"</code> or <code>"."</code></p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>If the function returned by this function is applied to a vector 
+of exponents whose length is higher than the length of the <code>letters</code> 
+vector, then <code>showMonomialX1X2X3(x=letters[1])</code> is applied 
+(see the last example).
+</p>
+
+
+<h3>Value</h3>
+
+<p>A function which takes as argument a sequence of exponents and 
+which prints the corresponding monomial.
+</p>
+
+
+<h3>Note</h3>
+
+<p>The function returned by this function can be used as the option 
+<code>"showMonomial"</code> in the <code>showQsprayOption&lt;-</code> function.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>showQsprayXYZ</code>, 
+<code>showMonomialX1X2X3</code>, <code>showQsprayOption&lt;-</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">showMonomialXYZ()(c(1, 0, 2))
+showMonomialXYZ(collapse = "*")(c(1, 0, 2))
+showMonomialXYZ()(NULL)
+# what happens if there are more exponents than letters:
+showMonomialXYZ(c("a", "b"), collapse = "*")(c(1, 2, 3))
+# same as:
+showMonomialX1X2X3("a", collapse = "*")(c(1, 2, 3))
+# setting a show option:
+set.seed(3141)
+( qspray &lt;- rQspray() )
+showQsprayOption(qspray, "showMonomial") &lt;- showMonomialXYZ(c("A", "B", "C"))
+qspray
+# this is equivalent to:
+showQsprayOption(qspray, "showQspray") &lt;- showQsprayXYZ(c("A", "B", "C"))
+</code></pre>
+
+
+</div>

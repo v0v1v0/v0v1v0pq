@@ -1,0 +1,86 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>nrow_by</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Number of Rows in Data by Group</h2>
+
+<h3>Description</h3>
+
+<p><code>nrow_by</code> computes the nrow of a data.frame by group. <code>nrow_by</code> is
+simply a wrapper for <code>nrow</code> + <code>agg_dfm</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">nrow_by(data, grp.nm, sep = ".")
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>data.frame of data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>grp.nm</code></td>
+<td>
+<p>character vector of colnames from <code>data</code> specifying the
+grouping variables.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sep</code></td>
+<td>
+<p>character vector of length 1 specifying what string to use to
+separate the groups when naming the return object. <code>sep</code> is only used
+if <code>grp.nm</code> has length &gt; 1 (aka multiple grouping variables)</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>atomic vector with names = <code>unique(interaction(data[grp.nm], sep
+  = sep))</code> and length = <code>length(unique(interaction(data[grp.nm], sep =
+  sep)))</code> providing the nrow for each group.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>ncases_by</code>
+<code>nrow</code>
+<code>agg_dfm</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+# one grouping variables
+tmp_nm &lt;- c("outcome","case","session","trt_time")
+dat &lt;- as.data.frame(lmeInfo::Bryant2016)[tmp_nm]
+stats_by &lt;- psych::statsBy(dat,
+   group = "case") # requires you to include "case" column in dat
+nrow_by(data = dat, grp.nm = "case")
+dat2 &lt;- as.data.frame(ChickWeight)
+nrow_by(data = dat2, grp.nm = "Chick")
+
+# two grouping variables
+tmp &lt;- reshape(psych::bfi[1:10, ], varying = 1:25, timevar = "item",
+   ids = row.names(psych::bfi)[1:10], direction = "long", sep = "")
+tmp_nm &lt;- c("id","item","N","E","C","A","O") # Roxygen runs the whole script
+dat3 &lt;- str2str::stack2(tmp[tmp_nm], select.nm = c("N","E","C","A","O"),
+   keep.nm = c("id","item"))
+nrow_by(dat3, grp.nm = c("id","vrb_names"))
+
+</code></pre>
+
+
+</div>

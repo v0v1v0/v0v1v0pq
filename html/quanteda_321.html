@@ -1,0 +1,100 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>topfeatures</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Identify the most frequent features in a dfm</h2>
+
+<h3>Description</h3>
+
+<p>List the most (or least) frequently occurring features in a dfm, either
+as a whole or separated by document.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">topfeatures(
+  x,
+  n = 10,
+  decreasing = TRUE,
+  scheme = c("count", "docfreq"),
+  groups = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>the object whose features will be returned</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p>how many top features should be returned</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>decreasing</code></td>
+<td>
+<p>If <code>TRUE</code>, return the <code>n</code> most frequent features;
+otherwise return the <code>n</code> least frequent features</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>scheme</code></td>
+<td>
+<p>one of <code>count</code> for total feature frequency (within
+<code>group</code> if applicable), or <code>docfreq</code> for the document frequencies
+of features</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>groups</code></td>
+<td>
+<p>grouping variable for sampling, equal in length to the number
+of documents. This will be evaluated in the docvars data.frame, so that
+docvars may be referred to by name without quoting. This also changes
+previous behaviours for <code>groups</code>. See <code>news(Version &gt;= "3.0", package = "quanteda")</code> for details.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A named numeric vector of feature counts, where the names are the
+feature labels, or a list of these if <code>groups</code> is given.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">dfmat1 &lt;- corpus_subset(data_corpus_inaugural, Year &gt; 1980) |&gt;
+    tokens(remove_punct = TRUE) |&gt;
+    dfm()
+dfmat2 &lt;- dfm_remove(dfmat1, stopwords("en"))
+
+# most frequent features
+topfeatures(dfmat1)
+topfeatures(dfmat2)
+
+# least frequent features
+topfeatures(dfmat2, decreasing = FALSE)
+
+# top features of individual documents
+topfeatures(dfmat2, n = 5, groups = docnames(dfmat2))
+
+# grouping by president last name
+topfeatures(dfmat2, n = 5, groups = President)
+
+# features by document frequencies
+tail(topfeatures(dfmat1, scheme = "docfreq", n = 200))
+</code></pre>
+
+
+</div>

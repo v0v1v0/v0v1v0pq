@@ -1,0 +1,78 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>catch</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Catching Results, Warnings and Errors Simultaneously</h2>
+
+<h3>Description</h3>
+
+<p>Catches results, warnings and errors.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">catch(expr)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>expr</code></td>
+<td>
+<p>expression to be evaluated, typically a function call.</p>
+</td>
+</tr></table>
+<h3>Details</h3>
+
+<p>This function is particularly useful for large(r) simulation studies
+to not fail until finished.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>list</code> with components:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>value</code></td>
+<td>
+<p>value of <code>expr</code> or <code>NULL</code> in case of
+an error.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>warning</code></td>
+<td>
+<p>warning message (see <code>simpleWarning</code> or
+<code>warning()</code>) or <code>NULL</code> in case of no warning.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>error</code></td>
+<td>
+<p>error message (see <code>simpleError</code> or
+<code>stop()</code>) or <code>NULL</code> in case of no error.</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Marius Hofert (based on <code>doCallWE()</code> and <code>tryCatch.W.E()</code> in
+the <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> package <span class="pkg">simsalapar</span>).
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">catch(log(2))
+catch(log(-1))
+catch(log("a"))
+</code></pre>
+
+
+</div>

@@ -1,0 +1,77 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>kinship</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Calculate kinship coefficients
+</h2>
+
+<h3>Description</h3>
+
+<p>Calculate kinship coefficients from a pedigree.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">kinship(ped, ids, all = TRUE, msg = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>ped</code></td>
+<td>
+
+<p>A pedigree, which a data frame (id, sire, dam, ...). If given, "generation" can be numeric 0, 1, 2, ... or non-numeric "F0", "F1", "F2", ... If "sex" is included, male should be "M", "Male" or 1, and female should be "F", "Female" or 2 (other than 0 and 1). If a founder is inbred, its ID should be tagged by character 'i' (e.g. 1i, 2i, etc.). Note that 0 is reserved for missing values.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ids</code></td>
+<td>
+
+<p>IDs of the individuals. If given, kinship coefficients are extracted for individuals with ID <code>ids</code>; otherwise, kinship coefficients are provided for all individuals in the pedigree.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>all</code></td>
+<td>
+
+<p>If false, sires and dams with no parents are treated as unknown.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>msg</code></td>
+<td>
+
+<p>If false, messages are suppressed.
+</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A matrix giving kinship coefficients.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(miscEx)
+
+ids&lt;- sample(pedF8$id,10)
+## Not run: 
+ksp&lt;- kinship(pedF8,ids=ids)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

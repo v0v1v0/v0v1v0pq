@@ -1,0 +1,75 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>ForwardStartBS</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>ForwardStart option valuation via Black-Scholes (BS) model</h2>
+
+<h3>Description</h3>
+
+<p>Compute the price of Forward Start options using BSM.
+A forward start option is a standard European option whose strike price is set equal to current asset price at some prespecified future date.
+Employee incentive options are basically forward start option
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">ForwardStartBS(o = OptPx(Opt(Style = "ForwardStart")), tts = 0.1)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>o</code></td>
+<td>
+<p>an <code>OptPx</code> object including basic information of an option</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tts</code></td>
+<td>
+<p>Time to start of the option (in years)</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>A standard European option starts at a future time tts.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The original user-supplied <code>OptPX</code> object
+with price field <code>PxBS</code> and any other provided user-supplied parameters.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Tongyue Luo, Department of Statistics, Rice University, Spring 2015
+</p>
+
+
+<h3>References</h3>
+
+<p>Hull, John C., <em>Options, Futures and Other Derivatives</em>, 9ed, 2014. Prentice Hall.
+ISBN 978-0-13-345631-8.<a href="http://www-2.rotman.utoronto.ca/~hull/ofod/index.html">http://www-2.rotman.utoronto.ca/~hull/ofod/index.html</a>.
+p.602
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">(o = ForwardStartBS())$PxBS
+
+o = OptPx(Opt(Style='ForwardStart', Right='Put'))
+(o = ForwardStartBS(o))$PxBS
+</code></pre>
+
+
+</div>

@@ -1,0 +1,277 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>quax</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Estimating potential regeneration densities by quantile regression</h2>
+
+<h3>Description</h3>
+
+<p><code>quax</code> estimates parameters of a spatial dispersal kernel that describes
+the regeneration potential as the <code class="reqn">\tau </code>th quantile of the
+regeneration density. Here <code class="reqn">\tau </code> is between 0 and 1, with typical
+values close to 1 representing the situation that the full regeneration
+potential is realized only at a small fraction of all sites.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">quax(...)
+
+## Default S3 method:
+quax(
+  ...,
+  y,
+  tau,
+  fun = k_lognormal,
+  weights = 1,
+  dim = 2,
+  par = c(log.a = 8, log.b = 1)
+)
+
+## S3 method for class 'formula'
+quax(
+  formula,
+  data,
+  tau,
+  fun = k_lognormal,
+  subset,
+  weights,
+  na.action,
+  offset,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Vector of positions <code class="reqn">x_{1},...,x_{n}</code> or distances to the
+seed source as required by the specific dispersal kernel. Optionally,
+further arguments passed to <code>optim</code>, to the default method or to the kernel.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>Vector of observed values <code class="reqn">y_{1},...,y_{n}</code> of the regeneration
+density of the inventory plot.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tau</code></td>
+<td>
+<p>Numeric value between 0 and 1. Specifies the quantile <code class="reqn">\tau </code>
+used in the regression.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fun</code></td>
+<td>
+<p>Function representing the dispersal kernel <code class="reqn">k_{\theta }</code>,
+multiplied by <code class="reqn">N</code>, that is assumed for the regeneration potential.
+Values allowed are <code>k_lognormal</code>, <code>k_t</code>,
+<code>k_power</code>, <code>k_weibull</code>,
+<code>k_exponential_power</code> or a custom function with nonnegative
+values whose parameters include, in addition to the arguments in <code>...</code> not
+consumed by <code>optim</code> or the default method, the scaling factor <code>N</code> and the
+spatial dimension <code>d</code> (see Examples). The default, <code>k_lognormal</code>, is to
+fit a model with log-normal distance distributions.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>weights</code></td>
+<td>
+<p>Numeric vector of optional non-negative weights <code class="reqn">w_i</code> of
+the observations in the estimation procedure. Default is 1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dim</code></td>
+<td>
+<p>The spatial dimension, by default equal to 2.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>par</code></td>
+<td>
+<p>Numeric vector of initial values for the parameter vector
+<code class="reqn">\theta </code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>formula</code></td>
+<td>
+<p>A formula of the form <code>y ~ x</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data, subset, na.action, offset</code></td>
+<td>
+<p>For the formula interface:
+Further arguments passed to <code>model.frame</code> (along with <code>weights</code>).</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The function estimates the parameters <code class="reqn">N</code> and <code class="reqn">\theta </code>
+of the regeneration potential <code class="reqn">Nk_{\theta }</code> by minimizing
+</p>
+<p style="text-align: center;"><code class="reqn">\displaystyle \sum _{i=1}^{n}w_{i}\rho _{\tau }(y_{i}-Nk_{\theta }
+  (x_{i})),</code>
+</p>
+
+<p>where <code class="reqn">\rho _{\tau }(u)=\int _{0}^{u}\tau -\mathbf{1}_{s&lt;0}\;ds=\bigl\{
+  \begin{smallmatrix}u\tau &amp; \text{if }u\geq 0\\u(\tau -1)&amp;\text{if }u&lt;0
+  \end{smallmatrix}</code>
+(Koenker and Bassett 1978, Chapter 6.6 in Koenker 2005). The preceding
+line, after subtracting the same expression for <code class="reqn">N=0</code> and substituting
+<code class="reqn">s=y_{i}-tk_{\theta }(x_{i})</code> in the integral, becomes
+<code class="reqn">\int _{0}^{N}\sum _{i=1}^{n}w_{i}k_{\theta }(x_{i})(
+  \mathbf{1}_{y_{i}&lt;tk_{\theta }(x_{i})}-\tau )\;dt</code>,
+and any <code class="reqn">N</code> such that the last integrand is <code class="reqn">\leq 0</code> for <code class="reqn">t&lt;N</code>
+and <code class="reqn">\geq 0</code> for <code class="reqn">t&gt;N</code>, which can always be found as the integrand
+is increasing in <code class="reqn">t</code>, minimizes this integral. The integrand being the
+difference of the sum of <code class="reqn">w_{i}k_{\theta }(x_{i})</code> over the <code class="reqn">i</code>
+with <code class="reqn">y_{i}&lt;tk_{\theta }(x_{i})</code> and <code class="reqn">\tau </code> times the sum over
+all <code class="reqn">i</code>, with relevant terms for nonzero <code class="reqn">k_{\theta }(x_{i})</code>,
+this means that the estimate of <code class="reqn">N</code> for a given vector <code class="reqn">\theta </code>
+can be computed as a <code class="reqn">\tau </code>th quantile. This is implemented as an
+inner, nested minimization, the result of which is minimized in
+<code class="reqn">\theta </code> using <code>optim</code>.
+</p>
+<p>This is a rather naive approach to quantile regression that appears to
+work reasonably well for scaled dispersal kernels <code class="reqn">Nk_{\theta }</code> as
+considered here, see Appendix A in Axer et al. (2021). For general
+quantile regression problems the more sophisticated procedure
+<code>nlrq</code> in the package <code>quantreg</code>, based on
+Koenker and Park (1996), is expected to provide better results.
+</p>
+<p>In particular, <code>quax</code> is subject to the usual numerical issues inherent in
+optimization: It can get stuck in a local minimum or altogether miss a
+minimum if the initial values (as specified by the argument <code>par</code>) are too
+far off or if the objective function exhibits bad behavior. Problems can
+further arise in the dispersal kernels if parameter values passed on a log
+scale become too large. It is therefore recommended to visually check the
+results (see Examples). Also, the <code>optim</code> arguments <code>method</code> and <code>control</code>
+can be added in <code>...</code> to select and tune the optimization algorithm, but
+note that the objective function is usually not differentiable.
+</p>
+<p>See Koenker (2005) for a detailed exposition of quantile regression.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An objcet of class <code>quax</code> containing the estimated function,
+including an attribute <code>o</code> containing the results of <code>optim</code>.
+Generic functions with methods defined for <code>quax</code> objects invoke these
+methods; see <code>summary.quax</code> for an example.
+</p>
+
+
+<h3>References</h3>
+
+<p>Koenker, R., Bassett, G. (1978). Regression quantiles. <em>Econometrica</em>
+<strong>46</strong>(1), 33–50.
+<a href="https://doi.org/10.2307/1913643">doi:10.2307/1913643</a>
+</p>
+<p>Axer, M., Schlicht, R., Wagner, S. (2021). Modelling potential density of
+natural regeneration of European oak species (<em>Quercus robur</em> L., <em>Quercus
+petraea</em> (Matt.) Liebl.) depending on the distance to the potential seed
+source: Methodological approach for modelling dispersal from inventory
+data at forest enterprise level. <em>Forest Ecology and Management</em> <strong>482</strong>,
+118802.
+<a href="https://doi.org/10.1016/j.foreco.2020.118802">doi:10.1016/j.foreco.2020.118802</a>
+</p>
+<p>Koenker, R., Park, B.J. (1996). An interior point algorithm for nonlinear
+quantile regression. <em>Journal of Econometrics</em> <strong>71</strong>(1–2), 265–283.
+<a href="https://doi.org/10.1016/0304-4076%2896%2984507-6">doi:10.1016/0304-4076(96)84507-6</a>
+</p>
+<p>Koenker, R. (2005). Quantile regression. Cambridge University Press.
+<a href="https://doi.org/10.1017/CBO9780511754098">doi:10.1017/CBO9780511754098</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Function <code>nlrq</code> in the package
+<code>quantreg</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Prepare artificial data:
+set.seed(0)
+r &lt;- rgamma(200, shape=2, scale=150)
+simulated.data &lt;- data.frame(distance = r, density =
+  rpois(length(r), k_lognormal(r, par=c(6,0), N=1000000, d=2)))
+plot(density ~ distance, simulated.data)
+
+## Run quax function:
+f1 &lt;- quax(x = simulated.data$distance, y = simulated.data$density,
+  tau = 0.9, fun = k_lognormal)
+summary(f1)
+curve(f1(x), add=TRUE)
+
+## Do the same using formula interface:
+f1 &lt;- quax(density ~ distance, simulated.data,
+  tau = 0.9, fun = k_lognormal)
+summary(f1)
+#quantreg::nlrq(density ~ k_lognormal(distance,c(log.a,log.b),N=N,d=2),
+#  simulated.data, start = c(log.a=6,log.b=0,N=1e6), tau = 0.9)  # similar
+
+## Use another quantile:
+f2 &lt;- quax(density ~ distance, simulated.data,
+  tau = 0.99, fun = k_lognormal)
+summary(f2)
+curve(f2(x), add=TRUE, lwd=0)
+
+## Show effect of weights:
+f3 &lt;- quax(density ~ distance, simulated.data,
+  tau = 0.9, fun = k_lognormal, weights = distance)
+summary(f3)
+curve(f3(x), add=TRUE, lty=3)
+
+## Compare various dispersal models:
+fun &lt;- c("k_lognormal","k_t","k_weibull","k_power","k_exponential_power")
+for (i in seq_along(fun))
+  curve(quax(density ~ distance, simulated.data,
+    tau = 0.9, fun = get(fun[i]), weights = distance)(x),
+    add=TRUE, col=i, lty=3)
+legend("topright", fun, col=seq_along(fun), lty=3)
+
+## Use positions in computation:
+simulated.data$position &lt;- r *
+  (\(a) cbind(cos(a),sin(a))) (rnorm(length(r)))
+f3 &lt;- quax(density ~ position, simulated.data,
+  tau = 0.9, fun = k_lognormal, weights = distance)
+summary(f3)
+
+## Show problems with bad initial values and try another parameterization:
+curve(quax(density ~ distance, simulated.data, par = c(log.a=0,log.b=0),
+  tau = 0.99, fun = k_lognormal)(x), add=TRUE, lty=2)
+curve(quax(density ~ distance, simulated.data, par = c(a=1,b=1),
+  tau = 0.99, fun = function(x,par,N,d) if (any(par&lt;=0)) rep(NA,NROW(x))
+    else k_lognormal(x,log(par),N,d))(x), add=TRUE, lty=2)
+
+## Use custom variant of lognormal model that includes a shift:
+plot(simulated.data$position)
+f4 &lt;- quax(density ~ position, simulated.data,
+  tau = 0.9, par = c(8, 1, 0, 0),
+  fun = function(x, par, N, d)
+    k_lognormal(x - rep(par[-(1:2)],each=NROW(x)), par[1:2], N, d)
+)
+summary(f4)
+</code></pre>
+
+
+</div>

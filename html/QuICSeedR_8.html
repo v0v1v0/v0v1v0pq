@@ -1,0 +1,73 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>GetReplicate</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Generate Replicate Numbers for Plate Data</h2>
+
+<h3>Description</h3>
+
+<p>This function takes a plate layout and generates a corresponding matrix of
+replicate numbers for each sample.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">GetReplicate(plate)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>plate</code></td>
+<td>
+<p>A matrix or data frame representing the plate layout, where each
+cell contains a sample identifier or NA for empty wells.</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>A data frame with the same dimensions as the input plate, where each
+cell contains the replicate number for the corresponding sample in the
+input plate.
+</p>
+
+
+<h3>Note</h3>
+
+
+<ul>
+<li>
+<p> Sample identifiers are converted to character type before processing.
+</p>
+</li>
+<li>
+<p> The function assumes that the input plate is organized such that replicate
+samples are encountered sequentially.
+</p>
+</li>
+<li>
+<p> The output maintains the column names from the input plate.
+</p>
+</li>
+</ul>
+<h3>Examples</h3>
+
+<pre><code class="language-R">plate &lt;- matrix(
+  c("A", "B", "C",
+    "A", "B", NA,
+    "A", "C", "D"),
+  nrow = 3, byrow = TRUE
+)
+
+replicates &lt;- GetReplicate(plate)
+print(replicates)
+
+
+</code></pre>
+
+
+</div>

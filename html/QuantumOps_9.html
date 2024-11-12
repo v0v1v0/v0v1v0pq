@@ -1,0 +1,55 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>CoherentNoise</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>CoherentNoise</h2>
+
+<h3>Description</h3>
+
+<p>Implements a model of coherent noise as used in &lt;DOI:10.1038/s41534-018-0106-y&gt;. It rotates each qubit around the z-axis by the specified amount. If randomRoation is set, it will rotate around the X, Y, or Z axis, which is chosen at random. Randomizing provides interesting side effects but is less representative of quantum noise.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">CoherentNoise(p,theta,randomRotation=FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code> p </code></td>
+<td>
+<p> Input quantum state in density matrix format  </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code> theta </code></td>
+<td>
+<p> Angle of rotation to apply  </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code> randomRotation </code></td>
+<td>
+<p> Boolean specifying whether the rotation should be in a semi-random direction </p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>The quantum state in density matrix format after noise has been applied
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"> CoherentNoise( p= convert_ket2DM(ket(1,1,1,1)),theta=0.06*pi) 
+</code></pre>
+
+
+</div>

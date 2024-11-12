@@ -1,0 +1,73 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>condense.scantwo</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Condense the output from a 2-d genome scan</h2>
+
+<h3>Description</h3>
+
+<p>Produces a very condensed version of the output of <code>scantwo</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'scantwo'
+condense(object)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>An object of class <code>scantwo</code>, the output of the
+function <code>scantwo</code>.</p>
+</td>
+</tr></table>
+<h3>Details</h3>
+
+<p>This produces a very reduced version of the output of
+<code>scantwo</code>, for which a summary may still be created
+via <code>summary.scantwo</code>, though plots can no longer be
+made.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>scantwocondensed</code>, containing just the
+maximum full, additive and interactive LOD scores, and the positions
+where they occured, on each pair of chromosomes.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Karl W Broman, <a href="mailto:broman@wisc.edu">broman@wisc.edu</a></p>
+
+
+<h3>See Also</h3>
+
+ <p><code>scantwo</code>, <code>summary.scantwo</code>,
+<code>max.scantwo</code> </p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(fake.f2)
+
+fake.f2 &lt;- calc.genoprob(fake.f2)
+
+out2 &lt;- scantwo(fake.f2, method="hk")
+
+out2c &lt;- condense(out2)
+summary(out2c, allpairs=FALSE)
+max(out2c)
+</code></pre>
+
+
+</div>

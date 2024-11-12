@@ -1,0 +1,146 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>QuantumMNIST256Classifier</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>QuantumMNIST256Classifier</h2>
+
+<h3>Description</h3>
+
+<p>Quantum classifier which was proposed by Maria Schuld (2018). Consists of 33 quantum gates with a depth of 19. Takes as input samples with dimensions of 256 and a corresponding list of labels indicating the correct output value of each sample. Will update the parameters of the gates in order to correctly identify one of the digits specified. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">QuantumMNIST256Classifier(
+	data=NULL,labels=NULL,digit=0,
+	eta=1,decay=1,bsc=1,t=20,tag="",pl=TRUE,train=TRUE,
+	validT=FALSE,vdata=NULL,vlabels=NULL,
+	pretrained=FALSE,alpha=NULL,beta=NULL,gamma=NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p> matrix containing input training data. Rows are individual samples. There must be 256 columns </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>labels</code></td>
+<td>
+<p> Vector containing labels of digits. Length must be the same as the number of rows in data </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>digit</code></td>
+<td>
+<p> Individual digit (0-9) to identify </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>eta</code></td>
+<td>
+<p> learning rate for parameter updates </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>decay</code></td>
+<td>
+<p> Multiplier for learning rate after each training iteration. If set to less than 1, the learning rate decays in time </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bsc</code></td>
+<td>
+<p> Scaler for the learning rate of the bias. Setting to a low value will result in other parameters updating faster than the bias </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>t</code></td>
+<td>
+<p> Number of training iterations to perform. Total runs is equal to this value multiplied by the number of samples provided </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tag</code></td>
+<td>
+<p> String to attach to name of output files</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pl</code></td>
+<td>
+<p>Boolean indicating whether training output should be plotted</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>train</code></td>
+<td>
+<p>Boolean specifying if network should trained on training data, only false if passing in pretrained model</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>validT</code></td>
+<td>
+<p>Boolean specifying if the network should be tested on validation data while being trained</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vdata</code></td>
+<td>
+<p>Validation data, necessary if validT is set to true in which case network is tested on this data while being trained. Can be set to same as data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vlabels</code></td>
+<td>
+<p>Validation labels, necessary if validT is set to true in which case network is tested on vdata while being trained. Can be set to same as labels.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pretrained</code></td>
+<td>
+<p>Boolean specifying if a pretrained model is being passed in. If so, alpha, beta, and gamme will be set to intputs, rather than randomized.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>alpha</code></td>
+<td>
+<p>alpha values for gates if pretrained is set to TRUE, should be a vector of length 33</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>beta</code></td>
+<td>
+<p>beta values for gates if pretrained is set to TRUE, should be a vector of length 33</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gamma</code></td>
+<td>
+<p>gamma values for gates if pretrained is set to TRUE, should be a vector of length 33</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>List containing a list of the 33 gates and the matrix representing the entire circuit of the trained classifier
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"> ## Not run: 
+ QuantumMNIST256Classifier(matrix(sample(256,replace=TRUE),nrow=1),array(1),0,1,1,.001,1,"test")
+ 
+## End(Not run)
+</code></pre>
+
+
+</div>

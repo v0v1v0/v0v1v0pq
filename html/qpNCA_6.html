@@ -1,0 +1,142 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>correct.loq</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Impute Concentrations Below the Limit of Quantitation</h2>
+
+<h3>Description</h3>
+
+<p>Imputes LOQ values according to the chosen LOQ substitution rule.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">correct.loq(
+  x,
+  by = character(0),
+  nomtimevar = "ntad",
+  timevar = "time",
+  depvar = "dv",
+  bloqvar = "bloq",
+  loqvar = "loq",
+  loqrule = 1
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>input dataset name contains all uncorrected data, including LOQ</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>by</code></td>
+<td>
+<p>column names in x indicating grouping variables</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nomtimevar</code></td>
+<td>
+<p>variable name containing the nominal sampling time after dose</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>timevar</code></td>
+<td>
+<p>variable name containing the actual sampling time after dose</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>depvar</code></td>
+<td>
+<p>variable name containing the dependent variable (e.g., concentration)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bloqvar</code></td>
+<td>
+<p>variable name containing the BLOQ flag (0: no, 1: yes)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>loqvar</code></td>
+<td>
+<p>variable name containing the LOQ value</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>loqrule</code></td>
+<td>
+<p>rule number to be applied to the LOQ values in the curve. x$loqrule overrides if provided
+</p>
+
+<ul>
+<li>
+<p> 1: 0 before first measurable concentration (FMC); NA after FMC
+</p>
+</li>
+<li>
+<p> 2: 0 before FMC; 0 after FMC
+</p>
+</li>
+<li>
+<p> 3: 0 before FMC; 0.5xLOQ for first consecutive LOQ after FMC, NA for other LOQ
+</p>
+</li>
+<li>
+<p> 4: 0 before FMC; 0.5xLOQ for first consecutive LOQ after FMC, 0 for other LOQ
+</p>
+</li>
+</ul>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Imputations will be applied to the original depvar (no new concentration
+variable will be created).
+</p>
+
+
+<h3>Value</h3>
+
+<p>A dataset with imputed BLOQ concentrations using the chosen imputation rule
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+library(magrittr)
+library(dplyr)
+library(qpNCA)
+x &lt;- Theoph
+ntad &lt;- c(0,0.25,0.5,1,2,4,5,7,9,12,24)
+for(i in 1:nrow(x)){
+  time  &lt;- x$Time[[i]]
+  delta &lt;- abs(ntad - time)
+  best  &lt;- min(delta)
+  index &lt;- match(best, delta)
+  nom   &lt;- ntad[[index]]
+  x$ntad[[i]] &lt;- nom
+}
+rm(list = c('time','delta','best','index','nom', 'i','ntad'))
+x %&lt;&gt;% rename(time = Time, dv = conc)
+x %&lt;&gt;% mutate(bloq = ifelse(dv==0,1,0), loq = 0.01, tad = time, loqrule = 1, 
+              subject=as.numeric(Subject), ntad=as.numeric(ntad))
+x %&gt;% head
+x %&lt;&gt;% correct.loq('subject')
+x %&gt;%  head
+
+</code></pre>
+
+
+</div>

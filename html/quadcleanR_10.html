@@ -1,0 +1,157 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>crop_area</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Crop quadrats based on area</h2>
+
+<h3>Description</h3>
+
+<p>Using the location of annotated points within quadrats and
+the size of the quadrat, crop quadrat data to a smaller area, while
+maintaining the spatial relationships between points. Useful for making
+different sized quadrat data comparable.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">crop_area(
+  data,
+  row,
+  column,
+  id,
+  dim,
+  obs_rm = FALSE,
+  obs_range,
+  res = FALSE,
+  res_dim_x,
+  res_dim_y
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>A data frame containing annotations, in long format, such that all
+observations are contained in one column.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>row</code></td>
+<td>
+<p>The column name in <code>data</code> which contains the row locations of
+the annotated points.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>column</code></td>
+<td>
+<p>The column name in <code>data</code> which contains the column location of
+the annotated points.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>id</code></td>
+<td>
+<p>The column name in <code>data</code> which contains the quadrat ID for
+the annotated points.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dim</code></td>
+<td>
+<p>A vector with length of 2, containing the proportion of the row and
+columns to crop. First element will be the proportion of the rows and the
+second will be the proportion of the columns.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>obs_rm</code></td>
+<td>
+<p>If <code>obs_rm = FALSE</code>, no quadrats will be removed from the returned
+data set. If <code>obs_rm = TRUE</code>, quadrats will be removed from the returned
+data set based on the number of annotated observations in the cropped area
+as specified by <code>obs_range</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>obs_range</code></td>
+<td>
+<p>A vector with length of 2, specifying the min and max accepted
+number of annotated observations to retain in the data set.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>res</code></td>
+<td>
+<p>If <code>res = TRUE</code> if the dimensions of each quadrat are known. These must
+be the same units as the row and column locations. If dimensions are not
+known, specify <code>res = FALSE</code>, and the function will estimate the max dimensions
+based off the max row and column location for the annotated points.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>res_dim_x</code></td>
+<td>
+<p>The column name in <code>data</code> which contains the max column dimension
+for each quadrat.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>res_dim_y</code></td>
+<td>
+<p>The column name in <code>data</code> which contains the max row dimension
+for each quadrat.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A data frame in of quadrat annotations with a subset of annotated points.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">#Creating the data file
+tags &lt;- c("Clad", "Sinu", "Sarco", "Loph")
+
+site &lt;- c(rep("Site1", times = 100),
+         rep("Site2", times = 100),
+         rep("Site3", times = 100),
+         rep("Site4", times = 100))
+row &lt;- c(sample(x = c(1:2000), size = 100, replace = TRUE),
+        sample(x = c(1:2000), size = 100, replace = TRUE),
+        sample(x = c(1:2000), size = 100, replace = TRUE),
+        sample(x = c(1:2000), size = 100, replace = TRUE))
+column &lt;- c(sample(x = c(1:2000), size = 100, replace = TRUE),
+           sample(x = c(1:2000), size = 100, replace = TRUE),
+           sample(x = c(1:2000), size = 100, replace = TRUE),
+           sample(x = c(1:2000), size = 100, replace = TRUE))
+label &lt;- c(sample(x = tags, size = 100, replace = TRUE),
+          sample(x = tags, size = 100, replace = TRUE),
+          sample(x = tags, size = 100, replace = TRUE),
+          sample(x = tags, size = 100, replace = TRUE))
+coral_annotations &lt;- data.frame(site, row, column, label)
+
+crop_area_coral &lt;- crop_area(data = coral_annotations, row = "row",
+                            column = "column", id = "site", dim = c(0.5, 0.5))
+
+coral_annotations$col_dim &lt;- 2000
+coral_annotations$row_dim &lt;- 2000
+
+crop_area_coral_2 &lt;- crop_area(data = coral_annotations, row = "row",
+                              column = "column", id = "site", dim = c(0.5, 0.5),
+                              res = TRUE, res_dim_x = "col_dim", res_dim_y = "row_dim")
+
+
+</code></pre>
+
+
+</div>

@@ -1,0 +1,68 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>compute_aic</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Compute the Akaike Information Criterion (AIC) for a given model.</h2>
+
+<h3>Description</h3>
+
+<p>Compute the Akaike Information Criterion (AIC) for a given model.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">compute_aic(p, mse, num_bins, num_obs)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>p</code></td>
+<td>
+<p>Number of dimensions of the data set.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mse</code></td>
+<td>
+<p>Mean squared error (MSE) of the model.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>num_bins</code></td>
+<td>
+<p>Total number of bins without empty bins used in the model.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>num_obs</code></td>
+<td>
+<p>Total number of observations in the training or test set.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>The AIC value for the specified model.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># Example usage of compute_aic function
+p &lt;- 5
+mse &lt;- 1500
+num_bins &lt;- 10
+num_obs &lt;- 100
+aic_value &lt;- compute_aic(p, mse, num_bins, num_obs)
+cat("AIC Value:", aic_value, "\n")
+
+</code></pre>
+
+
+</div>

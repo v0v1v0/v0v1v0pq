@@ -1,0 +1,71 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>combos</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Ordered Combinations</h2>
+
+<h3>Description</h3>
+
+<p>All m combinations of the first n integers taken p at a time
+are computed and return as an p by m matrix.  The columns
+of the matrix are ordered so that adjacent columns differ
+by only one element.  This is just a reordered version of
+<code>combn</code> in base R, but the ordering is useful for some
+applications.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">combos(n,p)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p>The n in n choose p</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p</code></td>
+<td>
+<p>The p in n choose p</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>a <code>matrix</code> of dimension p by <code>choose(n,p)</code>
+</p>
+
+
+<h3>Note</h3>
+
+<p>Implementation based on a Pascal algorithm of Limin Xiang 
+and Kazuo Ushijima (2001) translated to ratfor for R.
+If you have <span class="pkg">rgl</span> installed you might try <code>demo("combos")</code>
+for a visual impression of how this works.
+</p>
+
+
+<h3>References</h3>
+
+<p>Limin Xiang and Kazuo Ushijima (2001) 
+"On O(1) Time Algorithms for Combinatorial Generation," 
+<em>Computer Journal</em>, 44(4), 292-302. 
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">H &lt;- combos(20,3)
+</code></pre>
+
+
+</div>

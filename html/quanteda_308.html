@@ -1,0 +1,117 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>tokens_replace</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Replace tokens in a tokens object</h2>
+
+<h3>Description</h3>
+
+<p>Substitute token types based on vectorized one-to-one matching. Since this
+function is created for lemmatization or user-defined stemming. It supports
+substitution of multi-word features by multi-word features, but substitution
+is fastest when <code>pattern</code> and <code>replacement</code> are character vectors
+and <code>valuetype = "fixed"</code> as the function only substitute types of
+tokens. Please use <code>tokens_lookup()</code> with <code>exclusive = FALSE</code>
+to replace dictionary values.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">tokens_replace(
+  x,
+  pattern,
+  replacement,
+  valuetype = "glob",
+  case_insensitive = TRUE,
+  apply_if = NULL,
+  verbose = quanteda_options("verbose")
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>tokens object whose token elements will be replaced</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pattern</code></td>
+<td>
+<p>a character vector or list of character vectors.  See
+pattern for more details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>replacement</code></td>
+<td>
+<p>a character vector or (if <code>pattern</code> is a list) list
+of character vectors of the same length as <code>pattern</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>valuetype</code></td>
+<td>
+<p>the type of pattern matching: <code>"glob"</code> for "glob"-style
+wildcard expressions; <code>"regex"</code> for regular expressions; or <code>"fixed"</code> for
+exact matching. See valuetype for details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>case_insensitive</code></td>
+<td>
+<p>logical; if <code>TRUE</code>, ignore case when matching a
+<code>pattern</code> or dictionary values</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>apply_if</code></td>
+<td>
+<p>logical vector of length <code>ndoc(x)</code>; documents are modified
+only when corresponding values are <code>TRUE</code>, others are left unchanged.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p>print status messages if <code>TRUE</code></p>
+</td>
+</tr>
+</table>
+<h3>See Also</h3>
+
+<p>tokens_lookup
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">toks1 &lt;- tokens(data_corpus_inaugural, remove_punct = TRUE)
+
+# lemmatization
+taxwords &lt;- c("tax", "taxing", "taxed", "taxed", "taxation")
+lemma &lt;- rep("TAX", length(taxwords))
+toks2 &lt;- tokens_replace(toks1, taxwords, lemma, valuetype = "fixed")
+kwic(toks2, "TAX") |&gt;
+    tail(10)
+
+# stemming
+type &lt;- types(toks1)
+stem &lt;- char_wordstem(type, "porter")
+toks3 &lt;- tokens_replace(toks1, type, stem, valuetype = "fixed", case_insensitive = FALSE)
+identical(toks3, tokens_wordstem(toks1, "porter"))
+
+# multi-multi substitution
+toks4 &lt;- tokens_replace(toks1, phrase(c("Supreme Court")),
+                        phrase(c("Supreme Court of the United States")))
+kwic(toks4, phrase(c("Supreme Court of the United States")))
+</code></pre>
+
+
+</div>

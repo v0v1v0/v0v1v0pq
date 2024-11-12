@@ -1,0 +1,79 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>read_cross2</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Read QTL data from files</h2>
+
+<h3>Description</h3>
+
+<p>Read QTL data from a set of files
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">read_cross2(file, quiet = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>file</code></td>
+<td>
+<p>Character string with path to the
+<a href="https://yaml.org">YAML</a> or <a href="https://json.org">JSON</a> file containing all of the control
+information. This could instead be a zip file containing all of the
+data files, in which case the contents are unzipped to a temporary
+directory and then read.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>quiet</code></td>
+<td>
+<p>If <code>FALSE</code>, print progress messages.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>A control file in <a href="https://yaml.org">YAML</a> or
+<a href="https://json.org">JSON</a> format contains information
+about basic parameters as well as the names of the series of
+data files to be read. See the
+<a href="https://kbroman.org/qtl2/pages/sampledata.html">sample data files</a> and the
+<a href="https://kbroman.org/qtl2/assets/vignettes/input_files.html">vignette describing the input file format</a>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Object of class <code>"cross2"</code>. For details, see the
+<a href="https://kbroman.org/qtl2/assets/vignettes/developer_guide.html">R/qtl2 developer guide</a>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>read_pheno()</code>, <code>write_control_file()</code>,
+sample data files at <a href="https://kbroman.org/qtl2/pages/sampledata.html">https://kbroman.org/qtl2/pages/sampledata.html</a>
+and <a href="https://github.com/rqtl/qtl2data">https://github.com/rqtl/qtl2data</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+yaml_file &lt;- "https://kbroman.org/qtl2/assets/sampledata/grav2/grav2.yaml"
+grav2 &lt;- read_cross2(yaml_file)
+
+## End(Not run)
+zip_file &lt;- system.file("extdata", "grav2.zip", package="qtl2")
+grav2 &lt;- read_cross2(zip_file)
+</code></pre>
+
+
+</div>

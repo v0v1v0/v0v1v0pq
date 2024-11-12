@@ -1,0 +1,65 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>pull.pheno</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Pull out phenotype data from a cross</h2>
+
+<h3>Description</h3>
+
+<p>Pull out selected phenotype data from a cross object, as a data frame
+or vector.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">pull.pheno(cross, pheno.col)</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>cross</code></td>
+<td>
+<p>An object of class <code>cross</code>.  See
+<code>read.cross</code> for details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pheno.col</code></td>
+<td>
+<p>A vector specifying which phenotypes to keep or discard.
+This may be a logical vector, a numeric vector, or a vector
+of character strings (for the phenotype names). If missing, the
+entire set of phenotypes is output.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A data.frame with columns specifying phenotypes and rows specifying individuals.
+If there is just one phenotype, a vector (rather than a data.frame) is returned.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Karl W Broman, <a href="mailto:broman@wisc.edu">broman@wisc.edu</a> </p>
+
+
+<h3>See Also</h3>
+
+ <p><code>pull.geno</code>, <code>pull.map</code> </p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(listeria)
+pull.pheno(listeria, "sex")
+</code></pre>
+
+
+</div>

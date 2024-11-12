@@ -1,0 +1,54 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>export.qm</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Q Methodology: export results to a plain text document</h2>
+
+<h3>Description</h3>
+
+<p>Exports an object of class <code>QmethodRes</code> to a plain text file (*.TXT). All the objects within the list resulting from <code>qmethod</code> are exported as they are. This is intended for interpretation rather than for further analysis.</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">export.qm(qmobject, file, style= c("R", "PQMethod"))</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>qmobject</code></td>
+<td>
+<p>an object of Q methodology results, obtained from the function <code>qmethod</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>file</code></td>
+<td>
+<p>the file name. Note that in some operating systems, the file name will need an extension *.TXT so that other software opens it.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>style</code></td>
+<td>
+<p>the structure and formatting of the results in the exported document. Defaults to <code>"R"</code> where the <code>qmobject</code> will be written as is. Option <code>"PQMethod"</code> provides an output with similar structure and elements as those provided by PQMethod software in the *.LIS files (see details of *.LIS files in the References below). Note that the latter creates a much longer document.</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Aiora Zabala</p>
+
+
+<h3>References</h3>
+
+<p>Schmolck. <em>PQMethod Software (Version 2.35)</em>, 2014. <a href="http://schmolck.org/qmethod/">http://schmolck.org/qmethod/</a>
+</p>
+<p>File descriptions in <em>PQMethod Manual</em>: <a href="http://schmolck.org/qmethod/pqmanual.htm#appdxa">http://schmolck.org/qmethod/pqmanual.htm#appdxa</a>
+</p>
+
+
+</div>

@@ -1,0 +1,198 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>aicVC</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+AIC Model Selection
+</h2>
+
+<h3>Description</h3>
+
+<p>Select genetic variance components via Akaike's information criterion (AIC).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">aicVC(y, x, v = list(E=diag(length(y))), initpar, k = 2, init = 1, keep = 1,
+   direction = c("forward", "backward"), nit = 25, msg = FALSE,
+   control = list(), hessian = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+
+<p>A numeric vector or a numeric matrix of one column (representing a phenotype for instance).
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+
+<p>A data frame or matrix, representing covariates if not missing.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>v</code></td>
+<td>
+
+<p>A list of variance components of interest. Note: <code>E</code> is reserved for residual (or environmental) variance and can be missed in <code>v</code>; it is considered to be an identify matrix if it is specified.
+</p>
+<p><code>v</code> can be provided as a single matrix.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>initpar</code></td>
+<td>
+
+<p>Optional initial parameter values.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>k</code></td>
+<td>
+
+<p>Penalty on a parameter. The selection criterion is the known "AIC" if <code>k = 2</code> and is "BIC" if <code>k = log(n)</code> where "n" is the sample size.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>init</code></td>
+<td>
+
+<p>Indicates which variance components for the initial model. By default, <code>E</code> is included if it is missing in <code>v</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>keep</code></td>
+<td>
+
+<p>Indicator of which variance components should be forced into the final model. By default, <code>E</code> is kept in the final model if it is not specified in <code>v</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>direction</code></td>
+<td>
+
+<p>The mode of search. Either "forward" or "backward" with default "forward".
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nit</code></td>
+<td>
+
+<p>Maximum number of iterations for optimization. Ignored if there are not more than two variance components.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>msg</code></td>
+<td>
+
+<p>A logical variable. True if one wants to track the process for monitoring purpose.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>control</code></td>
+<td>
+
+<p>A list of control parameters to be passed to <code>optim</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>hessian</code></td>
+<td>
+
+<p>Logical. Should a numerically differentiated Hessian matrix be returned?
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>In genome-wide association studies (GWAS), random effects are usually added to a model to account for polygenic variation. Abney et al (2000) showed that five variance components including the most interesting additive and dominance variance components are potentially induced by polygenes. The above function is intended for selecting variance components that contribute "most" to a quantitative trait.
+</p>
+<p>Function <code>estVC</code> is called by the above function to estimate the parameters and maximum likelihood in each model. Refer to <code>estVC</code> for more information.
+</p>
+
+
+<h3>Value</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>aic</code></td>
+<td>
+<p>AIC of the final model.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>model</code></td>
+<td>
+<p>Gives parameter estimates, log-likihood, and other information.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lik</code></td>
+<td>
+<p>Log-likelihood of the model selected at each intermediate step.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>trace</code></td>
+<td>
+<p>Indicates which variance components were selected at each intermediate step.</p>
+</td>
+</tr>
+</table>
+<h3>See Also</h3>
+
+<p><code>estVC</code> for more information.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(miscEx)
+
+## Not run: 
+# forward selection
+# any variance component will be selected
+# if AIC improve by 1e-5 or larger
+pheno&lt;- pdatF8[!is.na(pdatF8$bwt) &amp; !is.na(pdatF8$sex),]
+ii&lt;- match(rownames(pheno), rownames(gmF8$AA))
+v&lt;- list(A=gmF8$AA[ii,ii], D=gmF8$DD[ii,ii])
+
+o&lt;- aicVC(y=pheno$bwt, x=pheno$sex, k=0, v=v, msg=TRUE)
+o
+
+# forward selection
+of&lt;- aicVC(y=pheno$bwt, x=pheno$sex, v=v, k=1/2,
+	direction="for", msg=TRUE)
+of
+
+# backward elimination
+ob&lt;- aicVC(y=pheno$bwt, x=pheno$sex, v=v, k=1/2, init=1:2,
+	direction="back", msg=TRUE)
+ob
+
+## End(Not run)
+</code></pre>
+
+
+</div>

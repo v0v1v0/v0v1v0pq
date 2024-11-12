@@ -1,0 +1,60 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>mstate.control</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Multivariate process state</h2>
+
+<h3>Description</h3>
+
+<p>This function removes observations from the sample which violates 
+the rules of a process under control
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">mstate.control(x)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>Object mqcd (Multivariate Quality Control Statistical)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>control</code></td>
+<td>
+<p>a logical value indicating whether the initial sample comes from a process under control.</p>
+</td>
+</tr>
+</table>
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+##
+##  Continuous data 
+##
+library(qcr)
+set.seed(356)
+x &lt;- matrix(rnorm(66),ncol=3)
+x &lt;- rbind(x,matrix(rexp(66,100),ncol=3))
+dim(x)
+x &lt;-mqcd(x)
+str(x)
+x &lt;-mqcs.mewma(x)
+str(x)
+plot(x)
+data.mqcs &lt;- mstate.control(x)
+x &lt;-mqcs.mewma(data.mqcs)
+plot(x)
+</code></pre>
+
+
+</div>

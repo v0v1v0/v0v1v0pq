@@ -1,0 +1,162 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>plot.dr_parameter</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Compare calculated dose-response parameters between conditions.</h2>
+
+<h3>Description</h3>
+
+<p><code>plot.dr_parameter</code> gathers parameters from the results of a dose-response analysis and compares a chosen parameter between each condition in a column plot. Error bars represent the 95% confidence interval (only shown for &gt; 2 replicates).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'dr_parameter'
+plot(
+  x,
+  param = c("EC50", "EC50.Estimate", "y.max", "y.min", "fc", "K", "n", "yEC50",
+    "drboot.meanEC50", "drboot.meanEC50y", "EC50.orig", "yEC50.orig"),
+  names = NULL,
+  exclude.nm = NULL,
+  basesize = 12,
+  reference.nm = NULL,
+  label.size = NULL,
+  plot = TRUE,
+  export = FALSE,
+  height = 7,
+  width = NULL,
+  out.dir = NULL,
+  out.nm = NULL,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>A <code>grofit</code>, <code>drFit</code>, <code>drTable</code>, or <code>flFitRes</code> object obtained with <code>growth.workflow</code>, <code>growth.drFit</code>, <code>fl.drFit</code>, or <code>fl.workflow</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>param</code></td>
+<td>
+<p>(Character) The parameter used to compare different sample groups. Any name of a column containing numeric values in <code>gcTable</code> (which is stored within <code>grofit</code> or <code>gcFit</code> objects) can be used as input. Useful options are:
+'y.max', 'y.min', 'fc', 'K', or 'n' for fluorescence dose-response analyses with <code>dr.type = 'model'</code> in the <code>control</code> argument,
+or 'EC50', 'yEC50', 'drboot.meanEC50', 'drboot.meanEC50y'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>names</code></td>
+<td>
+<p>(String or vector of strings) Define groups to combine into a single plot. Partial matches with sample/group names are accepted. If <code>NULL</code>, all samples are considered. Note: Ensure to use unique substrings to extract groups of interest. If the name of one condition is included in its entirety within the name of other conditions, it cannot be extracted individually.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>exclude.nm</code></td>
+<td>
+<p>(String or vector of strings) Define groups to exclude from the plot. Partial matches with sample/group names are accepted.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>basesize</code></td>
+<td>
+<p>(Numeric) Base font size.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>reference.nm</code></td>
+<td>
+<p>(Character) Name of the reference condition, to which parameter values are normalized. Partially matching strings are tolerated as long as they can uniquely identify the condition.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>label.size</code></td>
+<td>
+<p>(Numeric) Font size for sample labels below x-axis.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>plot</code></td>
+<td>
+<p>(Logical) Show the generated plot in the <code>Plots</code> pane (<code>TRUE</code>) or not (<code>FALSE</code>). If <code>FALSE</code>, a ggplot object is returned.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>export</code></td>
+<td>
+<p>(Logical) Export the generated plot as PDF and PNG files (<code>TRUE</code>) or not (<code>FALSE</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>height</code></td>
+<td>
+<p>(Numeric) Height of the exported image in inches.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>width</code></td>
+<td>
+<p>(Numeric) Width of the exported image in inches.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>out.dir</code></td>
+<td>
+<p>(Character) Name or path to a folder in which the exported files are stored. If <code>NULL</code>, a "Plots" folder is created in the current working directory to store the files in.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>out.nm</code></td>
+<td>
+<p>(Character) The name of the PDF and PNG files if <code>export = TRUE</code>. If <code>NULL</code>, a name will be automatically generated including the chosen parameter.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Additional arguments. This has currently no effect and is only meant to fulfill the requirements of a generic function.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A column plot comparing a selected parameter of a dose-response analysis between tested conditions.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+# Create random growth data set
+rnd.data1 &lt;- rdm.data(d = 35, mu = 0.8, A = 5, label = "Test1")
+rnd.data2 &lt;- rdm.data(d = 35, mu = 0.6, A = 4.5, label = "Test2")
+
+rnd.data &lt;- list()
+rnd.data[["time"]] &lt;- rbind(rnd.data1$time, rnd.data2$time)
+rnd.data[["data"]] &lt;- rbind(rnd.data1$data, rnd.data2$data)
+
+# Run growth curve analysis workflow
+gcFit &lt;- growth.gcFit(time = rnd.data$time,
+                       data = rnd.data$data,
+                       parallelize = FALSE,
+                       control = growth.control(fit.opt = "s",
+                                                suppress.messages = TRUE))
+
+# Perform dose-response analysis
+drFit &lt;- growth.drFit(gcTable = gcFit$gcTable,
+            control = growth.control(dr.parameter = "mu.spline"))
+
+plot.dr_parameter(drFit, param = 'EC50')
+
+
+</code></pre>
+
+
+</div>

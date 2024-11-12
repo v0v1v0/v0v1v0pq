@@ -1,0 +1,49 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>check_bounds_two_sided</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Check Validity of Two-Sided Bounds</h2>
+
+<h3>Description</h3>
+
+<p>Given bounds for a two sided test, this checks that none of
+the bounds fall outside of [0, 1] and that all upper bounds
+are greater than the corresponding lower bounds.
+This also ensures the the length of the bounds are the same.
+This not meant to be called by the user.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">check_bounds_two_sided(lower_bounds, upper_bounds)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>lower_bounds</code></td>
+<td>
+<p>Numeric vector where the ith component is the lower bound
+for the ith order statistic.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>upper_bounds</code></td>
+<td>
+<p>Numeric vector where the ith component is the lower bound
+for the ith order statistic.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>None
+</p>
+
+
+</div>

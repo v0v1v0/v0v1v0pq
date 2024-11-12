@@ -1,0 +1,67 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qr_error</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Create the message and error code bit string</h2>
+
+<h3>Description</h3>
+
+<p>The function returns a bit string containing the message.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qr_error(x, ecl = c("L", "M", "Q", "H"))
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>the input string</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ecl</code></td>
+<td>
+<p>the required error correction level.
+Available options are <code>"L"</code> (7%), <code>"M"</code> (15%), <code>"Q"</code> (25%) and <code>"H"</code> (30%).
+Defaults to <code>"L"</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>The message as a <code>bits()</code> object.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Thierry Onkelinx
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Other internal: 
+<code>qr_encode()</code>,
+<code>qr_matrix()</code>,
+<code>qr_mode()</code>,
+<code>qr_version()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">qr_error("HELLO WORLD")
+</code></pre>
+
+
+</div>

@@ -1,0 +1,91 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qad-package</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Quantification of Asymmetric Dependencies
+</h2>
+
+<h3>Description</h3>
+
+<p>A copula-based measure for quantifying asymmetry in dependence and associations.
+</p>
+
+
+<h3>Details</h3>
+
+
+<table>
+<tr>
+<td style="text-align: left;">
+Package: </td>
+<td style="text-align: left;"> qad</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+Type: </td>
+<td style="text-align: left;"> Package</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+Version: </td>
+<td style="text-align: left;"> 1.0.0</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+Date: </td>
+<td style="text-align: left;"> 2021-02-26</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Florian Griessenberger: <a href="mailto:florian.griessenberger@sbg.ac.at">florian.griessenberger@sbg.ac.at</a>,<br>
+Robert R. Junker: <a href="mailto:Robert.Junker@sbg.ac.at">Robert.Junker@sbg.ac.at</a>,<br>
+Valentin Petztel,<br>
+Wolfgang Trutschnig: <a href="mailto:Wolfgang.Trutschnig@sbg.ac.at">Wolfgang.Trutschnig@sbg.ac.at</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># #Create data set
+# n &lt;- 100
+# x &lt;- rnorm(n,0,2)
+# y &lt;- x^2 + rnorm(n)
+# sample &lt;- data.frame(x,y)
+# plot(sample, pch = 16)
+#
+#
+# #Function: qad()
+# qad(sample, p.value = TRUE, p.value_asymmetry = TRUE)
+# fit &lt;- qad(sample)
+# plot(fit)
+# plot(fit, copula = TRUE)
+# plot(fit, copula = TRUE, addSample = T)
+#
+# #Functions: summary(), coef()
+# summary(fit)
+# coef(fit)
+#
+# #Function: predict()
+# values &lt;- c(-2.4,1,0,2.6)
+# predict.qad(fit, values = values, conditioned = 'x1')
+# predict(fit, values, conditioned = "x1", pred_plot = TRUE, panel.grid = FALSE)
+#
+# values &lt;- c(0.1,0.5)
+# predict(fit, values, conditioned = "x2", copula = TRUE, pred_plot = TRUE)
+#
+# #Function: pairwise.qad and heatmap.qad
+# df &lt;- iris[1:4]
+# mod &lt;- pairwise.qad(df)
+# heatmap.qad(mod, select = 'dependence')
+</code></pre>
+
+
+</div>

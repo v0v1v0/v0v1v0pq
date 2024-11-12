@@ -1,0 +1,81 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qlcMatrix-package</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Utility sparse matrix functions for Quantitative Language Comparison (QLC)
+</h2>
+
+<h3>Description</h3>
+
+<p>This package contains various functions that extend the functionality of the <code>Matrix</code> package for using sparse matrices. Some of the functions are very general, while other are highly specific for special data format as used for quantitative language comparison.
+</p>
+
+
+<h3>Details</h3>
+
+
+<table>
+<tr>
+<td style="text-align: left;">
+Package: </td>
+<td style="text-align: left;"> qlcMatrix</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+Type: </td>
+<td style="text-align: left;"> Package</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+Version: </td>
+<td style="text-align: left;"> 0.9.8</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+Date: </td>
+<td style="text-align: left;"> 2024-05-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+License: </td>
+<td style="text-align: left;"> GPL-3</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+</td>
+</tr>
+</table>
+<p>This package contains various different kinds of function. 
+</p>
+<p>First, some general utility functions to deal with sparse matrices: (i) <code>rowMax</code> to compute and identify row-wise maxima and minima in sparse matrices, (ii) <code>rKhatriRao</code> to remove empty rows in a KhatriRao product (but still get the right rownames) and (iii) <code>rSparseMatrix</code> to produce random sparse matrices. There are also some experimental basic methods for handling sparse arrays ("tensors"), most interestingly <code>unfold</code>.
+</p>
+<p>Second, some general functions to compute associations between the columns of sparse matrices, with possibilities for extension for ad-hoc measures: <code>cosSparse</code>, <code>corSparse</code>, and <code>assocSparse</code>  There are special versions of these for nominal data <code>cosNominal, assocNominal</code>. 
+</p>
+<p>Third, there are three central functions needed to efficiently turn data from quantitative language comparison into sparse matrices. These basic functions are then used by high-level function in this package. Although these functions might seem almost trivial, they form the basis for many highly complex computations. They are <code>ttMatrix</code>, <code>pwMatrix</code> and <code>jMatrix</code>.
+</p>
+<p>Fourth, there are some high-level convenience function that take specific data formats from quantitative language comparison and turn them into set of sparse matrices for efficient computations. They might also be useful for other data types, but various details decisions are specifically tailored to the envisioned data types. These functions are <code>splitTable</code> <code>splitStrings</code>, <code>splitWordlist</code>, and <code>splitText</code>.
+</p>
+<p>Finally, there are various shortcuts to directly compute similarity matrices from various kinds of data: <code>sim.nominal, sim.words, sim.strings, sim.wordlist</code>. These are specifically tailored towards specific kinds of data, though they might also be useful elsewhere. Also, the code is mostly easy wrappers around the <code>split</code> and <code>cos/assoc</code> functions, so it should not be difficult to adapt these functions to other needs.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Michael Cysouw &lt;cysouw@mac.com&gt;
+</p>
+
+
+<h3>References</h3>
+
+<p>Cysouw, Michael. 2014. <em>Matrix Algebra for Language Comparison</em>. Manuscript.
+</p>
+<p>Mayer, Thomas and Michael Cysouw. 2012. Language comparison through sparse multilingual word alignment. <em>Proceedings of the EACL 2012 Joint Workshop of LINGVIS &amp; UNCLH</em>, 54–62. Avignon: Association for Computational Linguistics.
+</p>
+<p>Prokić, Jelena and Michael Cysouw. 2013. Combining regular sound correspondences and geographic spread. <em>Language Dynamics and Change</em> 3(2). 147–168.
+</p>
+
+
+</div>

@@ -1,0 +1,87 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>subset_fst_genoprob</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Subsetting genotype probabilities</h2>
+
+<h3>Description</h3>
+
+<p>Pull out a specified set of individuals and/or chromosomes from
+the results of <code>fst_genoprob()</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">subset_fst_genoprob(x, ind = NULL, chr = NULL, mar = NULL, ...)
+
+## S3 method for class 'fst_genoprob'
+subset(x, ind = NULL, chr = NULL, mar = NULL, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>Genotype probabilities as output from <code>fst_genoprob()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ind</code></td>
+<td>
+<p>A vector of individuals: numeric indices, logical
+values, or character string IDs</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>chr</code></td>
+<td>
+<p>A vector of chromosomes: logical values, or character
+string IDs. Numbers are interpreted as character string IDs.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mar</code></td>
+<td>
+<p>A vector of marker names as character string IDs.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Ignored.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>The input genotype probabilities, with the selected
+individuals and/or chromsomes.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(qtl2)
+grav2 &lt;- read_cross2(system.file("extdata", "grav2.zip", package="qtl2"))
+
+pr &lt;- calc_genoprob(grav2)
+dir &lt;- tempdir()
+fpr &lt;- fst_genoprob(pr, "grav2", dir)
+
+# keep just individuals 1:5, chromosome 2
+prsub &lt;- fpr[1:5,2]
+# keep just chromosome 2
+prsub2 &lt;- fpr[,2]
+
+# clean up: remove all the files we created
+unlink(fst_files(fpr))
+</code></pre>
+
+
+</div>

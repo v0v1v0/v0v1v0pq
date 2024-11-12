@@ -1,0 +1,43 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qsub_retrieve</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Retrieve the results of a qsub execution.</h2>
+
+<h3>Description</h3>
+
+<p>Retrieve the results of a qsub execution.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qsub_retrieve(qsub_config, wait = TRUE, post_fun = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>qsub_config</code></td>
+<td>
+<p>The qsub configuration of class <code>qsub_configuration</code>, as returned by any qsub execution</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>wait</code></td>
+<td>
+<p>If <code>TRUE</code>, wait until the execution has finished in order to return the results, else returns <code>NULL</code> if execution is not finished.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>post_fun</code></td>
+<td>
+<p>Apply a function to the output after execution. Interface: <code>function(index, output)</code></p>
+</td>
+</tr>
+</table>
+</div>

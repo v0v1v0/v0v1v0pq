@@ -1,0 +1,57 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>cbind_smother</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Combine matrices by columns, replacing matching ones and adding unique ones</h2>
+
+<h3>Description</h3>
+
+<p>This is like <code>base::cbind()</code> but if a column in the second matrix
+has the same name as a column in the first matrix, the column in
+the first matrix is deleted and that in the second matrix is used
+in its place.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">cbind_smother(mat1, mat2)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>mat1</code></td>
+<td>
+<p>A matrix</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mat2</code></td>
+<td>
+<p>Another matrix, with the same number of rows as <code>mat</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>The two matrices combined by columns, but columns in the
+first matrix that also appear in the second matrix are deleted
+and replaced by those in the second matrix. Uses the row names
+to align the rows in the two matrices, and to expand them as needed.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">df1 &lt;- data.frame(x=c(1,2,3,NA,4), y=c(5,8,9,10,11), row.names=c("A", "B", "C", "D", "E"))
+df2 &lt;- data.frame(z=c(7,8,0,9,10), y=c(6,NA,NA,9,10), row.names=c("A", "B", "F", "C", "D"))
+df1n2 &lt;- cbind_smother(df1, df2)
+</code></pre>
+
+
+</div>

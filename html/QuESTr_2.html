@@ -1,0 +1,66 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>q.clean</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Clean data by eliminating genes with many missing values</h2>
+
+<h3>Description</h3>
+
+<p>Clean data by eliminating genes with many missing values
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">q.clean(x, missing = 0.1, lowest = 10)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>A data matrix (raw: samples, col: genes).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>missing</code></td>
+<td>
+<p>A ratio of missing values in each column allowed to be remained in the data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lowest</code></td>
+<td>
+<p>The lowest value recognized in the data (e.g., TPM, FPKM, or raw read counts).</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A data matrix (raw: samples, col: qualified genes)
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Takahiko Koizumi
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(Pinus)
+train.raw &lt;- Pinus$train
+ncol(train.raw)
+
+train &lt;- q.clean(train.raw)
+ncol(train)
+</code></pre>
+
+
+</div>

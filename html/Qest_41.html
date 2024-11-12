@@ -1,0 +1,118 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>invQ</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Inverse of Quantile Function
+</h2>
+
+<h3>Description</h3>
+
+<p>Auxiliary function to compute cumulative distribution function (CDF) by inverting a quantile function.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">invQ(Q, theta, y, data, n.it = 17)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>Q</code></td>
+<td>
+
+<p>any parametric quantile function of the form <code>Q(theta, tau, data)</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>theta</code></td>
+<td>
+
+<p>a vector of model parameters.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+
+<p>vector of observations to evaluate the CDF.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+
+<p>data frame containing the variables used in the Q() function.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n.it</code></td>
+<td>
+
+<p>the number of iterations (see “details”).
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Given a parametric quantile function <code class="reqn">Q(\tau | \theta)</code>, the CDF is defined as <code class="reqn">F(y | \theta) = Q^{-1}(y | \theta)</code>. Alternatively, <code class="reqn">F(y | \theta)</code> corresponds to the value <code class="reqn">\tau*</code> such that <code class="reqn">Q(\tau* | \theta) = y</code>. Starting from <code class="reqn">\tau = 0.5</code>, a bisection algorithm is used to evaluate numerically <code class="reqn">\tau*</code>. The maximum error is given by <code>1/2^(n.it + 1)</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>a vector of CDF values.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Maintainer: Gianluca Sottile &lt;gianluca.sottile@unipa.it&gt;
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>Qest</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># Ex. 1 Normal model
+
+# Quantile function of a linear model.
+Qlinmod &lt;- function(theta, tau, data){
+  sigma &lt;- exp(theta[1])
+  beta &lt;- theta[-1]
+  X &lt;- model.matrix( ~ x1 + x2, data = data)
+  qnorm(tau, X %*% beta, sigma)
+}
+
+n &lt;- 100
+x1 &lt;- rnorm(n)
+x2 &lt;- runif(n,0,3)
+theta &lt;- c(1,4,1,2)
+
+# generate the data
+U &lt;- runif(n)
+y &lt;- Qlinmod(theta, U, data.frame(x1,x2))
+
+# Given y and theta, evaluate U = F(y)
+invQ(Qlinmod, theta, y, data.frame(x1,x2))
+
+</code></pre>
+
+
+</div>

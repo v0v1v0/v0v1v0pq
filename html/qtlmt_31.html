@@ -1,0 +1,109 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>varStep</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Variable selection
+</h2>
+
+<h3>Description</h3>
+
+<p>Add a variable, drop a variable, or select a subset of variables via variable selection that are optimal for multivariate analysis.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">varAdd1(x, group, vin=NULL, scope=1:ncol(x), k=0)
+
+varDrop1(x, group, vin=1:ncol(x), k=0)
+
+varStep(x, group, scope, k, kf=k/2, direction=c("both",
+   "forward","backward"))
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+
+<p>a data matrix/frame. Columns are variables to select from.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>group</code></td>
+<td>
+
+<p>a grouping indicator of observations.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vin</code></td>
+<td>
+
+<p>which variables (i.e., columns of <code>x</code>) already in model. It defines the initial model.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>scope</code></td>
+<td>
+
+<p>which variables (i.e., columns of <code>x</code>) to select from.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>k</code></td>
+<td>
+
+<p>entry/stay value in backward stepwise.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>kf</code></td>
+<td>
+
+<p>entry/stay value in forward stepwise.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>direction</code></td>
+<td>
+
+<p>forward selection, backward elimination or both stepwise.
+</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>which variable to add (add1), which variable to drop (drop1), or a subset of variables in the final model (step).
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>varSelect</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(etrait)
+varAdd1(traits, group=mdat[,42], vin=10, scope=1:ncol(traits))
+varStep(traits, group=mdat[,42], k=12, scope=1:ncol(traits),
+   direction="back")
+</code></pre>
+
+
+</div>

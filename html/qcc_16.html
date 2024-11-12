@@ -1,0 +1,89 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>stats.c</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Functions to plot Shewhart c chart</h2>
+
+<h3>Description</h3>
+
+<p>Statistics used in computing and drawing a Shewhart c chart.</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">stats.c(data, sizes)
+sd.c(data, sizes, ...)
+limits.c(center, std.dev, sizes, conf)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>the observed data values</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>center</code></td>
+<td>
+<p>sample/group center statistic.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sizes</code></td>
+<td>
+<p>samples sizes.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>std.dev</code></td>
+<td>
+<p>within group standard deviation.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>conf</code></td>
+<td>
+<p>a numeric value used to compute control limits, specifying the number of standard deviations (if <code>conf</code> &gt; 1) or the confidence level (if 0 &lt; <code>conf</code> &lt; 1).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>further arguments are ignored.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>The function <code>stats.c</code> returns a list with components <code>statistics</code> and <code>center</code>.
+</p>
+<p>The function <code>sd.c</code> returns <code>std.dev</code> the standard deviation of the statistic charted.
+</p>
+<p>The function <code>limits.c</code> returns a matrix with lower and upper control limits. 
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Luca Scrucca</p>
+
+
+<h3>References</h3>
+
+<p>Montgomery, D.C. (2005) <em>Introduction to Statistical Quality Control</em>, 5th ed. New York: John Wiley &amp; Sons. <br>
+Wetherill, G.B. and Brown, D.W. (1991) <em>Statistical Process Control</em>. New York: Chapman &amp; Hall.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>qcc</code> </p>
+
+
+</div>

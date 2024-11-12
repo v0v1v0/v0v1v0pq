@@ -1,0 +1,124 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>wtd.table</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Weighted one-way and two-way frequency tables.</h2>
+
+<h3>Description</h3>
+
+<p>Generate weighted frequency tables, both for one-way and two-way tables.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">wtd.table(
+  x,
+  y = NULL,
+  weights = NULL,
+  digits = 3,
+  normwt = FALSE,
+  useNA = c("no", "ifany", "always"),
+  na.rm = TRUE,
+  na.show = FALSE,
+  exclude = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a vector</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>another optional vector for a two-way frequency table. Must be the same length as <code>x</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>weights</code></td>
+<td>
+<p>vector of weights, must be the same length as <code>x</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>digits</code></td>
+<td>
+<p>Number of significant digits.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>normwt</code></td>
+<td>
+<p>if TRUE, normalize weights so that the total weighted count is the same as the unweighted one</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>useNA</code></td>
+<td>
+<p>wether to include NA values in the table</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>na.rm</code></td>
+<td>
+<p>(deprecated) if TRUE, remove NA values before computation</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>na.show</code></td>
+<td>
+<p>(deprecated) if TRUE, show NA count in table output</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>exclude</code></td>
+<td>
+<p>values to remove from x and y. To exclude NA, use na.rm argument.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>If <code>weights</code> is not provided, an uniform weghting is used. 
+</p>
+<p>If some weights are missing ('NA'), they are converted to zero. In case of missing weights 
+with 'normwt=TRUE', the observations with missing weights are still counted in the unweighted 
+count. You have to filter them out before using this function if you don't want them to be 
+taken into account when using 'normwt'.
+</p>
+
+
+<h3>Value</h3>
+
+<p>If <code>y</code> is not provided, returns a weighted one-way frequency table
+of <code>x</code>. Otherwise, returns a weighted two-way frequency table of
+<code>x</code> and <code>y</code>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>wtd.table</code>, <code>table</code>, and the <code>survey</code> package.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(hdv2003)
+wtd.table(hdv2003$sexe, weights=hdv2003$poids)
+wtd.table(hdv2003$sexe, weights=hdv2003$poids, normwt=TRUE)
+table(hdv2003$sexe, hdv2003$hard.rock)
+wtd.table(hdv2003$sexe, hdv2003$hard.rock, weights=hdv2003$poids)
+</code></pre>
+
+
+</div>

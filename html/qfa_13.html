@@ -1,0 +1,142 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qser2sar</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Spline Autoregression (SAR) Model of Quantile Series</h2>
+
+<h3>Description</h3>
+
+<p>This function fits spline autoregression (SAR) model to quantile series (QSER).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qser2sar(
+  y.qser,
+  tau,
+  d = 1,
+  p = NULL,
+  order.max = NULL,
+  spar = NULL,
+  method = c("AIC", "BIC", "GCV"),
+  weighted = FALSE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>y.qser</code></td>
+<td>
+<p>matrix or array of pre-calculated QSER, e.g., using <code>qser()</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tau</code></td>
+<td>
+<p>sequence of quantile levels where <code>y.qser</code> is calculated</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>d</code></td>
+<td>
+<p>subsampling rate of quantile levels (default = 1)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p</code></td>
+<td>
+<p>order of SAR model (default = <code>NULL</code>: automatically selected by AIC)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>order.max</code></td>
+<td>
+<p>maximum order for AIC if <code>p = NULL</code> (default = <code>NULL</code>: determined by <code>stats::ar()</code>)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>spar</code></td>
+<td>
+<p>penalty parameter alla <code>smooth.spline</code> (default = <code>NULL</code>: automatically selected)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+<p>criterion for penalty parameter selection:  <code>"AIC"</code> (default), <code>"BIC"</code>, or <code>"GCV"</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>weighted</code></td>
+<td>
+<p>if <code>TRUE</code>, penalty function is weighted (default = <code>FALSE</code>)</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>a list with the following elements:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>A</code></td>
+<td>
+<p>matrix or array of SAR coefficients</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>V</code></td>
+<td>
+<p>vector or matrix of SAR residual covariance</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p</code></td>
+<td>
+<p>order of SAR model</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>spar</code></td>
+<td>
+<p>penalty parameter</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tau</code></td>
+<td>
+<p>sequence of quantile levels</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p>length of time series</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>d</code></td>
+<td>
+<p>subsampling rate of quantile levels</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>weighted</code></td>
+<td>
+<p>option for weighted penalty function</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fit</code></td>
+<td>
+<p>object containing details of SAR fit</p>
+</td>
+</tr>
+</table>
+</div>

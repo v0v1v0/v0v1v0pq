@@ -1,0 +1,74 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>data_rep</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Duplicate a data rows or columns X times</h2>
+
+<h3>Description</h3>
+
+<p>Add a data to itself X times by rows or columns
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">data_rep(., n, which = c("rows", "cols"))
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>.</code></td>
+<td>
+<p>data frame variable</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p>multiples of duplicate</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>which</code></td>
+<td>
+<p>where to append the duplicated data e.g. rows or cols</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>the duplicated dataset store to a variable with the name of the first
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># initialize p1 and p2
+init(p1,p2)
+p1
+p2
+
+# declare p1 and p2 as data frame
+p1 &lt;- data.frame(PK=1:10,ID2=1:10)
+p2 &lt;- data.frame(PK=11:20,ID2=21:30)
+
+p1
+p2
+
+#add p1  twice by row, and resave as p1
+data_rep(p1,n=2,"rows")
+p1 #p1 has been updated
+
+
+#add p2  3 times by col, and resave as p2
+data_rep(p2,n=3,"cols")
+p2 #p2 has been updated
+</code></pre>
+
+
+</div>

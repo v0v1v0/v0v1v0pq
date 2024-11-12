@@ -1,0 +1,79 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>summary_compare_geno</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Basic summary of compare_geno object</h2>
+
+<h3>Description</h3>
+
+<p>From results of <code>compare_geno()</code>, show pairs of individuals with similar genotypes.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">summary_compare_geno(object, threshold = 0.9, ...)
+
+## S3 method for class 'compare_geno'
+summary(object, threshold = 0.9, ...)
+
+## S3 method for class 'summary.compare_geno'
+print(x, digits = 2, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>A square matrix with genotype comparisons for pairs
+of individuals, as output by <code>compare_geno()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>threshold</code></td>
+<td>
+<p>Minimum proportion matches for a pair of individuals to be shown.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Ignored</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>Results of <code>summary.compare_geno()</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>digits</code></td>
+<td>
+<p>Number of digits to print</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Data frame with names of individuals in pair, proportion
+matches, number of mismatches, number of matches, and total
+markers genotyped. Last two columns are the numeric indexes of
+the individuals in the pair.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">grav2 &lt;- read_cross2(system.file("extdata", "grav2.zip", package="qtl2"))
+cg &lt;- compare_geno(grav2)
+summary(cg)
+</code></pre>
+
+
+</div>

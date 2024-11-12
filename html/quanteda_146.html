@@ -1,0 +1,49 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>featfreq</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Compute the frequencies of features</h2>
+
+<h3>Description</h3>
+
+<p>For a dfm object, returns a frequency for each feature, computed
+across all documents in the dfm. This is equivalent to <code>colSums(x)</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">featfreq(x)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a dfm</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>a (named) numeric vector of feature frequencies
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>dfm_tfidf()</code>, <code>dfm_weight()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">dfmat &lt;- dfm(tokens(data_char_sampletext))
+featfreq(dfmat)
+</code></pre>
+
+
+</div>

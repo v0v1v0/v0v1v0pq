@@ -1,0 +1,122 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>get_bounds_two_sided</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Calculates Rejection Region of Two-Sided Equal Local Levels Test.</h2>
+
+<h3>Description</h3>
+
+<p>The context is that n i.i.d. observations are assumed to be drawn
+from some distribution on the unit interval with c.d.f. F(x), and it is
+desired to test the null hypothesis that F(x) = x for all x in (0,1),
+referred to as the "global null hypothesis," against a two-sided alternative.
+An "equal local levels" test is used, in which each of the n order statistics is
+tested for significant deviation from its null distribution by a 2-sided test
+with significance level <code class="reqn">\eta</code>.  The global null hypothesis is rejected if at
+least one of the order statistic tests is rejected at level <code class="reqn">\eta</code>, where <code class="reqn">\eta</code> is
+chosen so that the significance level of the global test is alpha.
+Given the size of the dataset n and the desired global significance level alpha,
+this function calculates the local level <code class="reqn">\eta</code> and the acceptance/rejection regions for the test.
+There are a set of n intervals, one for each order statistic.
+If at least one order statistic falls outside the corresponding interval,
+the global test is rejected.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">get_bounds_two_sided(
+  alpha,
+  n,
+  tol = 1e-08,
+  max_it = 100,
+  method = c("best_available", "approximate", "search")
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>alpha</code></td>
+<td>
+<p>Desired global significance level of the test.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p>Size of the dataset.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tol</code></td>
+<td>
+<p>(optional) Relative tolerance of the <code>alpha</code> level of the
+simultaneous test. Defaults to 1e-8. Used only if <code>method</code> is set to
+"search" or if method is set to "best_available" and the best available
+method is a search.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>max_it</code></td>
+<td>
+<p>(optional) Maximum number of iterations of Binary Search Algorithm
+used to find the bounds. Defaults to 100 which should be much larger than necessary
+for a reasonable tolerance. Used only if <code>method</code> is set to
+"search" or if method is set to "best_available" and the best available
+method is a search.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+<p>(optional) Argument indicating if the calculation should be done using a highly
+accurate approximation, "approximate", or if the calculations should be done using an exact
+binary search calculation, "search". The default is "best_available" (recommended), which uses the exact search
+when either (i) the approximation isn't available or (ii) the approximation is available but isn't highly accurate and the search method
+isn't prohibitively slow (occurs for small to moderate <code>n</code> with <code>alpha</code> = .1).
+Of note, the approximate method is only available for alpha values of .1, .05, and .01. In the case of alpha = .05 or .01, the
+approximation is highly accurate for all values of <code>n</code> up to at least <code>10^6</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list with components
+</p>
+
+<ul>
+<li>
+<p> lower_bound - Numeric vector of length <code>n</code> containing the lower bounds
+for the acceptance regions of the test of each order statistic.
+</p>
+</li>
+<li>
+<p> upper_bound - Numeric vector of length <code>n</code> containing the upper bounds
+for the acceptance regions of the test of each order statistic.
+</p>
+</li>
+<li>
+<p> x - Numeric vector of length <code>n</code> containing the expectation of each order statistic.
+These are the x-coordinates for the bounds if used in a pp-plot.
+The value is <code>c(1:n) / (n + 1)</code>.
+</p>
+</li>
+<li>
+<p> local_level - Significance level <code class="reqn">\eta</code> of the local test on each individual order statistic. It is equal for all order
+statistics and will be less than <code>alpha</code> for all <code>n</code> &gt; 1.
+</p>
+</li>
+</ul>
+<h3>Examples</h3>
+
+<pre><code class="language-R">get_bounds_two_sided(alpha = .05, n = 100)
+
+</code></pre>
+
+
+</div>

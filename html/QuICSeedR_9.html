@@ -1,0 +1,128 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>PlotMetric</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Create a customizable ggplot for metrics</h2>
+
+<h3>Description</h3>
+
+<p>This is wrapper function to generate a ggplot object with default options for boxplot and jittered points.
+Additional ggplot2 functions can be applied to the plot.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">PlotMetric(
+  calculation,
+  x = "content",
+  y = "RAF",
+  fill_var = NULL,
+  point = TRUE,
+  box = TRUE,
+  base_theme = theme_bw(),
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>calculation</code></td>
+<td>
+<p>A data frame containing the data to be plotted. Output of <code>GetCalculation</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>Character string specifying the column name for the x-axis. Default is "content".</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>Character string specifying the column name for the y-axis. Default is "RAF".</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fill_var</code></td>
+<td>
+<p>The name of the column to be used for fill color, or a vector of colors.
+If NULL, no fill color is applied. Default is NULL.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>point</code></td>
+<td>
+<p>Logical. If TRUE (default), adds jittered points to the plot.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>box</code></td>
+<td>
+<p>Logical. If TRUE (default), adds a boxplot to the plot.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>base_theme</code></td>
+<td>
+<p>A ggplot2 theme object. Default is theme_bw().</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Additional ggplot2 functions to be applied to the plot.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A ggplot object.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># Define the path to the plate data file
+plate_path &lt;- system.file("extdata/20240716_p3", 
+                          file = '20240716_p3_plate.xlsx', 
+                          package = "QuICSeedR")
+  
+# Read the plate data
+plate &lt;- readxl::read_xlsx(plate_path)
+
+# Define the path to the raw data file
+raw_path &lt;- system.file("extdata/20240716_p3", 
+                        file = '20240716_p3_raw.xlsx', 
+                        package = "QuICSeedR")
+# Read the raw data
+raw &lt;- readxl::read_xlsx(raw_path)
+
+# Get replicate data
+replicate &lt;- GetReplicate(plate)
+
+# Ensure time displayed as decimal hours
+plate_time = ConvertTime(raw)
+
+#Get metadata and display the few rows 
+meta = CleanMeta(raw, plate, replicate)
+
+#Clean data 
+cleanraw &lt;- CleanRaw(meta, raw, plate_time)
+
+#Get calculations using positive controls to normalize values. 
+calculation = GetCalculation(raw = cleanraw, meta, norm = TRUE, norm_ct = 'Pos')
+
+#Default plot
+PlotMetric(calculation)
+           
+</code></pre>
+
+
+</div>

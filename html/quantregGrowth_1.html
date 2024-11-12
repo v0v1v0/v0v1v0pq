@@ -1,0 +1,112 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>quantregGrowth-package</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Non-Crossing Additive Regression Quantiles and Non-Parametric Growth Charts. 
+</h2>
+
+<h3>Description</h3>
+
+<p>Fits non-crossing regression quantiles as a function of linear covariates 
+and smooth terms via P-splines with difference penalties. Random intercepts and selection of linear variables are allowed via the lasso penalties. Estimation of (possibly adaptive) smoothing/tuning parameters (for the spline terms, the random intercepts and the variables selector) are carried out efficientely as part of model fitting.</p>
+
+
+<h3>Details</h3>
+
+
+<table>
+<tr>
+<td style="text-align: left;">
+Package: </td>
+<td style="text-align: left;"> quantregGrowth</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+Type: </td>
+<td style="text-align: left;"> Package</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+Version: </td>
+<td style="text-align: left;"> 1.7-1</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+Date: </td>
+<td style="text-align: left;"> 2024-05-20</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+License: </td>
+<td style="text-align: left;"> GPL</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+</td>
+</tr>
+</table>
+<p>Package quantregGrowth allows estimation of growth charts via quantile regression. Given a set of percentiles (i.e. probability values), <code>gcrq</code> estimates non-crossing quantile curves as a flexible function of quantitative covariates (typically age in growth charts), and possibly additional linear terms. To ensure flexibility, B-splines with a difference <code class="reqn">L_1</code> penalty are employed to estimate non parametrically the curves wherein monotonicity and concavity constraints may be also set. Multiple smooth terms, including varying coefficients, are allowed and the amount of smoothness for each term is efficiently included in the model fitting algorithm, see Muggeo et al. (2021). <code>plot.gcrq</code> displays the fitted lines along with observations and poitwise confidence intervals. 
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Vito M.R. Muggeo
+</p>
+<p>Maintainer: Vito M.R. Muggeo &lt;vito.muggeo@unipa.it&gt;
+</p>
+
+
+<h3>References</h3>
+
+<p>Muggeo VMR, Torretta F, Eilers PHC, Sciandra M, Attanasio M (2021).
+Multiple smoothing parameters selection in additive regression quantiles,
+<em>Statistical Modelling</em>, <b>21</b>, 428-448. 
+</p>
+<p>Muggeo VMR (2021). Additive Quantile regression with automatic smoothness selection: the R package quantregGrowth. <br>
+https://www.researchgate.net/publication/350844895
+</p>
+<p>Muggeo VMR, Sciandra M, Tomasello A, Calvo S (2013).
+Estimating growth charts via nonparametric quantile
+regression: a practical framework with application
+in ecology, <em>Environ Ecol Stat</em>, <b>20</b>, 519-531.
+</p>
+<p>Muggeo VMR (2018). Using the R package quantregGrowth: some examples. <br>
+https://www.researchgate.net/publication/323573492
+</p>
+<p>Some references on growth charts (the first two papers employ the so-called LMS method)
+</p>
+<p>Cole TJ, Green P (1992) Smoothing reference centile curves: the LMS method and penalized likelihood.
+<em>Statistics in Medicine</em> <b>11</b>, 1305-1319.
+</p>
+<p>Rigby RA, Stasinopoulos DM (2004) Smooth centile curves for skew and kurtotic data modelled using the
+Box-Cox power exponential distribution. <em>Statistics in Medicine</em> <b>23</b>, 3053-3076.
+</p>
+<p>Wei Y, Pere A, Koenker R, He X (2006) Quantile regression methods for reference growth charts. 
+<em>Statistics in Medicine</em> <b>25</b>, 1369-1382.
+</p>
+<p>Some references on regression quantiles
+</p>
+<p>Koenker R (2005) Quantile regression. Cambridge University Press, Cambridge.
+</p>
+<p>Cade BS, Noon BR (2003) A gentle introduction to quantile regression for ecologists. <em>Front Ecol Environ</em>
+<b>1</b>, 412-420.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>gcrq</code>, <code>rq</code> in package quantreg
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">#see ?gcrq for some examples
+</code></pre>
+
+
+</div>

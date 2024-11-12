@@ -1,0 +1,98 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>units</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Handle Measurement Units on a Numeric Vector</h2>
+
+<h3>Description</h3>
+
+<p>Set or retrieve measurement units to/from numeric vectors and convert units
+(extensions to the <span class="pkg">units</span> package for <code>quantities</code> and
+<code>errors</code> objects).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 replacement method for class 'quantities'
+units(x) &lt;- value
+
+## S3 replacement method for class 'errors'
+units(x) &lt;- value
+
+## S3 method for class 'errors'
+set_units(x, value, ...,
+  mode = units_options("set_units_mode"))
+
+## S3 method for class 'quantities'
+mixed_units(x, values, ...)
+
+## S3 method for class 'errors'
+mixed_units(x, values, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a numeric object, or object of class <code>quantities</code>, <code>units</code>
+or <code>errors</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>value</code></td>
+<td>
+<p>object of class <code>units</code> or <code>symbolic_units</code>, or in the
+case of <code>set_units</code> expression with symbols (see examples).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>passed on to other methods.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mode</code></td>
+<td>
+<p>if <code>"symbols"</code> (the default), then unit is constructed from
+the expression supplied. Otherwise, if<code>mode = "standard"</code>,
+standard evaluation is used for the supplied value This argument can be set
+via a global option <code>units_options(set_units_mode = "standard")</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>values</code></td>
+<td>
+<p>character vector with units encodings, or list with symbolic units of class <code>mixed_symbolic_units</code></p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>For objects of class <code>quantities</code>, methods <code>`units&lt;-`()</code>
+and <code>set_units()</code> automatically convert the associated uncertainty to
+the new unit (see examples below).
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>units</code>, <code>set_units</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">(x &lt;- set_quantities(1:5, m, 0.01))
+set_units(x, cm)
+
+</code></pre>
+
+
+</div>

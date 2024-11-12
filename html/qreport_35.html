@@ -1,0 +1,63 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>timeMar</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>timeMar</h2>
+
+<h3>Description</h3>
+
+<p>Time an Expression and Report in Quarto Margin
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">timeMar(x)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>an expression to execute</p>
+</td>
+</tr></table>
+<h3>Details</h3>
+
+<p>Function to time an expression, printing the result of <code>base::system.time()</code> in the right margin, and storing the result of system.time in <code>.systime.</code> in the global environment so tha the user can refer to it.
+</p>
+
+
+<h3>Value</h3>
+
+<p>invisibly, the result of the expression
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Frank Harrell
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>hooktime()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+g &lt;- function(...){}  # define a function to run slowly
+result &lt;- timeMar(g())
+
+## End(Not run)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,77 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>data_pop</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Remove last n rows or column or specified elements from a data frame like array_pop in PHP</h2>
+
+<h3>Description</h3>
+
+<p>Shorthand to remove elements from a data frame and save as the same name
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">data_pop(., n = 1, which = c("rows", "cols"), ret = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>.</code></td>
+<td>
+<p>parent data</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p>number of elements to remove</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>which</code></td>
+<td>
+<p>whether to remove from row or from column</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ret</code></td>
+<td>
+<p>TRUE or FALSE. whether to return value instead of setting it to the parent data</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>data with elements removed
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data.01 &lt;- mtcars[1:7,]
+
+#task: remove 1 element from the end of the data and set it to the data name
+data.01 #data.01 data before pop
+data_pop(data.01) #does not return anything
+data.01 #data.01 data updated after pop
+
+#task: remove 3 columns from the end of the data and set it to the data name
+data.01 #data.01 data before pop
+data_pop(data.01, n = 3, which = "cols") #does not return anything, but updates data
+data.01 #data.01 data updated after pop
+
+#task: remove 5 elements from the end, but do not set it to the data name
+data.01 #data.01 data before pop
+data_pop(data.01,5, ret = TRUE) #return modified data
+data.01 #data.01 data remains the same after pop
+
+</code></pre>
+
+
+</div>

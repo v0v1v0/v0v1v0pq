@@ -1,0 +1,96 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>predict.cmprsk</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Calculate the Failure Time Probability from a Competing Risks Regression Model</h2>
+
+<h3>Description</h3>
+
+<p>Computes the predicted probability of the event of interest at a specified time point for a competing risks regression model fit by <code>crr.fit</code>. This function is adapted from <code>predict.crr</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'cmprsk'
+predict(object, newdata = NULL, time, lps, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>A model fit by <code>crr.fit</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>newdata</code></td>
+<td>
+<p>A <code>data.frame</code> for prediction containing values of covariates in the model. If missing, the model development dataset (<code>object$cphdat</code>) is used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>time</code></td>
+<td>
+<p>A single time point to calculate the failure probability</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lps</code></td>
+<td>
+<p>Should the linear predictor be returned instead of the failure probability? Defaults to <code>FALSE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Additional arguments such as <code>cov2</code> as in <code>crr</code></p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A vector of failure probabilities at the specified time point (or linear predictors if <code>lps=TRUE</code>) with length equal to the number of rows in <code>newdata</code>
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Michael W. Kattan, Ph.D. and Changhong Yu.<br> Department of
+Quantitative Health Sciences, Cleveland Clinic
+</p>
+
+
+<h3>References</h3>
+
+<p><code> Fine JP and Gray RJ (1999)</code> A proportional hazards model
+for the subdistribution of a competing risk.  <code>JASA</code> 94:496-509.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>crr.fit</code>, <code>predict.crr</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">dd &lt;- datadist(prostate.dat)
+options(datadist = "dd")
+prostate.f &lt;- cph(Surv(TIME_EVENT,EVENT_DOD == 1) ~ TX  + rcs(PSA,3) +
+           BX_GLSN_CAT +  CLIN_STG + rcs(AGE,3) +
+           RACE_AA, data = prostate.dat,
+           x = TRUE, y = TRUE, surv = TRUE,time.inc = 144)
+prostate.crr &lt;- crr.fit(prostate.f, cencode = 0, failcode = 1)
+predict(prostate.crr, time = 60)
+
+</code></pre>
+
+
+</div>

@@ -1,0 +1,30 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>SpecDistrWeight-class</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Class for weights to estimate integrated spectral density kernels.</h2>
+
+<h3>Description</h3>
+
+<p><code>SpecDistrWeight</code> is an S4 class that implements a weighting function given
+by
+</p>
+<p style="text-align: center;"><code class="reqn">W_n(\alpha) := I\{\alpha \leq 0\}</code>
+</p>
+<p>.
+</p>
+
+
+<h3>Details</h3>
+
+<p>At position <code>k</code> the value <code class="reqn">W_n(2\pi (k-1)/n</code> is
+stored [in a vector <code>values</code> nested inside <code>env</code>] for <code>k=1,...,T</code>.
+The number <code>length(values)</code> of Fourier frequencies for which
+<code class="reqn">W_n</code> will be evaluated may be set on construction or updated when
+evoking the method <code>getValues</code>.
+</p>
+
+
+</div>

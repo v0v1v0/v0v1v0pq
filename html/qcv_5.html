@@ -1,0 +1,47 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>print.qcv</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Printing Quantifying Construct Validity</h2>
+
+<h3>Description</h3>
+
+<p>Prints key results from the qcv() function
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'qcv'
+print(x, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>object of class "qcv" (i.e., output from the qcv() function</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>More arguments to pass to the print function.</p>
+</td>
+</tr>
+</table>
+<h3>Examples</h3>
+
+<pre><code class="language-R">actrIM  &lt;- c(.46, .13, -.24, -.03, .12, .03, .39, .06, .51, .08, .24, .66)
+predrIM &lt;- c(.58, .24, -.04, .06, -.04, .18, .36, .08, .64, .56, .36, .56)
+imqcvout &lt;- qcv(n=90, actr=actrIM, predr=predrIM, medr=.075)
+print(imqcvout)
+</code></pre>
+
+
+</div>

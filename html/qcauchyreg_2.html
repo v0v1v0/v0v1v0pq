@@ -1,0 +1,71 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>Poverty</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Percentage of extremely poor.</h2>
+
+<h3>Description</h3>
+
+<p>Percentage of extremely poor, by Brazilian municipality for the year 2010. Data made available by <a href="http://www.atlasbrasil.org.br/">http://www.atlasbrasil.org.br/</a>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">data("Poverty")</code></pre>
+
+
+<h3>Format</h3>
+
+<p>A data frame containing 5501 observations on 4 variables.
+</p>
+
+<dl>
+<dt><code>poverty</code></dt>
+<dd>
+<p>Percentage of extremely poor, by Brazilian municipality for the year 2010.</p>
+</dd>
+<dt><code>population</code></dt>
+<dd>
+<p>Total municipal population in 2010, in thousands.</p>
+</dd>
+<dt><code>illiteracy</code></dt>
+<dd>
+<p>Municipal illiteracy rate of people aged 15 or over, in 2010.</p>
+</dd>
+<dt><code>pc_income</code></dt>
+<dd>
+<p>Municipal per capita income (in Brazilian reais), in 2010.</p>
+</dd>
+</dl>
+<h3>Details</h3>
+
+<p>The dataset is available at <a href="http://www.atlasbrasil.org.br/">http://www.atlasbrasil.org.br/</a>. The data refer to 5501 Brazilian municipalities observed in 2010. The dependent variable is the percentage of people in extreme poverty (<code>poverty</code>). Naturally, it is a limited variable that takes values in the unit range. The explanatory variables are total population in thousands of people (<code>population</code>), illiteracy rate of people aged 15 or over (<code>illiteracy</code>) and per capita income in Brazilian reais (<code>pc_income</code>). Municipalities with missing information on any of the variables were excluded from the sample.
+</p>
+
+
+<h3>Source</h3>
+
+<p><a href="http://www.atlasbrasil.org.br/">http://www.atlasbrasil.org.br/</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+data("Poverty", package = "qcauchyreg")
+
+reg &lt;- qcreg(poverty ~ population + illiteracy + pc_income, data = Poverty, npi=50)
+summary(reg)
+reg$effects
+
+plot(reg$pis, type="l")
+
+plot(reg$quantregplot)
+
+</code></pre>
+
+
+</div>

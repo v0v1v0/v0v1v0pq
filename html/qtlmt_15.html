@@ -1,0 +1,242 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>mtcmim</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+MTCMIM
+</h2>
+
+<h3>Description</h3>
+
+<p>Multiple-trait composite multiple-interval mapping.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">mtcmim(y, mpos, mdat, x, xid, dists, a, b, sigma, qtl=NULL,
+   eps=NULL, win=Inf, range=0, pp=1, len=2, init=1,
+   iter=10000,tol=1e-12)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+
+<p>a n by p matrix, whose columns are dependent variables.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mpos</code></td>
+<td>
+
+<p>a data frame (id=marker index, ch=chromosome id, m=marker index on the chromosome, dist=genetic position in cM on the chromosome). Chromosome id should be an integer.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mdat</code></td>
+<td>
+
+<p>a matrix of n rows; marker genotypes (1 or 0). Columns should correspond to markers in the order.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+
+<p>covariates; n by m numerical matrix.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xid</code></td>
+<td>
+
+<p>a list of length p, xid[[j]] specifies columns of x as covariates for y[,j] .
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dists</code></td>
+<td>
+
+<p>a data frame (ch=chromosome id, mid=marker index, d=genetic position in cM on the chromosome); specifies initial QTL locations.  Chromosome id should be an integer.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>a</code></td>
+<td>
+
+<p>initial covariate effects including intercepts (if given).
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>b</code></td>
+<td>
+
+<p>initial QTL effects (if given).
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sigma</code></td>
+<td>
+
+<p>initial residual variance-covariance (if given).
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qtl</code></td>
+<td>
+
+<p>a list of length p (if given); qtl[[j]] specifies qtls for y[,j], which are defined by rows of <code>dists</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>eps</code></td>
+<td>
+
+<p>a data frame (y=which trait,q1=QTL one,q2=QTL two) (if not <code>NULL</code>); specifies epistatic terms.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>win</code></td>
+<td>
+
+<p>window width of search around existing QTL. Ignored if <code>range=0</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>range</code></td>
+<td>
+
+<p>search range: genome-wide (0), the same chromosomes (-1).
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pp</code></td>
+<td>
+
+<p>mapping population: BC-1, RIL-selfing-2, RIL-brother-sister-mating-3.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>len</code></td>
+<td>
+
+<p>step length in search.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>init</code></td>
+<td>
+
+<p>whether <code>a</code>, <code>b</code> and <code>sigma</code> are used as initial values.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>iter</code></td>
+<td>
+
+<p>maximum number of iterations in a numerical process to estimate model parameters.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tol</code></td>
+<td>
+
+<p>convergence tolerance.
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Given the covariates, the number of QTL and epistasis that are specified for each trait, this function searches for the optimal genomic locations of the QTL, and estimates the model parameters.
+</p>
+
+
+<h3>Value</h3>
+
+<p>a list with the following components:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>loglik</code></td>
+<td>
+<p>log-likelihood of the final model</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>a</code></td>
+<td>
+<p>covariate effects</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>b</code></td>
+<td>
+<p>QTL effects</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sigma</code></td>
+<td>
+<p>residual variance-covariance</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qtl</code></td>
+<td>
+<p>QTL for each trait</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>eps</code></td>
+<td>
+<p>epistatic terms</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dists</code></td>
+<td>
+<p>QTL locations</p>
+</td>
+</tr>
+</table>
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(etrait)
+qtl&lt;- vector("list",16); qtl[[1]]&lt;- c(1,2)
+eps&lt;- data.frame(y=1,q1=1,q2=2)
+dists&lt;- dists[c(4,11),]
+x&lt;- mdat - 3/2
+## Not run: 
+o&lt;- mtcmim(traits, mpos, mdat, x, xid, dists, qtl=qtl, eps=eps,
+   win=5, range=-1, pp=2, len=1)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

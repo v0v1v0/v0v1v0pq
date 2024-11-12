@@ -1,0 +1,78 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>MDA</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Mean Difference Analog (MDA or MNDIF)</h2>
+
+<h3>Description</h3>
+
+<p>Computes the mean difference analog (MDA or MNDIF) for a vector of frequencies of
+categories.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">MDA(x, na.rm = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a vector of frequencies</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>na.rm</code></td>
+<td>
+<p>if TRUE, missing values are removed. If FALSE, NA is returned if there is any NA value.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>According to Wilcox (1973, p. 328), the MDA is 'an analog of the mean
+difference, a measure of variation that is discussed and used much less
+frequently than the average deviation or the standard deviation. It is
+defined as "the average of the differences of all the possible pairs of
+variate-values, taken regardless of sign"'. The formula for the MDA is:
+</p>
+<p style="text-align: center;"><code class="reqn">1 - \frac{\sum_{i=1}^{k-1} \sum_{j=i+1}^k |f_i - f_j|}{N(K-1)}</code>
+</p>
+
+
+
+<h3>Value</h3>
+
+<p>The value of the MDA statistics, which is normalised (varies between
+0 and 1).
+</p>
+
+
+<h3>References</h3>
+
+<p>Wilcox, Allen R. 'Indices of Qualitative Variation and Political
+Measurement.' <em>The Western Political Quarterly</em> 26, no. 2 (1 June
+1973): 325-43. doi:10.2307/446831.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">x &lt;- rmultinom(1, 100, rep_len(0.25, 4))
+x &lt;- as.vector(t(x))
+MDA(x)
+
+df &lt;- rmultinom(10, 100, rep_len(0.25, 4))
+df &lt;- as.data.frame(t(df))
+apply(df, 1, MDA)
+</code></pre>
+
+
+</div>

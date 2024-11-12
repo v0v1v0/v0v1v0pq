@@ -1,0 +1,123 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>shifts_by</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Shift Data (i.e., lag/lead) by Group</h2>
+
+<h3>Description</h3>
+
+<p><code>shifts_by</code> shifts rows of data down (<code>n</code> &lt; 0) for lags or up (<code>n</code>
+&gt; 0) for leads replacing the undefined data with a user-defined value (e.g.,
+NA). The number of rows shifted is equal to <code>abs(n)</code>. It is assumed that
+<code>data[vrb.nm]</code> is already sorted within each group by time such that the
+first row for that group is earliest in time and the last row for that group
+is the latest in time. The groups can be specified by multiple columns in
+<code>data</code> (e.g., <code>grp.nm</code> with length &gt; 1), and <code>interaction</code>
+will be implicitly called to create the groups.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">shifts_by(data, vrb.nm, grp.nm, n, undefined = NA, suffix)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>data.frame of data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vrb.nm</code></td>
+<td>
+<p>character vector of colnames from <code>data</code> specifying the
+variables.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>grp.nm</code></td>
+<td>
+<p>character vector of colnames from <code>data</code> specifying the
+groups.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p>integer vector of length 1. Specifies the direction and magnitude of
+the shift. See details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>undefined</code></td>
+<td>
+<p>atomic vector of length 1 (probably makes sense to be the
+same typeof as the vectors in <code>data[vrb.nm]</code>). Specifies what to
+insert for undefined values after the shifting takes place. See details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>suffix</code></td>
+<td>
+<p>character vector of length 1 specifying the string to append to
+the end of the colnames of the return object. The default depends on the
+<code>n</code> argument: 1) if <code>n</code> &lt; 0, then <code>suffix</code> =
+<code>paste0("_gw", -n)</code>, 2) if <code>n</code> &gt; 0, then <code>suffix</code> =
+<code>paste0("_dw", +n)</code>, 3) if <code>n</code> = 0, then <code>suffix</code> = "".</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>If <code>n</code> is negative, then <code>shifts_by</code> inserts <code>undefined</code> into
+the first <code>abs(n)</code> rows of <code>data[vrb.nm]</code> for each group, shifting
+all other rows of <code>x</code> down <code>abs(n)</code> positions, and then dropping
+the last <code>abs(n)</code> row of <code>data[vrb.nm]</code> to preserve the original
+nrow of each group. If <code>n</code> is positive, then <code>shifts_by</code> drops the
+first <code>abs(n)</code> rows of <code>x</code> for each group, shifting all other rows
+of <code>data[vrb.nm]</code> up <code>abs(n)</code> positions, and then inserts
+<code>undefined</code> into the last <code>abs(n)</code> rows of <code>x</code> to preserve the
+original length of each group. If <code>n</code> is zero, then <code>shifts_by</code>
+simply returns <code>data[vrb.nm]</code>.
+</p>
+<p>It is recommended to use <code>L</code> when specifying <code>n</code> to prevent
+problems with floating point numbers. <code>shifts_by</code> tries to circumvent
+this issue by a call to <code>round</code> within <code>shifts_by</code> if <code>n</code> is
+not an integer; however that is not a complete fail safe. The problem is that
+<code>as.integer(n)</code> implicit in <code>shifts_by</code> truncates rather than
+rounds.
+</p>
+
+
+<h3>Value</h3>
+
+<p>data.frame of shifted data by group with colnames specified by
+<code>suffix</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>shift_by</code>
+<code>shifts</code>
+<code>shift</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">shifts_by(data = ChickWeight, vrb.nm = c("weight","Time"), grp.nm = "Chick", n = -1L)
+shifts_by(data = mtcars, vrb.nm = c("disp","mpg"), grp.nm = c("vs","am"), n = 1L)
+shifts_by(data = as.data.frame(CO2), vrb.nm = c("conc","uptake"),
+   grp.nm = c("Type","Treatment"), n = 2L) # multiple grouping columns
+</code></pre>
+
+
+</div>

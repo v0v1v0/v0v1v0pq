@@ -1,0 +1,169 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>Variance and effect size</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Effect size, proportion variance explained, and error variance
+calculations</h2>
+
+<h3>Description</h3>
+
+<p>The function <code>error.var</code> estimates the error variance using
+estimates of the environmental variance and genetic variance.  The effect
+segregating at a locus, can be calculated using <code>gmeans2effect</code>
+These are key inputs for power calculations.  The function
+<code>prop.var</code> calculates the proportion of variance explained by a
+locus given the effect size and error variance.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">error.var(cross,env.var=1,gen.var=0,bio.reps=1)
+gmeans2effect(cross,means)
+prop.var(cross,effect,sigma2)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>cross</code></td>
+<td>
+<p>String indicating cross type which is "bc", for
+backcross, "f2" for intercross, and "ri" for recombinant inbred lines.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>env.var</code></td>
+<td>
+<p>Environmental (within genotype) variance</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gen.var</code></td>
+<td>
+<p>Genetic (between genotype) variance due to all loci
+segregating between the parental lines.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bio.reps</code></td>
+<td>
+<p>Number of biological replicates per unique genotype.
+This is usually 1 for backcross and intercross, but may be larger
+for RI lines.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>means</code></td>
+<td>
+<p>Vector of genotype means in the form <code>c(a,h,b)</code>,
+where <code>a</code> is the mean of the "AA" homozygotes, <code>h</code> is
+the mean of the "AB" heterozygotes, and <code>b</code> is the mean of the
+"BB" homozygotes.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>effect</code></td>
+<td>
+<p>The QTL effect which depends on the cross.  For
+backcross, it is the difference in means the heterozygote and
+homozygote.  For RI lines it is half the difference in means of the
+homozygotes, for intercross, it is a two component vector of the form
+<code>c(a,d)</code>, where <code>a</code> is the additive effect (half the
+difference between the homozygotes), and <code>d</code> is the dominance
+effect (difference between the heterozygote and the average of the
+homozygotes). The genotype means will be <code>-a-d/2</code>, <code>d/2</code>,
+and <code>a-d/2.</code> </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sigma2</code></td>
+<td>
+<p>Error variance.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The function <code>error.var</code> estimates the error variance
+segregating in a cross using estimates of the environmental (within
+genotype) variance, and the genetic (between genotype variance).  The
+environmental variance is assumed to be invariant between cross types.
+The genetic variance segregating in RI lines is assumed to be double
+that in F2 intercross, and four times that of the backcross.  This
+assumption  holds if all loci are additive.  The error variance at a
+locus of interest is aproximately </p>
+<p style="text-align: center;"><code class="reqn">\sigma_G^2/c + \sigma_E^2/m,</code>
+</p>
+
+<p>where <code class="reqn">\sigma_G^2</code> is the genetic variance
+(<code>gen.var</code>), <code class="reqn">c</code> is a
+constant depending on the cross type (1, for RI lines, 1/2 for F2
+intercross, and 1/4 for backross), <code class="reqn">\sigma_E^2</code> is the
+environmental
+variance (<code>env.var</code>), and <code class="reqn">m</code> is the number of biological
+replicates per unique genotype (<code>bio.reps</code>).
+</p>
+<p>The function <code>gmeans2effect</code> calculates the QTL effects from
+genotype means depending on the cross.
+</p>
+<p>The function <code>prop.var</code> calculates the proportion of variance
+attributable to a locus given the effects size(s) and the error
+variance.  The definition of effect size is in the output of
+<code>gmeans2effect</code> (see below).
+</p>
+
+
+<h3>Value</h3>
+
+<p>For <code>error.var</code> the value is the estimated error variance
+based on the assumptions mentioned above.  For <code>gmeans2effect</code>
+the value depends on the type of cross.  For RI lines it is simply the
+additive effect of the QTL which is half the difference between the
+homozygote means.  For intercross, it is a vector giving the additive and
+dominance components.  The additive component is half the difference
+between the homozygote means, and the dominance component is the
+difference between the heterozygotes and the average of the
+homozygotes.  For the backcross, it is a vector of length 2,
+<code>c(a-h,h-b)</code>, which is the effect of an allelic substitution of
+an "A" allele in the backcrosses to each parental strain. </p>
+
+
+<h3>Author(s)</h3>
+
+<p>Saunak Sen, Jaya Satagopan, Karl Broman, and Gary Churchill</p>
+
+
+<h3>References</h3>
+
+<p>Sen S, Satagopan JM, Churchill GA (2005) 	
+Quantitative trait locus study design from an information perspective.
+Genetics, 170:447-64.</p>
+
+
+<h3>See Also</h3>
+
+<p><code>powercalc</code></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">error.var(cross="bc",env.var=1,gen.var=1,bio.reps=1)
+error.var(cross="f2",env.var=1,gen.var=1,bio.reps=1)
+error.var(cross="ri",env.var=1,gen.var=1,bio.reps=1)
+error.var(cross="ri",env.var=1,gen.var=1,bio.reps=10)
+gmeans2effect(cross="f2",means=c(0,1,2))
+gmeans2effect(cross="f2",means=c(0,1,1))
+gmeans2effect(cross="bc",means=c(0,1,1))
+gmeans2effect(cross="ri",means=c(0,1,1))
+prop.var(cross="bc",effect=5,sigma2=1)
+prop.var(cross="f2",effect=c(5,0),sigma2=1)
+prop.var(cross="ri",effect=5,sigma2=1)
+</code></pre>
+
+
+</div>

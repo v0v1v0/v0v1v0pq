@@ -1,0 +1,155 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>IPWE_Qopt_DepCen_general</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Estimate Quantile-optimal Treatment Regime for covariates-dependent random censoring data</h2>
+
+<h3>Description</h3>
+
+<p>This function estimates the Quantile-optimal Treatment Regime 
+for a given quantile level of interest
+under the
+assumption that the distribution of censoring time is independent of the set of potential
+survival times given a set of baseline covariates and treatment actually received.
+</p>
+<p>More specifically, we do stratification by treatment first and then
+used kernel smoothing to estimate local survival function of censoring time
+for each treatment group.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">IPWE_Qopt_DepCen_general(data, regimeClass, tau, Domains = NULL, bw,
+  moPropen = "BinaryRandom", DepCens = NULL, UseTrueG = FALSE,
+  trueG_value = NULL, cluster = FALSE, p_level = 1, s.tol = 1e-05,
+  it.num = 8, pop.size = 5000)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>raw data.frame</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>regimeClass</code></td>
+<td>
+<p>the class of treatment regimes. e.g., 'txname ~ x1+x2'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tau</code></td>
+<td>
+<p>the quantile of interest</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Domains</code></td>
+<td>
+<p>default is NULL.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bw</code></td>
+<td>
+<p>the bandwidth of local KM model (e.g. see Wang-wang 2008)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>moPropen</code></td>
+<td>
+<p>an optional string for the working model of treatment assignment</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>DepCens</code></td>
+<td>
+<p>an optional vector of baseline variable names that the censoring variable 
+depends on. Note that
+the treatment variable is always treated as dependent with the censoring time. 
+If unspecified (<code>DepCens=NULL</code>), then all variables on the right side of 
+<code>regimeClass</code> are used for <code>DepCens</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>UseTrueG</code></td>
+<td>
+<p>logical. Whether the true survival probability of each patient is provided.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>trueG_value</code></td>
+<td>
+<p>default is NULL. 
+IF <code>UseTrueG=FALSE</code>, <code>trueG_value</code> should be <code>NULL</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cluster</code></td>
+<td>
+<p>default is FALSE. This can also be an object of the 'cluster' class 
+returned by one of the makeCluster commands in the parallel package or
+a vector of machine names so rgenoud::genoud can setup the cluster automatically.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p_level</code></td>
+<td>
+<p>print level</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>s.tol</code></td>
+<td>
+<p>tolerance level</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>it.num</code></td>
+<td>
+<p>the maximum iteration number</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pop.size</code></td>
+<td>
+<p>the initial population size</p>
+</td>
+</tr>
+</table>
+<h3>Examples</h3>
+
+<pre><code class="language-R">GenerateData &lt;- function(n)
+{
+  x1 &lt;- runif(n, min=-0.5,max=0.5)
+  x2 &lt;- runif(n, min=-0.5,max=0.5)
+  error &lt;- rnorm(n, sd= 1)
+  ph &lt;- exp(-0.5+1*(x1+x2))/(1+exp(-0.5 + 1*(x1+x2)))
+  a &lt;- rbinom(n = n, size = 1, prob=ph)
+  c &lt;- 1.5 +  + runif(n = n, min=0, max=2)
+  cmplt_y &lt;-  pmin(2+x1+x2 +  a*(1 - x1 - x2) +  (0.2 + a*(1+x1+x2)) * error, 4.4)
+  censor_y &lt;- pmin(cmplt_y, c)
+  delta &lt;- as.numeric(c &gt; cmplt_y)
+  return(data.frame(x1=x1,x2=x2,a=a, censor_y = censor_y, delta=delta))
+}
+
+                        
+          
+
+n &lt;- 400
+data &lt;- GenerateData(n)
+fit1 &lt;- IPWE_Qopt_DepCen_general(data = data, regimeClass = a~x1+x2, moPropen = a~x1+x2,
+                                 tau = 0.2, bw = 20/n, 
+                                 pop.size=3000, it.num = 3)
+                                 
+</code></pre>
+
+
+</div>

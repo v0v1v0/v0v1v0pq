@@ -1,0 +1,89 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>bSplinesData</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Centile curves using B-splines compared to noise data</h2>
+
+<h3>Description</h3>
+
+<p>Centile curves using B-splines compared to noise data
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">bSplinesData(
+  x,
+  y,
+  lambdas,
+  data,
+  cents = c(0.03, 0.25, 0.5, 0.75, 0.97),
+  leg = FALSE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>the explanatory variable - numeric</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>the response variable - numeric</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lambdas</code></td>
+<td>
+<p>to be set by user. Can be a vector or a single numeric value. Tunes the tradeoff between the goodness of fit and the regularity of the spline - numeric value or numeric vector</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>the noise data to be compared to</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cents</code></td>
+<td>
+<p>A numeric vector that represents the centiles calculated. Default is set to cents=c(0.03,0.25,0.5,0.75,0.97))</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>leg</code></td>
+<td>
+<p>Boolean. Should the legend be desplayed (TRUE) or not (FALSE).</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Plots centile curves with B-splines of different differential orders (d) and displays them on the same figure as the noise data
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">#create a sample data frame
+sample&lt;-data.frame(sample(30:42,30,rep=TRUE),sample(800:5000,30,rep=TRUE))
+colnames(sample)&lt;-c("Gestational Age in weeks","Weight in gramms")
+x&lt;-sample$`Gestational Age in weeks`
+y&lt;-sample$`Weight in gramms`
+abnormal&lt;-data.frame(sample(30:42,6,rep=TRUE),sample(800:5000,6,rep=TRUE))
+colnames(abnormal)&lt;-c("Gestational Age in weeks","Weight in gramms")
+bSplinesData(x,y,lambdas=1,abnormal)
+
+
+</code></pre>
+
+
+</div>

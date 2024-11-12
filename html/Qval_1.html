@@ -1,0 +1,380 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>CDM</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Parameter estimation for cognitive diagnosis models (CDMs) by MMLE/EM or MMLE/BM algorithm.</h2>
+
+<h3>Description</h3>
+
+<p>A function to estimate parameters for cognitive diagnosis models by MMLE/EM (de la Torre, 2009; de la Torre, 2011)
+or MMLE/BM (Ma &amp; Jiang, 2020) algorithm.The function imports various functions from the <code>GDINA</code> package,
+parameter estimation for Cognitive Diagnostic Models was performed and extended. The <code>CDM</code> function not
+only accomplishes parameter estimation for most commonly used models ( <code>GDINA</code>, <code>DINA</code>, <code>DINO</code>,
+<code>ACDM</code>, <code>LLM</code>, or <code>rRUM</code>) but also facilitates parameter estimation for the <code>LCDM</code>
+model (Henson, Templin, &amp; Willse, 2008; Tu et al., 2022). Furthermore, it incorporates Bayes modal estimation
+(BM; Ma &amp; Jiang, 2020) to obtain more reliable estimation results, especially in small sample sizes.
+The monotonic constraints are able to be satisfied.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">CDM(
+  Y,
+  Q,
+  model = "GDINA",
+  method = "EM",
+  mono.constraint = TRUE,
+  maxitr = 2000,
+  verbose = 1
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>Y</code></td>
+<td>
+<p>A required <code>N</code> × <code>I</code> matrix or data.frame consisting of the responses of <code>N</code> individuals
+to × <code>I</code> items. Missing values need to be coded as <code>NA</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Q</code></td>
+<td>
+<p>A required binary <code>I</code> × <code>K</code> containing the attributes not required or required, 0 or 1, to
+master the items. The <code>i</code>th row of the matrix is a binary indicator vector indicating which
+attributes are not required (coded by 0) and which attributes are required (coded by 1) to master
+item <code>i</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>model</code></td>
+<td>
+<p>Type of model to be fitted; can be <code>"GDINA"</code>, <code>"LCDM"</code>, <code>"DINA"</code>, <code>"DINO"</code>, <code>"ACDM"</code>,
+<code>"LLM"</code>, or <code>"rRUM"</code>. Default = <code>"GDINA"</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+<p>Type of mtehod to estimate CDMs' parameters; one out of <code>"EM"</code>, <code>"BM"</code>. Default = <code>"EM"</code>
+However, <code>"BM"</code> is only avaible when <code>method = "GDINA"</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mono.constraint</code></td>
+<td>
+<p>Logical indicating whether monotonicity constraints should be fulfilled in estimation.
+Default = <code>TRUE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>maxitr</code></td>
+<td>
+<p>A vector for each item or nonzero category, or a scalar which will be used for all items
+to specify the maximum number of EM or BM cycles allowed. Default = <code>2000</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p>Can be <code>0</code>, <code>1</code> or <code>2</code>, indicating to print no information, information
+for current iteration, or information for all iterations. Default = <code>1</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>CDMs are statistical models that fully integrates cognitive structure variables, which define the response
+probability of subjects on questions by assuming the mechanism of action between attributes. In the
+dichotomous test, this probability is the probability of answering correctly. According to the specificity
+or generality of CDM assumptions, it can be divided into reduced CDM and saturated CDM.
+</p>
+<p>Reduced CDMs possess special and strong assumptions about the mechanisms of attribute interactions, leading
+to clear interactions between attributes. Representative reduced models include the Deterministic Input,
+Noisy and Gate (DINA) model (Haertel, 1989; Junker &amp; Sijtsma, 2001; de la Torre &amp; Douglas, 2004), the
+Deterministic Input, Noisy or Gate (DINO) model (Templin &amp; Henson, 2006), and the Additive Cognitive Diagnosis
+Model (A-CDM; de la Torre, 2011), the reduced Reparametrized Unified Model (r-RUM; Hartz, 2002), among others.
+Compared to reduced models, saturated models do not have strict assumptions about the mechanisms of attribute
+interactions. When appropriate constraints are applied, they can be transformed into various reduced models
+(Henson et al., 2008; de la Torre, 2011), such as the Log-Linear Cognitive Diagnosis Model (LCDM; Henson et
+al., 2009) and the general Deterministic Input, Noisy and Gate model (G-DINA; de la Torre, 2011).
+</p>
+<p>The LCDM (Log-Linear Cognitive Diagnosis Model) is a saturated CDM fully proposed within the framework of
+cognitive diagnosis. Unlike simplified models that only discuss the main effects of attributes, it also
+considers the interactions between attributes, thus having more generalized assumptions about attributes.
+Its definition of the probability of correct response is as follows:
+</p>
+<p style="text-align: center;"><code class="reqn">
+   P(X_{pi}=1|\mathbf{\alpha}_{l}) =
+   \frac{\exp(\lambda_{i0} + \mathbf{\lambda}_{i}^{T} \mathbf{h} (\mathbf{q_{i}}, \mathbf{\alpha_{l}}))}
+   {1 + \exp(\lambda_{i0} + \mathbf{\lambda}_{i}^{T} \mathbf{h}(\mathbf{q_{i}}, \mathbf{\alpha_{l}}))}
+</code>
+</p>
+
+<p style="text-align: center;"><code class="reqn">
+   \mathbf{\lambda}_{i}^{T} \mathbf{h}(\mathbf{q_{i}}, \mathbf{\alpha_{l}}) =
+   \lambda_{i0} + \sum_{k=1}^{K^\ast}\lambda_{ik}\alpha_{lk} +\sum_{k=1}^{K^\ast-1}\sum_{k'=k+1}^{K^\ast}
+   \lambda_{ik}\lambda_{ik'}\alpha_{lk}\alpha_{lk'} +
+   \cdots + \lambda_{12 \cdots K^\ast}\prod_{k=1}^{K^\ast}\alpha_{lk}
+</code>
+</p>
+
+<p>Where, <code class="reqn">P(X_{pi}=1|\mathbf{\alpha}_{l})</code> represents the probability of a subject with attribute mastery
+pattern <code class="reqn">\mathbf{\alpha}_{l}</code>, where <code class="reqn">l=1,2,\cdots,L</code> and <code class="reqn">L=2^{K^\ast}</code>, correctly answering
+item i.
+Here, <code class="reqn">K^\ast</code> denotes the number of attributes in the collapsed q-vector, <code class="reqn">\lambda_{i0}</code> is the
+intercept parameter, and <code class="reqn">\mathbf{\lambda}_{i}=(\lambda_{i1}, \lambda_{i2}, \cdots, \lambda_{i12},
+\cdots, \lambda_{i12{\cdots}K^\ast})</code> represents the effect vector of the attributes. Specifically,
+<code class="reqn">\lambda_{ik}</code> is the main effect of attribute <code class="reqn">k</code>, <code class="reqn">\lambda_{ikk'}</code> is the interaction effect between
+attributes <code class="reqn">k</code> and <code class="reqn">k'</code>, and <code class="reqn">\lambda_{j12{\cdots}K}</code> represents the interaction effect of all attributes.
+</p>
+<p>The general Deterministic Input, Noisy and Gate model (G-DINA), proposed by de la Torre (2011), is a saturated
+model that offers three types of link functions: identity link, log link, and logit link, which are defined as follows:
+</p>
+<p style="text-align: center;"><code class="reqn">P(X_{pi}=1|\mathbf{\alpha}_{l}) =
+   \delta_{i0} + \sum_{k=1}^{K^\ast}\delta_{ik}\alpha_{lk} +\sum_{k=1}^{K^\ast-1}\sum_{k'=k+1}^{K^\ast}\delta_{ik}\delta_{ik'}\alpha_{lk}\alpha_{lk'} +
+   \cdots + \delta_{12{\cdots}K^\ast}\prod_{k=1}^{K^\ast}\alpha_{lk}
+</code>
+</p>
+
+<p style="text-align: center;"><code class="reqn">log(P(X_{pi}=1|\mathbf{\alpha}_{l})) =
+   v_{i0} + \sum_{k=1}^{K^\ast}v_{ik}\alpha_{lk} +\sum_{k=1}^{K^\ast-1}\sum_{k'=k+1}^{K^\ast}v_{ik}v_{ik'}\alpha_{lk}\alpha_{lk'} +
+   \cdots + v_{12{\cdots}K^\ast}\prod_{k=1}^{K^\ast}\alpha_{lk}
+</code>
+</p>
+
+<p style="text-align: center;"><code class="reqn">logit(P(X_{pi}=1|\mathbf{\alpha}_{l})) =
+   \lambda_{i0} + \sum_{k=1}^{K^\ast}\lambda_{ik}\alpha_{lk} +\sum_{k=1}^{K^\ast-1}\sum_{k'=k+1}^{K^\ast}\lambda_{ik}\lambda_{ik'}\alpha_{lk}\alpha_{lk'} +
+   \cdots + \lambda_{12{\cdots}K^\ast}\prod_{k=1}^{K^\ast}\alpha_{lk}
+</code>
+</p>
+
+<p>Where <code class="reqn">\delta_{i0}</code>, <code class="reqn">v_{i0}</code>, and <code class="reqn">\lambda_{i0}</code> are the intercept parameters for the three
+link functions, respectively; <code class="reqn">\delta_{ik}</code>, <code class="reqn">v_{ik}</code>, and <code class="reqn">\lambda_{ik}</code> are the main effect
+parameters of <code class="reqn">\alpha_{lk}</code> for the three link functions, respectively; <code class="reqn">\delta_{ikk'}</code>, <code class="reqn">v_{ikk'}</code>,
+and <code class="reqn">\lambda_{ikk'}</code> are the interaction effect parameters between <code class="reqn">\alpha_{lk}</code> and <code class="reqn">\alpha_{lk'}</code>
+for the three link functions, respectively; and <code class="reqn">\delta_{i12{\cdots }K^\ast}</code>, <code class="reqn">v_{i12{\cdots}K^\ast}</code>,
+and <code class="reqn">\lambda_{i12{\cdots}K^\ast}</code> are the interaction effect parameters of <code class="reqn">\alpha_{l1}{\cdots}\alpha_{lK^\ast}</code>
+for the three link functions, respectively. It can be observed that when the logit link is adopted, the
+G-DINA model is equivalent to the LCDM model.
+</p>
+<p>Specifically, the A-CDM can be formulated as:
+</p>
+<p style="text-align: center;"><code class="reqn">P(X_{pi}=1|\mathbf{\alpha}_{l}) =
+   \delta_{i0} + \sum_{k=1}^{K^\ast}\delta_{ik}\alpha_{lk}
+</code>
+</p>
+
+<p>The RRUM, can be written as:
+</p>
+<p style="text-align: center;"><code class="reqn">log(P(X_{pi}=1|\mathbf{\alpha}_{l})) =
+   \lambda_{i0} + \sum_{k=1}^{K^\ast}\lambda_{ik}\alpha_{lk}
+</code>
+</p>
+
+<p>The item response function for LLM can be given by:
+</p>
+<p style="text-align: center;"><code class="reqn">logit(P(X_{pi}=1|\mathbf{\alpha}_{l})) =
+   \lambda_{i0} + \sum_{k=1}^{K^\ast}\lambda_{ik}\alpha_{lk}
+</code>
+</p>
+
+<p>In the DINA model, every item is characterized by two key parameters: guessing (g) and slip (s). Within
+the traditional framework of DINA model parameterization, a latent variable <code class="reqn">\eta</code>, specific to
+individual <code class="reqn">p</code> who has the attribute mastery pattern <code class="reqn">\alpha_{l}</code> and item <code class="reqn">i</code>, is defined as follows:
+</p>
+<p style="text-align: center;"><code class="reqn">
+   \eta_{li}=\prod_{k=1}^{K}\alpha_{lk}^{q_{ik}}
+</code>
+</p>
+
+<p>If individual <code class="reqn">p</code> who has the attribute mastery pattern <code class="reqn">\alpha_{l}</code> has acquired every attribute
+required by item i, <code class="reqn">\eta_{pi}</code> is given a value of 1. If not, <code class="reqn">\eta_{pi}</code> is set to 0. The
+DINA model's item response function can be concisely formulated as such:
+</p>
+<p style="text-align: center;"><code class="reqn">P(X_{pi}=1|\mathbf{\alpha}_{l}) =
+   (1-s_j)^{\eta_{li}}g_j^{(1-\eta_{li})} =
+   \delta_{i0}+\delta_{i12{\cdots}K}\prod_{k=1}^{K^\ast}\alpha_{lk}
+</code>
+</p>
+
+<p>In contrast to the DINA model, the DINO model suggests that an individual can correctly respond to
+an item if they have mastered at least one of the item's measured attributes. Additionally, like the
+DINA model, the DINO model also accounts for parameters related to guessing and slipping. Therefore,
+the main difference between DINO and DINA lies in their respective <code class="reqn">\eta_{pi}</code> formulations. The
+DINO model can be given by:
+</p>
+<p style="text-align: center;"><code class="reqn">\eta_{li} = 1-\prod_{k=1}^{K}(1 - \alpha_{lk})^{q_{lk}}</code>
+</p>
+
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>CDM.obj</code> is a <code>list</code> containing the following components:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>analysis.obj</code></td>
+<td>
+<p>An <code>GDINA</code> object gained from <code>GDINA</code> package or an <code>list</code> after BM algorithm,
+depending on which estimation is used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>alpha</code></td>
+<td>
+<p>Individuals' attribute parameters caculated by EAP method (Huebner &amp; Wang, 2011)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>P.alpha.Xi</code></td>
+<td>
+<p>Individual posterior</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>alpha.P</code></td>
+<td>
+<p>Individuals' marginal mastery probabilities matrix (Tu et al., 2022)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>P.alpha</code></td>
+<td>
+<p>Attribute prior weights for calculating marginalized likelihood in the last iteration</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>model.fit</code></td>
+<td>
+<p>Some basic model-fit indeces, including <code class="reqn">Deviance</code>, <code class="reqn">npar</code>, <code class="reqn">AIC</code>, <code class="reqn">BIC</code></p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Haijiang Qin &lt;Haijiang133@outlook.com&gt;
+</p>
+
+
+<h3>References</h3>
+
+<p>de la Torre, J. (2009). DINA Model and Parameter Estimation: A Didactic. Journal of Educational and Behavioral Statistics, 34(1), 115-130. DOI: 10.3102/1076998607309474.
+</p>
+<p>de la Torre, J., &amp; Douglas, J. A. (2004). Higher-order latent trait models for cognitive diagnosis. Psychometrika, 69(3), 333-353. DOI: 10.1007/BF02295640.
+</p>
+<p>de la Torre, J. (2011). The Generalized DINA Model Framework. Psychometrika, 76(2), 179-199. DOI: 10.1007/s11336-011-9207-7.
+</p>
+<p>Haertel, E. H. (1989). Using restricted latent class models to map the skill structure of achievement items. Journal of Educational Measurement, 26(4), 301-323. DOI: 10.1111/j.1745-3984.1989.tb00336.x.
+</p>
+<p>Hartz, S. M. (2002). A Bayesian framework for the unified model for assessing cognitive abilities: Blending theory with practicality (Unpublished doctoral dissertation). University of Illinois at Urbana-Champaign.
+</p>
+<p>Henson, R. A., Templin, J. L., &amp; Willse, J. T. (2008). Defining a Family of Cognitive Diagnosis Models Using Log-Linear Models with Latent Variables. Psychometrika, 74(2), 191-210. DOI: 10.1007/s11336-008-9089-5.
+</p>
+<p>Huebner, A., &amp; Wang, C. (2011). A note on comparing examinee classification methods for cognitive diagnosis models. Educational and Psychological Measurement, 71, 407-419. DOI: 10.1177/0013164410388832.
+</p>
+<p>Junker, B. W., &amp; Sijtsma, K. (2001). Cognitive assessment models with few assumptions, and connections with nonparametric item response theory. Applied Psychological Measurement, 25(3), 258-272. DOI: 10.1177/01466210122032064.
+</p>
+<p>Ma, W., &amp; Jiang, Z. (2020). Estimating Cognitive Diagnosis Models in Small Samples: Bayes Modal Estimation and Monotonic Constraints. Applied Psychological Measurement, 45(2), 95-111. DOI: 10.1177/0146621620977681.
+</p>
+<p>Templin, J. L., &amp; Henson, R. A. (2006). Measurement of psychological disorders using cognitive diagnosis models. Psychological methods, 11(3), 287-305. DOI: 10.1037/1082-989X.11.3.287.
+</p>
+<p>Tu, D., Chiu, J., Ma, W., Wang, D., Cai, Y., &amp; Ouyang, X. (2022). A multiple logistic regression-based (MLR-B) Q-matrix validation method for cognitive diagnosis models: A confirmatory approach. Behavior Research Methods. DOI: 10.3758/s13428-022-01880-x.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>validation</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">################################################################
+#                           Example 1                          #
+#            fit using MMLE/EM to fit the GDINA models         #
+################################################################
+set.seed(123)
+
+library(Qval)
+
+## generate Q-matrix and data to fit
+K &lt;- 5
+I &lt;- 30
+example.Q &lt;- sim.Q(K, I)
+IQ &lt;- list(
+  P0 = runif(I, 0.0, 0.2),
+  P1 = runif(I, 0.8, 1.0)
+)
+example.data &lt;- sim.data(Q = example.Q, N = 500, IQ = IQ,
+                         model = "GDINA", distribute = "horder")
+
+
+## using MMLE/EM to fit GDINA model
+example.CDM.obj &lt;- CDM(example.data$dat, example.Q, model = "GDINA",
+                       method = "EM", maxitr = 2000, verbose = 1)
+
+
+
+################################################################
+#                           Example 2                          #
+#               fit using MMLE/BM to fit the DINA              #
+################################################################
+set.seed(123)
+
+library(Qval)
+
+## generate Q-matrix and data to fit
+K &lt;- 5
+I &lt;- 30
+example.Q &lt;- sim.Q(K, I)
+IQ &lt;- list(
+  P0 = runif(I, 0.0, 0.2),
+  P1 = runif(I, 0.8, 1.0)
+)
+example.data &lt;- sim.data(Q = example.Q, N = 500, IQ = IQ,
+                         model = "DINA", distribute = "horder")
+
+
+## using MMLE/EM to fit GDINA model
+example.CDM.obj &lt;- CDM(example.data$dat, example.Q, model = "GDINA",
+                       method = "BM", maxitr = 1000, verbose = 2)
+
+
+################################################################
+#                           Example 3                          #
+#              fit using MMLE/EM to fit the ACDM               #
+################################################################
+set.seed(123)
+
+library(Qval)
+
+## generate Q-matrix and data to fit
+K &lt;- 5
+I &lt;- 30
+example.Q &lt;- sim.Q(K, I)
+IQ &lt;- list(
+  P0 = runif(I, 0.0, 0.2),
+  P1 = runif(I, 0.8, 1.0)
+)
+example.data &lt;- sim.data(Q = example.Q, N = 500, IQ = IQ,
+                         model = "ACDM", distribute = "horder")
+
+
+## using MMLE/EM to fit GDINA model
+example.CDM.obj &lt;- CDM(example.data$dat, example.Q, model = "ACDM",
+                       method = "EM", maxitr = 2000, verbose = 1)
+
+
+</code></pre>
+
+
+</div>

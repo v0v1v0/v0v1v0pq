@@ -1,0 +1,133 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>clipcopy</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Transform an object into HTML and copy it for export</h2>
+
+<h3>Description</h3>
+
+<p>This function transforms its argument to HTML with knitr::kable and
+then copy it to the clipboard or to a file for later use in an
+external application.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">clipcopy(obj, ...)
+
+## Default S3 method:
+clipcopy(
+  obj,
+  append = FALSE,
+  file = FALSE,
+  filename = "temp.html",
+  clipboard.size = 4096,
+  ...
+)
+
+## S3 method for class 'proptab'
+clipcopy(obj, percent = NULL, digits = NULL, justify = "right", ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>obj</code></td>
+<td>
+<p>object to be copied</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>arguments passed to <code>knitr::kable</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>append</code></td>
+<td>
+<p>if TRUE, append to the file instead of replacing it</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>file</code></td>
+<td>
+<p>if TRUE, export to a file instead of the clipboard</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>filename</code></td>
+<td>
+<p>name of the file to export to</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>clipboard.size</code></td>
+<td>
+<p>under Windows, size of the clipboard in kB</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>percent</code></td>
+<td>
+<p>whether to add a percent sign in each cell</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>digits</code></td>
+<td>
+<p>number of digits to display</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>justify</code></td>
+<td>
+<p>justification</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Under Linux, this function requires that <code>xclip</code> is
+installed on the system to copy to the clipboard.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>NULL</code>
+</p>
+<p><code>NULL</code>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>kable</code>, <code>format.proptab</code>
+</p>
+<p><code>clipcopy</code>, <code>format.proptab</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(iris)
+tab &lt;- table(cut(iris$Sepal.Length, 8), cut(iris$Sepal.Width, 4))
+## Not run: 
+copie(tab)
+
+## End(Not run)
+ptab &lt;- rprop(tab, percent = TRUE)
+## Not run: 
+clipcopy(ptab)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

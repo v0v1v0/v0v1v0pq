@@ -1,0 +1,70 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qreg.hit</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Quantile Hit</h2>
+
+<h3>Description</h3>
+
+<p>Returns the matrix of quantil-hits
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qreg.hit(DATA1, DATA2, vecA)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>DATA1</code></td>
+<td>
+<p>An input matrix (T x p1+1) with the first column of the dependent varaible and the the rest of columns with regressors</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>DATA2</code></td>
+<td>
+<p>An input matrix (T x p2+1) with the first column of the dependent varaible and the the rest of columns with regressors</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vecA</code></td>
+<td>
+<p>A vector of probabilty values at which sample quantiles are estimated</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>This function generates the quantile hits based on quantile regression,
+given a vector of probabilty values. The quantile regressions are esimated
+for each matrix of data and a pair of quantile hits are produced.
+</p>
+
+
+<h3>Value</h3>
+
+<div class="sourceCode"><pre> A matrix of quantile-hits
+</pre></div>
+
+
+<h3>Author(s)</h3>
+
+<p>Heejoon Han, Oliver Linton, Tatsushi Oka and Yoon-Jae Whang
+</p>
+
+
+<h3>References</h3>
+
+<p>Koenker, R., and Bassett Jr, G. (1978).
+"Regression quantiles." Econometrica, 46(1), 33-50.
+</p>
+
+
+</div>

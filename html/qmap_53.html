@@ -1,0 +1,85 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>obsprecip</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Daily precipitation data at three locations in Norway.</h2>
+
+<h3>Description</h3>
+
+<p>Observed (<code>obsprecip</code>) and simulated (<code>modprecip</code>) daily
+precipitation data for three locations in Norway covering the 1961 -
+1990 period.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">data(obsprecip)
+data(modprecip)
+</code></pre>
+
+
+<h3>Format</h3>
+
+<p>Data frame(s) with rows representing days and with the following 3 variables.
+</p>
+
+<dl>
+<dt><code>MOSS</code></dt>
+<dd>
+<p>Daily Precipitation at Moss [mm/day]</p>
+</dd>
+<dt><code>GEIRANGER</code></dt>
+<dd>
+<p>Daily Precipitation at Geiranger [mm/day]</p>
+</dd>
+<dt><code>BARKESTAD</code></dt>
+<dd>
+<p>Daily Precipitation at Barkestad [mm/day]</p>
+</dd>
+</dl>
+<h3>Details</h3>
+
+<p>The time series in <code>obsprecip</code> stem from the observation-system
+of the Norwegian Meteorological Institute.
+</p>
+<p>The time series in <code>modprecip</code> are based on simulations of
+HIRHAM2/NorACIA regional climate model forced with simulation the
+HadAM3H. The simulation setup is further described in Forland et
+al. 2011. The simulations are free-running and there is consequently
+no direct correspondence in the temporal evolution of <code>modprecip</code>
+and <code>obsprecip</code>.
+</p>
+<p>NOTE that all months in the modelled data (<code>modprecip</code>) have 30
+days (in contrast to the observations (<code>obsprecip</code>) which have
+true calender days. 
+</p>
+
+
+<h3>Source</h3>
+
+<p>The observations are taken form the observation network of the
+Norwegian meteorological institute (<a href="www.met.no">www.met.no</a>). The data are
+available for download at <a href="http://eklima.met.no">http://eklima.met.no</a>.
+</p>
+
+
+<h3>References</h3>
+
+<p>Forland, E. J.; Benestad, R.; Hanssen-Bauer, I.; Haugen, J. E. &amp;
+Skaugen, T. E. Temperature and Precipitation Development at Svalbard 
+1900-2100. Advances in Meteorology, 2011, Volume 2011, 893790, doi:
+10.1155/2011/893790.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(obsprecip)
+data(modprecip)
+</code></pre>
+
+
+</div>

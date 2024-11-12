@@ -1,0 +1,56 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>getScaleCoef</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Extract scaling coefficients from vector returned by <code>scale()</code>
+</h2>
+
+<h3>Description</h3>
+
+<p>The function <code>scale()</code> replaces <code>x</code> by <code>(x-a)/b</code>,
+where <code>a</code> is <code>mean(x)</code> and <code>b</code> is <code>sd(x)</code>.
+The quantities <code>a</code> and <code>b</code> are available as attributes
+of the object that is returned.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">getScaleCoef(z)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>z</code></td>
+<td>
+<p>Object returned by <code>scale()</code></p>
+</td>
+</tr></table>
+<h3>Details</h3>
+
+<p>Use of a scaled explanatory variable can be helpful in getting a
+model to fit.  The scaling coefficient(s) will then be needed when
+the fitted model is used with explanatory variable values on the
+original scale.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A vector, whose elements are the scaling coefficients
+<code>a</code> and <code>b</code>, or if <code>scale=FALSE</code> then <code>a</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">z &lt;- scale(1:10)
+qra::getScaleCoef(z)
+</code></pre>
+
+
+</div>

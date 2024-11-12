@@ -1,0 +1,482 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>minimize</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Minimize a truth table</h2>
+
+<h3>Description</h3>
+
+<p>This function performs the QCA minimization of an input truth table, or if the
+input is a dataset the minimization it minimizes a set of causal conditions with
+respect to an outcome. Three minimization methods are available: the classical
+Quine-McCluskey, the enhanced Quine-McCluskey and the latest Consistency Cubes
+algorithm that is built for performance.
+</p>
+<p>All algorithms return the same, exact solutions, see
+<a href="https://journal.r-project.org/archive/2018/RJ-2018-080/">Dusa (2018)</a>
+and <a href="https://www.tandfonline.com/doi/full/10.1080/0022250X.2014.897949">Dusa and Thiem (2015)</a>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">minimize(input, include = "", dir.exp = NULL, details = FALSE, pi.cons = 0,
+         sol.cons = 0, all.sol = FALSE, row.dom = FALSE, first.min = FALSE,
+         max.comb = 0, use.labels = FALSE, method = "CCubes", ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>input</code></td>
+<td>
+<p>A truth table object (preferred) or a data frame containing
+calibrated causal conditions and an outcome.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>include</code></td>
+<td>
+<p>A vector of other output values to include in the minimization
+process.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dir.exp</code></td>
+<td>
+<p>Character, a vector of directional expectations to derive the
+intermediate solution.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>details</code></td>
+<td>
+<p>Logical, print more details about the solution.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pi.cons</code></td>
+<td>
+<p>Numerical fuzzy value between 0 and 1, minimal consistency
+threshold for a prime implicant to be declared as sufficient.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sol.cons</code></td>
+<td>
+<p>Numerical fuzzy value between 0 and 1, minimal consistency
+threshold for a model to be declared as sufficient.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>all.sol</code></td>
+<td>
+<p>Logical, search for all possible models, including the non-minimal.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>row.dom</code></td>
+<td>
+<p>Logical, perform row dominance in the prime implicants' chart to
+eliminate redundant prime implicants.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>first.min</code></td>
+<td>
+<p>Logical, to return only the very first minimal solution (see
+Details).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>max.comb</code></td>
+<td>
+<p>Numeric real, to limit the size of the PI chart (see Details).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>use.labels</code></td>
+<td>
+<p>Logical, use category labels if present (see Examples).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+<p>Minimization method, one of "CCubes" (default), or "QMC" the
+classical Quine-McCluskey, or "eQMC" the enhanced Quine-McCluskey.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Other arguments, passed to other functions.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Most of the times, this function takes a truth table object as the <b><code>input</code></b>
+for the minimization procedure, but the same argument can refer to a data frame
+containing calibrated columns.
+</p>
+<p>For the later case, the function <b><code>minimize()</code></b> originally had some additional
+formal arguments which were sent to the function <b><code>truthTable()</code></b>:
+<b><code>outcome</code></b>, <b><code>conditions</code></b>, <b><code>n.cut</code></b>,
+<b><code>incl.cut</code></b>, <b><code>show.cases</code></b>, <b><code>use.letters</code></b> and
+<b><code>inf.test</code></b>.
+</p>
+<p>All of these parameters are still possible with function <b><code>minimize()</code></b>, but
+since they are sent to the <b><code>truthTable()</code></b> function anyway, it is
+unnecessary to duplicate their explanation here. The only situation which does need
+an additional description relates to the argument <b><code>outcome</code></b>, where
+unlike <b><code>truthTable()</code></b> which accepts a single one, the function
+<b><code>minimize()</code></b> accepts multiple outcomes and performs a minimization for
+each of them (a situation when all columns are considered causal conditions).
+</p>
+<p>The argument <b><code>include</code></b> specifies which other truth table rows are
+included in the minimization process. Most often, the remainders are included but
+any value accepted in the argument <b><code>explain</code></b> is also accepted in the
+argument <b><code>include</code></b>.
+</p>
+<p>The argument <b><code>dir.exp</code></b> is used to specify directional expectations, as
+described by Ragin (2003). They can be specified using SOP (sum of products)
+expressions, which opens up the possibility to experiment with conjunctural
+directional expectations. "Don't care" conditions are simply left unspecified.
+</p>
+<p>If at least one of the conditions included in the analysis is multi-value, the
+entire <b><code>dir.exp</code></b> expression should be specified in multi-value
+notation using squared brackets. If a condition X is crisp or fuzzy, the
+multi-value notation X[0] is interpreted as its absence, as in the ~X notation.
+</p>
+<p>Activating the <b><code>details</code></b> argument has the effect of printing parameters
+of fit for each prime implicant and each overall model, the essential prime
+implicants being listed in the top part of the table. It also prints the truth
+table, in case the argument <b><code>input</code></b> has been provided as a data frame
+instead of a truth table object.
+</p>
+<p>The default method (when <b><code>all.sol = FALSE</code></b>), is to find the minimal number
+(<b><code>k</code></b>) of prime implicants needed to cover all initial positive output
+configurations (minterms), then exhaustively search through all possible disjunctions of
+<b><code>k</code></b> prime implicants which do cover those configurations.
+</p>
+<p>Once the PI chart is constructed using the prime implicants found in the previous
+stages, the argument <b><code>row.dom</code></b> can be used to further eliminate
+irrelevant prime implicants when solving the PI chart, applying the principle of row
+dominance: if a prime implicant A covers the same (intial) positive output
+configurations as another prime implicant B and in the same time covers
+other configurations which B does not cover, then B is irrelevant and eliminated.
+</p>
+<p>A large number of causal conditions (i.e. over 15), combined with a large number of cases
+(i.e. hundreds) usually produce a very large number of prime implicants, resulting in a huge
+and extremely complex PI chart with sometimes thousands of rows and hundreds of columns.
+</p>
+<p>For such a complex PI chart, even finding a minimum is a formidable task, and exhaustively
+solving it is very likely impossible in polynomial time. For this reason, after each level
+of complexity the CCubes algorithm determines if the PI chart is too difficult, by
+calculating the total number of combinations of minimum <b><code>k</code></b> PIs necessary to
+cover all columns.
+</p>
+<p>The argument <b><code>max.comb</code></b> controls this maximum number of combinations. It is a
+rational number counted in (fractions of) billions, defaulted at zero to signal searching
+to the maximum possible extent. If the total number of combinations exceeds a positive
+value of <b><code>max.comb</code></b>, the PI chart is determined as too complex, the search is
+stopped and CCubes attempts to return all possible models using the PIs from the previous
+levels of complexity, when the PI chart was still not too complex.
+</p>
+<p>In the extreme situation even this is not feasible, the argument <b><code>first.min</code></b>
+controls returning only one (the very first found) minimal model, if at all possible.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>"qca"</code> when using a single outcome, or class <code>"mqca"</code>
+when using multiple outcomes. These objects are lists having the following components:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>tt</code></td>
+<td>
+<p>The truth table object.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>options</code></td>
+<td>
+<p>Values for the various options used in the function (including defaults).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>negatives</code></td>
+<td>
+<p>The line number(s) of the negative configuration(s).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>initials</code></td>
+<td>
+<p>The initial positive configuration(s).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>PIchart</code></td>
+<td>
+<p>A list containing the PI chart(s).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>primes</code></td>
+<td>
+<p>The prime implicant(s).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>solution</code></td>
+<td>
+<p>A list of solution model(s).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>essential</code></td>
+<td>
+<p>A list of essential PI(s).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pims</code></td>
+<td>
+<p>A list of PI membership scores.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>IC</code></td>
+<td>
+<p>The matrix containing the inclusion and coverage scores for the model(s).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>SA</code></td>
+<td>
+<p>A list of simplifying assumptions.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>i.sol</code></td>
+<td>
+<p>A list of components specific to intermediate model(s), each having
+a PI chart, prime implicant membership scores, (non-simplifying) easy
+counterfactuals and difficult counterfactuals.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>complex</code></td>
+<td>
+<p>Flag solutions from a too complex PI chart</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>call</code></td>
+<td>
+<p>The user's command which produced all these objects and result(s).</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Adrian Dusa
+</p>
+
+
+<h3>References</h3>
+
+<p>Cebotari, V.; Vink, M.P. (2013) “A Configurational Analysis of Ethnic
+Protest in Europe”. <em>International Journal of Comparative Sociology</em>
+vol.54, no.4, pp.298-324, <a href="https://doi.org/10.1177/0020715213508567">doi:10.1177/0020715213508567</a>.
+</p>
+<p>Cebotari, V.; Vink, M.P. (2015) “Replication Data for: A configurational
+analysis of ethnic protest in Europe”, Harvard Dataverse, V2, <a href="https://doi.org/10.7910/DVN/PT2IB9">doi:10.7910/DVN/PT2IB9</a>.
+</p>
+<p>Cronqvist, L.; Berg-Schlosser, D. (2009) “Multi-Value QCA (mvQCA)”, in
+Rihoux, B.; Ragin, C. (eds.) <em>Configurational Comparative Methods. Qualitative
+Comparative Analysis (QCA) and Related Techniques</em>, SAGE.
+</p>
+<p>Dusa, A.; Thiem, A. (2015) “Enhancing the Minimization of Boolean and
+Multivalue Output Functions With eQMC” <em>Journal of Mathematical Sociology</em>
+vol.39, no.2, pp.92-108,<br><a href="https://doi.org/10.1080/0022250X.2014.897949">doi:10.1080/0022250X.2014.897949</a>.
+</p>
+<p>Dusa, A. (2018) “Consistency Cubes: A Fast, Efficient Method for Boolean
+Minimization”, R Journal vol.10, issue 2, pp. 357-370, <a href="https://doi.org/10.32614/RJ-2018-080">doi:10.32614/RJ-2018-080</a>
+</p>
+<p>Dusa, A. (2019) <em>QCA with R. A Comprehensive Resource</em>.
+Springer International Publishing, <a href="https://doi.org/10.1007/978-3-319-75668-4">doi:10.1007/978-3-319-75668-4</a>.
+</p>
+<p>Ragin, C. (2003) <em>Recent Advances in Fuzzy-Set Methods and Their Application to
+Policy Questions</em>. WP 2003-9,
+<a href="https://compasss.org/working-papers-series/">COMPASSS Working Papers series</a>.
+</p>
+<p>Ragin, C. (2009) “Qualitative Comparative Analysis Using Fuzzy-Sets (fsQCA)”,
+in Rihoux, B.; Ragin, C. (eds.) <em>Configurational Comparative Methods.
+Qualitative Comparative Analysis (QCA) and Related Techniques</em>, SAGE.
+</p>
+<p>Ragin, C.C.; Strand, S.I. (2008) “Using Qualitative Comparative
+Analysis to Study Causal Order: Comment on Caren and Panofsky (2005).”
+<em>Sociological Methods &amp; Research</em> vol.36, no.4, pp.431-441,
+<a href="https://doi.org/10.1177/0049124107313903">doi:10.1177/0049124107313903</a>.
+</p>
+<p>Rihoux, B.; De Meur, G. (2009) “Crisp Sets Qualitative Comparative Analysis
+(mvQCA)”, in Rihoux, B.; Ragin, C. (eds.) <em>Configurational Comparative Methods.
+Qualitative Comparative Analysis (QCA) and Related Techniques</em>, SAGE.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>truthTable</code>, <code>factorize</code></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+# -----
+# Lipset binary crisp data
+
+# the associated truth table
+ttLC &lt;- truthTable(LC, SURV, sort.by = "incl, n", show.cases = TRUE)
+ttLC
+
+# conservative solution (Rihoux &amp; De Meur 2009, p.57)
+cLC &lt;- minimize(ttLC)
+cLC
+
+# view the Venn diagram for the associated truth table
+library(venn)
+venn(cLC)
+
+# add details and case names
+minimize(ttLC, details = TRUE)
+
+# negating the outcome
+ttLCn &lt;- truthTable(LC, ~SURV, sort.by = "incl, n", show.cases = TRUE)
+minimize(ttLCn)
+
+# parsimonious solution, positive output
+pLC &lt;- minimize(ttLC, include = "?", details = TRUE)
+pLC
+
+# the associated simplifying assumptions
+pLC$SA
+
+# parsimonious solution, negative output
+pLCn &lt;- minimize(ttLCn, include = "?", details = TRUE)
+pLCn
+
+
+# -----
+# Lipset multi-value crisp data (Cronqvist &amp; Berg-Schlosser 2009, p.80)
+
+# truth table, conditions all columns from DEV to IND
+# note the sequence operator ":"
+ttLM &lt;- truthTable(LM, SURV, conditions = DEV:IND,
+        sort.by = "incl", show.cases = TRUE)
+
+# conservative solution, positive output
+minimize(ttLM, details = TRUE)
+
+# parsimonious solution, positive output
+minimize(ttLM, include = "?", details = TRUE)
+
+# negate the outcome
+ttLMn &lt;- truthTable(LM, ~SURV, conditions = DEV:IND,
+         sort.by = "incl", show.cases = TRUE)
+
+# conservative solution, negative output
+minimize(ttLMn, details = TRUE)
+
+# parsimonious solution, positive output
+minimize(ttLMn, include = "?", details = TRUE)
+
+
+# -----
+# Lipset fuzzy sets data (Ragin 2009, p.112)
+
+ttLF &lt;- truthTable(LF, SURV, incl.cut = 0.8, sort.by = "incl", show.cases = TRUE)
+
+# conservative solution
+minimize(ttLF, details = TRUE)
+
+# parsimonious solution
+minimize(ttLF, include = "?", details = TRUE)
+
+# intermediate solution
+minimize(ttLF, include = "?", details = TRUE,
+         dir.exp = c(DEV, URB, LIT, IND, STB))
+
+# directional expectations can also be specified using a sequence
+minimize(ttLF, include = "?", details = TRUE, dir.exp = DEV:STB)
+
+# URB as a don't care condition (left unspecified) and
+# conjunctural directional expectations
+minimize(ttLF, include = "?", details = TRUE,
+         dir.exp = c(DEV, STB, ~LIT*IND))
+
+
+# -----
+# Cebotari &amp; Vink (2013, 2015)
+
+ttCVF &lt;- truthTable(CVF, outcome = PROTEST, incl.cut = 0.8,
+                    sort.by = "incl, n", show.cases = TRUE)
+
+pCVF &lt;- minimize(ttCVF, include = "?", details = TRUE)
+pCVF
+
+# inspect the PI chart
+pCVF$PIchart
+
+# DEMOC*ETHFRACT*~POLDIS is dominated by DEMOC*ETHFRACT*GEOCON
+# using row dominance to solve the PI chart
+pCVFrd &lt;- minimize(ttCVF, include = "?", row.dom = TRUE, details = TRUE)
+
+# plot the prime implicants on the outcome
+pims &lt;- pCVFrd$pims
+
+par(mfrow = c(2, 2))
+for(i in 1:4) {
+    XYplot(pims[, i], CVF$PROTEST, cex.axis = 0.6)
+}
+
+
+# -----
+# temporal QCA (Ragin &amp; Strand 2008) serving the input as a dataset,
+# which will automatically be passed to truthTable() as an intermediary
+# step before the minimization
+
+minimize(RS, outcome = REC, details = TRUE)
+
+
+# -----
+# employ category labels
+
+ttLF &lt;- truthTable(LF, SURV, incl.cut = 0.8, sort.by = "incl", show.cases = TRUE)
+
+minimize(ttLF, include = "?", use.labels = TRUE)
+
+# or
+
+ttLF &lt;- truthTable(
+    LF, SURV, incl.cut = 0.8, sort.by = "incl", show.cases = TRUE,
+    use.labels = TRUE
+)
+
+minimize(ttLF, include = "?")
+
+
+## End(Not run)
+</code></pre>
+
+
+</div>

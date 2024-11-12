@@ -1,0 +1,562 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>gcrq</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Growth charts regression quantiles with automatic smoothness estimation
+</h2>
+
+<h3>Description</h3>
+
+<p>Modelling unspecified nonlinear relationships between covariates and quantiles of the response conditional distribution. Typical example is estimation nonparametric growth charts (via quantile regression). Quantile curves are estimated via B-splines with 
+a <code class="reqn">L_1</code> penalty on the spline coefficient differences, while non-crossing and possible monotonicity and concavity restrictions are set to obtain estimates
+more biologically plausible. Linear terms can be specified in the model formula. Multiple smooth terms, including varying coefficients, with automatic selection of corresponding smoothing parameters are allowed.  
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">gcrq(formula, tau=c(.1,.25,.5,.75,.9), data, subset, weights, na.action, 
+    transf=NULL, y=TRUE, n.boot=0, eps=0.001, display=FALSE, 
+    method=c("REML","ML"), df.opt=2, df.nc=FALSE, lambda0=.1, h=0.8, lambda.max=1000, 
+    tol=0.01, it.max=15, single.lambda=TRUE, foldid=NULL, nfolds=10, 
+    lambda.ridge=0, adjX.constr=TRUE, contrasts=NULL, sparse=FALSE) 
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>formula</code></td>
+<td>
+
+<p>a standard R formula to specify the response in the left hand side, and the covariates in the right hand side, such as <code>y~ps(x)+z</code>, see Details for further examples.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tau</code></td>
+<td>
+
+<p>a numeric vector to specify the quantile curves of interest. Default to probability values <code class="reqn">(.1,.25,.5,.75,.9)</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+
+<p>the dataframe where the variables required by the formula, subset and weights arguments are stored.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>subset</code></td>
+<td>
+
+<p>optional. A vector specifying a subset of observations to be used in the fitting process.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>weights</code></td>
+<td>
+
+<p>optional. A numeric vector specifying weights to be assigned to the observations in the fitting process.
+Currently unimplemented. 
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>na.action</code></td>
+<td>
+
+<p>a function which indicates how the possible ‘NA’s are handled.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>transf</code></td>
+<td>
+
+<p>an optional character string (with <code>"y"</code> as argument) meaning a function to apply to the response variable 
+before fitting. It can be useful to guarantee fitted values within a specified range; e.g. if <code>y&gt;=0</code>, we could set <code>"log(y+0.1)"</code>. If provided, the resulting object fit refers to the model for the transformed response and it will include the corresponding inverse function (numerically computed) to be used to back transform predictions (see argument <code>transf</code> in <code>predict.gcrq</code> and <code>plot.gcrq</code>).
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+
+<p>logical. If <code>TRUE</code> (default) the returned object includes also the responses vector.
+</p>
+</td>
+</tr>
+</table>
+<table>
+<tr style="vertical-align: top;">
+<td><code>n.boot</code></td>
+<td>
+
+<p>Number of nonparametric (cases resampling) bootstrap samples to be used. If <code>n.boot&gt;0</code>, the covariance matrix can be obtained as empirical covariance matrix of the bootstrap distributions, see <code>vcov.gcrq</code>. Notice that the smoothing parameter (if relevant) is assumed fixed. Namely it does change throughout the bootstrap replicates.  
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>eps</code></td>
+<td>
+
+<p>A small positive constant to ensure noncrossing curves (i.e. the minimum distance between two consecutive curves). Use it at your risk! If <code>eps</code> is large, the resulting fitted quantile curves could appear unreasonable.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>display</code></td>
+<td>
+
+<p>Logical. Should the iterative process be printed? Ignored if no smooth is specified in the formula or if all the smoothing parameters specified in <code>ps</code> terms are fixed.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+
+<p>character, <code>"ML"</code> or <code>"REML"</code> affecting the smoothing parameter estimation. Default is <code>"REML"</code> which appears to provide better performance in simulation studies. 
+Ignored if no smoothing parameter has to be estimated. 
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>df.opt</code></td>
+<td>
+
+<p>How the model and term-specific degrees of freedom are computed. <code>df.opt=1</code> means via the null penalized coefficients, and <code>df.opt=2</code> via the trace of the approximate hat  matrix. Ignored if no smoothing parameter is be estimated.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>df.nc</code></td>
+<td>
+
+<p>logical. If <code>TRUE</code> and the model refers to multiple quantile curves, the degrees of freedom account for the noncrossing constraints. 
+Ignored for single quantile fits. Default to <code>FALSE</code>, as it is still experimental.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lambda0</code></td>
+<td>
+
+<p>the starting value for the lambdas to be estimated. Ignored if all the smoothing parameters specified in <code>ps</code> terms are fixed.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>h</code></td>
+<td>
+
+<p>The step halving factor affecting estimation of the smoothing parameters. Lower values lead to slower updates in the lambda values. Ignored if all the smoothing parameters specified in <code>ps</code> terms are fixed.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lambda.max</code></td>
+<td>
+
+<p>The upper bound for lambda estimation. Ignored if all the smoothing parameters specified in <code>ps</code> terms are fixed.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tol</code></td>
+<td>
+
+<p>The tolerance value to declare convergence. Ignored if all the smoothing parameters specified in <code>ps</code> terms are fixed.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>it.max</code></td>
+<td>
+
+<p>The maximum number of iterations in lambdas estimation. Ignored if all the smoothing parameters specified in <code>ps</code> terms are fixed.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>single.lambda</code></td>
+<td>
+
+<p>Logical. Should the smoothing parameter (for each smooth term) to be the same across the quantile curves being estimated? Ignored when just a single quantile curve is being estimated.  
+
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>foldid</code></td>
+<td>
+
+<p>optional. A numeric vector identifying the group labels to perform cross validation to select the smoothing parameter. 
+Ignored if the <code>lambda</code> argument in <code>ps()</code> is not a vector.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nfolds</code></td>
+<td>
+
+<p>optional. If <code>foldid</code> is not provided, it is scalar specifying the number of ‘folds’ (groups) which should be used to perform cross validation to select 
+the smoothing parameter. Default to 10, but it is ignored if the <code>lambda</code> argument in <code>ps()</code> is not a vector.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lambda.ridge</code></td>
+<td>
+
+<p>Numerical value (typically very small) to stabilize model estimation.
+</p>
+</td>
+</tr>
+</table>
+<table>
+<tr style="vertical-align: top;">
+<td><code>adjX.constr</code></td>
+<td>
+<p>logical. If <code>TRUE</code>, each linear covariate is shifted (by substracting its min) in order to set up effective constraints to prevent crossing. Useful only if <code>tau</code> is a vector and the model includes linear terms.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>contrasts</code></td>
+<td>
+<p>an optional list. See argument <code>contrasts.arg</code> in <code>model.matrix.default</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sparse</code></td>
+<td>
+<p>logical. If <code>TRUE</code>, the model is fitted via sparse algebra as implemented in the SparseM package. Typically <code>sparse=TRUE</code> is used when the model involves a single smooth with a very rich basis and a large sample size, see Details.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The function fits regression quantiles at specified percentiles given in <code>tau</code> as a function of 
+covariates specified in the <code>formula</code> argument. The <code>formula</code> may include linear terms and  one or several <code>ps</code> 
+terms to model nonlinear relationships with quantitative covariates, usually age in growth charts. When the <code>lambda</code> argument 
+in <code>ps()</code> is a negative scalar, the smoothing parameter is estimated iteratively as discussed in Muggeo et al. (2021). If a positive scalar, it represents the actual smoothing parameter value. 
+</p>
+<p>When the model includes a single <code>ps</code> term, setting <code>sparse=TRUE</code> (introduced since version 1.7-0) could reduce the computational time especially when the sample size is large and the basis involves several terms. However when <code>sparse=TRUE</code> is set, no linear term is allowed and for the smooth term a full and uncentred basis is used (i.e., equivalent to setting <code>dropc=FALSE</code> and <code>center=FALSE</code> along with <code>constr.fit=FALSE</code> in <code>ps()</code>). Therefore the correct call would be
+</p>
+<p><code>gcrq(y ~ 0+ps(x), sparse=TRUE) #if y~ps(x), a warning is printed as the intercept is not explicitly removed</code>
+</p>
+<p>which is equivalent to
+</p>
+<p><code>gcrq(y ~ 0+ps(x, dropc=FALSE, center=FALSE)) #sparse=FALSE is the default</code>
+</p>
+<p>Smoothing parameter selection via 'K-fold' cross validation (CV) is also allowed (but not recommended) if the model includes a single <code>ps</code> term:  <code>lambda</code> should be a vector of candidate values, and the final fit is returned at the ‘optimal’ lambda value. To select the smoothing parameter via CV, <code>foldid</code> or <code>nfolds</code> may be supplied. If provided, <code>foldid</code> overwrites <code>nfolds</code>, otherwise <code>foldid</code> is obtained via random extraction, namely <code>sample(rep(seq(nfolds), length = n))</code>. However selection of smoothing parameter via CV is allowed only with a unique <code>ps</code> term in the formula.
+</p>
+
+
+<h3>Value</h3>
+
+<p>This function returns an object of class <code>gcrq</code>, that is a list with the following components (only the most important are listed)
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>coefficients</code></td>
+<td>
+<p>The matrix of estimated regression parameters; the number of columns equals the number of the fitted quantile curves.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>the design matrix of the final fit (including the dummy rows used by penalty).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>edf.j</code></td>
+<td>
+<p>a matrix reporting the edf values for each term at each quantile curve. See the section 'Warning' below.  </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rho</code></td>
+<td>
+<p>a vector including the values of the objective functions at the solution for each quantile curve.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fitted.values</code></td>
+<td>
+<p>a matrix of fitted quantiles (a column for each <code>tau</code> value)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>residuals</code></td>
+<td>
+<p>a matrix of residuals (a column for each <code>tau</code> value)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>D.matrix</code></td>
+<td>
+<p>the penalty matrix (multiplied by the smoothing parameter value).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>D.matrix.nolambda</code></td>
+<td>
+<p>the penalty matrix.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pLin</code></td>
+<td>
+<p>number of linear covariates in the model.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>info.smooth</code></td>
+<td>
+<p>some information on the smoothing term (if included in the formula via <code>ps</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>BB</code></td>
+<td>
+<p>further information on the smoothing term (if present in the formula via <code>ps</code>), including 
+stuff useful for plotting via <code>plot.gcrq()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Bderiv</code></td>
+<td>
+<p>if the smooth term is included, the first derivative of the B spline basis.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>boot.coef</code></td>
+<td>
+<p>The array including the estimated coefficients at different bootstrap samples (provided that <code>n.boot</code>&gt;0 has been set).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>the response vector (if <code>gcrq()</code> has been called with <code>y=TRUE</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>contrasts</code></td>
+<td>
+<p>the contrasts used, when the model contains a factor.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xlevels</code></td>
+<td>
+<p>the levels of the factors (when included) used in fitting.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>taus</code></td>
+<td>
+<p>a vector of values between 0 and 1 indicating the estimated quantile curves.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>call</code></td>
+<td>
+<p>the matched call.</p>
+</td>
+</tr>
+</table>
+<h3>Warning</h3>
+
+<p>Variable selection is still at an experimental stage. 
+</p>
+<p>When including linear terms, the covariates <code class="reqn">X_j</code> are shifted such that <code class="reqn">min(X_j)=0</code>. 
+</p>
+<p>The options <code>'REML'</code> or <code>'ML'</code> of the argument <code>method</code>, refer to how the degrees of freedom are computed to update the lambda estimates. 
+</p>
+<p>Currently, standard errors are obtained via the sandwich formula or the nonparametric bootstrap (case resampling). Both methods ignore uncertainty in the smoothing parameter selection. 
+</p>
+<p>Since version 1.2-1, computation of the approximate edf can account for the noncrossing constraints by specifying <code>df.nc=TRUE</code>. That could affect model estimation when the smoothing parameter(s) have to be estimated, because the term specific edf are used to update the lambda value(s). When lambda is not being estimated (it is fixed or there is no <code>ps</code> term in the formula), parameter estimate is independent of the <code>df.nc</code> value. The <code>summary.gcrq</code> method reports if the edf account for the noncrossing constraints.     
+</p>
+<p>Using <code>ps(.., center=TRUE)</code> in the formula leads to lower uncertainty in the fitted curve while guaranteeing noncrossing constraints.  
+</p>
+<p>Currently, decomposition of Bsplines (i.e. <code>ps(..,decom=TRUE)</code>) is incompatible with shape (monotonicity and concavity) restrictions and even with noncrossing constraints.
+</p>
+
+
+
+<h3>Note</h3>
+
+<p>This function is based upon the package quantreg by R. Koenker.
+Currently methods specific to the class <code>"gcrq"</code> are <code>print.gcrq</code>, <code>summary.gcrq</code>, <code>vcov.gcrq</code>, <code>plot.gcrq</code>, <code>predict.gcrq</code>, <code>AIC.gcrq</code>, and <code>logLik.gcrq</code>.
+</p>
+<p>If the sample is not large, and/or the basis rank is large (i.e. a large number of columns) and/or there are relatively few distinct values in the covariate distribution, the fitting algorithm may fail returning error messages like the following 
+</p>
+<p><code>&gt; Error info =  20 in stepy2: singular design</code>
+</p>
+<p>To remedy it, it suffices to change some arguments in <code>ps()</code>: to decrease <code>ndx</code> or <code>deg</code> (even by a small amount) or 
+to increase (even by a small amount) the lambda value. Sometimes even by changing slightly the tau probability value (for instance from 0.80 to 0.79) can bypass the aforementioned errors.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Vito M. R. Muggeo, <a href="mailto:vito.muggeo@unipa.it">vito.muggeo@unipa.it</a> </p>
+
+
+<h3>References</h3>
+
+<p>V.M.R. Muggeo, F. Torretta, P.H.C. Eilers, M. Sciandra, M. Attanasio (2021).
+Multiple smoothing parameters selection in additive regression quantiles,
+Statistical Modelling, 21: 428-448.
+</p>
+<p>V. M. R. Muggeo (2021). Additive Quantile regression with automatic smoothness selection: the R package quantregGrowth. 
+https://www.researchgate.net/publication/350844895
+</p>
+<p>V. M. R. Muggeo, M. Sciandra, A. Tomasello, S. Calvo (2013).
+Estimating growth charts via nonparametric quantile
+regression: a practical framework with application
+in ecology, Environ Ecol Stat, 20, 519-531.
+</p>
+<p>V. M. R. Muggeo (2018). Using the R package quantregGrowth: some examples. <br>
+https://www.researchgate.net/publication/323573492
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>ps</code>, <code>plot.gcrq</code>, <code>predict.gcrq</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+##=== Example 1: an additive model from ?mgcv::gam
+
+d&lt;-mgcv::gamSim(n=200, eg=1)
+o&lt;-gcrq(y ~ ps(x0) + ps(x1)+ ps(x2) + ps(x3), data=d, tau=.5, n.boot=50)
+plot(o, res=TRUE, col=2, conf.level=.9, shade=TRUE, split=TRUE)
+
+
+
+##=== Example 2: some simple examples involving just a single smooth
+
+data(growthData) #load data
+tauss&lt;-seq(.1,.9,by=.1) #fix the percentiles of interest
+
+m1&lt;-gcrq(y~ps(x), tau=tauss, data=growthData) #lambda estimated..
+
+m2&lt;-gcrq(y~ps(x, lambda=0), tau=tauss, data=growthData) #unpenalized.. very wiggly curves
+#strongly penalized models
+m3&lt;-gcrq(y~ps(x, lambda=1000, d=2), tau=tauss, data=growthData) #linear 
+m4&lt;-gcrq(y~ps(x, lambda=1000, d=3), tau=tauss, data=growthData) #quadratic  
+
+#penalized model with monotonicity restrictions
+m5&lt;-gcrq(y~ps(x, monotone=1, lambda=10), tau=tauss, data=growthData)
+
+#monotonicity constraints,lambda estimated, and varying penalty
+m6&lt;-gcrq(y~ps(x, monotone=1, lambda=10, var.pen="(1:k)"), tau=tauss, data=growthData) 
+m6a&lt;-gcrq(y~ps(x, monotone=1, lambda=10, var.pen="(1:k)^2"), tau=tauss, data=growthData) 
+
+par(mfrow=c(2,3))
+plot(m1, res=TRUE, col=-1)
+plot(m2, pch=20, res=TRUE)
+plot(m3, add=TRUE, lty=2, col=4)
+plot(m4, pch=20, res=TRUE)
+plot(m5, pch=4, res=TRUE, legend=TRUE, col=2)
+plot(m6, lwd=2, col=3)
+plot(m6a, lwd=2, col=4)
+
+#select lambda via 'K-fold' CV (only with a single smooth term)
+m7&lt;-gcrq(y~ps(x, lambda=seq(0,10,l=20)), tau=tauss, data=growthData) 
+par(mfrow=c(1,2))
+plot(m7, cv=TRUE) #display CV score versus lambda values
+plot(m7, res=TRUE, grid=list(x=5, y=8), col=4) #fit at the best lambda (by CV) 
+
+
+##=== Example 3: VC models
+
+n=50
+x&lt;-1:n/n
+mu0&lt;-10+sin(2*pi*x)
+mu1&lt;- 7+4*x
+y&lt;-c(mu0,mu1)+rnorm(2*n)*.2 #small noise.. just to illustrate..
+x&lt;-c(x,x)
+z&lt;-rep(0:1, each=n)
+
+# approach 1: a smooth in each *factor* level 
+g&lt;-factor(z)
+o &lt;-gcrq(y~ g+ps(x,by=g), tau=.5) 
+predict(o, newdata=data.frame(x=c(.3,.7), g=factor(c(0,1))))
+par(mfrow=c(1,2))
+plot(x[1:50],mu0,type="l")
+plot(o, term=1, add=TRUE)
+points(c(.3,.7), predict(o, newdata=data.frame(x=c(.3,.7), g=factor(c(0,0)))), pch=4, lwd=3,col=2)
+
+plot(x[1:50],mu1,type="l")
+plot(o, term=2, add=T, shift=coef(o)["g1",], col=3) #note the argument 'shift'
+points(c(.3,.7), predict(o, newdata=data.frame(x=c(.3,.7), g=factor(c(1,1)))), pch=4, lwd=3,col=3)
+
+
+# approach 2: a general smooth plus the (smooth) 'interaction' with a continuous covariate..
+b1 &lt;-gcrq(y~ ps(x) + z+ ps(x,by=z), tau=.5)
+par(mfrow=c(1,2))
+plot(x[1:50],mu0,type="l")
+plot(b1, add=TRUE, term=1) #plot the 1st smooth term
+
+#plot the 2nd smooth of 'b1' (which is actually the difference mu1-mu0) 
+plot(x[1:50], mu1-mu0, type="l")
+plot(b1, term=2, add=TRUE, interc=FALSE, shift=coef(b1)["z",]) 
+
+
+
+##=== Example 4: random intercepts example
+
+n=50
+x&lt;-1:n/n
+
+set.seed(69)
+z&lt;- sample(1:15, size=n, replace=TRUE)
+#table(z)
+
+#true model: linear effect + 3 non-null coeffs when z= 3, 7, and 13
+y&lt;-2*x+  I(z==3)- I(z==7)  + 2*I(z==13) + rnorm(n)*.15
+id&lt;-factor(z)
+
+o &lt;-gcrq(y~x+ps(id), tau=.5) 
+plot(o, term=1) #plot the subject-specific intercepts
+
+
+#== variable selection
+n=50
+p=30
+p1&lt;-10
+
+X&lt;-matrix(rnorm(n*p,5),n,p)
+b&lt;-rep(0,p)
+id&lt;-sample(1:p, p1)
+b[id]&lt;-round(runif(p1,.5,2),2)
+b[id]&lt;-b[id]* sign(ifelse(runif(p1)&lt;.5,1,-1))
+lp &lt;- drop(tcrossprod(X,t(b)))
+y &lt;- 2+lp+rnorm(n)*1.5
+
+gcrq(y~ps(X), tau=.7) 
+
+## End(Not run)
+</code></pre>
+
+
+</div>

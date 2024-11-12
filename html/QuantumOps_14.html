@@ -1,0 +1,50 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>convert_dec2bin</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>convert_dec2bin</h2>
+
+<h3>Description</h3>
+
+<p>Takes an integer and returns an unsigned vector bits representing the same value
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">convert_dec2bin(x,len=32)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p> Integer </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>len</code></td>
+<td>
+<p> Number of bits to represent integer with. Will crop most significant bits if insufficient length. </p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Vector of bits with MSB first
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"> convert_dec2bin(10)
+ convert_dec2bin(10,8)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,57 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>probs_qtl_to_qtl2</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Convert R/qtl genotype probabilities to R/qtl2 format</h2>
+
+<h3>Description</h3>
+
+<p>Convert R/qtl genotype probabilities to R/qtl2 format
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">probs_qtl_to_qtl2(cross)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>cross</code></td>
+<td>
+<p>An R/qtl <code>"cross"</code> object (see
+<code>qtl::read.cross()</code> for details.) Must contain
+genotype probabilities as calculated by
+<code>qtl::calc.genoprob()</code>.</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>A list with two components:
+</p>
+
+<ul>
+<li> <p><code>"probs"</code> - the genotype probabilities in the form produced by <code>qtl2::calc_genoprob()</code>
+</p>
+</li>
+<li> <p><code>"map"</code> - Map of marker/pseudomarker positions (a list of vectors of positions)
+</p>
+</li>
+</ul>
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(qtl)
+data(hyper)
+hyper &lt;- calc.genoprob(hyper, step=1, error.prob=0.002)
+result &lt;- probs_qtl_to_qtl2(hyper)
+pr &lt;- result$probs
+map &lt;- result$map
+
+</code></pre>
+
+
+</div>

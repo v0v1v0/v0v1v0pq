@@ -1,0 +1,182 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>add_sig_cor</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Add Significance Symbols to a Correlation Matrix</h2>
+
+<h3>Description</h3>
+
+<p><code>add_sig_cor</code> adds symbols for various p-values cutoffs of statistical
+significance. The function inputs a correlation matrix and a numeric matrix
+of p-values that correspond to the correlations (i.e., each row and column
+match) and then returns a data.frame of correlations with appended
+significance symbols. One of the primary applications of this function is use
+within <code>corp</code> <code>corp_by</code>, and <code>corp_ml</code>
+for correlation matrices.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">add_sig_cor(
+  r,
+  p,
+  digits = 3,
+  p.10 = "",
+  p.05 = "*",
+  p.01 = "**",
+  p.001 = "***",
+  lead.zero = FALSE,
+  trail.zero = TRUE,
+  plus = FALSE,
+  diags = FALSE,
+  lower = TRUE,
+  upper = FALSE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>r</code></td>
+<td>
+<p>double numeric matrix of correlation coefficients for which
+statistical significance is available. Since its a correlation matrix, it
+must be symmetrical and is expected to be a full matrix with all elements
+included (not just lower or upper diagonals values included).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p</code></td>
+<td>
+<p>double matrix of p-values for the correlations in <code>r</code> that are
+matched by row and column index. For example, the p-value in the first row
+and second column of <code>p</code> is associated with the correlation in the
+first row and second column of <code>r</code>. If <code>r</code> and <code>p</code> do not
+have the same dimensions, an error is returned.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>digits</code></td>
+<td>
+<p>integer vector of length 1 specifying the number of decimals to
+round to.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p.10</code></td>
+<td>
+<p>character vector of length 1 specifying which symbol to append to
+the end of any correlation significant at the p &lt; .10 level.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p.05</code></td>
+<td>
+<p>character vector of length 1 specifying which symbol to append to
+the end of any correlation significant at the p &lt; .05 level.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p.01</code></td>
+<td>
+<p>character vector of length 1 specifying which symbol to append to
+the end of any correlation significant at the p &lt; .01 level.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p.001</code></td>
+<td>
+<p>character vector of length 1 specifying which symbol to append
+to the end of any correlation significant at the p &lt; .001 level.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lead.zero</code></td>
+<td>
+<p>logical vector of length 1 specifying whether to retain a
+zero in front of the decimal place.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>trail.zero</code></td>
+<td>
+<p>logical vector of length 1 specifying whether to retain
+zeros after the decimal place (due to rounding).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>plus</code></td>
+<td>
+<p>logical vector of length 1 specifying whether to include a plus
+sign in front of positive correlations (minus signs are always in front of
+negative correlations).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>diags</code></td>
+<td>
+<p>logical vector of length 1 specifying whether to retain the
+values in the diagonal of the correlation matrix. If TRUE, then the
+diagonal will be 1s with <code>digits</code> number of zeros after the decimal
+place (and no significant symbols). If FALSE, then the diagonal will be NA.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lower</code></td>
+<td>
+<p>logical vector of length 1 specifying whether to retain the
+lower triangle of the correlation matrix. If TRUE, then the lower triangle
+correlations and their significance symbols are retained. If FAlSE, then
+the lower triangle will all be NA.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>upper</code></td>
+<td>
+<p>logical vector of length 1 specifying whether to retain the
+upper triangle of the correlation matrix. If TRUE, then the upper triangle
+correlations and their significance symbols are retained. If FAlSE, then
+the upper triangle will all be NA.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>There are several functions out there that do similar things. Here is one
+posted to R-bloggers that uses the <code>corr</code> function from the <code>Hmisc</code>
+package:
+<a href="https://www.r-bloggers.com/2020/07/create-a-publication-ready-correlation-matrix-with-significance-levels-in-r/">https://www.r-bloggers.com/2020/07/create-a-publication-ready-correlation-matrix-with-significance-levels-in-r/</a>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>data.frame with the same dimensions as <code>r</code> containing the
+correlations and their significance symbols. Elements may or may not contain NA
+values depending on the arguments <code>diags</code>, <code>lower</code>, and
+<code>upper</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+corr_test &lt;- psych::corr.test(mtcars[1:5])
+r &lt;- corr_test[["r"]]
+p &lt;- corr_test[["p"]]
+add_sig_cor(r = r, p = p)
+add_sig_cor(r = r, p = p, digits = 2)
+add_sig_cor(r = r, p = p, diags = TRUE)
+add_sig_cor(r = r, p = p, lower = FALSE, upper = TRUE)
+add_sig_cor(r = r, p = p, lead.zero = TRUE, trail.zero = FALSE)
+add_sig_cor(r = r, p = p, plus = TRUE)
+
+</code></pre>
+
+
+</div>

@@ -1,0 +1,82 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qq_vase_plot</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Interactive QQ Vase Plot</h2>
+
+<h3>Description</h3>
+
+<p>This function displays animated normal quantile-quantile plots.  The software
+uses Shiny to open a window in the default installed web browser. Graphical
+controls in that window manipulate the construction of normal quantile plots. 
+The display shows QQ plots for comparing either population distributions or 
+samples of a chosen size. When samples are shown, the plot includes approximate
+95
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qq_vase_plot(draw.samples = TRUE, dists = make_df_list(), step = 0.05,
+  breaks = "FD")
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>draw.samples</code></td>
+<td>
+<p>Set to true to allow optional samples from distributions</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dists</code></td>
+<td>
+<p>Named list of (d=density, q=quantile, r=sample) distributions (see make_df_list())</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>step</code></td>
+<td>
+<p>Stepsize used for animated slider (use larger values if animating with play button)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>breaks</code></td>
+<td>
+<p>Passed to R histogram program to control number of bins in empirical distribution</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>None
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+# default
+qq_vase_plot()
+
+# suppress sampling option
+qq_vase_plot(FALSE)
+
+# add uniform distribution to dialog
+dists &lt;- make_df_list()
+dists[["uniform"]] &lt;- list(d=dunif, q=qunif, r=runif)
+qq_vase_plot(TRUE, dists)
+
+# smaller increments, change the method that determines breaks in histogram
+qq_vase_plot(TRUE, step=0.01, breaks=function(x) 2*sqrt(length(x)))
+
+## End(Not run)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,118 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>iplotPXG</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Interactive phenotype x genotype plot</h2>
+
+<h3>Description</h3>
+
+<p>Creates an interactive graph of phenotypes vs genotypes at a marker.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">iplotPXG(
+  cross,
+  marker,
+  pheno.col = 1,
+  chartOpts = NULL,
+  fillgenoArgs = NULL,
+  digits = 5
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>cross</code></td>
+<td>
+<p>Object of class '"cross"', see
+[qtl::read.cross()].</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>marker</code></td>
+<td>
+<p>Character string with marker name.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pheno.col</code></td>
+<td>
+<p>Phenotype column in cross object.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>chartOpts</code></td>
+<td>
+<p>A list of options for configuring the chart.  Each
+element must be named using the corresponding option.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fillgenoArgs</code></td>
+<td>
+<p>List of named arguments to pass to
+[qtl::fill.geno()], if needed.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>digits</code></td>
+<td>
+<p>Round data to this number of significant digits
+before passing to the chart function. (Use NULL to not round.)</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The function [qtl::fill.geno()] is used to
+impute missing genotypes, with arguments passed as a list, for
+example 'fillgenoArgs=list(method="argmax", error.prob=0.002,
+map.function="c-f")'.
+</p>
+<p>Individual IDs (viewable when hovering over a point) are taken from
+the input 'cross' object, using the [qtl::getid()]
+function in R/qtl.
+</p>
+<p>By default, points are colored blue and pink according to whether
+the marker genotype is observed or inferred, respectively.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class 'htmlwidget' that will
+intelligently print itself into HTML in a variety of contexts
+including the R console, within R Markdown documents, and within
+Shiny output bindings.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>[idotplot()], [iplot()], [iplotScanone()],
+[iplotMap()]
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(qtl)
+data(hyper)
+marker &lt;- sample(markernames(hyper), 1)
+
+iplotPXG(hyper, marker)
+
+# different colors
+iplotPXG(hyper, marker, chartOpts=list(pointcolor=c("black", "gray")))
+
+</code></pre>
+
+
+</div>

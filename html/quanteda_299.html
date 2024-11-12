@@ -1,0 +1,100 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>tokens-class</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Base method extensions for tokens objects</h2>
+
+<h3>Description</h3>
+
+<p>Extensions of base R functions for tokens objects.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'tokens'
+unlist(x, recursive = FALSE, use.names = TRUE)
+
+## S3 method for class 'tokens'
+x[i, drop_docid = TRUE]
+
+## S3 method for class 'tokens'
+t1 + t2
+
+## S3 method for class 'tokens_xptr'
+c(...)
+
+## S3 method for class 'tokens'
+c(...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a tokens object</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>recursive</code></td>
+<td>
+<p>a required argument for unlist but inapplicable to
+tokens objects.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>i</code></td>
+<td>
+<p>document names or indices for documents to extract.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>drop_docid</code></td>
+<td>
+<p>if <code>TRUE</code>, <code>docid</code> for documents are removed as the result
+of extraction.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>t1</code></td>
+<td>
+<p>tokens one to be added</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>t2</code></td>
+<td>
+<p>tokens two to be added</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p><code>unlist</code> returns a simple vector of characters from a
+tokens object.
+</p>
+<p><code>c(...)</code> and <code>+</code> return a tokens object whose documents
+have been added as a single sequence of documents.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">toks &lt;- tokens(c(d1 = "one two three", d2 = "four five six", d3 = "seven eight"))
+str(toks)
+toks[c(1,3)]
+# combining tokens
+toks1 &lt;- tokens(c(doc1 = "a b c d e", doc2 = "f g h"))
+toks2 &lt;- tokens(c(doc3 = "1 2 3"))
+toks1 + toks2
+c(toks1, toks2)
+
+</code></pre>
+
+
+</div>

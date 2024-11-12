@@ -1,0 +1,48 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>cqgate</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>A controlled single qubit gate</h2>
+
+<h3>Description</h3>
+
+<p>This class represents a generic controlled gate
+</p>
+
+
+<h3>Details</h3>
+
+<p>The qubits are counted from 1 to <code>nbits</code> starting with the least
+significant bit.
+</p>
+
+
+<h3>Slots</h3>
+
+
+<dl>
+<dt><code>bits</code></dt>
+<dd>
+<p>Integer. Integer vector of bits. The first is the control bit, the second the target bit.</p>
+</dd>
+<dt><code>gate</code></dt>
+<dd>
+<p>sqgate. The single qubit gate.</p>
+</dd>
+</dl>
+<h3>Examples</h3>
+
+<pre><code class="language-R">x &lt;- H(1) * qstate(nbits=2)
+## application of the CX (CNOT) gate to bit 1,2
+z &lt;- cqgate(bits=c(1L, 2L), gate=X(2L)) * x
+z
+## the same as, but differently implemented
+z &lt;- CNOT(c(1,2)) * x
+z
+
+</code></pre>
+
+
+</div>

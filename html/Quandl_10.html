@@ -1,0 +1,70 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>Quandl.datatable.bulk_download_to_file</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Downloads a zip with all data requested from a Quandl database</h2>
+
+<h3>Description</h3>
+
+<p>Downloads a zip with all data requested from a Quandl database
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">Quandl.datatable.bulk_download_to_file(datatable_code, filename, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>datatable_code</code></td>
+<td>
+<p>Datatable code on Quandl specified as a string.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>filename</code></td>
+<td>
+<p>Filename (including path) of file to download.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Additional named values that are interpreted as Quandl API parameters.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Set your <code>api_key</code> with <code>Quandl.api_key</code> function. For instructions on finding your api key go to <a href="https://www.quandl.com/account/profile">https://www.quandl.com/account/profile</a>
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns a data.frame.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>Quandl.api_key</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+Quandl.datatable.bulk_download_to_file('ZACKS/EE')
+
+## End(Not run)
+</code></pre>
+
+
+</div>

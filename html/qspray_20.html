@@ -1,0 +1,60 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>derivQspray</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Partial derivative</h2>
+
+<h3>Description</h3>
+
+<p>Partial derivative of a <code>qspray</code> polynomial.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">derivQspray(qspray, i, derivative = 1)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>qspray</code></td>
+<td>
+<p>object of class <code>qspray</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>i</code></td>
+<td>
+<p>integer, the dimension to differentiate with respect to, e.g. 
+<code>1</code> to differentiate with respect to <code class="reqn">x</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>derivative</code></td>
+<td>
+<p>integer, how many times to differentiate</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A <code>qspray</code> object.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(qspray)
+x &lt;- qlone(1)
+y &lt;- qlone(2)
+qspray &lt;- 2*x  + 3*x*y
+derivQspray(qspray, 2) # derivative w.r.t. y
+</code></pre>
+
+
+</div>

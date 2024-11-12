@@ -1,0 +1,82 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>meta_system</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Internal function to get, set or initialize system metadata</h2>
+
+<h3>Description</h3>
+
+<p>Sets or initializes system metadata for new objects.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">meta_system(x, field = NULL)
+
+meta_system(x, field = NULL) &lt;- value
+
+## S3 replacement method for class 'corpus'
+meta_system(x, field = NULL) &lt;- value
+
+## S3 replacement method for class 'tokens'
+meta_system(x, field = NULL) &lt;- value
+
+## S3 replacement method for class 'dfm'
+meta_system(x, field = NULL) &lt;- value
+
+## S3 replacement method for class 'dictionary'
+meta_system(x, field = NULL) &lt;- value
+
+meta_system_defaults()
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>an object for which the metadata will be read or set</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>field</code></td>
+<td>
+<p>metadata field name(s); if <code>NULL</code> (default), return all
+metadata names</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>value</code></td>
+<td>
+<p>new value of the metadata field</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p><code>meta_system</code> returns a list with the object's system metadata.
+It is literally a wrapper to <code>meta(x, field, type = "system")()</code>.
+</p>
+<p><code style="white-space: pre;">⁠meta_system&lt;-⁠</code> returns the object with the system metadata
+modified. This is an internal function and not designed for users!
+</p>
+<p><code>meta_system_defaults</code> returns a list of default system
+values, with the user setting the "source" value.  This should be used
+to set initial system meta information.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">corp &lt;- corpus(c(d1 = "one two three", d2 = "two three four"))
+# quanteda:::`meta_system&lt;-`(corp, value = quanteda:::meta_system_defaults("example"))
+quanteda:::meta_system(corp)
+</code></pre>
+
+
+</div>

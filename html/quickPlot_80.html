@@ -1,0 +1,92 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>newPlot</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Open a new plotting window</h2>
+
+<h3>Description</h3>
+
+<p>Open a new plotting window
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">newPlot(noRStudioGD = TRUE, ..., verbose = getOption("quickPlot.verbose"))
+
+dev.useRSGD(useRSGD = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>noRStudioGD</code></td>
+<td>
+<p>Logical Passed to <code>dev.new</code>. Default is TRUE to avoid using
+RStudio graphics device, which is slow.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Additional arguments.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p>Numeric or logical. If <code>TRUE</code> or <code style="white-space: pre;">⁠&gt;0⁠</code>, then messages will be
+shown. If <code>FALSE</code> or <code>0</code>, most messages will be suppressed.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>useRSGD</code></td>
+<td>
+<p>Logical indicating whether the default device should be the
+RStudio graphic device, or the platform default (<code>quartz</code>
+on macOS; <code>windows</code> on Windows; <code>x11</code> on others, e.g., Linux).</p>
+</td>
+</tr>
+</table>
+<h3>Note</h3>
+
+<p><code>dev.new()</code> is supposed to be the correct way to open a new
+window in a platform-generic way; however, does not work in RStudio
+(<a href="https://github.com/PredictiveEcology/SpaDES/issues/116">SpaDES#116</a>).
+Use <code>dev.useRSGD(FALSE)</code> to avoid RStudio for the remainder of this session,
+and <code>dev.useRSGD(TRUE)</code> to use the RStudio graphics device.
+(This sets the default device via the <code>device</code> option.)
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Eliot McIntire and Alex Chubaty
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>dev()</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+  ## set option to avoid using Rstudio graphics device
+  dev.useRSGD(FALSE)
+
+  ## open new plotting window
+  newPlot()
+
+## End(Not run)
+
+</code></pre>
+
+
+</div>

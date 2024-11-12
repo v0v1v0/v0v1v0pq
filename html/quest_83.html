@@ -1,0 +1,75 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>ngrp</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Number of Groups in Data</h2>
+
+<h3>Description</h3>
+
+<p><code>ngrp</code> computes the number of groups in data given one or more grouping
+variables. This is simply a combination of <code>unique.data.frame</code> +
+<code>nrow</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">ngrp(data, grp.nm)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>data.frame of data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>grp.nm</code></td>
+<td>
+<p>character vector of colnames from <code>data</code> specifying the
+grouping variables.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>integer vector of length 1 specifying the number of groups.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>nrow_ml</code>
+<code>ncases_ml</code>
+<code>nrow_by</code>
+<code>ncases_by</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+# one grouping variable
+Orthodont2 &lt;- as.data.frame(nlme::Orthodont)
+ngrp(Orthodont2, grp.nm = "Subject")
+length(unique(Orthodont2$"Subject"))
+
+# two grouping variable
+co2 &lt;- as.data.frame(CO2)
+ngrp(co2, grp.nm = c("Plant"))
+grp_nm &lt;- c("Type","Treatment")
+ngrp(co2, grp.nm = grp_nm)
+unique.data.frame(co2[grp_nm])
+
+#TODO: how does it handle factor levels with no cases?
+
+</code></pre>
+
+
+</div>

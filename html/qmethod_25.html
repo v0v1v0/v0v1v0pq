@@ -1,0 +1,87 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qfsi</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Q Methodology: Factor Stability index</h2>
+
+<h3>Description</h3>
+
+<p>Calculates a Factor Stability index and a Normalised Factor Stability index to bootstrapped Q method results (experimental).</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qfsi(nfactors, nstat, qscores, zsc_bn, qm)</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>nfactors</code></td>
+<td>
+<p>number of factors to extract.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nstat</code></td>
+<td>
+<p>number of statements in the study.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qscores</code></td>
+<td>
+<p>all possible factor score values in the Q grid distribution.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>zsc_bn</code></td>
+<td>
+<p>bootstrapped factor scores.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qm</code></td>
+<td>
+<p>original Q method results from <code>qmethod</code> function.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Applies the Factor Stability index to a bootstrapped Q method results. Returns a data frame with two variables and as many rows as factors extracted. The first variable is the raw Factor Stability index. The second variable is the Normalised Factor Stability index which ranges from 0 to 1.
+</p>
+
+
+<h3>Note</h3>
+
+<p>IMPORTANT: This function is experimental. Please contact the author for details.</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Aiora Zabala</p>
+
+
+<h3>See Also</h3>
+
+<p><code>qmboots</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(lipset)
+boots &lt;- qmboots(lipset[[1]], nfactors=3, nsteps=10, 
+           rotation="varimax", indet="qindtest",
+           fsi=FALSE)
+fsi &lt;- qfsi(nfactors=3, nstat=33, qscores=boots[[6]], 
+           zsc_bn=boots[[1]][[1]], qm=boots[[5]])
+fsi
+</code></pre>
+
+
+</div>

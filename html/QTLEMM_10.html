@@ -1,0 +1,150 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>LRTthre</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>LRT Threshold</h2>
+
+<h3>Description</h3>
+
+<p>The LRT threshold for QTL interval mapping based on the
+Gaussian stochastic process (Kao and Ho 2012).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">LRTthre(
+  marker,
+  type = "RI",
+  ng = 2,
+  cM = TRUE,
+  ns = 200,
+  gv = 25,
+  speed = 1,
+  simu = 1000,
+  d.eff = FALSE,
+  alpha = 0.05,
+  console = TRUE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>marker</code></td>
+<td>
+<p>matrix. A k*2 matrix contains the marker information,
+where the row dimension 'k' represents the number of markers in the
+chromosomes. The first column labels the chromosomes where the markers
+are located, and the second column labels the positions of markers (in
+morgan (M) or centimorgan (cM)). It's important to note that chromosomes
+and positions must be sorted in order.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>type</code></td>
+<td>
+<p>character. The population type of the dataset. Includes
+backcross (type="BC"), advanced intercross population (type="AI"), and
+recombinant inbred population (type="RI"). The default value is "RI".</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ng</code></td>
+<td>
+<p>integer. The generation number of the population type. For
+instance, in a BC1 population where type="BC", ng=1; in an AI F3
+population where type="AI", ng=3.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cM</code></td>
+<td>
+<p>logical. Specify the unit of marker position. If cM=TRUE, it
+denotes centimorgan; if cM=FALSE, it denotes morgan.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ns</code></td>
+<td>
+<p>integer. The number of individuals for generating the
+individual trait values. Changes in this value do not significantly
+affect the outcome of the LRT threshold value.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gv</code></td>
+<td>
+<p>numeric. The genetic variance for generating the
+individual trait values. Changes in this value do not significantly
+affect the outcome of the LRT threshold value.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>speed</code></td>
+<td>
+<p>numeric. The walking speed of the QTL analysis (in cM).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>simu</code></td>
+<td>
+<p>integer. Determines the number of simulation samples that
+will be used to compute the LRT threshold using the Gaussian process.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>d.eff</code></td>
+<td>
+<p>logical. Specifies whether the dominant effect will be
+considered in the parameter estimation for AI or RI population.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>alpha</code></td>
+<td>
+<p>numeric. The type I error rate for the LRT threshold.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>console</code></td>
+<td>
+<p>logical. Determines whether the process of the algorithm
+will be displayed in the R console or not.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>The LRT threshold for QTL interval mapping.
+</p>
+
+
+<h3>References</h3>
+
+<p>KAO, C.-H. and H.-A. Ho 2012 A score-statistic approach for determining
+threshold values in QTL mapping. Frontiers in Bioscience. E4, 2670-2682. &lt;doi: 10.2741/e582&gt;
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>rmvnorm</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># load the example data
+load(system.file("extdata", "exampledata.RDATA", package = "QTLEMM"))
+
+# run and result
+LRTthre(marker, type = "RI", ng = 2, speed = 2, simu = 60)
+</code></pre>
+
+
+</div>

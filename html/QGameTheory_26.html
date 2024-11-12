@@ -1,0 +1,58 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>QNewcomb</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Quantum Newcomb's Paradox</h2>
+
+<h3>Description</h3>
+
+<p>This function simulates the quantum version of the Newcomb's Paradox by taking in the choice of the qubit |0&gt; or |1&gt; by the supercomputer <code>Omega</code> and the probability <code>'probability'</code> with which Alice plays the spin flip operator. It returns the final state of the quantum game along with plotting the probability densities of the qubits of the final state after measurement.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">QNewcomb(Omega, probability)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>Omega</code></td>
+<td>
+<p>|0&gt; or |1&gt;</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>probability</code></td>
+<td>
+<p>a real number between 0 and 1 including the end points</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>The final state of the quantum game as a vector along with plotting the probability densities of the qubits of the final state after measurement.
+</p>
+
+
+<h3>References</h3>
+
+<p><a href="https://arxiv.org/pdf/quant-ph/0506219.pdf">https://arxiv.org/pdf/quant-ph/0506219.pdf</a><br><a href="https://arxiv.org/pdf/quant-ph/0208069.pdf">https://arxiv.org/pdf/quant-ph/0208069.pdf</a><br><a href="https://arxiv.org/pdf/quant-ph/0202074.pdf">https://arxiv.org/pdf/quant-ph/0202074.pdf</a><br></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">init()
+QNewcomb(Q$Q0, 0)
+QNewcomb(Q$Q1, 0)
+QNewcomb(Q$Q1, 0.7)
+
+</code></pre>
+
+
+</div>

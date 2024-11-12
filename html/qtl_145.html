@@ -1,0 +1,145 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>mqmplot.clusteredheatmap</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Plot clustered heatmap
+of MQM scan on multiple phenotypes</h2>
+
+<h3>Description</h3>
+
+<p>Plot the results from a MQM scan on multiple phenotypes.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">mqmplot.clusteredheatmap(cross, mqmresult, directed=TRUE, legend=FALSE,
+                         Colv=NA, scale="none", verbose=FALSE,
+                         breaks = c(-100,-10,-3,0,3,10,100),
+                         col = c("darkblue","blue","lightblue","yellow",
+                                 "orange","red"), ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>cross</code></td>
+<td>
+
+<p>An object of class <code>cross</code>. See <code>read.cross</code> for details. 
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mqmresult</code></td>
+<td>
+<p> Result object from mqmscanall, the object needs to be of class <code>mqmmulti</code> </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>directed</code></td>
+<td>
+<p> Take direction of QTLs into account (takes more time because of QTL direction calculations </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>legend</code></td>
+<td>
+<p> If TRUE, add a legend to the plot </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Colv</code></td>
+<td>
+<p> Cluster only the Rows, the columns (Markers) should not be clustered </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>scale</code></td>
+<td>
+<p> character indicating if the values should be centered and scaled in either
+the row direction or the column direction, or none. The default "none" </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p>If TRUE, give verbose output.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>breaks</code></td>
+<td>
+<p> Color break points for the LOD scores </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>col</code></td>
+<td>
+<p> Colors used between breaks </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Additional arguments passed to <code>heatmap</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Danny Arends <a href="mailto:danny.arends@gmail.com">danny.arends@gmail.com</a> 
+</p>
+
+
+<h3>See Also</h3>
+
+
+
+<ul>
+<li>
+<p> The MQM tutorial: <a href="https://rqtl.org/tutorials/MQM-tour.pdf">https://rqtl.org/tutorials/MQM-tour.pdf</a>
+</p>
+</li>
+<li> <p><code>MQM</code> - MQM description and references
+</p>
+</li>
+<li> <p><code>mqmscan</code> - Main MQM single trait analysis
+</p>
+</li>
+<li> <p><code>mqmscanall</code> - Parallellized traits analysis
+</p>
+</li>
+<li> <p><code>mqmaugment</code> - Augmentation routine for estimating missing data
+</p>
+</li>
+<li> <p><code>mqmautocofactors</code> - Set cofactors using marker density
+</p>
+</li>
+<li> <p><code>mqmsetcofactors</code> - Set cofactors at fixed locations
+</p>
+</li>
+<li> <p><code>mqmpermutation</code> - Estimate significance levels
+</p>
+</li>
+<li> <p><code>scanone</code> - Single QTL scanning
+
+</p>
+</li>
+</ul>
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(multitrait)
+
+multitrait &lt;- fill.geno(multitrait) # impute missing genotype data
+result &lt;- mqmscanall(multitrait, logtransform=TRUE)
+cresults &lt;- mqmplot.clusteredheatmap(multitrait,result)
+groupclusteredheatmap(multitrait,cresults,10)
+</code></pre>
+
+
+</div>

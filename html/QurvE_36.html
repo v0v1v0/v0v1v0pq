@@ -1,0 +1,224 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>plot.drFit</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Generic plot function for <code>drFit</code> objects.</h2>
+
+<h3>Description</h3>
+
+<p><code>plot.drFit</code> calls <code>plot.drFitSpline</code> for each group used in a dose-response analysis
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'drFit'
+plot(
+  x,
+  combine = TRUE,
+  names = NULL,
+  exclude.nm = NULL,
+  pch = 16,
+  cex.point = 2,
+  basesize = 15,
+  colors = NULL,
+  lwd = 0.7,
+  ec50line = TRUE,
+  y.lim = NULL,
+  x.lim = NULL,
+  y.title = NULL,
+  x.title = NULL,
+  log.y = FALSE,
+  log.x = FALSE,
+  plot = TRUE,
+  export = FALSE,
+  height = NULL,
+  width = NULL,
+  out.dir = NULL,
+  out.nm = NULL,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>object of class <code>drFit</code>, created with <code>growth.drFit</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>combine</code></td>
+<td>
+<p>(Logical) Combine the dose-response analysis results of all conditions into a single plot (<code>TRUE</code>) or not (<code>FALSE</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>names</code></td>
+<td>
+<p>(String or vector of strings) Define conditions to combine into a single plot (if <code>combine = TRUE</code>). Partial matches with sample/group names are accepted. If <code>NULL</code>, all samples are considered. Note: Ensure to use unique substrings to extract groups of interest. If the name of one condition is included in its entirety within the name of other conditions, it cannot be extracted individually.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>exclude.nm</code></td>
+<td>
+<p>(String or vector of strings) Define conditions to exclude from the plot (if <code>combine = TRUE</code>). Partial matches with sample/group names are accepted.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pch</code></td>
+<td>
+<p>(Numeric) Shape of the raw data symbols.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cex.point</code></td>
+<td>
+<p>(Numeric) Size of the raw data points.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>basesize</code></td>
+<td>
+<p>(Numeric) Base font size.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>colors</code></td>
+<td>
+<p>(Numeric or character) Define colors for different conditions.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lwd</code></td>
+<td>
+<p>(Numeric) Line width of the individual splines.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ec50line</code></td>
+<td>
+<p>(Logical) Show pointed horizontal and vertical lines at the EC50 values (<code>TRUE</code>) or not (<code>FALSE</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y.lim</code></td>
+<td>
+<p>(Numeric vector with two elements) Optional: Provide the lower (<code>l</code>) and upper (<code>u</code>) bounds on the y-axis as a vector in the form <code>c(l, u)</code>. If only the lower or upper bound should be fixed, provide <code>c(l, NA)</code> or <code>c(NA, u)</code>, respectively.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x.lim</code></td>
+<td>
+<p>(Numeric vector with two elements) Optional: Provide the lower (<code>l</code>) and upper (<code>u</code>) bounds on the x-axis as a vector in the form <code>c(l, u)</code>. If only the lower or upper bound should be fixed, provide <code>c(l, NA)</code> or <code>c(NA, u)</code>, respectively.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y.title</code></td>
+<td>
+<p>(Character) Optional: Provide a title for the y-axis.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x.title</code></td>
+<td>
+<p>(Character) Optional: Provide a title for the x-axis.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>log.y</code></td>
+<td>
+<p>(Logical) Log-transform the y-axis of the plot (<code>TRUE</code>) or not (<code>FALSE</code>)?</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>log.x</code></td>
+<td>
+<p>(Logical) Log-transform the x-axis of the plot (<code>TRUE</code>) or not (<code>FALSE</code>)?</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>plot</code></td>
+<td>
+<p>(Logical) Show the generated plot in the <code>Plots</code> pane (<code>TRUE</code>) or not (<code>FALSE</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>export</code></td>
+<td>
+<p>(Logical) Export the generated plot as PDF and PNG files (<code>TRUE</code>) or not (<code>FALSE</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>height</code></td>
+<td>
+<p>(Numeric) Height of the exported image in inches.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>width</code></td>
+<td>
+<p>(Numeric) Width of the exported image in inches.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>out.dir</code></td>
+<td>
+<p>(Character) Name or path to a folder in which the exported files are stored. If <code>NULL</code>, a "Plots" folder is created in the current working directory to store the files in.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>out.nm</code></td>
+<td>
+<p>(Character) The name of the PDF and PNG files if <code>export = TRUE</code>. If <code>NULL</code>, a name will be automatically generated including the chosen parameter.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Additional arguments. This has currently no effect and is only meant to fulfill the requirements of a generic function.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>One plot per condition tested in the dose-response analysis or a single plot showing all conditions if <code>control = growth.control(dr.method = "spline")</code> was used in <code>growth.drFit</code> and <code>combine = TRUE</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+# Create random growth data set
+rnd.data1 &lt;- rdm.data(d = 35, mu = 0.8, A = 5, label = "Test1")
+rnd.data2 &lt;- rdm.data(d = 35, mu = 0.6, A = 4.5, label = "Test2")
+
+rnd.data &lt;- list()
+rnd.data[["time"]] &lt;- rbind(rnd.data1$time, rnd.data2$time)
+rnd.data[["data"]] &lt;- rbind(rnd.data1$data, rnd.data2$data)
+
+# Run growth curve analysis workflow
+gcFit &lt;- growth.gcFit(time = rnd.data$time,
+                       data = rnd.data$data,
+                       parallelize = FALSE,
+                       control = growth.control(fit.opt = "s",
+                                                suppress.messages = TRUE))
+
+# Perform dose-response analysis
+drFit &lt;- growth.drFit(gcTable = gcFit$gcTable,
+                 control = growth.control(dr.parameter = "mu.spline"))
+
+# Inspect results
+summary(drFit)
+
+plot(drFit)
+
+</code></pre>
+
+
+</div>

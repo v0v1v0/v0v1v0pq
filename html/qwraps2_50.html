@@ -1,0 +1,111 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qroc-qprc</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Receiver-Operator and Precision-Recall Curves</h2>
+
+<h3>Description</h3>
+
+<p>Construction of ROC and PRC data and plots.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qroc(x, ...)
+
+## Default S3 method:
+qroc(x, ...)
+
+## S3 method for class 'qwraps2_confusion_matrix'
+qroc(x, ...)
+
+## S3 method for class 'glm'
+qroc(x, ...)
+
+qprc(x, ...)
+
+## Default S3 method:
+qprc(x, ...)
+
+## S3 method for class 'qwraps2_confusion_matrix'
+qprc(x, ...)
+
+## S3 method for class 'glm'
+qprc(x, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>an object</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>pass through</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The area under the curve (AUC) is determined by a trapezoid approximation for
+both the AUROC and AUPRC.
+</p>
+<p>More details and examples for graphics within qwraps2 are in the
+vignette(“qwraps2-graphics”, package = “qwraps2”)
+</p>
+
+
+<h3>Value</h3>
+
+<p>a ggplot.  Minimal aesthetics have been used so that the user may
+modify the graphic as desired with ease.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">#########################################################
+# Example 1
+
+df &lt;-
+  data.frame(
+      truth = c(1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0)
+    , pred  = c(1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0)
+  )
+
+cm &lt;- confusion_matrix(df$truth, df$pred)
+qroc(cm)
+qprc(cm)
+
+#########################################################
+# Getting a ROC or PRC plot from a glm object:
+
+mod &lt;- glm(
+  formula = spam ~ word_freq_our + word_freq_over + capital_run_length_total
+, data = spambase
+, family = binomial()
+)
+
+qroc(mod)
+qprc(mod)
+
+#########################################################
+# View the vignette for more examples
+## Not run: 
+vignette("qwraps2-graphics")
+
+## End(Not run)
+
+</code></pre>
+
+
+</div>

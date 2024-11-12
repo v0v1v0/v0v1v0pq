@@ -1,0 +1,116 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>intensity_plot</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Generates an intensity plot from x, y datasets</h2>
+
+<h3>Description</h3>
+
+<p>This function is used by <code>match_alleles</code> to
+generate an intensity plot. This function is currently only
+partially implemented, so we recommend that users do not
+bother with it.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">intensity_plot(x, y, strata, nbin = 20,
+               xmax = max(x), xmin = min(x),
+               ymax = max(y), ymin = min(y),
+               strata_colours = c("black", "red", "turquoise3"),
+               verbose = TRUE, xlab = "x", ylab = "y", ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x, y</code></td>
+<td>
+<p>numerical vectors; the x and y coordiantes of the
+datapoints.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>strata</code></td>
+<td>
+<p>logical vector; indicates whether the datapoint
+belongs to strata 1 or 2. If missing, all datapoints are
+assumed to belong to strata 1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nbin</code></td>
+<td>
+<p>integer: the number of bins (categories) on the x
+and y axis.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xmax, xmin, ymax, ymin</code></td>
+<td>
+<p>numeric; the range of x and y
+values shown in the plot.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>strata_colours</code></td>
+<td>
+<p>character vector of length <code>3</code>,
+indicating the colours to be used for entries of strata 1, 2
+or mixed, respectively.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p>logical; determines whether a warning is printed
+in the console when datapoints are removed.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xlab, ylab, ...</code></td>
+<td>
+<p>arguments passed to <code>plot</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>This function is intended as an alternative to the standard
+scatter plot for the allele-frequency correlation graph.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An invisible object of type <code>list</code> with the following two
+components:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>NA_removed</code></td>
+<td>
+<p>The number of entries removed due to missing
+values</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>outliers_removed</code></td>
+<td>
+<p>The number of entries removed because
+they exceeded the thresholds specified by the min/max
+arguments.</p>
+</td>
+</tr>
+</table>
+<h3>See Also</h3>
+
+<p><code>match_alleles</code></p>
+
+
+</div>

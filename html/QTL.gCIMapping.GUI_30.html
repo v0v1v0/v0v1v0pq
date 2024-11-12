@@ -1,0 +1,92 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>WenF</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>To perform QTL mapping with Wen method</h2>
+
+<h3>Description</h3>
+
+<p>An efficient multi-locus mixed model framework for the detection of small and linked QTLs in F2</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">WenF(pheRaw,genRaw,mapRaw1,yygg1,cov_en,WalkSpeed,CriLOD,dir)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>pheRaw</code></td>
+<td>
+<p>phenotype matrix.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>genRaw</code></td>
+<td>
+<p>genotype matrix.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mapRaw1</code></td>
+<td>
+<p>linkage map matrix.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>yygg1</code></td>
+<td>
+<p>the transformed covariate matrix .</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cov_en</code></td>
+<td>
+<p>raw covariate matrix.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>WalkSpeed</code></td>
+<td>
+<p>Walk speed for Genome-wide Scanning.(WalkSpeed=1).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>CriLOD</code></td>
+<td>
+<p>Critical LOD scores for significant QTL (CriLOD=2.5).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dir</code></td>
+<td>
+<p>file path in your computer.</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Zhang Ya-Wen, Wen Yang-Jun, Wang Shi-Bo, Zhang Yuan-Ming<br>
+Maintainer: Yuanming Zhang&lt;soyzhang@mail.hzau.edu.cn&gt;
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+data(genf2)
+data(phef2)
+data(mapf2)
+wf&lt;-WenF(pheRaw=phef2,genRaw=genf2,mapRaw1=mapf2,
+yygg1=NULL,cov_en=NULL,WalkSpeed=1,CriLOD=2.5,dir=tempdir())
+
+## End(Not run)
+</code></pre>
+
+
+</div>

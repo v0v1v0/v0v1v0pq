@@ -1,0 +1,134 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>cic</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Calculate Jacquard condensed identity coefficients
+</h2>
+
+<h3>Description</h3>
+
+<p>Calculate Jacquard condensed identity coefficients from a pedigree.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">cic(ped, ids, inter, df=3, ask = FALSE, msg = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>ped</code></td>
+<td>
+
+<p>A pedigree, which is a data frame (id, father/sire, mother/dam, ...). If given, "generation" can be numeric 0, 1, 2, ... or non-numeric "F0", "F1", "F2", ... If "sex" is included, male should be "M", "Male" or 1, and female should be "F", "Female" or 2 (other than 0 and 1). If a founder is inbred, its ID should be tagged by character 'i' (e.g. 1i, 2i, etc.). Note: 0 is reserved for unknown <code>father</code>, <code>mother</code> or <code>sex</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ids</code></td>
+<td>
+
+<p>IDs of the individuals for which to calculate the Jacquard condensed identity coefficients. If missing, all individuals in the pedigree <code>ped</code> will be considered.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>inter</code></td>
+<td>
+
+<p>Intermediate generations, if given, where coefficients are calculated bottom-up.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>df</code></td>
+<td>
+
+<p>If <code>inter</code> is missing, <code>df</code> is used to derive (optimal) <code>inter</code>. If <code>df = 0</code>, then there will no intermediate generations. If <code>df</code> is large (and free disk space is sufficient), then all generations will be used as intermediate generations.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ask</code></td>
+<td>
+
+<p>If true, users will be asked whether to proceed.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>msg</code></td>
+<td>
+
+<p>If true, will print out some messages.
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The coefficients will be calculated for individuals with IDs specified by <code>ids</code>. All individuals will be considered if <code>ids</code> is missing. This is not recommended if the total number of individuals in the pedigree is large. Instead, it is recommended that <code>ids</code> is specified for interested individuals only
+</p>
+<p><code>df</code> is a tuning parameter. It should not be 0 (or smaller than 1) if the pedigree is large in depth (many generations) but the number of individuals is not small; otherwise, it can take forever to finish. It should not be <code>Inf</code> (or a large number) if the number of individuals in certain intermediate generation is very large.
+</p>
+<p>Any individual without parent information is regarded as diallelic with two independent alleles. Users can add to their pedigree (e.g. 50 generations of selfing) if founders are inbred.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A matrix G with G[,j] being the j-th Jacquard identity coefficients.
+</p>
+
+
+<h3>Note</h3>
+
+<p>You may need the administrative privilege to run this function on systems such as Windows 7. It may require your operating system support "long long" integer type in C++. If you run this function in a windows system, make sure the working directory is under system volume C and you have the write privilege.
+</p>
+<p>It is better to remove the working directory if the program is interrupted by external forces (e.g. killed by users).
+</p>
+<p>Warning: you may need to run this program on a 64-bit machine in case of seeing such a message!
+</p>
+
+
+<h3>References</h3>
+
+<p>Abney, M., M. S. McPeek, and C. Ober (2000). Estimation of variance components of quantitative traits in inbred populations. Am. J. Hum. Genet. 141, 629-650.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>pedRecode</code> for more information.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(miscEx)
+
+ids&lt;- sample(pedF8$id[300:500],20)
+
+## Not run: 
+# run 'cic' for the sampled individuals
+# top-down
+oo&lt;- cic(pedF8, ids=ids, df=Inf, msg=TRUE)
+# bottom-up
+o1&lt;- cic(pedF8, ids=ids, df=0, msg=TRUE)
+# hybrid of top-down and bottom-up
+o2&lt;- cic(pedF8, ids=ids, ask=TRUE, msg=TRUE)
+# same results
+c(sum(abs(oo-o1) &gt;1e-7),sum(abs(o2-o1) &gt;1e-7))
+
+## End(Not run)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,148 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qcs.c</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Function to plot Shewhart c chart</h2>
+
+<h3>Description</h3>
+
+<p>This function is used to compute statistics required by the c chart.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qcs.c(x, ...)
+
+## Default S3 method:
+qcs.c(
+  x,
+  var.index = 1,
+  sample.index = 2,
+  covar.index = NULL,
+  covar.names = NULL,
+  data.name = NULL,
+  sizes = NULL,
+  center = NULL,
+  conf.nsigma = 3,
+  limits = NULL,
+  plot = FALSE,
+  ...
+)
+
+## S3 method for class 'qcd'
+qcs.c(x, center = NULL, conf.nsigma = 3, limits = NULL, plot = FALSE, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>an object qcd (Quality Control Data)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>arguments passed to or from methods.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>var.index</code></td>
+<td>
+<p>a scalar with the column number corresponding to the observed data for
+the variable (the variable quality).  Alternativelly can be a string with the
+name of the quality variable.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sample.index</code></td>
+<td>
+<p>a scalar with the column number corresponding to the index each
+group (sample).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>covar.index</code></td>
+<td>
+<p>optional. A scalar or numeric vector with the column number(s)
+corresponding to the covariate(s). Alternativelly it can be a character vector with
+the names of the covariates.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>covar.names</code></td>
+<td>
+<p>optional. A string or vector of strings with names for the
+covariate columns.  Only valid if there is more than one column of data. By
+default, takes the names from the original object.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data.name</code></td>
+<td>
+<p>a string specifying the name of the variable which appears on the
+plots. If not provided it is taken from the object given as data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sizes</code></td>
+<td>
+<p>optional. A value or a vector of values specifying the sample sizes
+associated with each group. For continuous data the sample sizes are obtained counting the non-<code>NA</code> elements##' of the sample.index vector. For attribute variable the argument sizes is required.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>center</code></td>
+<td>
+<p>a value specifying the center of group statistics or the
+”target” value of the process.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>conf.nsigma</code></td>
+<td>
+<p>a numeric value used to compute control limits, specifying the
+number of standard deviations (if <code>conf.nsigma</code> &gt; 1) or the confidence level (if 0
+&lt; <code>conf.nsigma</code> &lt; 1).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>limits</code></td>
+<td>
+<p>a two-value vector specifying control limits.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>plot</code></td>
+<td>
+<p>a logical value indicating that it should be plotted.</p>
+</td>
+</tr>
+</table>
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(qcr)
+data(circuit)
+attach(circuit)
+str(circuit)
+datos &lt;- circuit
+datos$sample &lt;- 1:length(datos$x)
+str(datos)
+sizes &lt;- datos[,2]
+
+datos.qcd &lt;- qcd(data = datos, var.index = 1,sample.index = 2,
+                sizes = size, type.data = "atributte")
+res.qcs &lt;- qcs.c(datos.qcd)
+summary(res.qcs)
+plot(res.qcs)
+
+</code></pre>
+
+
+</div>

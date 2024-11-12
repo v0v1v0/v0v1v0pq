@@ -1,0 +1,184 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>rm_tag</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Remove/Replace/Extract Person Tags</h2>
+
+<h3>Description</h3>
+
+<p>Remove/replace/extract person tags from a string.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">rm_tag(
+  text.var,
+  trim = !extract,
+  clean = TRUE,
+  pattern = "@rm_tag",
+  replacement = "",
+  extract = FALSE,
+  dictionary = getOption("regex.library"),
+  ...
+)
+
+ex_tag(
+  text.var,
+  trim = !extract,
+  clean = TRUE,
+  pattern = "@rm_tag",
+  replacement = "",
+  extract = TRUE,
+  dictionary = getOption("regex.library"),
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>text.var</code></td>
+<td>
+<p>The text variable.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>trim</code></td>
+<td>
+<p>logical.  If <code>TRUE</code> removes leading and trailing white 
+spaces.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>clean</code></td>
+<td>
+<p>trim logical.  If <code>TRUE</code> extra white spaces and escaped 
+character will be removed.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pattern</code></td>
+<td>
+<p>A character string containing a regular expression (or 
+character string for <code>fixed = TRUE</code>) to be matched in the given 
+character vector.  Default, <code>@rm_tag</code> uses the 
+<code>rm_tag</code> regex from the regular expression dictionary from 
+the <code>dictionary</code> argument.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>replacement</code></td>
+<td>
+<p>Replacement for matched <code>pattern</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>extract</code></td>
+<td>
+<p>logical.  If <code>TRUE</code> the person tags are extracted into a 
+list of vectors.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dictionary</code></td>
+<td>
+<p>A dictionary of canned regular expressions to search within 
+if <code>pattern</code> begins with <code>"@rm_"</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Other arguments passed to <code>gsub</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The default regex pattern <code>"(?&lt;![@\w])@([a-z0-9_]+)\b"</code> is 
+more liberal and searches for the at (@) symbol followed by any word.  This 
+can be accessed via <code>pattern = "@rm_tag"</code>.  Twitter user names are more 
+constrained.  A second regex (<code>"(?&lt;![@\w])@([a-z0-9_]{1,15})\b"</code>) is 
+provide that contains the latter word to substring that begins with an at 
+(@) followed by a word composed of alpha-numeric characters and underscores, 
+no longer than 15 characters.  This can be accessed via 
+<code>pattern = "@rm_tag2"</code> (see <b>Examples</b>).
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns a character string with person tags removed.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>gsub</code>,
+<code>stri_extract_all_regex</code>
+</p>
+<p>Other rm_ functions: 
+<code>rm_abbreviation()</code>,
+<code>rm_between()</code>,
+<code>rm_bracket()</code>,
+<code>rm_caps_phrase()</code>,
+<code>rm_caps()</code>,
+<code>rm_citation_tex()</code>,
+<code>rm_citation()</code>,
+<code>rm_city_state_zip()</code>,
+<code>rm_city_state()</code>,
+<code>rm_date()</code>,
+<code>rm_default()</code>,
+<code>rm_dollar()</code>,
+<code>rm_email()</code>,
+<code>rm_emoticon()</code>,
+<code>rm_endmark()</code>,
+<code>rm_hash()</code>,
+<code>rm_nchar_words()</code>,
+<code>rm_non_ascii()</code>,
+<code>rm_non_words()</code>,
+<code>rm_number()</code>,
+<code>rm_percent()</code>,
+<code>rm_phone()</code>,
+<code>rm_postal_code()</code>,
+<code>rm_repeated_characters()</code>,
+<code>rm_repeated_phrases()</code>,
+<code>rm_repeated_words()</code>,
+<code>rm_time()</code>,
+<code>rm_title_name()</code>,
+<code>rm_url()</code>,
+<code>rm_white()</code>,
+<code>rm_zip()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">x &lt;- c("@hadley I like #rstats for #ggplot2 work.",
+    "Difference between #magrittr and #pipeR, both implement pipeline operators for #rstats:
+        http://renkun.me/r/2014/07/26/difference-between-magrittr-and-pipeR.html @timelyportfolio",
+    "Slides from great talk: @ramnath_vaidya: Interactive slides from Interactive Visualization
+        presentation #user2014. http://ramnathv.github.io/user2014-rcharts/#1",
+    "tyler.rinker@gamil.com is my email", 
+    "A non valid Twitter is @abcdefghijklmnopqrstuvwxyz"
+)
+
+rm_tag(x)
+rm_tag(rm_hash(x))
+ex_tag(x)
+
+## more restrictive Twitter regex
+ex_tag(x, pattern="@rm_tag2") 
+
+## Remove only the @ sign
+rm_tag(x, replacement = "\\3")
+rm_tag(x, replacement = "\\3", pattern="@rm_tag2")
+</code></pre>
+
+
+</div>

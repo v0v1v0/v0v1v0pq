@@ -1,0 +1,50 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>counters</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>The performance of the counters data</h2>
+
+<h3>Description</h3>
+
+<p>A water company from A Corunia wants to control the performance 
+of the counters installed throughout the city.
+60 subsamples are taken each one composed by 3 measurements made 
+by the counters of the same antiquity (10 years) and caliber, 
+in a period of 5 years. Taking into account that there are two brands 
+or providers of counters
+</p>
+
+
+<h3>Format</h3>
+
+<p>A data frame with 180 observations on the following 3 variables:
+</p>
+
+<dl>
+<dt>error</dt>
+<dd>
+<p>the measurement error of the counters (Error:  (Real Volume - Measured Volume)/Real Volume)</p>
+</dd>
+<dt>sample</dt>
+<dd>
+<p>sample id</p>
+</dd>
+<dt>brand</dt>
+<dd>
+<p>brands of providers of counters</p>
+</dd>
+</dl>
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+data(counters)
+attach(counters)
+summary(counters)
+plot(error, type="b")
+detach(counters)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,126 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>insert_pseudomarkers</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Insert pseudomarkers into a marker map</h2>
+
+<h3>Description</h3>
+
+<p>Insert pseudomarkers into a map of genetic markers
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">insert_pseudomarkers(
+  map,
+  step = 0,
+  off_end = 0,
+  stepwidth = c("fixed", "max"),
+  pseudomarker_map = NULL,
+  tol = 0.01,
+  cores = 1
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>map</code></td>
+<td>
+<p>A list of numeric vectors; each vector gives marker
+positions for a single chromosome.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>step</code></td>
+<td>
+<p>Distance between pseudomarkers and markers; if
+<code>step=0</code> no pseudomarkers are inserted.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>off_end</code></td>
+<td>
+<p>Distance beyond terminal markers in which to insert
+pseudomarkers.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>stepwidth</code></td>
+<td>
+<p>Indicates whether to use a fixed grid
+(<code>stepwidth="fixed"</code>) or to use the maximal distance between
+pseudomarkers to ensure that no two adjacent markers/pseudomarkers
+are more than <code>step</code> apart.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pseudomarker_map</code></td>
+<td>
+<p>A map of pseudomarker locations; if provided the
+<code>step</code>, <code>off_end</code>, and <code>stepwidth</code> arguments are
+ignored.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tol</code></td>
+<td>
+<p>Tolerance for determining whether a pseudomarker would duplicate a marker position.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cores</code></td>
+<td>
+<p>Number of CPU cores to use, for parallel calculations.
+(If <code>0</code>, use <code>parallel::detectCores()</code>.)
+Alternatively, this can be links to a set of cluster sockets, as
+produced by <code>parallel::makeCluster()</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>If <code>stepwidth="fixed"</code>, a grid of pseudomarkers is
+added to the marker map.
+</p>
+<p>If <code>stepwidth="max"</code>, a minimal set of pseudomarkers are
+added, so that the maximum distance between adjacent markers or
+pseudomarkers is at least <code>step</code>. If two adjacent markers are
+separated by less than <code>step</code>, no pseudomarkers will be added
+to the interval. If they are more then <code>step</code> apart, a set of
+equally-spaced pseudomarkers will be added.
+</p>
+<p>If <code>pseudomarker_map</code> is provided, then the <code>step</code>,
+<code>off_end</code>, and <code>stepwidth</code> arguments are ignored, and the
+input <code>pseudomarker_map</code> is taken to be the set of
+pseudomarker positions.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list like the input <code>map</code> with pseudomarkers
+inserted. Will also have an attribute <code>"is_x_chr"</code>, taken
+from the input <code>map</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>calc_genoprob()</code>, <code>calc_grid()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">iron &lt;- read_cross2(system.file("extdata", "iron.zip", package="qtl2"))
+gmap_w_pmar &lt;- insert_pseudomarkers(iron$gmap, step=1)
+</code></pre>
+
+
+</div>

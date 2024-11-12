@@ -1,0 +1,89 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>create_snpinfo</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Create snp information table for a cross</h2>
+
+<h3>Description</h3>
+
+<p>Create a table of snp information from a cross, for use with <code>scan1snps()</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">create_snpinfo(cross)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>cross</code></td>
+<td>
+<p>Object of class <code>"cross2"</code>. For details, see the
+<a href="https://kbroman.org/qtl2/assets/vignettes/developer_guide.html">R/qtl2 developer guide</a>.</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>A data frame of SNP information with the following columns:
+</p>
+
+<ul>
+<li> <p><code>chr</code> - Character string or factor with chromosome
+</p>
+</li>
+<li> <p><code>pos</code> - Position (in same units as in the <code>"map"</code>
+attribute in <code>genoprobs</code>.
+</p>
+</li>
+<li> <p><code>snp</code> - Character string with SNP identifier (if
+missing, the rownames are used).
+</p>
+</li>
+<li> <p><code>sdp</code> - Strain distribution pattern: an integer, between
+1 and <code class="reqn">2^n - 2</code> where <code class="reqn">n</code> is the number of strains, whose
+binary encoding indicates the founder genotypes
+SNPs with missing founder genotypes are omitted.
+</p>
+</li>
+</ul>
+<h3>See Also</h3>
+
+<p><code>index_snps()</code>, <code>scan1snps()</code>, <code>genoprob_to_snpprob()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+# load example data and calculate genotype probabilities
+file &lt;- paste0("https://raw.githubusercontent.com/rqtl/",
+               "qtl2data/main/DO_Recla/recla.zip")
+recla &lt;- read_cross2(file)
+snpinfo &lt;- create_snpinfo(recla)
+
+# calculate genotype probabilities
+pr &lt;- calc_genoprob(recla, error_prob=0.002, map_function="c-f")
+
+# index the snp information
+snpinfo &lt;- index_snps(recla$pmap, snpinfo)
+
+# sex covariate
+sex &lt;- setNames((recla$covar$Sex=="female")*1, rownames(recla$covar))
+
+# perform a SNP scan
+out &lt;- scan1snps(pr, recla$pmap, recla$pheno[,"bw"], addcovar=sex, snpinfo=snpinfo)
+
+# plot the LOD scores
+plot(out$lod, snpinfo, altcol="green3")
+
+## End(Not run)
+
+</code></pre>
+
+
+</div>

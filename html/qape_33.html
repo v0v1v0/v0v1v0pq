@@ -1,0 +1,77 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>Zfun</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Matrix Z creator</h2>
+
+<h3>Description</h3>
+
+<p>The function creates the Z matrix of auxiliary variables 
+asscociatied with random effects. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">Zfun(model, data)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>model</code></td>
+<td>
+<p>formula of model (use <em>formula()</em> function).
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>data.
+</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>Z</code></td>
+<td>
+<p>Z matrix.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vNames</code></td>
+<td>
+<p>labels of random effects.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ZBlockNames</code></td>
+<td>
+<p>labels of blocks of random effects.</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Alicja Wolny-Dominiak</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(invData)
+modelFormula &lt;- formula(investments~newly_registered + (newly_registered | NUTS2))
+reg &lt;- invData
+
+Zfun(modelFormula, reg)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,116 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>Quandl</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Retrieves Data from the Quandl Dataset endpoint and formats</h2>
+
+<h3>Description</h3>
+
+<p>Retrieves Data from the Quandl Dataset endpoint and formats
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">Quandl(
+  code,
+  type = c("raw", "ts", "zoo", "xts", "timeSeries"),
+  transform = c("", "diff", "rdiff", "normalize", "cumul", "rdiff_from"),
+  collapse = c("", "daily", "weekly", "monthly", "quarterly", "annual"),
+  order = c("desc", "asc"),
+  meta = FALSE,
+  force_irregular = FALSE,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>code</code></td>
+<td>
+<p>Dataset code on Quandl specified as a string or an array of strings.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>type</code></td>
+<td>
+<p>Type of data returned specified as string. Can be 'raw', 'ts', 'zoo', 'xts' or 'timeSeries'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>transform</code></td>
+<td>
+<p>Apply Quandl API data transformations.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>collapse</code></td>
+<td>
+<p>Collapse frequency of Data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>order</code></td>
+<td>
+<p>Select if data is given to R in ascending or descending formats. Helpful for the rows parameter.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>meta</code></td>
+<td>
+<p>Adds meta data as an attribute to the returned Data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>force_irregular</code></td>
+<td>
+<p>When set to TRUE, forces the index of the Data to be of date format yyyy-mm-dd</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Additional named values that are interpreted as Quandl API parameters. Please see <a href="https://docs.quandl.com/docs/in-depth-usage#get-time-series-metadata">https://docs.quandl.com/docs/in-depth-usage#get-time-series-metadata</a> for a full list of parameters.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Set your <code>api_key</code> with <code>Quandl.api_key</code> function. For instructions on finding your api key go to <a href="https://www.quandl.com/account/profile">https://www.quandl.com/account/profile</a>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Depending on the type the class is either data.frame, time series, xts, zoo or timeSeries.
+</p>
+
+
+<h3>References</h3>
+
+<p>This R package uses the Quandl API. For more information go to <a href="https://docs.quandl.com">https://docs.quandl.com</a>. For more help on the package itself go to <a href="https://www.quandl.com/tools/r">https://www.quandl.com/tools/r</a>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>Quandl.api_key</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+quandldata = Quandl("NSE/OIL", collapse="monthly", start_date="2013-01-01", type="ts")
+plot(quandldata[,1])
+
+## End(Not run)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,139 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>midquantile</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Mid-distribution Functions
+</h2>
+
+<h3>Description</h3>
+
+<p>Compute mid-cumulative probabilities and mid-quantiles
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">midecdf(x, na.rm = FALSE)
+midquantile(x, probs = 1:3/4, na.rm = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+
+<p>numeric vector of observations used to estimate the mid-cumulative distribution or the mid-quantiles.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>probs</code></td>
+<td>
+
+<p>numeric vector of probabilities with values in [0,1].
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>na.rm</code></td>
+<td>
+
+<p>logical value indicating whether NA values should be stripped before the computation proceeds.
+</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>An object of class <code>class</code> <code>midecdf</code> or <code>midquantile</code> with mid-cumulative probabilities and mid-quantiles. For <code>midecdf</code>, this is a list that contains:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>unique values of the vector <code>x</code> at which mid-cumulative probabilities are calculated.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>estimated mid-cumulative probabilities.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fn</code></td>
+<td>
+<p>interpolating function of the points <code>(x,y)</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>input values.</p>
+</td>
+</tr>
+</table>
+<p>For <code>midquantile</code>, this is a list that contains:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>probabilities <code>probs</code> at which mid-quantiles are calculated.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>estimated mid-cumulative probabilities.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fn</code></td>
+<td>
+<p>interpolating function of the points <code>(x,y)</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>input values.</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Marco Geraci
+</p>
+
+
+<h3>References</h3>
+
+<p>Ma Y., Genton M., and Parzen E. Asymptotic properties of sample quantiles of discrete distributions. Annals of the Institute of Statistical Mathematics 2011;63(2):227-243
+</p>
+<p>Parzen E. Quantile probability and statistical data modeling. Statistical Science 2004;19(4):652-62.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>confint.midquantile</code>, <code>plot.midquantile</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+x &lt;- rpois(100, lambda = 3)
+midquantile(x)
+
+</code></pre>
+
+
+</div>

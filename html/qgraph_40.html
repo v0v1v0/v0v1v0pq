@@ -1,0 +1,99 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>VARglm</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Computes a vector autoregressive lag-1 model using GLM
+</h2>
+
+<h3>Description</h3>
+
+<p>This function computes a VAR model using glm.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">VARglm(x, family, vars, adjacency, icfun = BIC, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+
+<p>A data frame
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>family</code></td>
+<td>
+
+<p>The family to be used. Defaults to <code>gaussian</code> if data is continuous or <code>binomial</code> if data is binary
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vars</code></td>
+<td>
+
+<p>Vector of variables to predict. If missing all variables are predicted.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>adjacency</code></td>
+<td>
+
+<p>Adjacency matrix. If missing full network is estimated
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>icfun</code></td>
+<td>
+
+<p>Information criterium function to be included in the output
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+
+<p>Arguments used in the <code>icfun</code>
+</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list containing:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>graph</code></td>
+<td>
+<p>The estimated graph</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>IC</code></td>
+<td>
+<p>The information criterium</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Sacha Epskamp &lt;mail@sachaepskamp.com
+</p>
+
+
+</div>

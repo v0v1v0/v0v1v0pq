@@ -1,0 +1,59 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>escape</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Escape Strings From Parsing</h2>
+
+<h3>Description</h3>
+
+<p>Escape literal beginning at (@) strings from <span class="pkg">qdapRegex</span> parsing.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">escape(pattern)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>pattern</code></td>
+<td>
+<p>A character string that should not be parsed.</p>
+</td>
+</tr></table>
+<h3>Details</h3>
+
+<p>Many <span class="pkg">qdapRegex</span> functions parse <code>pattern</code> strings 
+beginning with an at character (@) and comparing against the default and 
+supplemental (<code>regex_supplement</code>) dictionaries.  This 
+means that a string such as "@before_" will be returned as 
+"\\w+?(?= ((%s|%s)\\b))".  If the user wanted to use a regular 
+expression that was literally "@before_" the <code>escape</code> function classes 
+the character string and tells the <span class="pkg">qdapRegex</span> functions not to parse it 
+(i.e., keep it as a literal string).
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns a character vector of the class "escape" and "character".
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">escape("@rm_caps")
+
+x &lt;- "...character vector.  Default, \\code{@rm_caps} uses..."
+
+rm_default(x, pattern = "@rm_caps")
+rm_default(x, pattern = escape("@rm_caps"))
+</code></pre>
+
+
+</div>

@@ -1,0 +1,111 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>divergentColors</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Divergent colour palette</h2>
+
+<h3>Description</h3>
+
+<p>Creates a palette for the current session for a divergent-colour graphic with
+a non-symmetric range.
+Based on ideas from Maureen Kennedy, Nick Povak, and Alina Cansler.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">divergentColors(
+  start.color,
+  end.color,
+  min.value,
+  max.value,
+  mid.value = 0,
+  mid.color = "white"
+)
+
+## S4 method for signature 'character,character,numeric,numeric'
+divergentColors(
+  start.color,
+  end.color,
+  min.value,
+  max.value,
+  mid.value = 0,
+  mid.color = "white"
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>start.color</code></td>
+<td>
+<p>Start colour to be passed to <code>colorRampPalette</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>end.color</code></td>
+<td>
+<p>End colour to be passed to <code>colorRampPalette</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>min.value</code></td>
+<td>
+<p>Numeric minimum value corresponding to <code>start.colour</code>.
+If attempting to change the colour of a <code>RasterLayer</code>,
+this can be set to <code>minFn(RasterObject)</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>max.value</code></td>
+<td>
+<p>Numeric maximum value corresponding to <code>end.colour</code>.
+If attempting to change the colour of a <code>RasterLayer</code>,
+this can be set to <code>maxFn(RasterObject)</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mid.value</code></td>
+<td>
+<p>Numeric middle value corresponding to <code>mid.colour</code>.
+Default is <code>0</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mid.color</code></td>
+<td>
+<p>Middle colour to be passed to <code>colorRampPalette</code>.
+Defaults to <code>"white"</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A diverging colour palette.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Eliot McIntire and Alex Chubaty
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>colorRampPalette()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">divergentColors("darkred", "darkblue", -10, 10, 0, "white")
+
+</code></pre>
+
+
+</div>

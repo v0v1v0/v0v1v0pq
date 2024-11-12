@@ -1,0 +1,62 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>hessen</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Extract from the SyHD Project on the syntax of the dialect of Hessen (Germany)
+</h2>
+
+<h3>Description</h3>
+
+<p>An example dataset of dialect data.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">data(hessen)</code></pre>
+
+
+<h3>Format</h3>
+
+<p>List of 3
+</p>
+
+<dl>
+<dt><code>boundary</code></dt>
+<dd>
+<p>An object of type <code>owin</code> describing a geographical boundary. This format is necessary for Voronoi diagrams.</p>
+</dd>
+<dt><code>villages</code></dt>
+<dd>
+<p>A dataframe with two variables "longitude" and "latitude" for the 157 villages on this there is data in this dataset.</p>
+</dd>
+<dt><code>data</code></dt>
+<dd>
+<p>Dataframe with 56 different characteristics of these 157 villages, distributed over 15 different variables (as indicated in the column names).</p>
+</dd>
+</dl>
+<h3>Source</h3>
+
+<p>Data from <a href="https://www.syhd.info/startseite/index.html">https://www.syhd.info/startseite/index.html</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Jürg Fleischer, Simon Kasper &amp; Alexandra N. Lenz (2012): Die Erhebung syntaktischer Phänomene durch die indirekte Methode: Ergebnisse und Erfahrungen aus dem Forschungsprojekt "Syntax hessischer Dialekte" (SyHD). In: Zeitschrift für Dialektologie und Linguistik 79/1, 2-42.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(hessen)
+
+tessalation &lt;- weightedMap(hessen$villages, window = hessen$boundary, crs = 2397)
+plot(tessalation$weightedVoronoi)
+</code></pre>
+
+
+</div>

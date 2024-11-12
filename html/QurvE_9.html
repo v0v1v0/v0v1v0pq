@@ -1,0 +1,126 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>fl.report</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Create a PDF and HTML report with results from a fluorescence analysis workflow</h2>
+
+<h3>Description</h3>
+
+<p><code>fl.report</code> requires a <code>flFitRes</code> object and creates a report in PDF and HTML format that summarizes all results obtained.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">fl.report(
+  flFitRes,
+  out.dir = tempdir(),
+  out.nm = NULL,
+  ec50 = FALSE,
+  format = c("pdf", "html"),
+  export = FALSE,
+  parallelize = TRUE,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>flFitRes</code></td>
+<td>
+<p>A <code>grofit</code> object created with <code>fl.workflow</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>out.dir</code></td>
+<td>
+<p>(Character) The path or name of the folder in which the report files are created.  If <code>NULL</code>, the folder will be named with a combination of 'Report.fluorescence_' and the current date and time.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>out.nm</code></td>
+<td>
+<p>Character or <code>NULL</code> Define the name of the report files. If <code>NULL</code>, the files will be named with a combination of 'FluorescenceReport_' and the current date and time.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ec50</code></td>
+<td>
+<p>(Logical) Display results of dose-response analysis (<code>TRUE</code>) or not (<code>FALSE</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>format</code></td>
+<td>
+<p>(Character) Define the file format for the report, PDF (<code>'pdf'</code>) and/or HTML (<code>'html'</code>). Default: (<code>c('pdf', 'html')</code>)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>export</code></td>
+<td>
+<p>(Logical) Shall all plots generated in the report be exported as individual PDF and PNG files <code>TRUE</code> or not <code>FALSE</code>?</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>parallelize</code></td>
+<td>
+<p>(Logical) Create plots using all but one available processor cores (<code>TRUE</code>) or only a single core (<code>FALSE</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Further arguments passed to create a report. Currently supported:
+</p>
+
+<ul>
+<li> <p><code>mean.grp</code>: Define groups to combine into common plots in the report based on sample identifiers. Partial matches with sample/group names are accepted. Can be <code>'all'</code>, a vector of strings, or a list of string vectors. Note: The maximum number of sample groups (with unique condition/concentration indicators) is 50. If you have more than 50 groups, option <code>'all'</code> will produce the error <code>! Insufficient values in manual scale. [Number] needed but only 50 provided</code>.
+</p>
+</li>
+<li> <p><code>mean.conc</code>: Define concentrations to combine into common plots in the  report. Can be a numeric vector, or a list of numeric vectors.
+</p>
+</li>
+</ul>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The template .Rmd file used within this function can be found within the QurvE package installation directory.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>NULL</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># load example dataset
+## Not run: 
+input &lt;- read_data(data.growth = system.file("lac_promoters_growth.txt", package = "QurvE"),
+                   data.fl = system.file("lac_promoters_fluorescence.txt", package = "QurvE"),
+                   csvsep = "\t",
+                   csvsep.fl = "\t")
+
+# Run workflow
+res &lt;- fl.workflow(grodata = input, ec50 = FALSE, fit.opt = 's',
+                   x_type = 'time', norm_fl = TRUE,
+                   dr.parameter = 'max_slope.spline',
+                   suppress.messages = TRUE,
+                   parallelize = FALSE)
+
+fl.report(res, out.dir = tempdir(), parallelize = FALSE)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,154 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>QF_ratio</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Ratio of Positive Definite Quadratic Forms Distribution</h2>
+
+<h3>Description</h3>
+
+<p>Density function, distribution function, quantile function and random generator for the ratio of positive definite QFs.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">dQF_ratio(x, obj)
+
+pQF_ratio(q, obj)
+
+qQF_ratio(p, obj, eps_quant = 1e-06, maxit_quant = 10000)
+
+rQF_ratio(
+  n,
+  lambdas_num,
+  lambdas_den,
+  etas_num = rep(0, length(lambdas_num)),
+  etas_den = rep(0, length(lambdas_den))
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x, q</code></td>
+<td>
+<p>vector of quantiles.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>obj</code></td>
+<td>
+<p><code>MellinQF_ratio</code> object produced by the <code>compute_MellinQF_ratio</code> function.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p</code></td>
+<td>
+<p>vector of probabilities.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>eps_quant</code></td>
+<td>
+<p>relative error for quantiles.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>maxit_quant</code></td>
+<td>
+<p>maximum number of Newton-Raphson iterations allowed to compute quantiles.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p>number of observations.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lambdas_num</code></td>
+<td>
+<p>vector of positive weights of the QF at the numerator.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lambdas_den</code></td>
+<td>
+<p>vector of positive weights of the QF at the denominator</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>etas_num</code></td>
+<td>
+<p>vector of non-centrality parameters of the QF at the numerator. Default all zeros.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>etas_den</code></td>
+<td>
+<p>vector of non-centrality parameters of the QF at the denominator Default all zeros.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The CDF and PDF of the ratio of positive QFs are evaluated by numerical inversion of the Mellin transform.
+The absolute error specified in <code>compute_MellinQF_ratio</code> is guaranteed for values of <code>q</code> and <code>x</code> inside <code>range_q</code>.
+If the quantile is outside <code>range_q</code>, computations are carried out, but a warning is sent.
+</p>
+<p>The function uses the Newton-Raphson algorithm to compute the ratio of QFs quantiles related to probabilities <code>p</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>dQF_ratio</code> provides the values of the density function at a quantile <code>x</code>.
+</p>
+<p><code>pQF_ratio</code> provides the cumulative distribution function at a quantile <code>q</code>.
+</p>
+<p><code>qQF_ratio</code> provides the quantile corresponding to a probability level <code>p</code>.
+</p>
+<p><code>rQF_ratio</code> provides a sample of <code>n</code> independent realizations the QFs ratio.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>See <code>compute_MellinQF_ratio</code> for details on the Mellin computation.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+lambdas_QF_num &lt;- c(rep(7, 6),rep(3, 2))
+etas_QF_num &lt;- c(rep(6, 6), rep(2, 2))
+lambdas_QF_den &lt;- c(0.6, 0.3, 0.1)
+# Computation Mellin transform
+eps &lt;- 1e-7
+rho &lt;- 0.999
+Mellin_ratio &lt;- compute_MellinQF_ratio(lambdas_QF_num, lambdas_QF_den,
+                                       etas_QF_num, eps = eps, rho = rho)
+xs &lt;- seq(Mellin_ratio$range_q[1], Mellin_ratio$range_q[2], l = 100)
+# PDF
+ds &lt;- dQF_ratio(xs, Mellin_ratio)
+plot(xs, ds, type="l")
+# CDF
+ps &lt;- pQF_ratio(xs, Mellin_ratio)
+plot(xs, ps, type="l")
+# Quantile
+qs &lt;- qQF_ratio(ps, Mellin_ratio)
+plot(ps, qs, type="l")
+#Comparison computed quantiles vs real quantiles
+plot((qs - xs) / xs, type = "l")
+
+
+
+</code></pre>
+
+
+</div>

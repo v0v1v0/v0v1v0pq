@@ -1,0 +1,46 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>debug_qbms</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Debug Internal QBMS Status Object</h2>
+
+<h3>Description</h3>
+
+<p>Retrieves the internal QBMS status object for debugging purposes. This object contains
+the current configuration and state of the QBMS session, including connection settings
+and active tokens.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">debug_qbms()
+</code></pre>
+
+
+<h3>Value</h3>
+
+<p>An environment object that holds the current QBMS configuration and state.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Khaled Al-Shamaa, <a href="mailto:k.el-shamaa@cgiar.org">k.el-shamaa@cgiar.org</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">if (interactive()) {
+  obj &lt;- debug_qbms()
+  obj$config
+  obj$state
+}
+
+</code></pre>
+
+
+</div>

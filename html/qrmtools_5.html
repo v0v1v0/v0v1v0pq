@@ -1,0 +1,100 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>Black_Scholes</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Black–Scholes formula and the Greeks</h2>
+
+<h3>Description</h3>
+
+<p>Compute the Black–Scholes formula and the Greeks.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">Black_Scholes(t, S, r, sigma, K, T, type = c("call", "put"))
+Black_Scholes_Greeks(t, S, r, sigma, K, T, type = c("call", "put"))
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>t</code></td>
+<td>
+<p>initial or current time <code class="reqn">t</code> (in years).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>S</code></td>
+<td>
+<p>stock price at time <code class="reqn">t</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>r</code></td>
+<td>
+<p>risk-free annual interest rate.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sigma</code></td>
+<td>
+<p>annual volatility (standard deviation).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>K</code></td>
+<td>
+<p>strike.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>T</code></td>
+<td>
+<p>maturity (in years).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>type</code></td>
+<td>
+<p><code>character</code> string indicating whether
+a call (the default) or a put option is considered.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Note again that <code>t</code> is time in years. In the context of McNeil et
+al. (2015, Chapter 9), this is <code class="reqn">\tau_t = t/250</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>Black_Scholes()</code> returns the value of a European-style call or put
+option (depending on the chosen <code>type</code>) on a non-dividend paying stock.
+</p>
+<p><code>Black_Scholes_Greeks()</code> returns the first-order derivatives
+delta, theta, rho, vega and the second-order derivatives gamma, vanna
+and vomma (depending on the chosen <code>type</code>) in this order.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Marius Hofert</p>
+
+
+<h3>References</h3>
+
+<p>McNeil, A. J., Frey, R., and Embrechts, P. (2015).
+<em>Quantitative Risk Management: Concepts, Techniques, Tools</em>.
+Princeton University Press.
+</p>
+
+
+</div>

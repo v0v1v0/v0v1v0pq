@@ -1,0 +1,239 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>agg_dfm</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Data Information by Group</h2>
+
+<h3>Description</h3>
+
+<p><code>agg_dfm</code> evaluates a function on a set of variables in a data.frame
+separately for each group and combines the results back together. The
+<code>rep</code> and <code>rtn.grp</code> arguments determine exactly how the results are
+combined together. If <code>rep</code> = TRUE, then the result of <code>fun</code> is
+repeated for every row of the group in <code>data[grp.nm]</code>; If <code>rep</code> =
+FALSE, then the result of <code>fun</code> for each unique combination of
+<code>data[grp.nm]</code> is returned once. If <code>rtn.grp</code> = TRUE, then the
+results are returned in a data.frame where the first columns are the groups
+from <code>data[grp.nm]</code>; If <code>rtn.grp</code> = FALSE, then the results are
+returned in an atomic vector. Note, <code>agg_dfm</code> evaluates <code>fun</code> on
+all the variables in <code>data[vrb.nm]</code> as a whole, If instead, you want to
+evaluate <code>fun</code> separately for variable <code>vrb.nm</code> in <code>data</code>,
+then use <code>Agg</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">agg_dfm(
+  data,
+  vrb.nm,
+  grp.nm,
+  rep = FALSE,
+  rtn.grp = !rep,
+  sep = ".",
+  rtn.result.nm = "result",
+  fun,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>data.frame of data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vrb.nm</code></td>
+<td>
+<p>character vector of colnames from <code>data</code> specifying the
+set of variables to evaluate <code>fun</code> on.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>grp.nm</code></td>
+<td>
+<p>character vector of colnames from <code>data</code> specifying the
+groups.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rep</code></td>
+<td>
+<p>logical vector of length 1 specifying whether the result of
+<code>fun</code> should be repeated for every instance of the group in
+<code>data[vrb.nm]</code> (TRUE) or only once for each group (FALSE).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rtn.grp</code></td>
+<td>
+<p>logical vector of length 1 specifying whether the group
+columns (i.e., <code>data[grp.nm]</code>) should be included in the return object
+as columns. The default is the opposite of <code>rep</code> as traditionally it
+is most important to return the group columns when <code>rep</code> = FALSE.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sep</code></td>
+<td>
+<p>character vector of length 1 specifying the string to paste the
+group values together with when there are multiple grouping variables
+(i.e., <code>length(grp.nm) &gt; 1</code>). Only used if <code>rep</code> = FALSE and
+<code>rtn.grp</code> = FALSE.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rtn.result.nm</code></td>
+<td>
+<p>character vector of length 1 specifying the name for the
+column of results in the return object. Only used if <code>rtn.grp</code> = TRUE.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fun</code></td>
+<td>
+<p>function to evaluate each grouping of <code>data[vrb.nm]</code> by. This
+function must return an atomic vector of length 1. If not, then consider
+using <code>by2</code> or <code>plyr::dlply</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>additional named arguments to <code>fun</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>If <code>rep</code> = TRUE, then <code>agg_dfm</code> calls <code>ave_dfm</code>; if <code>rep</code>
+= FALSE, then <code>agg_dfm</code> calls <code>by</code>. When <code>rep</code> = FALSE and
+<code>rtn.grp</code> = TRUE, <code>agg_dfm</code> is very similar to <code>plyr::ddply</code>;
+when <code>rep</code> = FALSE and <code>rtn.grp</code> = FALSE, then <code>agg_dfm</code> is
+very similar to <code>plyr::daply</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>result of <code>fun</code> applied to each grouping of
+<code>data[vrb.nm]</code>. The structure of the return object depends on the
+arguments <code>rep</code> and <code>rtn.grp</code>.
+</p>
+
+<dl>
+<dt>If rep = TRUE and rtn.grp = TRUE:</dt>
+<dd>
+<p>then the return
+object is a data.frame with nrow = <code>nrow(data)</code> where the first
+columns are <code>data[grp.nm]</code> and the last column is the result of
+<code>fun</code> with colname = <code>rtn.result.nm</code>.</p>
+</dd>
+<dt>If rep = TRUE and rtn.grp = FALSE:</dt>
+<dd>
+<p>then the return
+object is an atomic vector with length = <code>nrow(data)</code> where the values
+are the result of <code>fun</code> and the names = <code>row.names(data)</code>.</p>
+</dd>
+<dt>If rep = FALSE and rtn.grp = TRUE:</dt>
+<dd>
+<p>then the return
+object is a data.frame with nrow =
+<code>length(levels(interaction(data[grp.nm])))</code> where the first columns
+are the unique group combinations in <code>data[grp.nm]</code> and the last
+column is the result of <code>fun</code> with colname = <code>rtn.result.nm</code>.</p>
+</dd>
+<dt>If rep = FALSE and rtn.grp = FALSE:</dt>
+<dd>
+<p>then the return
+object is an atomic vector with length
+<code>length(levels(interaction(data[grp.nm])))</code> where the values are the
+result of <code>fun</code> and the names are each group value pasted together by
+<code>sep</code> if there are multiple grouping variables (i.e.,
+<code>length(grp.nm)</code> &gt; 2).</p>
+</dd>
+</dl>
+<h3>See Also</h3>
+
+<p><code>agg</code>
+<code>aggs</code>
+<code>by2</code>
+<code>ddply</code>
+<code>daply</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+### one grouping variable
+
+## by in base R
+by(data = airquality[c("Ozone","Solar.R")], INDICES = airquality["Month"],
+   simplify = FALSE, FUN = function(dat) cor(dat, use = "complete")[1,2])
+
+## rep = TRUE
+
+# rtn.group = TRUE
+agg_dfm(data = airquality, vrb.nm = c("Ozone","Solar.R"), grp.nm = "Month",
+   rep = TRUE, rtn.grp = TRUE, fun = function(dat) cor(dat, use = "complete")[1,2])
+
+# rtn.group = FALSE
+agg_dfm(data = airquality, vrb.nm = c("Ozone","Solar.R"), grp.nm = "Month",
+   rep = TRUE, rtn.grp = FALSE, fun = function(dat) cor(dat, use = "complete")[1,2])
+
+## rep = FALSE
+
+# rtn.group = TRUE
+agg_dfm(data = airquality, vrb.nm = c("Ozone","Solar.R"), grp.nm = "Month",
+   rep = FALSE, rtn.grp = TRUE, fun = function(dat) cor(dat, use = "complete")[1,2])
+suppressWarnings(plyr::ddply(.data = airquality[c("Ozone","Solar.R","Month")],
+   .variables = "Month", .fun = function(dat) cor(dat, use = "complete")[1,2]))
+
+# rtn.group = FALSE
+agg_dfm(data = airquality, vrb.nm = c("Ozone","Solar.R"), grp.nm = "Month",
+   rep = FALSE, rtn.grp = FALSE, fun = function(dat) cor(dat, use = "complete")[1,2])
+suppressWarnings(plyr::daply(.data = airquality[c("Ozone","Solar.R","Month")],
+   .variables = "Month", .fun = function(dat) cor(dat, use = "complete")[1,2]))
+
+### two grouping variables
+
+## by in base R
+by(data = mtcars[c("mpg","cyl","disp")], INDICES = mtcars[c("vs","am")],
+   FUN = nrow, simplify = FALSE) # with multiple group columns
+
+## rep = TRUE
+
+# rtn.grp = TRUE
+agg_dfm(data = mtcars, vrb.nm = c("mpg","cyl","disp"), grp.nm = c("vs","am"),
+   rep = TRUE, rtn.grp = TRUE, fun = nrow)
+
+# rtn.grp = FALSE
+agg_dfm(data = mtcars, vrb.nm = c("mpg","cyl","disp"), grp.nm = c("vs","am"),
+   rep = TRUE, rtn.grp = FALSE, fun = nrow)
+
+## rep = FALSE
+
+# rtn.grp = TRUE
+agg_dfm(data = mtcars, vrb.nm = c("mpg","cyl","disp"), grp.nm = c("vs","am"),
+   rep = FALSE, rtn.grp = TRUE, fun = nrow)
+agg_dfm(data = mtcars, vrb.nm = c("mpg","cyl","disp"), grp.nm = c("vs","am"),
+   rep = FALSE, rtn.grp = TRUE, rtn.result.nm = "value", fun = nrow)
+
+# rtn.grp = FALSE
+agg_dfm(data = mtcars, vrb.nm = c("mpg","cyl","disp"), grp.nm = c("vs","am"),
+   rep = FALSE, rtn.grp = FALSE, fun = nrow)
+agg_dfm(data = mtcars, vrb.nm = c("mpg","cyl","disp"), grp.nm = c("vs","am"),
+   rep = FALSE, rtn.grp = FALSE, sep = "_", fun = nrow)
+
+</code></pre>
+
+
+</div>

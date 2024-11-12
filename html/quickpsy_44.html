@@ -1,0 +1,101 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>plotcurves</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Plot the curves</h2>
+
+<h3>Description</h3>
+
+<p><code>plotcurves</code> plot the curves.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">plotcurves(qp, panel = NULL, xpanel = NULL, ypanel = NULL, color = NULL,
+  averages = T, curves = T, thresholds = T, ci = T)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>qp</code></td>
+<td>
+<p>output from quickpsy</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>panel</code></td>
+<td>
+<p>Name of the variable to be split in panels.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xpanel</code></td>
+<td>
+<p>Name of the variable to be split in horizontal panels.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ypanel</code></td>
+<td>
+<p>Name of the variable to be split in vertical panels.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>color</code></td>
+<td>
+<p>Name of the variable codded by color.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>averages</code></td>
+<td>
+<p>If <code>FALSE</code> averaged probabilities are not plotted
+(default is <code>TRUE</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>curves</code></td>
+<td>
+<p>If <code>FALSE</code> curves are not plotted
+(default is <code>TRUE</code>)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>thresholds</code></td>
+<td>
+<p>If <code>FALSE</code> thresholds  are not plotted
+(default is <code>TRUE</code>)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ci</code></td>
+<td>
+<p>If <code>FALSE</code> confidence intervals are not plotted
+(default is <code>TRUE</code>)</p>
+</td>
+</tr>
+</table>
+<h3>See Also</h3>
+
+<p><code>plotcurves_</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(MPDiR) # contains the Vernier data
+fit &lt;- quickpsy(Vernier, Phaseshift, NumUpward, N,
+                grouping = .(Direction, WaveForm, TempFreq), B = 5)
+plotcurves(fit)
+plotcurves(fit, xpanel = Direction)
+plotcurves(fit, xpanel = Direction, color = WaveForm, ci = FALSE)
+</code></pre>
+
+
+</div>

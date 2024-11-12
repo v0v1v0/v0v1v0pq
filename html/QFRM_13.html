@@ -1,0 +1,59 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>BS</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Black-Scholes (BS) pricing model</h2>
+
+<h3>Description</h3>
+
+<p>a wrapper function for BS_Simple; uses <code>OptPx</code> object as input.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">BS(o = OptPx())
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>o</code></td>
+<td>
+<p>An <code>OptPx</code> object</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>An original <code>OptPx</code> object with <code>BS</code> list as components of Black-Scholes formular.
+See <code>BS_Simple</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Oleg Melnikov, Department of Statistics, Rice University, Spring 2015
+</p>
+
+
+<h3>References</h3>
+
+<p>Hull, J.C., <em>Options, Futures and Other Derivatives</em>, 9ed, 2014. Prentice Hall.
+ISBN 978-0-13-345631-8, <a href="http://www-2.rotman.utoronto.ca/~hull/ofod">http://www-2.rotman.utoronto.ca/~hull/ofod</a>. <a href="http://amzn.com/0133456315">http://amzn.com/0133456315</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">#See Hull, p.338, Ex.15.6. #Create an option and price it
+o = Opt(Style='Eu', Right='Call', S0 = 42, ttm = .5, K = 40)
+o = BS( OptPx(o, r=.1, vol=.2, NSteps=NA))
+o$PxBS #print call option price computed by Black-Scholes pricing model
+o$BS$Px$Put #print put option price computed by Black-Scholes pricing model
+</code></pre>
+
+
+</div>

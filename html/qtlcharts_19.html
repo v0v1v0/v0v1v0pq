@@ -1,0 +1,145 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>iplotCorr</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Image of correlation matrix with linked scatterplot</h2>
+
+<h3>Description</h3>
+
+<p>Creates an interactive graph with an image of a
+correlation matrix linked to underlying scatterplots.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">iplotCorr(
+  mat,
+  group = NULL,
+  rows = NULL,
+  cols = NULL,
+  reorder = FALSE,
+  corr = NULL,
+  scatterplots = TRUE,
+  chartOpts = NULL,
+  digits = 5
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>mat</code></td>
+<td>
+<p>Data matrix (individuals x variables)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>group</code></td>
+<td>
+<p>Optional vector of groups of individuals (e.g., a genotype)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rows</code></td>
+<td>
+<p>Selected rows of the correlation matrix to include in
+the image. Ignored if 'corr' is provided.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cols</code></td>
+<td>
+<p>Selected columns of the correlation matrix to include
+in the image. Ignored if 'corr' is provided.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>reorder</code></td>
+<td>
+<p>If TRUE, reorder the variables by
+clustering. Ignored if 'corr' is provided as a subset of the
+overall correlation matrix</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>corr</code></td>
+<td>
+<p>Correlation matrix (optional).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>scatterplots</code></td>
+<td>
+<p>If ‘FALSE', don’t have the heat map be
+linked to scatterplots.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>chartOpts</code></td>
+<td>
+<p>A list of options for configuring the chart (see
+the coffeescript code). Each element must be named using the
+corresponding option.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>digits</code></td>
+<td>
+<p>Round data to this number of significant digits
+before passing to the chart function. (Use NULL to not round.)</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>'corr' may be provided as a subset of the overall
+correlation matrix for the columns of 'mat'. In this case, the
+'reorder', 'rows' and 'cols' arguments are ignored. The row and
+column names of 'corr' must match the names of some subset of
+columns of 'mat'.
+</p>
+<p>Individual IDs are taken from 'rownames(mat)'; they must match
+'names(group)'.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class 'htmlwidget' that will
+intelligently print itself into HTML in a variety of contexts
+including the R console, within R Markdown documents, and within
+Shiny output bindings.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>[iheatmap()], [scat2scat()], [iplotCurves()]
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(geneExpr)
+
+iplotCorr(geneExpr$expr, geneExpr$genotype, reorder=TRUE,
+          chartOpts=list(cortitle="Correlation matrix",
+                         scattitle="Scatterplot"))
+
+# use Spearman's correlation
+corr &lt;- cor(geneExpr$expr, method="spearman", use="pairwise.complete.obs")
+# order by hierarchical clustering
+o &lt;- hclust(as.dist(1-corr))$order
+
+iplotCorr(geneExpr$expr[,o], geneExpr$genotype, corr=corr[o,o],
+          chartOpts=list(cortitle="Spearman correlation",
+                         scattitle="Scatterplot"))
+</code></pre>
+
+
+</div>

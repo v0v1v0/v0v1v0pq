@@ -1,0 +1,90 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>iplot</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Interactive scatterplot</h2>
+
+<h3>Description</h3>
+
+<p>Creates an interactive scatterplot.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">iplot(x, y = NULL, group = NULL, indID = NULL, chartOpts = NULL, digits = 5)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>Numeric vector of x values</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>Numeric vector of y values</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>group</code></td>
+<td>
+<p>Optional vector of categories for coloring the points</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>indID</code></td>
+<td>
+<p>Optional vector of character strings, shown with tool tips</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>chartOpts</code></td>
+<td>
+<p>A list of options for configuring the chart.  Each
+element must be named using the corresponding option.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>digits</code></td>
+<td>
+<p>Round data to this number of significant digits
+before passing to the chart function. (Use NULL to not round.)</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>An object of class 'htmlwidget' that will
+intelligently print itself into HTML in a variety of contexts
+including the R console, within R Markdown documents, and within
+Shiny output bindings.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>[iplotCorr()], [iplotCurves()], [itriplot()],
+[idotplot()], [iplotPXG()]
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">x &lt;- rnorm(100)
+grp &lt;- sample(1:3, 100, replace=TRUE)
+y &lt;- x*grp + rnorm(100)
+
+iplot(x, y, grp)
+
+</code></pre>
+
+
+</div>

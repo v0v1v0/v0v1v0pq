@@ -1,0 +1,67 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>shift</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Shift Vector Left/Right</h2>
+
+<h3>Description</h3>
+
+<p>Shift a vector left or right n spaces.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">shift(x, n, direction = "right")
+
+shift_right(x, n)
+
+shift_left(x, n)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>A vector.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p>The number of moves left or right to shift.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>direction</code></td>
+<td>
+<p>A direction to shift; must be either "left" or "right".
+Use explicit directional shift functions <code>shift_right</code> and 
+<code>shift_left</code> for better performance.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Returns a shifted vector.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">lapply(0:9, function(i) shift(1:10, i))
+lapply(0:9, function(i) shift(1:10, i, "left"))
+
+## Explicit, faster shifting
+lapply(0:9, function(i) shift_right(1:10, i))
+lapply(0:9, function(i) shift_left(1:10, i))
+lapply(0:25, function(i) shift_left(LETTERS, i))
+</code></pre>
+
+
+</div>

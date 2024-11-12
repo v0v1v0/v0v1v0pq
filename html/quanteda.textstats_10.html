@@ -1,0 +1,41 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>compute_mattr</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Compute the Moving-Average Type-Token Ratio (MATTR)</h2>
+
+<h3>Description</h3>
+
+<p>From a tokens object, computes the Moving-Average Type-Token Ratio (MATTR)
+from Covington &amp; McFall (2010), averaging all of the sequential moving
+windows of tokens of size <code>MATTR_window</code> across the text, returning the
+average as the MATTR.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">compute_mattr(x, MATTR_window = 100L)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a tokens object</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>MATTR_window</code></td>
+<td>
+<p>integer; the size of the moving window for computation of
+TTR, between 1 and the number of tokens of the document</p>
+</td>
+</tr>
+</table>
+</div>

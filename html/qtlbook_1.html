@@ -1,0 +1,72 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>ch3a</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Data with a phenotype error</h2>
+
+<h3>Description</h3>
+
+<p>Anonymous data with a phenotype error and a pair of individuals with very
+similar phenotypes.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">ch3a
+</code></pre>
+
+
+<h3>Format</h3>
+
+<p>An object of class <code>cross</code>.  See <code>qtl::read.cross()</code>
+for details.</p>
+
+
+<h3>Details</h3>
+
+<p>A backcross with 234 individuals, each with five phenotypes and typed at 166
+markers.
+</p>
+
+
+<h3>Source</h3>
+
+<p>Karl W Broman, <a href="mailto:broman@wisc.edu">broman@wisc.edu</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Broman, K. W. and Sen, S. (2009) <em>A Guide to QTL Mapping
+with R/qtl.</em> Springer, New York.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>ch3b</code>, <code>ch3c</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(ch3a)
+
+# phenotype problem
+pairs(ch3a$pheno)
+ch3a$pheno[ch3a$pheno[,4]==0,] # individual 159
+
+# individuals with similar genotypes
+library(qtl)
+cg &lt;- comparegeno(ch3a)
+hist(cg, breaks=200)
+max(cg[cg &lt; 1])
+which(cg == max(cg[cg &lt; 1]), arr.ind=TRUE)
+
+</code></pre>
+
+
+</div>

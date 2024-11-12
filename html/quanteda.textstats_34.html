@@ -1,0 +1,193 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>textstat_simil</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Similarity and distance computation between documents or features</h2>
+
+<h3>Description</h3>
+
+<p>These functions compute matrixes of distances and similarities between
+documents or features from a dfm and return a matrix of
+similarities or distances in a sparse format.  These methods are fast and
+robust because they operate directly on the sparse dfm
+objects. The output can easily be coerced to an ordinary matrix, a data.frame
+of pairwise comparisons, or a dist format.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">textstat_simil(
+  x,
+  y = NULL,
+  selection = NULL,
+  margin = c("documents", "features"),
+  method = c("correlation", "cosine", "jaccard", "ejaccard", "dice", "edice", "hamann",
+    "simple matching"),
+  min_simil = NULL,
+  ...
+)
+
+textstat_dist(
+  x,
+  y = NULL,
+  selection = NULL,
+  margin = c("documents", "features"),
+  method = c("euclidean", "manhattan", "maximum", "canberra", "minkowski"),
+  p = 2,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x, y</code></td>
+<td>
+<p>a dfm objects; <code>y</code> is an optional target matrix
+matching <code>x</code> in the margin on which the similarity or distance will be
+computed.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>selection</code></td>
+<td>
+<p>(deprecated - use <code>y</code> instead).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>margin</code></td>
+<td>
+<p>identifies the margin of the dfm on which similarity or
+difference will be computed:  <code>"documents"</code> for documents or
+<code>"features"</code> for word/term features.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+<p>character; the method identifying the similarity or distance
+measure to be used; see Details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>min_simil</code></td>
+<td>
+<p>numeric; a threshold for the similarity values below which similarity
+values will not be returned</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>unused</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p</code></td>
+<td>
+<p>The power of the Minkowski distance.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p><code>textstat_simil</code> options are: <code>"correlation"</code> (default),
+<code>"cosine"</code>, <code>"jaccard"</code>, <code>"ejaccard"</code>, <code>"dice"</code>,
+<code>"edice"</code>, <code>"simple matching"</code>, and <code>"hamann"</code>.
+</p>
+<p><code>textstat_dist</code> options are: <code>"euclidean"</code> (default),
+<code>"manhattan"</code>, <code>"maximum"</code>, <code>"canberra"</code>,
+and <code>"minkowski"</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A sparse matrix from the <span class="pkg">Matrix</span> package that will be symmetric
+unless <code>y</code> is specified.
+</p>
+
+
+<h3>Conversion to other data types</h3>
+
+<p>The output objects from <code>textstat_simil()</code> and <code>textstat_dist()</code> can be
+transformed easily into a list format using
+<code>as.list()</code>, which returns a list for each unique
+element of the second of the pairs, a data.frame using
+<code>as.data.frame()</code>, which returns pairwise
+scores, <code>as.dist()</code>for a dist object,
+or <code>as.matrix()</code> to convert it into an ordinary matrix.
+</p>
+
+
+<h3>Note</h3>
+
+<p>If you want to compute similarity on a "normalized" dfm object
+(controlling for variable document lengths, for methods such as correlation
+for which different document lengths matter), then wrap the input dfm in
+<code style="white-space: pre;">⁠[dfm_weight](x, "prop")⁠</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>as.list.textstat_proxy()</code>, <code>as.data.frame.textstat_proxy()</code>,
+<code>stats::as.dist()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># similarities for documents
+library("quanteda")
+dfmat &lt;- corpus_subset(data_corpus_inaugural, Year &gt; 2000) %&gt;%
+    tokens(remove_punct = TRUE) %&gt;%
+    tokens_remove(stopwords("english")) %&gt;%
+    dfm()
+(tstat1 &lt;- textstat_simil(dfmat, method = "cosine", margin = "documents"))
+as.matrix(tstat1)
+as.list(tstat1)
+as.list(tstat1, diag = TRUE)
+
+# min_simil
+(tstat2 &lt;- textstat_simil(dfmat, method = "cosine", margin = "documents", min_simil = 0.6))
+as.matrix(tstat2)
+
+# similarities for for specific documents
+textstat_simil(dfmat, dfmat["2017-Trump", ], margin = "documents")
+textstat_simil(dfmat, dfmat["2017-Trump", ], method = "cosine", margin = "documents")
+textstat_simil(dfmat, dfmat[c("2009-Obama", "2013-Obama"), ], margin = "documents")
+
+# compute some term similarities
+tstat3 &lt;- textstat_simil(dfmat, dfmat[, c("fair", "health", "terror")], method = "cosine",
+                         margin = "features")
+head(as.matrix(tstat3), 10)
+as.list(tstat3, n = 6)
+
+
+# distances for documents
+(tstat4 &lt;- textstat_dist(dfmat, margin = "documents"))
+as.matrix(tstat4)
+as.list(tstat4)
+as.dist(tstat4)
+
+# distances for specific documents
+textstat_dist(dfmat, dfmat["2017-Trump", ], margin = "documents")
+(tstat5 &lt;- textstat_dist(dfmat, dfmat[c("2009-Obama" , "2013-Obama"), ], margin = "documents"))
+as.matrix(tstat5)
+as.list(tstat5)
+
+## Not run: 
+# plot a dendrogram after converting the object into distances
+plot(hclust(as.dist(tstat4)))
+
+## End(Not run)
+</code></pre>
+
+
+</div>

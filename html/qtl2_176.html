@@ -1,0 +1,120 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>xpos_scan1</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Get x-axis position for genomic location</h2>
+
+<h3>Description</h3>
+
+<p>For a plot of <code>scan1()</code> results, get the x-axis
+location that corresponds to a particular genomic location
+(chromosome ID and position).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">xpos_scan1(map, chr = NULL, gap = NULL, thechr, thepos)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>map</code></td>
+<td>
+<p>A list of vectors of marker positions, as produced by
+<code>insert_pseudomarkers()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>chr</code></td>
+<td>
+<p>Selected chromosomes that were plotted (if used in the
+call to <code>plot_scan1()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gap</code></td>
+<td>
+<p>The gap between chromosomes used in the call to
+<code>plot_scan1()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>thechr</code></td>
+<td>
+<p>Vector of chromosome IDs</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>thepos</code></td>
+<td>
+<p>Vector of chromosomal positions</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p><code>thechr</code> and <code>thepos</code> should be the same length,
+or should have length 1 (in which case they are expanded to the
+length of the other vector).
+</p>
+
+
+<h3>Value</h3>
+
+<p>A vector of x-axis locations.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># read data
+iron &lt;- read_cross2(system.file("extdata", "iron.zip", package="qtl2"))
+
+# insert pseudomarkers into map
+map &lt;- insert_pseudomarkers(iron$gmap, step=1)
+
+# calculate genotype probabilities
+probs &lt;- calc_genoprob(iron, map, error_prob=0.002)
+
+# grab phenotypes and covariates; ensure that covariates have names attribute
+pheno &lt;- iron$pheno
+covar &lt;- match(iron$covar$sex, c("f", "m")) # make numeric
+names(covar) &lt;- rownames(iron$covar)
+Xcovar &lt;- get_x_covar(iron)
+
+# perform genome scan
+out &lt;- scan1(probs, pheno, addcovar=covar, Xcovar=Xcovar)
+
+# plot the results for selected chromosomes
+ylim &lt;- c(0, maxlod(out)*1.02) # need to strip class to get overall max LOD
+chr &lt;- c(2,7,8,9,15,16)
+plot(out, map, chr=chr, ylim=ylim)
+plot(out, map, lodcolumn=2, chr=chr, col="violetred", add=TRUE)
+legend("topleft", lwd=2, col=c("darkslateblue", "violetred"), colnames(out),
+       bg="gray90")
+
+# Use xpos_scan1 to add points at the peaks
+# first find the peaks with LOD &gt; 3
+peaks &lt;- find_peaks(out, map)
+
+# keep just the peaks for chromosomes that were plotted
+peaks &lt;- peaks[peaks$chr %in% chr,]
+
+# find x-axis positions
+xpos &lt;- xpos_scan1(map, chr=chr, thechr=peaks$chr, thepos=peaks$pos)
+
+# point colors
+ptcolor &lt;- c("darkslateblue", "violetred")[match(peaks$lodcolumn, c("liver", "spleen"))]
+
+# plot points
+points(xpos, peaks$lod, pch=21, bg=ptcolor)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,241 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>sim.data</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>generate response data</h2>
+
+<h3>Description</h3>
+
+<p>randomly generate response data matrix according to certen conditions,
+including attributes distribution, item quality, sample size, Q-matrix and cognitive diagnosis models (CDMs).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">sim.data(
+  Q = NULL,
+  N = NULL,
+  IQ = list(P0 = NULL, P1 = NULL),
+  model = "GDINA",
+  distribute = "uniform",
+  control = NULL,
+  verbose = TRUE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>Q</code></td>
+<td>
+<p>The Q-matrix. A random 30 × 5 Q-matrix (<code>sim.Q</code>) will be used if NULL.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>N</code></td>
+<td>
+<p>Sample size. Default = 500.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>IQ</code></td>
+<td>
+<p>A List contains tow I-length vectors: <code>P0</code> and <code>P1</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>model</code></td>
+<td>
+<p>Type of model to be fitted; can be <code>"GDINA"</code>, <code>"LCDM"</code>, <code>"DINA"</code>, <code>"DINO"</code>,
+<code>"ACDM"</code>, <code>"LLM"</code>, or <code>"rRUM"</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>distribute</code></td>
+<td>
+<p>Attribute distributions; can be <code>"uniform"</code> for the uniform distribution,
+<code>"mvnorm"</code> for the multivariate normal distribution (Chiu, Douglas, &amp; Li,
+2009) and <code>"horder"</code> for the higher-order distribution (Tu et al., 2022).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>control</code></td>
+<td>
+<p>A list of control parameters with elements:
+</p>
+
+<ul>
+<li> <p><code>sigma</code>  A positive-definite symmetric matrix specifying the variance-covariance
+matrix when <code>distribute = "mvnorm"</code>. Default = 0.5 (Chiu, Douglas, &amp; Li, 2009).
+</p>
+</li>
+<li> <p><code>cutoffs</code>  A vector giving the cutoff for each attribute when <code>distribute = "mvnorm"</code>.
+Default = <code class="reqn">k/(1+K)</code> (Chiu, Douglas, &amp; Li, 2009).
+</p>
+</li>
+<li> <p><code>theta</code> A vector of length N representing the higher-order ability for each examinee.
+By default, generate randomly from the normal distribution (Tu et al, 2022).
+</p>
+</li>
+<li> <p><code>a</code> The slopes for the higher-order model when <code>distribute = "horder"</code>.
+Default = 1.5 (Tu et al, 2022).
+</p>
+</li>
+<li> <p><code>b</code> The intercepts when <code>distribute = "horder"</code>. By default, select equally spaced
+values between -1.5 and 1.5 according to the number of attributes (Tu et al, 2022).
+</p>
+</li>
+</ul>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p>Logical indicating to print information or not. Default is <code>TRUE</code></p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Object of class <code>simGDINA</code>.
+An <code>simGDINA</code> object gained by <code>simGDINA</code> function form <code>GDINA</code> package.
+Elements that can be extracted using method extract include:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>dat</code></td>
+<td>
+<p>An <code>N</code> × <code>I</code> simulated item response matrix.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Q</code></td>
+<td>
+<p>The Q-matrix.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>attribute</code></td>
+<td>
+<p>An <code>N</code> × <code>K</code> matrix for inviduals' attribute patterns.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>catprob.parm</code></td>
+<td>
+<p>A list of non-zero category success probabilities for each latent group.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>delta.parm</code></td>
+<td>
+<p>A list of delta parameters.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>higher.order.parm</code></td>
+<td>
+<p>Higher-order parameters.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mvnorm.parm</code></td>
+<td>
+<p>Multivariate normal distribution parameters.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>LCprob.parm</code></td>
+<td>
+<p>A matrix of item/category success probabilities for each latent class.</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Haijiang Qin &lt;Haijiang133@outlook.com&gt;
+</p>
+
+
+<h3>References</h3>
+
+<p>Chiu, C.-Y., Douglas, J. A., &amp; Li, X. (2009). Cluster Analysis for Cognitive Diagnosis: Theory and Applications. Psychometrika, 74(4), 633-665. DOI: 10.1007/s11336-009-9125-0.
+</p>
+<p>Tu, D., Chiu, J., Ma, W., Wang, D., Cai, Y., &amp; Ouyang, X. (2022). A multiple logistic regression-based (MLR-B) Q-matrix validation method for cognitive diagnosis models:A confirmatory approach. Behavior Research Methods. DOI: 10.3758/s13428-022-01880-x.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+################################################################
+#                           Example 1                          #
+#          generate data follow the uniform distrbution        #
+################################################################
+library(Qval)
+
+set.seed(123)
+
+K &lt;- 5
+I &lt;- 10
+Q &lt;- sim.Q(K, I)
+
+IQ &lt;- list(
+  P0 = runif(I, 0.0, 0.2),
+  P1 = runif(I, 0.8, 1.0)
+)
+
+data &lt;- sim.data(Q = Q, N = 10, IQ=IQ, model = "GDINA", distribute = "uniform")
+
+print(data$dat)
+
+################################################################
+#                           Example 2                          #
+#          generate data follow the mvnorm distrbution         #
+################################################################
+set.seed(123)
+K &lt;- 5
+I &lt;- 10
+Q &lt;- sim.Q(K, I)
+
+IQ &lt;- list(
+  P0 = runif(I, 0.0, 0.2),
+  P1 = runif(I, 0.8, 1.0)
+)
+
+example_cutoffs &lt;- sample(qnorm(c(1:K)/(K+1)), ncol(Q))
+data &lt;- sim.data(Q = Q, N = 10, IQ=IQ, model = "GDINA", distribute = "mvnorm",
+                 control = list(sigma = 0.5, cutoffs = example_cutoffs))
+
+print(data$dat)
+
+#################################################################
+#                            Example 3                          #
+#           generate data follow the horder distrbution         #
+#################################################################
+set.seed(123)
+K &lt;- 5
+I &lt;- 10
+Q &lt;- sim.Q(K, I)
+
+IQ &lt;- list(
+  P0 = runif(I, 0.0, 0.2),
+  P1 = runif(I, 0.8, 1.0)
+)
+
+example_theta &lt;- rnorm(10, 0, 1)
+example_b &lt;- seq(-1.5,1.5,length.out=K)
+data &lt;- sim.data(Q = Q, N = 10, IQ=IQ, model = "GDINA", distribute = "horder",
+                 control = list(theta = example_theta, a = 1.5, b = example_b))
+
+print(data$dat)
+
+</code></pre>
+
+
+</div>

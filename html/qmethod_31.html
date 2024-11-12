@@ -1,0 +1,89 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qpcrustes</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Q Methodology: Procrustes rotation of loadings</h2>
+
+<h3>Description</h3>
+
+<p>This is a wrap of <code>procrustes</code> rotation from <span class="pkg">MCMCpack</span> for bootstrapping Q methodology in the function <code>qmboots</code>.</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qpcrustes(loa, target, nfactors)</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>loa</code></td>
+<td>
+<p>factor loadings from the analysis of a resample.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>target</code></td>
+<td>
+<p>factor loadings from the analysis of a subsample.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nfactors</code></td>
+<td>
+<p>fumber of factors</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Returns the factor loadings for the subsample after applying Procrustes rotation to correct the indeterminacy issue. Use <code>procrustes</code> from <span class="pkg">MCMCpack</span>. Used within the function <code>qmboots</code>, not intended for independent use.
+</p>
+
+
+<h3>Note</h3>
+
+<p>this function is called within the function <code>qmboots</code>. Not intended to be used separately. The function calls <code>procrustes</code> from <span class="pkg">MCMCpack</span>, a package that requires the package <code>graph</code>. As from April 2016 the package has been moved to Bioconductor, and therefore it needs to be installed manually. If you get errors of missing packages when using this function or <code>qmboots</code>, install <code>graph</code> manually:
+<code>source("https://bioconductor.org/biocLite.R")
+biocLite("graph")</code>
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Aiora Zabala</p>
+
+
+<h3>References</h3>
+
+<p>Zabala, Pascual (2016) Bootstrapping Q Methodology to Improve the Understanding of Human Perspectives. PLoS ONE 11(2): e0148087.</p>
+
+
+<h3>See Also</h3>
+
+<p>Function <code>procrustes</code> from <span class="pkg">GPArotation</span> package.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># This example requires installing 'MCMCpack':
+data(lipset)
+qm &lt;- qmethod(lipset[[1]], nfactors=3, rotation="varimax")
+qselim &lt;- sample(1:3, 2, replace=FALSE) ##q sorts to eliminate
+subdata &lt;- lipset[[1]][ , -qselim]
+library(psych)
+loa &lt;- as.data.frame(unclass(principal(subdata, 
+         nfactors=3, rotate="varimax")$loadings))
+target &lt;- as.matrix(as.data.frame(qm[3]))
+colnames(target) &lt;- paste("target_f", 1:3, sep="")
+subtarget &lt;- target[c(-qselim),]
+qindt &lt;- qpcrustes(loa, subtarget, 3)
+qindt
+</code></pre>
+
+
+</div>

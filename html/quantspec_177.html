@@ -1,0 +1,89 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>LagEstimator-constructor</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Create an instance of the <code>LagEstimator</code> class.</h2>
+
+<h3>Description</h3>
+
+<p>A <code>LagEstimator</code> object can be created from <code>numeric</code>, a <code>ts</code>,
+or a <code>zoo</code> object. Also a <code>LagOperator</code> and a 
+<code>Weight</code> object can be used to create different types of 
+estimators.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">lagEstimator(
+  Y,
+  frequencies = 2 * pi/length(Y) * 0:(length(Y) - 1),
+  levels.1 = 0.5,
+  levels.2 = levels.1,
+  weight = lagKernelWeight(K = length(Y), bw = 100),
+  type = c("clippedCov")
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>Y</code></td>
+<td>
+<p>a time series (<code>numeric</code>, <code>ts</code>, or <code>zoo</code> object) or a 
+<code>LagOperator</code> from which to determine the <code>LagEstimator</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>frequencies</code></td>
+<td>
+<p>A vector containing (Fourier-)frequencies at which to determine the
+smoothed periodogram.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>levels.1</code></td>
+<td>
+<p>the first vector of levels for which to compute the LagEstimator</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>levels.2</code></td>
+<td>
+<p>the second vector of levels for which to compute the LagEstimator</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>weight</code></td>
+<td>
+<p>Object of type <code>Weight</code> to be used for smoothing.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>type</code></td>
+<td>
+<p>if <code>Y</code> is a time series, this indicates which LagOperator will be used</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Returns an instance of <code>LagEstimator</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">Y &lt;- rnorm(100)
+levels.1 &lt;- c(0.1,0.5,0.9)
+weight &lt;- lagKernelWeight(W = WParzen,  bw = 10, K = length(Y))
+lagOp &lt;- clippedCov(Y,levels.1 = levels.1)
+lagEst &lt;- lagEstimator(lagOp, weight = weight)
+</code></pre>
+
+
+</div>

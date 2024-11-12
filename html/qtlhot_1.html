@@ -1,0 +1,83 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>add.phenos</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Add phenotypes to cross object.
+</h2>
+
+<h3>Description</h3>
+
+<p>Add phenotypes to cross object by checking index.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">add.phenos(cross, newdata = NULL, index = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>cross</code></td>
+<td>
+<p>object of class <code>cross</code>; see <code>read.cross</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>newdata</code></td>
+<td>
+<p>data frame with row names matching values of phenotype
+identified by <code>index</code> for object <code>cross</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>index</code></td>
+<td>
+<p>character string name of phenotype in object
+<code>cross</code>; if <code>NULL</code>, then <code>newdata</code> must be of same
+size as <code>cross</code> with phenotypes in order</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The name <code>index</code> must be a phenotype in the <code>cross</code>
+object. The row names of <code>newdata</code> are matched with values of <code>index</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>object of class <code>cross</code> with added phenotypes
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Brian S. Yandell, <a href="mailto:byandell@wisc.edu">byandell@wisc.edu</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>read.cross</code></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+data(hyper)
+x &lt;- data.frame(x = rnorm(nind(hyper)))
+hyperx &lt;- add.phenos(hyper, x)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

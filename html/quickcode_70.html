@@ -1,0 +1,65 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>mutate_filter</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Mutate only a subset of dataset intact</h2>
+
+<h3>Description</h3>
+
+<p>Extension of the dplyr::mutate function that allows the user to mutate only a specific filtered subset of a data, while leaving the other parts of the data intact
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">mutate_filter(., sub.set, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>.</code></td>
+<td>
+<p>data object</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sub.set</code></td>
+<td>
+<p>subset of data to modify</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>mutation syntax similar to dplyr::mutate</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>data frame containing original data, but with a subset mutated
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">#mutate a subsection filter of mtcars
+dt = mtcars
+names(dt)
+head(dt)
+mutate_filter(dt,mpg == 21.0 &amp; cyl == 6, cyl=1000,hp=2000,vs=hp*2)
+
+
+dt2 = beaver1
+names(dt2)
+head(dt2)
+mutate_filter(dt2, day == 346 &amp; time &lt; 1200, activ = 12, temp = round(temp*10,1))
+</code></pre>
+
+
+</div>

@@ -1,0 +1,52 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>iseq</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Are these vectors equal?</h2>
+
+<h3>Description</h3>
+
+<p>This internal function is used to determine whether two vectors/matrices have
+the same elements (or, a vector/matrix is all equal to 0)
+using <code>all.equal()</code>.  Attributes and dimensions are ignored as
+they are passed as vectors using <code>c()</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">iseq(x, y = rep.int(0, length(x)), tol = .Machine$double.eps * 100)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>Main <code>target</code> vector/matrix in <code>all.equal()</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p><code>current</code> in <code>all.equal()</code>.  Default zero vector.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tol</code></td>
+<td>
+<p>Numeric to specify <code>tolerance</code> in <code>all.equal()</code></p>
+</td>
+</tr>
+</table>
+<h3>See Also</h3>
+
+<p><code>all.equal</code>
+</p>
+
+
+</div>

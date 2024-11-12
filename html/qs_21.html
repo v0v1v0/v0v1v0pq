@@ -1,0 +1,86 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qread</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>qread</h2>
+
+<h3>Description</h3>
+
+<p>Reads an object in a file serialized to disk.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qread(file, use_alt_rep=FALSE, strict=FALSE, nthreads=1)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>file</code></td>
+<td>
+<p>The file name/path.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>use_alt_rep</code></td>
+<td>
+<p>Use ALTREP when reading in string data (default <code>FALSE</code>). On R versions prior to 3.5.0, this parameter does nothing.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>strict</code></td>
+<td>
+<p>Whether to throw an error or just report a warning (default: <code>FALSE</code>, i.e. report warning).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nthreads</code></td>
+<td>
+<p>Number of threads to use. Default <code>1</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>The de-serialized object.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">x &lt;- data.frame(int = sample(1e3, replace=TRUE),
+        num = rnorm(1e3),
+        char = sample(starnames$`IAU Name`, 1e3, replace=TRUE),
+        stringsAsFactors = FALSE)
+myfile &lt;- tempfile()
+qsave(x, myfile)
+x2 &lt;- qread(myfile)
+identical(x, x2) # returns true
+
+# qs support multithreading
+qsave(x, myfile, nthreads=2)
+x2 &lt;- qread(myfile, nthreads=2)
+identical(x, x2) # returns true
+
+# Other examples
+z &lt;- 1:1e7
+myfile &lt;- tempfile()
+qsave(z, myfile)
+z2 &lt;- qread(myfile)
+identical(z, z2) # returns true
+
+w &lt;- as.list(rnorm(1e6))
+myfile &lt;- tempfile()
+qsave(w, myfile)
+w2 &lt;- qread(myfile)
+identical(w, w2) # returns true
+</code></pre>
+
+
+</div>

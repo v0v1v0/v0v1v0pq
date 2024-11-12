@@ -1,0 +1,39 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>format_sparsity</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>format a sparsity value for printing</h2>
+
+<h3>Description</h3>
+
+<p>Inputs a dfm sparsity value from <code>sparsity()</code> and formats it for
+printing in <code>print.dfm()</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">format_sparsity(x)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>input sparsity value, ranging from 0 to 1.0</p>
+</td>
+</tr></table>
+<h3>Examples</h3>
+
+<pre><code class="language-R">ss &lt;- c(1, .99999, .9999, .999, .99, .9,
+       .1, .01, .001, .0001, .000001, .0000001, .00000001, .000000000001, 0)
+for (s in ss) 
+    cat(format(s, width = 10),  ":", quanteda:::format_sparsity(s), "\n")
+</code></pre>
+
+
+</div>

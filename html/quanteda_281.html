@@ -1,0 +1,73 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>head.dfm</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Return the first or last part of a dfm</h2>
+
+<h3>Description</h3>
+
+<p>For a dfm object, return the dfm with only the first or last <code>n</code> documents.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'dfm'
+head(x, n = 6L, ...)
+
+## S3 method for class 'dfm'
+tail(x, n = 6L, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a dfm object</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p>an integer vector of length up to <code>dim(x)</code> (or 1,
+for non-dimensioned objects).  A <code>logical</code> is silently coerced to
+integer.  Values specify the indices to be
+selected in the corresponding dimension (or along the length) of the
+object. A positive value of <code>n[i]</code> includes the first/last
+<code>n[i]</code> indices in that dimension, while a negative value
+excludes the last/first <code>abs(n[i])</code>, including all remaining
+indices. <code>NA</code> or non-specified values (when <code>length(n) &lt;
+      length(dim(x))</code>) select all indices in that dimension. Must
+contain at least one non-missing value.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>arguments to be passed to or from other methods.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A dfm class object corresponding to the subset of documents
+determined by by <code>n</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">head(data_dfm_lbgexample, 3)
+head(data_dfm_lbgexample, -4)
+
+tail(data_dfm_lbgexample)
+tail(data_dfm_lbgexample, n = 3)
+</code></pre>
+
+
+</div>

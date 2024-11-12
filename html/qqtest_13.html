@@ -1,0 +1,52 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>stacklossDistances</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Mahalanobis squared distances of Brownlee's stack loss plant operation data based only on the explanatory variates (air flow, water temperature, and acid concentration).</h2>
+
+<h3>Description</h3>
+
+<p>Mahalanobis distances were calculated using the mahalanobis R function. 
+Under standard normal theory, these are approximately Chi-squared on 3 degrees of freedom.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">stacklossDistances
+</code></pre>
+
+
+<h3>Format</h3>
+
+<p>A data frame with 21 rows and 2 variates:
+</p>
+
+<dl>
+<dt>ordinary</dt>
+<dd>
+<p>Mahalanobis squared distances from the arithemetic mean using the eliptical contours of the sample covariance matrix.</p>
+</dd>
+<dt>robust</dt>
+<dd>
+<p>As with distances, these are Mahalobis squared distances butnow based on robust measures of location and covariance matrix (as determined from the default covRob of the robust package).</p>
+</dd>
+</dl>
+<h3>Details</h3>
+
+<p><code>with(stacklossDistances, qqtest(robust,dist="chi", df=3))</code> will show "outliers".
+</p>
+<p><code>with(stacklossDistances, qqtest(ordinary,dist="chi", df=3))</code> will show "inliers".
+</p>
+
+
+<h3>Source</h3>
+
+<p>"Statistical Theory and Methodology in Science and Engineering", 
+K.A. Brownlee, (1960, 2nd ed. 1965), Wiley, New York pp. 491-500.
+</p>
+
+
+</div>

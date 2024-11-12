@@ -1,0 +1,81 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>textstat_select</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Select rows of textstat objects by glob, regex or fixed patterns</h2>
+
+<h3>Description</h3>
+
+<p>Users can subset output object of <code>textstat_collocations</code>,
+<code>textstat_keyness</code> or <code>textstat_frequency</code> based on
+<code>"glob"</code>, <code>"regex"</code> or <code>"fixed"</code> patterns using this method.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">textstat_select(
+  x,
+  pattern = NULL,
+  selection = c("keep", "remove"),
+  valuetype = c("glob", "regex", "fixed"),
+  case_insensitive = TRUE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a <code>textstat</code> object</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pattern</code></td>
+<td>
+<p>see quanteda::pattern</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>selection</code></td>
+<td>
+<p>whether to <code>"keep"</code> or <code>"remove"</code> the rows that
+match the pattern</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>valuetype</code></td>
+<td>
+<p>the type of pattern matching: <code>"glob"</code> for "glob"-style
+wildcard expressions; <code>"regex"</code> for regular expressions; or <code>"fixed"</code> for
+exact matching. See valuetype for details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>case_insensitive</code></td>
+<td>
+<p>logical; if <code>TRUE</code>, ignore case when matching a
+<code>pattern</code> or dictionary values</p>
+</td>
+</tr>
+</table>
+<h3>Examples</h3>
+
+<pre><code class="language-R">library("quanteda")
+
+period &lt;- ifelse(docvars(data_corpus_inaugural, "Year") &lt; 1945, "pre-war", "post-war")
+dfmat &lt;- tokens(data_corpus_inaugural) %&gt;%
+    dfm() %&gt;%
+    dfm_group(groups = period)
+tstat &lt;- textstat_keyness(dfmat)
+textstat_select(tstat, 'america*')
+
+</code></pre>
+
+
+</div>

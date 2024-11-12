@@ -1,0 +1,164 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>hotperm</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Conduct NL and N permutation tests</h2>
+
+<h3>Description</h3>
+
+<p>Conduct NL and N permutation tests.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">hotperm(cross, n.quant, n.perm, lod.thrs, alpha.levels, drop.lod = 1.5,
+  window = NULL, verbose = FALSE, init.seed = 0,
+  addcovar = NULL, intcovar = NULL, ...)
+data(hotperm1)
+## S3 method for class 'hotperm'
+print(x, ...)
+## S3 method for class 'hotperm'
+summary(object, quant.levels, ...)
+## S3 method for class 'hotperm'
+quantile(x, probs, ..., lod.thr = NULL)
+## S3 method for class 'summary.hotperm'
+print(x, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>cross</code></td>
+<td>
+<p>object of class <code>cross</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n.quant</code></td>
+<td>
+<p>maximum of <code>s.quant</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n.perm</code></td>
+<td>
+<p>number of permutations</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lod.thrs</code></td>
+<td>
+<p>vector of LOD thresholds</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>alpha.levels</code></td>
+<td>
+<p>vector of significance levels</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>quant.levels</code></td>
+<td>
+<p>quantile levels, as number of traits, to show in
+summary; default is 1, 2, 5, 10, ... up to maximum recorded</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>drop.lod</code></td>
+<td>
+<p>LOD drop amount for support intervals</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>window</code></td>
+<td>
+<p>window size for smoothed hotspot size</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p>verbose output if <code>TRUE</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>init.seed</code></td>
+<td>
+<p>initial seed for pseudo-random number generation</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x,object</code></td>
+<td>
+<p>object of class <code>hotperm</code> or <code>summary.hotperm</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>probs</code></td>
+<td>
+<p>probability levels for quantiles (<code>1-probs</code> if all &gt; 0.5);
+default is <code>alpha.levels</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lod.thr</code></td>
+<td>
+<p>restrict to values above this if not <code>NULL</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>addcovar</code></td>
+<td>
+<p>additive covariates as vector or matrix; see <code>scanone</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>intcovar</code></td>
+<td>
+<p>interactive covariates as vector or matrix; see <code>scanone</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>arguments passed along to <code>scanone</code></p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Elias Chaibub Neto and Brian S Yandell
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">example(include.hotspots)
+set.seed(123)
+pt &lt;- scanone(ncross1, method = "hk", n.perm = 1000)
+alphas &lt;- seq(0.01, 0.10, by=0.01)
+lod.thrs &lt;- summary(pt, alphas)
+## Not run: 
+## This takes awhile, so we save the object.
+set.seed(12345)
+hotperm1 &lt;- hotperm(cross = cross1,
+                    n.quant = 300,
+                    n.perm = 100,
+                    lod.thrs = lod.thrs,
+                    alpha.levels = alphas,
+                    drop.lod = 1.5,
+                    verbose = FALSE)
+save(hotperm1, file = "hotperm1.RData", compress = TRUE)
+
+## End(Not run)
+summary(hotperm1)
+</code></pre>
+
+
+</div>

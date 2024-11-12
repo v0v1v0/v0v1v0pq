@@ -1,0 +1,72 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>zUSR</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Caculate under-specifcation rate (USR)</h2>
+
+<h3>Description</h3>
+
+<p>Caculate under-specifcation rate (USR)
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">zUSR(Q.true, Q.sug)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>Q.true</code></td>
+<td>
+<p>The true Q-matrix.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Q.sug</code></td>
+<td>
+<p>A The Q-matrix that has being validated.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The USR is defned as:
+</p>
+<p style="text-align: center;"><code class="reqn">
+ USR = \frac{\sum_{i=1}^{I}\sum_{k=1}^{K}I(q_{ik}^{t} &gt; q_{ik}^{s})}{I × K}
+</code>
+</p>
+
+<p>where <code class="reqn">q_{ik}^{t}</code> denotes the <code>k</code>th attribute of item <code>i</code> in the true Q-matrix (<code>Q.true</code>),
+<code class="reqn">q_{ik}^{s}</code> denotes <code>k</code>th attribute of item <code>i</code> in the suggested Q-matrix(<code>Q.sug</code>),
+and <code class="reqn">I(\cdot)</code> is the indicator function.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A numeric (USR index).
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(Qval)
+
+set.seed(123)
+
+example.Q1 &lt;- sim.Q(5, 30)
+example.Q2 &lt;- sim.MQ(example.Q1, 0.1)
+USR &lt;- zUSR(example.Q1, example.Q2)
+print(USR)
+
+</code></pre>
+
+
+</div>

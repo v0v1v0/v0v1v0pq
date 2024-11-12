@@ -1,0 +1,55 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>find_packages</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Fetch R package based on keyword</h2>
+
+<h3>Description</h3>
+
+<p>This function gets R packages based on a keyword in their description.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">find_packages(keyword)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>keyword</code></td>
+<td>
+<p>character, the keyword to search package descriptions for.</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>character vector of matching package names or NULL if no matches.
+</p>
+
+
+<h3>Note</h3>
+
+<p>the function in its current form only searches available.packages()
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+# find the list of R packages for data or machine learning
+
+matched_pkgs &lt;- find_packages("data")
+matched_pkgs
+
+matched_pkgs &lt;- find_packages("machine learning")
+matched_pkgs
+
+</code></pre>
+
+
+</div>

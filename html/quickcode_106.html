@@ -1,0 +1,87 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>strsplit.num</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Split a string of numbers and return as numeric vector</h2>
+
+<h3>Description</h3>
+
+<p>The purpose of this function is combine the functionality of
+<strong>strsplit</strong>, <strong>unlist</strong> and <strong>as.numeric</strong>, which are often used together.<br><br></p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">strsplit.num(x, split, fixed = FALSE, perl = FALSE, useBytes = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>character vector, each element of which is to be split. Other inputs, including a factor, will give an error.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>split</code></td>
+<td>
+<p>character vector</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fixed</code></td>
+<td>
+<p>logical. If TRUE match split exactly, otherwise use regular expressions. Has priority over perl.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>perl</code></td>
+<td>
+<p>logical. Should Perl-compatible regexps be used?</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>useBytes</code></td>
+<td>
+<p>logical. If TRUE the matching is done byte-by-byte rather than character-by-character, and inputs with marked encodings are not converted.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Given a sting, split by a separator into numbers
+</p>
+
+
+<h3>Value</h3>
+
+<p>numeric values based on split string
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># Example 1
+# string of numbers with separator " "
+num.01 = "5 3 2 3 5 2 33 23 5 32 432 42 23 554"
+
+# split a string of numbers and return as numeric
+strsplit.num(num.01, split = " ")
+
+
+# Example 2
+# string of numbers with separator "|||"
+num.02 = "0|||1|||4|||43|||6|||8|||00||| 1||| 0 1||| T |||F|||TRUE |||f"
+
+# split a string of numbers and return as numeric
+strsplit.num(num.02, split = "[|||]")
+
+</code></pre>
+
+
+</div>

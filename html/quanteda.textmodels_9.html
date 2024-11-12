@@ -1,0 +1,70 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>coef.textmodel_ca</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Extract model coefficients from a fitted textmodel_ca object</h2>
+
+<h3>Description</h3>
+
+<p><code>coef()</code> extract model coefficients from a fitted <code>textmodel_ca</code>
+object.  <code>coefficients()</code> is an alias.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'textmodel_ca'
+coef(object, doc_dim = 1, feat_dim = 1, ...)
+
+coefficients.textmodel_ca(object, doc_dim = 1, feat_dim = 1, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>a fitted textmodel_ca object</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>doc_dim, feat_dim</code></td>
+<td>
+<p>the document and feature dimension scores to be
+extracted</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>unused</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>a list containing numeric vectors of feature and document
+coordinates.  Includes <code>NA</code> vectors of standard errors for consistency with
+other models' coefficient outputs, and for the possibility of having these
+computed in the future.
+</p>
+
+<ul>
+<li> <p><code>coef_feature</code> column coordinates of the features
+</p>
+</li>
+<li> <p><code>coef_feature_se</code> feature length vector of <code>NA</code> values
+</p>
+</li>
+<li> <p><code>coef_document</code> row coordinates of the documents
+</p>
+</li>
+<li> <p><code>coef_document_se</code> document length vector of <code>NA</code> values
+</p>
+</li>
+</ul>
+</div>

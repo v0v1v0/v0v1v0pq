@@ -1,0 +1,62 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qdivision</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Division of a qspray polynomial</h2>
+
+<h3>Description</h3>
+
+<p>Division of a qspray polynomial by a list of qspray 
+polynomials. See the reference for the definition.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qdivision(qspray, divisors)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>qspray</code></td>
+<td>
+<p>the dividend, a <code>qspray</code> object</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>divisors</code></td>
+<td>
+<p>the divisors, a list of <code>qspray</code> objects</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>The remainder of the division, a <code>qspray</code> object.
+</p>
+
+
+<h3>References</h3>
+
+<p>Michael Weiss, 2010. 
+<a href="https://math.nyu.edu/degree/undergrad/ug_research/Weiss_SURE_Paper.pdf">Computing Gröbner Bases in Python with Buchberger’s Algorithm</a>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># a univariate example
+library(qspray)
+x &lt;- qlone(1)
+f &lt;- x^4 - 4*x^3 + 4*x^2 - x # 0 and 1 are trivial roots
+g &lt;- x * (x - 1)
+qdivision(f, list(g)) # should be zero
+</code></pre>
+
+
+</div>

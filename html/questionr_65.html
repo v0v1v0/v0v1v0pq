@@ -1,0 +1,80 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qload</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Load one or more packages, installing them first if necessary</h2>
+
+<h3>Description</h3>
+
+<p>This function quickly loads one or more packages, installing them quietly 
+if necessary.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qload(..., load = TRUE, silent = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>the packages to load/install. Packages are loaded with <code>library</code> 
+and installed first with <code>install.packages</code> if necessary.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>load</code></td>
+<td>
+<p>load the packages. Set to <code>FALSE</code> to just install any missing packages. 
+Defaults to <code>TRUE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>silent</code></td>
+<td>
+<p>keep output as silent as possible.
+Defaults to <code>TRUE</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The function probably requires R 3.0.0 or above to make use of the <code>quiet</code>
+argument when calling <code>install.packages</code>. It is not clear what the argument
+previously achieved in older versions of R.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The result is a list of packages cited in the scripts.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>François Briatte &lt;f.briatte@gmail.com&gt;
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>qscan</code>, <code>install.packages</code>, <code>library</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">qload("questionr")
+qload("questionr", silent = FALSE)
+</code></pre>
+
+
+</div>

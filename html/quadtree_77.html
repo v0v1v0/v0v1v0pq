@@ -1,0 +1,107 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>transform_values</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Transform the values of all <code>Quadtree</code> cells</h2>
+
+<h3>Description</h3>
+
+<p>Uses a function to change all cell values of a
+<code>Quadtree</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S4 method for signature 'Quadtree,'function''
+transform_values(x, y)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>A <code>Quadtree</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>function; function used on each cell to transform the
+value. Must accept a single numeric value and return a single numeric
+value. The function must also be able to handle <code>NA</code> values.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>This function applies a function to every single cell, which allows the user
+to do things like multiply by a scalar, invert the values, etc.
+</p>
+<p>Since a quadtree may contain <code>NA</code> values, <code>y</code> must
+be able to handle <code>NA</code>s without throwing an error. For example, if
+<code>y</code> contains some control statement such as <code>if(x &lt;
+.7)</code>, the function must have a separate statement before this to catch
+<code>NA</code> values, since having an <code>NA</code> in an if statement is not
+allowed. See 'Examples' for an example of this.
+</p>
+<p>It's important to note that this modifies the original quadtree. If you wish
+to maintain a version of the original quadtree, use <code>copy</code>
+beforehand to make a copy of the quadtree (see 'Examples').
+</p>
+
+
+<h3>Value</h3>
+
+<p>no return value
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>set_values()</code> can be used to set the values of cells
+to specified values (rather than transforming the existing values).
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(quadtree)
+habitat &lt;- terra::rast(system.file("extdata", "habitat.tif", package="quadtree"))
+
+# create a quadtree
+qt1 &lt;- quadtree(habitat, split_threshold = .1)
+
+# copy the quadtree so that we have a copy of the original (since using
+#'transform_values' modifies the quadtree object)
+qt2 &lt;- copy(qt1)
+qt3 &lt;- copy(qt1)
+qt4 &lt;- copy(qt1)
+
+transform_values(qt2, function(x) 1 - x)
+transform_values(qt3, function(x) x^3)
+transform_values(qt4, function(x) {
+  if (is.na(x)) return(NA) # make sure to handle NA's
+  if (x &lt; .7) return(0)
+  return(1)
+})
+
+old_par &lt;- par(mfrow = c(2, 2))
+plot(qt1, main = "original", crop = TRUE, na_col = NULL,
+     border_lwd = .3, zlim = c(0, 1))
+plot(qt2, main = "1 - value", crop = TRUE, na_col = NULL,
+     border_lwd = .3, zlim = c(0, 1))
+plot(qt3, main = "values cubed", crop = TRUE, na_col = NULL,
+     border_lwd = .3, zlim = c(0, 1))
+plot(qt4, main = "values converted to 0/1", crop = TRUE, na_col = NULL,
+     border_lwd = .3, zlim = c(0, 1))
+par(old_par)
+</code></pre>
+
+
+</div>

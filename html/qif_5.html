@@ -1,0 +1,268 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qif</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Function to Solve a Quadratic Inference Function Model</h2>
+
+<h3>Description</h3>
+
+<p>Produces an object of class "<code>qif</code>" which is a Quadratic Inference Function fit
+of the balanced longitudinal data.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qif(formula = formula(data), id = id, data = parent.frame(),
+  b = NULL, tol = 1e-08, maxiter = 1000, family = gaussian,
+  corstr = "independence", invfun = "finv")
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>formula</code></td>
+<td>
+<p>a formula expression as for other regression models, of the form
+<code>response ~ predictors</code>. See the documentation of <code>lm</code>
+and <code>formula</code> for details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>id</code></td>
+<td>
+<p>a vector which identifies the clusters. The length of <code>id</code> should be
+the same as the number of observations. Data are assumed to be sorted so that
+observations on a cluster are contiguous rows for all entities in the formula.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>an optional data frame in which to interpret the variables occurring
+in the <code>formula</code>, along with the <code>id</code> variables.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>b</code></td>
+<td>
+<p>an initial estimate for the parameters.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tol</code></td>
+<td>
+<p>the tolerance used in the fitting algorithm.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>maxiter</code></td>
+<td>
+<p>the maximum number of iterations.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>family</code></td>
+<td>
+<p>a <code>family</code> object: a list of functions and expressions for defining
+canonical link and variance functions. Families supported in <code>qif</code> are <code>gaussian</code>,
+<code>binomial</code>, <code>poisson</code>, and <code>gamma</code>; see the <code>glm</code> and <code>formula</code> documentation. Some links
+are not currently available: probit link for binomial family and log link for
+gamma family.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>corstr</code></td>
+<td>
+<p>a character string specifying the correlation structure. The
+following are permitted: <code>"independence"</code>, <code>"exchangeable"</code>, <code>"AR-1"</code> and <code>"unstructured"</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>invfun</code></td>
+<td>
+<p>a character string specifying the matrix inverse function. The
+following are permitted: <code>"finv"</code> and <code>"ginv"</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p><code>qif</code> provides two options of computing matrix inverses. The default
+is from Fortran math library, and the other one is generalized inverse "<code>ginv</code>"
+given in R package <code>MASS</code>. You can call option "<code>ginv</code>" through argument "<code>invfun</code>"
+in "<code>qif()</code>".
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list containing:
+</p>
+
+<ul>
+<li>
+<p><code>title</code>: name of qif
+</p>
+</li>
+<li>
+<p><code>version</code>: the current version of qif
+</p>
+</li>
+<li>
+<p><code>model</code>: analysis model for link function, variance function and correlation struture
+</p>
+</li>
+<li>
+<p><code>terms</code>: analysis model for link function, variance function and correlation struture
+</p>
+</li>
+<li>
+<p><code>iteration</code>: the number of iterations
+</p>
+</li>
+<li>
+<p><code>coefficients</code>: beta esitmates value
+</p>
+</li>
+<li>
+<p><code>linear.perdictors</code>: linear predictor value
+</p>
+</li>
+<li>
+<p><code>fitted.value</code>: fitted value of y
+</p>
+</li>
+<li>
+<p><code>x</code>: the perdicted matrix
+</p>
+</li>
+<li>
+<p><code>y</code>: the response
+</p>
+</li>
+<li>
+<p><code>residuals</code>: y-mu
+</p>
+</li>
+<li>
+<p><code>pearson.resi</code>: pearson residuals
+</p>
+</li>
+<li>
+<p><code>scale</code>: the scale of fitted model
+</p>
+</li>
+<li>
+<p><code>family</code>: the type of distribution
+</p>
+</li>
+<li>
+<p><code>id</code>: model fitted value
+</p>
+</li>
+<li>
+<p><code>max.id</code>: max number of each steps
+</p>
+</li>
+<li>
+<p><code>xnames</code>: the values are X name of qif
+</p>
+</li>
+<li>
+<p><code>statistics</code>: The qif statistics
+</p>
+</li>
+<li>
+<p><code>Xnames</code>: the name X matrix in qif
+</p>
+</li>
+<li>
+<p><code>parameter</code>: parameter estimates
+</p>
+</li>
+<li>
+<p><code>covariance</code>: Covariance of coefficients
+</p>
+</li>
+</ul>
+<h3>Note</h3>
+
+<p>This R package is created by transplanting a SAS macro QIF developed
+originally by Peter Song and Zhichang Jiang (2006). This is version 1.5 of
+this user documentation file, revised 2019-07-02.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Zhichang Jiang, Alberta Health Services, and Peter X.K. Song, University
+of Michigan.
+</p>
+
+
+<h3>References</h3>
+
+<p>Qu A, Lindsay BG, Li B. Improving generalized estimating equations using quadratic
+inference functions. Biometrika 2000, 87 823-836.
+</p>
+<p>Qu A, Song P X-K. Assessing robustness of generalised estimating equations and
+quadratic inference functions. Biometrika 2004, 91 447-459.
+</p>
+<p>Qu A, Lindsay BG. Building adaptive estimating equations when inverse of covariance
+estimation is difficult. J. Roy. Statist. Soc. B 2003, 65, 127-142.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>glm, lm, formula.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Marginal log-linear model for the epileptic seizures count data
+## (Diggle et al., 2002, Analysis of Longitudinal Data, 2nd Ed., Oxford Press).
+
+# Read in the epilepsy data set:
+data(epil)
+
+# Fit the QIF model:
+fit &lt;- qif(y ~ base + trt + lage + V4, id=subject, data=epil,
+                                       family=poisson, corstr="AR-1")
+
+# Alternately, use ginv() from package MASS
+fit &lt;- qif(y ~ base + trt + lage + V4, id=subject, data=epil,
+                      family=poisson, corstr="AR-1", invfun = "ginv")
+
+# Print summary of QIF fit:
+summary(fit)
+
+## Second example: MS study
+data(exacerb)
+
+qif_BIN_IND&lt;-qif(exacerbation ~ treatment + time + duration + time2, id=id,
+                        data=exacerb, family=binomial, corstr="independence")
+qif_BIN_AR1&lt;-qif(exacerbation ~ treatment + time + duration + time2, id=id,
+                        data=exacerb, family=binomial, corstr="AR-1")
+qif_BIN_CS&lt;-qif(exacerbation ~ treatment + time + duration + time2, id=id,
+                        data=exacerb, family=binomial, corstr="exchangeable")
+qif_BIN_UN&lt;-qif(exacerbation ~ treatment + time + duration + time2, id=id,
+                        data=exacerb, family=binomial, corstr="unstructured")
+
+summary(qif_BIN_CS)
+
+qif_BIN_CS$statistics
+
+qif_BIN_CS$covariance
+
+
+</code></pre>
+
+
+</div>

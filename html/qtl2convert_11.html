@@ -1,0 +1,76 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>map_list_to_df</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Marker map list to data frame</h2>
+
+<h3>Description</h3>
+
+<p>Convert a marker map organized as a list to a data frame
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">map_list_to_df(
+  map_list,
+  chr_column = "chr",
+  pos_column = "pos",
+  marker_column = "marker"
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>map_list</code></td>
+<td>
+<p>List of vectors containing marker positions</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>chr_column</code></td>
+<td>
+<p>Name of the chromosome column in the output</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pos_column</code></td>
+<td>
+<p>Name of the position column in the output</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>marker_column</code></td>
+<td>
+<p>Name of the marker column in the output.
+If NULL, just put them as row names.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A data frame with the marker positions.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>map_df_to_list()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(qtl2)
+iron &lt;- read_cross2(system.file("extdata", "iron.zip", package="qtl2"))
+iron_map &lt;- map_list_to_df(iron$gmap)
+
+</code></pre>
+
+
+</div>

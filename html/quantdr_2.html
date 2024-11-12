@@ -1,0 +1,183 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>llqr</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Local linear quantile regression</h2>
+
+<h3>Description</h3>
+
+<p><code>llqr</code> estimates the <code class="reqn">\tau</code>th conditional quantile of <code>y</code> given
+<code>x</code> based on a local linear fit.  The estimation is performed at each of
+the design points or, if specified, at a single observation point <code>x0</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">llqr(x, y, tau = 0.5, h = NULL, method = "rule", x0 = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>A design matrix (n x p).  The rows represent observations and the
+columns represent predictor variables.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>A vector of the response variable.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tau</code></td>
+<td>
+<p>A quantile level, a number strictly between 0 and 1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>h</code></td>
+<td>
+<p>A univariate bandwidth.  If not specified, the bandwidth is estimated
+using either "<code>rule</code>" or "<code>CV</code>".  See <code>method</code> below for
+details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+<p>A character string specifying the method to select the
+bandwidth, if it is missing.  Use "<code>rule</code>" for the rule-of-thumb
+bandwidth of Yu and Jones (1994) or "<code>CV</code>" for the method of
+cross-validation.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x0</code></td>
+<td>
+<p>A single observation for which to perform the estimation.  It needs
+to be a scalar (for a univariate predictor) or a vector (for a
+multivariate predictor).  If <code>x0</code> is missing, the estimation will be
+performed on the design matrix <code>x</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The function computes the local linear quantile regression fit for a specified
+quantile level <code class="reqn">\tau</code> at the design points of the matrix <code>x</code> or at a
+pre-specified point <code>x0</code>.  The estimation is based on a standard normal
+kernel and a univariate bandwidth.  The bandwidth, if not specified by the
+user, is defined using either the rule-of-thumb given by Yu and Jones (1994)
+or the cross-validation criterion.
+</p>
+<p>The estimation applies to univariate and multivariate predictor variables. For
+the latter, the local linear fit uses the multivariate standard normal kernel.
+Note that if the estimation is performed at a pre-specified point <code>x0</code>,
+then <code>x0</code> should be a scalar (for univariate predictor) or a vector (for
+multivariate predictor).
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>llqr</code> computes the local linear <code class="reqn">\tau</code>th conditional
+quantile function of <code>y</code> given <code>x</code> and returns:
+</p>
+
+<ul>
+<li>
+<p>ll_est: The estimated function value at the design points <code>x</code>
+or, if specified, at the point <code>x0</code>.
+</p>
+</li>
+<li>
+<p>h: The bandwidth for the local linear quantile regression fit.  If
+not specified by the user, <code>h</code> is estimated using either the
+rule-of-thumb given by Yu and Jones (1994) or the cross-validation
+criterion. </p>
+</li>
+</ul>
+<h3>Warning</h3>
+
+<p>The user needs to be careful about the bandwidth selection. When the
+dimension of the predictor variable is large compared to the sample size,
+local linear fitting meets the 'curse of dimensionality' problem. In
+situations like that, the bandwidth selected by the rule-of-thumb or the
+cross- validation criterion might be small and lead to a sparse
+neighborhood. This will cause the function to fail. For these cases, we
+advice the user to specify a bandwidth in the function. See the last example
+below.
+</p>
+
+
+<h3>References</h3>
+
+<p>Yu, K., and Jones, M.C. (1998), Local linear quantile regression.
+<em>Journal of the American Statistical Association</em>, 93, 228-237.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+# Example 1
+# estimate the function at a specific quantile level for simulated data
+set.seed(1234)
+n &lt;- 100
+x &lt;- rnorm(n)
+error &lt;- rnorm(n)
+y &lt;- (x + 1)^3 + 0.1 * (x - 2)^3 + error
+tau &lt;- 0.5
+plot(x, y, main = tau)
+points(x, llqr(x, y, tau = tau)$ll_est, col = 'red', pch = 16)
+
+# Example 2
+# estimate the function at a point x0
+set.seed(1234)
+n &lt;- 100
+x &lt;- rnorm(n)
+error &lt;- rnorm(n)
+y &lt;- (x + 1)^3 + 0.1 * (x - 2)^3 + error
+tau &lt;- 0.5
+x0 &lt;- 1
+llqr(x, y, tau = tau, x0 = x0)
+
+# Example 3
+# estimate the function for different quantile levels
+data(mcycle, package = "MASS")
+attach(mcycle)
+plot(times, accel, xlab = "milliseconds", ylab = "acceleration")
+taus &lt;- c(0.1, 0.25, 0.5, 0.75, 0.9)
+for(i in 1:length(taus)) {
+ fit &lt;- llqr(times, accel, tau = taus[i])$ll_est
+ lines(times, fit, lty = i)
+}
+legend(45, -50, c("tau=0.1","tau=0.25","tau=0.5","tau=0.75", "tau=0.9"),
+    lty=1:length(taus))
+
+# Example 4
+# demonstrate a situation where the dimension of the predictor is large and
+# the local linear fitting meets the 'curse of dimensionality' problem
+set.seed(1234)
+n &lt;- 100
+p &lt;- 10
+x &lt;- matrix(rnorm(n * p), n, p)
+error &lt;- rnorm(n)
+y &lt;- 3 * x[, 1] + x[, 2] + error
+tau &lt;- 0.5
+# use the following instead of llqr(x, y, tau = tau)
+fit.alt &lt;- llqr(x, y, tau = tau, h=1)
+fit.alt
+
+</code></pre>
+
+
+</div>

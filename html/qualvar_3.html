@@ -1,0 +1,72 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>DM</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Deviation from the mode (DM)</h2>
+
+<h3>Description</h3>
+
+<p>Computes the deviation from the mode for a vector of frequencies of categories.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">DM(x, na.rm = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a vector of frequencies</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>na.rm</code></td>
+<td>
+<p>if TRUE, missing values are removed. If FALSE, NA is returned if there is any NA value.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>According to Wilcox (1973, p. 327), 'the measure can be thought of as an index of deviation from the modal frequency, analogous to the variance as a measure of deviation from the mean'. The formula for the DM is:
+</p>
+<p style="text-align: center;"><code class="reqn">1 - \frac{\sum_{i = 1}^k (f_m - f_i)}{N(K-1)}</code>
+</p>
+
+
+
+<h3>Value</h3>
+
+<p>The value of the DM statistics, which is normalised (varies between 0 and 1).
+</p>
+
+
+<h3>References</h3>
+
+<p>Wilcox, Allen R. 'Indices of Qualitative Variation and Political Measurement.' <em>The Western Political Quarterly</em> 26, no. 2 (1 June 1973): 325-43. doi:10.2307/446831.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">x &lt;- rmultinom(1, 100, rep_len(0.25, 4))
+x &lt;- as.vector(t(x))
+names(x) &lt;- c("a", "b", "c", "d")
+DM(x)
+
+df &lt;- rmultinom(10, 100, rep_len(0.25, 4))
+df &lt;- as.data.frame(t(df))
+names(df) &lt;- c("a", "b", "c", "d")
+apply(df, 1, DM)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,146 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>timetrans</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Bijective Transformations of Time</h2>
+
+<h3>Description</h3>
+
+<p>Various function models for isoton bijective transformation of
+a time interval to itself.</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">transBeta(x, p, interval = c(0, 1), inv = FALSE,
+  pmin = -3, pmax = 3, p0 = c(0, 0))
+transSimplex(x, p, interval = c(0, 1), inv = FALSE,
+  pmin = -2, pmax = 2, p0 = c(0, 0, 0, 0, 0))
+transBezier(x, p, interval = c(0, 1), inv = FALSE,
+  pmin = 0, pmax = 1, p0 = c(0.25, 0.25, 0.75, 0.75))
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a vector of values to be transformed,</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p</code></td>
+<td>
+<p>the vector of parameters for the transformation,</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>interval</code></td>
+<td>
+<p>a vector of length 2 giving the minimum and maximum
+value in the transformation interval.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>inv</code></td>
+<td>
+<p>a boolean, if true the inverse transform is computed.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pmin</code></td>
+<td>
+<p>a number or a vector giving the minimal useful value for
+the parameters. This information is not used by the function itself,
+but rather provides a meta information about the function used in
+<code>timeTransME</code>. The chosen values are quite restrictive
+to avoid stupid extreme transformation.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pmax</code></td>
+<td>
+<p>provides similar to <code>pmin</code> the upper useful bounds
+for the parameters.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p0</code></td>
+<td>
+<p>provides similar to <code>pmin</code> and <code>pmax</code> the
+parameterization for the identify transform.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+
+<dl>
+<dt><code>transBeta</code></dt>
+<dd>
+<p>The transformation provided is the distribution function of the
+Beta-Distribution with parameters <code>exp(p[1])</code> and
+<code>exp(p[2])</code> scaled to the given interval. This function is
+guaranteed to be strictly isotonic for every choice of p. p has
+length 2. The strength of the Beta transformation is the reasonable
+behavior for strong time deformations.
+</p>
+</dd>
+<dt><code>transSimplex</code></dt>
+<dd>
+<p>The transformation provided a simple linear interpolation. The
+interval is separated into equidistant time spans, which are
+transformed to non-equidistant length. The length of the new
+time spans is the proportional to exp(c(p, 0)). This function is
+guaranteed to be strictly isotonic for every choice of p. p can have
+any length. The strength of the Simplex transformation is the
+possibility to have totally different speeds at different times.
+</p>
+</dd>
+<dt><code>transBezier</code></dt>
+<dd>
+<p>The transformation is provided by a Bezier-Curve of order
+<code>length(p) / 2 + 1</code>. The first and last control point are given by
+<code>c(0, 0)</code> and <code>c(1, 1)</code> and the intermediate control points
+are given by <code>p[c(1, 2) + 2 * i - 2]</code>. This function is not guaranteed
+to be isotonic for <code>length(p) &gt; 4</code>. However it seams useful. A
+major theoretical advantage is that this model is symmetric between
+image and coimage. The strength of the Bezier transformation is fine
+tuning of transformation.
+</p>
+</dd>
+</dl>
+<h3>Value</h3>
+
+<p>The value is a vector of the same length as <code>x</code> providing the
+transformed values. 
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>timeTransME</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">t &lt;- seq(0, 1, length.out = 101)
+par(mfrow = c(3, 3))
+plot(t, transBeta(t, c(0, 0)), type = "l")
+plot(t, transBeta(t, c(0, 1)), type = "l")
+plot(t, transBeta(t, c(-1,1)), type = "l")
+plot(t, transSimplex(t, c(0)), type = "l")
+plot(t, transSimplex(t, c(3, 2, 1)), type = "l")
+plot(t, transSimplex(t, c(0, 2)), type = "l")
+plot(t, transBezier(t, c(0, 1)), type = "l")
+plot(t, transBezier(t, c(0, 1, 1, 0)), type = "l")
+plot(t, transBezier(t, c(0.4, 0.6)), type = "l")
+</code></pre>
+
+
+</div>

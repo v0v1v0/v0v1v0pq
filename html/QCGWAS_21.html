@@ -1,0 +1,92 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>QCGWAS-package</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Quality Control of Genome Wide Association Study Results</h2>
+
+<h3>Description</h3>
+
+<p>Functions for automated and manual quality control of Genome
+Wide Association Study results.
+</p>
+
+
+<h3>Details</h3>
+
+
+<table>
+<tr>
+<td style="text-align: left;">
+Package: </td>
+<td style="text-align: left;"> QCGWAS</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+Type: </td>
+<td style="text-align: left;"> Package</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+Version: </td>
+<td style="text-align: left;"> 1.0-9</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+Date: </td>
+<td style="text-align: left;"> 2022-05-30</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+License: </td>
+<td style="text-align: left;"> GPL (&gt;= 3)</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+</td>
+</tr>
+</table>
+<p>The core of the package is the function <code>QC_GWAS</code>.
+This function carries out an automated quality-control (QC) of
+a Genome Wide Association Study (GWAS) results file, reporting
+on the data-distribution, checking the SNPs for missing and
+invalid data, comparing the alleles and allele-frequency to a
+reference, and creating QQ and Manhattan plots.
+</p>
+<p>Although the number of arguments in <code>QC_GWAS</code> may seem
+overwhelming, only three of them are required to run a basic
+QC. The name of the file to be QC'ed should be passed to the
+<code>filename</code> argument; the directory of said file to the
+<code>dir_data</code> argument; and a header-translation table to
+the <code>header_translations</code> argument. The results
+will be saved in a number of files and graphs in the data
+directory. For a quick introduction to QCGWAS, read the quick
+reference guide that can be found in "R\library\QCGWAS\doc".
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Peter J. van der Most and Ilja M. Nolte
+</p>
+<p>Maintainer: Peter J. van der Most &lt;p.j.van.der.most@umcg.nl&gt;
+</p>
+
+
+<h3>References</h3>
+
+<p>Van der Most, P.J., Vaez, A., Prins, B.P., Loretto Munoz, M.,
+Snieder, H., Alizadeh, B.Z. &amp; Nolte, I.M. (2014).
+QCGWAS: A flexible R package for automated quality control of
+Genome-Wide Association results. Bioinformatics 30(8):1185-1186.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>QC_GWAS</code>
+</p>
+
+
+</div>

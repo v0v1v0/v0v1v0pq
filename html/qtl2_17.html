@@ -1,0 +1,73 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>calc_raw_geno_freq</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Calculate genotype frequencies from raw SNP genotypes</h2>
+
+<h3>Description</h3>
+
+<p>Calculate genotype frequencies from raw SNP genotypes, by individual or by marker
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">calc_raw_geno_freq(cross, by = c("individual", "marker"), cores = 1)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>cross</code></td>
+<td>
+<p>Object of class <code>"cross2"</code>. For details, see the
+<a href="https://kbroman.org/qtl2/assets/vignettes/developer_guide.html">R/qtl2 developer guide</a>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>by</code></td>
+<td>
+<p>Indicates whether to summarize by individual or by marker.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cores</code></td>
+<td>
+<p>Number of CPU cores to use, for parallel calculations.
+(If <code>0</code>, use <code>parallel::detectCores()</code>.)
+Alternatively, this can be links to a set of cluster sockets, as
+produced by <code>parallel::makeCluster()</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A matrix of genotypes frequencies with 3 columns (AA, AB,
+and BB) and with rows being either individuals or markers.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>calc_raw_maf()</code>, <code>calc_raw_het()</code>, <code>recode_snps()</code>, <code>calc_geno_freq()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+# load example data and calculate genotype probabilities
+file &lt;- paste0("https://raw.githubusercontent.com/rqtl/",
+               "qtl2data/main/DOex/DOex.zip")
+DOex &lt;- read_cross2(file)
+gfreq &lt;- calc_raw_geno_freq(DOex)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,80 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>lightness</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Discrimination Judgments of Gray Patches</h2>
+
+<h3>Description</h3>
+
+<p>Four subjects were repeatedly presented with all possible pairs of nine
+gray patches presented under a constant illumination of 133.27 cd/m^2.
+Stimuli had a size of 0.81 degrees of visual angle and were presented side
+by side with a distance of 2.32 degrees of visual angle.
+</p>
+<p>On each trial, subjects judged whether the two patches looked same or
+different.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">data(lightness)</code></pre>
+
+
+<h3>Format</h3>
+
+<p>A data frame of seven variables and 35,760 observations:
+</p>
+
+<dl>
+<dt><code>resp</code></dt>
+<dd>
+<p>the response of a subject in each trial, either <code>s</code>
+for same or <code>d</code> for different.</p>
+</dd>
+<dt><code>RT</code></dt>
+<dd>
+<p>reaction time from stimulus onset until reaction of
+subject.</p>
+</dd>
+<dt><code>id</code></dt>
+<dd>
+<p>subject id.</p>
+</dd>
+<dt><code>ses</code></dt>
+<dd>
+<p>number of experimental session.</p>
+</dd>
+<dt><code>s1</code></dt>
+<dd>
+<p>stimulus which was presented in the first observation area; in
+this case: on the left side of the monitor.</p>
+</dd>
+<dt><code>s2</code></dt>
+<dd>
+<p>stimulus which was presented in the second observation
+area.</p>
+</dd>
+<dt><code>key</code></dt>
+<dd>
+<p>which mouse button was pressed. Assigment of same and
+different to the mouse buttons varied between subjects.</p>
+</dd>
+</dl>
+<h3>Source</h3>
+
+<p>Umbach, N (2013). <em>Dimensionality of the Perceptual Space of
+Achromatic Surface Colors.</em> Dissertation, University of Tuebingen.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(lightness)
+xtabs(~ id + ses, lightness)
+</code></pre>
+
+
+</div>

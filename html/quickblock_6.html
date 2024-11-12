@@ -1,0 +1,169 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>quickblock</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Construct threshold blockings</h2>
+
+<h3>Description</h3>
+
+<p><code>quickblock</code> constructs near-optimal threshold blockings. The function
+expects the user to provide distances measuring the similarity of
+units and a required minimum block size. It then constructs a blocking
+so that units assigned to the same block are as similar as possible while
+satisfying the minimum block size.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">quickblock(
+  distances,
+  size_constraint = 2L,
+  caliper = NULL,
+  break_large_blocks = FALSE,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>distances</code></td>
+<td>
+<p><code>distances</code> object or a numeric vector, matrix
+or data frame. The parameter describes the similarity of the units to be
+blocked. It can either be preprocessed distance information using a
+<code>distances</code> object, or raw covariate data. When
+called with covariate data, Euclidean distances are calculated unless
+otherwise specified.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>size_constraint</code></td>
+<td>
+<p>integer with the required minimum number of units in each block.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>caliper</code></td>
+<td>
+<p>restrict the maximum within-block distance.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>break_large_blocks</code></td>
+<td>
+<p>logical indicating whether large blocks should be broken up into smaller blocks.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>additional parameters to be sent either to the <code>distances</code>
+function when the <code>distances</code> parameter contains covariate data, or
+to the underlying <code>sc_clustering</code> function.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The <code>caliper</code> parameter constrains the maximum distance between units
+assigned to the same block. This is implemented by restricting the
+edge weight in the graph used to construct the blocks (see
+<code>sc_clustering</code> for details). As a result, the caliper
+will affect all blocks and, in general, make it harder for
+the function to find good matches even for blocks where the caliper is not
+binding. In particular, a too tight <code>caliper</code> can lead to discarded
+units that otherwise would be assigned to a block satisfying both the
+matching constraints and the caliper. For this reason, it is recommended
+to set the <code>caliper</code> value quite high and only use it to avoid particularly
+poor blocks. It strongly recommended to use the <code>caliper</code> parameter only
+when <code>primary_unassigned_method = "closest_seed"</code> in the underlying
+<code>sc_clustering</code> function (which is the default
+behavior).
+</p>
+<p>The main algorithm used to construct the blocking may produce
+some blocks that are much larger than the minimum size constraint. If
+<code>break_large_blocks</code> is <code>TRUE</code>, all blocks twice as large as
+<code>size_constraint</code> will be broken into two or more smaller blocks. Block
+are broken so to ensure that the new blocks satisfy the size constraint.
+In general, large blocks are produced when units are highly clustered,
+so breaking up large blocks will often only lead to small improvements. The
+blocks are broken using the <code>hierarchical_clustering</code>
+function.
+</p>
+<p><code>quickblock</code> calls <code>sc_clustering</code> with
+<code>seed_method = "inwards_updating"</code>. The <code>seed_method</code> parameter
+governs how the seeds are selected in the nearest neighborhood graph that
+is used to construct the blocks (see <code>sc_clustering</code>
+for details). The <code>"inwards_updating"</code> option generally works well
+and is safe with most datasets. Using <code>seed_method = "exclusion_updating"</code>
+often leads to better performance (in the sense of blocks with more
+similar units), but it may increase run time. Discrete data (or more generally
+when units tend to be at equal distance to many other units) will lead to
+particularly poor run time with this option. If the dataset has at least one
+continuous covariate, <code>"exclusion_updating"</code> is typically quick. A third
+option is <code>seed_method = "lexical"</code>, which decreases the run time relative
+to <code>"inwards_updating"</code> (sometimes considerably) at the cost of performance.
+<code>quickblock</code> passes parameters on to <code>sc_clustering</code>,
+so to change <code>seed_method</code>, call <code>quickblock</code> with the parameter
+specified as usual: <code>quickblock(..., seed_method = "exclusion_updating")</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns a <code>qb_blocking</code> object with the constructed blocks.
+</p>
+
+
+<h3>References</h3>
+
+<p>Higgins, Michael J., Fredrik Sävje and Jasjeet S. Sekhon (2016),
+‘Improving massive experiments with threshold blocking’,
+<em>Proceedings of the National Academy of Sciences</em>, <b>113:27</b>, 7369–7376.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>See <code>sc_clustering</code> for the underlying function used
+to construct the blocks.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># Construct example data
+my_data &lt;- data.frame(x1 = runif(100),
+                      x2 = runif(100))
+
+# Make distances
+my_distances &lt;- distances(my_data, dist_variables = c("x1", "x2"))
+
+# Make blocking with at least two units in each block
+quickblock(my_distances)
+
+# Require at least three units in each block
+quickblock(my_distances, size_constraint = 3)
+
+# Impose caliper
+quickblock(my_distances, caliper = 0.2)
+
+# Break large block
+quickblock(my_distances, break_large_blocks = TRUE)
+
+# Call `quickblock` directly with covariate data (ie., not pre-calculating distances)
+quickblock(my_data[c("x1", "x2")])
+
+# Call `quickblock` directly with covariate data using Mahalanobis distances
+quickblock(my_data[c("x1", "x2")], normalize = "mahalanobize")
+
+</code></pre>
+
+
+</div>

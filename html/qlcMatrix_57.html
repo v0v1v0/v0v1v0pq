@@ -1,0 +1,130 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>unfold</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Unfolding of Arrays
+</h2>
+
+<h3>Description</h3>
+
+<p>Multidimensional Arrays ("Tensors") can be unfolded, i.e. multiple dimensions can be combined into a single dimension in a block-wise fashion. Such unfoldings are central to tensor decomposition. In general, computations on tensors are regularly performed by reducing tensors to matrices ("2-dimensional tensors") and then use regular matrix algebra.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">unfold(x, MARGINS)
+
+unfold_to_matrix(x, ROWS, COLS = NULL)
+tenmat(x, ROWS, COLS = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+
+<p>Sparse array to be unfolded, using <code>simple_sparse_array</code> from the package <code>spam</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>MARGINS</code></td>
+<td>
+
+<p>Margins ("dimensions") to be unfolded. The margins specified will be turned into a single dimension, to be added as the last dimension of the resulting array (see Details).
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ROWS</code></td>
+<td>
+
+<p>Margins of the original array to be unfolded into the rows of the resulting matrix.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>COLS</code></td>
+<td>
+
+<p>Margins of the original array to be unfolded into the columns of the resulting matrix. If <code>NULL</code>, then all remaining margins, not included in <code>ROWS</code> are unfolded here.
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The function <code>unfold</code> is a general approach to combining of multiple dimensions into a single dimensions. The function <code>unfold_to_matrix</code> is a special case in which the result is a 2-dimensional matrix. This second function is made to emulate the functionality of the <code>tenmat</code> ("tensor to matrix") from the Matlab Tensor Toolbox. For convenience, the function-name <code>tenmat</code> is also added as a synonym for <code>unfold_to_matrix</code>.
+</p>
+<p>Unfolding basically works by interspercing margins subsequently. E.g. margin A of size 3 (A1, A2, A3) and a margin B of size 2 (B1, B2) are unfolded through <code>c(A,B)</code> as (A1B1, A2B1, A3B1, A1B2, A2B2, A3B2), but they are unfolded through <code>c{B,A}</code> as (B1A1, B2A1, B1A2, B2A2, B1A3, B2A3).
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>unfold</code> returns a <code>simple_sparse_array</code> with the new combined dimension added as the last dimension. All original dimensions are shifted forward. The relation between the original dimensions and the new dimensions is stored as an <code>permutation</code> attribute, e.g. try <code>attr(x, "p")</code>. When multiple unfoldings are performed after each other, these permutations can be subsetted on each other to obtain the final permutation. See examples below.
+</p>
+<p><code>unfold_to_matrix</code> and <code>tenmat</code> return a sparse matrix of class <code>dgTMatrix</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Michael Cysouw &lt;cysouw@mac.com&gt;
+</p>
+
+
+<h3>References</h3>
+
+<p>see some old notes by Charles Van Loon that inspired this implementation at <a href="https://web.archive.org/web/20210505120659/http://www.cs.cornell.edu/cv/SummerSchool/unfold.pdf">https://web.archive.org/web/20210505120659/http://www.cs.cornell.edu/cv/SummerSchool/unfold.pdf</a>. The Matlab Tensor Toolbox can be found at <a href="https://www.tensortoolbox.org">https://www.tensortoolbox.org</a>. A different Matlab implementation is <a href="https://www.tensorlab.net">https://www.tensorlab.net</a>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># example from Charles Van Loon:
+x &lt;- array(c(111, 211, 311, 411, 121, 221, 321, 
+    421, 131, 231, 331, 431, 112, 212, 312, 412, 
+    122, 222, 322, 422, 132, 232, 332, 432), dim = c(4, 3, 2))
+x
+
+s &lt;- as.simple_sparse_array(x)
+( s1  &lt;- as.array(unfold_to_matrix(s,1)) )
+
+# note this is identical to:
+( s23 &lt;- as.array(unfold(s,c(2,3))) )
+all.equal(s23, s1)
+
+# larger example from same source
+x &lt;- array(0, dim = c(2,3,2,2,3))
+x[1,2,1,1,2] &lt;- 12112
+x[2,3,1,2,2] &lt;- 23122
+x[2,2,2,1,1] &lt;- 22211
+x[2,2,1,2,3] &lt;- 22123
+s &lt;- as.simple_sparse_array(x)
+
+as.array(unfold_to_matrix(s, c(1,2,3), c(4,5)))
+
+# use attribute "permutation" to track dimensions
+# first step: unfold 1,2,3 to become dimension 3
+# original dimensions 4,5 now become 1,2
+s1 &lt;- unfold(s, c(1,2,3))
+( p1 &lt;- attr(s1, "permutation") )
+
+# now take these dimension 1,2 (originally 4,5) and unfold them
+s2 &lt;- unfold(s1, c(1,2))
+( p2 &lt;- attr(s2, "permutation") )
+
+# use subsetting to track dimensions through subsequent unfolding
+p2[p1]
+</code></pre>
+
+
+</div>

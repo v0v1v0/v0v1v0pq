@@ -1,0 +1,62 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>.identifyGrobToPlot</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Identify where to get the grob from</h2>
+
+<h3>Description</h3>
+
+<p>Internal function.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">.identifyGrobToPlot(toPlot, sGrob, takeFromPlotObj)
+
+## S4 method for signature 'ANY,.quickPlotGrob'
+.identifyGrobToPlot(toPlot, sGrob, takeFromPlotObj)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>toPlot</code></td>
+<td>
+<p>The object to plot. Should be a single layer if from a multi-layer
+object such as a <code>RasterStack</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sGrob</code></td>
+<td>
+<p><code>quickPlot</code> grob object</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>takeFromPlotObj</code></td>
+<td>
+<p>Logical. Should the data come from the argument passed
+into <code>Plot</code> (<code>TRUE</code>), or from the (<code>.quickPlotEnv</code>) (<code>FALSE</code>).</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Because the <code>Plot</code> function can use the global environment as a source of
+objects to plot, not just the call itself, this function identifies where the
+data for the grob should come from, the current call or the global environment.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Eliot McIntire
+</p>
+
+
+</div>

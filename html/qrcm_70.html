@@ -1,0 +1,199 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>summary.iqrL</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Summary After Quantile Regression Coefficients Modeling With Longitudinal Data
+</h2>
+
+<h3>Description</h3>
+
+<p>Summary of an object of class “<code>iqrL</code>”.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'iqrL'
+summary(object, p, level, cov = FALSE, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+
+<p>an object of class “<code>iqrL</code>”, the result of a call to <code>iqrL</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p</code></td>
+<td>
+
+<p>an optional vector of quantiles.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>level</code></td>
+<td>
+
+<p>a numeric scalar. Use <code>level = 1</code> to summarize <code class="reqn">\beta(u)</code>, and 
+<code>level = 2</code> to summarize <code class="reqn">\gamma(v)</code>. Ignored if <kbd>p</kbd> is missing.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cov</code></td>
+<td>
+
+<p>logical. If <kbd>TRUE</kbd>, the covariance matrix of the coefficients or is reported.
+Ignored if <kbd>p</kbd> is missing.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>for future methods.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>If <kbd>p</kbd> is supplied, 
+a standard summary of the estimated quantile regression coefficients 
+is returned for each value of <kbd>p</kbd>: if <kbd>level = 1</kbd>,
+a summary of <code>beta(p)</code>, and if <kbd>level = 2</kbd>, a summary of <code>gamma(p)</code>.
+If <kbd>cov = TRUE</kbd>, the covariance matrix is also reported.
+</p>
+<p>If <kbd>p</kbd> is missing (the default), a list with the following items:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>converged</code></td>
+<td>
+<p>logical value indicating the convergence status.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n.it</code></td>
+<td>
+<p>the number of iterations.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p>the number of observations.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n.id</code></td>
+<td>
+<p>the number of unique <kbd>id</kbd>s.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>free.par</code></td>
+<td>
+<p>the number of free parameters in the model, excluding fixed effects.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>theta</code></td>
+<td>
+<p>the estimate of <code class="reqn">\theta</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>se.theta</code></td>
+<td>
+<p>the estimated standard errors associated with <kbd>theta</kbd>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>phi</code></td>
+<td>
+<p>the estimate of <code class="reqn">\phi</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>se.phi</code></td>
+<td>
+<p>the estimated standard errors associated with <kbd>phi</kbd>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>test.row.theta, test.row.phi</code></td>
+<td>
+<p>Wald test for the covariates. Each <em>row</em> of <code>theta</code> and <code>phi</code> is tested for nullity.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>test.col.theta, test.col.phi</code></td>
+<td>
+<p>Wald test for the building blocks of the quantile function. Each <em>column</em> of <code>theta</code> and <code>phi</code> is tested for nullity.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>obj.function</code></td>
+<td>
+<p>the minimized loss function.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>call</code></td>
+<td>
+<p>the matched call.</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Paolo Frumento <a href="mailto:paolo.frumento@unipi.it">paolo.frumento@unipi.it</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>iqrL</code>, for model fitting; <code>predict.iqrL</code> and <code>plot.iqrL</code>,
+for predicting and plotting objects of class “<code>iqrL</code>”; <code>test.fit.iqrL</code>
+for a goodness-of-fit test.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+# using simulated data
+
+n &lt;- 1000 # n. of observations
+n.id &lt;- 100 # n. of clusters
+id &lt;- rep(1:n.id, each = n/n.id) # cluster id
+
+x &lt;- rexp(n) # a covariate
+
+V &lt;- runif(n.id) # V_i
+U &lt;- runif(n) # U_it
+y &lt;- 1 + 2*log(U) + 3*x + 0.5*qnorm(V)
+
+# true quantile function: Q(u,v | x) = beta0(u) + beta1(u)*x + gamma0(v), with
+   # beta0(u) = 1 + 2*log(u)
+   # beta1(u) = 3
+   # gamma0(v) = 0.5*qnorm(v)
+
+model &lt;- iqrL(fx = y ~ x, fu = ~ 1 + I(log(u)), fz = ~ 1, fv = ~ -1 + I(qnorm(v)), id = id)
+summary(model)
+summary(model, level = 1, p = c(0.25, 0.75)) # summary of beta(u) at selected quantiles
+summary(model, level = 2, p = c(0.1, 0.9)) # summary of gamma(v) at selected quantiles
+</code></pre>
+
+
+</div>

@@ -1,0 +1,173 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>msm_fit</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Fitting marginal structural model (MSM) within quantile g-computation</h2>
+
+<h3>Description</h3>
+
+<p>This is an internal function called by <code>qgcomp</code>,
+<code>qgcomp.glm.boot</code>, and <code>qgcomp.glm.noboot</code>,
+but is documented here for clarity. Generally, users will not need to call
+this function directly.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">msm_fit(
+  f,
+  qdata,
+  intvals,
+  expnms,
+  rr = TRUE,
+  main = TRUE,
+  degree = 1,
+  id = NULL,
+  weights,
+  bayes = FALSE,
+  MCsize = nrow(qdata),
+  hasintercept = TRUE,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>f</code></td>
+<td>
+<p>an r formula representing the conditional model for the outcome, given all
+exposures and covariates. Interaction terms that include exposure variables
+should be represented via the <code>AsIs</code> function</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qdata</code></td>
+<td>
+<p>a data frame with quantized exposures</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>intvals</code></td>
+<td>
+<p>sequence, the sequence of integer values that the joint exposure
+is 'set' to for estimating the msm. For quantile g-computation, this is just
+0:(q-1), where q is the number of quantiles of exposure.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>expnms</code></td>
+<td>
+<p>a character vector with the names of the columns in qdata that represent
+the exposures of interest (main terms only!)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rr</code></td>
+<td>
+<p>logical, estimate log(risk ratio) (family='binomial' only)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>main</code></td>
+<td>
+<p>logical, internal use: produce estimates of exposure effect (psi)
+and expected outcomes under g-computation and the MSM</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>degree</code></td>
+<td>
+<p>polynomial bases for marginal model (e.g. degree = 2
+allows that the relationship between the whole exposure mixture and the outcome
+is quadratic. Default=1)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>id</code></td>
+<td>
+<p>(optional) NULL, or variable name indexing individual units of
+observation (only needed if analyzing data with multiple observations per
+id/cluster)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>weights</code></td>
+<td>
+<p>"case weights" - passed to the "weight" argument of
+<code>glm</code> or <code>bayesglm</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bayes</code></td>
+<td>
+<p>use underlying Bayesian model (<code>arm</code> package defaults). Results
+in penalized parameter estimation that can help with very highly correlated
+exposures. Note: this does not lead to fully Bayesian inference in general,
+so results should be interpreted as frequentist.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>MCsize</code></td>
+<td>
+<p>integer: sample size for simulation to approximate marginal
+zero inflated model parameters. This can be left small for testing, but should be as large
+as needed to reduce simulation error to an acceptable magnitude (can compare psi coefficients for
+linear fits with qgcomp.zi.noboot to gain some intuition for the level of expected simulation
+error at a given value of MCsize)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>hasintercept</code></td>
+<td>
+<p>(logical) does the model have an intercept?</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>arguments to glm (e.g. family)</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>This function first computes expected outcomes under hypothetical
+interventions to simultaneously set all exposures to a specific quantile. These
+predictions are based on g-computation, where the exposures are ‘quantized’,
+meaning that they take on ordered integer values according to their ranks,
+and the integer values are determined by the number of quantile cutpoints used.
+The function then takes these expected outcomes and fits an additional model
+(a marginal structural model) with the expected outcomes as the outcome and
+the intervention value of the exposures (the quantile integer) as the exposure.
+Under causal identification assumptions and correct model specification,
+the MSM yields a causal exposure-response representing the incremental
+change in the expected outcome given a joint intervention on all exposures.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>qgcomp.glm.boot</code>, and <code>qgcomp</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">set.seed(50)
+dat &lt;- data.frame(y=runif(200), x1=runif(200), x2=runif(200), z=runif(200))
+X &lt;- c('x1', 'x2')
+qdat &lt;- quantize(dat, X, q=4)$data
+mod &lt;- msm_fit(f=y ~ z + x1 + x2 + I(x1*x2),
+        expnms = c('x1', 'x2'), qdata=qdat, intvals=1:4, bayes=FALSE)
+summary(mod$fit) # outcome regression model
+summary(mod$msmfit) # msm fit (variance not valid - must be obtained via bootstrap)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,153 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>LCS</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Algorithm for the Longest Common Subsequence Problem</h2>
+
+<h3>Description</h3>
+
+<p>Determines the longest common subsequence of two strings.</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">LCS(a, b)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>a</code></td>
+<td>
+<p>vector (numeric or character), missing values are not accepted</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>b</code></td>
+<td>
+<p>vector (numeric or character), missing values are not accepted</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>A longest common subsequence (<code>LCS</code>) is a common subsequence
+of two strings of maximum length. The <code>LCS</code> Problem consists of
+finding a <code>LCS</code> of two given strings and its length
+(<code>LLCS</code>). A qualitative similarity index <code>QSI</code> is
+computed by division of the <code>LLCS</code> over maximum length of
+<code>'a'</code> and <code>'b'</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>a</code></td>
+<td>
+<p>vector <code>'a'</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>b</code></td>
+<td>
+<p>vector <code>'b'</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>LLCS</code></td>
+<td>
+<p>length of <code>LCS</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>LCS</code></td>
+<td>
+<p>longest common subsequence</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>QSI</code></td>
+<td>
+<p>quality similarity index</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>va</code></td>
+<td>
+<p>one possible <code>LCS</code> of vector <code>'a'</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vb</code></td>
+<td>
+<p>one possible <code>LCS</code> of vector <code>'b'</code></p>
+</td>
+</tr>
+</table>
+<h3>Note</h3>
+
+<p><code>LCS</code> is now using a C version of the algorithm provided by
+Dominik Reusser.</p>
+
+
+<h3>References</h3>
+
+<p>Wagner, R. A. and Fischer, M. J. (1974) The String-to-String
+Correction Problem. Journal of the ACM, 21, 168-173.
+</p>
+<p>Paterson, M. and Dancik, V. (1994) Longest Common
+Subsequences. Mathematical Foundations of Computer Science, 841,
+127-142.
+</p>
+<p>Gusfield, D. (1997) Algorithms on Strings, Trees, and Sequences:
+Computer Science and Computational Biology. Cambridge University
+Press, England, ISBN 0-521-58519-8.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># direct use
+a &lt;- c("b", "c", "a", "b", "c", "b")
+b &lt;- c("a", "b", "c", "c", "b")
+print(LCS(a, b))
+
+# a constructed example
+x &lt;- seq(0, 2 * pi, 0.1)  # time
+y &lt;- 5 + sin(x)           # a process
+o &lt;- y + rnorm(x, sd=0.2) # observation with random error
+p &lt;- y + 0.1              # simulation with systematic bias
+plot(x, o); lines(x, p)
+
+lcs &lt;- LCS(f.slope(x, o), f.slope(x, p))  # too much noise
+lcs$LLCS
+lcs$QSI
+
+os &lt;- ksmooth(x, o, kernel = "normal", bandwidth = dpill(x, o), x.points = x)$y
+lcs &lt;- LCS(f.slope(x, os), f.slope(x, p))
+lcs$LLCS
+lcs$QSI
+
+
+# observed and measured data with non-matching time intervals
+data(phyto)
+bbobs    &lt;- dpill(obs$t, obs$y)
+n        &lt;- tail(obs$t, n = 1) - obs$t[1] + 1
+obsdpill &lt;- ksmooth(obs$t, obs$y, kernel = "normal", bandwidth = bbobs,
+                    n.points = n)
+obss     &lt;- data.frame(t = obsdpill$x, y = obsdpill$y)
+obss     &lt;- obss[match(sim$t, obss$t),]
+obs_f1   &lt;- f.slope(obss$t, obss$y)
+sim_f1   &lt;- f.slope(sim$t, sim$y)
+lcs      &lt;- LCS(obs_f1, sim_f1)
+lcs$QSI
+</code></pre>
+
+
+</div>

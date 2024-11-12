@@ -1,0 +1,277 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qgcomp.multinomial.boot</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Quantile g-computation for multinomial outcomes</h2>
+
+<h3>Description</h3>
+
+<p>This function estimates a dose-response parameter representing a one quantile
+increase in a set of exposures of interest. This model estimates the parameters of a marginal
+structural model (MSM) based on g-computation with quantized exposures. Note: this function
+allows linear and non-additive effects of individual components of the exposure, as well as
+non-linear joint effects of the mixture via polynomial basis functions, which increase the
+computational computational burden due to the need for non-parametric bootstrapping.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qgcomp.multinomial.boot(
+  f,
+  data,
+  expnms = NULL,
+  q = 4,
+  breaks = NULL,
+  id = NULL,
+  weights,
+  alpha = 0.05,
+  B = 200,
+  rr = TRUE,
+  degree = 1,
+  seed = NULL,
+  bayes = FALSE,
+  MCsize = nrow(data),
+  parallel = FALSE,
+  parplan = FALSE,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>f</code></td>
+<td>
+<p>R style formula</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>data frame</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>expnms</code></td>
+<td>
+<p>character vector of exposures of interest</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>q</code></td>
+<td>
+<p>NULL or number of quantiles used to create quantile indicator variables
+representing the exposure variables. If NULL, then gcomp proceeds with un-transformed
+version of exposures in the input datasets (useful if data are already transformed,
+or for performing standard g-computation)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>breaks</code></td>
+<td>
+<p>(optional) NULL, or a list of (equal length) numeric vectors that
+characterize the minimum value of each category for which to
+break up the variables named in expnms. This is an alternative to using 'q'
+to define cutpoints.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>id</code></td>
+<td>
+<p>(optional) NULL, or variable name indexing individual units of
+observation (only needed if analyzing data with multiple observations per
+id/cluster). Note that qgcomp.glm.noboot will not produce cluster-appropriate
+standard errors. qgcomp.glm.boot can be used for this, which will use bootstrap
+sampling of clusters/individuals to estimate cluster-appropriate standard
+errors via bootstrapping.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>weights</code></td>
+<td>
+<p>"case weights" - passed to the "weight" argument of
+<code>glm</code> or <code>bayesglm</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>alpha</code></td>
+<td>
+<p>alpha level for confidence limit calculation</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>B</code></td>
+<td>
+<p>integer: number of bootstrap iterations (this should typically be &gt;=200,
+though it is set lower in examples to improve run-time).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rr</code></td>
+<td>
+<p>logical: if using binary outcome and rr=TRUE, qgcomp.glm.boot will
+estimate risk ratio rather than odds ratio</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>degree</code></td>
+<td>
+<p>polynomial bases for marginal model (e.g. degree = 2
+allows that the relationship between the whole exposure mixture and the outcome
+is quadratic (default = 1).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>seed</code></td>
+<td>
+<p>integer or NULL: random number seed for replicable bootstrap results</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bayes</code></td>
+<td>
+<p>use underlying Bayesian model (<code>arm</code> package defaults). Results
+in penalized parameter estimation that can help with very highly correlated
+exposures. Note: this does not lead to fully Bayesian inference in general,
+so results should be interpreted as frequentist.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>MCsize</code></td>
+<td>
+<p>integer: sample size for simulation to approximate marginal
+zero inflated model parameters. This can be left small for testing, but should be as large
+as needed to reduce simulation error to an acceptable magnitude (can compare psi coefficients for
+linear fits with qgcomp.glm.noboot to gain some intuition for the level of expected simulation
+error at a given value of MCsize). This likely won't matter much in linear models, but may
+be important with binary or count outcomes.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>parallel</code></td>
+<td>
+<p>use (safe) parallel processing from the future and future.apply packages</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>parplan</code></td>
+<td>
+<p>(logical, default=FALSE) automatically set future::plan to plan(multisession) (and set to existing plan, if any, after bootstrapping)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>arguments to glm (e.g. family)</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Estimates correspond to the average expected change in the
+probability of an outcome type per quantile increase in the joint exposure to all exposures
+in ‘expnms’. Test statistics and confidence intervals are based on
+a non-parametric bootstrap, using the standard deviation of the bootstrap
+estimates to estimate the standard error. The bootstrap standard error is
+then used to estimate Wald-type confidence intervals. Note that no bootstrapping
+is done on estimated quantiles of exposure, so these are treated as fixed
+quantities
+</p>
+
+
+<h3>Value</h3>
+
+<p>a qgcompfit object, which contains information about the effect
+measure of interest (psi) and associated variance (var.psi), as well
+as information on the model fit (fit) and information on the
+marginal structural model (msmfit) used to estimate the final effect
+estimates.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Other qgcomp_methods: 
+<code>qgcomp.cch.noboot()</code>,
+<code>qgcomp.cox.boot()</code>,
+<code>qgcomp.cox.noboot()</code>,
+<code>qgcomp.glm.boot()</code>,
+<code>qgcomp.glm.noboot()</code>,
+<code>qgcomp.hurdle.boot()</code>,
+<code>qgcomp.hurdle.noboot()</code>,
+<code>qgcomp.multinomial.noboot()</code>,
+<code>qgcomp.partials()</code>,
+<code>qgcomp.zi.boot()</code>,
+<code>qgcomp.zi.noboot()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data("metals") # from qgcomp package
+# create categorical outcome from the existing continuous outcome (usually, one will already exist)
+metals$ycat = factor(quantize(metals, "y",q=4)$data$y, levels=c("0", "1", "2", "3"), 
+                     labels=c("cct", "ccg", "aat", "aag")) 
+# restrict to smaller dataset for simplicity
+smallmetals = metals[,c("ycat", "arsenic", "lead", "cadmium", "mage35")]
+
+### 1: Define mixture and underlying model ####
+mixture = c("arsenic", "lead", "cadmium")
+f0 = ycat ~ arsenic + lead + cadmium # the multinomial model 
+# (be sure that factor variables are properly coded ahead of time in the dataset)
+rr = qgcomp.multinomial.boot(
+ f0, 
+ expnms = mixture,
+ q=4, 
+ data = smallmetals, 
+ B = 5, # set to higher values in real examples
+ MCsize = 100,  # set to higher values in small samples
+ )
+
+rr2 = qgcomp.multinomial.noboot(
+ f0, 
+ expnms = mixture,
+ q=4, 
+ data = smallmetals
+ )
+ 
+ ### 5: Create summary qgcomp object for nice printing ####
+ 
+ summary(rr, tests=c("H")) # include homogeneity test
+ 
+ # 95% confidence intervals
+ #confint(rr, level=0.95)
+ #rr$breaks # quantile cutpoints for exposures
+ # homogeneity_test(rr)
+ #joint_test(rr)
+
+qdat = simdata_quantized(
+  outcometype="multinomial", 
+  n=10000, corr=c(-.9), coef=cbind(c(.2,-.2,0,0), c(.1,.1,.1,.1)), 
+  q = 4
+)
+
+ rr_sim = qgcomp.multinomial.noboot(
+  y~x1+x2+x3+x4, 
+  expnms = c("x1", "x2", "x3", "x4"),
+  q=4, 
+  data = qdat
+ )
+ 
+ rr_sim2 = qgcomp.multinomial.boot(
+  y~x1+x2+x3+x4, 
+  expnms = c("x1", "x2", "x3", "x4"),
+  q=4, 
+  data = qdat,
+  B=1
+ )
+
+</code></pre>
+
+
+</div>

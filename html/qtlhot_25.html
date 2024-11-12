@@ -1,0 +1,197 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>highlod</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Pull high LOD values with chr and pos.
+</h2>
+
+<h3>Description</h3>
+
+<p>Pull high LOD values with chr and pos.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">highlod(scans, lod.thr = 0, drop.lod = 1.5,
+  extend = TRUE, restrict.lod = FALSE, ...)
+pull.highlod(object, chr, pos, ...)
+## S3 method for class 'highlod'
+print(x, ...)
+## S3 method for class 'highlod'
+summary(object, ...)
+## S3 method for class 'highlod'
+plot(x, ..., quant.level = NULL, sliding = FALSE)
+## S3 method for class 'highlod'
+max(x, lod.thr = NULL, window = NULL, quant.level = NULL, ...)
+## S3 method for class 'highlod'
+quantile(x, probs = NULL, lod.thr = NULL, n.quant,
+  n.pheno, max.quantile = TRUE, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>scans</code></td>
+<td>
+<p>object of class <code>scanone</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lod.thr</code></td>
+<td>
+<p>LOD threshold</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>drop.lod</code></td>
+<td>
+<p>LOD drop from max to keep for support intervals</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>extend</code></td>
+<td>
+<p>extend support interval just past <code>drop.lod</code>;
+matches behavior of <code>lodint</code> when <code>TRUE</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>restrict.lod</code></td>
+<td>
+<p>restrict to loci above LOD threshold if
+<code>TRUE</code>; matches behavior of <code>lodint</code> when
+<code>FALSE</code> (default)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>chr</code></td>
+<td>
+<p>chromosome identifier</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pos</code></td>
+<td>
+<p>position, or range of positions, in cM</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x,object</code></td>
+<td>
+<p>object of class <code>highlod</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>probs</code></td>
+<td>
+<p>probability levels for quantiles (should be &gt; 0.5)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n.quant</code></td>
+<td>
+<p>maximum of <code>s.quant</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n.pheno</code></td>
+<td>
+<p>number of phenotypes considered</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>max.quantile</code></td>
+<td>
+<p>return only quantiles of max LOD across genome if
+<code>TRUE</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>window</code></td>
+<td>
+<p>size of window for smoothing hotspot size</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>quant.level</code></td>
+<td>
+<p>vector of LOD levels for 1 up to
+<code>length(quant.level)</code> size hotspots</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sliding</code></td>
+<td>
+<p>plot as sliding hotspot if <code>TRUE</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>arguments passed along</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The <code>highlod</code> condenses a <code>scanone</code> object to the peaks
+above a <code>lod.thr</code> and/or within <code>drop.lod</code> of such
+peaks. The <code>pull.highlod</code> pulls out the entries at a particular
+genomic location or interval of locations. Summary, print, plot, max
+and quantile methods provide ways to examine a <code>highlod</code> object.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Data frame with
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>row</code></td>
+<td>
+<p>row number in <code>scanone</code> object</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>phenos</code></td>
+<td>
+<p>phenotype column number</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lod</code></td>
+<td>
+<p>LOD score for phenotype at locus indicated by <code>row</code></p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Brian S Yandell and Elias Chaibub Neto
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>highlod</code>, <code>hotperm</code></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">example(include.hotspots)
+scan1 &lt;- scanone(cross1, pheno.col = 1:1000, method = "hk")
+high1 &lt;- highlod(scan1, lod.thr = 2.11, drop.lod = 1.5)
+pull.highlod(high1, chr = 2, pos = 24)
+summary(high1, lod.thr = 2.44)
+max(high1, lod.thr = seq(2.11, 3.11, by = .1))
+</code></pre>
+
+
+</div>

@@ -1,0 +1,90 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>pedRecode</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Recode a Pedigree
+</h2>
+
+<h3>Description</h3>
+
+<p>Prepare a pedigree in a format that is suitable for certain functions
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">pedRecode(ped, ids, all = TRUE, msg = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>ped</code></td>
+<td>
+
+<p>A pedigree, which is a data frame (id, father/sire, mother/dam, ...). If "sex" is a component, male should be "M", "Male" or 1, and female should be "F", "Female" or 2 (other than 0 and 1). If given, "generation" can be numeric 0, 1, 2, ... or non-numeric "F0", "F1", "F2", ..., which should be in an increasing order. Note: 0 is reserved for unknown <code>father</code>, <code>mother</code> or <code>sex</code>. If a father/mother is an inbred founder, its ID should be tagged by character 'i' (e.g. 1i, 2i, etc.).
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ids</code></td>
+<td>
+
+<p>If given, only individuals with <code>ids</code> and their ancestors are kept in the recoded pedigree.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>all</code></td>
+<td>
+
+<p>If false, fathers and mothers with no parents are treated as unknown.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>msg</code></td>
+<td>
+
+<p>If false, messages are suppressed.
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>This function is used in <code>cic</code>, and it can be used for error checking with respect to sex and generation if sex and/or generation information is available. The actual values of generation can be anything but should correspond to the true order of generation; otherwise, <code>cic</code> may fail or we may get incorrect results. Information except <code>id</code>, <code>father</code> and <code>mother</code> is optional.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A recoded pedigree.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>cic</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(miscEx)
+
+pedF8[1:10,]
+pedR&lt;- pedRecode(pedF8)
+pedR[1:10,]
+dim(pedR)
+pedR&lt;- pedRecode(pedF8, ids=pedF8$id[pedF8$gener=="F8"])
+dim(pedR)
+</code></pre>
+
+
+</div>

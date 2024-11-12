@@ -1,0 +1,88 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>AUDem</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Australian electricity demand data</h2>
+
+<h3>Description</h3>
+
+<p>Data set on electricity demand from Sidney, Australia. The data has been downloaded from <a href="https://www.ausgrid.com.au">https://www.ausgrid.com.au</a>, and it originally contained electricity demand from 300 customers, at 30min resolution. We discarded 53
+customers because their demand was too irregular, and we integrated the demand data with temperature data from the
+National Climatic Data Center, covering the same period. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">data(AUDem)
+</code></pre>
+
+
+<h3>Format</h3>
+
+<p><code>AUDem</code> is a list, where <code>AUDem$meanDem</code> is a <code>data.frame</code> containing the following variables:
+</p>
+
+<dl>
+<dt>doy</dt>
+<dd>
+<p>the day of the year, from 1 to 365;</p>
+</dd>
+<dt>tod</dt>
+<dd>
+<p>the time of day, ranging from 18 to 22, where 18 indicates the period from 17:00 to
+17:30, 18.5 the period from 17:30 to 18:00 and so on;</p>
+</dd>
+<dt>dem</dt>
+<dd>
+<p>the demand (in KW) during a 30min period, averaged over the 247 households;</p>
+</dd>
+<dt>dow</dt>
+<dd>
+<p>factor variable indicating the day of the week;</p>
+</dd>
+<dt>temp</dt>
+<dd>
+<p>the external temperature at Sidney airport, in degrees Celsius;</p>
+</dd>
+<dt>date</dt>
+<dd>
+<p>local date and time;</p>
+</dd>
+<dt>dem48</dt>
+<dd>
+<p>the lagged mean demand, that is the average demand (dem) during the same
+30min period of the previous day;</p>
+</dd>
+</dl>
+<p>The second element is <code>AUDem$qDem48</code> which is a matrix with as many rows as <code>AUDem$meanDem</code>. Each rows contains 20 equally spaced empirical quantiles of the lagged individual electricity demand of the 247 customers.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list where <code>AUDem$meanDem</code> is a data.frame and <code>AUDem$qDem48</code> a matrix.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(qgam)
+data(AUDem)
+  
+# Mean demand over the period
+plot(AUDem$meanDem$dem, type = 'l')
+  
+# 20 quantiles of individual demand over 5 days
+matplot(seq(0.01, 0.99, length.out = 20), 
+        t(AUDem$qDem48[c(1, 50, 75, 100, 250), ]), 
+        type = 'l', 
+        ylab = "Electricity demand (KW)",
+        xlab = expression("Probability level " * "(p)"), 
+        lty = 1)
+</code></pre>
+
+
+</div>

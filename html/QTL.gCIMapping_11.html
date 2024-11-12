@@ -1,0 +1,175 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>QTL.gCIMapping</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>QTL Genome-Wide Composite Interval Mapping</h2>
+
+<h3>Description</h3>
+
+<p>QTL Genome-Wide Composite Interval Mapping
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">QTL.gCIMapping(
+  file = NULL,
+  fileFormat = "GCIM",
+  filecov = NULL,
+  MCIMmap = NULL,
+  Population = NULL,
+  method = "GCIM-QEI",
+  MultiEnv = FALSE,
+  Model = "Random",
+  WalkSpeed = 1,
+  CriLOD = 3,
+  CriDis = 5,
+  Likelihood = "REML",
+  SetSeed = 11001,
+  flagrqtl = FALSE,
+  DrawPlot = TRUE,
+  PlotFormat = "jpeg",
+  Resolution = "Low",
+  Trait = NULL,
+  dir = NULL,
+  CLO = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>file</code></td>
+<td>
+<p>File path and name in your computer.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fileFormat</code></td>
+<td>
+<p>Format for input file: GCIM, ICIM, Cart, or MCIM.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>filecov</code></td>
+<td>
+<p>Covariate file of QTLIciMapping or QTLNetwork.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>MCIMmap</code></td>
+<td>
+<p>Map file of QTLNetwork.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Population</code></td>
+<td>
+<p>Population type: F2, BC1, BC2, DH, RIL.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+<p>Method "GCIM" or method "GCIM-QEI".</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>MultiEnv</code></td>
+<td>
+<p>Whether to perform multi-environment analysis.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Model</code></td>
+<td>
+<p>Random or fixed model.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>WalkSpeed</code></td>
+<td>
+<p>Walk speed for Genome-wide Scanning.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>CriLOD</code></td>
+<td>
+<p>Critical LOD scores for significant QTL.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>CriDis</code></td>
+<td>
+<p>The distance of optimization.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Likelihood</code></td>
+<td>
+<p>This parameter is only for F2 population,including REML (restricted maximum likelihood ) and ML(maximum likelihood).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>SetSeed</code></td>
+<td>
+<p>In which the cross validation experiment is needed. Generally speaking, the random seed in the cross-validation experiment was set as 11001. If some known genes are not identified by the seed, users may try to use some new random seeds. At this case, one better result may be obtained.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>flagrqtl</code></td>
+<td>
+<p>This parameter is only for F2 population,   flagrqtl="FALSE" in the first running. If the other software detects only one QTL in a neighborhood but this software finds two linked QTLs (one with additive effect and another with dominant effect) in the region, let flagrqtl="TRUE"</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>DrawPlot</code></td>
+<td>
+<p>This parameter is for all the populations, including FALSE and TRUE, DrawPlot=FALSE indicates no figure output, DrawPlot=TRUE indicates the output of the figure against genome position.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>PlotFormat</code></td>
+<td>
+<p>This parameter is for all the figure files, including *.jpeg, *.png, *.tiff and *.pdf.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Resolution</code></td>
+<td>
+<p>This parameter is for all the figure files, including Low and High.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Trait</code></td>
+<td>
+<p>Trait=1:3 indicates the analysis from the first trait to the third trait.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dir</code></td>
+<td>
+<p>This parameter is for the save path.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>CLO</code></td>
+<td>
+<p>Number of CPUs.</p>
+</td>
+</tr>
+</table>
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(F2data)
+QTL.gCIMapping(file=F2data,Population="F2",
+MultiEnv=TRUE,Model="Random",CriLOD=3,
+Trait=1,dir=tempdir(),CLO=2)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,88 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>subset-trait_categories</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Subset a trait_categories object</h2>
+
+<h3>Description</h3>
+
+<p>You can subset trait_categories by trait category (string) or
+by position using the <code>`[`</code> operator.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S4 method for signature 'trait_categories,missing,missing,missing'
+x[i, j, ..., drop = FALSE]
+
+## S4 method for signature 'trait_categories,numeric,missing,missing'
+x[i, j, ..., drop = FALSE]
+
+## S4 method for signature 'trait_categories,character,missing,missing'
+x[i, j, ..., drop = FALSE]
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>A trait_categories object.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>i</code></td>
+<td>
+<p>Position of the identifier or the name of the identifier itself.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>j</code></td>
+<td>
+<p>Not used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Additional arguments not used here.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>drop</code></td>
+<td>
+<p>Not used.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A trait_categories object.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+# Get details about all trait categories:
+all_trait_categories &lt;- get_trait_categories(progress_bar = FALSE)
+
+#
+# Subsetting by position
+#
+all_trait_categories[1:5]
+
+#
+# Subsetting by trait category (character)
+#
+all_trait_categories['Liver enzyme measurement']
+
+</code></pre>
+
+
+</div>

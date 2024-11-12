@@ -1,0 +1,45 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>BFConstraint-class</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>S4 class for representing constraints</h2>
+
+<h3>Description</h3>
+
+<p><code>BFConstraint</code> is a S4 class that represents the input and output of
+user-defined constraints in Bayesian Mixed Model analysis.
+</p>
+
+
+<h3>Slots</h3>
+
+
+<dl>
+<dt><code>priorProbability</code></dt>
+<dd>
+<p>a numeric giving the prior probability of all individual
+effects being as defined in the constraints.</p>
+</dd>
+<dt><code>posteriorProbability</code></dt>
+<dd>
+<p>a numeric giving the posterior probability of all
+individual effects being as defined in the constraints.</p>
+</dd>
+<dt><code>bayesFactor</code></dt>
+<dd>
+<p>a numeric giving the Bayes Factor in support of the defined
+constraints.</p>
+</dd>
+<dt><code>constraints</code></dt>
+<dd>
+<p>a data frame containing the specified constraints.</p>
+</dd>
+<dt><code>cleanConstraints</code></dt>
+<dd>
+<p>A data frame containing the specified constraints as
+they are presented by <code>constraintBF</code>.</p>
+</dd>
+</dl>
+</div>

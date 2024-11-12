@@ -1,0 +1,130 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>rdq.bias</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Bias estimation</h2>
+
+<h3>Description</h3>
+
+<p><code>rdq.bias</code> estimates the bias terms using the local quadratic quantile regression.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">rdq.bias(y, x, dz, x0, z0, taus, h.tau, h.tau2, fx, cov)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>a numeric vector, the outcome variable.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a vector (or a matrix) of covariates, the first column is the running variable.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dz</code></td>
+<td>
+<p>the number of covariates.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x0</code></td>
+<td>
+<p>the cutoff point.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>z0</code></td>
+<td>
+<p>the value of the covariates at which to evaluate the effects.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>taus</code></td>
+<td>
+<p>a vector of quantiles of interest.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>h.tau</code></td>
+<td>
+<p>the bandwidth values (specified for each quantile level), for estimating conditional quantiles.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>h.tau2</code></td>
+<td>
+<p>the bandwidth values for the local quadratic quantile regression, for estimating the bias terms.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fx</code></td>
+<td>
+<p>conditional density estimates.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cov</code></td>
+<td>
+<p>either 0 or 1. Set <em>cov=1</em> if covariates are present in the model;
+otherwise set <em>cov=0</em>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list with elements:
+</p>
+
+<dl>
+<dt>bias</dt>
+<dd>
+<p>the bias estimates.</p>
+</dd>
+<dt>b.hat</dt>
+<dd>
+<p>the estimate of the <code class="reqn">B_{v}(x,z,\tau)</code> term. See Qu, Yoon, and Perron (2024).</p>
+</dd>
+</dl>
+<h3>References</h3>
+
+<p>Zhongjun Qu, Jungmo Yoon, Pierre Perron (2024), "Inference on Conditional Quantile
+Processes in Partially Linear Models with Applications to the Impact of Unemployment Benefits,"
+The Review of Economics and Statistics; https://doi.org/10.1162/rest_a_01168
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">n = 500
+x = runif(n,min=-4,max=4)
+d = (x &gt; 0)
+y = x + 0.3*(x^2) - 0.1*(x^3) + 1.5*d + rnorm(n)
+tlevel = seq(0.1,0.9,by=0.1)
+tlevel2 = c(0.05,tlevel,0.95)
+hh = rep(2,length(tlevel))
+hh2 = rep(2,length(tlevel2))
+
+ab = rdq(y=y,x=x,d=d,x0=0,z0=NULL,tau=tlevel2,h.tau=hh2,cov=0)
+delta = c(0.05,0.09,0.14,0.17,0.19,0.17,0.14,0.09,0.05)
+hh = rep(2,length(tlevel))
+fe = rdq.condf(x,Q=ab$qp.est,bcoe=ab$bcoe.p,taus=tlevel,taul=tlevel2,delta=delta,cov=0)
+be = rdq.bias(y[d==1],x[d==1],dz=0,x0=0,z0=NULL,taus=tlevel,hh,hh,fx=fe$ff[(d==1),],cov=0)
+
+
+</code></pre>
+
+
+</div>

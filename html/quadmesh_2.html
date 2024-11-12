@@ -1,0 +1,81 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>bary_index</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Barycentric triangle index for interpolation</h2>
+
+<h3>Description</h3>
+
+<p>This function returns the barycentric weight for a grid of coordinates
+from a geographic raster.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">bary_index(x, coords = NULL, grid = NULL, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a 'RasterLayer' source</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>coords</code></td>
+<td>
+<p>optional input coordinates</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>grid</code></td>
+<td>
+<p>target 'RasterLayer', a target regular grid</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>ignored</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>It's not as fast as <code>raster::projectRaster()</code> (e.g. <code>projectRaster(x, grid)</code>) but it
+also accepts a <code>coords</code> argument and so can be used for non-regular raster
+reprojection.
+</p>
+<p>'coords' may be 'NULL' or longitude, latitude in a 2-layer raster brick or stack as with
+<code>mesh_plot</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>RasterLayer
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(raster)
+p_srs &lt;- "+proj=stere +lat_0=-90 +lat_ts=-71 +datum=WGS84"
+polar &lt;- raster(extent(-5e6, 5e6, -5e6, 5e6), crs = p_srs, res = 25000)
+etopo &lt;- aggregate(etopo, fact = 4)
+index &lt;- bary_index(etopo, grid = polar)
+ok &lt;- !is.na(index$idx)
+r &lt;- setValues(polar, NA_integer_)
+r[ok] &lt;- colSums(matrix(values(etopo)[index$tri[, index$idx[ok]]], nrow = 3) * t(index$p)[, ok])
+plot(r)
+</code></pre>
+
+
+</div>

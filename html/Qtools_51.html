@@ -1,0 +1,76 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>KhmaladzeFormat</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Khmaladze Test
+</h2>
+
+<h3>Description</h3>
+
+<p>This function provides significance levels of the Khmaladze Test using a (hard-coded) table of asymptotic critical values.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">KhmaladzeFormat(object, epsilon)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+
+<p>an object of <code>class</code> "KhmaladzeTest".
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>epsilon</code></td>
+<td>
+
+<p>trimming value. One of <code>c(0.05,0.10,0.15,0.20,0.25,0.30)</code>.
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>This function is applied to an object produced by <code>KhmaladzeTest</code>. The Khmaladze test is used to test for location–shift and location-scale–shift hypotheses (Koenker, 2005). The test statistic is computed over the interval <em>[epsilon, 1 - epsilon]</em>, where <em>epsilon</em> is the trimming value.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Marco Geraci
+</p>
+
+
+<h3>References</h3>
+
+<p>Appendix B in Koenker R. Quantile regression. New York, NY: Cambridge University Press; 2005.
+</p>
+<p>Koenker R. and Xiao Z. Inference on the quantile regression process. Avalilable at <a href="http://www.econ.uiuc.edu/~roger/research/inference/khmal6ap.pdf">http://www.econ.uiuc.edu/~roger/research/inference/khmal6ap.pdf</a>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+data(barro, package = "quantreg")
+eps &lt;- 0.05
+kt &lt;- quantreg::KhmaladzeTest( y.net ~ lgdp2 + fse2 + gedy2 + Iy2 + gcony2, 
+		data = barro, taus = seq(.05,.95,by = .01), trim = c(eps, 1 - eps))
+class(kt)
+KhmaladzeFormat(kt, epsilon = eps)
+
+</code></pre>
+
+
+</div>

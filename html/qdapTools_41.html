@@ -1,0 +1,133 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>lookup_e</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Hash Table/Dictionary Lookup
+<code>lookup_e</code> - Environment based hash table useful for large vector lookups.</h2>
+
+<h3>Description</h3>
+
+<p><code>%le%</code> - A binary operator version of <code>lookup_e</code> 
+for when <code>key.match</code> is a data.frame or named list.
+</p>
+<p><code>%le+%</code> - A binary operator version of <code>lookup_e</code> 
+for when <code>key.match</code> is a data.frame or named list and <code>missing</code> is
+assumed to be <code>NULL</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">lookup_e(terms, key.match, key.reassign = NULL, missing = NA)
+
+## S3 method for class 'matrix'
+lookup_e(terms, key.match, key.reassign = NULL, missing = NA)
+
+## S3 method for class 'data.frame'
+lookup_e(terms, key.match, key.reassign = NULL, missing = NA)
+
+## S3 method for class 'list'
+lookup_e(terms, key.match, key.reassign = NULL, missing = NA)
+
+## S3 method for class 'numeric'
+lookup_e(terms, key.match, key.reassign = NULL, missing = NA)
+
+## S3 method for class 'factor'
+lookup_e(terms, key.match, key.reassign = NULL, missing = NA)
+
+## S3 method for class 'character'
+lookup_e(terms, key.match, key.reassign = NULL, missing = NA)
+
+terms %le% key.match
+
+terms %le+% key.match
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>terms</code></td>
+<td>
+<p>A vector of terms to undergo a lookup_e.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>key.match</code></td>
+<td>
+<p>Takes one of the following: (1) a two column data.frame of a 
+match key and reassignment column, (2) a named list of vectors (Note: if 
+data.frame or named list supplied no key reassign needed) or (3) a single 
+vector match key.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>key.reassign</code></td>
+<td>
+<p>A single reassignment vector supplied if key.match is 
+not a two column data.frame/named list.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>missing</code></td>
+<td>
+<p>Value to assign to terms not matching the key.match.  If set 
+to <code>NULL</code> the original values in <code>terms</code> corresponding to the 
+missing elements are retained.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Outputs A new vector with reassigned values.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>new.env</code>, <code>lookup</code>,
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">lookup_e(1:5, data.frame(1:4, 11:14))
+
+## Retain original values for missing
+lookup_e(1:5, data.frame(1:4, 11:14), missing=NULL)
+
+lookup_e(LETTERS[1:5], data.frame(LETTERS[1:5], 100:104))
+lookup_e(LETTERS[1:5], factor(LETTERS[1:5]), 100:104)
+
+## Supply a named list of vectors to key.match
+
+codes &lt;- list(
+    A = c(1, 2, 4),
+    B = c(3, 5),
+    C = 7,
+    D = c(6, 8:10)
+)
+
+lookup_e(1:10, codes)
+
+## Supply a single vector to key.match and key.reassign
+
+lookup_e(mtcars$carb, sort(unique(mtcars$carb)),
+    c("one", "two", "three", "four", "six", "eight"))
+
+lookup_e(mtcars$carb, sort(unique(mtcars$carb)),
+    seq(10, 60, by=10))
+
+## %le%, a binary operator version of lookup
+1:5 %le% data.frame(1:4, 11:14)
+1:10 %le% codes
+
+1:12 %le% codes
+1:12 %le+% codes
+</code></pre>
+
+
+</div>

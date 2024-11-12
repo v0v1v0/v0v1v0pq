@@ -1,0 +1,152 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>genoprob_to_snpprob</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Convert genotype probabilities to SNP probabilities</h2>
+
+<h3>Description</h3>
+
+<p>For multi-parent populations, convert use founder genotypes at a
+set of SNPs to convert founder-based genotype probabilities to SNP
+genotype probabilities.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">genoprob_to_snpprob(genoprobs, snpinfo)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>genoprobs</code></td>
+<td>
+<p>Genotype probabilities as
+calculated by <code>calc_genoprob()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>snpinfo</code></td>
+<td>
+<p>Data frame with SNP information with the following
+columns (the last three are generally derived with
+<code>index_snps()</code>):
+</p>
+
+<ul>
+<li> <p><code>chr</code> - Character string or factor with chromosome
+</p>
+</li>
+<li> <p><code>pos</code> - Position (in same units as in the <code>"map"</code>
+attribute in <code>genoprobs</code>.
+</p>
+</li>
+<li> <p><code>sdp</code> - Strain distribution pattern: an integer, between
+1 and <code class="reqn">2^n - 2</code> where <code class="reqn">n</code> is the number of strains, whose
+binary encoding indicates the founder genotypes
+</p>
+</li>
+<li> <p><code>snp</code> - Character string with SNP identifier (if
+missing, the rownames are used).
+</p>
+</li>
+<li> <p><code>index</code> - Indices that indicate equivalent
+groups of SNPs, calculated by <code>index_snps()</code>.
+</p>
+</li>
+<li> <p><code>intervals</code> - Indexes that indicate which marker
+intervals the SNPs reside.
+</p>
+</li>
+<li> <p><code>on_map</code> - Indicate whether SNP coincides with a marker
+in the <code>genoprobs</code>
+</p>
+</li>
+</ul>
+<p>Alternatively, <code>snpinfo</code> can be a object of class <code>"cross2"</code>,
+as output by <code>read_cross2()</code>, containing the data for a multi-parent
+population with founder genotypes, in which case the SNP
+information for all markers with complete founder genotype data is
+calculated and then used. But, in this case, the genotype
+probabilities must be at the markers in the cross.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>We first split the SNPs by chromosome and use
+<code>snpinfo$index</code> to subset to non-equivalent SNPs.
+<code>snpinfo$interval</code> indicates the intervals in the genotype
+probabilities that contain each. For SNPs contained within an
+interval, we use the average of the probabilities for the two
+endpoints. We then collapse the probabilities according to the
+strain distribution pattern.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>"calc_genoprob"</code>, like the input <code>genoprobs</code>,
+but with imputed genotype probabilities at the selected SNPs indicated in
+<code>snpinfo$index</code>. See <code>calc_genoprob()</code>.
+</p>
+<p>If the input <code>genoprobs</code> is for allele probabilities, the
+<code>probs</code> output has just two probability columns (for the two SNP
+alleles). If the input has a full set of <code class="reqn">n(n+1)/2</code>
+probabilities for <code class="reqn">n</code> strains, the <code>probs</code> output has 3 probabilities
+(for the three SNP genotypes). If the input has full genotype
+probabilities for the X chromosome (<code class="reqn">n(n+1)/2</code> genotypes for
+the females followed by <code class="reqn">n</code> hemizygous genotypes for the
+males), the output has 5 probabilities: the 3 female SNP genotypes
+followed by the two male hemizygous SNP genotypes.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>index_snps()</code>, <code>calc_genoprob()</code>, <code>scan1snps()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+# load example data and calculate genotype probabilities
+file &lt;- paste0("https://raw.githubusercontent.com/rqtl/",
+               "qtl2data/main/DO_Recla/recla.zip")
+recla &lt;- read_cross2(file)
+recla &lt;- recla[c(1:2,53:54), c("19","X")] # subset to 4 mice and 2 chromosomes
+probs &lt;- calc_genoprob(recla, error_prob=0.002)
+
+# founder genotypes for a set of SNPs
+snpgeno &lt;- rbind(m1=c(3,1,1,3,1,1,1,1),
+                 m2=c(1,3,1,3,1,3,1,3),
+                 m3=c(1,1,1,1,3,3,3,3),
+                 m4=c(1,3,1,3,1,3,1,3))
+sdp &lt;- calc_sdp(snpgeno)
+snpinfo &lt;- data.frame(chr=c("19", "19", "X", "X"),
+                      pos=c(40.36, 40.53, 110.91, 111.21),
+                      sdp=sdp,
+                      snp=c("m1", "m2", "m3", "m4"), stringsAsFactors=FALSE)
+
+# identify groups of equivalent SNPs
+snpinfo &lt;- index_snps(recla$pmap, snpinfo)
+
+# collapse to SNP genotype probabilities
+snpprobs &lt;- genoprob_to_snpprob(probs, snpinfo)
+
+# could also first convert to allele probs
+aprobs &lt;- genoprob_to_alleleprob(probs)
+snpaprobs &lt;- genoprob_to_snpprob(aprobs, snpinfo)
+
+## End(Not run)
+
+</code></pre>
+
+
+</div>

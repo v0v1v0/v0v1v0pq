@@ -1,0 +1,82 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qr_wifi</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Generate QR code with wifi login information</h2>
+
+<h3>Description</h3>
+
+<p>Generate QR code with wifi login information
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qr_wifi(
+  ssid,
+  encryption = c("WPA", "WEP", ""),
+  key = "",
+  hidden = FALSE,
+  ecl = c("L", "M", "Q", "H")
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>ssid</code></td>
+<td>
+<p>The SSID of the network.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>encryption</code></td>
+<td>
+<p>The encryption standard.
+Options are <code>"WPA"</code>, <code>"WEP"</code> and <code>""</code>.
+The latter implies no encryption.
+Defaults to <code>"WPA"</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>key</code></td>
+<td>
+<p>The key for the encryption.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>hidden</code></td>
+<td>
+<p>Use <code>FALSE</code> for a visible SSID.
+Use <code>TRUE</code> for a hidden SSID.
+Defaults to  <code>FALSE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ecl</code></td>
+<td>
+<p>the required error correction level.
+Available options are <code>"L"</code> (7%), <code>"M"</code> (15%), <code>"Q"</code> (25%) and <code>"H"</code> (30%).
+Defaults to <code>"L"</code>.</p>
+</td>
+</tr>
+</table>
+<h3>See Also</h3>
+
+<p>Other qr: 
+<code>coordinates()</code>,
+<code>generate_svg()</code>,
+<code>plot.qr_code()</code>,
+<code>print.qr_code()</code>,
+<code>qr_code()</code>,
+<code>qr_event()</code>,
+<code>qr_location()</code>,
+<code>qr_sepa()</code>
+</p>
+
+
+</div>

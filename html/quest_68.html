@@ -1,0 +1,142 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>make.product</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Make Product Terms (e.g., interactions)</h2>
+
+<h3>Description</h3>
+
+<p><code>make.product</code> creates product terms (i.e., interactions) from various
+components. <code>make.product</code> uses <code>Center</code> for the optional of
+centering and/or scaling the predictors and/or moderators before making the
+product terms.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">make.product(
+  data,
+  x.nm,
+  m.nm,
+  center.x = FALSE,
+  center.m = FALSE,
+  scale.x = FALSE,
+  scale.m = FALSE,
+  suffix.x = "",
+  suffix.m = "",
+  sep = ":",
+  combo = TRUE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>data.frame of data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x.nm</code></td>
+<td>
+<p>character vector of colnames from <code>data</code> specifying the
+predictor columns.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>m.nm</code></td>
+<td>
+<p>character vector of colnames from <code>data</code> specifying the
+moderator columns.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>center.x</code></td>
+<td>
+<p>logical vector of length 1 specifying whether the predictor
+columns should be grand-mean centered before making the product terms.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>center.m</code></td>
+<td>
+<p>logical vector of length 1 specifying whether the moderator
+columns should be grand-mean centered before making the product terms.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>scale.x</code></td>
+<td>
+<p>logical vector of length 1 specifying whether the predictor
+columns should be grand-SD scaled before making the product terms.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>scale.m</code></td>
+<td>
+<p>logical vector of length 1 specifying whether the moderator
+columns should be grand-SD scaled before making the product terms.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>suffix.x</code></td>
+<td>
+<p>character vector of length 1 specifying any suffix to add to
+the end of the predictor colnames <code>x.nm</code> when creating the colnames of
+the return object.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>suffix.m</code></td>
+<td>
+<p>character vector of length 1 specifying any suffix to add to
+the end of the moderator colnames <code>m.nm</code> when creating the colnames of
+the return object.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sep</code></td>
+<td>
+<p>character vector of length 1 specifying the string to connect
+<code>x.nm</code> and <code>m.nm</code> when specifying the colnames of the return
+object.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>combo</code></td>
+<td>
+<p>logical vector of length 1 specifying whether all combinations
+of the predictors and moderators should be calculated or only those in
+parallel to each other (i.e., <code>x.nm[i]</code> and <code>m.nm[i]</code>). This
+argument is only applicable when multiple predictors AND multiple
+moderators are given.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>data.frame with product terms (e.g., interactions) as columns. The
+colnames are created by <code>paste(paste0(x.nm, suffix.x), paste0(m.nm,
+  suffix.m), sep = sep)</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">make.product(data = attitude, x.nm = c("complaints","privileges"),
+   m.nm = "learning", center.x = TRUE, center.m = TRUE,
+   suffix.x = "_c", suffix.m = "_c") # with grand-mean centering
+make.product(data = attitude, x.nm = c("complaints","privileges"),
+   m.nm = c("learning","raises"), combo = TRUE) # all possible combinations
+make.product(data = attitude, x.nm = c("complaints","privileges"),
+   m.nm = c("learning","raises"), combo = FALSE) # only combinations "in parallel"
+</code></pre>
+
+
+</div>

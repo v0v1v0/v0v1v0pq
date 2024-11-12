@@ -1,0 +1,261 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>correct.conc</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Correct Missing Concentration</h2>
+
+<h3>Description</h3>
+
+<p>Corrects missing concentration at critical time points
+(e.g, predose, TAU, start and end of user selected AUC interval).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">correct.conc(
+  x,
+  by = character(0),
+  nomtimevar = "ntad",
+  tau = NA,
+  tstart = NA,
+  tend = NA,
+  teval = NA,
+  th = NA,
+  reg = "SD",
+  ss = "N",
+  route = "EV",
+  method = 1
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>input dataset name (after Time Deviation Correction Rules have been applied by <code>correct.time</code>)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>by</code></td>
+<td>
+<p>column names in x indicating grouping variables</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nomtimevar</code></td>
+<td>
+<p>variable name containing the nominal sampling time after dose</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tau</code></td>
+<td>
+<p>dosing interval (for multiple dosing); NA (default) for if single dose; x$tau overrides</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tstart</code></td>
+<td>
+<p>start time of partial AUC (start&gt;0); NA (default) if not requested; x$tstart overrides</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tend</code></td>
+<td>
+<p>end time of partial AUC; NA (default) if not requested; x$tend overrides</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>teval</code></td>
+<td>
+<p>user selected AUC interval; NA (default) if not requested; x$teval overrides</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>th</code></td>
+<td>
+<p>lamdba_z information for each curve; like output of <code>est.thalf</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>reg</code></td>
+<td>
+<p>regimen, "sd" or "md"; x$reg overrides</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ss</code></td>
+<td>
+<p>is steady state reached (y/n); x$ss overrides</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>route</code></td>
+<td>
+<p>route of drug administration ("EV","IVB","IVI"); x$route overrides</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+<p>method for trapezoidal rule;  x$method overrides
+</p>
+
+<ul>
+<li>
+<p> 1: linear up - linear down
+</p>
+</li>
+<li>
+<p> 2: linear up - logarithmic down
+</p>
+</li>
+<li>
+<p> 3: linear before first Tmax, logarithmic after first Tmax
+</p>
+</li>
+</ul>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+
+<ul>
+<li>
+<p> Use interpolation if there is a measurable concentration BEFORE and AFTER the missing concentration
+</p>
+</li>
+<li>
+<p> Use extrapolation if there is NO measurable concentration AFTER the missing concentration
+</p>
+</li>
+<li>
+<p> Set missing concentration at predose to 0 (SD, non-endogenous) or value at t=TAU (steady state only)
+</p>
+</li>
+<li>
+<p> Set missing concentration at t=TAU to value at t=0 (steady state only)
+</p>
+</li>
+</ul>
+<p>The following Concentration Deviation Correction Rules will be applied to critical time points (t=0, tau, tstart, tend, teval), if needed:</p>
+
+<table>
+<tr>
+<td style="text-align: left;">
+   <strong>Rule</strong> </td>
+<td style="text-align: left;"> <strong>Regimen</strong> </td>
+<td style="text-align: left;"> <strong>Description</strong> </td>
+<td style="text-align: left;"> <strong>Applied to</strong> </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+   SDC-1 </td>
+<td style="text-align: left;"> sd </td>
+<td style="text-align: left;"> Set concentration to 0 (only non-endogenous compounds) </td>
+<td style="text-align: left;"> t=0 </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+   SDC-2 </td>
+<td style="text-align: left;"> sd </td>
+<td style="text-align: left;"> impute missing concentration by interpolation </td>
+<td style="text-align: left;"> t=tau,tstart,tend,teval </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+   SDC-3 </td>
+<td style="text-align: left;"> sd </td>
+<td style="text-align: left;"> impute missing concentration by extrapolation </td>
+<td style="text-align: left;"> t=tau,tend,teval </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+   SDC-4 </td>
+<td style="text-align: left;"> sd (IVB) </td>
+<td style="text-align: left;"> impute missing concentration by back-extrapolation </td>
+<td style="text-align: left;"> t=0 </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+   MDC-1 </td>
+<td style="text-align: left;"> md </td>
+<td style="text-align: left;"> impute missing concentration by existing conc at t=0 or t=tau (only if steady state has been reached) </td>
+<td style="text-align: left;"> t=0,tau </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+   MDC-2 </td>
+<td style="text-align: left;"> md </td>
+<td style="text-align: left;"> impute missing concentration by interpolation </td>
+<td style="text-align: left;"> t=tau,tstart,tend,teval </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+   MDC-3 </td>
+<td style="text-align: left;"> md </td>
+<td style="text-align: left;"> impute missing concentration by extrapolation </td>
+<td style="text-align: left;"> t=tau,tend,teval </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+   MDC-4 </td>
+<td style="text-align: left;"> md (IVB) </td>
+<td style="text-align: left;"> impute missing concentration by back-extrapolation </td>
+<td style="text-align: left;"> t=0 </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>a dataset with missing concentrations imputed. The following variables are added:</p>
+
+<table>
+<tr>
+<td style="text-align: left;">
+   <strong>Variable</strong> </td>
+<td style="text-align: left;"> <strong>Description</strong> </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+   crule.nr </td>
+<td style="text-align: left;"> correction rule number </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+   crule.txt </td>
+<td style="text-align: left;"> text explaining what was altered </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+   applies.to.conc </td>
+<td style="text-align: left;"> lists all critical time points to which the concentration correction rule applies </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+</td>
+</tr>
+</table>
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+example(correct.time)
+x %&lt;&gt;% mutate(ss = 'N', route = 'EV')
+# route redefined for completeness
+x %&lt;&gt;% correct.conc(by = 'subject') # ignoring th
+x %&gt;% head
+
+</code></pre>
+
+
+</div>

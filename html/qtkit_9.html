@@ -1,0 +1,129 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>get_gutenberg_data</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Get Works from Project Gutenberg</h2>
+
+<h3>Description</h3>
+
+<p>Retrieves works from Project Gutenberg based on specified criteria
+and saves the data to a CSV file. This function is a wrapper for the
+gutenbergr package.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">get_gutenberg_data(
+  target_dir,
+  lcc_subject,
+  birth_year = NULL,
+  death_year = NULL,
+  n_works = 100,
+  force = FALSE,
+  confirmed = FALSE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>target_dir</code></td>
+<td>
+<p>The directory where the CSV file will be saved.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lcc_subject</code></td>
+<td>
+<p>A character vector specifying the Library of Congress
+Classification (LCC) subjects to filter the works.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>birth_year</code></td>
+<td>
+<p>An optional integer specifying the minimum birth year of
+authors to include.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>death_year</code></td>
+<td>
+<p>An optional integer specifying the maximum death year of
+authors to include.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n_works</code></td>
+<td>
+<p>An integer specifying the number of works to retrieve.
+Default is 100.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>force</code></td>
+<td>
+<p>A logical value indicating whether to overwrite existing data
+if it already exists.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>confirmed</code></td>
+<td>
+<p>If <code>TRUE</code>, the user has confirmed that they have
+permission to use the data.
+If <code>FALSE</code>, the function will prompt the user to confirm permission.
+Setting this to <code>TRUE</code> is useful for reproducible workflows.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>This function retrieves Gutenberg works based on the specified LCC
+subjects and optional author birth and death years.
+It checks if the data already exists in the target directory and provides
+an option to overwrite it.
+The function also creates the target directory if it doesn't exist.
+If the number of works is greater than 1000 and the 'confirmed' parameter
+is not set to TRUE, it prompts the user for confirmation.
+The retrieved works are filtered based on public domain rights in the USA
+and availability of text.
+The resulting works are downloaded and saved as a CSV file in the target
+directory.
+</p>
+<p>For more information on Library of Congress Classification (LCC) subjects,
+refer to the <a href="https://www.loc.gov/catdir/cpso/lcco/">Library of
+Congress Classification Guide</a>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A message indicating whether the data was acquired or already
+existed on disk, writes the data files to disk in the specified target
+directory.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+data_dir &lt;- file.path(tempdir(), "data")
+
+get_gutenberg_data(
+ target_dir = data_dir,
+ lcc_subject = "JC"
+ n_works = 5,
+ confirmed = TRUE)
+
+## End(Not run)
+
+</code></pre>
+
+
+</div>

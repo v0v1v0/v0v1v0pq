@@ -1,0 +1,83 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>K1</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Calculate scores for minimum moment abberations.</h2>
+
+<h3>Description</h3>
+
+<p>Calculate the MMA K1, K12, and the standardized dissimilarity score (eff1).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">Kstat(genomat, type = 1)
+K1(genomat)
+K12(genomat)
+eff1(n, nmark, s1)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>genomat</code></td>
+<td>
+<p>Genotype matrix.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p>Desired sample size.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>type</code></td>
+<td>
+<p>Type of dissimilarity measure desired (first or second
+moment).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nmark</code></td>
+<td>
+<p>Number of markers.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>s1</code></td>
+<td>
+<p>Dissimilarity score from <code>K1</code> or <code>K12</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Score or standardized score based on selected marker list.
+<code>K1</code> and <code>K12</code> call <code>Kstat</code> with <code>type</code> = 1 and 2,
+respectively. Kstat computes the minimum moment abberation
+score. <code>eff1</code> computes the standardized genetic dissimilarity.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Brian S. Yandell (<a href="mailto:byandell@wisc.edu">mailto:byandell@wisc.edu</a>)</p>
+
+
+<h3>References</h3>
+
+<p>Jin C, Lan H, Attie AD, Churchill GA, Bulutuglo D, Yandell BS (2004) Selective phenotyping for increased efficiency in genetic mapping studies. Genetics 168: 2285-2293.</p>
+
+
+<h3>See Also</h3>
+
+<p><code>mma</code>, <code>read.cross</code></p>
+
+
+</div>

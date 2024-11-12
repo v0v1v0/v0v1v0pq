@@ -1,0 +1,111 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>tests</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Formal Tests of Multivariate Normality</h2>
+
+<h3>Description</h3>
+
+<p>Compute formal tests based on the Mahalanobis distances and
+Mahalanobis angles of multivariate normality (including Mardia's
+kurtosis test and Mardia's skewness test).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">maha2_test(x, type = c("ad.test", "ks.test"), dist = c("chi2", "beta"), ...)
+mardia_test(x, type = c("kurtosis", "skewness"), method = c("direct", "chol"))
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>(n, d)-matrix of data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>type</code></td>
+<td>
+<p><code>character</code> string indicating the type of test:
+</p>
+
+<dl>
+<dt>
+<code>"ad.test"</code>:</dt>
+<dd>
+<p>Anderson-Darling test as computed by the
+underlying <code>ad.test()</code>.</p>
+</dd>
+<dt>
+<code>"ks.test"</code>:</dt>
+<dd>
+<p>Kolmogorov-Smirnov test as computed by the
+underlying <code>ks.test()</code>.</p>
+</dd>
+<dt>
+<code>"kurtosis"</code>:</dt>
+<dd>
+<p>Mardia's kurtosis test (based on Mahalanobis
+distances).</p>
+</dd>
+<dt>
+<code>"skewness"</code>:</dt>
+<dd>
+<p>Mardia's skewness test (based on Mahalanobis
+angles).</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dist</code></td>
+<td>
+<p>distribution to check against.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+<p>method for computing the Mahalanobis angles.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>additional arguments passed to the underlying
+<code>ad.test()</code> or <code>ks.test()</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>An <code>htest</code> object (for <code>maha2_test</code> the one returned
+by the underlying <code>ad.test()</code> or <code>ks.test()</code>).
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Marius Hofert</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">set.seed(271)
+U &lt;- matrix(runif(3 * 200), ncol = 3)
+X &lt;- cbind(qexp(U[,1]), qnorm(U[,2:3]))
+maha2_test(X) # at the 'edge' of rejecting
+maha2_test(X, type = "ks.test") # at the 'edge', too
+mardia_test(X) # clearly rejects at 5%
+mardia_test(X, type = "skewness") # clearly rejects at 5%
+</code></pre>
+
+
+</div>

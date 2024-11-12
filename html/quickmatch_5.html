@@ -1,0 +1,193 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>lm_match</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Regression-based matching estimator of treatment effects</h2>
+
+<h3>Description</h3>
+
+<p><code>lm_match</code> estimates treatment effects in matched samples. The function
+expects the user to provide the outcomes, treatment indicators, and a matching
+object. It returns point estimates of the average treatment effects and variance
+estimates. It is possible to estimate treatment effects for subsets of the
+observations, such as estimates of the average treatment effect for the treated
+(ATT).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">lm_match(outcomes, treatments, matching, covariates = NULL, target = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>outcomes</code></td>
+<td>
+<p>numeric vector with observed outcomes.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>treatments</code></td>
+<td>
+<p>factor specifying the units' treatment assignments.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>matching</code></td>
+<td>
+<p><code>qm_matching</code> or <code>scclust</code> object with
+the matched groups.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>covariates</code></td>
+<td>
+<p>vector, matrix or data frame with covariates to include in the estimation.
+If <code>NULL</code>, no covariates are included.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>target</code></td>
+<td>
+<p>units to target the estimation for. If <code>NULL</code>, the effect is estimated
+for all units in the sample (i.e., ATE). A non-null value specifies a
+subset of units for which the effect should be estimated (e.g., ATT or
+ATC). If <code>target</code> is a logical vector with the same length as the
+sample size, units indicated with <code>TRUE</code> will be targeted. If
+<code>target</code> is an integer vector, the units with indices in <code>target</code>
+are targeted. If <code>target</code> is a character vector, it should contain
+treatment labels, and the effect for the corresponding units (as given by
+<code>treatments</code>) will be estimated.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p><code>lm_match</code> estimates treatment effects using weighted regression. The
+function first derives the unit-level weights implied by the matching. In
+detail, let <code class="reqn">S(g)</code> be the number of units indicated by <code>target</code> in
+group <code class="reqn">g</code>. Let <code class="reqn">T</code> be the total number of units indicated by
+<code>target</code> in the sample. Let <code class="reqn">A(t, g)</code> be the number of units assigned
+to treatment <code class="reqn">t</code> in group <code class="reqn">g</code>. The weight for a unit in group <code class="reqn">g</code>
+that is assigned to treatment <code class="reqn">t</code> is given by:
+</p>
+<p style="text-align: center;"><code class="reqn">\frac{S(g)}{T \times A(t, g)}.</code>
+</p>
+
+<p>See <code>matching_weights</code> for more details.
+</p>
+<p>The function uses the derived weights in a weighted least squares regression
+(using the <code>lm</code> function) with indicator variables for the
+treatment conditions. Optionally, covariates can be added to the regression
+(e.g., a common recommendation is to include the covariates used to construct
+the matching). Standard errors are estimated with the heteroskedasticity-robust
+"HC1" estimator in the <code>vcovHC</code> function. Units not
+assigned to matched groups and units assigned weights of zero are excluded
+from the estimation.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list with two numeric matrices with all estimated treatment effects and
+their estimated variances is returned. The first matrix (<code>effects</code>)
+contains estimated treatment effects. Rows in this matrix indicate minuends
+in the treatment effect contrast and columns indicate subtrahends. For
+example, in the matrix:
+</p>
+
+<table>
+<tr>
+<td style="text-align: right;">
+     </td>
+<td style="text-align: right;"> a </td>
+<td style="text-align: right;"> b </td>
+<td style="text-align: right;"> c</td>
+</tr>
+<tr>
+<td style="text-align: right;">
+     a </td>
+<td style="text-align: right;"> 0.0 </td>
+<td style="text-align: right;"> 4.5 </td>
+<td style="text-align: right;"> 5.5</td>
+</tr>
+<tr>
+<td style="text-align: right;">
+     b </td>
+<td style="text-align: right;"> -4.5 </td>
+<td style="text-align: right;"> 0.0 </td>
+<td style="text-align: right;"> 1.0</td>
+</tr>
+<tr>
+<td style="text-align: right;">
+     c </td>
+<td style="text-align: right;"> -5.5 </td>
+<td style="text-align: right;"> -1.0 </td>
+<td style="text-align: right;"> 0.0</td>
+</tr>
+<tr>
+<td style="text-align: right;">
+   </td>
+</tr>
+</table>
+<p>the estimated treatment effect between conditions <code class="reqn">a</code> and <code class="reqn">b</code> is
+<code class="reqn">4.5</code>, and the estimated treatment effect between conditions <code class="reqn">c</code>
+and <code class="reqn">b</code> is <code class="reqn">-1.0</code>. In symbols, <code class="reqn">E[Y(a) - Y(b) | S] = 4.5</code> and
+<code class="reqn">E[Y(c) - Y(b) | S] = -1.0</code> where <code class="reqn">S</code> is the condition set
+indicated by the <code>target</code> parameter.
+</p>
+<p>The second matrix (<code>effect_variances</code>) contains estimates of
+variances of the corresponding effect estimators.
+</p>
+
+
+<h3>References</h3>
+
+<p>Stuart, Elizabeth A. (2010),
+‘Matching Methods for Causal Inference: A Review and a Look Forward’.
+Statistical Science, 25(1), 1–21. https://doi.org/10.1214/09-STS313
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># Construct example data
+my_data &lt;- data.frame(y = rnorm(100),
+                      x1 = runif(100),
+                      x2 = runif(100),
+                      treatment = factor(sample(rep(c("T1", "T2", "C"), c(25, 25, 50)))))
+
+# Make distances
+my_distances &lt;- distances(my_data, dist_variables = c("x1", "x2"))
+
+# Make matching
+my_matching &lt;- quickmatch(my_distances, my_data$treatment)
+
+# ATE without covariates
+lm_match(my_data$y,
+         my_data$treatment,
+         my_matching)
+
+# ATE with covariates
+lm_match(my_data$y,
+         my_data$treatment,
+         my_matching,
+         my_data[c("x1", "x2")])
+
+# ATT for T1
+lm_match(my_data$y,
+         my_data$treatment,
+         my_matching,
+         my_data[c("x1", "x2")],
+         target = "T1")
+
+</code></pre>
+
+
+</div>

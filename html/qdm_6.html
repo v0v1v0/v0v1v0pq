@@ -1,0 +1,176 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qdm</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Fit a Quadrilateral Dissimilarity Model</h2>
+
+<h3>Description</h3>
+
+<p>Fits a Quadrilateral Dissimilarity Model to same-different data.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qdm(psi, start, respfun = c("logistic", "guessing", "gumbel", "gompertz",
+    "weibull", "cauchy", "shepardA", "shepardAneg", "shepardB",
+    "shepardBneg", "shepardD", "shepardDneg", "shepardE", "shepardEneg",
+    "shepardF", "shepardFneg"), bias = 0,
+    estimfun = c("minchi2", "ols", "wls"), optimizer = c("optim", "nlm"),
+    optimargs = list())
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>psi</code></td>
+<td>
+<p>data object created with <code>psi</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>start</code></td>
+<td>
+<p>starting values for parameter estimation.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>respfun</code></td>
+<td>
+<p>function that describes relationship between discrimination
+probabilities and similarity measure, see Details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bias</code></td>
+<td>
+<p>takes perceptual bias into account. Default is 0.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>estimfun</code></td>
+<td>
+<p>method to estimate parameters, see Details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>optimizer</code></td>
+<td>
+<p>which optimizer should be used: <code>nlm</code> or
+<code>optim</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>optimargs</code></td>
+<td>
+<p>takes additional arguments passed to <code>nlm</code>
+or <code>optim</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>More details about the Quadrilateral Dissimilarity Model can be found in
+Dzhafarov and Colonius (2006).
+</p>
+<p>Via <code>respfun</code>, different functions can be selected to describe the
+relationship between discrimination probabilities and dissimilarity
+measure. Implemented are the logistic function (<code>logistic</code>),
+the logistic function with guessing parameter (<code>guessing</code>), several
+other functions commonly used as psychometric functions (<code>gumbel</code>,
+<code>gompertz</code>, <code>weibull</code>, <code>cauchy</code>), and five functions
+suggested by Shepard (1987) (<code>shepardA</code>, <code>shepardB</code>,
+<code>shepardD</code>, <code>shepardE</code>, <code>shepardF</code>) and their negatives
+(<code>shepardAneg</code>, <code>shepardBneg</code>, <code>shepardDneg</code>
+<code>shepardEneg</code>, <code>shepardFneg</code>). Default is the logistic
+function. Note that for some of these functions the results critically
+depend on the choice of the starting values.
+</p>
+<p>Parameters can be estimated by using different minimizing functions
+available via the <code>estimfun</code> argument: ordinary least squares
+(<code>ols</code>), weighted least squares (<code>wls</code>), and minimization of
+Pearson's <code class="reqn">X^2</code> (<code>minchi2</code>). Default is the minimization of
+<code class="reqn">X^2</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>qdm</code> that consists of the following components:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>optimout</code></td>
+<td>
+<p>output of optimizer (<code>nlm</code> or
+<code>optim</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>coefficients</code></td>
+<td>
+<p>estimated parameters.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>psi</code></td>
+<td>
+<p><code>psi</code> object used to fit Quadrilateral Dissimilarity 
+Model.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>respfun</code></td>
+<td>
+<p>function used to describe relationship between discrimination
+probabilities and similarity measure.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bias</code></td>
+<td>
+<p>perceptual bias used in the model.</p>
+</td>
+</tr>
+</table>
+<h3>References</h3>
+
+<p>Dzhafarov, E. N., &amp; Colonius, H. (2006). Regular Minimality: A fundamental
+law of discrimination. In H. Colonius &amp; E. N. Dzhafarov (Eds.),
+<em>Measurement and representation of sensations</em> (pp. 1–46).
+Hillsdale, NJ: Lawrence Erlbaum Associates.
+</p>
+<p>Shepard, R. N. (1987). Towards a universal law of generalization for
+psychological science. <em>Science, 237</em>, 1317–1323.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>psi</code>, <code>predict.qdm</code>, <code>persp.qdm</code>,
+<code>nlm</code>, <code>optim</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## prepare data
+data(FMrate)
+psi1 &lt;- psi(FMrate[FMrate$id == "subj1",])
+
+## estimate model
+p.s &lt;- c(.2, .5, .1, .5, .3, .1, .1, .1)
+q1 &lt;- qdm(psi1, start=p.s)
+print(q1)
+
+## model predictions
+predict(q1)
+persp(q1)
+</code></pre>
+
+
+</div>

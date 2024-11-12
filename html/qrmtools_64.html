@@ -1,0 +1,194 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>returns</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Computing Returns and Inverse Transformation</h2>
+
+<h3>Description</h3>
+
+<p>Compute log-returns, simple returns and basic differences (or the
+inverse operations) from given data.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">returns(x, method = c("logarithmic", "simple", "diff"), inverse = FALSE,
+        start, start.date)
+returns_qrmtools(x, method = c("logarithmic", "simple", "diff"),
+                 inverse = FALSE, start, start.date)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>matrix or vector (possibly a <code>xts</code> object) to be turned
+into returns (if <code>inverse = FALSE</code>)
+or returns to be turned into the original data (if <code>inverse =
+      TRUE</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+<p><code>character</code> string indicating the method to
+be used (log-returns (logarithmic changes), simple returns (relative
+changes), or basic differences). Note that this can also be a vector
+of such methods of length equal to the number of columns of <code>x</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>inverse</code></td>
+<td>
+<p><code>logical</code> indicating whether the inverse
+transformation (data from given returns) shall be computed (if
+<code>TRUE</code>, this requires <code>start</code> to be specified).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>start</code></td>
+<td>
+<p>if <code>inverse = TRUE</code>, the last available value
+of the time series to be constructed from the given returns <code>x</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>start.date</code></td>
+<td>
+<p><code>character</code> or <code>Date</code> object
+to be used as the date corresponding to the value <code>start</code>;
+currently only used for <code>xts</code> objects.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>If <code>inverse = FALSE</code> and <code>x</code> is an <code>xts</code> object, the
+returned object is an <code>xts</code>, too.
+</p>
+<p>Note that the <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> package <span class="pkg">timeSeries</span> also contains a function
+<code>returns()</code> (and hence the order in which <span class="pkg">timeSeries</span> and
+<span class="pkg">qrmtools</span> are loaded matters to get the right <code>returns()</code>).
+For this reason, <code>returns_qrmtools()</code> is an alias for
+<code>returns()</code> from <span class="pkg">qrmtools</span>.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>vector</code> or <code>matrix</code> with the same number of
+columns as <code>x</code> just one row less if <code>inverse = FALSE</code>
+or one row more if <code>inverse = TRUE</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Marius Hofert</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Generate two paths of a geometric Brownian motion
+S0 &lt;- 10 # current stock price S_0
+r &lt;- 0.01 # risk-free annual interest rate
+sig &lt;- 0.2 # (constant) annual volatility
+T &lt;- 2 # maturity in years
+N &lt;- 250 # business days per year
+t &lt;- 1:(N*T) # time points to be sampled
+npath &lt;- 2 # number of paths
+set.seed(271) # for reproducibility
+S &lt;- replicate(npath, S0 * exp(cumsum(rnorm(N*T, # sample paths of S_t
+                                            mean = (r-sig^2/2)/N,
+                                            sd = sqrt((sig^2)/N))))) # (N*T, npath)
+
+## Turn into xts objects
+library(xts)
+sdate &lt;- as.Date("2000-05-02") # start date
+S.  &lt;- as.xts(S, order.by = seq(sdate, length.out = N*T, by = "1 week"))
+plot(S.[,1], main = "Stock 1")
+plot(S.[,2], main = "Stock 2")
+
+
+### Log-returns ################################################################
+
+## Based on S[,1]
+X &lt;- returns(S[,1]) # build log-returns (one element less than S)
+Y &lt;- returns(X, inverse = TRUE, start = S[1,1]) # transform back
+stopifnot(all.equal(Y, S[,1]))
+
+## Based on S
+X &lt;- returns(S) # build log-returns (one element less than S)
+Y &lt;- returns(X, inverse = TRUE, start = S[1,]) # transform back
+stopifnot(all.equal(Y, S))
+
+## Based on S.[,1]
+X &lt;- returns(S.[,1])
+Y &lt;- returns(X, inverse = TRUE, start = S.[1,1], start.date = sdate)
+stopifnot(all.equal(Y, S.[,1], check.attributes = FALSE))
+
+## Based on S.
+X &lt;- returns(S.)
+Y &lt;- returns(X, inverse = TRUE, start = S.[1], start.date = sdate)
+stopifnot(all.equal(Y, S., check.attributes = FALSE))
+
+## Sign-adjusted (negative) log-returns
+X &lt;- -returns(S) # build -log-returns
+Y &lt;- returns(-X, inverse = TRUE, start = S[1,]) # transform back
+stopifnot(all.equal(Y, S))
+
+
+### Simple returns #############################################################
+
+## Simple returns based on S
+X &lt;- returns(S, method = "simple")
+Y &lt;- returns(X, method = "simple", inverse = TRUE, start = S[1,])
+stopifnot(all.equal(Y, S))
+
+## Simple returns based on S.
+X &lt;- returns(S., method = "simple")
+Y &lt;- returns(X, method = "simple", inverse = TRUE, start = S.[1,],
+             start.date = sdate)
+stopifnot(all.equal(Y, S., check.attributes = FALSE))
+
+## Sign-adjusted (negative) simple returns
+X &lt;- -returns(S, method = "simple")
+Y &lt;- returns(-X, method = "simple", inverse = TRUE, start = S[1,])
+stopifnot(all.equal(Y, S))
+
+
+### Basic differences ##########################################################
+
+## Basic differences based on S
+X &lt;- returns(S, method = "diff")
+Y &lt;- returns(X, method = "diff", inverse = TRUE, start = S[1,])
+stopifnot(all.equal(Y, S))
+
+## Basic differences based on S.
+X &lt;- returns(S., method = "diff")
+Y &lt;- returns(X, method = "diff", inverse = TRUE, start = S.[1,],
+             start.date = sdate)
+stopifnot(all.equal(Y, S., check.attributes = FALSE))
+
+## Sign-adjusted (negative) basic differences
+X &lt;- -returns(S, method = "diff")
+Y &lt;- returns(-X, method = "diff", inverse = TRUE, start = S[1,])
+stopifnot(all.equal(Y, S))
+
+
+### Vector-case of 'method' ####################################################
+
+X &lt;- returns(S., method = c("logarithmic", "diff"))
+Y &lt;- returns(X, method = c("logarithmic", "diff"), inverse = TRUE, start = S.[1,],
+             start.date = sdate)
+stopifnot(all.equal(Y, S., check.attributes = FALSE))
+</code></pre>
+
+
+</div>

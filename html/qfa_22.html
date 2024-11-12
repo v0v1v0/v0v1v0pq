@@ -1,0 +1,64 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qspec2qcoh</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Quantile Coherence Spectrum</h2>
+
+<h3>Description</h3>
+
+<p>This function computes quantile coherence spectrum (QCOH) from quantile spectrum and cross-spectrum of multiple time series.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qspec2qcoh(qspec, k = 1, kk = 2)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>qspec</code></td>
+<td>
+<p>array of quantile spectrum/cross-spectrum</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>k</code></td>
+<td>
+<p>index of first series (default = 1)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>kk</code></td>
+<td>
+<p>index of second series (default = 2)</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>matrix of quantile coherence evaluated at Fourier frequencies in (0,0.5)
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">y1 &lt;- stats::arima.sim(list(order=c(1,0,0), ar=0.5), n=64)
+y2 &lt;- stats::arima.sim(list(order=c(1,0,0), ar=-0.5), n=64)
+tau &lt;- seq(0.1,0.9,0.05)
+n &lt;- length(y1)
+ff &lt;- c(0:(n-1))/n
+sel.f &lt;- which(ff &gt; 0 &amp; ff &lt; 0.5)
+y.qacf &lt;- qacf(cbind(y1,y2),tau)
+y.qper.lw &lt;- qspec.lw(y.qacf,M=5)$spec
+y.qcoh &lt;- qspec2qcoh(y.qper.lw,k=1,kk=2)
+qfa.plot(ff[sel.f],tau,y.qcoh)
+</code></pre>
+
+
+</div>

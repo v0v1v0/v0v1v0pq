@@ -1,0 +1,83 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>quarto_inspect</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Inspect Quarto Input File or Project</h2>
+
+<h3>Description</h3>
+
+<p>Inspect a Quarto project or input path. Inspecting a project returns its
+config and engines. Inspecting an input path return its formats, engine,
+and dependent resources.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">quarto_inspect(input = ".", profile = NULL, quiet = FALSE, quarto_args = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>input</code></td>
+<td>
+<p>The input file or project directory to inspect.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>profile</code></td>
+<td>
+<p><a href="https://quarto.org/docs/projects/profiles.html">Quarto project profile(s)</a> to use. Either
+a character vector of profile names or <code>NULL</code> to use the default profile.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>quiet</code></td>
+<td>
+<p>Suppress warning and other messages.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>quarto_args</code></td>
+<td>
+<p>Character vector of other <code>quarto</code> CLI arguments to append
+to the Quarto command executed by this function. This is mainly intended for
+advanced usage and useful for CLI arguments which are not yet mirrored in a
+dedicated parameter of this <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> function. See <code style="white-space: pre;">⁠quarto render --help⁠</code> for options.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Named list. For input files, the list contains the elements
+<code>quarto</code>, <code>engines</code>, <code>formats</code>, <code>resources</code>, plus <code>project</code> if the file is
+part of a Quarto project. For projects, the list contains the elements
+<code>quarto</code>, <code>dir</code>, <code>engines</code>, <code>config</code> and <code>files</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+# Inspect input file file
+quarto_inspect("notebook.Rmd")
+
+# Inspect project
+quarto_inspect("myproject")
+
+# Inspect project's advanced profile
+quarto_inspect(
+  input = "myproject",
+  profile = "advanced"
+)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

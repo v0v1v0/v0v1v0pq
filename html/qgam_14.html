@@ -1,0 +1,212 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qgam</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Fit a smooth additive quantile regression model</h2>
+
+<h3>Description</h3>
+
+<p>This function fits a smooth additive regression model for a single quantile.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qgam(
+  form,
+  data,
+  qu,
+  lsig = NULL,
+  err = NULL,
+  multicore = !is.null(cluster),
+  cluster = NULL,
+  ncores = detectCores() - 1,
+  paropts = list(),
+  control = list(),
+  argGam = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>form</code></td>
+<td>
+<p>A GAM formula, or a list of formulae. See ?mgcv::gam details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>A data frame or list containing the model response variable and covariates required by the formula.
+By default the variables are taken from environment(formula): typically the environment from which gam is called.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qu</code></td>
+<td>
+<p>The quantile of interest. Should be in (0, 1).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lsig</code></td>
+<td>
+<p>The value of the log learning rate used to create the Gibbs posterior. By defauls <code>lsig=NULL</code> and this
+parameter is estimated by posterior calibration described in Fasiolo et al. (2017). Obviously, the function is much faster
+if the user provides a value.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>err</code></td>
+<td>
+<p>An upper bound on the error of the estimated quantile curve. Should be in (0, 1). 
+Since qgam v1.3 it is selected automatically, using the methods of Fasiolo et al. (2017).
+The old default was <code>err=0.05</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>multicore</code></td>
+<td>
+<p>If TRUE the calibration will happen in parallel.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cluster</code></td>
+<td>
+<p>An object of class <code>c("SOCKcluster", "cluster")</code>. This allowes the user to pass her own cluster,
+which will be used if <code>multicore == TRUE</code>. The user has to remember to stop the cluster.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ncores</code></td>
+<td>
+<p>Number of cores used. Relevant if <code>multicore == TRUE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>paropts</code></td>
+<td>
+<p>a list of additional options passed into the foreach function when parallel computation is enabled. 
+This is important if (for example) your code relies on external data or packages: 
+use the .export and .packages arguments to supply them so that all cluster nodes 
+have the correct environment set up for computing.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>control</code></td>
+<td>
+<p>A list of control parameters. The only one relevant here is <code>link</code>, which is the link function
+used (see <code>?elf</code> and <code>?elflss</code> for defaults). All other control parameters are used by 
+<code>tuneLearnFast</code>. See <code>?tuneLearnFast</code> for details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>argGam</code></td>
+<td>
+<p>A list of parameters to be passed to <code>mgcv::gam</code>. This list can potentially include all the arguments listed
+in <code>?gam</code>, with the exception of <code>formula</code>, <code>family</code> and <code>data</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A <code>gamObject</code>. See <code>?gamObject</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Matteo Fasiolo &lt;matteo.fasiolo@gmail.com&gt;.
+</p>
+
+
+<h3>References</h3>
+
+<p>Fasiolo, M., Wood, S.N., Zaffran, M., Nedellec, R. and Goude, Y., 2020. 
+Fast calibrated additive quantile regression. 
+Journal of the American Statistical Association (to appear).
+<a href="https://www.tandfonline.com/doi/full/10.1080/01621459.2020.1725521">https://www.tandfonline.com/doi/full/10.1080/01621459.2020.1725521</a>.
+</p>
+<p>Fasiolo, M., Wood, S.N., Zaffran, M., Nedellec, R. and Goude, Y., 2021. 
+qgam: Bayesian Nonparametric Quantile Regression Modeling in R. 
+Journal of Statistical Software, 100(9), 1-31, doi: <a href="https://doi.org/10.18637/jss.v100.i09">10.18637/jss.v100.i09</a>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">#####
+# Univariate "car" example
+####
+library(qgam); library(MASS)
+
+# Fit for quantile 0.5 using the best sigma
+set.seed(6436)
+fit &lt;- qgam(accel~s(times, k=20, bs="ad"), data = mcycle, qu = 0.5)
+
+# Plot the fit
+xSeq &lt;- data.frame(cbind("accel" = rep(0, 1e3), "times" = seq(2, 58, length.out = 1e3)))
+pred &lt;- predict(fit, newdata = xSeq, se=TRUE)
+plot(mcycle$times, mcycle$accel, xlab = "Times", ylab = "Acceleration", ylim = c(-150, 80))
+lines(xSeq$times, pred$fit, lwd = 1)
+lines(xSeq$times, pred$fit + 2*pred$se.fit, lwd = 1, col = 2)
+lines(xSeq$times, pred$fit - 2*pred$se.fit, lwd = 1, col = 2)   
+
+## Not run: 
+# You can get a better fit by letting the learning rate change with "accel"
+# For instance
+fit &lt;- qgam(list(accel ~ s(times, k=20, bs="ad"), ~ s(times)),
+           data = mcycle, qu = 0.8)
+
+pred &lt;- predict(fit, newdata = xSeq, se=TRUE)
+plot(mcycle$times, mcycle$accel, xlab = "Times", ylab = "Acceleration", ylim = c(-150, 80))
+lines(xSeq$times, pred$fit, lwd = 1)
+lines(xSeq$times, pred$fit + 2*pred$se.fit, lwd = 1, col = 2)
+lines(xSeq$times, pred$fit - 2*pred$se.fit, lwd = 1, col = 2)  
+
+## End(Not run)
+
+#####
+# Multivariate Gaussian example
+####
+library(qgam)
+set.seed(2)
+dat &lt;- gamSim(1,n=400,dist="normal",scale=2)
+
+fit &lt;- qgam(y~s(x0)+s(x1)+s(x2)+s(x3), data=dat, qu = 0.5)
+plot(fit, scale = FALSE, pages = 1)      
+
+######
+# Heteroscedastic example
+######
+## Not run: 
+set.seed(651)
+n &lt;- 2000
+x &lt;- seq(-4, 3, length.out = n)
+X &lt;- cbind(1, x, x^2)
+beta &lt;- c(0, 1, 1)
+sigma =  1.2 + sin(2*x)
+f &lt;- drop(X %*% beta)
+dat &lt;- f + rnorm(n, 0, sigma)
+dataf &lt;- data.frame(cbind(dat, x))
+names(dataf) &lt;- c("y", "x")
+
+fit &lt;- qgam(list(y~s(x, k = 30, bs = "cr"), ~ s(x, k = 30, bs = "cr")), 
+            data = dataf, qu = 0.95)
+
+plot(x, dat, col = "grey", ylab = "y")
+tmp &lt;- predict(fit, se = TRUE)
+lines(x, tmp$fit)
+lines(x, tmp$fit + 2 * tmp$se.fit, col = 2)
+lines(x, tmp$fit - 2 * tmp$se.fit, col = 2)
+
+## End(Not run)
+
+</code></pre>
+
+
+</div>

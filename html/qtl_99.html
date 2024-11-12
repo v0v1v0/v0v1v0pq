@@ -1,0 +1,106 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>geno.table</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Create table of genotype distributions</h2>
+
+<h3>Description</h3>
+
+<p>Create table showing the observed numbers of individuals with each
+genotype at each marker, including P-values from chi-square tests
+for Mendelian segregation.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">geno.table(cross, chr, scanone.output=FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>cross</code></td>
+<td>
+<p>An object of class <code>cross</code>.  See
+<code>read.cross</code> for details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>chr</code></td>
+<td>
+<p>Optional vector indicating the chromosomes to consider.
+This should be a vector of character strings referring to chromosomes
+by name; numeric values are converted to strings.  Refer to
+chromosomes with a preceding <code>-</code> to have all chromosomes but
+those considered.  A logical (TRUE/FALSE) vector may also be used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>scanone.output</code></td>
+<td>
+<p>If TRUE, give result in the form output by
+<code>scanone</code>, so that one may use <code>plot.scanone</code>, etc.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The P-values are obtained from chi-square tests of Mendelian
+segregation.  In the case of the X chromosome, the sexes and cross
+directions are tested separately, and the chi-square statistics
+combined, and so the test is of whether any of the groups show
+deviation from Mendel's rules.
+</p>
+
+
+<h3>Value</h3>
+
+<p>If <code>scanone.output=FALSE</code>, the output is a matrix containing, for
+each marker, the number of individuals with each possible genotype, as
+well as the number that were not typed.  The first column gives the
+chromosome ID, and the last column gives P-values from chi-square
+tests of Mendelian segregation.
+</p>
+<p>If <code>scanone.output=TRUE</code>, the output is of the form produced by
+<code>scanone</code>, with the first two columns being chromosome IDs
+and cM positions of the markers.  The third column is
+<code class="reqn">-\log_{10}(P)</code> from chi-square tests of Mendelian
+segregation.  The fourth column is the proportion of missing data.
+The remaining columns are the proportions of the different genotypes
+(among typed individuals).
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Karl W Broman, <a href="mailto:broman@wisc.edu">broman@wisc.edu</a> </p>
+
+
+<h3>See Also</h3>
+
+ <p><code>summary.cross</code>,
+<code>drop.markers</code>, <code>drop.nullmarkers</code> </p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(listeria)
+geno.table(listeria)
+
+geno.table(listeria, chr=13)
+
+gt &lt;- geno.table(listeria)
+gt[gt$P.value &lt; 0.01,]
+
+out &lt;- geno.table(listeria, scanone.output=TRUE)
+plot(out)
+plot(out, lod=2)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,144 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>get_traits</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Get PGS Catalog Traits</h2>
+
+<h3>Description</h3>
+
+<p>Retrieves traits via the PGS Catalog REST API. The REST
+API is queried multiple times with the criteria passed as arguments (see
+below). By default all traits that match the criteria supplied in the
+arguments are retrieved: this corresponds to the default option
+<code>set_operation</code> set to <code>'union'</code>. If you rather have only the
+traits that match simultaneously all criteria provided, then set
+<code>set_operation</code> to <code>'intersection'</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">get_traits(
+  efo_id = NULL,
+  trait_term = NULL,
+  exact_term = TRUE,
+  include_children = FALSE,
+  set_operation = "union",
+  interactive = TRUE,
+  verbose = FALSE,
+  warnings = TRUE,
+  progress_bar = TRUE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>efo_id</code></td>
+<td>
+<p>A character vector of <a href="https://www.ebi.ac.uk/efo/">EFO</a>
+identifiers.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>trait_term</code></td>
+<td>
+<p>A character vector of terms to be matched against trait
+identifiers (<code>efo_id</code>), trait descriptions, synonyms thereof,
+externally mapped terms, or even trait categories.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>exact_term</code></td>
+<td>
+<p>A logical value, indicating whether to match the
+<code>trait_term</code> exactly (<code>TRUE</code>) or not (<code>FALSE</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>include_children</code></td>
+<td>
+<p>A logical value, indicating whether to include child
+traits or not.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>set_operation</code></td>
+<td>
+<p>Either <code>'union'</code> or <code>'intersection'</code>. This
+tells how performance metrics retrieved by different criteria  should be combined:
+<code>'union'</code> binds together all results removing duplicates and
+<code>'intersection'</code> only keeps same sample sets found with different
+criteria.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>interactive</code></td>
+<td>
+<p>A logical. If all traits are requested, whether to ask
+interactively if we really want to proceed.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p>A <code>logical</code> indicating whether the function should be
+verbose about the different queries or not.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>warnings</code></td>
+<td>
+<p>A <code>logical</code> indicating whether to print warnings, if any.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>progress_bar</code></td>
+<td>
+<p>Whether to show a progress bar indicating download
+progress from the REST API server.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Please note that all search criteria are vectorised, thus allowing for batch
+mode search.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A traits object.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+# Get a trait by its EFO identifier
+get_traits(efo_id = 'EFO_0004631')
+
+# Get a trait by matching a term in EFO identifier (`efo_id`), label,
+# description synonyms, categories, or external mapped terms
+get_traits(trait_term = 'stroke', exact_term = FALSE)
+
+# Get a trait matching its name (`trait`) exactly (default)
+get_traits(trait_term = 'stroke', exact_term = TRUE)
+
+# Get traits, excluding its children traits (default)
+get_traits(trait_term = 'breast cancer')
+
+# Get traits, including its children traits (check column `is_child` for
+# child traits)
+get_traits(trait_term = 'breast cancer', include_children = TRUE)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

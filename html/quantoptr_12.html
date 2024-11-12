@@ -1,0 +1,70 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>quant_est</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Estimate the Marginal Quantile Given a Specific Treatment Regime</h2>
+
+<h3>Description</h3>
+
+<p>Estimate the marginal quantile if the entire population follows a 
+treatment regime indexed by the given parameters.
+This function supports the <code>qestimate</code> function.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">quant_est(beta, x, y, a, prob, tau)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>beta</code></td>
+<td>
+<p>a vector indexing the treatment regime.
+It indexes a linear treatment regime:  
+</p>
+<p style="text-align: center;"><code class="reqn"> d(x)= I\{\beta_0 + \beta_1 x_1 + ... + \beta_k x_k &gt; 0\}.
+</code>
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a matrix of observed covariates from the sample. 
+Notice that we assumed the class of treatment regimes is linear.
+This is important that columns in <code>x</code> matches with <code>beta</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>a vector, the observed responses from a sample</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>a</code></td>
+<td>
+<p>a vector of 0s and 1s, the observed treatments from a sample</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>prob</code></td>
+<td>
+<p>a vector, the propensity scores of getting treatment 1 in the samples</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tau</code></td>
+<td>
+<p>a numeric value between 0 and 1. The quantile level of interest.</p>
+</td>
+</tr>
+</table>
+</div>

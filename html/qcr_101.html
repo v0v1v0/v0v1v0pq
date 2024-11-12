@@ -1,0 +1,127 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qcs.pcr</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Process capability indices for a given dataset and distribution</h2>
+
+<h3>Description</h3>
+
+<p>Calculates the process capability indices cp, cpk, cpkL and cpkU for a given dataset and distribution. 
+A histogramm with a density curve is displayed along with the specification limits and a 
+Quantile-Quantile Plot for the specified distribution.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qcs.pcr(
+  object,
+  distribution = c("normal", "beta", "chi-squared", "exponential", "f", "geometric",
+    "lognormal", "log-normal", "logistic", "t", "negative binomial", "poisson",
+    "weibull", "gamma"),
+  limits = c(lsl = -3, usl = 3),
+  target = NULL,
+  std.dev = NULL,
+  boxcox = FALSE,
+  lambda = c(-5, 5),
+  confidence = 0.9973,
+  plot = TRUE,
+  main = NULL,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>qcs object of type <code>"qcs.xbar"</code> or <code>"qcs.one"</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>distribution</code></td>
+<td>
+<p>character string that representing the probability distribution the data, such as:"normal","beta", "chi-squared", 
+"exponential", "f", "geometric", "lognormal", "log-normal", "logistic","t",
+"negative binomial", "poisson", "weibull", "gamma".</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>limits</code></td>
+<td>
+<p>A vector specifying the lower and upper specification limits.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>target</code></td>
+<td>
+<p>A value specifying the target of the process. 
+If is <code>NULL</code>, the target is set at the middle value bewteen specification limits.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>std.dev</code></td>
+<td>
+<p>A value specifying the within-group standard deviation.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>boxcox</code></td>
+<td>
+<p>Logical value (default is FALSE). If TRUE, perform a Box-Cox transformation.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lambda</code></td>
+<td>
+<p>A vector specifying or numeric value indicating lambda for the transformation</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>confidence</code></td>
+<td>
+<p>A numeric value between 0 and 1 specifying the nivel for computing the specification limits.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>plot</code></td>
+<td>
+<p>Logical value indicating whether graph should be plotted.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>main</code></td>
+<td>
+<p>Title of the plot.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Arguments to be passed to or from methods.</p>
+</td>
+</tr>
+</table>
+<h3>References</h3>
+
+<p>Montgomery, D.C. (1991) <em>Introduction to Statistical Quality Control</em>, 2nd
+ed, New York, John Wiley &amp; Sons. <br></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(qcr)
+data(pistonrings) 
+xbar &lt;- qcs.xbar(pistonrings[1:125,],plot = TRUE)
+limits = c(lsl = 73.99, usl = 74.01)
+qcs.pcr(xbar, "normal", limits = limits) 
+qcs.pcr(xbar, "weibull", limits = limits)
+</code></pre>
+
+
+</div>

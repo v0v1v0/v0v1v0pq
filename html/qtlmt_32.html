@@ -1,0 +1,98 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>varGroup</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Group variables
+</h2>
+
+<h3>Description</h3>
+
+<p>Group variables via variable selection such that the grouped variables are optimal for multivariate analysis.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">varGroup(x, z, zscope=NULL, k=qf(0.95,1,nrow(x)-2), kf=k/2,
+   method=c("pool","best"), direction=c("both","forward","backward"))
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+
+<p>a data matrix/frame. Columns are variables to select from.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>z</code></td>
+<td>
+
+<p>a data matrix/frame. Columns are variables with elements 1 or not 1 (any others).
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>zscope</code></td>
+<td>
+
+<p>which variables in <code>z</code> to be used for grouping; all if "NULL".
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>k</code></td>
+<td>
+
+<p>entry/stay value in backward stepwise.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>kf</code></td>
+<td>
+
+<p>entry/stay value in forward stepwise.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+
+<p>grouping method at each step: pool all the groups selected from each <code>zcope</code> variable, or choose the largest group (see examples).
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>direction</code></td>
+<td>
+
+<p>forward selection, backward elimination or both stepwise.
+</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>indicators of grouped variables.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(etrait)
+varGroup(traits, mdat, zscope=c(42,55), method="pool")
+varGroup(traits, mdat, zscope=c(42,55), method="best")
+</code></pre>
+
+
+</div>

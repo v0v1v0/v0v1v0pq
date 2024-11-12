@@ -1,0 +1,113 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>docnames</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Get or set document names</h2>
+
+<h3>Description</h3>
+
+<p>Get or set the document names of a corpus, tokens, or dfm object.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">docnames(x)
+
+docnames(x) &lt;- value
+
+docid(x)
+
+segid(x)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>the object with docnames</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>value</code></td>
+<td>
+<p>a character vector of the same length as <code>x</code></p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p><code>docnames</code> returns a character vector of the document names
+</p>
+<p><code style="white-space: pre;">⁠docnames &lt;-⁠</code> assigns new values to the document names of an object.
+docnames can only be character, so any non-character value assigned to be a
+docname will be coerced to mode <code>character</code>.
+</p>
+<p><code>docid</code> returns an internal variable denoting the original "docname"
+from which a document came.  If an object has been reshaped (e.g.
+<code>corpus_reshape()</code> or segmented (e.g. <code>corpus_segment()</code>), <code>docid(x)</code> returns
+the original docnames but <code>segid(x)</code> does the serial number of those segments
+within the original document.
+</p>
+
+
+<h3>Note</h3>
+
+<p><code>docid</code> and <code>segid</code> are designed primarily for developers, not for end users.  In
+most cases, you will want <code>docnames</code> instead.  It is, however, the
+default for groups, so that documents that have been previously reshaped
+(e.g. <code>corpus_reshape()</code> or segmented (e.g.
+<code>corpus_segment()</code>) will be regrouped into their original <code>docnames</code> when
+<code>groups = docid(x)</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>featnames()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># get and set doument names to a corpus
+corp &lt;- data_corpus_inaugural
+docnames(corp) &lt;- char_tolower(docnames(corp))
+
+# get and set doument names to a tokens
+toks &lt;- tokens(corp)
+docnames(toks) &lt;- char_tolower(docnames(toks))
+
+# get and set doument names to a dfm
+dfmat &lt;- dfm(tokens(corp))
+docnames(dfmat) &lt;- char_tolower(docnames(dfmat))
+
+# reassign the document names of the inaugural speech corpus
+corp &lt;- data_corpus_inaugural
+docnames(corp) &lt;- paste0("Speech", seq_len(ndoc(corp)))
+
+
+corp &lt;- corpus(c(textone = "This is a sentence.  Another sentence.  Yet another.",
+                 textwo = "Sentence 1. Sentence 2."))
+corp_sent &lt;- corp |&gt;
+    corpus_reshape(to = "sentences")
+docnames(corp_sent)
+
+# docid
+docid(corp_sent)
+docid(tokens(corp_sent))
+docid(dfm(tokens(corp_sent)))
+
+# segid
+segid(corp_sent)
+segid(tokens(corp_sent))
+segid(dfm(tokens(corp_sent)))
+</code></pre>
+
+
+</div>

@@ -1,0 +1,410 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>tcc</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Trellis Control Charts</h2>
+
+<h3>Description</h3>
+
+<p>Run and control charts for multivariate data i trellis (grid) layout.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">tcc(
+  n,
+  d,
+  x,
+  g1,
+  g2,
+  breaks,
+  notes,
+  data,
+  chart = c("run", "i", "mr", "xbar", "s", "t", "p", "c", "u", "g"),
+  multiply = 1,
+  freeze = NULL,
+  exclude,
+  target = NA,
+  n.sum = FALSE,
+  y.neg = TRUE,
+  y.percent = FALSE,
+  y.expand = NULL,
+  x.pad = 1,
+  x.date.format = NULL,
+  cl.lab = TRUE,
+  cl.decimals = NULL,
+  main,
+  xlab = "Subgroup",
+  ylab = "Value",
+  subtitle = NULL,
+  caption = NULL,
+  cex = 1,
+  pex = 1,
+  prime = TRUE,
+  flip = FALSE,
+  dots.only = FALSE,
+  print.summary = FALSE,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p>Numerator, numeric vector of counts or measures to plot. Mandatory.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>d</code></td>
+<td>
+<p>Denominator, numeric vector of subgroup sizes. Mandatory for P and U
+charts.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>Subgrouping vector used for aggregating data by subgroup and making
+x-labels. Mandatory for Xbar and S charts.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>g1</code></td>
+<td>
+<p>Grouping vector 1 used for trellis layout (facets).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>g2</code></td>
+<td>
+<p>Grouping vector 2 used for trellis layout (facets).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>breaks</code></td>
+<td>
+<p>Numeric vector of break points. Useful for splitting graph in
+two or more sections with separate center line and control limits.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>notes</code></td>
+<td>
+<p>Character vector of notes to be added to individual. data
+points.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>Data frame containing variables.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>chart</code></td>
+<td>
+<p>Type of control chart. Possible types are: </p>
+ <ul>
+<li>
+<p>"run": run chart (default). </p>
+</li>
+<li>
+<p> "i": individuals chart. </p>
+</li>
+<li>
+<p> "mr":
+moving range chart. </p>
+</li>
+<li>
+<p> "xbar": sample average chart. </p>
+</li>
+<li>
+<p> "s": sample
+standard deviation chart. </p>
+</li>
+<li>
+<p> "t": time between events chart. </p>
+</li>
+<li>
+<p> "p":
+proportions chart. </p>
+</li>
+<li>
+<p> "c": counts chart. </p>
+</li>
+<li>
+<p> "u": rates chart. </p>
+</li>
+<li>
+<p>"g": cases between events chart. </p>
+</li>
+</ul>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>multiply</code></td>
+<td>
+<p>Integer indicating a number to multiply y axis by, e.g. 100
+for percents rather than proportions. See also <code>y.percent</code> argument.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>freeze</code></td>
+<td>
+<p>Number identifying the last data point to include in
+calculations of center and limits (ignored if <code>breaks</code> argument is
+given).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>exclude</code></td>
+<td>
+<p>Numeric vector of data points to exclude from runs analysis
+and calculations of center and control lines (same for each facet).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>target</code></td>
+<td>
+<p>Numeric value indicating a target value to be plotted as a
+horizontal line (same for each facet).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n.sum</code></td>
+<td>
+<p>Logical value indicating whether the mean (default) or sum of
+numerator (n argument) per subgroup should be plotted. Only relevant for
+run, C, and I charts with multiple counts per subgroup.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y.neg</code></td>
+<td>
+<p>Logical value. If TRUE (default), the y axis is allowed to be
+negative (only relevant for I and Xbar charts).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y.percent</code></td>
+<td>
+<p>Logical. If TRUE, formats y axis labels as percent.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y.expand</code></td>
+<td>
+<p>Numeric value to include in y axis. Useful e.g. for beginning
+y axis at zero.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x.pad</code></td>
+<td>
+<p>Number indicating expansion of x axis to make room for center
+line labels.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x.date.format</code></td>
+<td>
+<p>Date format of x axis labels. See <code>?strftime()</code> for
+possible date formats.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cl.lab</code></td>
+<td>
+<p>Logical value. If TRUE (default), plots center line labels.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cl.decimals</code></td>
+<td>
+<p>Number of decimals on center line labels.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>main</code></td>
+<td>
+<p>Character string specifying the title of the plot.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xlab</code></td>
+<td>
+<p>Character string specifying the x axis label.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ylab</code></td>
+<td>
+<p>Character string specifying the y axis label.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>subtitle</code></td>
+<td>
+<p>Character string specifying the subtitle.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>caption</code></td>
+<td>
+<p>Character string specifying the caption.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cex</code></td>
+<td>
+<p>Number indicating the amount by which text should be magnified.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pex</code></td>
+<td>
+<p>Number indicating the amount by which plotting symbols should be
+magnified.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>prime</code></td>
+<td>
+<p>Logical value, If TRUE (default unless <code>dots.only = TRUE</code>),
+control limits incorporate between-subgroup variation as proposed by Laney
+(2002). Only relevant for P and U charts.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>flip</code></td>
+<td>
+<p>Logical. If TRUE rotates the plot 90 degrees.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dots.only</code></td>
+<td>
+<p>Logical value. If TRUE, data points are not connected by
+lines, prime is forced to be FALSE, and runs analysis is not performed.
+Useful for comparison and funnel plots.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>print.summary</code></td>
+<td>
+<p>Logical. If TRUE, prints summary of tcc object.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Further arguments to ggplot function.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p><code>tcc()</code> is a wrapper function for <code>ggplot2()</code> that makes
+multivariate run and control charts. It takes up to two grouping variables
+for multidimensional trellis plots.
+</p>
+<p>Note that, in contrast to the qic() function, the prime argument defaults
+to TRUE, which means that control limits of P and U charts by default
+incorporate between-subgroup variation as proposed by Laney (2002).
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class ggplot.
+</p>
+
+
+<h3>References</h3>
+
+<p>Runs analysis: </p>
+ <ul>
+<li>
+<p> Jacob Anhoej, Anne Vingaard Olesen
+(2014). Run Charts Revisited: A Simulation Study of Run Chart Rules for
+Detection of Non-Random Variation in Health Care Processes. PLoS ONE 9(11):
+e113825. doi: 10.1371/journal.pone.0113825 . </p>
+</li>
+<li>
+<p> Jacob Anhoej (2015).
+Diagnostic Value of Run Chart Analysis: Using Likelihood Ratios to Compare
+Run Chart Rules on Simulated Data Series. PLoS ONE 10(3): e0121349. doi:
+10.1371/journal.pone.0121349 </p>
+</li>
+<li>
+<p> Mark F. Schilling (2012). The Surprising
+Predictability of Long Runs. Math. Mag. 85, 141-149. </p>
+</li>
+<li>
+<p> Zhenmin Chen
+(2010). A note on the runs test. Model Assisted Statistics and Applications
+5, 73-77. </p>
+</li>
+</ul>
+<p> Calculation of control limits: </p>
+ <ul>
+<li>
+<p>   Douglas C.
+Montgomery (2009). Introduction to Statistical Process Control, Sixth
+Edition, John Wiley &amp; Sons. </p>
+</li>
+<li>
+<p> James C. Benneyan (2001). Number-Between
+g-Type Statistical Quality Control Charts for Monitoring Adverse Events.
+Health Care Management Science 4, 305-318. </p>
+</li>
+<li>
+<p> Lloyd P. Provost, Sandra
+K. Murray (2011). The Health Care Data Guide: Learning from Data for
+Improvement. San Francisco: John Wiley &amp; Sons Inc. </p>
+</li>
+<li>
+<p> David B. Laney
+(2002). Improved control charts for attributes. Quality Engineering, 14(4),
+531-537.</p>
+</li>
+</ul>
+<h3>Examples</h3>
+
+<pre><code class="language-R"># Run chart of 24 random normal variables
+tcc(rnorm(24))
+
+# Build data frame for examples
+d &lt;- data.frame(x = rep(1:24, 4),
+                mo = (rep(seq(as.Date('2014-1-1'),
+                              length.out = 24,
+                              by = 'month'),
+                          4)),
+                n = rbinom(4 * 24, 100, 0.5),
+                d = round(runif(4 * 24, 90, 110)),
+                g1 = rep(c('a', 'b'), each = 48),
+                g2 = rep(c('A', 'B'), each = 24))
+
+# Run chart with two grouping variables
+tcc(n, d, mo, g1 = g1, g2 = g2, data = d)
+
+# P chart
+tcc(n, d, mo, g1 = g1, g2 = g2, data = d, chart = 'p')
+
+# P chart with baseline fixed to the first 12 data points
+tcc(n, d, mo, g1 = g1, g2 = g2, data = d, chart = 'p', freeze = 12)
+
+# P chart with two breaks and summary output
+tcc(n, d, mo, g1 = g1, g2 = g2, data = d, chart = 'p',
+ breaks = c(12, 18), print.summary = TRUE)
+</code></pre>
+
+
+</div>

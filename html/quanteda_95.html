@@ -1,0 +1,64 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>data_corpus_inaugural</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>US presidential inaugural address texts</h2>
+
+<h3>Description</h3>
+
+<p>US presidential inaugural address texts, and metadata (for the corpus), from
+1789 to present.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">data_corpus_inaugural
+</code></pre>
+
+
+<h3>Format</h3>
+
+<p>a corpus object with the following docvars:
+</p>
+
+<ul>
+<li> <p><code>Year</code> a four-digit integer year
+</p>
+</li>
+<li> <p><code>President</code> character; President's last name
+</p>
+</li>
+<li> <p><code>FirstName</code> character; President's first name (and possibly middle initial)
+</p>
+</li>
+<li> <p><code>Party</code> factor; name of the President's political party
+</p>
+</li>
+</ul>
+<h3>Details</h3>
+
+<p><code>data_corpus_inaugural</code> is the quanteda-package corpus
+object of US presidents' inaugural addresses since 1789. Document variables
+contain the year of the address and the last name of the president.
+</p>
+
+
+<h3>Source</h3>
+
+<p><a href="https://archive.org/details/Inaugural-Address-Corpus-1789-2009">https://archive.org/details/Inaugural-Address-Corpus-1789-2009</a> and
+<a href="https://www.presidency.ucsb.edu/documents/presidential-documents-archive-guidebook/inaugural-addresses">https://www.presidency.ucsb.edu/documents/presidential-documents-archive-guidebook/inaugural-addresses</a>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># some operations on the inaugural corpus
+summary(data_corpus_inaugural)
+head(docvars(data_corpus_inaugural), 10)
+</code></pre>
+
+
+</div>

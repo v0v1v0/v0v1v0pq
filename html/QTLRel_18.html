@@ -1,0 +1,51 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>ibs</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Estimate Jacquard condensed identity coefficients
+</h2>
+
+<h3>Description</h3>
+
+<p>Estimate Jacquard condensed identity coefficients by identity-by-state (IBS) from genotypic data.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">ibs(x)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+
+<p>Genotype data with genotypes ("AA", "AB", "BB", or, 1, 2, 3) and without missing data, or probabilities for these genotypes (e.g., obtained by using <code>genoProb</code>). In case of genotype data, rows represent individuals and columns represent SNPs.
+</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>A matrix G with G[,j] being the j-th Jacquard identity coefficients.
+</p>
+
+
+<h3>Note</h3>
+
+<p>Currently only support the two-allele data.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>genMatrix</code>
+</p>
+
+
+</div>

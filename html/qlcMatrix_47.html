@@ -1,0 +1,109 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>Array</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Sparse Arrays ("Tensors")
+</h2>
+
+<h3>Description</h3>
+
+<p>Convenient function linking sparse Arrays from the package <code>spam</code> to the sparse Matrices from the package <code>Matrix</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">Array(A)
+sparseArray(i, v = NULL, ...)
+
+as.Matrix(M)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>A</code></td>
+<td>
+
+<p>An array to be turned into a sparse Array using <code>as.simple_sparse_array</code>. Can also be a <code>dataframe</code>, but see Details below about the treatment of data frames here.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>i</code></td>
+<td>
+
+<p>Integer matrix of array indices passed to <code>simple_sparse_array</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>v</code></td>
+<td>
+
+<p>vector of values passed to <code>simple_sparse_array</code>. If <code>NULL</code> (by default), all specified indices (i.e. all rows in <code>i</code>) are given the value 1.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>M</code></td>
+<td>
+
+<p>Matrix of type <code>simple_triple_matrix</code> from the package <code>spam</code> to be turned into a <code>TsparseMatrix</code> from the packages <code>Matrix</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+
+<p>Further arguments passed to <code>simple_sparse_array</code>.
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p><code>Array</code> turns an <code>array</code> into a sparse Array. There is a special behavior when a <code>dataframe</code> is supplied. Such a dataframe is treated as 'long format', i.e. the columns of the dataframe are treated as dimensions of the Array, and all rows of the dataframe are interpreted as entries. The coordinates are given by the ordering of the levels in the dataframe, and the dimnames are given by the levels.
+</p>
+<p><code>sparseArray</code> constructs sparse Arrays from a matrix of indices and a vector of values. dim and dimnames can be added as in <code>simple_sparse_array</code>
+</p>
+<p><code>as.Matrix</code> turns a <code>simple_triplet_matrix</code> into a <code>dgTMatrix</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Sparse Arrays use the class "simple_sparse_array" from <code>spam</code>
+</p>
+
+
+<h3>Note</h3>
+
+<p>These functions are only an example of how <code>spam</code> can be linked to <code>Matrix</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Michael Cysouw
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">x &lt;- matrix(c(1, 0, 0, 2), nrow = 2)
+s &lt;- as.simple_triplet_matrix(x)
+str(s)
+
+as.Matrix(s)
+str(as.Matrix(s))
+</code></pre>
+
+
+</div>

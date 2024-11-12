@@ -1,0 +1,82 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>DecomposeGate</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>DecomposeGate</h2>
+
+<h3>Description</h3>
+
+<p>Uses the gridsynth algorithm Sellinger 2012 &lt;arXiv:1212.6253&gt;, which is available at https://www.mathstat.dal.ca/~selinger/newsynth/, to decompose arbitrary gates to the Clifford+T set. For decomposition of controlled 2-qubit gates, circuits from Amy 2013 &lt;DOI:10.1109/TCAD.2013.2244643&gt; are also used. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">DecomposeGate(path,g,TwoQubit=FALSE,n=1,tQubit=0,cQubit=1,prec=10)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>path</code></td>
+<td>
+<p>String of path to folder containing gridsynth binary (not including gridsynths file name). R must have permission to read and write from this folder, and to execute the binary. </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>g</code></td>
+<td>
+<p>If a single number, this is the Z-rotation angle to approximate. If a vector of length 3, it is the alpha, beta, and gamma parameters as defined in Schuld 2018 &lt;arXiv:1804.00633&gt;.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>TwoQubit</code></td>
+<td>
+<p>Boolean specifying whether this is a single or controlled 2-qubit gate  </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p>The total number of qubits in the system. If TwoQubit is TRUE, the returned circuit will have n+1 qubits due to the requirement of an ancilla qubit.  </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tQubit</code></td>
+<td>
+<p> The target qubit. If a single qubit gate, the gate is applied to this qubit. If a 2-qubit gate, this is the target qubit.  </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cQubit</code></td>
+<td>
+<p> Control qubit if a 2-qubit gate. Value does not matter for single qubit gate. </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>prec</code></td>
+<td>
+<p> The binary precision of the approximation, which is passed to the gridsynth binary. </p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>List of cycles which approximates the input gate.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+ DecomposeGate(path="./",g=pi/5,TwoQubit=TRUE,n=3,tQubit=0,cQubit=1,prec=3)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,76 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>genNoise</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>genNoise</h2>
+
+<h3>Description</h3>
+
+<p>function to generate the noise list
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">genNoise(nbits, p = 0, bits = 1:nbits, error = "any", ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>nbits</code></td>
+<td>
+<p>integer. The number of qubits</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p</code></td>
+<td>
+<p>probability with which noise is applied after every gate</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bits</code></td>
+<td>
+<p>integer or integer array. The bit to which to apply the gate.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>error</code></td>
+<td>
+<p>String containing the error model.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Additional arguments to be stored in <code>args</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>See function <code>noise</code> for details.
+</p>
+
+
+<h3>Value</h3>
+
+<p>a list containing <code>p</code>, <code>bits</code>, <code>error</code> and
+<code>args</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">genNoise(4)
+genNoise(2, p=1, error="small", sigma=0.1)
+
+</code></pre>
+
+
+</div>

@@ -1,0 +1,192 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>vClus</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>cClus</h2>
+
+<h3>Description</h3>
+
+<p>Make Variable Clustering Quarto Report Section
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">vClus(
+  d,
+  exclude = NULL,
+  corrmatrix = FALSE,
+  redundancy = FALSE,
+  spc = FALSE,
+  trans = FALSE,
+  rexclude = NULL,
+  fracmiss = 0.2,
+  maxlevels = 10,
+  minprev = 0.05,
+  imputed = NULL,
+  horiz = FALSE,
+  label = "fig-varclus",
+  print = TRUE,
+  redunargs = NULL,
+  spcargs = NULL,
+  transaceargs = NULL,
+  transacefile = NULL,
+  spcfile = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>d</code></td>
+<td>
+<p>a data frame or table</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>exclude</code></td>
+<td>
+<p>formula or vector of character strings containing variables to exclude from analysis</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>corrmatrix</code></td>
+<td>
+<p>set to <code>TRUE</code> to use <code>Hmisc::plotCorrM()</code> to depict a Spearman rank correlation matrix.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>redundancy</code></td>
+<td>
+<p>set to <code>TRUE</code> to run <code>Hmisc::redun()</code> on non-excluded variables</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>spc</code></td>
+<td>
+<p>set to <code>TRUE</code> to run <code>Hmisc::princmp()</code> to do a sparse principal component analysis with the argument <code>method='sparse'</code> passed</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>trans</code></td>
+<td>
+<p>set to <code>TRUE</code> to run <code>Hmisc::transace()</code> to transform each predictor before running redundancy or principal components analysis. <code>transace</code> is run on the stacked filled-in data if <code>imputed</code> is given.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rexclude</code></td>
+<td>
+<p>extra variables to exclude from <code>transace</code> transformating-finding, redundancy analysis, and sparce principal components (formula or character vector)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fracmiss</code></td>
+<td>
+<p>if the fraction of <code>NA</code>s for a variable exceeds this the variable will not be included</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>maxlevels</code></td>
+<td>
+<p>if the maximum number of distinct values for a categorical variable exceeds this, the variable will be dropped</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>minprev</code></td>
+<td>
+<p>the minimum proportion of non-missing observations in a category for a binary variable to be retained, and the minimum relative frequency of a category before it will be combined with other small categories</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>imputed</code></td>
+<td>
+<p>an object created by <code>Hmisc::aregImpute()</code> or <code>mice::mice()</code> that contains information from multiple imputation that causes <code>vClus</code> to create all the filled-in datasets, stack them into one tall dataset, and pass that dataset to <code>Hmisc::redun()</code> or <code>Hmisc::princmp()</code> so that <code>NA</code>s can be handled efficiently in redundancy analysis and sparse principal components, i.e., without excluding partial records.  Variable clustering and the correlation matrix are already efficient because they use pairwise deletion of <code>NA</code>s.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>horiz</code></td>
+<td>
+<p>set to <code>TRUE</code> to draw the dendrogram horizontally</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>label</code></td>
+<td>
+<p>figure label for Quarto</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>print</code></td>
+<td>
+<p>set to <code>FALSE</code> to not let <code>dataframeReduce</code> report details</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>redunargs</code></td>
+<td>
+<p>a <code>list()</code> of other arguments passed to <code>Hmisc::redun()</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>spcargs</code></td>
+<td>
+<p>a <code>list()</code> of other arguments passed to <code>Hmisc::princmp()</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>transaceargs</code></td>
+<td>
+<p>a <code>list()</code> of other arguments passed to <code>Hmisc::transace()</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>transacefile</code></td>
+<td>
+<p>similar to <code>spcfile</code> and can be used when <code>trans=TRUE</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>spcfile</code></td>
+<td>
+<p>a character string specifying an <code>.rds</code> R binary file to hold the results of sparse principal component analysis.  Using <code>Hmisc::runifChanged()</code>, if the file name is specified and no inputs have changed since the last run, the result is read from the file.  Otherwise a new run is made and the file is recreated if <code>spcfile</code> is specified.  This is done because sparse principal components can take several minutes to run on large files.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Draws a variable clustering dendrogram and optionally graphically depicts a correlation matrix.  See <a href="https://hbiostat.org/rflow/descript.html#describing-variable-interrelationships/">this</a> for an example.  Uses <code>Hmisc::varclus()</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>makes Quarto tabs and prints output, returning nothing unless <code>spc=TRUE</code> or <code>trans=TRUE</code> are used, in which case a list with components <code>princmp</code> and/or <code>transace</code> is returned and these components can be passed to special <code>print</code> and <code>plot</code> methods for <code>spc</code> or to <code>ggplot_transace</code>.  The user can put scree plots and PC loading plots in separate code chunks that use different figure sizes that way.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Frank Harrell
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>Hmisc::varclus()</code>, <code>Hmisc::plotCorrM()</code>, <code>Hmisc::dataframeReduce()</code>, <code>Hmisc::redun()</code>, <code>Hmisc::princmp()</code>, <code>Hmisc::transace()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+vClus(mydata, exclude=.q(country, city))
+
+## End(Not run)
+</code></pre>
+
+
+</div>

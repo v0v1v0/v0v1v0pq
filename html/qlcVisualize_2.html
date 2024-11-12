@@ -1,0 +1,144 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>addContour</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Add contourlines to a map
+</h2>
+
+<h3>Description</h3>
+
+<p>Convenience function to add contourlines to a map, specifically geared towards suggesting boundaries to the result of weightedMap. Internally based on a krige-interpolation.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">addContour(heights, points, window, crs,
+           levels = c(0.4, 0.45, 0.5), grid = 50000, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>heights</code></td>
+<td>
+
+<p>Numeric vector with the same length as <code>points</code>. Typically a 0/1 vector describing presence or absence of a features.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>points</code></td>
+<td>
+
+<p>Locations of the datapoints as <code>sfc_POINTS</code> or an sf object with such a geometry.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>window</code></td>
+<td>
+
+<p>Window for the interpolation as <code>sfc_POLYGON</code> or an sf object with such a geometry.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>crs</code></td>
+<td>
+
+<p>A crs in WKT format.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>levels</code></td>
+<td>
+
+<p>Levels on which to draw the contourlines. Multiple lines get thicker towards higher values to suggest a center. These levels have to be related relative to the <code>heights</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>grid</code></td>
+<td>
+
+<p>Number of points inside the window for the krige-interpolation. Higher numbers lead to nicers contourlines, but take longer to evaluate.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+
+<p>Additional specifications passed internally to <code>contour</code>.
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Internally, a grid is made inside the window and the height is interpolated using ordinary kriging from <code>[gstat]{krige}</code> with a model suggested by <code>autofitVariogram</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Contourlines are added to the current plot.
+</p>
+
+
+<h3>Note</h3>
+
+<p>This is a preliminary convenience function that will be used to overhaul <code>levelMap</code>
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Michael Cysouw &lt;cysouw@mac.com&gt;
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>weightedMap</code> for more involved example
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(hessen)
+
+# continuous variable between 0 and 1
+data &lt;- hessen$data[,1:3]
+heights &lt;- round(data[,1]/rowSums(data), digits = 1)
+cols &lt;- heat.colors(11)
+names(cols) &lt;- names(table(heights))
+
+# boundary as sf
+w &lt;- sf::st_as_sf(hessen$boundary)
+sf::st_crs(w) &lt;- 4326
+w &lt;- sf::st_transform(w, 2397)
+
+# points as sf
+p &lt;- sf::st_as_sf(hessen$villages, coords = c("longitude", "latitude"))
+sf::st_crs(p) &lt;- 4326
+p &lt;- sf::st_transform(p, 2397)
+
+# plot map
+plot(p, col = cols[as.character(heights)], border = NA, pch = 19)
+plot(w, add = TRUE, border = "grey")
+
+# add boundary
+addContour(heights, points = p, window = w, crs = 2397, grid = 1000,
+            levels = c(0.25, 0.35, 0.45), col = "blue")
+</code></pre>
+
+
+</div>

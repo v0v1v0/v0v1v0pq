@@ -1,0 +1,79 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>merge</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Merge all Members of Two Instances</h2>
+
+<h3>Description</h3>
+
+<p>All public and private members of instance 2 will be
+copied to instance 1, overwriting any of the same names.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">merge(inst1, inst2)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>inst1</code></td>
+<td>
+<p>instance to move members to</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>inst2</code></td>
+<td>
+<p>instance to move members from</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Q7 instance, with environment identity of <code>inst1</code> and members from both instances.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+Screamer &lt;- type(function(words){
+  scream &lt;- function(){
+    paste0(paste(words,
+                 collapse = " "),
+           "!!!")
+  }
+})
+
+Whisperer &lt;- type(function(words){
+  whisper &lt;- function(){
+    paste0("shhhhhhh.....",
+           paste(words,
+                 collapse = " "),
+           "...")
+  }
+})
+
+p1 &lt;- Screamer("I love you")
+p1$scream()
+
+p2 &lt;- Whisperer("My parents came back")
+p2$whisper()
+
+p1 &lt;- p1 %&gt;% merge(p2)
+
+# note the the "word" for both methods became that of p2
+p1$whisper()
+p1$scream()
+
+</code></pre>
+
+
+</div>

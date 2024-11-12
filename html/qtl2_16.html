@@ -1,0 +1,63 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>calc_raw_founder_maf</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Calculate founder minor allele frequencies from raw SNP genotypes</h2>
+
+<h3>Description</h3>
+
+<p>Calculate minor allele frequency from raw SNP genotypes in founders, by founder strain or by marker
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">calc_raw_founder_maf(cross, by = c("individual", "marker"))
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>cross</code></td>
+<td>
+<p>Object of class <code>"cross2"</code>. For details, see the
+<a href="https://kbroman.org/qtl2/assets/vignettes/developer_guide.html">R/qtl2 developer guide</a>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>by</code></td>
+<td>
+<p>Indicates whether to summarize by founder strain (<code>"individual"</code>) or by marker.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A vector of minor allele frequencies, one for each founder strain or marker.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>recode_snps()</code>, <code>calc_raw_maf()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+# load example data and calculate genotype probabilities
+file &lt;- paste0("https://raw.githubusercontent.com/rqtl/",
+               "qtl2data/main/DOex/DOex.zip")
+DOex &lt;- read_cross2(file)
+DOex_maf &lt;- calc_raw_founder_maf(DOex)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

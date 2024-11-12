@@ -1,0 +1,75 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>AddDate</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>AddDate</h2>
+
+<h3>Description</h3>
+
+<p>Function to add a number of days, months and years to a specific date.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">AddDate(date = Sys.Date(), addDays = 0, addMonths = 0, addYears = 0)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>date</code></td>
+<td>
+<p>Initial date.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>addDays</code></td>
+<td>
+<p>If specified, vector number of days to add to the initial date.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>addMonths</code></td>
+<td>
+<p>If specified, vector number of months to add to the initial date.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>addYears</code></td>
+<td>
+<p>If specified, vector number of years to add to the initial date.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>The output is a vector of final dates after adding the number of days, months and years to the initial date.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Julian Chitiva, Diego Jara and Juan Pablo Bermudez
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># Date input as Date object
+AddDate(date = Sys.Date(),addDays=14,addMonths=2,addYears=3)
+
+# Date input as character object
+AddDate(date = '2019-10-04',addDays=14,addMonths=2,addYears=3)
+
+# Date vectors to add to initial date
+AddDate(Sys.Date(), addDays = c(1,2), addMonths = c(4,5),addYears = c(5,6))
+
+</code></pre>
+
+
+</div>

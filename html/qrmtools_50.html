@@ -1,0 +1,120 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>NA_plot</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Graphical Tool for Visualizing NAs in a Data Set</h2>
+
+<h3>Description</h3>
+
+<p>Plot NAs in a data set.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">NA_plot(x, col = c("black", "white"), xlab = "Time", ylab = "Component",
+        text = "Black: NA; White: Available data",
+        side = 4, line = 1, adj = 0, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>matrix (ideally an <code>xts</code> object).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>col</code></td>
+<td>
+<p>bivariate vector containing the colors for missing and
+available data, respectively.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xlab</code></td>
+<td>
+<p>x-axis label.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ylab</code></td>
+<td>
+<p>y-axis label.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>text</code></td>
+<td>
+<p>see <code>mtext()</code>. The <code>text = ""</code>, it is omitted.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>side</code></td>
+<td>
+<p>see <code>mtext()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>line</code></td>
+<td>
+<p>see <code>mtext()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>adj</code></td>
+<td>
+<p>see <code>mtext()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>additional arguments passed to the underlying
+<code>image()</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Indicate <code>NA</code>s in a data set.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>invisible()</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Marius Hofert</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Generate data
+n &lt;- 1000 # sample size
+d &lt;- 100 # dimension
+set.seed(271) # set seed
+x &lt;- matrix(runif(n*d), ncol = d) # generate data
+
+## Assign missing data
+k &lt;- ceiling(d/4) # fraction of columns with some NAs
+j &lt;- sample(1:d, size = k) # columns j with NAs
+i &lt;- sample(1:n, size = k) # 1:i will be NA in each column j
+X &lt;- x
+for(k. in seq_len(k)) X[1:i[k.], j[k.]] &lt;- NA # put in NAs
+
+## Plot NAs
+NA_plot(X) # indicate NAs
+</code></pre>
+
+
+</div>

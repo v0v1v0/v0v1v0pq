@@ -1,0 +1,202 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>cc_aug</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Calibration coefficient for an augmented signature proportion</h2>
+
+<h3>Description</h3>
+
+<p><code>cc_aug</code> computes the optimal calibration coefficient for an
+augmented signature proportion (Bromaghin et al. 2016).
+If signature augmentation is to be used, the user must call <code>cc_aug</code>
+after first calling <code>prep_sig</code> with the prey signature data, in
+order to derive a calibration coefficient for the augmented signature.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">cc_aug(sig_rep, sig_scale, cc_all, use_fa, dist_meas = 1, gamma = 1)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>sig_rep</code></td>
+<td>
+<p>A numeric matrix containing fatty acid signatures with
+proportions from all fatty acids.  See Details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sig_scale</code></td>
+<td>
+<p>A numeric matrix containing fatty acid signatures with
+proportions from a subset of all fatty acids and an augmented proportion.
+See Details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cc_all</code></td>
+<td>
+<p>A numeric vector of calibration coefficients for the fatty
+acids in <code>sig_rep</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>use_fa</code></td>
+<td>
+<p>A logical vector denoting the fatty acids in <code>sig_rep</code>
+that are also in <code>sig_scale</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dist_meas</code></td>
+<td>
+<p>An integer indicator of the distance measure to compute.
+Default value 1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gamma</code></td>
+<td>
+<p>The power parameter of the chi-square distance measure. Default
+value 1.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list containing the following elements: </p>
+
+<dl>
+<dt>cc</dt>
+<dd>
+<p>A numeric vector of calibration coefficients for the augmented
+signatures.</p>
+</dd>
+<dt>err_code</dt>
+<dd>
+<p>An integer error code (0 if no error is detected).</p>
+</dd>
+<dt>err_message</dt>
+<dd>
+<p>A string contains a brief summary of the execution.</p>
+</dd>
+</dl>
+<h3>Details</h3>
+
+<p>Calibration coefficients provide a one-to-one mapping between the prey and
+predator spaces (Bromaghin et al. 2015).  However, when using signature
+augmentation (Bromaghin et al. 2016), no calibration coefficient is
+available for the augmented proportion and the function <code>cc_aug</code> was
+developed to remedy that lack.
+</p>
+<p><code>cc_aug</code> transforms complete prey signatures in <code>sig_rep</code> to the
+predator space, censors them using <code>fa</code>, and then augments them.
+The subset of calibration coefficients in <code>cc_all</code> corresponding to
+<code>fa</code> are combined with a calibration coefficient for the  augmented
+proportion, the censored signatures in <code>sig_scale</code> are also transformed to
+the predator space, and the distance between the two sets of censored
+signatures is computed.  The calibration coefficient for the augmented
+proportion is taken as the value that minimizes the distance.  The function
+Rsolnp::solnp() is used to minimize the distance.
+</p>
+<p>The entity passed as the argument <code>fa</code> is intended to be the
+corresponding entity returned by a call to <code>prep_fa</code>.  Similarly,
+the entities passed as the arguments <code>sig_rep</code> and <code>sig_scale</code>
+are intended to be the corresponding entities returned by a call to
+<code>prep_sig</code> with data in a prey library.  Consequently, no error
+checks are made on these objects.  Please refer to the documentation for
+<code>prep_fa</code> and <code>prep_sig</code> for additional details.
+</p>
+<p>Use of Rsolnp::solnp limits the ability to return any errors from the
+function <code>dist_between_2_sigs</code>.  A crash may be caused by passing
+invalid values for the arguments <code>dist_meas</code> or <code>gamma</code>.  Please
+refer to documentation for the function <code>dist_between_2_sigs</code> for
+additional information about valid values for these arguments.
+</p>
+<p>Utility and external functions called by <code>cc_aug</code>:
+</p>
+
+<ul>
+<li> <p><code>dist_between_2_sigs</code>
+</p>
+</li>
+<li>
+<p> Rsolnp::solnp
+</p>
+</li>
+</ul>
+<h3>References</h3>
+
+<p>Bromaghin, J.F., S.M. Budge, and G.W. Thiemann. 2016. Should fatty
+acid signature proportions sum to 1 for diet estimation?
+<em>Ecological Research</em> 31:597-606.
+</p>
+<p>Bromaghin, J.F., K.D. Rode, S.M. Budge, and G.W. Thiemann. 2015. Distance
+measures and optimization spaces in quantitative fatty acid signature
+analysis. <em>Ecology and Evolution</em> 5:1249-1262.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">cc_aug(sig_rep = matrix(c(0.05, 0.10, 0.30, 0.55,
+                          0.04, 0.11, 0.29, 0.56,
+                          0.10, 0.05, 0.35, 0.50), ncol = 3),
+       sig_scale = matrix(c(0.40, 0.50, 0.10,
+                            0.45, 0.49, 0.06,
+                            0.35, 0.45, 0.20), ncol = 3),
+       cc_all = c(0.75, 1.05, 1.86, 0.80),
+       use_fa = c(FALSE, FALSE, TRUE, TRUE))
+
+cc_aug(sig_rep = matrix(c(0.05, 0.10, 0.30, 0.55,
+                          0.04, 0.11, 0.29, 0.56,
+                          0.10, 0.05, 0.35, 0.50), ncol = 3),
+       sig_scale = matrix(c(0.40, 0.50, 0.10,
+                            0.45, 0.49, 0.06,
+                            0.35, 0.45, 0.20), ncol = 3),
+       cc_all = c(0.75, 1.05, 1.86, 0.80),
+       use_fa = c(FALSE, FALSE, TRUE, TRUE),
+       dist_meas = 1)
+
+cc_aug(sig_rep = matrix(c(0.05, 0.10, 0.30, 0.55,
+                          0.04, 0.11, 0.29, 0.56,
+                          0.10, 0.05, 0.35, 0.50), ncol = 3),
+       sig_scale = matrix(c(0.40, 0.50, 0.10,
+                            0.45, 0.49, 0.06,
+                            0.35, 0.45, 0.20), ncol = 3),
+       cc_all = c(0.75, 1.05, 1.86, 0.80),
+       use_fa = c(FALSE, FALSE, TRUE, TRUE),
+       dist_meas = 2)
+
+cc_aug(sig_rep = matrix(c(0.05, 0.10, 0.30, 0.55,
+                          0.04, 0.11, 0.29, 0.56,
+                          0.10, 0.05, 0.35, 0.50), ncol = 3),
+       sig_scale = matrix(c(0.40, 0.50, 0.10,
+                            0.45, 0.49, 0.06,
+                            0.35, 0.45, 0.20), ncol = 3),
+       cc_all = c(0.75, 1.05, 1.86, 0.80),
+       use_fa = c(FALSE, FALSE, TRUE, TRUE),
+       dist_meas = 3,
+       gamma = 0.25)
+
+cc_aug(sig_rep = matrix(c(0.05, 0.10, 0.30, 0.55,
+                          0.04, 0.11, 0.29, 0.56,
+                          0.10, 0.05, 0.35, 0.50), ncol = 3),
+       sig_scale = matrix(c(0.40, 0.50, 0.10,
+                            0.45, 0.49, 0.06,
+                            0.35, 0.45, 0.20), ncol = 3),
+       cc_all = c(0.75, 1.05, 1.86, 0.80),
+       use_fa = c(FALSE, FALSE, TRUE, TRUE),
+       dist_meas = 3)
+
+</code></pre>
+
+
+</div>

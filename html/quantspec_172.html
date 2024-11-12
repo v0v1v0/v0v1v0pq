@@ -1,0 +1,82 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>KernelWeight-class</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Class for Brillinger-type Kernel weights.</h2>
+
+<h3>Description</h3>
+
+<p><code>KernelWeight</code> is an S4 class that implements a weighting function by
+specification of a kernel function <code>W</code> and a scale parameter <code>bw</code>.
+</p>
+
+
+<h3>Details</h3>
+
+<p>It extends the class <code>Weight</code> and writes
+</p>
+<p style="text-align: center;"><code class="reqn">W_N(2\pi (k-1)/N) := \sum_{j \in Z} bw^{-1} W(2\pi bw^{-1} [(k-1)/N + j])</code>
+</p>
+
+<p>to <code>values[k]</code> [nested inside <code>env</code>] for <code>k=1,...,N</code>.
+The number <code>length(values)</code> of Fourier frequencies for which
+<code class="reqn">W_N</code> will be evaluated may be set on construction or updated when
+evoking the method <code>getValues</code>.
+To standardize the weights used in the convolution to unity
+</p>
+<p style="text-align: center;"><code class="reqn">W_N^j := \sum_{j \neq s = 0}^{N-1} W_n(2\pi s / N)</code>
+</p>
+
+<p>is stored to <code>Wnj[s]</code> for <code>s=1,...,N</code>, for later usage.
+</p>
+
+
+<h3>Slots</h3>
+
+
+<dl>
+<dt><code>W</code></dt>
+<dd>
+<p>a kernel function</p>
+</dd>
+<dt><code>bw</code></dt>
+<dd>
+<p>bandwidth</p>
+</dd>
+<dt><code>env</code></dt>
+<dd>
+<p>An environment to allow for slots which need to be
+accessable in a call-by-reference manner:
+</p>
+
+<dl>
+<dt><code>values</code></dt>
+<dd>
+<p>A vector storing the weights; see the Details
+section.</p>
+</dd>
+<dt><code>Wnj</code></dt>
+<dd>
+<p>A vector storing the terms used for normalization;
+see the Details section.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<h3>References</h3>
+
+<p>Brillinger, D. R. (1975). <em>Time Series: Data Analysis and Theory</em>.
+Holt, Rinehart and Winston, Inc., New York. [cf. p. 146 f.]
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Examples for implementations of kernels <code>W</code> can be found at:
+<code>kernels</code>.
+</p>
+
+
+</div>

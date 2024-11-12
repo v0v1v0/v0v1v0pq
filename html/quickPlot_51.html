@@ -1,0 +1,102 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>clearPlot</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Clear plotting device</h2>
+
+<h3>Description</h3>
+
+<p>Under some conditions, a device and its metadata need to be cleared manually.
+This can be done with either the <code>new = TRUE</code> argument within the call to <code>Plot</code>.
+Sometimes, the metadata of a previous plot will prevent correct plotting of
+a new <code>Plot</code> call.
+Use <code>clearPlot</code> to clear the device and all the associated metadata manually.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">clearPlot(
+  dev = dev.cur(),
+  removeData = TRUE,
+  force = FALSE,
+  verbose = getOption("quickPlot.verbose")
+)
+
+## S4 method for signature 'numeric,logical'
+clearPlot(
+  dev = dev.cur(),
+  removeData = TRUE,
+  force = FALSE,
+  verbose = getOption("quickPlot.verbose")
+)
+
+## S4 method for signature 'numeric,missing'
+clearPlot(dev, force)
+
+## S4 method for signature 'missing,logical'
+clearPlot(removeData, force)
+
+## S4 method for signature 'missing,missing'
+clearPlot(dev, removeData, force)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>dev</code></td>
+<td>
+<p>Numeric. Device number to clear.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>removeData</code></td>
+<td>
+<p>Logical indicating whether any data that was stored in the
+<code>.quickPlotEnv</code> should also be removed; i.e., not just the plot window wiped.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>force</code></td>
+<td>
+<p>Logical or "all". Sometimes the graphics state cannot be fixed by a simple
+<code>clearPlot()</code>. If TRUE, this will close the device and reopen the same
+device number. If "all", then all <code>quickPlot</code> related data from all devices
+will be cleared, in addition to device closing and reopening.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p>Numeric or logical. If <code>TRUE</code> or <code style="white-space: pre;">⁠&gt;0⁠</code>, then messages will be
+shown. If <code>FALSE</code> or <code>0</code>, most messages will be suppressed.</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Eliot McIntire
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>Plot()</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">if (interactive()) {
+  Plot(1:10)
+  clearPlot() # clears
+}
+
+</code></pre>
+
+
+</div>

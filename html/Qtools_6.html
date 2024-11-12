@@ -1,0 +1,120 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>ao</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Transformations
+</h2>
+
+<h3>Description</h3>
+
+<p>Functions used in quantile regression transformation models
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">ao(theta, lambda, symm = TRUE, omega = 0.001)
+invao(x, lambda, symm = TRUE, replace = TRUE)
+bc(x, lambda)
+invbc(x, lambda, replace = TRUE)
+mcjI(x, lambda, symm = TRUE, dbounded = FALSE, omega = 0.001)
+invmcjI(x, lambda, symm = TRUE, dbounded = FALSE)
+mcjII(x, lambda, delta, dbounded = FALSE, omega = 0.001)
+invmcjII(x, lambda, delta, dbounded = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x, theta</code></td>
+<td>
+
+<p>numeric vector of singly (<code>x</code>) or doubly (<code>theta</code>) bounded observations; <code>theta</code> must be between 0 and 1 (see <code>map</code> to map generic [a,b] intervals to [0,1]).
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lambda, delta</code></td>
+<td>
+
+<p>transformation parameters.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>symm</code></td>
+<td>
+
+<p>logical flag. If <code>TRUE</code> (default) a symmetric transformation is used.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dbounded</code></td>
+<td>
+
+<p>logical flag. If <code>TRUE</code> the argument <code>x</code> is assumed to be bounded between 0 and 1.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>omega</code></td>
+<td>
+
+<p>small constant to avoid numerical problems when <code>theta</code> is exactly 0 or 1.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>replace</code></td>
+<td>
+
+<p>logical flag. If <code>TRUE</code> (default), values that are outside the admissible range after the Box-Cox or the Aranda-Ordaz back-transformations are replaced by the range bounds.
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>These functions transform (back-transform) <code>x</code> or <code>theta</code> conditional on the parameters <code>lambda</code> and <code>theta</code>, using the Box–Cox (<code>bc</code>), Aranda-Ordaz (<code>ao</code>), Proposal I (<code>mcjI</code>) and Proposal II (<code>mcjII</code>) transformations. 
+</p>
+
+
+<h3>Value</h3>
+
+<p>Transformed or back-transformed values.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Marco Geraci
+</p>
+
+
+<h3>References</h3>
+
+<p>Aranda-Ordaz FJ. On two families of transformations to additivity for binary response data. Biometrika 1981;68(2):357-363.
+</p>
+<p>Box GEP, Cox DR. An analysis of transformations. Journal of the Royal Statistical Society Series B-Statistical Methodology 1964;26(2):211-252.
+</p>
+<p>Dehbi H-M, Cortina-Borja M, and Geraci M. Aranda-Ordaz quantile regression for student performance assessment. Journal of Applied Statistics. 2016;43(1):58-71.
+</p>
+<p>Geraci M and Jones MC. Improved transformation-based quantile regression. Canadian Journal of Statistics 2015;43(1):118-132.
+</p>
+<p>Jones MC. Connecting distributions with power tails on the real line, the half line and the interval. International Statistical Review 2007;75(1):58-69.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>tsrq</code>, <code>tsrq2</code>, <code>rcrq</code>, <code>nlrq2</code>
+</p>
+
+
+</div>

@@ -1,0 +1,114 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>tokens_segment</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Segment tokens object by patterns</h2>
+
+<h3>Description</h3>
+
+<p>Segment tokens by splitting on a pattern match. This is useful for breaking
+the tokenized texts into smaller document units, based on a regular pattern
+or a user-supplied annotation. While it normally makes more sense to do this
+at the corpus level (see <code>corpus_segment()</code>), <code>tokens_segment</code>
+provides the option to perform this operation on tokens.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">tokens_segment(
+  x,
+  pattern,
+  valuetype = c("glob", "regex", "fixed"),
+  case_insensitive = TRUE,
+  extract_pattern = FALSE,
+  pattern_position = c("before", "after"),
+  use_docvars = TRUE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>tokens object whose token elements will be segmented</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pattern</code></td>
+<td>
+<p>a character vector, list of character vectors, dictionary,
+or collocations object.  See pattern for details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>valuetype</code></td>
+<td>
+<p>the type of pattern matching: <code>"glob"</code> for "glob"-style
+wildcard expressions; <code>"regex"</code> for regular expressions; or <code>"fixed"</code> for
+exact matching. See valuetype for details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>case_insensitive</code></td>
+<td>
+<p>logical; if <code>TRUE</code>, ignore case when matching a
+<code>pattern</code> or dictionary values</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>extract_pattern</code></td>
+<td>
+<p>remove matched patterns from the texts and save in
+docvars, if <code>TRUE</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pattern_position</code></td>
+<td>
+<p>either <code>"before"</code> or <code>"after"</code>, depending
+on whether the pattern precedes the text (as with a tag) or follows the
+text (as with punctuation delimiters)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>use_docvars</code></td>
+<td>
+<p>if <code>TRUE</code>, repeat the docvar values for each
+segmented text; if <code>FALSE</code>, drop the docvars in the segmented corpus.
+Dropping the docvars might be useful in order to conserve space or if these
+are not desired for the segmented corpus.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p><code>tokens_segment</code> returns a tokens object whose documents
+have been split by patterns
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">txts &lt;- "Fellow citizens, I am again called upon by the voice of my country to
+execute the functions of its Chief Magistrate. When the occasion proper for
+it shall arrive, I shall endeavor to express the high sense I entertain of
+this distinguished honor."
+toks &lt;- tokens(txts)
+
+# split by any punctuation
+tokens_segment(toks, "^\\p{Sterm}$", valuetype = "regex",
+               extract_pattern = TRUE,
+               pattern_position = "after")
+tokens_segment(toks, c(".", "?", "!"), valuetype = "fixed",
+               extract_pattern = TRUE,
+               pattern_position = "after")
+</code></pre>
+
+
+</div>

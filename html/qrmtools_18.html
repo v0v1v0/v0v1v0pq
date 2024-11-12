@@ -1,0 +1,205 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>step_plot</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Plot of Step Functions, Empirical Distribution and Quantile Functions</h2>
+
+<h3>Description</h3>
+
+<p>Plotting step functions, empirical distribution functions and
+empirical quantile functions.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">step_plot(x, y, y0 = NA, x0 = NA, x1 = NA, method = c("edf", "eqf"), log = "",
+          verticals = NA, do.points = NA, add = FALSE,
+          col = par("col"), main = "", xlab = "x", ylab = "Function value at x",
+          plot.args = NULL, segments.args = NULL, points.args = NULL)
+edf_plot(x, y0 = 0, x0 = NA, x1 = NA, log = "",
+         verticals = NA, do.points = NA, col = par("col"),
+         main = "", xlab = "x", ylab = "Distribution function at x", ...)
+eqf_plot(x, y0 = NA, x0 = 0, x1 = 1, log = "",
+         verticals = NA, do.points = NA, col = par("col"),
+         main = "", xlab = "x", ylab = "Quantile function at x", ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+
+
+<dl>
+<dt>
+<code>step_plot()</code>:</dt>
+<dd>
+<p><code>numeric</code> vector of
+x-values.</p>
+</dd>
+<dt>
+<code>edf_plot()</code>:</dt>
+<dd>
+<p><code>numeric</code> vector or a
+<code>list</code> of <code>numeric</code> vectors; if a list, each
+element corresponds to the x-values of an empirical distribution function.</p>
+</dd>
+<dt>
+<code>eqf_plot()</code>:</dt>
+<dd>
+<p>similar to <code>edf_plot()</code>.</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>y-values corresponding to <code>x</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y0</code></td>
+<td>
+<p>y-value of the graph extending to the left of the
+first x-value.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x0</code></td>
+<td>
+<p>smallest x-value.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x1</code></td>
+<td>
+<p>largest x-value.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+<p><code>character</code> string indicating the type of
+method to be used (<code>"edf"</code> for empricial distribution function
+types of plots and <code>"eqf"</code> for empirical quantile function types).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>log</code></td>
+<td>
+<p><code>character</code> indicating whether
+a logarithmic x-axis is used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verticals</code></td>
+<td>
+<p><code>logical</code> indicating whether to plot
+vertical lines (defaults to <code>TRUE</code> if and only if
+there are 100 or more data points).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>do.points</code></td>
+<td>
+<p><code>logical</code> (vector) indicating whether points are
+to be plotted (defaults to <code>TRUE</code> if and only if there
+are less than 100 data points).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>add</code></td>
+<td>
+<p><code>logical</code> indicating whether the current plot
+is added to the last one.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>col</code></td>
+<td>
+<p>color (for <code>edf_plot()</code> this can be a
+<code>vector</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>main</code></td>
+<td>
+<p>title.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xlab</code></td>
+<td>
+<p>x-axis label.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ylab</code></td>
+<td>
+<p>y-axis label.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>plot.args</code></td>
+<td>
+<p><code>list</code> of additional arguments passed to
+the underlying <code>plot()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>segments.args</code></td>
+<td>
+<p><code>list</code> of additional arguments passed to
+the underlying <code>segments()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>points.args</code></td>
+<td>
+<p><code>list</code> of additional arguments passed to
+the underlying <code>points()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>additional arguments passed to the underlying
+<code>step_plot()</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Nothing (plot by side-effect).
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Marius Hofert</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">x &lt;- c(5, 2, 4, 2, 3, 2, 2, 2, 1, 2) # example data
+edf_plot(x) # empirical distribution function (edf)
+edf_plot(x, log = "x")
+edf_plot(x, verticals = TRUE)
+edf_plot(x, do.points = FALSE)
+cols &lt;- c("black", "royalblue3")
+edf_plot(list(x, x+2), col = cols) # edf with shifted edf
+edf_plot(list(x, x+2), col = cols, x0 = 0.5, x1 = 7.5)
+edf_plot(list(x, x+2), col = cols, x0 = 0.5, x1 = 7.5, verticals = TRUE)
+eqf_plot(x) # empirical quantile function
+eqf_plot(x, verticals = TRUE)
+</code></pre>
+
+
+</div>

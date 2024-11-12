@@ -1,0 +1,191 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qmboots</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Q Methodology: Bootstrap</h2>
+
+<h3>Description</h3>
+
+<p>Implementation of the bootstrap to Q methodology using Principal Components Analysis (PCA).</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qmboots(dataset, nfactors, nsteps, load = "auto",
+        rotation = "varimax", indet = "qindtest", fsi = TRUE, 
+        forced = T, distribution = NULL, 
+        cor.method="pearson", ...)</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>dataset</code></td>
+<td>
+<p>a matrix or dataframe containing original data, with statements as rows, Q sorts as columns, and Q board column values in each cell.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nfactors</code></td>
+<td>
+<p>number of factors to extract using PCA.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>load</code></td>
+<td>
+<p>a matrix of factor loadings to be used as target. If "auto", the target matrix is generated using the rotation indicated ("varimax" by default).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nsteps</code></td>
+<td>
+<p>number of steps (repetitions) for the bootstraping.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rotation</code></td>
+<td>
+<p>rotation method, set to "varimax" by default. Other possible rotations from <span class="pkg">psych</span> <code>principal</code> function "none", "varimax", "quatimax", "promax", "oblimin", "simplimax", and "cluster" are possible.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>indet</code></td>
+<td>
+<p>method to solve the double indeterminacy issue in PCA bootstrapping. <code>"procrustes"</code> for procrustes rotation, <code>"qindtest"</code> for simple solution valid for up to 3 factors extracted, <code>"both"</code> for a qindtest and a procrustes rotation, or <code>"none"</code> for no rotation. The latter is not recommended for it introduces inflated variability. If <code>"none"</code> is selected, each replication is rotated using varimax.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fsi</code></td>
+<td>
+<p>logical; Shall the Factor Stability index be calculated? (experimental index).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>forced</code></td>
+<td>
+<p>logical; Is the ranking of the items forced to match the distributions? Set to <code>TRUE</code> if all respondents ranked the items strictly following the distribution scores, in which case the values of the distribution are calculated automatically. Set to <code>FALSE</code> if respondents had the possibility to rank the items without following the distribution, and the values of the distribution have to be provided as an array in the argument <code>distribution</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>distribution</code></td>
+<td>
+<p>logical; when forced = <code>FALSE</code>, the distribution has to be provided as a vector of numbers, such as <code>c(-2, -1, -1, 0, 1, 1, 2, 2)</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cor.method</code></td>
+<td>
+<p>character string indicating which correlation coefficient is to be computed, to be passed on to the function <code>cor</code>: <code>"pearson"</code> (default), <code>"kendall"</code>, or <code>"spearman"</code>. </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Other arguments passed on to <code>qmethod</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>zscore-stats</code></td>
+<td>
+<p>summary of the analysis. List of one object, plus as many objects as factors extracted: the bootstrapped factor scores, and the z-score statistics of the bootrstrap. The z-score statistics of interest are <code>mean</code> (the bootstrap estimate of the z-score), and <code>sd</code> (the bootstrap estimate of the SE).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>full.bts.res</code></td>
+<td>
+<p>full bootstrap results. List with as many objects as factors extracted, each object containing three data frames: <code>flagged</code>, <code>zsc</code> and <code>loa</code>. These data frames have as many columns as bootstrap steps, and contain the results of the analysis of each iteration. See description of these three data frames in <code>qmethod</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>indet.tests</code></td>
+<td>
+<p>indeterminacy tests.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>resamples</code></td>
+<td>
+<p>index of the Q-sorts selected for each step.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>orig.res</code></td>
+<td>
+<p>original results. See details of all the objects in <code>qmethod</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>q.array</code></td>
+<td>
+<p>array of values in the distribution grid.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>loa.stats</code></td>
+<td>
+<p>statistics of factor loadings. List with as many objects as factors extracted, each object containing one data frame with the factor loading statistics of the bootrstrap. The factor loading statistics of interest are <code>mean</code> (the bootstrap estimate of the factor loading), and <code>sd</code> (the bootstrap estimate of the SE). This table includes <code>flag_freq</code>, which indicates the frequency with which the given Q-sort was flagged for the given factor.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>q.array</code></td>
+<td>
+<p>array of values in the distribution grid.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fsi</code></td>
+<td>
+<p>factor stability index (optional; experimental).</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Aiora Zabala</p>
+
+
+<h3>References</h3>
+
+<p>Zabala, Pascual (2016) Bootstrapping Q Methodology to Improve the Understanding of Human Perspectives. PLoS ONE 11(2): e0148087.</p>
+
+
+<h3>See Also</h3>
+
+<p><code>qmethod</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(lipset)
+boots &lt;- qmboots(lipset[[1]], nfactors = 3, nsteps = 10, load = "auto",
+           rotation = "varimax", indet = "qindtest",
+           fsi = TRUE)
+boots
+boxplot(t(boots[[2]][[1]][[2]]), horizontal = TRUE, 
+main = "Statement z-score boxplot for the first factor", las = 1)
+
+#See the table summaries:
+qms &lt;- qmb.summary(boots)
+round(qms$statements, digits=2) # statements
+round(qms$qsorts, digits=2)     # Q-sorts
+
+# A more synthetic visualisation:
+# z-scores:
+qmb.plot(qms, nfactors=3, type="zsc", sort="difference")
+# factor loadings:
+qmb.plot(qms, nfactors=3, type="loa", sort="difference")
+
+
+</code></pre>
+
+
+</div>

@@ -1,0 +1,136 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>QF</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Positive Definite Quadratic Forms Distribution</h2>
+
+<h3>Description</h3>
+
+<p>Density function, distribution function, quantile function and random generator for positive definite QFs.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">dQF(x, obj)
+
+pQF(q, obj)
+
+qQF(p, obj, eps_quant = 1e-06, maxit_quant = 10000)
+
+rQF(n, lambdas, etas = rep(0, length(lambdas)))
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x, q</code></td>
+<td>
+<p>vector of quantiles.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>obj</code></td>
+<td>
+<p><code>MellinQF</code> object produced by the <code>compute_MellinQF</code> function.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p</code></td>
+<td>
+<p>vector of probabilities.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>eps_quant</code></td>
+<td>
+<p>relative error for quantiles.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>maxit_quant</code></td>
+<td>
+<p>maximum number of Newton-Raphson iterations allowed to compute quantiles.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p>number of observations.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lambdas</code></td>
+<td>
+<p>vector of positive weights.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>etas</code></td>
+<td>
+<p>vector of non-centrality parameters. Default all zeros.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The quadratic form CDF and PDF are evaluated by numerical inversion of the Mellin transform.
+The absolute error specified in <code>compute_MellinQF</code> is guaranteed for values of <code>q</code> and <code>x</code> inside the <code>range_q</code>.
+If the quantile is outside <code>range_q</code>, computations are carried out, but a warning is sent.
+</p>
+<p>The function uses the Newton-Raphson algorithm to compute the QF quantiles related to probabilities <code>p</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>dQF</code> provides the values of the density function at a quantile <code>x</code>.
+</p>
+<p><code>pQF</code> provides the cumulative distribution function at a quantile <code>q</code>.
+</p>
+<p><code>qQF</code> provides the quantile corresponding to a probability level <code>p</code>.
+</p>
+<p><code>rQF</code> provides a sample of <code>n</code> independent realizations from the QF.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>See <code>compute_MellinQF</code> for details on the Mellin computation.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+library(QF)
+# Definition of the QF
+lambdas_QF &lt;- c(rep(7, 6),rep(3, 2))
+etas_QF &lt;- c(rep(6, 6), rep(2, 2))
+# Computation Mellin transform
+eps &lt;- 1e-7
+rho &lt;- 0.999
+Mellin &lt;- compute_MellinQF(lambdas_QF, etas_QF, eps = eps, rho = rho)
+xs &lt;- seq(Mellin$range_q[1], Mellin$range_q[2], l = 100)
+# PDF
+ds &lt;- dQF(xs, Mellin)
+plot(xs, ds, type="l")
+# CDF
+ps &lt;- pQF(xs, Mellin)
+plot(xs, ps, type="l")
+# Quantile
+qs &lt;- qQF(ps, Mellin)
+plot(ps, qs, type="l")
+#Comparison computed quantiles vs real quantiles
+plot((qs - xs) / xs, type = "l")
+
+
+
+</code></pre>
+
+
+</div>

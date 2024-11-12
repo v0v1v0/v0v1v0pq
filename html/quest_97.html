@@ -1,0 +1,204 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>prop_test</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Test for Sample Proportion Against Pi (chi-square test of goodness of fit)</h2>
+
+<h3>Description</h3>
+
+<p><code>prop_test</code> tests for a sample proportion difference from a population
+proportion with a chi-square test of goodness of fit. The default is that the
+goodness of fit is consistent with a population proportion Pi of 0.50. The
+function also calculates the descriptive statistics, various standardized
+effect sizes (e.g., Cramer's V), and can provide the 1x2 contingency tables.
+<code>prop_test</code> is simply a wrapper for <code>prop.test</code> plus
+some extra calculations.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">prop_test(
+  x,
+  pi = 0.5,
+  yates = TRUE,
+  ci.level = 0.95,
+  rtn.table = TRUE,
+  check = TRUE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>numeric vector that only has values of 0 or 1 (or missing values),
+otherwise known as a dummy variable.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pi</code></td>
+<td>
+<p>numeric vector of length 1 specifying the population proportion
+value to compare the sample proportion against.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>yates</code></td>
+<td>
+<p>logical vector of length 1 specifying whether the Yate's
+continuity correction should be applied for small samples. See
+<code>chisq.test</code> for details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ci.level</code></td>
+<td>
+<p>numeric vector of length 1 specifying the confidence level.
+<code>ci.level</code> must range from 0 to 1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rtn.table</code></td>
+<td>
+<p>logical vector of lengh 1 specifying whether the return
+object should include the 1x2 contingency table of counts with totals and
+the 1x2 overall percentages table. If TRUE, then the last two elements of
+the return object are "count" containing a vector of counts and "percent"
+containing a vector of overall percentages.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>check</code></td>
+<td>
+<p>logical vector of length 1 specifying whether the input
+arguments should be checked for errors. For example, if <code>x</code> is a dummy
+variable that only takes on value of 0 or 1 (or missing values). This is a
+tradeoff between computational efficiency (FALSE) and more useful error
+messages (TRUE).</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>list of numeric vectors containing statistical information about the
+proportion difference from pi: 1) nhst = chi-square test of goodness of fit stat
+info in a numeric vector, 2) desc = descriptive statistics stat info in a
+numeric vector, 3) std = various standardized effect sizes in a numeric vector,
+4) count = numeric vector of length 3 with table of counts with an additional
+element for the total (if <code>rtn.table</code> = TRUE), 5) percent = numeric vector
+of length 3 with table of overall percentages with an element for the total
+(if <code>rtn.table</code> = TRUE)
+</p>
+<p>1) nhst = chi-square test of goodness of fit stat info in a numeric vector
+</p>
+
+<dl>
+<dt>est</dt>
+<dd>
+<p>proportion difference estimate (i.e., sample proportion - pi)</p>
+</dd>
+<dt>se</dt>
+<dd>
+<p>NA (to remind the user there is no standard error for the test)</p>
+</dd>
+<dt>X2</dt>
+<dd>
+<p>chi-square value</p>
+</dd>
+<dt>df</dt>
+<dd>
+<p>degrees of freedom (will always be 1)</p>
+</dd>
+<dt>p</dt>
+<dd>
+<p>two-sided p-value</p>
+</dd>
+</dl>
+<p>2) desc = descriptive statistics stat info in a numeric vector
+</p>
+
+<dl>
+<dt>prop</dt>
+<dd>
+<p>sample proportion</p>
+</dd>
+<dt>pi</dt>
+<dd>
+<p>popularion proportion provided by the user (or 0.50 by default)</p>
+</dd>
+<dt>sd</dt>
+<dd>
+<p>standard deviation</p>
+</dd>
+<dt>n</dt>
+<dd>
+<p>sample size</p>
+</dd>
+<dt>lwr</dt>
+<dd>
+<p>lower bound of the confidence interval of the sample proportion itself</p>
+</dd>
+<dt>upr</dt>
+<dd>
+<p>upper bound of the confidence interval of the sample proportion itself</p>
+</dd>
+</dl>
+<p>3) std = various standardized effect sizes in a numeric vector
+</p>
+
+<dl>
+<dt>cramer</dt>
+<dd>
+<p>Cramer's V estimate</p>
+</dd>
+<dt>h</dt>
+<dd>
+<p>Cohen's h estimate</p>
+</dd>
+</dl>
+<p>4) count = numeric vector of length 3 with table of counts with an additional
+element for the total (if <code>rtn.table</code> = TRUE). The names are 1. "0", 2.
+"1", 3. "total"
+</p>
+<p>5) percent = numeric vector of length 3 with table of overall percentages with
+an element for the total (if <code>rtn.table</code> = TRUE). The names are 1. "0", 2.
+"1", 3. "total"
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>prop.test</code> the workhorse for <code>prop_test</code>,
+<code>props_test</code> for multiple dummy variables,
+<code>prop_diff</code> for chi-square test of independence,
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+# chi-square test of goodness of fit
+table(mtcars$"am")
+prop_test(mtcars$"am")
+prop_test(ifelse(mtcars$"am" == 1, yes = 0, no = 1))
+
+# different than intercept only logistic regression
+summary(glm(am ~ 1, data = mtcars, family = binomial(link = "logit")))
+
+# error from non-dummy variable
+## Not run: 
+prop_test(ifelse(mtcars$"am" == 1, yes = "1", no = "0"))
+prop_test(ifelse(mtcars$"am" == 1, yes = 2, no = 1))
+
+## End(Not run)
+
+</code></pre>
+
+
+</div>

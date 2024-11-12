@@ -1,0 +1,234 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qqPlot</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Quantile-Quantile Plots
+</h2>
+
+<h3>Description</h3>
+
+<p>Quantile-Quantile Plots With the Ability to Draw Confidence Bands.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qqPlot(y, x = "norm", ...,
+   type = "p", xlim = NULL, ylim = NULL,
+   xlab = if(is.numeric(x)) deparse(substitute(x)) else x,
+   ylab = deparse(substitute(y)),main="Q-Q Plot",
+   col = 1, lty = 2, lwd = 1, pch = 1, cex = 0.7, plot.it = TRUE,
+   confidence = .95, qqline = c("observed","expected","none"),
+   add = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+
+<p>A numeric vector of data values.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+
+<p>Either a numeric vector of data values, or a character string naming a distribution function such as "norm".
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+
+<p>Parameters passed to the distribution specified by <code>x</code> (if non-numerical).
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>type</code></td>
+<td>
+
+<p>1-character string giving the type of plot desired.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xlim</code></td>
+<td>
+
+<p>The x limits.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ylim</code></td>
+<td>
+
+<p>The y limits.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xlab</code></td>
+<td>
+
+<p>A label for the x axis.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ylab</code></td>
+<td>
+
+<p>A label for the y axis.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>main</code></td>
+<td>
+
+<p>A main title for the plot.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>col</code></td>
+<td>
+
+<p>Color for points and lines.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lty</code></td>
+<td>
+
+<p>Line type.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lwd</code></td>
+<td>
+
+<p>Line width.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pch</code></td>
+<td>
+
+<p>Plotting character for points.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cex</code></td>
+<td>
+
+<p>Factor for expanding the size of plotted symbols.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>plot.it</code></td>
+<td>
+
+<p>Whether or not to draw a plot. if plotting, points outside the confidence bands will be indicated by different a color.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>confidence</code></td>
+<td>
+
+<p>Confidence level for the confidence band, or <code>FALSE</code> for no band.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qqline</code></td>
+<td>
+
+<p>Whether or not to draw a reference line. if "observed", the line passes through the first and third observed quartiles; if "expected", the point (x,y) is expected to fall on the line if x and y follow the same distribution; if "none", no reference line is drawn.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>add</code></td>
+<td>
+
+<p>Add to an existing plot if true.
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>If <code>x</code> is numeric, a two-sample test of the null hypothesis that <code>x</code> and <code>y</code> were drawn from the same continuous distribution is performed. Alternatively, <code>x</code> can be a character string naming a continuous distribution function. In such a case, a one-sample test is carried out of the null that <code>y</code> was draw from distribution <code>x</code> with parameters specified by "...".
+</p>
+
+
+<h3>Value</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>Quantiles of <code>x</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>Quantiles of <code>y</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lower, upper</code></td>
+<td>
+<p>Lower and upper limits if <code>confidence</code> is specified</p>
+</td>
+</tr>
+</table>
+<h3>References</h3>
+
+<p>George Marsaglia, Wai Wan Tsang and Jingbo Wang (2003), Evaluating Kolmogorov's distribution. Journal of Statistical Software 8 (18): 1-4.
+</p>
+<p>Vijayan N. Nair (1982). Q-Q plots with confidence bands for comparing several populations.
+</p>
+<p>William J. Conover (1971). Practical Nonparametric Statistics. New York: John Wiley &amp; Sons.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>ks.test</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+par(mfrow=c(1,2))
+x&lt;- rnorm(200, mean=0.7,sd=2); y&lt;- rnorm(200, sd=2)
+qqPlot(y,x,qqline="exp")
+qqPlot(y=y,x="norm",sd=2)
+ks.test(x,y)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

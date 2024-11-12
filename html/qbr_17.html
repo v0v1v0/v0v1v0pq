@@ -1,0 +1,155 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>query_records</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Query for data</h2>
+
+<h3>Description</h3>
+
+<p>Get tabular data from a Quickbase table using a query.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">query_records(
+  subdomain,
+  auth,
+  from,
+  select = as.numeric(),
+  where = NULL,
+  group_by = NULL,
+  sort_by = NULL,
+  agent = NULL,
+  skip = 0,
+  top = 0,
+  local_time = FALSE,
+  type_suffix = FALSE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>subdomain</code></td>
+<td>
+<p>Character vector with one element. Found at the beginning of
+the Quickbase URL. Realm specific.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>auth</code></td>
+<td>
+<p>Character vector with one element. The Quickbase authentication
+scheme you are using to authenticate the request (e.g., user token).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>from</code></td>
+<td>
+<p>Character vector with one element. Table identifier.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>select</code></td>
+<td>
+<p>Optional. Numeric vector containing field identifiers for
+columns to return. If omitted, the default columns for the table will be
+returned.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>where</code></td>
+<td>
+<p>Optional. Character vector with one element. Use the Quickbase
+query language to set criteria for records to returned.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>group_by</code></td>
+<td>
+<p>Optional. Nested named list with 'fieldId' and 'grouping'
+pairs for each field to group by.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sort_by</code></td>
+<td>
+<p>Optional. Nested named list with 'fieldId' and sort 'order'
+pairs for each field to sort by. See
+<a href="https://developer.quickbase.com/operation/runQuery">Quickbase JSON
+API documentation</a> for details on sort order configuration.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>agent</code></td>
+<td>
+<p>Optional. Character vector with one element. Describes
+user/agent making API call.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>skip</code></td>
+<td>
+<p>Optional. Integer. The number of rows to skip from the top of a
+record set.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>top</code></td>
+<td>
+<p>Optional. Integer. The limit on the number of records to pull
+starting at the top of a record set.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>local_time</code></td>
+<td>
+<p>Logical. When true, date time fields are returned using
+app's local time. When false, date time fields are returned using UTC time.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>type_suffix</code></td>
+<td>
+<p>Optional. Logical. Set TRUE to append each field label
+with its Quickbase data type.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A tibble.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+
+   # Get all data matching query specification
+   my_tibble &lt;- query_records(subdomain = "abc",
+       auth = keyring::key_get("qb_example"),
+       from = "bn9d8iesz",
+       select = c(3, 6:9),
+       where = "{8.EX.'6-month'}")
+
+   # Query data, group, then sort it
+   my_tibble &lt;- query_records(subdomain = "bhi",
+       auth = keyring::key_get("qb_example"),
+       from = "bn9d8iesz",
+       select = c(3, 8:12),
+       sort_by = list(list(fieldId = 12, order = "ASC"),
+                      list(fieldId = 3, order = "DESC")),
+       group_by = list(list(fieldId = 4, grouping = "equal-values"),
+                       list(fieldId = 9, grouping = "equal-values")))
+
+## End(Not run)
+</code></pre>
+
+
+</div>

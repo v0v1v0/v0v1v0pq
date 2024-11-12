@@ -1,0 +1,288 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>mcqrnn</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Monotone composite quantile regression neural network (MCQRNN) for simultaneous estimation of multiple non-crossing quantiles
+</h2>
+
+<h3>Description</h3>
+
+<p>High level wrapper functions for fitting and making predictions from a
+monotone composite quantile regression neural network (MCQRNN) model for
+multiple non-crossing regression quantiles (Cannon, 2018).
+</p>
+<p>Uses <code>composite.stack</code> and monotonicity constraints in
+<code>qrnn.fit</code> or <code>qrnn2.fit</code> to fit MCQRNN models with
+one or two hidden layers. Note: <code>Th</code> must be a non-decreasing
+function to guarantee non-crossing.
+</p>
+<p>Following Tagasovska and Lopez-Paz (2019), it is also possible to estimate the
+full quantile regression process by specifying a single integer value for 
+<code>tau</code>. In this case, tau is the number of random samples used in the
+stochastic estimation. It may be necessary to restart the optimization multiple
+times from the previous weights and biases, in which case <code>init.range</code> can
+be set to the weights values from the previously completed optimization run.
+For large datasets, it is recommended that the <code>adam</code> method with an
+appropriate <code>minibatch</code> size be used for optimization.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">mcqrnn.fit(x, y, n.hidden=2, n.hidden2=NULL, w=NULL,
+           tau=c(0.1, 0.5, 0.9), iter.max=5000, n.trials=5,
+           lower=-Inf, init.range=c(-0.5, 0.5, -0.5, 0.5, -0.5, 0.5),
+           monotone=NULL, eps.seq=2^seq(-8, -32, by=-4), Th=sigmoid,
+           Th.prime=sigmoid.prime, penalty=0, n.errors.max=10,
+           trace=TRUE, method=c("nlm", "adam"), scale.y=TRUE, ...)
+mcqrnn.predict(x, parms, tau=NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+
+<p>covariate matrix with number of rows equal to the number of samples and number of columns equal to the number of variables.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+
+<p>response column matrix with number of rows equal to the number of samples.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n.hidden</code></td>
+<td>
+
+<p>number of hidden nodes in the first hidden layer.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n.hidden2</code></td>
+<td>
+
+<p>number of hidden nodes in the second hidden layer; <code>NULL</code> fits a model with a single hidden layer.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>w</code></td>
+<td>
+
+<p>if <code>tau</code> specifies a finite number of tau-quantiles, a vector of weights with length equal to the number of samples
+times the length of <code>tau</code>; see <code>composite.stack</code>. Otherwise, a vector of weights with length equal to the
+number of samples. <code>NULL</code> gives equal weight to each sample. 
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tau</code></td>
+<td>
+
+<p>desired tau-quantiles; <code>NULL</code> in <code>mcqrnn.predict</code> uses values from the original call to <code>mcqrnn.fit</code>.
+If <code>tau</code> is an integer, specifies the number of random samples used for stochastic estimation of the full quantile
+regression process.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>iter.max</code></td>
+<td>
+
+<p>maximum number of iterations of the optimization algorithm.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n.trials</code></td>
+<td>
+
+<p>number of repeated trials used to avoid local minima.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lower</code></td>
+<td>
+
+<p>left censoring point.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>init.range</code></td>
+<td>
+
+<p>initial weight range for input-hidden, hidden-hidden, and hidden-output weight matrices. If supplied with a list
+of weight matrices from a prior run of <code>mcqrnn.fit</code>, will restart model fitting with these values. 
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>monotone</code></td>
+<td>
+
+<p>column indices of covariates for which the monotonicity constraint should hold.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>eps.seq</code></td>
+<td>
+
+<p>sequence of <code>eps</code> values for the finite smoothing algorithm.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Th</code></td>
+<td>
+
+<p>hidden layer transfer function; use <code>sigmoid</code>, <code>elu</code>, <code>relu</code>,
+<code>lrelu</code>, <code>softplus</code>, or other non-decreasing function.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Th.prime</code></td>
+<td>
+
+<p>derivative of the hidden layer transfer function <code>Th</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>penalty</code></td>
+<td>
+
+<p>weight penalty for weight decay regularization.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n.errors.max</code></td>
+<td>
+
+<p>maximum number of <code>nlm</code> optimization failures allowed before quitting.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>trace</code></td>
+<td>
+
+<p>logical variable indicating whether or not diagnostic messages are printed during optimization.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+
+<p>character string indicating which optimization algorithm to use when <code>n.hidden2 != NULL</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>scale.y</code></td>
+<td>
+
+<p>logical variable indicating whether <code>y</code> should be scaled to zero mean and unit standard deviation.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+
+<p>additional parameters passed to the <code>nlm</code> or <code>adam</code> optimization routines.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>parms</code></td>
+<td>
+
+<p>list containing MCQRNN weight matrices and other parameters.
+</p>
+</td>
+</tr>
+</table>
+<h3>References</h3>
+
+<p>Cannon, A.J., 2011. Quantile regression neural networks: implementation
+in R and application to precipitation downscaling. Computers &amp; Geosciences,
+37: 1277-1284. doi:10.1016/j.cageo.2010.07.005
+</p>
+<p>Cannon, A.J., 2018. Non-crossing nonlinear regression quantiles by
+monotone composite quantile regression neural network, with application
+to rainfall extremes. Stochastic Environmental Research and Risk Assessment,
+32(11): 3207-3225. doi:10.1007/s00477-018-1573-6
+</p>
+<p>Tagasovska, N., D. Lopez-Paz, 2019. Single-model uncertainties for deep
+learning. Advances in Neural Information Processing Systems, 32,
+NeurIPS 2019. doi:10.48550/arXiv.1811.00908
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>composite.stack</code>, <code>qrnn.fit</code>,
+<code>qrnn2.fit</code>, <code>qrnn.predict</code>,
+<code>qrnn2.predict</code>, <code>adam</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">x &lt;- as.matrix(iris[,"Petal.Length",drop=FALSE])
+y &lt;- as.matrix(iris[,"Petal.Width",drop=FALSE])
+
+cases &lt;- order(x)
+x &lt;- x[cases,,drop=FALSE]
+y &lt;- y[cases,,drop=FALSE]
+
+set.seed(1)
+
+## MCQRNN model w/ 2 hidden layers for simultaneous estimation of
+## multiple non-crossing quantile functions
+fit.mcqrnn &lt;- mcqrnn.fit(x, y, tau=seq(0.1, 0.9, by=0.1),
+                         n.hidden=2, n.hidden2=2, n.trials=1,
+                         iter.max=500)
+pred.mcqrnn &lt;- mcqrnn.predict(x, fit.mcqrnn)
+
+## Estimate the full quantile regression process by specifying
+## the number of samples/random values of tau used in training
+
+fit.full &lt;- mcqrnn.fit(x, y, tau=1000L, n.hidden=3, n.hidden2=3,
+                       n.trials=1, iter.max=300, eps.seq=1e-6,
+                       method="adam", minibatch=64, print.level=100)
+# Show how to initialize from previous weights
+fit.full &lt;- mcqrnn.fit(x, y, tau=1000L, n.hidden=3, n.hidden2=3,
+                       n.trials=1, iter.max=300, eps.seq=1e-6,
+                       method="adam", minibatch=64, print.level=100,
+                       init.range=fit.full$weights)
+pred.full &lt;- mcqrnn.predict(x, fit.full, tau=seq(0.1, 0.9, by=0.1))
+
+par(mfrow=c(1, 2))
+matplot(x, pred.mcqrnn, col="blue", type="l")
+points(x, y)
+matplot(x, pred.full, col="blue", type="l")
+points(x, y)
+
+</code></pre>
+
+
+</div>

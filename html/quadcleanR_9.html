@@ -1,0 +1,83 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>cover_calc</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Calculate species cover</h2>
+
+<h3>Description</h3>
+
+<p>Convert the number of observations for each species or non-species
+to proportion or percent cover within each row based on the total number
+of observations in each row. Useful for quadrats with varying numbers of
+observations to calculate each row's percent cover all at once.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">cover_calc(data, spp, prop = TRUE, total = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>A data frame with each row representing a sampling unit (ex. a
+quadrat or photo).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>spp</code></td>
+<td>
+<p>The column names containing all observations to be used in the
+proportion calculation. It is important to note that the proportions
+will be scaled to the total observations in these columns for each quadrat.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>prop</code></td>
+<td>
+<p>If <code>prop = TRUE</code>, the resulting cover will be proportions. If
+<code>prop = FALSE</code>, the resulting cover will be in percentages.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>total</code></td>
+<td>
+<p>If <code>total = TRUE</code>, a column containing the total number of observations
+at each sampling unit will be returned in a new column called <code>total_pts</code>. This will
+not be returned if <code>total = FALSE</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A data frame containing scaled observation cover.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">#create data set for example
+Sites &lt;- as.factor(c("One", "One", "Two", "Two", "Three", "Three"))
+Transect &lt;- as.factor(c("1-Shallow", "2-Shallow", "1-Shallow", "2-Shallow",
+    "1-Shallow", "2-Shallow"))
+Acropora.sp &lt;- c(1, 2, 3, 4, 5, 6)
+Gardineroseris.sp &lt;- c(6, 1, 2, 3, 4, 5)
+Psammocora.sp &lt;- c(5, 6, 1, 2, 3, 4)
+Leptastrea.sp &lt;- c(4, 5, 6, 1, 2, 3)
+coral_cover &lt;- data.frame(Sites, Transect, Acropora.sp, Gardineroseris.sp,
+                          Psammocora.sp, Leptastrea.sp)
+
+cover_calc(data = coral_cover, spp = names(coral_cover[3:6]), prop = TRUE, total = TRUE)
+
+cover_calc(data = coral_cover, spp = names(coral_cover[3:6]), prop = FALSE, total = FALSE)
+</code></pre>
+
+
+</div>

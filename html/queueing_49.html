@@ -1,0 +1,70 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>L.o_MM1KK</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Returns the mean number of customers in the M/M/1/K/K queueing model</h2>
+
+<h3>Description</h3>
+
+<p>Returns the mean number of customers in the M/M/1/K/K queueing model
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">  ## S3 method for class 'o_MM1KK'
+L(x, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a object of class o_MM1KK</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>aditional arguments</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Returns the mean number of customers in the M/M/1/K/K queueing model</p>
+
+
+<h3>References</h3>
+
+<p>[Sixto2004] Sixto Rios Insua, Alfonso Mateos Caballero, M Concepcion Bielza Lozoya, Antonio Jimenez Martin (2004).<br><em>Investigacion Operativa. Modelos deterministicos y estocasticos</em>.<br>
+Editorial Centro de Estudios Ramon Areces.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>QueueingModel.i_MM1K</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## See example 10.13 in reference [Sixto2004] for more details.
+## create input parameters
+i_mm1kk &lt;- NewInput.MM1KK(lambda=0.25, mu=4, k=2, method=3)
+
+## Build the model
+o_mm1kk &lt;- QueueingModel(i_mm1kk)
+
+## Returns the L
+L(o_mm1kk)
+</code></pre>
+
+
+</div>

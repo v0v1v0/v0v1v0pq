@@ -1,0 +1,146 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>getTDS</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Lookup Townsend Deprivation Scores from UK Postcodes</h2>
+
+<h3>Description</h3>
+
+<p>Convenient function to look up Townsend deprivation scores using UK postcodes, postcode prefixes, postcode suffixes or a regular expression.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">getTDS(postcode, type = "full", squash = ifelse(type != "regex", FALSE, TRUE))
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>postcode</code></td>
+<td>
+<p>A vector of UK postcodes, postcode prefixes, postcode suffixes, or a regular expression.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>type</code></td>
+<td>
+<p>A character string indicating the term provided in the <code>postcode</code> parameter. Possible values are:</p>
+</td>
+</tr>
+</table>
+<ul>
+<li> <p><code>"full"</code> — a full five–seven character postcode.
+</p>
+</li>
+<li> <p><code>"prefix"</code> — a two–four character postcode prefix.
+</p>
+</li>
+<li> <p><code>"suffix"</code> — a three character postcode suffix.
+</p>
+</li>
+<li> <p><code>"regex"</code> — a regular expression, allowing any nature of postcode match.
+</p>
+</li>
+</ul>
+<table><tr style="vertical-align: top;">
+<td><code>squash</code></td>
+<td>
+<p>a logical parameter indicating whether the scores returned should be aggregated into a single median value.</p>
+</td>
+</tr></table>
+<h3>Details</h3>
+
+<p><code>getTDS</code> is a lookup function that queries a dataset of postcodes and Townsend deprivation scores.
+This dataset was created by joining a dataset of postcodes to a dataset of Townsend deprivation scores, via output area codes.
+Both data sets are made available by the Office for National Statistics under the <a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/">Open Government License</a>.
+The postcode dataset was last updated in February 2019, while the dataset of Townsend deprivation scores uses values obtained from the 2011 UK census (matching the Townsend deprivation score dates used by ClinRisk in the derivation of the QDiabetes-2018 algorithms).
+</p>
+
+
+<h3>Value</h3>
+
+<p>Townsend Deprivation Score.
+</p>
+<p>Where <code>type</code> is not set to <code>"regex"</code>, the length and nature of the value returned are governed by the <code>type</code> and <code>squash</code> parameters:
+</p>
+
+<ul>
+<li>
+<p> When <code>squash</code> is set to <code>FALSE</code> (the default value) an output vector will be returned that is of equal length to the input vector. When <code>squash</code> is set to <code>TRUE</code> a numeric output of length one will be returned, comprising the median Townsend deprivation score from all matched postcodes.
+</p>
+</li>
+<li>
+<p> As each postcode is only associated with a single output area, when <code>type</code> is set to <code>"full"</code> and <code>squash</code> is set to <code>FALSE</code> the Townsend deprivation scores returned will be the exact values associated with each linked output area.
+</p>
+</li>
+<li>
+<p> As each postcode prefix or suffix may be associated with multiple output areas, when <code>squash</code> is set to <code>FALSE</code> and <code>type</code> is set to <code>"prefix"</code> or <code>"suffix"</code> the median Townsend deprivation score per prefix/suffix will be returned.
+</p>
+</li>
+</ul>
+<h3>Note</h3>
+
+<p>PO Box codes have no associated Townsend deprivation scores and will not work as function inputs.
+No Northern Ireland postcodes are present in the database searched by <code>getTDS</code> as their use is governed by a separate, more restrictive license.
+</p>
+
+<ul>
+<li>
+<p> Contains OS data (C) Crown copyright and database right 2020
+</p>
+</li>
+<li>
+<p> Contains Royal Mail data (C) Royal Mail copyright and database right 2020
+</p>
+</li>
+<li>
+<p> Source: Office for National Statistics licensed under the Open Government Licence v.3.0
+</p>
+</li>
+</ul>
+<h3>Author(s)</h3>
+
+<p>Benjamin G. Feakins <a href="mailto:benjamin.feakins@ndph.ox.ac.uk">benjamin.feakins@ndph.ox.ac.uk</a></p>
+
+
+<h3>Source</h3>
+
+<p>UK Postcode-to-output-area data were obtained <a href="http://geoportal1-ons.opendata.arcgis.com/datasets/postcode-to-output-area-to-lower-layer-super-output-area-to-middle-layer-super-output-area-to-local-authority-district-february-2019-lookup-in-the-uk">here</a> from the Office for National Statistics.
+</p>
+<p>Output-area-to-Townsend-deprivation-scores data were obtained <a href="https://www.statistics.digitalresources.jisc.ac.uk/dataset/2011-uk-townsend-deprivation-scores">here</a> from the Office for National Statistics.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Simple usage
+getTDS(postcode = "OX2 6GG")
+getTDS(postcode = c("OX2 6NW", "OX3 7LF"))
+
+## Case &amp; white space insensitive
+getTDS(postcode = c("OX37LF", "OX3 7LF", "ox37lf", "ox3 7lf"))
+
+## Median Townsend Deprivaton Score per Postcode Prefix ##
+getTDS(postcode = paste0("OX", 1:9), type = "prefix")
+
+## Median Overall Townsend Deprivation Score for a Set of Prefixes ##
+getTDS(postcode = paste0("OX", 1:9), type = "prefix", squash = TRUE)
+
+## Median Townsend Deprivaton Score per Postcode Suffix ##
+getTDS(postcode = paste0(1:9, "AA"), type = "suffix")
+
+## Median Overall Townsend Deprivation Score for a Set of Prefixes ##
+getTDS(postcode = paste0(1:9, "AA"), type = "suffix", squash = TRUE)
+
+## Median Overall Townsend Deprivation Score for Postcodes Matching a Regular Expression ##
+getTDS(postcode = "^OX37[A-Z]{2}$", type = "regex")
+</code></pre>
+
+
+</div>

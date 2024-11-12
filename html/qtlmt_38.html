@@ -1,0 +1,99 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>misFct</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Miscellaneous functions
+</h2>
+
+<h3>Description</h3>
+
+<p>Functions that may be useful.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R"># create 'mpos' and 'dists'
+gv2mpos(gmap,v)
+
+# extract 'xid' on chromosome 'k'
+xid1ch(mpos,v,k)
+
+# extract covariate effects of a mtcmim object 'object'
+xeff(a,xid)
+
+# extract QTL effect from a mtcmim object 'object'
+qeff(object)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>gmap</code></td>
+<td>
+
+<p>a genetic map, which is a data frame (chr=chromosome id, dist=genetic distance (cM) on the chromosome,...). The chromosome id should be an integer.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>v</code></td>
+<td>
+
+<p>a list; v[[j]] indicates which x's in the model for y[,j].
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mpos</code></td>
+<td>
+
+<p>a data frame (id=marker index, ch=chromosome id, m=marker index on the chromosome, dist=genetic position in cM on the chromosome). Chromosome id should be an integer.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>k</code></td>
+<td>
+
+<p>which chromosome?
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>a</code></td>
+<td>
+
+<p>covariate effects of an <code>mtcmim</code> object.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xid</code></td>
+<td>
+
+<p>a list of length p, xid[[j]] specifies columns of x as covariates for y[,j] .
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+
+<p>an <code>mtcmim</code> object.
+</p>
+</td>
+</tr>
+</table>
+<h3>See Also</h3>
+
+<p><code>mtcmim</code> and <code>sureEst</code>.
+</p>
+
+
+</div>

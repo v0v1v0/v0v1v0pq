@@ -1,0 +1,64 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>interpol</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Interpolate Concentrations</h2>
+
+<h3>Description</h3>
+
+<p>Interpolates concentrations.
+Used by correct.xx functions to interpolate concentrations.
+Uses linear interpolation unless method is 2 (log down), c1 &gt; c2,
+and both concentrations are non-zero.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">interpol(c1 = NA, c2 = NA, t1 = NA, t2 = NA, t3 = NA, method = 1)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>c1</code></td>
+<td>
+<p>concentration 1 lagconc</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>c2</code></td>
+<td>
+<p>concentration 2 leadconc</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>t1</code></td>
+<td>
+<p>time 1 tiem where conc should be calculated</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>t2</code></td>
+<td>
+<p>time 2 lagtime</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>t3</code></td>
+<td>
+<p>time 3 leadtime</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+<p>calculation method (1, 2, or 3)</p>
+</td>
+</tr>
+</table>
+</div>

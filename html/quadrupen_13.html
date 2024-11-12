@@ -1,0 +1,163 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>plot,stability.path-method</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Plot method for <code>stability.path</code>.</h2>
+
+<h3>Description</h3>
+
+<p>Produce a plot of the stability path obtained by stability
+selection.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">\S4method{plot}{stability.path}(x, y, xvar = "lambda", annot=TRUE,
+         main = paste("Stability path for ", slot(x, "penalty")," regularizer", sep=""),
+         log.scale = TRUE,  labels = rep("unknown status",p), plot = TRUE,
+         sel.mode = c("rank","PFER"), cutoff=0.75, PFER=2, nvar=floor(n/log(p)), ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>output of a <code>stability</code> run (must be of class
+<code>stability.path</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>used for S4 compatibility.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xvar</code></td>
+<td>
+<p>variable to plot on the X-axis: either <code>"lambda"</code>
+(first penalty level) or <code>"fraction"</code> (fraction of the
+penalty level applied tune by <code class="reqn">\lambda_1</code>). Default
+is <code>"lambda"</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>annot</code></td>
+<td>
+<p>logical; should annotation be made on the graph
+regarding controlled PFER (only relevant when <code>sel.mode</code>
+equals <code>'PFER'</code>)? Default is <code>TRUE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>main</code></td>
+<td>
+<p>main title. If none given, a somewhat appropriate
+title is automatically generated.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>log.scale</code></td>
+<td>
+<p>logical; indicates if a log-scale should be used
+when <code>xvar="lambda"</code>. Default is <code>TRUE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>labels</code></td>
+<td>
+<p>an optional vector of labels for each variable in
+the path (e.g., 'relevant'/'irrelevant'). See examples.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>plot</code></td>
+<td>
+<p>logical; indicates if the graph should be
+plotted. Default is <code>TRUE</code>. If <code>FALSE</code>, only the
+<span class="pkg">ggplot2</span> object is sent back.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sel.mode</code></td>
+<td>
+<p>a character string, either <code>'rank'</code> or
+<code>'PFER'</code>. In the first case, the selection is based on the
+rank of total probabilities by variables along the path: the first
+<code>nvar</code> variables are selected (see below). In the second
+case, the PFER control is used as described in Meinshausen and
+Buhlmannn's paper. Default is <code>'rank'</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cutoff</code></td>
+<td>
+<p>value of the cutoff probability (only relevant when
+<code>sel.mode</code> equals <code>'PFER'</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>PFER</code></td>
+<td>
+<p>value of the per-family error rate to control (only
+relevant when <code>sel.mode</code> equals <code>'PFER'</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nvar</code></td>
+<td>
+<p>number of variables selected (only relevant when
+<code>sel.mode</code> equals <code>'rank'</code>. Default is <code>floor(n/log(p))</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>used for S4 compatibility.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>a list with a <span class="pkg">ggplot2</span> object which can be plotted
+via the <code>print</code> method, and a vector of selected variables
+corresponding to method of choice (<code>'rank'</code> or
+<code>'PFER'</code>)
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Simulating multivariate Gaussian with blockwise correlation
+## and piecewise constant vector of parameters
+beta &lt;- rep(c(0,1,0,-1,0), c(25,10,25,10,25))
+Soo  &lt;- matrix(0.75,25,25) ## bloc correlation between zero variables
+Sww  &lt;- matrix(0.75,10,10) ## bloc correlation between active variables
+Sigma &lt;- bdiag(Soo,Sww,Soo,Sww,Soo) + 0.2
+diag(Sigma) &lt;- 1
+n &lt;- 100
+x &lt;- as.matrix(matrix(rnorm(95*n),n,95) %*% chol(Sigma))
+y &lt;- 10 + x %*% beta + rnorm(n,0,10)
+
+## Build a vector of label for true nonzeros
+labels &lt;- rep("irrelevant", length(beta))
+labels[beta != 0] &lt;- c("relevant")
+labels &lt;- factor(labels, ordered=TRUE, levels=c("relevant","irrelevant"))
+
+## Call to stability selection function, 200 subsampling
+stab &lt;- stability(x,y, subsamples=200, lambda2=1, min.ratio=1e-2)
+
+## Build the plot an recover the selected variable
+plot(stab, labels=labels)
+plot(stab, xvar="fraction", labels=labels, sel.mode="PFER", cutoff=0.75, PFER=2)
+
+</code></pre>
+
+
+</div>

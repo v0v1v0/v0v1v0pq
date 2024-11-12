@@ -1,0 +1,117 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>createCutoffsDF</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Create Cutoffs Dataframe</h2>
+
+<h3>Description</h3>
+
+<p><code>createCutoffsDF</code> is an internal function, which creates a dataframe with
+identical cutoff values for all ZIP codes (if <code>type = "unadj"</code>), or
+quantile cutoffs in a ZIP code (if <code>type = "perc"</code> or <code>type =
+"perc.resolve.ties"</code>). This function is called extensively by the
+<code>findCutoffs</code> function.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">createCutoffsDF(X, z, gamma, type)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>X</code></td>
+<td>
+<p>Numeric matrix of size <code>n</code> x <code>p</code>, where <code>n</code> is the
+number is restaurants to be graded and <code>p</code> is the number of inspections
+to be used in grade assignment.  Entry  <code>X[i,j]</code> represents the
+inspection score for the <code>i</code>th restaurant in the <code>j</code>th most recent
+inspection.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>z</code></td>
+<td>
+<p>Character vector of length <code>n</code> representing ZIP codes (or other
+subunits within a jurisdiction).  <code>z[i]</code> is the ZIP code corresponding
+to the restaurant with inspection scores in row <code>i</code> of <code>X</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gamma</code></td>
+<td>
+<p>Numeric vector representing absolute grade cutoffs or quantiles,
+depending on <code>type</code> variable value. Entries in gamma should be
+increasing, with <code>gamma[1] &lt;= gamma[2]</code> etc (this is related to the
+"Warning" section and larger scores being associated with higher risk). If
+<code>type = "perc"</code> or <code>type = "perc.resolve.ties"</code>, gamma values
+represent quantiles and should take on values between 0 and 1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>type</code></td>
+<td>
+<p>Character string that is one of <code>"unadj"</code>,
+<code>"perc"</code>, or <code>"perc.resolve.ties"</code>, and that indicates the grading
+algorithm to be implemented.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p><code>createCutoffsDF</code> takes in a matrix of restaurants' scores and a vector
+corresponding to restaurants' ZIP codes, and outputs a data frame of cutoff
+scores to be used in grade classification. The returned ZIP code cutoff data
+frame has one row for each unique ZIP code and has <code>(length(gamma)+1)</code>
+columns, corresponding to one column for the ZIP code name, and
+<code>(length(gamma))</code> cutoff scores separating the <code>(length(gamma)+1)</code>
+grading categories.  Across each ZIP code's row, cutoff scores increase and we
+assume, as in the King County (WA) case, that greater risk is associated with
+larger inspection scores. (If scores are decreasing in risk, users should
+transform inspection scores before utilizing functions in the
+<code>QuantileGradeR</code> package with a simple function such as <code>f(score) =
+- score</code>.)
+</p>
+<p>The way in which cutoff scores are calculated for each ZIP code depends on the
+value of the <code>type</code> variable.  The <code>type</code> variable can take one of
+three values (see later).
+</p>
+
+
+<h3>Modes</h3>
+
+<p><code>type = "unadj"</code> creates a ZIP code cutoff data frame
+with the same cutoff scores (meaningful values in a jurisdiction's
+inspection system that are contained in the vector <code>gamma</code>) for all ZIP
+codes. This ZIP code data frame can then be used to carry out "unadjusted"
+grading, in which a restaurant's most recent routine inspection score is
+compared to these cutoffs.
+</p>
+<p><code>type = "perc"</code> takes in a vector of quantiles,
+<code>gamma</code>, and returns a data frame of the scores in each ZIP code
+corresponding to these quantiles (using the "Nearest Rank" definition of
+quantile).
+</p>
+<p><code>type = "perc.resolve.ties"</code> takes in a vector of
+quantiles, <code>gamma</code>, and instead of returning (for B/C cutoffs, for
+example) the scores in each ZIP code that result in <em>at least</em>
+(<code>gamma[2]</code> x 100)% of restaurants in the ZIP code scoring less than
+or equal to these cutoffs, <code>type = "perc.resolve.ties"</code> takes into
+account the fact that ties exist in ZIP codes. Returned scores for A/B
+cutoffs are those that result in the <em>closest</em> percentage of
+restaurants in the ZIP code scoring less than or equal to the A/B cutoff to
+the desired percentage, (<code>gamma[1]</code> x 100)%. Similarly, B/C cutoffs
+are the scores in the ZIP code that result in the <em>closest</em> percentage
+of restaurants in the ZIP code scoring less than or equal to the B/C cutoff
+and more than the A/B cutoff to the desired percentage, (<code>(gamma[2] -
+ gamma[1])</code> x 100)%.
+</p>
+
+
+</div>

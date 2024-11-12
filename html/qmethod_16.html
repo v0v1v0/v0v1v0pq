@@ -1,0 +1,86 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>make.distribution</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Q methodology: create Q normal distribution</h2>
+
+<h3>Description</h3>
+
+<p>Creates a distribution close to a standard normal distribution given a number of statements and a maximum Q sort rank.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">  make.distribution(
+  	nstat,
+  	max.bin = 5
+  )
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>nstat</code></td>
+<td>
+
+<p>Number of desired statements in a Q sample for a given study.
+Must be a positive integer, vector of length 1.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>max.bin</code></td>
+<td>
+
+<p>Maximum positive value to be entered by participants.
+Must be a positive integer, vector of length 1.
+Defaults to frequent value <code>5</code>.
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Participants in Q studies are frequently asked to sort Q items under a quasi-normal distribution.
+This function generates such a Q distribution, given a number of statements <code>nstat</code> and a desired maximum positive value <code>max.bin</code> in the Q distribution.
+</p>
+<p>The function always returns an <em>uneven</em> number of columns, ensuring that there is always a modal column at the zero mark.
+</p>
+<p>Not every combination of <code>nstat</code> and <code>max.bin</code> can be neatly fit under a standard normal distribution, in which case the function returns a vector of unequal length to the specified <code>nstat</code>.
+The function will issue a warning in that case.
+Researchers can either accept the different <code>nstat</code>, or try again with a different <code>max.bin</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns a vector of positive integers (column heights), of the length <code>max.column * 2 + 1</code>.
+An object of this kind is expected in <code>import.q.sorts</code>, <code>build.q.set</code> and other convenience functions.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Maximilian Held</p>
+
+
+<h3>See Also</h3>
+
+<p><code>build.q.set</code>,
+<code>import.q.sorts</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">  ## Make Q distribution
+  make.distribution(nstat=76, max.bin=7)
+</code></pre>
+
+
+</div>

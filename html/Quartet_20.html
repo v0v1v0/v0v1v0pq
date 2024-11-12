@@ -1,0 +1,156 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>CompareQuartetsMulti</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Compare one tree's quartets against others'</h2>
+
+<h3>Description</h3>
+
+<p><code>CompareQuartetsMulti()</code> counts how many quartets in one tree are resolved
+in the same way or different ways in a forest of comparison trees.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">CompareQuartetsMulti(x, cf)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>Object of class <code>phylo</code> representing the tree of interest.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cf</code></td>
+<td>
+<p>Comparison tree of class <code>phylo</code>, or list thereof, each with the
+same leaves as <code>x</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p><code>CompareQuartetsMulti()</code> explicitly evaluates each quartet in each tree.
+As such its runtime will increase hyper-exponentially with the number of
+leaves in trees being compared.  30 leaves will take around 5 seconds;
+40 closer to 20 s, and 50 around a minute.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>CompareQuartetsMulti()</code> returns a named integer vector specifying
+the number of quartets whose resolution in <code>x</code> matches all or any of the
+resolutions in <code>cf</code>.
+</p>
+<p>Named elements are:
+</p>
+
+<dl>
+<dt>N</dt>
+<dd>
+<p>The total number of quartet <em>statements</em> for the given number of
+<em>n</em>-leaf trees, i.e. <em>n_trees</em> × <em>Q</em>.</p>
+</dd>
+<dt>Q</dt>
+<dd>
+<p>The total number of quartets for <em>n</em> leaves.</p>
+</dd>
+<dt>s_all</dt>
+<dd>
+<p>The number of quartets that are resolved identically in all
+trees.</p>
+</dd>
+<dt>s_any</dt>
+<dd>
+<p>The number of quartets that are resolved in <code>x</code>, and
+identically in at least one of <code>cf</code>.</p>
+</dd>
+<dt>d_all</dt>
+<dd>
+<p>The number of quartets that are resolved in every tree in
+<code>cf</code>, but never in the same way as they are resolved in in <code>x</code>.</p>
+</dd>
+<dt>d_any</dt>
+<dd>
+<p>The number of quartets in <code>x</code> that are resolved differently
+(i.e. contradicted) in at least one tree in <code>cf</code>.</p>
+</dd>
+<dt>r1_all</dt>
+<dd>
+<p>The number of quartets that are resolved in <code>x</code>, but not in
+any of <code>cf</code>.</p>
+</dd>
+<dt>r1_any</dt>
+<dd>
+<p>The number of quartets that are resolved in <code>x</code>, but
+unresolved in at least one of <code>cf</code>.</p>
+</dd>
+<dt>r2_all</dt>
+<dd>
+<p>The number of quartets that are resolved in all of <code>cf</code>,
+but not in <code>x</code>.</p>
+</dd>
+<dt>r2_any</dt>
+<dd>
+<p>The number of quartets that are resolved in at least one of <code>cf</code>,
+but not in <code>x</code>.</p>
+</dd>
+<dt>u_all</dt>
+<dd>
+<p>The number of quartets that are unresolved in all trees.</p>
+</dd>
+<dt>u_any</dt>
+<dd>
+<p>The number of quartets that are unresolved in <code>x</code> and
+at least one tree in <code>cf</code>.</p>
+</dd>
+<dt>x_only</dt>
+<dd>
+<p>The number of quartets in <code>x</code> that are not resolved the
+same way in any of <code>cf</code>.</p>
+</dd>
+</dl>
+<h3>Author(s)</h3>
+
+<p><a href="https://orcid.org/0000-0001-5660-1727">Martin R. Smith</a>
+(<a href="mailto:martin.smith@durham.ac.uk">martin.smith@durham.ac.uk</a>)
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Other element-by-element comparisons: 
+<code>CompareQuartets()</code>,
+<code>CompareSplits()</code>,
+<code>PairSharedQuartetStatus()</code>,
+<code>QuartetState()</code>,
+<code>SharedQuartetStatus()</code>,
+<code>SplitStatus()</code>
+</p>
+<p>Other quartet counting functions: 
+<code>AllQuartets()</code>,
+<code>CompareQuartets()</code>,
+<code>ResolvedQuartets()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library("TreeTools")
+CompareQuartetsMulti(x  = CollapseNode(as.phylo(42, 6), 8:9),
+                     cf = list(BalancedTree(6), PectinateTree(6), 
+                               CollapseNode(as.phylo(1337, 6), 9:10)))
+
+</code></pre>
+
+
+</div>

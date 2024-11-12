@@ -1,0 +1,81 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qc</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Quantile Correlation
+</h2>
+
+<h3>Description</h3>
+
+<p>qc is used to compute  the quantile correlation with given quantiles.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qc(x, y, tau)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>The covariate variable.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>The response variable.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tau</code></td>
+<td>
+<p>The quantile(s) to be estimated.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>tau</code></td>
+<td>
+<p>The quantile(s).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rho</code></td>
+<td>
+<p>The value of quantile correlation.</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Xuejun Ma, Jingxiao Zhang, Jingke Zhou
+</p>
+
+
+<h3>References</h3>
+
+<p>Li et al.. Quantile correlations and quantile autoregressive modeling. Journal of the American Statistical Association,2015,110(509):246–261.<br></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">n   &lt;- 1000
+x   &lt;- rnorm(n)
+y   &lt;- 2 * x + rt(n,df = 1)
+tau &lt;- 1:9 / 10
+qc(x = x, y = y, tau = tau)
+</code></pre>
+
+
+</div>

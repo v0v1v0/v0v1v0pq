@@ -1,0 +1,69 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>print.summary_queue_list</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Print method for output of <code>summary.queue_list</code>.</h2>
+
+<h3>Description</h3>
+
+<p>Print method for output of <code>summary.queue_list</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'summary_queue_list'
+print(x, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>an object of class <code>summary_queue_list</code>, the result of a call to <code>summary.queue_list()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>further arguments to be passed to or from other methods.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list of performance statistics for the queue:
+</p>
+<p>"Total customers": Total customers in simulation,
+</p>
+<p>"Missed customers": Customers who never saw a server,
+</p>
+<p>"Mean waiting time": The mean time each customer had to wait in queue for service,
+</p>
+<p>"Mean response time": The mean time that each customer spends in the system (departure time - arrival time),
+</p>
+<p>"Utilization factor": The ratio of available time for all servers and time all servers were used. It can be greater than one if a customer arrives near the end of a shift and keeps a server busy,
+</p>
+<p>"Mean queue length": Average queue length, and
+</p>
+<p>"Mean number of customers in system": Average number of customers in queue or currently being served.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">n &lt;- 1e3
+arrivals &lt;- cumsum(rexp(n, 1.8))
+service &lt;- rexp(n)
+
+queue_obj &lt;- queue_step(arrivals, service, servers = 2)
+summary(queue_obj)
+</code></pre>
+
+
+</div>

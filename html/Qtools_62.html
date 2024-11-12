@@ -1,0 +1,215 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>mice.impute.rq</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+QR-based Multiple Imputation
+</h2>
+
+<h3>Description</h3>
+
+<p>This function is used to multiply impute missing values using quantile regression imputation models.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">mice.impute.rq(y, ry, x, tsf = "none", symm = TRUE, dbounded = FALSE,
+	lambda = NULL, x.r = NULL, par = NULL, conditional = TRUE,
+	epsilon = 0.001, method.rq = "fn", ...)
+mice.impute.rrq(y, ry, x, tsf = "none", symm = TRUE, dbounded = FALSE,
+	lambda = NULL, epsilon = 0.001, method.rq = "fn", ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+
+<p>numeric vector of length <code>n</code> with <code>nmis</code> missing values.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ry</code></td>
+<td>
+
+<p>missing data indicator. Logical vector of length <code>n</code>: <code>FALSE</code> if <code>y</code> is missing, <code>TRUE</code> if <code>y</code> is observed.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+
+<p>matrix <code>n x p</code> of completely observed covariates.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tsf</code></td>
+<td>
+
+<p>transformation to be used. Possible options are <code>mcjI</code> for Proposal I, <code>bc</code> for Box-Cox and <code>ao</code> for Aranda-Ordaz transformation models. No transformation is used by default.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>symm</code></td>
+<td>
+
+<p>logical flag. If <code>TRUE</code> (default) a symmetric transformation is used.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dbounded</code></td>
+<td>
+
+<p>logical flag. If <code>TRUE</code> the response <code>y</code> is assumed to be bounded between 0 and 1.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lambda</code></td>
+<td>
+
+<p>if <code>conditional = TRUE</code>, a numerical value for the transformation parameter. This is provided by the user or set to zero if not specified. If <code>conditional = FALSE</code>, this argument is ignored.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x.r</code></td>
+<td>
+
+<p>range of the mapping for doubly bounded variables.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>par</code></td>
+<td>
+
+<p>if <code>conditional = FALSE</code>, starting values for <code>nlrq1</code> can be provided via this argument. See argument <code>start</code> in <code>nlrq1</code> for details.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>conditional</code></td>
+<td>
+
+<p>logical flag. If <code>TRUE</code> (default), the transformation parameter is assumed to be known and this must be provided via the argument <code>lambda</code>. Otherwise, it is estimated via <code>nlrq1</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>epsilon</code></td>
+<td>
+
+<p>constant used to trim the values of the sample space.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method.rq</code></td>
+<td>
+
+<p>linear programming algorithm (see <code>rq</code>).
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+
+<p>additional arguments.
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>This function implements the methods proposed by Geraci (2016) and Geraci and McLain (2018) to impute missing values using quantile regression models. Uniform values are sampled from <em>[epsilon, 1 - epsilon]</em>, therefore allowing the interval to be bounded away from 0 and 1 (default is 0.001). It is possible to specify a quantile regression transformation model with parameter <code>lambda</code> (Geraci and Jones). The function <code>mice.impute.rrq</code> performs imputation based on restricted regression quantiles to avoid quantile crossing (see Geraci 2016 for details).
+</p>
+
+
+<h3>Value</h3>
+
+<p>A vector of length <code>nmis</code> with imputations.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Marco Geraci
+</p>
+
+
+<h3>References</h3>
+
+<p>Bottai, M., &amp; Zhen, H. (2013). Multiple imputation based on conditional quantile estimation. Epidemiology, Biostatistics, and Public Health, 10(1), e8758.
+</p>
+<p>Geraci, M. (2016). Estimation of regression quantiles in complex surveys with data missing at random: An application to birthweight determinants. Statistical Methods in Medical Research, 25(4), 1393-1421.
+</p>
+<p>Geraci, M., and Jones, M. C. (2015). Improved transformation-based quantile regression. Canadian Journal of Statistics, 43(1), 118-132.
+</p>
+<p>Geraci, M., and McLain, A. (2018). Multiple imputation for bounded variables. Psychometrika, 83(4), 919-940.
+</p>
+<p>van Buuren, S., and Groothuis-Oudshoorn, K. (2011). mice: Multivariate imputation by chained equations in R. Journal of Statistical Software, 45(3), 1–67. 
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>ao</code>, <code>tsrq</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+## Not run: 
+
+# Load package 'mice'
+require(mice)
+
+# Load data nhanes
+data(nhanes)
+nhanes2 &lt;- nhanes
+nhanes2$hyp &lt;- as.factor(nhanes2$hyp)
+
+# Impute continuous variables using quantile regression
+set.seed(199)
+imp &lt;- mice(nhanes2, meth = c("polyreg", "rq", "logreg", "rq"), m = 5)
+
+# estimate linear regression and pool results
+fit &lt;- lm.mids(bmi ~ hyp + chl, data = imp)
+pool(fit)
+
+# Impute using restricted quantile regression
+set.seed(199)
+imp &lt;- mice(nhanes2, meth = c("polyreg", "rrq", "logreg", "rrq"), m = 5)
+fit &lt;- lm.mids(bmi ~ hyp + chl, data = imp)
+pool(fit)
+
+# Impute using quantile regression + Box-Cox transformation with parameter
+# lambda = 0 (ie, log transformation)
+
+set.seed(199)
+imp &lt;- mice(nhanes2, meth = c("polyreg", "rq", "logreg", "rq"), m = 5, tsf = "bc", lambda = 0)
+fit &lt;- lm.mids(bmi ~ hyp + chl, data = imp)
+pool(fit)
+
+
+
+## End(Not run)
+
+</code></pre>
+
+
+</div>

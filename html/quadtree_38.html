@@ -1,0 +1,159 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>lcp_finder</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Create a <code>LcpFinder</code>
+</h2>
+
+<h3>Description</h3>
+
+<p>Creates a <code>LcpFinder</code> object that can then be used
+by <code>find_lcp</code> and <code>find_lcps</code> to find least-cost
+paths (LCPs) using a <code>Quadtree</code> as a resistance surface.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S4 method for signature 'Quadtree'
+lcp_finder(
+  x,
+  start_point,
+  xlim = NULL,
+  ylim = NULL,
+  new_points = matrix(nrow = 0, ncol = 2),
+  search_by_centroid = FALSE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a <code>Quadtree</code> to be used as a resistance surface</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>start_point</code></td>
+<td>
+<p>two-element numeric vector (x, y) - the x and y coordinates of the
+starting point</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xlim</code></td>
+<td>
+<p>two-element numeric vector (xmin, xmax) - constrains the nodes
+included in the network to those whose x limits fall in the range specified
+in <code>xlim</code>. If <code>NULL</code> the x limits of <code>x</code> are used</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ylim</code></td>
+<td>
+<p>same as <code>xlim</code>, but for y</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>new_points</code></td>
+<td>
+<p>a two-column matrix representing point coordinates. First
+column contains the x-coordinates, second column contains the
+y-coordinates. This matrix specifies point locations to use instead of the
+node centroids. See 'Details' for more.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>search_by_centroid</code></td>
+<td>
+<p>boolean; determines which cells are considered to
+be "in" the box specified by <code>xlim</code> and <code>ylim</code>. If <code>FALSE</code>
+(the default) any cell that overlaps with the box is included. If
+<code>TRUE</code>, a cell is only included if its <strong>centroid</strong> falls inside
+the box.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>See the vignette 'quadtree-lcp' for more details and examples (i.e. run
+<code>vignette("quadtree-lcp", package = "quadtree")</code>)
+</p>
+<p>To find a least-cost path, the cells are treated as points - by default,
+the cell centroids are used. This results in some degree of error,
+especially for large cells. The <code>new_points</code> parameter can be used to
+specify the points used to represent the cells - this is particularly
+useful for specifying the points to be used for the start and end cells.
+Each point in the matrix will be used as the point for the cell it falls in
+(if two points fall in the same cell, the first point is used). Note that
+this raises the possibility that a straight line between neighboring cells
+may pass through other cells as well, which complicates the calculation of
+the edge cost. To mitigate this, when a straight line between neighboring
+cells passes through a different cell, the path is adjusted so that it
+actually consists of two segments - the start point to the "corner point"
+where the two cells meet, and then from that point to the end point. See
+the "quadtree-lcp" vignette for a graphical example of this situation.
+</p>
+<p>An <code>LcpFinder</code> saves state, so once the LCP tree is calculated,
+individual LCPs can be retrieved without further computation. This makes it
+efficient at calculating multiple LCPs from a single starting point.
+However, in the case where only a single LCP is needed,
+<code>find_lcp()</code> offers an interface for finding an LCP without
+needing to use <code>lcp_finder()</code> to create the <code>LcpFinder</code> object
+first.
+</p>
+
+
+<h3>Value</h3>
+
+<p>a <code>LcpFinder</code>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>find_lcp()</code> returns the LCP between the start point and
+another point. <code>find_lcps()</code> finds all LCPs whose cost-distance
+is less than some value. <code>summarize_lcps()</code> outputs a summary
+matrix of all LCPs that have been calculated so far.
+<code>points()</code> and
+<code>lines()</code> can be used to plot a
+<code>LcpFinder</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">####### NOTE #######
+# see the "quadtree-lcp" vignette for more details and examples:
+# vignette("quadtree-lcp", package = "quadtree")
+####################
+
+library(quadtree)
+
+habitat &lt;- terra::rast(system.file("extdata", "habitat.tif", package="quadtree"))
+qt &lt;- quadtree(habitat, split_threshold = .1, adj_type = "expand")
+
+# find the LCP between two points
+start_pt &lt;- c(6989, 34007)
+end_pt &lt;- c(33015, 38162)
+
+# create the LCP finder object and find the LCP
+lcpf &lt;- lcp_finder(qt, start_pt)
+path &lt;- find_lcp(lcpf, end_pt)
+
+# plot the LCP
+plot(qt, crop = TRUE, na_col = NULL, border_lwd = .3)
+points(rbind(start_pt, end_pt), pch = 16, col = "red")
+lines(path[, 1:2], col = "black")
+
+
+</code></pre>
+
+
+</div>

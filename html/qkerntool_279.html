@@ -1,0 +1,84 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qkernel-class</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Class "qkernel" "rbfqkernel" "nonlqkernel" "laplqkernel" "ratiqkernel"</h2>
+
+<h3>Description</h3>
+
+<p>The built-in kernel classes in <span class="pkg">qkerntool</span></p>
+
+
+<h3>Objects from the Class</h3>
+
+<p>Objects can be created by calls of the form <code>new("rbfqkernel")</code>,
+<code>new{"nonlqkernel"}</code>, <code>new{"laplqkernel"}</code>,
+<code>new{"ratiqkernel"}</code>, <code>new{"multqkernel"}</code>,
+<code>new{"invqkernel"}</code>, <code>new{"wavqkernel"}</code>,
+<code>new{"powqkernel"}</code>, <code>new{"logqkernel"}</code>,
+<code>new{"cauqkernel"}</code>, <code>new{"chiqkernel"}</code>,
+<code>new{"studqkernel"}</code>
+</p>
+<p>or by calling the <code>rbfbase</code>, <code>nonlbase</code>, <code>laplbase</code>, <code>ratibase</code>,
+<code>multbase</code>, <code>invbase</code>, <code>wavbase</code>, <code>powbase</code>,
+<code>logbase</code>, <code>caubase</code>, <code>chibase</code>, <code>studbase</code> functions etc..
+</p>
+
+
+<h3>Slots</h3>
+
+
+<dl>
+<dt>
+<code>.Data</code>:</dt>
+<dd>
+<p>Object of class <code>"function"</code> containing
+the kernel function</p>
+</dd>
+<dt>
+<code>qpar</code>:</dt>
+<dd>
+<p>Object of class <code>"list"</code> containing the
+kernel parameters </p>
+</dd>
+</dl>
+<h3>Methods</h3>
+
+
+<dl>
+<dt>qkernmatrix</dt>
+<dd>
+<p><code>signature(kernel = "rbfqkernel", x =
+	"matrix")</code>: computes the qkernel matrix</p>
+</dd>
+</dl>
+<h3>Author(s)</h3>
+
+<p>Yusen Zhang<br><a href="mailto:yusenzhang@126.com">yusenzhang@126.com</a> </p>
+
+
+<h3>See Also</h3>
+
+<p><code>qkernmatrix</code>,<code>cndkernmatrix</code></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">qkfunc &lt;- rbfbase(sigma=1,q=0.8)
+qkfunc
+
+qpar(qkfunc)
+
+## create two vectors
+x &lt;- rnorm(10)
+y &lt;- rnorm(10)
+
+## calculate dot product
+qkfunc(x,y)
+
+</code></pre>
+
+
+</div>

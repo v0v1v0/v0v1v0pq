@@ -1,0 +1,101 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>change_by</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Change Scores from a Numeric Vector by Group</h2>
+
+<h3>Description</h3>
+
+<p><code>change_by</code> creates a change score (aka difference score) from a numeric
+vector separately for each group. It is assumed that the vector is already
+sorted within each group by time such that the first element for that group
+is earliest in time and the last element for that group is the latest in
+time.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">change_by(x, grp, n, undefined = NA)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>numeric vector.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>grp</code></td>
+<td>
+<p>list of atomic vector(s) and/or factor(s) (e.g., data.frame),
+which each have same length as <code>x</code>. It can also be an atomic vector or
+factor, which will then be made the first element of a list internally.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p>integer vector with length 1. Specifies how the change score is
+calculated. If <code>n</code> is positive, then the change score is calculated
+from lead - original; if <code>n</code> is negative, then the change score is
+calculated from original - lag. The magnitude of <code>n</code> determines how
+many rows are shifted for the lead/lag within the calculation. See details
+of <code>shift_by</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>undefined</code></td>
+<td>
+<p>atomic vector with length 1 (probably makes sense to be the
+same typeof as <code>x</code>). Specifies what to insert for undefined values
+after the shifting takes place. See details of <code>shift_by</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>It is recommended to use <code>L</code> when specifying <code>n</code> to prevent
+problems with floating point numbers. <code>shift_by</code> tries to circumvent
+this issue by a call to <code>round</code> within <code>shift_by</code> if <code>n</code> is
+not an integer; however that is not a complete fail safe. The problem is that
+<code>as.integer(n)</code> implicit in <code>shift_by</code> truncates rather than
+rounds. See details of <code>shift_by</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>an atomic vector of the same length as <code>x</code> that is the change
+score by group. If <code>x</code> and <code>undefined</code> are different typeofs,
+then the return will be coerced to the more complex typoof (i.e., complex
+to simple: character, double, integer, logical).
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>changes_by</code>
+<code>change</code>
+<code>changes</code>
+<code>shift_by</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">change_by(x = ChickWeight[["Time"]], grp = ChickWeight[["Chick"]], n = -1L)
+tmp_nm &lt;- c("vs","am") # multiple grouping vectors
+change_by(x = mtcars[["disp"]], grp = mtcars[tmp_nm], n = +1L)
+tmp_nm &lt;- c("Type","Treatment") # multiple grouping vectors
+change_by(x = as.data.frame(CO2)[["uptake"]], grp = as.data.frame(CO2)[tmp_nm], n = 2L)
+</code></pre>
+
+
+</div>

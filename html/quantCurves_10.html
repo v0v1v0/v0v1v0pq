@@ -1,0 +1,89 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>locNormLinData</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Centile curves using local linear polynomial compared to noise data</h2>
+
+<h3>Description</h3>
+
+<p>Centile curves using local linear polynomial compared to noise data
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">locNormLinData(
+  x,
+  y,
+  bandwidth.method,
+  cents = c(0.03, 0.25, 0.5, 0.75, 0.97),
+  data,
+  leg = FALSE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>the explanatory variable - numeric</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>the response variable - numeric</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bandwidth.method</code></td>
+<td>
+<p>the method chosen to calculate bandwidth. Could be cross validation or Plug-in. Default is set to CV.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cents</code></td>
+<td>
+<p>A numeric vector that represents the centiles calculated. Default is set to cents=c(0.03,0.25,0.5,0.75,0.97))</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>the noise data we want to compare</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>leg</code></td>
+<td>
+<p>Boolean. Should the legend be desplayed (TRUE) or not (FALSE).</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Plots centile curves with local linear polynomial using a Gaussian kernel and displays them on the same figure as the noise data to be compared
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">#create a sample data frame
+sample&lt;-data.frame(sample(30:42,50,rep=TRUE),sample(800:5000,50,rep=TRUE))
+colnames(sample)&lt;-c("Gestational Age in weeks","Weight in gramms")
+x&lt;-sample$`Gestational Age in weeks`
+y&lt;-sample$`Weight in gramms`
+abnormal&lt;-data.frame(sample(30:42,10,rep=TRUE),sample(800:5000,10,rep=TRUE))
+colnames(abnormal)&lt;-c("Gestational Age in weeks","Weight in gramms")
+locNormLinData(x,y,bandwidth.method="Plug-in",cents=c(0.03,0.25,0.50,0.75,0.97),data=abnormal)
+
+
+</code></pre>
+
+
+</div>

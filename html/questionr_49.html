@@ -1,0 +1,70 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>na.rm</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Remove observations with missing values</h2>
+
+<h3>Description</h3>
+
+<p><code>na.rm</code> is similar to na.omit but allows to specify a list of
+variables to take into account.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">na.rm(x, v = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a data frame</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>v</code></td>
+<td>
+<p>a list of variables</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>If <code>v</code> is not specified, the result of <code>na.rm</code> will be the same as
+na.omit. If a list of variables is specified through <code>v</code>, only
+observations with a missing value (<code>NA</code>) for one of the specified
+variables will be removed from <code>x</code>. See examples.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Joseph Larmarange &lt;joseph@larmarange.net&gt;
+</p>
+
+
+<h3>See Also</h3>
+
+<p>na.omit
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">df &lt;- data.frame(x = c(1, 2, 3), y = c(0, 10, NA), z = c("a", NA, "b"))
+df
+na.omit(df)
+na.rm(df)
+na.rm(df, c("x", "y"))
+na.rm(df, "z")
+</code></pre>
+
+
+</div>

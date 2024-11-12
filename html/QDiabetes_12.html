@@ -1,0 +1,272 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>QDR2018C</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>QDiabetes-2018 Risk Calculator (C-Variant)</h2>
+
+<h3>Description</h3>
+
+<p>Calculate the 10-year risk of developing type 2 diabetes, using the C-variant of the QDiabetes-2018 algorithm.
+This variant includes all risk predictors present in the A-variant, with the addition of glycated haemoglobin A1c.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">QDR2018C(sex, age, bmi, ht, wt, hba1c, ethn = "WhiteNA", smoke = "Non", tds = 0,
+         fhdm = FALSE, htn = FALSE, cvd = FALSE, gdm = FALSE, pcos = FALSE,
+         learn = FALSE, psy = FALSE, ster = FALSE, stat = FALSE, apsy = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>sex</code></td>
+<td>
+<p>Gender. Must be <code>"Male"</code> or <code>"Female"</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>age</code></td>
+<td>
+<p>Age, in years. Must be <code class="reqn">\ge</code>25 and &lt;85.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bmi</code></td>
+<td>
+<p>Body-mass index, in kg/m^2. Must be <code class="reqn">\ge</code>40/2.1^2 and <code class="reqn">\le</code>180/1.4^2. Within this range, values &gt;40 are set to 40, while values &lt;20 are set to 20.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ht</code></td>
+<td>
+<p>Height, in m. Must be <code class="reqn">\ge</code>1.4 and <code class="reqn">\le</code>2.1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>wt</code></td>
+<td>
+<p>Weight, in kg. Must be <code class="reqn">\ge</code>40 and <code class="reqn">\le</code>180.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>hba1c</code></td>
+<td>
+<p>Glycated haemoglobin A1c level, in mmol/mol. Must be <code class="reqn">\ge</code>15 and &lt;48.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ethn</code></td>
+<td>
+<p>Ethnicity. Must be one of:
+</p>
+
+<ul>
+<li> <p><code>"WhiteNA"</code> (White or not stated)
+</p>
+</li>
+<li> <p><code>"Indian"</code> (Indian)
+</p>
+</li>
+<li> <p><code>"Pakistani"</code> (Pakistani)
+</p>
+</li>
+<li> <p><code>"Bangladeshi"</code> (Bangladeshi)
+</p>
+</li>
+<li> <p><code>"OtherAsian"</code> (Other Asian)
+</p>
+</li>
+<li> <p><code>"BlackCaribbean"</code> (Black Caribbean)
+</p>
+</li>
+<li> <p><code>"BlackAfrican"</code> (Black African)
+</p>
+</li>
+<li> <p><code>"Chinese"</code> (Chinese)
+</p>
+</li>
+<li> <p><code>"Other"</code> (Other ethnic group).
+</p>
+</li>
+</ul>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>smoke</code></td>
+<td>
+<p>Smoking status. Must be one of:
+</p>
+
+<ul>
+<li> <p><code>"Non"</code> (Non-smoker)
+</p>
+</li>
+<li> <p><code>"Ex"</code> (Ex-smoker)
+</p>
+</li>
+<li> <p><code>"Light"</code> (Light smoker - less than 10 cigarettes per day)
+</p>
+</li>
+<li> <p><code>"Moderate"</code> (Moderate smoker - 10 to 19 cigarettes per day)
+</p>
+</li>
+<li> <p><code>"Heavy"</code> (Heavy smoker - 20 or more cigarettes per day).
+</p>
+</li>
+</ul>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tds</code></td>
+<td>
+<p>Townsend deprivation score. Must be <code class="reqn">\ge</code>-8 and <code class="reqn">\le</code>14.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fhdm</code></td>
+<td>
+<p>Family history of diabetes in 1st degree relative.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>htn</code></td>
+<td>
+<p>History of hypertension.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cvd</code></td>
+<td>
+<p>History of cardiovascular disease.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gdm</code></td>
+<td>
+<p>History of gestational diabetes.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pcos</code></td>
+<td>
+<p>History of polycystic ovary syndrome.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>learn</code></td>
+<td>
+<p>History of one or more conditions conveying learning difficulties.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>psy</code></td>
+<td>
+<p>History of schizophrenia or bipolar affective disorder.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ster</code></td>
+<td>
+<p>History of use of corticosteroids.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>stat</code></td>
+<td>
+<p>History of use of statins.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>apsy</code></td>
+<td>
+<p>History of use of 2nd generation antipsychotics.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Risk (%) of type 2 diabetes.</p>
+
+
+<h3>Note</h3>
+
+<p>The QDiabetes <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> package has been created as a research tool for scientific purposes only.
+The QDiabetes <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> package has not been granted Medicines and Healthcare products Regulatory Agency (MHRA) approval as a medical device, and hence, should not be used as part of any individualised risk assessment.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Benjamin G. Feakins <a href="mailto:benjamin.feakins@ndph.ox.ac.uk">benjamin.feakins@ndph.ox.ac.uk</a></p>
+
+
+<h3>Source</h3>
+
+<p><a href="https://qdiabetes.org/2018/src.php">https://qdiabetes.org/2018/src.php</a></p>
+
+
+<h3>References</h3>
+
+<p>Hippisley-Cox, J. and Coupland, C. (2017).
+Development and validation of QDiabetes-2018 risk prediction algorithm to estimate future risk of type 2 diabetes: cohort study.
+<em>BMJ</em>
+<b>359</b>, j5019.
+doi: <a href="https://doi.org/10.1136/bmj.j5019">10.1136/bmj.j5019</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>QDR2013</code> - For estimating the 1–10-year risk using QDiabetes-2013.
+</p>
+<p><code>QDR2018A</code> - For estimating the 10-year risk using QDiabetes-2018 (Model A).
+</p>
+<p><code>QDR2018B</code> - For estimating the 10-year risk using QDiabetes-2018 (Model B).
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Simple usage
+QDR2018C(sex = "Female", age = 76, ht = 1.65, wt = 70, hba1c = 25)
+QDR2018C(sex = "Male", age = 55, bmi = 40, hba1c = seq(15, 40, 5), ethn = "Chinese")
+QDR2018C(sex = "Female", age = 65, bmi = 35, hba1c = 30, smoke = "Ex", fhdm = c(FALSE, TRUE))
+
+## Using postcodes to estimate Townsend deprivation scores
+QDR2018C(sex = "Male", age = 65, bmi = 40, hba1c = 42, tds = getTDS("OX3 7LF"))
+QDR2018C(sex = "Female", age = 60, bmi = 35, hba1c = 42, tds = getTDS(c("OX2 6NW", "OX2 6GG")))
+
+## Data frame usage
+data(dat_qdr)
+with(dat_qdr, QDR2018C(sex = sex, age = age, bmi = bmi, hba1c = hba1c))
+
+## Plotting outputs
+hba1c &lt;- seq(15, 42, length.out = 10)
+risk_m &lt;- QDR2018C(sex = "Male", age = 65, bmi = 40, hba1c = hba1c)
+risk_f &lt;- QDR2018C(sex = "Female", age = 65, bmi = 40, hba1c = hba1c)
+
+oldpar &lt;- par(no.readonly = TRUE)
+par(cex = 0.8, cex.sub = 0.8)
+plot.new()
+plot.window(xlim = range(hba1c), ylim = range(pretty(c(risk_m, risk_f))))
+axis(1, at = hba1c)
+axis(2, at = pretty(c(risk_m, risk_f)))
+title(
+  main = "Diabetes 10-year risk with glycated haemoglobin level:\nQDiabetes-2018 (C-Variant)",
+  sub = expression("Age set to 65 years, BMI set to"~40*kg/m^2*", other variables set to defaults"),
+  xlab = expression("Haemoglobin"~A[1*c]~"(mmol/mol)"), ylab = "Risk (%)"
+)
+lines(hba1c, risk_m, type = "b", col = "navy", lwd = 1.5)
+lines(hba1c, risk_f, type = "b", col = "red3", lwd = 1.5)
+legend("bottomright", legend = c("Male", "Female"), col = c("navy", "red3"), lty = 1, bty = "n")
+par(oldpar)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,76 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>summary.QmethodRes</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Q methodology: summary for class 'QmethodRes'</h2>
+
+<h3>Description</h3>
+
+<p>Shows a summary of the results of Q methodology from the <code>qmethod</code> function: factor scores and factor characteristics.</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'QmethodRes'
+summary(object, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>an object of class <code>QmethodRes</code> created after <code>qmethod</code> function.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>any other argument for the <code>summary</code> function.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Returns the summary of the analysis:
+</p>
+
+<ul>
+<li>
+<p> Statements factor scores normalized to the values in the first row of the original dataset, and 
+</p>
+</li>
+<li>
+<p> Factor characteristics: Average reliability coefficient, Number of loading Q-sorts, Eigenvalues, Percentage of explained variance, Composite reliability, Standard error of factor scores, Correlation coefficients between factors z-scores, Standard errors of differences
+</p>
+</li>
+</ul>
+<h3>Author(s)</h3>
+
+<p>Aiora Zabala</p>
+
+
+<h3>References</h3>
+
+<p>Brown, S. R., 1980 <em>Political subjectivity: Applications of Q methodology in political science</em>, New Haven, CT: Yale University Press.</p>
+
+
+<h3>See Also</h3>
+
+<p><code>qmethod</code> in this package
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(lipset)
+results &lt;- qmethod(lipset[[1]], nfactors = 3, rotation = "varimax")
+summary(results)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,217 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>addqtl</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Scan for an additional QTL in a multiple-QTL model</h2>
+
+<h3>Description</h3>
+
+<p>Scan for an additional QTL in the context of a
+multiple QTL model.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">addqtl(cross, chr, pheno.col=1, qtl, covar=NULL, formula,
+       method=c("imp","hk"), model=c("normal", "binary"),
+       incl.markers=TRUE, verbose=FALSE, tol=1e-4, maxit=1000,
+       forceXcovar=FALSE, require.fullrank=FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>cross</code></td>
+<td>
+<p>An object of class <code>cross</code>. See
+<code>read.cross</code> for details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>chr</code></td>
+<td>
+<p>Optional vector indicating the chromosomes to be scanned. If
+missing, all chromosomes are scanned. Refer to chromosomes by
+name. Refer to chromosomes with a preceding <code>-</code> to have all
+chromosomes but those considered.  A logical (TRUE/FALSE) vector may
+also be used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pheno.col</code></td>
+<td>
+<p>Column number in the phenotype matrix to be
+used as the phenotype.  One may also give a character string matching
+a phenotype name. Finally, one may give a numeric vector of
+phenotypes, in which case it must have the length equal to the number
+of individuals in the cross, and there must be either non-integers or
+values &lt; 1 or &gt; no. phenotypes; this last case may be useful for studying
+transformations.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qtl</code></td>
+<td>
+<p>An object of class <code>qtl</code>, as output from
+<code>makeqtl</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>covar</code></td>
+<td>
+<p>A matrix or data.frame of covariates.  These must be
+strictly numeric.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>formula</code></td>
+<td>
+<p>An object of class <code>formula</code>
+indicating the model to be fitted.  (It can also be the character
+string representation of a formula.)  QTLs are referred to as
+<code>Q1</code>, <code>Q2</code>, etc.  Covariates are referred to by their names
+in the data frame <code>covar</code>.  If the new QTL is not included in
+the formula, its main effect is added.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+<p>Indicates whether to use multiple imputation or
+Haley-Knott regression.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>model</code></td>
+<td>
+<p>The phenotype model: the usual model or a model for binary
+traits</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>incl.markers</code></td>
+<td>
+<p>If FALSE, do calculations only at points on an
+evenly spaced grid.  If <code>calc.genoprob</code> or
+<code>sim.geno</code> were run with
+<code>stepwidth="variable"</code> or <code>stepwidth="max"</code>, we force <code>incl.markers=TRUE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p>If TRUE, display information about the progress of
+calculations.  If <code>verbose</code> is an integer &gt; 1, further messages
+from <code>scanqtl</code> are also displayed.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tol</code></td>
+<td>
+<p>Tolerance for convergence for the binary trait model.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>maxit</code></td>
+<td>
+<p>Maximum number of iterations for fitting the binary trait
+model.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>forceXcovar</code></td>
+<td>
+<p>If TRUE, force inclusion of X-chr-related covariates
+(like sex and cross direction).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>require.fullrank</code></td>
+<td>
+<p>If TRUE, give LOD=0 when covariate matrix in
+the linear regression is not of full rank.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The formula is used to specified the model to be fit. In the
+formula, use <code>Q1</code>, <code>Q2</code>, etc., or <code>q1</code>,
+<code>q2</code>, etc., to represent the QTLs, and the column names in the
+covariate data frame to represent the covariates.
+</p>
+<p>We enforce a hierarchical structure on the model formula: if a QTL or
+covariate is in involved in an interaction, its main effect must also
+be included.
+</p>
+<p>If one wishes to scan for QTL that interact with another QTL, include
+it in the formula (with an index of one more than the number of QTL in
+the input <code>qtl</code> object).
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>scanone</code>, as produced by the
+<code>scanone</code> function.  LOD scores are relative to the
+base model (with any terms that include the new QTL omitted).
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Karl W Broman, <a href="mailto:broman@wisc.edu">broman@wisc.edu</a></p>
+
+
+<h3>References</h3>
+
+<p>Haley, C. S. and Knott, S. A. (1992) A simple regression method for mapping
+quantitative trait loci in line crosses using flanking markers.
+<em>Heredity</em> <b>69</b>, 315–324.
+</p>
+<p>Sen, Ś. and Churchill, G. A. (2001) A statistical framework for quantitative
+trait mapping.  <em>Genetics</em> <b>159</b>, 371–387.
+</p>
+
+
+<h3>See Also</h3>
+
+ <p><code>scanone</code>, <code>fitqtl</code>,
+<code>scanqtl</code>, <code>refineqtl</code>,
+<code>makeqtl</code>, <code>addtoqtl</code>,
+<code>addpair</code>, <code>addint</code> </p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(fake.f2)
+
+# take out several QTLs and make QTL object
+qc &lt;- c(1, 8, 13)
+qp &lt;- c(26, 56, 28)
+
+fake.f2 &lt;- subset(fake.f2, chr=c(1,2,3,8,13))
+
+
+fake.f2 &lt;- calc.genoprob(fake.f2, step=2, err=0.001)
+qtl &lt;- makeqtl(fake.f2, qc, qp, what="prob")
+
+# scan for an additional QTL
+out1 &lt;- addqtl(fake.f2, qtl=qtl, formula=y~Q1+Q2+Q3, method="hk")
+max(out1)
+
+# scan for an additional QTL that interacts with the locus on chr 1
+out2 &lt;- addqtl(fake.f2, qtl=qtl, formula=y~Q1*Q4+Q2+Q3, method="hk")
+max(out2)
+
+# plot interaction LOD scores
+plot(out2-out1)
+</code></pre>
+
+
+</div>

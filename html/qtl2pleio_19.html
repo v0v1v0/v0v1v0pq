@@ -1,0 +1,55 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>prep_mytab</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Prepare mytab object for use within scan_pvl R code</h2>
+
+<h3>Description</h3>
+
+<p>Prepare mytab object for use within scan_pvl R code
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">prep_mytab(d_size, n_snp, pvl = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>d_size</code></td>
+<td>
+<p>an integer, the number of traits</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n_snp</code></td>
+<td>
+<p>an integer, the number of markers</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pvl</code></td>
+<td>
+<p>logical indicating whether to output dataframe with all d-tuples for a d-QTL scan, or only those models that examine one marker at a time.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>a data.frame with d_size + 1 columns and (n_snp)^d_size rows. Last column is NA and named loglik.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">prep_mytab(2, 10)
+</code></pre>
+
+
+</div>

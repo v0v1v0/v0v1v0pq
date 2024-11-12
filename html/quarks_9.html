@@ -1,0 +1,120 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>lossfun</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Loss Functions</h2>
+
+<h3>Description</h3>
+
+<p>This functions allows for the calculation of loss functions in order to assess
+the performance of models in regard to forecasting ES.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">lossfun(obj = list(loss = NULL, ES = NULL), beta = 1e-04)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>obj</code></td>
+<td>
+<p>a list that contains the following elements:
+</p>
+
+<dl>
+<dt><code>loss</code></dt>
+<dd>
+<p>a numeric vector that contains the values of a loss series
+ordered from past to present; is set to <code>NULL</code> by default</p>
+</dd>
+<dt><code>ES</code></dt>
+<dd>
+<p>a numeric vector that contains the estimated values of the
+ES for the same time points of the loss series <code>loss</code>; is set to
+<code>NULL</code> by default</p>
+</dd>
+</dl>
+<p>Please note that a list returned by the <code>rollcast</code> function can be directly
+passed to <code>lossfun</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>beta</code></td>
+<td>
+<p>a single numeric value; a measure for the opportunity cost of
+capital; default is <code>1e-04</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Given a negative return series <code>obj$loss</code>, the corresponding Expected
+Shortfall (ES) estimates <code>obj$ES</code> and a parameter <code>beta</code> that
+defines the opportunity cost of capital, four different definitions of loss
+functions are considered.
+</p>
+
+
+<h3>Value</h3>
+
+<p>an S3 class object, which is a list of
+</p>
+
+<dl>
+<dt>loss.fun1</dt>
+<dd>
+<p>regulatory loss function</p>
+</dd>
+<dt>loss.fun2</dt>
+<dd>
+<p>firm's loss function following Sarma et al. (2003)</p>
+</dd>
+<dt>loss.fun3</dt>
+<dd>
+<p>loss function following Abad et al. (2015)</p>
+</dd>
+<dt>loss.fun4</dt>
+<dd>
+<p>Feng's loss function; a compromise of regulatory and
+firm's loss function</p>
+</dd>
+</dl>
+<h3>References</h3>
+
+<p>Abad, P., Muela, S. B., &amp; Martín, C. L. (2015). The role of the loss function
+in value-at-risk comparisons. The Journal of Risk Model Validation, 9(1), 1-19.
+</p>
+<p>Sarma, M., Thomas, S., &amp; Shah, A. (2003). Selection of Value-at-Risk models.
+Journal of Forecasting, 22(4), 337-358.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+prices &lt;- DAX$price_close
+returns &lt;- diff(log(prices))
+n &lt;- length(returns)
+nout &lt;- 250 # number of obs. for out-of-sample forecasting
+nwin &lt;- 500 # window size for rolling forecasts
+results &lt;- rollcast(x = returns, p = 0.975, method = 'age', nout = nout,
+                     nwin = nwin)
+loss &lt;- -results$xout
+ES &lt;- results$ES
+loss.data &lt;- list(loss = loss, ES = ES)
+lossfun(loss.data)
+
+# directly passing the output object of 'rollcast()' to 'lossfun()'
+lossfun(results)
+
+</code></pre>
+
+
+</div>

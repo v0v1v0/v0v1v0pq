@@ -1,0 +1,65 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>QDuelsPlot3</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Quantum Two Person Duel game</h2>
+
+<h3>Description</h3>
+
+<p>This function helps us to plot the improvement in Alice's expected payoff as a function of <code>a</code> and <code>b</code>, if Alice chooses to fire at the air in her second shot, in a two round game. <code>Psi</code> is the initial state of the quantum game, <code>n</code> is the number of rounds, <code>a</code> is the probability of Alice missing the target, <code>b</code> is the probability of Bob missing the target, and
+<code>alpha1, alpha2, beta1, beta2</code> are arbitrary phase factors that lie in -pi to pi that control the outcome of a poorly performing player.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">QDuelsPlot3(Psi, alpha1, alpha2)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>Psi</code></td>
+<td>
+<p>a vector representing the initial quantum state</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>alpha1</code></td>
+<td>
+<p>a number</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>alpha2</code></td>
+<td>
+<p>a number</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>No return value, plots the improvement in Alice's expected payoff as a function of <code>a</code> and <code>b</code>, if Alice chooses to fire at the air in her second shot, in a two round game.
+</p>
+
+
+<h3>References</h3>
+
+<p><a href="https://arxiv.org/pdf/quant-ph/0506219.pdf">https://arxiv.org/pdf/quant-ph/0506219.pdf</a><br><a href="https://arxiv.org/pdf/quant-ph/0208069.pdf">https://arxiv.org/pdf/quant-ph/0208069.pdf</a><br><a href="https://arxiv.org/pdf/quant-ph/0305058.pdf">https://arxiv.org/pdf/quant-ph/0305058.pdf</a><br></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">init()
+Qs &lt;- (Q$Q0+Q$Q1)/sqrt(2)
+Psi &lt;- kronecker(Q$Q1, Qs)
+QDuelsPlot3(Psi, pi/3, pi/6)
+
+</code></pre>
+
+
+</div>

@@ -1,0 +1,126 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>quarto_publish_doc</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Publish Quarto Documents</h2>
+
+<h3>Description</h3>
+
+<p>Publish Quarto documents to Posit Connect, ShinyApps, and RPubs
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">quarto_publish_doc(
+  input,
+  name = NULL,
+  title = NULL,
+  server = NULL,
+  account = NULL,
+  render = c("local", "server", "none"),
+  metadata = list(),
+  ...
+)
+
+quarto_publish_app(
+  input = getwd(),
+  name = NULL,
+  title = NULL,
+  server = NULL,
+  account = NULL,
+  render = c("local", "server", "none"),
+  metadata = list(),
+  ...
+)
+
+quarto_publish_site(
+  input = getwd(),
+  name = NULL,
+  title = NULL,
+  server = NULL,
+  account = NULL,
+  render = c("local", "server", "none"),
+  metadata = list(),
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>input</code></td>
+<td>
+<p>The input file or project directory to be published. Defaults to
+the current working directory.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>name</code></td>
+<td>
+<p>Name for publishing (names must be unique within an account).
+Defaults to the name of the <code>input</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>title</code></td>
+<td>
+<p>Free-form descriptive title of application. Optional; if
+supplied, will often be displayed in favor of the name. When deploying a new
+document, you may supply only the title to receive an auto-generated name</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>account, server</code></td>
+<td>
+<p>Uniquely identify a remote server with either your
+user <code>account</code>, the <code>server</code> name, or both. If neither are supplied, and
+there are multiple options, you'll be prompted to pick one.
+</p>
+<p>Use <code>accounts()</code> to see the full list of available options.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>render</code></td>
+<td>
+<p><code>local</code> to render locally before publishing; <code>server</code> to
+render on the server; <code>none</code> to use whatever rendered content currently
+exists locally. (defaults to <code>local</code>)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>metadata</code></td>
+<td>
+<p>Additional metadata fields to save with the deployment
+record. These fields will be returned on subsequent calls to
+<code>deployments()</code>.
+</p>
+<p>Multi-value fields are recorded as comma-separated values and returned in
+that form. Custom value serialization is the responsibility of the caller.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Named parameters to pass along to <code>rsconnect::deployApp()</code></p>
+</td>
+</tr>
+</table>
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+library(quarto)
+quarto_publish_doc("mydoc.qmd")
+quarto_publish_app(server = "shinyapps.io")
+quarto_publish_site(server = "rstudioconnect.example.com")
+
+## End(Not run)
+
+</code></pre>
+
+
+</div>

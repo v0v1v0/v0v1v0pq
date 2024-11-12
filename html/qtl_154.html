@@ -1,0 +1,156 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>mqmscanall</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Parallelized MQM on multiple phenotypes in a cross object</h2>
+
+<h3>Description</h3>
+
+<p>Parallelized QTL analysis using MQM on multiple phenotypes in a cross object (uses SNOW)
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">    mqmscanall(cross, multicore=TRUE, n.clusters = 1,batchsize=10,cofactors=NULL, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>cross</code></td>
+<td>
+
+<p>An object of class <code>cross</code>. See <code>read.cross</code> for details. 
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>multicore</code></td>
+<td>
+<p> Use multiple cores (only if the package SNOW is available, otherwise this setting will be ignored)
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n.clusters</code></td>
+<td>
+<p> Number of parallel processes to spawn, recommended is setting this lower than the number of cores in the computer
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>batchsize</code></td>
+<td>
+<p> Batch size. The entire set is split in
+jobs to reduce memory load per core. Each job contains batchsize number of traits per job.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cofactors</code></td>
+<td>
+<p>cofactors, only used when scanfunction is mqmscan.
+List of cofactors to be analysed in the QTL model. To set cofactors use <code>mqmautocofactors</code> or <code>mqmsetcofactors</code></p>
+</td>
+</tr>
+</table>
+<p>. 
+</p>
+<table><tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p> Parameters passed through to the <code>mqmscan</code> function used in
+scanning for QTLs
+</p>
+</td>
+</tr></table>
+<h3>Details</h3>
+
+<p>Uses <code>mqmscan</code> to scan for QTL's for each phenotype in the cross object.
+It is recomended that the package SNOW is installed before using this function
+on large numbers of phenotypes.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns a MQMmulti object. This object is a list of <code>scanone</code>
+objects that can be plotted using <code>plot.scanone(result[[trait]])</code> or using <code>mqmplot.multitrait(result)</code>
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Ritsert C Jansen; Danny Arends; Pjotr Prins; Karl W Broman <a href="mailto:broman@wisc.edu">broman@wisc.edu</a> 
+</p>
+
+
+<h3>References</h3>
+
+
+
+<ul>
+<li>
+<p> Rossini, A., Tierney, L., and Li, N. (2003), Simple parallel statistical computing.  <em>R. UW Biostatistics working paper series</em> University of Washington. <b>193</b>
+</p>
+</li>
+<li>
+<p> Tierney, L., Rossini, A., Li, N., and Sevcikova, H. (2004), The snow Package: Simple Network of Workstations. Version 0.2-1.
+
+</p>
+</li>
+</ul>
+<h3>See Also</h3>
+
+
+
+<ul>
+<li>
+<p> The MQM tutorial: <a href="https://rqtl.org/tutorials/MQM-tour.pdf">https://rqtl.org/tutorials/MQM-tour.pdf</a>
+</p>
+</li>
+<li> <p><code>MQM</code> - MQM description and references
+</p>
+</li>
+<li> <p><code>mqmscan</code> - Main MQM single trait analysis
+</p>
+</li>
+<li> <p><code>mqmscanall</code> - Parallellized traits analysis
+</p>
+</li>
+<li> <p><code>mqmaugment</code> - Augmentation routine for estimating missing data
+</p>
+</li>
+<li> <p><code>mqmautocofactors</code> - Set cofactors using marker density
+</p>
+</li>
+<li> <p><code>mqmsetcofactors</code> - Set cofactors at fixed locations
+</p>
+</li>
+<li> <p><code>mqmpermutation</code> - Estimate significance levels
+</p>
+</li>
+<li> <p><code>scanone</code> - Single QTL scanning
+
+</p>
+</li>
+</ul>
+<h3>Examples</h3>
+
+<pre><code class="language-R">#Doing a multitrait analysis
+data(multitrait)
+
+multitrait &lt;- calc.genoprob(multitrait)
+cof &lt;- mqmsetcofactors(multitrait,3)
+multitrait &lt;- fill.geno(multitrait)
+result &lt;- mqmscanall(multitrait,cofactors=cof,batchsize=5)
+mqmplot.multitrait(result,"lines")
+</code></pre>
+
+
+</div>

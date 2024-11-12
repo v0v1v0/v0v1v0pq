@@ -1,0 +1,125 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>get_internal_parameter_estimation</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>get_internal_parameter_estimation</h2>
+
+<h3>Description</h3>
+
+<p>get_internal_parameter_estimation
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">get_internal_parameter_estimation(
+  X,
+  modes,
+  tau,
+  lvs,
+  lvs.names,
+  IDM,
+  sets,
+  scheme,
+  method,
+  fix.quantile,
+  tol,
+  maxiter
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>X</code></td>
+<td>
+<p>matrix or data frame containing the manifest variables.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>modes</code></td>
+<td>
+<p>character vector indicating the type of measurement for each
+block. Possible values are: <code>"A", "B"</code>. 
+The length of <code>modes</code> must be equal to the length of <code>blocks</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tau</code></td>
+<td>
+<p>if sepcifed indicate the specific quantile to be considered</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lvs</code></td>
+<td>
+<p>the number of latent variables</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lvs.names</code></td>
+<td>
+<p>the label of latent variables</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>IDM</code></td>
+<td>
+<p>the path matrix</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sets</code></td>
+<td>
+<p>the outer model</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>scheme</code></td>
+<td>
+<p>the internal scheme</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+<p>rq method. It is equal to <code>"br"</code> by default</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fix.quantile</code></td>
+<td>
+<p>is boolean equal to <code>FALSE</code> or <code>TRUE</code> indicating 
+whether invariance is holded.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tol</code></td>
+<td>
+<p>decimal value indicating the tolerance criterion for the iterations (tol=0.00001).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>maxiter</code></td>
+<td>
+<p>integer indicating the maximum number of iterations (maxiter=100 by default).</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Internal function. <code>get_internal_parameter_estimation</code> is called by <code>qcpm</code> and
+</p>
+
+
+<h3>Value</h3>
+
+<p>the outer weights
+</p>
+
+
+</div>

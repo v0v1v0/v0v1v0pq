@@ -1,0 +1,155 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>create_hapmap_reference</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Create an allele-reference file from HapMap data</h2>
+
+<h3>Description</h3>
+
+<p>This function creates the standard allele reference file, as
+used by <code>QC_GWAS</code> and <code>match_alleles</code>,
+from data publicly available at the website of the
+international HapMap project (see 'References').
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">create_hapmap_reference(dir = getwd(),
+   download_hapmap = FALSE, download_subset,
+   hapmap_files = list.files(path = dir, pattern = "freqs_chr"),
+   filename = "allele_reference_HapMap",
+   save_txt = TRUE, save_rdata = !save_txt,
+   return_reference = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>dir</code></td>
+<td>
+<p>character string; the directory of
+the input and output files. Note that R uses <em>forward</em>
+slash (/) where Windows uses the backslash (\).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>download_hapmap</code></td>
+<td>
+<p>logical; if <code>TRUE</code>, the required
+allele-frequency files are downloaded from the HapMap website
+into <code>dir</code>, and then turned into a reference. If
+<code>FALSE</code>, the files specified in <code>hapmap_files</code> are
+used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>download_subset</code></td>
+<td>
+<p>character-string; indicates the
+population to download for creating the reference. Options
+are: ASW, CEU, CHB, CHD, GIH, JPT, LWK, MEX, MKK, TSI, YRI.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>hapmap_files</code></td>
+<td>
+<p>character vector of the filenames of
+HapMap frequency-files to be included in the reference. The
+default option includes all files with the string
+"freqs_chr" in the filename. (This argument is only
+used when <code>download_hapmap</code> is <code>FALSE</code>.)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>filename</code></td>
+<td>
+<p>character string; the name of the output file,
+<em>without</em> file-extension.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>save_txt, save_rdata</code></td>
+<td>
+<p>logical; should the reference be
+saved as a tab-delimitated text file and/or an RData file?
+If saved as RData, the object name <code>allele_ref_std</code> is
+used for the reference table.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>return_reference</code></td>
+<td>
+<p>logical; should the function return
+the reference as it output value?</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The function removes SNPs with invalid alleles and with allele
+frequencies that do not add up to <code>1</code>. It also removes
+all instances of duplicate SNPids. If such entries are
+encountered, a warning is printed in the R console and the
+entries are saved in a .txt file in the output directory.
+</p>
+<p>Like the <code>QC_GWAS</code>, <code>create_hapmap_reference</code> codes
+the X chromosome as <code>23</code>, Y as <code>24</code>, XY (not
+available on HapMap website) as <code>25</code> and M as <code>26</code>.
+</p>
+<p>Both the .RData export and  the function return store the
+alleles as factors rather than character strings.
+</p>
+
+
+<h3>Value</h3>
+
+<p>If <code>return_reference</code> is <code>TRUE</code>, the function
+returns the generated reference table. If <code>FALSE</code>, it
+returns an invisible <code>NULL</code>.
+</p>
+
+
+<h3>References</h3>
+
+<p>The required data is available at the Website of the
+International HapMap project, under bulk data downloads &gt;
+bulk data &gt; frequencies
+</p>
+<p>http://hapmap.ncbi.nlm.nih.gov
+</p>
+<p>The HapMap files downloaded by this function are subject to
+the HapMap terms and policies. See:
+http://hapmap.ncbi.nlm.nih.gov/datareleasepolicy.html
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>match_alleles</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">  # This command will download the CEU HapMap dataset and use
+  # it to generate an allele-reference. Create a folder
+  # "new_hapmap" to store the data and make sure there is
+  # sufficient disk space and a reasonably fast internet
+  # connection.
+
+  ## Not run: 
+    new_hapmap &lt;- create_hapmap_reference(dir = "C:/new_hapmap",
+                                download_hapmap = TRUE, download_subset = "CEU",
+                                filename = "new_hapmap", save_txt = TRUE,
+                                return_reference = TRUE)
+  
+## End(Not run)
+</code></pre>
+
+
+</div>

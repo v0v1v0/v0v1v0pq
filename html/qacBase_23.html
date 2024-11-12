@@ -1,0 +1,119 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>recodes</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Recode one or more variables</h2>
+
+<h3>Description</h3>
+
+<p><code>recodes</code> recodes the values of one or more variables in
+a data frame
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">recodes(data, vars, from, to)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>a data frame.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vars</code></td>
+<td>
+<p>character vector of variable names.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>from</code></td>
+<td>
+<p>a vector of values or conditions (see Details).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>to</code></td>
+<td>
+<p>a vector of replacement values.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+
+<ul>
+<li>
+<p> For each variable in the <code>vars</code> parameter, values
+are checked against the list of values in the <code>from</code> vector.
+If a value matches, it is replaced with the corresponding
+entry in the <code>to</code> vector.
+</p>
+</li>
+<li>
+<p> Once a given observation's value matches a <code>from</code> value, it is
+recoded. That particular observation will not be recoded again by
+that <code>recodes()</code> statement (i.e., no chaining).
+</p>
+</li>
+<li>
+<p> One or more values in the <code>from</code> vector can be an expression,
+using the dollar sign ($) to represent the variable being recoded.
+If the expression
+evaluates to <code>TRUE</code>, the corresponding <code>to</code> value is
+returned.
+</p>
+</li>
+<li>
+<p> If the number of values in the <code>to</code> vector is less than
+the <code>from</code> vector, the values are recycled. This lets you
+convert several values to a single outcome value (e.g., <code>NA</code>).
+</p>
+</li>
+<li>
+<p> If the <code>to</code> values are numeric, the resulting recoded variable
+will be numeric. If the variable being recoded is a factor and the
+<code>to</code> values are character values, the resulting variable will
+remain a factor. If the variable being recoded is a character variable
+and the <code>to</code> values are character values, the resulting
+variable will remain a character variable.
+</p>
+</li>
+</ul>
+<h3>Value</h3>
+
+<p>a data frame
+</p>
+
+
+<h3>Note</h3>
+
+<p>See the vignette for detailed examples.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">df &lt;- data.frame(x = c(1, 5, 7, 3, 0),
+                 y = c(9, 0, 5, 9, 2),
+                 z = c(1, 1, 2, 2, 1)
+                 )
+df &lt;- recodes(df, 
+              vars = c("x", "y"), 
+              from = 0, to = NA)
+df &lt;- recodes(df, 
+              vars = "z", 
+              from = c(1, 2), to = c("pass", "fail"))
+
+</code></pre>
+
+
+</div>

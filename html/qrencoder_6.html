@@ -1,0 +1,40 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qrencode_raster</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Return a QR encoded string as a raster object</h2>
+
+<h3>Description</h3>
+
+<p>Return a QR encoded string as a raster object
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qrencode_raster(to_encode)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>to_encode</code></td>
+<td>
+<p>the data to encode</p>
+</td>
+</tr></table>
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(raster)
+old_mar &lt;- par()$mar
+par(mar=c(0,0,0,0))
+image(qrencode_raster("http://rud.is/b"), asp=1, col=c("white", "black"),
+                                          axes=FALSE, xlab="", ylab="")
+par(mar=old_mar)
+</code></pre>
+
+
+</div>

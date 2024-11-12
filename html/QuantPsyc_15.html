@@ -1,0 +1,82 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>norm</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2> Skewness and Kurtosis </h2>
+
+<h3>Description</h3>
+
+<p>Computes Skewness and Kurtosis of data. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">norm(x)
+Skew(x)
+Kurt(x)
+
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p> A data object such as a numeric or column from a data.frame</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p><code>norm</code> returns a table containing <code>Skew</code> &amp; <code>Kurt</code>. Each contain the following elements:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>Statistic</code></td>
+<td>
+<p>value for Skewness or Kurtosis respectively</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>SE </code></td>
+<td>
+<p>Standard error for Skewness or Kurtosis</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>t-val </code></td>
+<td>
+<p>t or z ratio - Statistic/SE</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p</code></td>
+<td>
+<p>p value associated with z distribution</p>
+</td>
+</tr>
+</table>
+<h3>Warning </h3>
+
+<p>These statistics should be used with caution as they are influenced by sample size!</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Thomas D. Fletcher <a href="mailto:t.d.fletcher05@gmail.com">t.d.fletcher05@gmail.com</a> </p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+# create negatively skewed dat with 100 observations
+xc &lt;-  -rchisq(100,3)	
+norm(xc)
+
+</code></pre>
+
+
+</div>

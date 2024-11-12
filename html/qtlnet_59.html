@@ -1,0 +1,129 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>summary.qtlnet</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>summary of model average network and posterior table</h2>
+
+<h3>Description</h3>
+
+<p>Print and summary methods for qtlnet objects.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'qtlnet'
+print(x, cutoff = 0.01, digits = 3, ...)
+## S3 method for class 'qtlnet'
+summary(object, parent.patterns = FALSE, ...)
+## S3 method for class 'summary.qtlnet'
+print(x, ...)
+check.qtlnet(object, min.prob = 0.9, correct = TRUE, verbose = FALSE, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x,object</code></td>
+<td>
+
+<p>Object of class <code>qtlnet</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cutoff</code></td>
+<td>
+
+<p>Frequency cutoff for model patterns to be displayed. Always shows at
+least the most common pattern.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>digits</code></td>
+<td>
+
+<p>Number of digits to display for posterior probabilities on directed edges.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>parent.patterns</code></td>
+<td>
+
+<p>Include summary of parent patterns if <code>TRUE</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>min.prob</code></td>
+<td>
+
+<p>Set the minimum posterior probability for inclusion of an edge.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>correct</code></td>
+<td>
+
+<p>Correct <code>min.prob</code> if <code>TRUE</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+
+<p>Print forbidden edges in model-averaged solution if <code>TRUE</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+
+<p>Other hidden arguments. These include <code>min.prob</code>, which
+can also be passed to other <code>igraph.qtlnet</code> and
+<code>plot.qtlnet</code> routines.
+</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Brian S. Yandell and Elias Chaibub Neto
+</p>
+
+
+<h3>References</h3>
+
+<p>Chaibub Neto E, Keller MP, Attie AD, Yandell BS (2010)
+Causal Graphical Models in Systems Genetics: a unified
+framework for joint inference of causal network and
+genetic architecture for correlated phenotypes.
+Ann Appl Statist 4: 320-339.
+<a href="http://www.stat.wisc.edu/~yandell/doc/2010/92.AnnApplStat.pdf">http://www.stat.wisc.edu/~yandell/doc/2010/92.AnnApplStat.pdf</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>mcmc.qtlnet</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(Pscdbp.qtlnet)
+print(Pscdbp.qtlnet)
+summary(Pscdbp.qtlnet)
+</code></pre>
+
+
+</div>

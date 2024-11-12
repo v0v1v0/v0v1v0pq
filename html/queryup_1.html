@@ -1,0 +1,63 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>build_query_url</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Accessory function used to build the query url</h2>
+
+<h3>Description</h3>
+
+<p>Accessory function used to build the query url
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">build_query_url(
+  query = NULL,
+  base_url = "https://rest.uniprot.org/uniprotkb/",
+  columns = c("accession", "id", "gene_names", "organism_name", "reviewed"),
+  format = "json"
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>query</code></td>
+<td>
+<p>list of keys corresponding to UniProt's query fields.
+For example :
+list("gene_exact" = c("Pik3r1", "Pik3r2") ,
+"organism" = c("10090", "9606"), "reviewed" = "yes")</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>base_url</code></td>
+<td>
+<p>The base url for the UniProt REST API</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>columns</code></td>
+<td>
+<p>names of UniProt data columns to retrieve.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>format</code></td>
+<td>
+<p>format of the response provided by the UniProt API</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>the query url
+</p>
+
+
+</div>

@@ -1,0 +1,72 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>zVRR</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Caculate vector recovery ratio (VRR)</h2>
+
+<h3>Description</h3>
+
+<p>Caculate vector recovery ratio (VRR)
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">zVRR(Q.true, Q.sug)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>Q.true</code></td>
+<td>
+<p>The true Q-matrix.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Q.sug</code></td>
+<td>
+<p>A The Q-matrix that has being validated.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The VRR shows the ability of the validation method to recover q-vectors, and is determined by
+</p>
+<p style="text-align: center;"><code class="reqn">
+ VRR =\frac{\sum_{i=1}^{I}I(\mathbf{q}_{i}^{t} = \mathbf{q}_{i}^{s})}{I}
+</code>
+</p>
+
+<p>where <code class="reqn">\mathbf{q}_{i}^{t}</code> denotes the <code class="reqn">\mathbf{q}</code>-vector of item <code>i</code> in the true Q-matrix (<code>Q.true</code>),
+<code class="reqn">\mathbf{q}_{i}^{s}</code> denotes the <code class="reqn">\mathbf{q}</code>-vector of item <code>i</code> in the suggested Q-matrix(<code>Q.sug</code>),
+and <code class="reqn">I(\cdot)</code> is the indicator function.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A numeric (VRR index).
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(Qval)
+
+set.seed(123)
+
+example.Q1 &lt;- sim.Q(5, 30)
+example.Q2 &lt;- sim.MQ(example.Q1, 0.1)
+VRR &lt;- zVRR(example.Q1, example.Q2)
+print(VRR)
+
+</code></pre>
+
+
+</div>

@@ -1,0 +1,149 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>quantileCV</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+A function to cross-validate the quantile classifier
+</h2>
+
+<h3>Description</h3>
+
+<p>Balanced cross-validation for the quantile classifier
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">quantileCV(x, cl, nfold = min(table(cl)), 
+folds = balanced.folds(cl, nfold), theta=NULL, seed = 1, varying = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p> A matrix of data (the training set) with observations in rows and variables in columns (it can be a matrix or a dataframe)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cl</code></td>
+<td>
+<p> A vector of class labels for each sample (factor or numerical)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nfold</code></td>
+<td>
+<p> Number of cross-validation folds. Default is the smallest class size. Admitted values are from 1 to the smallest class size as maximum fold number.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>folds</code></td>
+<td>
+<p> A list with nfold components, each component a vector of indices of the samples in that fold. By default a (random) balanced cross-validation is used</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>theta </code></td>
+<td>
+<p> A vector of quantile probabilities (optional) </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>seed</code></td>
+<td>
+<p> Fix the seed of the running. Default is 1</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>varying</code></td>
+<td>
+<p> If TRUE a different quantile for each variable is selected in the training set. If FALSE (default) an unique quantile is used.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p><code>quantileCV</code> carries out cross-validation for a quantile classifier.</p>
+
+
+<h3>Value</h3>
+
+<p>A list with components
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>test.rates </code></td>
+<td>
+<p>Mean of misclassification errors in the cross-validation test sets for each quantile probability (available if <code>varying</code> is FALSE)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>train.rates </code></td>
+<td>
+<p>Mean of misclassification errors in the cross-validation train sets for each quantile probability (available if <code>varying</code> is FALSE)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>thetas </code></td>
+<td>
+<p>The fitted quantile probabilities</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>theta.choice </code></td>
+<td>
+<p>Value of the chosen quantile probability in the training set</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>me.test </code></td>
+<td>
+<p>Misclassification errors in the cross validation test sets for the best quantile probability</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>me.train </code></td>
+<td>
+<p>Misclassification errors in the cross validation training sets for the best quantile probability</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>me.median </code></td>
+<td>
+<p>Misclassification errors in the cross validation test sets of the median classifier</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>me.centroid </code></td>
+<td>
+<p>Misclassification errors in the cross validation test sets of the centroid classifier</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>folds </code></td>
+<td>
+<p>The cross-validation folds used</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Christian Hennig, Cinzia Viroli</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(ais)
+x=ais[,3:13]
+cl=as.double(ais[,1])
+out=quantileCV(x,cl,nfold=2)
+</code></pre>
+
+
+</div>

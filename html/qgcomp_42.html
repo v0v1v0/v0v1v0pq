@@ -1,0 +1,88 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>se_comb</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Calculate standard error of weighted linear combination of random variables</h2>
+
+<h3>Description</h3>
+
+<p>This function uses the Delta method to calculate standard errors of linear
+functions of variables (similar to <code>lincom</code> in Stata). Generally, users will not need to
+call this function directly.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">se_comb(expnms, covmat, grad = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>expnms</code></td>
+<td>
+<p>a character vector with the names of the columns to be
+of interest in the covariance matrix for a which a standard error will be
+calculated (e.g. same as expnms in qgcomp fit)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>covmat</code></td>
+<td>
+<p>covariance matrix for parameters, e.g. from a model or
+bootstrap procedure</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>grad</code></td>
+<td>
+<p>the "weight" vector for calculating the contribution of each variable
+in expnms to the final standard error. For a linear combination, this is equal
+to a vector of ones (and is set automatically). Or can be calculated via the
+grad.poly procedure, in the case of coming up with proper weights when the combination
+of expnms derives from a polynomial function (as in qgcomp.glm.boot with degree&gt;1).</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>This function takes inputs of a set of exposure names (character vector)
+and a covariance matrix (with colnames/rownames that contain the full set
+of exposure names), as well as a possible <code>grad</code> parameter to calculate
+the variance of a weighted combination of the exposures in <code>expnms</code>, where the
+weights are based off of <code>grad</code> (which defaults to 1, so that this function
+yields the variance of a sum of all variables in <code>expnms</code>)
+</p>
+<p>Here is simple version of the delta method for a linear combination of
+three model coefficients:
+</p>
+<p><code class="reqn">f(\beta) = \beta_1 + \beta_2 + \beta_3</code>
+given gradient vector
+</p>
+<p style="text-align: center;"><code class="reqn">G = [d(f(\beta))/d\beta_1 = 1,
+  d(f(\beta))/d\beta_2 = 1,
+  d(f(\beta))/d\beta_3 = 1]</code>
+</p>
+
+<p><code class="reqn">t(G) Cov(\beta)  G</code> = delta method variance, where t() is the transpose operator
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">vcov = rbind(c(1.2, .9),c(.9, 2.0))
+colnames(vcov) &lt;- rownames(vcov) &lt;- expnms &lt;- c("x1", "x2")
+se_comb(expnms, vcov, c(1, 0))^2 # returns the given variance
+se_comb(expnms, vcov, c(1, 1)) # default linear MSM fit: all exposures
+# have equal weight
+se_comb(expnms, vcov, c(.3, .1)) # used when one exposure contributes
+  # to the overall fit more than others  = d(msmeffect)/dx
+</code></pre>
+
+
+</div>

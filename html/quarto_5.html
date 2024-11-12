@@ -1,0 +1,55 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>quarto_binary_sitrep</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Check configurations for quarto binary used</h2>
+
+<h3>Description</h3>
+
+<p>This function check the configuration for the quarto package R package to
+detect a possible difference with version used by RStudio IDE.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">quarto_binary_sitrep(verbose = TRUE, debug = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p>if <code>FALSE</code>, only return the result of the check.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>debug</code></td>
+<td>
+<p>if <code>TRUE</code>, print more information about value set in configurations.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p><code>TRUE</code> if this package should be using the same quarto binary as the
+RStudio IDE. <code>FALSE</code> otherwise if a difference is detected or quarto is not
+found. Use <code>verbose = TRUE</code> or<code>debug = TRUE</code> to get detailed information.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">quarto_binary_sitrep(verbose = FALSE)
+quarto_binary_sitrep(verbose = TRUE)
+quarto_binary_sitrep(debug = TRUE)
+
+</code></pre>
+
+
+</div>

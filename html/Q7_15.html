@@ -1,0 +1,59 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>type</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Create a Q7 Type</h2>
+
+<h3>Description</h3>
+
+<p>Create a Q7 Type
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">type(x = function() {
+}, s3 = "Q7default")
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>function or expression; becomes the definition of the object</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>s3</code></td>
+<td>
+<p>S3 class for the object; necessary when using S3 generic functions</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Q7 type; function
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+Adder &lt;- type(function(num1, num2){
+    add_nums &lt;- function(){
+        num1 + num2
+    }
+ })
+
+myAdder &lt;- Adder(1, 2)
+myAdder$add_nums()
+
+</code></pre>
+
+
+</div>

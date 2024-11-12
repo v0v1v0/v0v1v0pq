@@ -1,0 +1,69 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>sim.Q</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>generate a random Q-matrix</h2>
+
+<h3>Description</h3>
+
+<p>generate a <code class="reqn">I</code> * <code class="reqn">K</code> Q-matrix randomly, which consisted of one-attribute q-vectors
+(0.5), two-attribute q-vectors (0.25), and three-attribute q-vectors (0.25). 
+This function ensures that the generated Q-matrix contains at least two identity matrices as a priority.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">sim.Q(K, I)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>K</code></td>
+<td>
+<p>The number of attributes of each item.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>I</code></td>
+<td>
+<p>The number of items.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>An object of class <code class="reqn">matrix</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Haijiang Qin &lt;Haijiang133@outlook.com&gt;
+</p>
+
+
+<h3>References</h3>
+
+<p>Najera, P., Sorrel, M. A., de la Torre, J., &amp; Abad, F. J. (2021). Balancing fit and parsimony to improve Q-matrix validation. Br J Math Stat Psychol, 74 Suppl 1, 110-130. DOI: 10.1111/bmsp.12228.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(Qval)
+
+set.seed(123)
+
+Q &lt;- sim.Q(5, 10)
+print(Q)
+
+</code></pre>
+
+
+</div>

@@ -1,0 +1,253 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>plot_snpasso</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Plot SNP associations</h2>
+
+<h3>Description</h3>
+
+<p>Plot SNP associations, with possible expansion from distinct snps to all snps.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">plot_snpasso(
+  scan1output,
+  snpinfo,
+  genes = NULL,
+  lodcolumn = 1,
+  show_all_snps = TRUE,
+  chr = NULL,
+  add = FALSE,
+  drop_hilit = NA,
+  col_hilit = "violetred",
+  col = "darkslateblue",
+  gap = NULL,
+  minlod = 0,
+  sdp_panel = FALSE,
+  strain_labels = names(qtl2::CCcolors),
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>scan1output</code></td>
+<td>
+<p>Output of <code>scan1()</code> using
+SNP probabilities derived by
+<code>genoprob_to_snpprob()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>snpinfo</code></td>
+<td>
+<p>Data frame with SNP information with the following
+columns (the last three are generally derived from with
+<code>index_snps()</code>):
+</p>
+
+<ul>
+<li> <p><code>chr</code> - Character string or factor with chromosome
+</p>
+</li>
+<li> <p><code>pos</code> - Position (in same units as in the <code>"map"</code>
+attribute in <code>genoprobs</code>.
+</p>
+</li>
+<li> <p><code>sdp</code> - Strain distribution pattern: an integer, between
+1 and <code class="reqn">2^n - 2</code> where <code class="reqn">n</code> is the number of strains, whose
+binary encoding indicates the founder genotypes
+</p>
+</li>
+<li> <p><code>snp</code> - Character string with SNP identifier (if
+missing, the rownames are used).
+</p>
+</li>
+<li> <p><code>index</code> - Indices that indicate equivalent
+groups of SNPs.
+</p>
+</li>
+<li> <p><code>intervals</code> - Indexes that indicate which marker
+intervals the SNPs reside.
+</p>
+</li>
+<li> <p><code>on_map</code> - Indicate whether SNP coincides with a marker
+in the <code>genoprobs</code>
+</p>
+</li>
+</ul>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>genes</code></td>
+<td>
+<p>Optional data frame containing gene information for
+the region, with columns <code>start</code> and <code>stop</code> in Mbp, <code>strand</code>
+(as <code>"-"</code>, <code>"+"</code>, or <code>NA</code>), and <code>Name</code>. If included, a
+two-panel plot is produced, with SNP associations above and
+gene locations below.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lodcolumn</code></td>
+<td>
+<p>LOD score column to plot (a numeric index, or a
+character string for a column name). Only one value allowed.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>show_all_snps</code></td>
+<td>
+<p>If TRUE, expand to show all SNPs.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>chr</code></td>
+<td>
+<p>Vector of character strings with chromosome IDs to plot.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>add</code></td>
+<td>
+<p>If TRUE, add to current plot (must have same map and
+chromosomes).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>drop_hilit</code></td>
+<td>
+<p>SNPs with LOD score within this amount of the maximum SNP association will be highlighted.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>col_hilit</code></td>
+<td>
+<p>Color of highlighted points</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>col</code></td>
+<td>
+<p>Color of other points</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gap</code></td>
+<td>
+<p>Gap between chromosomes. The default is 1% of the total genome length.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>minlod</code></td>
+<td>
+<p>Minimum LOD to display. (Mostly for GWAS, in which
+case using <code>minlod=1</code> will greatly increase the plotting speed,
+since the vast majority of points would be omittted.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sdp_panel</code></td>
+<td>
+<p>Include a panel with the strain distribution patterns for the highlighted SNPs</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>strain_labels</code></td>
+<td>
+<p>Labels for the strains, if <code>sdp_panel=TRUE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Additional graphics parameters.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>None.
+</p>
+
+
+<h3>Hidden graphics parameters</h3>
+
+<p>A number of graphics parameters can be passed via <code>...</code>. For
+example, <code>bgcolor</code> to control the background color,<code>altbgcolor</code>
+to control the background color on alternate chromosomes,
+<code>altcol</code> to control the point color on alternate chromosomes,
+<code>cex</code> for character expansion for the points (default 0.5),
+<code>pch</code> for the plotting character for the points (default 16),
+and <code>ylim</code> for y-axis limits.
+If you are including genes and/or SDP panels, you can use
+<code>panel_prop</code> to control the relative heights of the panels,
+from top to bottom.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>plot_scan1()</code>, <code>plot_coef()</code>, <code>plot_coefCC()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+# load example DO data from web
+file &lt;- paste0("https://raw.githubusercontent.com/rqtl/",
+               "qtl2data/main/DOex/DOex.zip")
+DOex &lt;- read_cross2(file)
+
+# subset to chr 2
+DOex &lt;- DOex[,"2"]
+
+# calculate genotype probabilities and convert to allele probabilities
+pr &lt;- calc_genoprob(DOex, error_prob=0.002)
+apr &lt;- genoprob_to_alleleprob(pr)
+
+# query function for grabbing info about variants in region
+snp_dbfile &lt;- system.file("extdata", "cc_variants_small.sqlite", package="qtl2")
+query_variants &lt;- create_variant_query_func(snp_dbfile)
+
+# SNP association scan
+out_snps &lt;- scan1snps(apr, DOex$pmap, DOex$pheno, query_func=query_variants,
+                      chr=2, start=97, end=98, keep_all_snps=TRUE)
+
+# plot results
+plot_snpasso(out_snps$lod, out_snps$snpinfo)
+
+# can also just type plot()
+plot(out_snps$lod, out_snps$snpinfo)
+
+# plot just subset of distinct SNPs
+plot(out_snps$lod, out_snps$snpinfo, show_all_snps=FALSE)
+
+# highlight the top snps (with LOD within 1.5 of max)
+plot(out_snps$lod, out_snps$snpinfo, drop_hilit=1.5)
+
+# query function for finding genes in region
+gene_dbfile &lt;- system.file("extdata", "mouse_genes_small.sqlite", package="qtl2")
+query_genes &lt;- create_gene_query_func(gene_dbfile)
+genes &lt;- query_genes(2, 97, 98)
+
+# plot SNP association results with gene locations
+plot(out_snps$lod, out_snps$snpinfo, drop_hilit=1.5, genes=genes)
+
+# plot SNP asso results with genes plus SDPs of highlighted SNPs
+plot(out_snps$lod, out_snps$snpinfo, drop_hilit=2, genes=genes, sdp_panel=TRUE)
+
+## End(Not run)
+
+</code></pre>
+
+
+</div>

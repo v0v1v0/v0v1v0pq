@@ -1,0 +1,140 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>hash</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Hash/Dictionary Lookup</h2>
+
+<h3>Description</h3>
+
+<p><code>hash</code> - Creates a <a href="https://github.com/Rdatatable/data.table/wiki"><span class="pkg">data.table</span></a>
+based hash table for quick hash style dictionary lookup.
+</p>
+<p><code>hash_look</code> - Works with a hash table such as is returned from
+<code>hash</code>, to lookup values.
+</p>
+<p><code>%hl%</code> - A binary operator version of <code>hash_look</code>.
+</p>
+<p><code>%hl+%</code> - A binary operator version of <code>hash_look</code>
+for when <code>missing</code> is assumed to be <code>NULL</code>.
+</p>
+<p><code>hash_e</code> - Creates a new environment for quick hash style dictionary lookup.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">hash(x)
+
+hash_look(terms, key, missing = NA)
+
+terms %hl% key
+
+terms %hl+% key
+
+hash_e(x, mode.out = "numeric")
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>A two column dataframe.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>terms</code></td>
+<td>
+<p>A vector of terms to undergo a lookup.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>key</code></td>
+<td>
+<p>The hash key to use.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>missing</code></td>
+<td>
+<p>Value to assign to terms not found in the hash table.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mode.out</code></td>
+<td>
+<p>The type of output (column 2) expected (e.g.,
+<code>"character"</code>, <code>"numeric"</code>, etc.)</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p><code>hash</code> - Creates a "hash table", a two column <span class="pkg">data.table</span>.
+</p>
+<p><code>hash_e</code> - Creates a "hash table", a two column <code>data.frame</code> 
+in its own environment.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p><code>hash_e</code> - Bryan Goodrich and Tyler Rinker &lt;tyler.rinker@gmail.com&gt;.
+</p>
+
+
+<h3>References</h3>
+
+<p>https://www.talkstats.com/showthread.php/22754-Create-a-fast-dictionary
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>setDT</code>,
+<code>hash</code>
+</p>
+<p><code>environment</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">##===================##
+## data.table Hashes ##
+##===================##
+(DF &lt;- aggregate(mpg~as.character(carb), mtcars, mean))
+x &lt;- sample(DF[, 1], 20, TRUE)
+new.hash &lt;- hash(DF)
+x2 &lt;- c(9, 12, x)
+hash_look(x, new.hash)
+
+x %hl% new.hash
+x2 %hl% new.hash
+x2 %hl+% new.hash
+
+## Create generic functions
+hfun &lt;- function(x, ...) {
+    hsh &lt;- hash(x, ...)
+    function(x, ...) hash_look(x, hsh, ...)
+}
+
+m &lt;- hfun(DF)
+m(x)
+
+##====================##
+## Environment Hashes ##
+##====================##
+new.hash2 &lt;- hash_e(DF)
+
+x %hl% new.hash2
+x2 %hl% new.hash2
+x2 %hl+% new.hash2
+</code></pre>
+
+
+</div>

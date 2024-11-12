@@ -1,0 +1,127 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>feature_selection</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Variable selection using the qmd-dependence values</h2>
+
+<h3>Description</h3>
+
+<p>Given a d-dimensional random vector X containing the explanatory variables and a uni-variate response variable y,
+this function uses the qmd-dependence values to select the most relevant (influential) explanatory variables.
+Two different methods are available and are explained in the section Details.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">feature_selection(
+  X,
+  y,
+  method = "combVar",
+  bin.size = "fixed",
+  plot = TRUE,
+  na.exclude = FALSE,
+  max_num_features = NULL,
+  plot.title = NULL,
+  plot.color = "hotpink"
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>X</code></td>
+<td>
+<p>a numeric matrix or data.frame of dimension d containing the explanatory variables</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>a numeric vector containing the uni-variate response variable</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+<p>possible options are c("combVar", "addVar"), see Details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bin.size</code></td>
+<td>
+<p>either "fixed", "adaptive" or "sparse.adaptive", indicating whether the checkerboard copula may vary its bin sizes (defaults to "fixed"). Setting this to "adaptive" might affect the results but will be faster if the sample has many ties.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>plot</code></td>
+<td>
+<p>logical indicating whether the feature selection plot is printed</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>na.exclude</code></td>
+<td>
+<p>logical if all rows containing NAs should be removed.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>max_num_features</code></td>
+<td>
+<p>maximal number of explanatory variables to be selected</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>plot.title</code></td>
+<td>
+<p>a label for the title</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>plot.color</code></td>
+<td>
+<p>a colour for the selected variables</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>method 1 (default) - "combVar": computes all qmd-dependence scores, i.e., calculates the dependence of every combination of explanatory variables to the response variable y and selects for each number of explanatory variables the combination with the greatest dependence score. This procedure is computational expensive and is only available up to 15 explanatory variables.
+</p>
+<p>method 2 - "addVar": stepwise procedure which calculates all bi-variate dependence values q(X_i,Y) and selects the variable X_j exhibiting the greatest dependence value. In the next step all three-dimensional combinations q((X_j, X_i), Y) (for every i =1,..., d and i not j) are computed and the variable exhibiting again the greatest dependence score is added. In this manner the procedure works up to dimension d.
+</p>
+
+
+<h3>Value</h3>
+
+<p>a list containing a data.frame (result) and the corresponding plots.
+The data.frame result contains the number of explanatory variables (nVars),
+the combination of selected variables (selVars),
+the dependence measure zeta1 (qmd) of the selected variables to the response y
+and the resolution of the empirical checkerboard copula (ECBC_resolution).
+For the method "combVar" the dependence value zeta1 (qmd) is returned for all combinations of explanatory variables and is sorted in decreasing order according to zeta1.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">n &lt;- 1000
+x1 &lt;- runif(n)
+x2 &lt;- rexp(n)
+x3 &lt;- x1 + log(x2) + rnorm(n)
+x4 &lt;- rnorm(n)
+x5 &lt;- x4^2
+x6 &lt;- x1 + x5 + rnorm(n)
+x7 &lt;- 1:n
+y &lt;- x2 + x4*x7 + runif(n)
+X &lt;- data.frame(x1,x2,x3,x4,x5,x6,x7)
+fit &lt;- feature_selection(X, y, method = "combVar", plot = TRUE)
+fit &lt;- feature_selection(X, y, method = "addVar", plot = TRUE)
+</code></pre>
+
+
+</div>

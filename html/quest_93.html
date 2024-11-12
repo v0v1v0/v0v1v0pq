@@ -1,0 +1,307 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>props_diff</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Proportion Difference of Multiple Variables Across Two Independent Groups
+(Chi-square Tests of Independence)</h2>
+
+<h3>Description</h3>
+
+<p><code>props_diff</code> tests the proportion difference of multiple variables
+across two independent groups with chi-square tests of independence. The
+function also calculates the descriptive statistics for each group, various
+standardized effect sizes (e.g., Cramer's V), and can provide the 2x2
+contingency tables. <code>props_diff</code> is simply a wrapper for
+<code>prop.test</code> plus some extra calculations.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">props_diff(
+  data,
+  vrb.nm,
+  bin.nm,
+  lvl = levels(as.factor(data[[bin.nm]])),
+  yates = TRUE,
+  zero.cell = 0.05,
+  smooth = TRUE,
+  ci.level = 0.95,
+  rtn.table = TRUE,
+  check = TRUE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>data.frame of data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vrb.nm</code></td>
+<td>
+<p>character vector specifying the colnames in <code>data</code> for the
+variables. Since we are testing proportions, the variables must be dummy
+codes such that they only have values of 0 or 1 (or missing values).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bin.nm</code></td>
+<td>
+<p>character vector of length 1 specifying the colname in <code>data</code>
+for the binary variable that only takes on two values (or missing values),
+specifying the two independent groups.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lvl</code></td>
+<td>
+<p>character vector with length 2 specifying the unique values for
+the two groups. If <code>bin</code> is a factor, then <code>lvl</code> should be the
+factor levels rather than the underlying integer codes. This argument
+allows you to specify the direction of the prop difference.
+<code>prop_diff</code> calculates the prop differences as <code>x[ bin == lvl[2]
+]</code> - <code>x[ bin == lvl[1] ]</code> such that it is group 2 - group 1. By
+changing which group is group 1 vs. group 2, the direction of the prop
+differences can be changed. See details of <code>prop_diff</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>yates</code></td>
+<td>
+<p>logical vector of length 1 specifying whether the Yate's
+continuity correction should be applied for small samples. See
+<code>chisq.test</code> for details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>zero.cell</code></td>
+<td>
+<p>numeric vector of length 1 specifying what value to impute
+for zero cell counts in the 2x2 contingency table when computing the
+tetrachoric correlations. See <code>tetrachoric</code> for details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>smooth</code></td>
+<td>
+<p>logical vector of length 1 specifying whether a smoothing
+algorithm should be applied when estimating the tetrachoric correlations.
+See <code>tetrachoric</code> for details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ci.level</code></td>
+<td>
+<p>numeric vector of length 1 specifying the confidence level.
+<code>ci.level</code> must range from 0 to 1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rtn.table</code></td>
+<td>
+<p>logical vector of lengh 1 specifying whether the return
+object should include the 2x2 contingency table of counts with totals and
+the 2x2 overall percentages table. If TRUE, then the last two elements of
+the return object are "count" containing a 3D array of counts and "percent"
+containing a 3D array of overall percentages.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>check</code></td>
+<td>
+<p>logical vector of length 1 specifying whether the input
+arguments should be checked for errors. For example, if
+<code>data[[bin.nm]]</code> has more than 2 unique values (other than missing
+values). This is a tradeoff between computational efficiency (FALSE) and
+more useful error messages (TRUE).</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>list of data.frames containing statistical information about the prop
+differences (the rownames of each data.frame are <code>vrb.nm</code>): 1)
+chisqtest = chi-square tests of independence stat info in a data.frame, 2)
+describes = descriptive statistics stat info in a data.frame, 3) effects =
+various standardized effect sizes in a data.frame, 4) count = numeric 3D
+array with dim = <code>[3, 3, length(vrb.nm)]</code> of the 2x2 contingency
+tables of counts with additional rows and columns for totals (if
+<code>rtn.table</code> = TRUE), 5) percent = numeric 3D array with dim =
+<code>[3, 3, length(vrb.nm)]</code> of the 2x2 contingency tables of overall
+percentages with additional rows and columns for totals (if
+<code>rtn.table</code> = TRUE).
+</p>
+<p>1) chisqtest = chi-square tests of independence stat info in a data.frame
+</p>
+
+<dl>
+<dt>est</dt>
+<dd>
+<p>mean difference estimate (i.e., group 2 - group 1)</p>
+</dd>
+<dt>se</dt>
+<dd>
+<p>NA (to remind the user there is no standard error for the test)</p>
+</dd>
+<dt>X2</dt>
+<dd>
+<p>chi-square value</p>
+</dd>
+<dt>df</dt>
+<dd>
+<p>degrees of freedom (will always be 1)</p>
+</dd>
+<dt>p</dt>
+<dd>
+<p>two-sided p-value</p>
+</dd>
+<dt>lwr</dt>
+<dd>
+<p>lower bound of the confidence interval</p>
+</dd>
+<dt>upr</dt>
+<dd>
+<p>upper bound of the confidence interval</p>
+</dd>
+</dl>
+<p>2) describes = descriptive statistics stat info in a data.frame
+</p>
+
+<dl>
+<dt>prop_'lvl[2]'</dt>
+<dd>
+<p>proportion of group 2</p>
+</dd>
+<dt>prop_'lvl[1]'</dt>
+<dd>
+<p>proportion of group 1</p>
+</dd>
+<dt>sd_'lvl[2]'</dt>
+<dd>
+<p>standard deviation of group 2</p>
+</dd>
+<dt>sd_'lvl[1]'</dt>
+<dd>
+<p>standard deviation of group 1</p>
+</dd>
+<dt>n_'lvl[2]'</dt>
+<dd>
+<p>sample size of group 2</p>
+</dd>
+<dt>n_'lvl[1]'</dt>
+<dd>
+<p>sample size of group 1</p>
+</dd>
+</dl>
+<p>3) effects = various standardized effect sizes in a data.frame
+</p>
+
+<dl>
+<dt>cramer</dt>
+<dd>
+<p>Cramer's V estimate</p>
+</dd>
+<dt>h</dt>
+<dd>
+<p>Cohen's h estimate</p>
+</dd>
+<dt>phi</dt>
+<dd>
+<p>Phi coefficient estimate</p>
+</dd>
+<dt>yule</dt>
+<dd>
+<p>Yule coefficient estimate</p>
+</dd>
+<dt>tetra</dt>
+<dd>
+<p>Tetrachoric correlation estimate</p>
+</dd>
+<dt>OR</dt>
+<dd>
+<p>odds ratio estimate</p>
+</dd>
+<dt>RR</dt>
+<dd>
+<p>risk ratio estimate calculated as (i.e., group 2 / group 1).
+Note this value will often differ when recoding variables (as it should).</p>
+</dd>
+</dl>
+<p>4) count = numeric 3D array with dim = <code>[3, 3, length(vrb.nm)]</code> of the
+2x2 contingency tables of counts with additional rows and columns for totals
+(if <code>rtn.table</code> = TRUE).
+</p>
+<p>The two unique observed values of <code>data[vrb.nm]</code> (i.e., 0 and 1) -
+plus the total - are the rows and the two unique observed values of
+<code>data[[bin.nm]]</code> - plus the total - are the columns. The variables
+themselves as the layers (i.e., 3rd dimension of the array). The dimlabels
+are "bin" for the rows, "x" for the columns, and "vrb" for the layers. The
+rownames are 1. "0", 2. "1", 3. "total". The colnames are 1. 'lvl[1]', 2.
+'lvl[2]', 3. "total". The laynames are <code>vrb.nm</code>.
+</p>
+<p>5) percent = numeric 3D array with dim = <code>[3, 3, length(vrb.nm)]</code> of the
+2x2 contingency tables of overall percentages with additional rows and
+columns for totals (if <code>rtn.table</code> = TRUE).
+</p>
+<p>The two unique observed values of <code>data[vrb.nm]</code> (i.e., 0 and 1) -
+plus the total - are the rows and the two unique observed values of
+<code>data[[bin]]</code> - plus the total - are the columns. The variables
+themselves as the layers (i.e., 3rd dimension of the array). The dimlabels
+are "bin" for the rows, "x" for the columns, and "vrb" for the layers. The
+rownames are 1. "0", 2. "1", 3. "total". The colnames are 1. 'lvl[1]', 2.
+'lvl[2]', 3. "total". The laynames are <code>vrb.nm</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>prop.test</code> the workhorse for <code>props_diff</code>,
+<code>prop_diff</code> for a single dummy variable,
+<code>phi</code> for another phi coefficient function
+<code>Yule</code> for another yule coefficient function
+<code>tetrachoric</code> for another tetrachoric coefficient function
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+# rtn.table = TRUE (default)
+
+# multiple variables
+mtcars2 &lt;- mtcars
+mtcars2$"vs_bin" &lt;- ifelse(mtcars$"vs" == 1, yes = "yes", no = "no")
+mtcars2$"gear_dum" &lt;- ifelse(mtcars2$"gear" &gt; 3, yes = 1L, no = 0L)
+mtcars2$"carb_dum" &lt;- ifelse(mtcars2$"carb" &gt; 3, yes = 1L, no = 0L)
+vrb_nm &lt;- c("am","gear_dum","carb_dum") # dummy variables
+lapply(X = vrb_nm, FUN = function(nm) {
+   tmp &lt;- c("vs_bin", nm)
+   table(mtcars2[tmp])
+})
+props_diff(data = mtcars2, vrb.nm = c("am","gear_dum","carb_dum"), bin.nm = "vs_bin")
+
+# single variable
+props_diff(mtcars2, vrb.nm = "am", bin.nm = "vs_bin")
+
+# rtn.table = FALSE (no "count" or "percent" list elements)
+
+# multiple variables
+props_diff(data = mtcars2, vrb.nm = c("am","gear_dum","carb_dum"), bin.nm = "vs",
+   rtn.table = FALSE)
+
+# single variable
+props_diff(mtcars, vrb.nm = "am", bin.nm = "vs",
+   rtn.table = FALSE)
+
+</code></pre>
+
+
+</div>

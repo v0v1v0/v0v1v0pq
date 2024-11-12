@@ -1,0 +1,86 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qdo</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Manipulating the output of <code>mqgam</code>
+</h2>
+
+<h3>Description</h3>
+
+<p>Contrary to <code>qgam</code>, <code>mqgam</code> does not output a standard <code>gamObject</code>, hence
+methods such as <code>predict.gam</code> or <code>plot.gam</code> cannot be used directly. <code>qdo</code>
+provides a simple wrapper for such methods.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qdo(obj, qu = NULL, fun = I, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>obj</code></td>
+<td>
+<p>the output of a <code>mqgam</code> call.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qu</code></td>
+<td>
+<p>A vector whose elements must be in (0, 1). Each element indicates a quantile of interest, 
+which should be an element of <code>names(obj$fit)</code>. If left to <code>NULL</code> the function
+<code>fun</code> will be applied to each of the quantile fits in <code>obj</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fun</code></td>
+<td>
+<p>The method or function that we want to use on the <code>gamObject</code> corresponding to quantile <code>qu</code>. For instance
+<code>predict</code>, <code>plot</code> or <code>summary</code>. By default this is the identity function (<code>I</code>), which
+means that the fitted model for quantile <code>qu</code> is returned.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Additional arguments to be passed to <code>fun</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list where the i-th entry is the output of <code>fun</code> (whatever that is) corresponding to quantile <code>qu[i]</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Matteo Fasiolo &lt;matteo.fasiolo@gmail.com&gt;.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(qgam); library(MASS)
+
+quSeq &lt;- c(0.4, 0.6)
+set.seed(737)
+fit &lt;- mqgam(accel~s(times, k=20, bs="ad"), data = mcycle, qu = quSeq)
+
+qdo(fit, 0.4, summary)
+invisible(qdo(fit, 0.4, plot, pages = 1))
+
+# Return the object for qu = 0.6 and then plot it
+tmp &lt;- qdo(fit, 0.6)
+plot(tmp)
+
+</code></pre>
+
+
+</div>

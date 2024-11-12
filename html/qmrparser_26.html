@@ -1,0 +1,238 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>pcAxisParser</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Parser for PC-AXIS format files
+</h2>
+
+<h3>Description</h3>
+
+<p>Reads and creates the syntactical tree from a PC-AXIS format file or text.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">    pcAxisParser(streamParser)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>streamParser</code></td>
+<td>
+<p>stream parse associated to the file/text to be recognised</p>
+</td>
+</tr></table>
+<h3>Details</h3>
+
+<p>Grammar definition, wider than the strict PC-AXIS definition
+</p>
+<pre>
+
+ pcaxis        = { rule } , eof ;
+ 
+ rule          = keyword                        ,
+                 [ '[' , language      , ']' ]  , 
+                 [ '(' , parameterList , ')' ]  , 
+                 =                              , 
+                 ruleRight                      ;
+ 
+ parameterList = parameter ,  { ',' , parameterList  }  ;
+ 
+ ruleRight     = string , string     , {       string } , ';'
+               | string ,              { ',' , string } , ';'
+               | number , sepearator , {     , number } , ( ';' | eof )
+               | symbolic 
+               | 'TLIST' , '(' , symbolic , 
+                                ( ( ')' , { ',' , string }) 
+                                  |
+                                  ( ',' , string , '-' , string , ')' )
+                                ) , ';'
+               ; 
+ 
+ keyword       = symbolic         ;
+ 
+ language      = symbolic         ;
+ 
+ parameter     = string           ;
+ 
+ separator     = ' ' |  ',' | ';' ;
+ 
+ eof           = ? eof ?          ;
+ 
+ string        = ? string   ?     ;
+ 
+ symbolic      = ? symbolic ?     ;
+ 
+ number        = ? number   ?     ;
+ </pre>
+<p>Normally, this function is a previous step in order to eventually call <code>pcAxisCubeMake</code>:
+</p>
+<p><code>  
+   cstream  &lt;- pcAxisParser(stream)
+   if ( cstream$status == 'ok' )  cube &lt;- pcAxisCubeMake(cstream)
+ </code>   
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns a list with "status" "node"   "stream":
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>status</code></td>
+<td>
+<p> "ok" or "fail"</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>stream</code></td>
+<td>
+<p>Stream situation after recognition</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>node</code></td>
+<td>
+<p>List, one node element for each "keyword" in PC-AXIS file.
+Each node element is a list with: "keyword" "language" "parameters" "ruleRight":
+</p>
+
+<ul>
+<li>
+<p>keyword  
+</p>
+<p>PC-AXIS keyword
+</p>
+</li>
+<li>
+<p>language 
+</p>
+<p>language code or ""
+</p>
+</li>
+<li>
+<p>parameters 
+</p>
+<p>null or string list with parenthesised values associated to keyword 
+</p>
+</li>
+<li>
+<p>ruleRight 
+</p>
+<p>is a list of two elements, "type"  "value" : 
+</p>
+<p>If type = "symbol",         value =  symbol
+</p>
+<p>If type = "liststring",     value =  string vector, originally delimited by "," 
+</p>
+<p>If type = "stringstring",   value =  string vector, originally delimited by blanks, new line, ...
+</p>
+<p>If type = "list"        ,   value =  numerical vector, originally delimited by "," 
+</p>
+<p>If type = "tlist"       ,   value = (frequency, "limit" keyword , lower-limit , upper-limit) or (frequency, "list" keyword , periods list )    
+</p>
+</li>
+</ul>
+</td>
+</tr>
+</table>
+<h3>References</h3>
+
+<p>PC-Axis file format. 
+</p>
+<p><a href="https://www.scb.se/en/services/statistical-programs-for-px-files/px-file-format/">https://www.scb.se/en/services/statistical-programs-for-px-files/px-file-format/</a>
+</p>
+<p>PC-Axis file format manual. Statistics of Finland.
+</p>
+<p><a href="https://tilastokeskus.fi/tup/pcaxis/tiedostomuoto2006_laaja_en.pdf">https://tilastokeskus.fi/tup/pcaxis/tiedostomuoto2006_laaja_en.pdf</a> 
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+  ## Not run: 
+    ## significant time reductions may be achieve by doing:
+    library("compiler")
+    enableJIT(level=3)
+  
+## End(Not run)
+
+  name     &lt;- system.file("extdata","datInSFexample6_1.px", package = "qmrparser")
+  stream   &lt;- streamParserFromFileName(name,encoding="UTF-8")
+  cstream  &lt;-  pcAxisParser(stream)
+  if ( cstream$status == 'ok' ) {
+    
+    ## HEADING 
+    print(Filter(function(e) e$keyword=="HEADING",cstream$node)[[1]] $ruleRight$value)  
+  
+    ## STUB
+    print(Filter(function(e) e$keyword=="STUB",cstream$node)[[1]] $ruleRight$value)  
+  
+    ## DATA
+    print(Filter(function(e) e$keyword=="DATA",cstream$node)[[1]] $ruleRight$value)
+    
+  }
+
+  ## Not run: 
+      #
+      # Error messages like
+      #                " ... invalid multibyte string ... "
+      # or warnings
+      #                " input string ...  is invalid in this locale"
+      #
+      # For example, in Linux the error generated by this code:
+       name     &lt;-     "https://www.ine.es/pcaxisdl//t20/e245/p04/a2009/l0/00000008.px" 
+      stream   &lt;- streamParserFromString( readLines( name ) )    
+      cstream  &lt;- pcAxisParser(stream)
+      if ( cstream$status == 'ok' )  cube &lt;- pcAxisCubeMake(cstream)
+      #
+      # is caused by files with a non-readable 'encoding'.
+      # In the case where it could be read, there may also be problems 
+      # with string-handling functions, due to multibyte characters. 
+      # In Windows, according to \code{link{Sys.getlocale}()},
+      # file may be read but accents, ñ, ... may not be correctly recognised.
+      #
+      #
+      # There are, at least, the following options:
+      #  - File conversion to utf-8, from the OS, with
+      # "iconv - Convert encoding of given files from one encoding to another"
+      #
+      #  - File conversion in R:
+      name    &lt;- "https://www.ine.es/pcaxisdl//t20/e245/p04/a2009/l0/00000008.px" 
+      stream   &lt;- streamParserFromString( iconv( readLines( name ), "IBM850", "UTF-8") )
+      cstream  &lt;- pcAxisParser(stream)
+      if ( cstream$status == 'ok' )  cube &lt;- pcAxisCubeMake(cstream)
+      #
+      # In the latter case, latin1 would also work, but accents, ñ, ... would not be
+      # correctly read.
+      #
+      #  - Making the assumption that the file does not contain multibyte characters:
+      #
+      localeOld &lt;- Sys.getlocale("LC_CTYPE")
+      Sys.setlocale(category = "LC_CTYPE", locale = "C")
+      #
+      name     &lt;-
+        "https://www.ine.es/pcaxisdl//t20/e245/p04/a2009/l0/00000008.px" 
+      stream   &lt;- streamParserFromString( readLines( name ) )
+      cstream  &lt;- pcAxisParser(stream)
+      if ( cstream$status == 'ok' )  cube &lt;- pcAxisCubeMake(cstream)
+      #
+      Sys.setlocale(category = "LC_CTYPE", locale = localeOld)
+      #
+      # However, some characters will not be correctly read (accents, ñ, ...)
+
+    
+## End(Not run)
+
+</code></pre>
+
+
+</div>

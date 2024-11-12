@@ -1,0 +1,62 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>NMES</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+National Medicare Expenditure Survey (NMES) Data on Cost of Hospitalizations</h2>
+
+<h3>Description</h3>
+
+<p>These data come from Venturini's (2015) study of hospital costs for patients with smoking and non-smoking diseases.</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">data(NMES)</code></pre>
+
+
+<h3>Format</h3>
+
+<p>A data frame with 9416 observations on the following 2 variables.
+</p>
+
+<dl>
+<dt><code>x</code></dt>
+<dd>
+<p>A binary indicator variable: 0 for non-smoking disease, 1 for smoking disease</p>
+</dd>
+<dt><code>y</code></dt>
+<dd>
+<p>The response variable: cost of a hospital stay, in dollars</p>
+</dd>
+</dl>
+<h3>References</h3>
+
+ 
+<p>Dominici, F., Cope, L., Naiman, D. Q., and Zeger, S. L. (2005), "Smooth quantile ratio estimation," Biometrika, 92, 543-557.
+</p>
+<p>Dominici, F. and Zeger, S. L. (2005), "Smooth quantile ratio estimation with regression: estimating medical expenditures for smoking-attributable diseases," Biostatistics, 6, 505-519.
+</p>
+<p>Johnson, E., Dominici, F., Griswold, M., and Zeger, S. L. (2003), "Disease cases and their medical costs attributable to smoking: an analysis of the national medical expenditure survey," Journal of Econometrics, 112, 135-151.
+</p>
+<p>Venturini, S., Dominici, F., Parmigiani, G., et al. (2015), "Generalized quantile treatment effect: A flexible Bayesian approach using quantile ratio smoothing," Bayesian Analysis, 10, 523-552.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(NMES)
+## maybe str(NMES)
+y &lt;- NMES[,2]
+x &lt;- NMES[,1]
+# Remove the 0s (as Venturini (2015) notes was necessary)
+ind &lt;- which(y==0)
+x &lt;- x[-ind]
+y &lt;- y[-ind]
+hist(y[x==0])
+</code></pre>
+
+
+</div>

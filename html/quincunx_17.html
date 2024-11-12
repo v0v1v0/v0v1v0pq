@@ -1,0 +1,139 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>get_publications</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Get PGS Catalog Publications</h2>
+
+<h3>Description</h3>
+
+<p>Retrieves PGS publications via the PGS Catalog REST API. The REST
+API is queried multiple times with the criteria passed as arguments (see
+below). By default all publications that match the criteria supplied in the
+arguments are retrieved: this corresponds to the default option
+<code>set_operation</code> set to <code>'union'</code>. If you rather have only the
+associations that match simultaneously all criteria provided, then set
+<code>set_operation</code> to <code>'intersection'</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">get_publications(
+  pgp_id = NULL,
+  pgs_id = NULL,
+  pubmed_id = NULL,
+  author = NULL,
+  set_operation = "union",
+  interactive = TRUE,
+  verbose = FALSE,
+  warnings = TRUE,
+  progress_bar = TRUE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>pgp_id</code></td>
+<td>
+<p>A character vector of PGS Catalog publication accession
+identifiers.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pgs_id</code></td>
+<td>
+<p>A <code>character</code> vector of PGS Catalog score accession
+identifiers.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pubmed_id</code></td>
+<td>
+<p>An <code>integer</code> vector of
+<a href="https://en.wikipedia.org/wiki/PubMed">PubMed</a> identifiers.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>author</code></td>
+<td>
+<p>A character vector of author names, any author in the list of
+authors in a publication, .e.g. <code>'Mavaddat'</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>set_operation</code></td>
+<td>
+<p>Either <code>'union'</code> or <code>'intersection'</code>. This
+tells how publications retrieved by different criteria  should be combined:
+<code>'union'</code> binds together all results removing duplicates and
+<code>'intersection'</code> only keeps same publications found with different
+criteria.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>interactive</code></td>
+<td>
+<p>A logical. If all publications are requested, whether to ask
+interactively if we really want to proceed.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p>A <code>logical</code> indicating whether the function should be
+verbose about the different queries or not.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>warnings</code></td>
+<td>
+<p>A <code>logical</code> indicating whether to print warnings, if any.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>progress_bar</code></td>
+<td>
+<p>Whether to show a progress bar as the queries are
+performed.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Please note that all search criteria are vectorised, thus allowing for batch
+mode search. For more details see the help vignette:
+<code>vignette("getting-pgs-publications", package = "quincunx")</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A publications object.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+# Get PGS publications by their identifier
+get_publications(pgp_id = c('PGP000001', 'PGP000002'))
+
+# By polygenic score identifier
+get_publications(pgs_id = 'PGS000003')
+
+# By PubMed identifier
+get_publications(pubmed_id = '30554720')
+
+# By author's last name
+get_publications(author = 'Natarajan')
+
+## End(Not run)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,104 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qiita_util</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Generate Payload And Tag For Qiita API</h2>
+
+<h3>Description</h3>
+
+<p>Generate Payload And Tag For Qiita API
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qiita_util_tag(name, versions = NULL)
+
+qiita_util_payload(
+  body = NULL,
+  title = NULL,
+  tags = NULL,
+  private = NULL,
+  coediting = NULL,
+  gist = NULL,
+  tweet = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>name</code></td>
+<td>
+<p>Tag name</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>versions</code></td>
+<td>
+<p>Versions (e.g. <code>3.1</code>, <code>&gt;3.2</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>body</code></td>
+<td>
+<p>Content body.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>title</code></td>
+<td>
+<p>Title.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tags</code></td>
+<td>
+<p>Tags. Use <code>qiita_util_tag</code> to generate tag objects.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>private</code></td>
+<td>
+<p>If <code>TRUE</code>, the post will be private.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>coediting</code></td>
+<td>
+<p>If <code>TRUE</code>, the post will be editable by team members.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gist</code></td>
+<td>
+<p>If <code>TRUE</code>, post the code to Gist.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tweet</code></td>
+<td>
+<p>If <code>TRUE</code>, notify on Twitter.</p>
+</td>
+</tr>
+</table>
+<h3>Examples</h3>
+
+<pre><code class="language-R">qiita_util_tag(name = "R", versions = "&gt;3.1")
+
+qiita_util_payload(body = "foo",
+                   title = "test",
+                   tags = list(
+                     qiita_util_tag(name = "R", versions = "&gt;3.1"),
+                     qiita_util_tag(name = "dplyr")
+                   ),
+                   private = TRUE)
+
+</code></pre>
+
+
+</div>

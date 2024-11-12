@@ -1,0 +1,59 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>Earnings1978</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>LaLonde's 1978 Earnings Data</h2>
+
+<h3>Description</h3>
+
+<p>These data come from LaLonde's (1986) National Supported Work Demonstration (NSW) Data (Dehejia-Wahha Sample (1999)), used by Firpo (2007).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">data(Earnings1978)</code></pre>
+
+
+<h3>Format</h3>
+
+<p>A data frame with 445 observations on the following 2 variables.
+</p>
+
+<dl>
+<dt><code>x</code></dt>
+<dd>
+<p>A binary indicator variable: 0 for control, 1 for intervention (received job training)</p>
+</dd>
+<dt><code>y</code></dt>
+<dd>
+<p>The response variable: earnings in 1978</p>
+</dd>
+</dl>
+<h3>Source</h3>
+
+<p>http://users.nber.org/~rdehejia/data/nswdata2.html </p>
+
+
+<h3>References</h3>
+
+<p>Dehejia, R. H. and Wahba, S. (1999), "Causal effects in nonexperimental studies: Reevaluating the evaluation of training programs," Journal of the American Statistical Association, 94, 1053-1062.
+</p>
+<p>Firpo, S. (2007), "Efficient semiparametric estimation of quantile treatment effects," Econometrica, 75, 259-276.
+</p>
+<p>LaLonde, R. J. (1986), "Evaluating the econometric evaluations of training programs with experimental data," The American Economic Review, 604-620.</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(Earnings1978)
+## maybe str(Earnings1978)
+y &lt;- Earnings1978[,2]
+x &lt;- Earnings1978[,1]
+hist(y[x==1])
+</code></pre>
+
+
+</div>

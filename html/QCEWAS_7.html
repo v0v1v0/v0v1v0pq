@@ -1,0 +1,86 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>QCEWAS-package</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Quality Control of Epigenome-Wide Association Study Results</h2>
+
+<h3>Description</h3>
+
+<p>Functions for automated and manual quality control of
+Epigenome-Wide Association Study results.
+</p>
+
+
+<h3>Details</h3>
+
+
+<table>
+<tr>
+<td style="text-align: left;">
+    Package: </td>
+<td style="text-align: left;"> QCEWAS</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+    Type: </td>
+<td style="text-align: left;"> Package</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+    Version: </td>
+<td style="text-align: left;"> 1.2-3</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+    Date: </td>
+<td style="text-align: left;"> 2023-02-03</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+    License: </td>
+<td style="text-align: left;"> GPL (&gt;= 3)</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+  </td>
+</tr>
+</table>
+<p>When combining the results of multiple Epigenome-Wide
+Association Studies (EWAS) into a meta-analysis, it is
+recommended to run a quality check (QC) over the individual
+files first. This is not only to check if the individual
+results are valid, reliable, and of high quality, but also to
+ensure that they are comparable between cohorts. The
+<code>QCEWAS</code> package was developed to automate this process.
+</p>
+<p>The core function of <code>QCEWAS</code> is <code>EWAS_QC</code>.
+This function accepts the filename of a single EWAS results
+file and performs a thorough quality check. For more
+information, see the <code>EWAS_QC</code> help page. The
+function <code>EWAS_series</code> is a wrapper function that
+accepts multiple file names, and then runs <code>EWAS_QC</code>
+for all of them. It also generates a few additional plots to
+compare the results of the files, allowing the user to spot
+differences in effect-size distribution or standard errors.
+</p>
+<p>The functions <code>EWAS_plots</code> and
+<code>P_correlation</code> are subroutines of
+<code>EWAS_QC</code> that can also be called by the user to
+perform specific QC tasks.
+</p>
+<p>QCEWAS also includes a Quick-Start Guide. A link to the
+guide is provided when the package is loaded into R.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>P.J. van der Most, Leanne K. Kupers and Ilja M. Nolte
+</p>
+<p>Maintainer: P.J. van der Most &lt;p.j.van.der.most@umcg.nl&gt;
+</p>
+
+
+</div>

@@ -1,0 +1,192 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>splitStrings</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Construct unigram and bigram matrices from a vector of strings
+</h2>
+
+<h3>Description</h3>
+
+<p>A (possibly large) vector of strings is separated into sparse pattern matrices, which allows for efficient computation on the strings.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">splitStrings(strings, sep = "", bigrams = TRUE, boundary = TRUE,
+	bigram.binder = "", gap.symbol = "\u2043", left.boundary = "#",
+	right.boundary = "#", simplify = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>strings</code></td>
+<td>
+
+<p>Vector of strings to be separated into sparse matrices
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sep</code></td>
+<td>
+
+<p>Separator used to split the strings into parts. This will be passed to <code>strsplit</code> internally, so there is no fine-grained control possible over the splitting. If it is important to get the splitting exactly right, consider pre-processing the splitting by inserting a special symbol on the split-positions, and then choosing to split by this specific symbol.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bigrams</code></td>
+<td>
+
+<p>By default, both unigrams and bigrams are computer. If bigrams are not needed, setting <code>bigrams = F</code> will save on resources. 	
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>boundary</code></td>
+<td>
+
+<p>Should a start symbol and a stop symbol be added to each string? This will only be used for the determination of bigrams, and will be ignored if <code>bigrams = F</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bigram.binder</code></td>
+<td>
+
+<p>Only when <code>bigrams = T</code>. What symbol(s) should occur between the two parts of the bigram?
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gap.symbol</code></td>
+<td>
+
+<p>Only when <code>bigram = T</code>. What symbol should be included to separate the strings? It defaults to U+2043 <code>HYPHEN BULLET</code> on the assumption that this character will not often be included in data. See <code>pwMatrix</code> for some more explanation about the necessity of this gap symbol.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>left.boundary, right.boundary</code></td>
+<td>
+
+<p>Symbols to be used as boundaries, only used when <code>boundary = T</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>simplify</code></td>
+<td>
+
+<p>By default, various vectors and matrices are returned. However, when <code>simplify = T</code>, only a single sparse matrix is returned. See Value.
+</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>By default, the output is a list of six elements:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>segments</code></td>
+<td>
+
+<p>A vector with all splitted parts (i.e. all tokens) in order of occurrence, separated between the original strings with gap symbols.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>unigrams</code></td>
+<td>
+
+<p>A vector with all unique parts occuring in the segments.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bigrams</code></td>
+<td>
+
+<p>Only present when <code>bigrams = T</code>. A vector with all unique bigrams.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>SW</code></td>
+<td>
+
+<p>A sparse pattern matrix of class <code>ngCMatrix</code> specifying the distribution of segments (S) over the original strings (W, think ‘words’). This matrix is only interesting in combination with the following matrices.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>US</code></td>
+<td>
+
+<p>A sparse pattern matrix of class <code>ngCMatrix</code> specifying the distribution of the unique unigrams (U) over the tokenized segments (S).
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>BS</code></td>
+<td>
+
+<p>Only present when <code>bigrams = T</code>. A sparse pattern matrix of class <code>ngCMatrix</code> specifying the distribution of the unique bigrams (B) over the tokenized segments (S)
+</p>
+</td>
+</tr>
+</table>
+<p>When <code>simplify = T</code> the output is a single sparse matrix of class <code>dgCMatrix</code>. This is basically BS %8% SW (when <code>bigrams = T</code>) or US %*% SW (when <code>bigrams = F</code>) with rows and column names added into the matrix.
+</p>
+
+
+<h3>Note</h3>
+
+<p>Because of some internal idiosyncrasies, the ordering of the bigrams is first by second element, and then by first element. This might change in future versions.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Michael Cysouw
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>sim.strings</code> is a convenience function to quickly compute pairwise strings similarities, based on <code>splitStrings</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># a simple example to see the function at work
+example &lt;- c("this","is","an","example")
+splitStrings(example)
+splitStrings(example, simplify = TRUE)
+
+
+# a bit larger, but still quick and efficient
+# taking 15526 wordforms from the English Dalby Bible and splitting them into bigrams
+data(bibles)
+words &lt;- splitText(bibles$eng)$wordforms
+system.time( S &lt;- splitStrings(words, simplify = TRUE) )
+
+# and then taking the cosine similarity between the bigram-vectors for all word pairs
+system.time( sim &lt;- cosSparse(S) )
+
+# most similar words to "father"
+sort(sim["father",], decreasing = TRUE)[1:20]
+
+</code></pre>
+
+
+</div>

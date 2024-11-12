@@ -1,0 +1,52 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>pcmanufact</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Personal computer manufacturer data</h2>
+
+<h3>Description</h3>
+
+<p>A personal computer manufacturer counts the number of nonconformities per
+unit on the final assembly line. He collects data on 20 samples of 5
+computers each.
+</p>
+
+
+<h3>Format</h3>
+
+<p>A data frame with 10 observations on the following 2 variables.
+</p>
+
+<dl>
+<dt>x</dt>
+<dd>
+<p>number of nonconformities (inspection units)</p>
+</dd>
+<dt>sample</dt>
+<dd>
+<p>sample ID</p>
+</dd>
+<dt>size</dt>
+<dd>
+<p>number of computers inspected</p>
+</dd>
+</dl>
+<h3>References</h3>
+
+<p>Montgomery, D.C. (1991) <em>Introduction to Statistical
+Quality Control</em>, 2nd ed, New York, John Wiley &amp; Sons, pp. 181–182
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+data(pcmanufact)
+summary(pcmanufact)
+plot(pcmanufact$x/pcmanufact$size, type="b")
+</code></pre>
+
+
+</div>

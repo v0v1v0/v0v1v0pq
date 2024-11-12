@@ -1,0 +1,78 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>.quickPlotGrob-class</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>The <code>.quickPlotGrob</code> class</h2>
+
+<h3>Description</h3>
+
+<p>This class contains the plotting <code>.quickPlotGrob</code> information.
+</p>
+
+
+<h3>Details</h3>
+
+<p>These <code style="white-space: pre;">⁠gp*⁠</code> parameters will specify plot parameters that are available
+with <code>gpar()</code>. <code>gp</code> will adjust plot parameters, <code>gpText</code> will
+adjust title and legend text, <code>gpAxis</code> will adjust the axes.
+<code>size</code> adjusts point size in a <code>SpatialPoints</code> object.
+These will persist with the original <code>Plot</code> call for each individual object.
+Multiple entries can be used, but they must be named list elements
+and they must match the <code>...</code> items to plot.
+This is true for a <code>RasterStack</code> also, i.e., the list of named elements
+must be the same length as the number of layers being plotted.
+The naming convention used is: <code>RasterStackName$layerName</code>, i.e, <code>landscape$DEM</code>.
+</p>
+
+
+<h3>Slots</h3>
+
+
+<dl>
+<dt><code>plotName</code></dt>
+<dd>
+<p>character. Name of the plot frame, which is by default a concatenation
+of the <code>objName</code> and <code>layerName</code></p>
+</dd>
+<dt><code>objName</code></dt>
+<dd>
+<p>character. Name of object represented by this <code>.quickPlotGrob</code></p>
+</dd>
+<dt><code>envir</code></dt>
+<dd>
+<p>environment. The environment in which to find the <code>objName</code></p>
+</dd>
+<dt><code>layerName</code></dt>
+<dd>
+<p>character. Name of the layer represented by this <code>.quickPlotGrob</code>.
+Primarily used for <code>RasterStack</code>s.</p>
+</dd>
+<dt><code>objClass</code></dt>
+<dd>
+<p>character. Class of the object represented by this <code>.quickPlotGrob</code>.</p>
+</dd>
+<dt><code>isSpatialObjects</code></dt>
+<dd>
+<p>logical. TRUE if the object is one of the SpaDES recognized
+<code>spatialObject</code> classes.</p>
+</dd>
+<dt><code>plotArgs</code></dt>
+<dd>
+<p>list. Any parameters needed for plotting, set by <code>Plot</code> call.</p>
+</dd>
+</dl>
+<h3>Author(s)</h3>
+
+<p>Eliot McIntire
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>quickPlotClasses()</code>
+</p>
+
+
+</div>

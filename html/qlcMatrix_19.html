@@ -1,0 +1,65 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>huber</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Comparative vocabulary for indigenous languages of Colombia (Huber &amp; Reed 1992)
+</h2>
+
+<h3>Description</h3>
+
+<p>Data from Huber &amp; Reed (1992), containing a comparative vocabulary (a ‘wordlist’) for 69 indigenous languages from Colombia.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">data(huber)</code></pre>
+
+
+<h3>Format</h3>
+
+<p>A data frame with 27521 observations on the following 4 variables.
+</p>
+
+<dl>
+<dt><code>CONCEPT</code></dt>
+<dd>
+<p>a factor with 366 levels, indicating the comparative concepts</p>
+</dd>
+<dt><code>COUNTERPART</code></dt>
+<dd>
+<p>a character vector listing the actual wordforms as described in Huber &amp; Reed 1992</p>
+</dd>
+<dt><code>DOCULECT</code></dt>
+<dd>
+<p>a factor with 71 levels, indicating the languages from which the wordforms are taken (‘documented lects’, abbreviated as ‘doculect’). These are 69 indigenous languages from Colombia, and English and Spanish.</p>
+</dd>
+<dt><code>TOKENS</code></dt>
+<dd>
+<p>a tokenized version of the counterparts: spaces are added between graphemic units (i.e. groups of unicode characters that are functioning as a single unit in the orthography)</p>
+</dd>
+</dl>
+<h3>Details</h3>
+
+<p>The editors have attempted to use a harmonized orthography throughout all languages, approximately based on IPA, though there are still many language-specific idiosyncrasies included. However, the translations into English and Spanish are written in their regular orthography, and not in the IPA-dialect as used for the other languages. In general, the ‘translations’ into English and Spanish are simply lowercase versions of the concept-names, included here to more flexibly identify the meaning of words in the Colombian languages. In many cases these translations are somewhat clunky (e.g. ‘spring of water’), and are missing the proper orthography details (e.g. ‘Adams apple’).
+</p>
+<p>The book was digitized in the QuantHistLing project and provided here as an example of dealing efficiently with reasonably large data. Care has been taken to faithfully represent the original transcription from the printed version.
+</p>
+
+
+<h3>Source</h3>
+
+<p>Huber, Randall Q. &amp; Robert B. Reed. 1992. <em>Vocabulario Comparativo: Palabras Selectas de Lenguas Indigenas de Colombia.</em> Bogota: Instituto Linguistico de Verano. available online at <a href="https://colombia.sil.org/es/resources/archives/18886">https://colombia.sil.org/es/resources/archives/18886</a>. Copyright 2014 SIL International.</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(huber)
+head(huber)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,150 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>manhattan</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Creates a manhattan plot</h2>
+
+<h3>Description</h3>
+
+<p>Creates a manhattan plot from PLINK assoc output (or any data frame with 
+chromosome, position, and p-value).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">manhattan(
+  x,
+  chr = "CHR",
+  bp = "BP",
+  p = "P",
+  snp = "SNP",
+  col = c("gray10", "gray60"),
+  chrlabs = NULL,
+  suggestiveline = -log10(1e-05),
+  genomewideline = -log10(5e-08),
+  highlight = NULL,
+  logp = TRUE,
+  annotatePval = NULL,
+  annotateTop = TRUE,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>A data.frame with columns "BP," "CHR," "P," and optionally, "SNP."</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>chr</code></td>
+<td>
+<p>A string denoting the column name for the chromosome. Defaults to 
+PLINK's "CHR." Said column must be numeric. If you have X, Y, or MT 
+chromosomes, be sure to renumber these 23, 24, 25, etc.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bp</code></td>
+<td>
+<p>A string denoting the column name for the chromosomal position. 
+Defaults to PLINK's "BP." Said column must be numeric.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p</code></td>
+<td>
+<p>A string denoting the column name for the p-value. Defaults to 
+PLINK's "P." Said column must be numeric.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>snp</code></td>
+<td>
+<p>A string denoting the column name for the SNP name (rs number). 
+Defaults to PLINK's "SNP." Said column should be a character.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>col</code></td>
+<td>
+<p>A character vector indicating which colors to alternate.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>chrlabs</code></td>
+<td>
+<p>A character vector equal to the number of chromosomes
+specifying the chromosome labels (e.g., <code>c(1:22, "X", "Y", "MT")</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>suggestiveline</code></td>
+<td>
+<p>Where to draw a "suggestive" line. Default 
+-log10(1e-5). Set to FALSE to disable.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>genomewideline</code></td>
+<td>
+<p>Where to draw a "genome-wide sigificant" line. Default 
+-log10(5e-8). Set to FALSE to disable.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>highlight</code></td>
+<td>
+<p>A character vector of SNPs in your dataset to highlight. 
+These SNPs should all be in your dataset.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>logp</code></td>
+<td>
+<p>If TRUE, the -log10 of the p-value is plotted. It isn't very 
+useful to plot raw p-values, but plotting the raw value could be useful for
+other genome-wide plots, for example, peak heights, bayes factors, test 
+statistics, other "scores," etc.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>annotatePval</code></td>
+<td>
+<p>If set, SNPs below this p-value will be annotated on the plot. If logp is FALSE, SNPs above the specified value will be annotated.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>annotateTop</code></td>
+<td>
+<p>If TRUE, only annotates the top hit on each chromosome that is below the annotatePval threshold (or above if logp is FALSE).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Arguments passed on to other plot/points functions</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A manhattan plot.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">manhattan(gwasResults)
+  
+</code></pre>
+
+
+</div>

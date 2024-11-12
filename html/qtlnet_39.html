@@ -1,0 +1,141 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>igraph.qtlnet</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>qtlnet plot using igraph</h2>
+
+<h3>Description</h3>
+
+<p>Plot inferred causal network using igraph package.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">igraph.qtlnet(x, edges, loci.list,
+  pheno.color = "green", qtl.color = "red", vertex.color,
+  include.qtl = TRUE, ...)
+## S3 method for class 'qtlnet'
+plot(x, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+
+<p>Object of class <code>qtlnet</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>edges</code></td>
+<td>
+
+<p>Data frame with first two columns being <code>cause</code> and <code>effect</code>
+directed phenotype pairs. Typically determined as <code>averaged.net</code>
+element from call to <code>summary.qtlnet</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>loci.list</code></td>
+<td>
+
+<p>List of character names of loci by phenotype. Typically determined by
+call to <code>loci.qtlnet</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pheno.color,qtl.color</code></td>
+<td>
+
+<p>Name of color to use for phenotypes and QTLs, respectively.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vertex.color</code></td>
+<td>
+
+<p>Vertex colors in order of pheno-pheno edged augmented by
+<code>loci.list</code>, by default determined by <code>pheno.color</code> and <code>qtl.color</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>include.qtl</code></td>
+<td>
+
+<p>Include QTL in graph if <code>TRUE</code> and <code>loci.list</code> is not <code>NULL</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+
+<p>Additional arguments passed to called routines.
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Uses the igraph package to create graph objects. These can be exported
+to a variety of other modern graphics packages. <code>graph.qtlnet</code> is
+synonymous with <code>igraph.qtlnet</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Object of class <code>graph</code> created using
+<code>graph.data.frame</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Brian S. Yandell and Elias Chaibub Neto
+</p>
+
+
+<h3>References</h3>
+
+<p>Chaibub Neto E, Keller MP, Attie AD, Yandell BS (2010)
+Causal Graphical Models in Systems Genetics: a unified
+framework for joint inference of causal network and
+genetic architecture for correlated phenotypes.
+Ann Appl Statist 4: 320-339.
+<a href="http://www.stat.wisc.edu/~yandell/doc/2010/92.AnnApplStat.pdf">http://www.stat.wisc.edu/~yandell/doc/2010/92.AnnApplStat.pdf</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>summary.qtlnet</code>,
+<code>loci.qtlnet</code>,
+<code>graph.data.frame</code>,
+<code>tkplot</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">Pscdbp.graph &lt;- igraph.qtlnet(Pscdbp.qtlnet)
+Pscdbp.graph
+## Not run: 
+tkplot(Pscdbp.graph)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

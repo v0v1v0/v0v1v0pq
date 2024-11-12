@@ -1,0 +1,69 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>study_to_pgs</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Map GWAS studies identifiers to PGS identifiers</h2>
+
+<h3>Description</h3>
+
+<p>Map GWAS studies identifiers to PGS identifiers.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">study_to_pgs(study_id, verbose = FALSE, warnings = TRUE, progress_bar = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>study_id</code></td>
+<td>
+<p>A character vector of GWAS Catalog study accession
+identifiers, e.g., "GCST001937".</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p>A <code>logical</code> indicating whether the function should be
+verbose about the different queries or not.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>warnings</code></td>
+<td>
+<p>A <code>logical</code> indicating whether to print warnings, if
+any.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>progress_bar</code></td>
+<td>
+<p>Whether to show a progress bar as the queries are
+performed.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A data frame of two columns: <code>study_id</code> and <code>pgs_id</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+study_to_pgs('GCST001937')
+study_to_pgs(c('GCST000998', 'GCST000338'))
+
+## End(Not run)
+</code></pre>
+
+
+</div>

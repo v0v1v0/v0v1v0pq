@@ -1,0 +1,99 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>QGpsi</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Compute "Psi" (used to compute the additive genetic variance on the observed scale).</h2>
+
+<h3>Description</h3>
+
+<p>This function computes the parameter "Psi" which relates the additive genetic variance on the latent scale to the additive genetic variance on the observed scale: Va.obs = (Psi^2) * Va
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">QGpsi(mu = NULL, var, d.link.inv, predict = NULL, width = 10)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>mu</code></td>
+<td>
+<p>Latent intercept estimated from a GLMM (set to 0 if <code>predict</code> is not <code>NULL</code>). (numeric of length 1)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>var</code></td>
+<td>
+<p>Latent total phenotypic variance estimated from a GLMM. Usually, the sum of the estimated variances of the random effects, plus the "residual" variance. (numeric of length 1)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>d.link.inv</code></td>
+<td>
+<p>Derivative of the inverse-link function. (function)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>predict</code></td>
+<td>
+<p>Optional vector of predicted values on the latent scale (i.e. matrix product <b>Xb</b>). The latent predicted values must be computed while only accounting for the fixed effects (marginal to the random effects). (numeric)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>width</code></td>
+<td>
+<p>Parameter for the integral computation. The integral is evaluated from <code>mu</code> - <code>width * sqrt(var)</code> to <code>mu</code> + <code>width * sqrt(var)</code>. The default value is 10, which should be sensible for most models. (numeric)</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The parameter "Psi" is the average of the derivative of the inverse-link function. The additive genetic variance on the observed scale is linked to the additive genetic variance on the latent scale by : Va.obs = (Psi^2) * Va.lat.
+</p>
+
+
+<h3>Value</h3>
+
+<p>This function yields the "Psi" parameter. (numeric)</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Pierre de Villemereuil &amp; Michael B. Morrissey
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>QGmvpsi</code>, <code>QGparams</code>, <code>QGpred</code>, <code>QGlink.funcs</code>, <code>QGmean</code>, <code>QGvar.dist</code>, <code>QGvar.exp</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Example using binom1.probit model
+mu &lt;- 0
+va &lt;- 1
+vp &lt;- 2
+# The inverse-link for a probit is the CDF of a standard Gaussian
+# Hence its derivative is the PDF of a standard Gaussian
+dinv &lt;- function(x){dnorm(x)}
+
+# Computing Psi
+Psi &lt;- QGpsi(mu = 0, var = 2, d.link.inv = dinv)
+# Computing additive variance on the observed scale
+(Psi^2) * va
+
+# This function is used by QGparams to obtain var.a.obs
+QGparams(mu = 0, var.p = vp, var.a = va, model = "binom1.probit")
+# Same results as above!
+</code></pre>
+
+
+</div>

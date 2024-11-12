@@ -1,0 +1,101 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>ChooserBS</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Chooser option valuation via Black-Scholes (BS) model</h2>
+
+<h3>Description</h3>
+
+<p>Compute an exotic option that allow the holder decide the option
+will be a call or put option at some predetermined future date.
+In a simple case, both put and call option are plain vanilla option.
+The value of the simple chooser option is <code class="reqn">\max{C(S,K,t_1),P(S,K,t_2)}</code>.
+The plain vanilla option is calculated based on the BS model.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">ChooserBS(o = OptPx(Opt(Style = "Chooser")), t1 = 9/12, t2 = 3/12)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>o</code></td>
+<td>
+<p>An object of class <code>OptPx</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>t1</code></td>
+<td>
+<p>The time to maturity of the call option, measured in years.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>t2</code></td>
+<td>
+<p>The time to maturity of the put option, measured in years.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list of class <code>SimpleChooserBS</code> consisting of the original <code>OptPx</code> object
+and the option pricing parameters <code>t1</code>, <code>t2</code>,
+as well as the computed price <code>PxBS</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Le You, Department of Statistics, Rice University, spring 2015
+</p>
+
+
+<h3>References</h3>
+
+
+<ul>
+<li>
+<p>Hull, John C.,<em>Options, Futures and Other Derivatives</em>, 9ed, 2014. Prentice Hall.
+ISBN 978-0-13-345631-8. <a href="http://www-2.rotman.utoronto.ca/~hull/ofod/index.html">http://www-2.rotman.utoronto.ca/~hull/ofod/index.html</a>
+</p>
+</li>
+<li>
+<p>Huang Espen G., <em>Option Pricing Formulas</em>, 2ed.
+<a href="http://down.cenet.org.cn/upfile/10/20083212958160.pdf">http://down.cenet.org.cn/upfile/10/20083212958160.pdf</a> 
+</p>
+</li>
+<li>
+<p>Wee, Lim Tiong, MFE5010 <em>Exotic Options,Notes for Lecture 4 Chooser option</em>.
+<a href="http://www.stat.nus.edu.sg/~stalimtw/MFE5010/PDF/L4chooser.pdf">http://www.stat.nus.edu.sg/~stalimtw/MFE5010/PDF/L4chooser.pdf</a> 
+</p>
+</li>
+<li>
+<p>Humphreys, Natalia A., ACTS 4302 Principles of Actuarial Models: Financial Economics.
+<em>Lesson 14: All-or-nothing, Gap, Exchange and Chooser Options</em>.
+ </p>
+</li>
+</ul>
+<h3>Examples</h3>
+
+<pre><code class="language-R">(o = ChooserBS())$PxBS
+
+o = Opt(Style='Chooser',Right='Other',S0=50, K=50)
+(o = ChooserBS(OptPx(o, r=0.06, q=0.02, vol=0.2),9/12, 3/12))$PxBS
+
+o = Opt(Style='Chooser',Right='Other',S0=50, K=50)
+(o = ChooserBS (OptPx(o,r=0.08, q=0, vol=0.25),1/2, 1/4))$PxBS
+
+o = Opt(Style='Chooser',Right='Other',S0=100, K=50)
+(o = ChooserBS(OptPx(o,r=0.08, q=0.05, vol=0.3),1/2, 1/4))$PxBS
+</code></pre>
+
+
+</div>

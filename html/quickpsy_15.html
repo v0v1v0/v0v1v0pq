@@ -1,0 +1,58 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>inv_logistic_fun</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Inverse logistic  function</h2>
+
+<h3>Description</h3>
+
+<p>Inverse logistic function
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">inv_logistic_fun(q, p)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>q</code></td>
+<td>
+<p>Vector of probabilities.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p</code></td>
+<td>
+<p>Vector of parameters <code class="reqn">p = c(\alpha, \beta)</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p><code>x</code> at each probability.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>logistic_fun</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">yseq &lt;- seq(0, 1, .01)
+xseq &lt;- inv_logistic_fun(yseq, c(2, 4))
+curve &lt;- data.frame(x = xseq, y = yseq)
+ggplot(curve, aes(x = x, y = y)) + geom_line()
+</code></pre>
+
+
+</div>

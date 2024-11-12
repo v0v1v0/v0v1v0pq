@@ -1,0 +1,55 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>tilted.abs</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Tilted absolute value function
+</h2>
+
+<h3>Description</h3>
+
+<p>Tilted absolute value function. Also known as the check function, hinge function, or the pinball loss function.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">tilted.abs(x, tau)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+
+<p>numeric vector.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tau</code></td>
+<td>
+
+<p>desired tau-quantile.
+</p>
+</td>
+</tr>
+</table>
+<h3>See Also</h3>
+
+<p><code>tilted.approx</code></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">x &lt;- seq(-2, 2, length=200)
+plot(x, tilted.abs(x, tau=0.75), type="l")
+</code></pre>
+
+
+</div>

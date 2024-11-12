@@ -1,0 +1,50 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>as.yaml</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Convert quanteda dictionary objects to the YAML format</h2>
+
+<h3>Description</h3>
+
+<p>Converts a <span class="pkg">quanteda</span> dictionary object constructed by the
+dictionary function into the YAML format. The YAML
+files can be edited in text editors and imported into
+<span class="pkg">quanteda</span> again.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">as.yaml(x)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a dictionary object</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p><code>as.yaml</code> a dictionary in the YAML format, as a character object
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+dict &lt;- dictionary(list(one = c("a b", "c*"), two = c("x", "y", "z??")))
+cat(yaml &lt;- as.yaml(dict))
+cat(yaml, file = (yamlfile &lt;- paste0(tempfile(), ".yml")))
+dictionary(file = yamlfile)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

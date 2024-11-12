@@ -1,0 +1,52 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>cross2_do_to_genail8</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Convert cross2 object from do to genail8</h2>
+
+<h3>Description</h3>
+
+<p>Convert a cross2 object from cross type <code>"do"</code> to cross type <code>"genail8"</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">cross2_do_to_genail8(cross)
+
+cross2_do_to_genail(cross)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>cross</code></td>
+<td>
+<p>Object of class <code>"cross2"</code>, as produced by
+<code>qtl2::read_cross2()</code>.</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>The input object <code>cross</code> with cross type changed to
+class <code>"genail8"</code> and the cross information revised to match.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+file &lt;- paste0("https://raw.githubusercontent.com/rqtl/",
+               "qtl2data/master/DOex/DOex.zip")
+DOex &lt;- read_cross2(file)
+
+DOex_genail &lt;- cross2_do_to_genail8(DOex)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

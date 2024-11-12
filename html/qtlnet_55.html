@@ -1,0 +1,195 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>parents.qtlnet</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Determine and group node-parent combinations.
+</h2>
+
+<h3>Description</h3>
+
+<p>Routines useful for examining the size of node-parent combinations.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">parents.qtlnet(pheno.col, max.parents = 3, codes.only = FALSE)
+## S3 method for class 'parents.qtlnet'
+summary(object, ...)
+size.qtlnet(pheno.col, max.parents = 3)
+group.qtlnet(pheno.col, max.parents = 3, n.groups = NULL,
+  group.size = 50000, parents = parents.qtlnet(pheno.col, max.parents))
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>pheno.col</code></td>
+<td>
+
+<p>Phenotype identifiers from <code>cross</code> object. May be numeric, logical
+or character.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>max.parents</code></td>
+<td>
+
+<p>Maximum number of parents per node. This reduces the complexity of
+graphs and shortens run time. Probably best to consider values of 3-5.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>parents</code></td>
+<td>
+
+<p>List containing all possible parents up to <code>max.parents</code> in
+size. May be a subset
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>codes.only</code></td>
+<td>
+
+<p>Return only codes of parents if <code>TRUE</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n.groups</code></td>
+<td>
+
+<p>Number of groups for parallel computation. Determined from
+<code>group.size</code> if missing.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>group.size</code></td>
+<td>
+
+<p>Size of groups for parallel computation. See details.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+
+<p>Object of class <code>parent.qtlnet</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+
+<p>Additional arguments ignored.
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The most expensive part of calculations is running
+<code>scanone</code> on each phenotype with parent phenotypes as
+covariates. One strategy is to pre-compute the BIC contributions using a
+cluster and save them for later use. The <code>parents.qtlnet</code> routine
+creates a list of all possible parent sets (up to <code>max.parents</code> in
+size). The <code>size.qtlnet</code> determines the number of
+<code>scanone</code> calculations possible for a network with
+nodes <code>pheno.col</code> and maximum parent size <code>max.parents</code>. The
+<code>group.qtlnet</code> groups the parent sets into roughly equal size
+groups for parallel computations. See <code>bic.qtlnet</code> for
+further details.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The <code>size.qtlnet</code> returns the number of possible
+<code>scanone</code> computations needed for BIC scores.
+</p>
+<p>The <code>group.qtlnet</code> produces and index into the parents list
+created by <code>parents.qtlnet</code>. See details.
+</p>
+<p>The <code>parents.qtlnet</code> creates a list object with names being the
+<code>code</code>.
+</p>
+<p>The <code>summary</code> method for such an object is a data
+frame with row.names being the <code>code</code>, a binary code as decimal
+for the parents of a phenotype node, excluding the phenotype. Value is
+between 0 (no parents) and <code>2 ^ (length(pheno.col) - 1)</code>. The
+columns are 
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>parents</code></td>
+<td>
+<p>Comma-separated string of parents to potential child node.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n.child</code></td>
+<td>
+<p>Number of possible child nodes to this parent set.</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Brian S. Yandell and Elias Chaibub Neto
+</p>
+
+
+<h3>References</h3>
+
+<p>Chaibub Neto E, Keller MP, Attie AD, Yandell BS (2010)
+Causal Graphical Models in Systems Genetics: a unified
+framework for joint inference of causal network and
+genetic architecture for correlated phenotypes.
+Ann Appl Statist 4: 320-339.
+<a href="http://dx.doi.org/10.1214/09-AOAS288">http://dx.doi.org/10.1214/09-AOAS288</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>bic.qtlnet</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Restrict to at most 3 parents per node.
+pheno.col &lt;- 1:6
+max.parents &lt;- 3
+size.qtlnet(pheno.col, max.parents)
+parents &lt;- parents.qtlnet(pheno.col, max.parents)
+summary(parents)
+
+## Allow an arbitrary number (up to 12) of parents per node.
+pheno.col &lt;- 1:13
+max.parents &lt;- 12
+size.qtlnet(pheno.col, max.parents)
+
+## Make ~53 groups of ~1000, for a total of 53248 scanone runs.
+parents &lt;- parents.qtlnet(pheno.col, max.parents)
+n.child &lt;- summary(parents)$n.child
+table(n.child)
+groups &lt;- group.qtlnet(parents = parents, group.size = 1000)
+apply(groups, 1,
+      function(group, parents) sapply(parents[seq(group[1], group[2])], length),
+      parents)
+</code></pre>
+
+
+</div>

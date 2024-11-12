@@ -1,0 +1,134 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>PlotRawSingle</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Plot a Single Sample from the Cleaned Raw Data</h2>
+
+<h3>Description</h3>
+
+<p>The function plots fluorescence for selected sample over time.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">PlotRawSingle(
+  raw,
+  sample,
+  legend_position = "topleft",
+  xlim = NULL,
+  ylim = NULL,
+  custom_colors = NULL,
+  xlab = "Time (h)",
+  ylab = "Fluorescence",
+  linetypes = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>raw</code></td>
+<td>
+<p>Cleaned raw data. Output from <code>GetCleanRaw</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sample</code></td>
+<td>
+<p>The name of the sample to plot.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>legend_position</code></td>
+<td>
+<p>Position of legend. Default is "topleft".</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xlim</code></td>
+<td>
+<p>Numeric vector giving the x coordinate range (hours). If NULL (default), limits are computed from the data.
+Choose from "bottomright", "bottom", "bottomleft", "left", "topleft", "top", "topright", "right" and "center".</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ylim</code></td>
+<td>
+<p>Numeric vector giving the y coordinate range (relative fluorescence units). If NULL (default), limits are computed from the data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>custom_colors</code></td>
+<td>
+<p>An optional vector of colors to be used for plotting.
+If NULL (default), the function will use the original color scheme.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xlab</code></td>
+<td>
+<p>Label for x-axis.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ylab</code></td>
+<td>
+<p>Label for y-axis.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>linetypes</code></td>
+<td>
+<p>Vector of line types to use for each line. Can be integer codes (1:6)
+or character codes ("solid", "dashed", "dotted", "dotdash", "longdash", "twodash").
+All lines will be solid by default.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A plot displaying the fluorescence of the selected sample over time.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># Define the path to the plate data file
+plate_path &lt;- system.file("extdata/20240716_p3", 
+                          file = '20240716_p3_plate.xlsx', 
+                          package = "QuICSeedR")
+  
+# Read the plate data
+plate &lt;- readxl::read_xlsx(plate_path)
+
+# Define the path to the raw data file
+raw_path &lt;- system.file("extdata/20240716_p3", 
+                        file = '20240716_p3_raw.xlsx', 
+                        package = "QuICSeedR")
+# Read the raw data
+raw &lt;- readxl::read_xlsx(raw_path)
+
+# Get replicate data
+replicate &lt;- GetReplicate(plate)
+
+# Ensure time displayed as decimal hours
+plate_time = ConvertTime(raw)
+
+#Get metadata and display the few rows 
+meta = CleanMeta(raw, plate, replicate)
+
+#Clean data 
+cleanraw &lt;- CleanRaw(meta, raw, plate_time)
+
+#Plot fluorescence curves from positive controls
+PlotRawSingle(cleanraw, "Pos")
+
+</code></pre>
+
+
+</div>

@@ -1,0 +1,171 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>readIRData</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Prepare IRMRI dataset
+</h2>
+
+<h3>Description</h3>
+
+<p>The function reads IRMRI images given as NIfTI files in t1Files, inversion times and segmentation image(s) aund prepares an object class <code>"IRdata"</code>
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">readIRData(t1Files, InvTimes, segmFile, sigma = NULL, L = 1,
+           segmCodes = c("GM", "WM", "CSF"))
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>t1Files</code></td>
+<td>
+
+<p>Names of NIfTI files containing the recorded images.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>InvTimes</code></td>
+<td>
+
+<p>Corresponding inversion times
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>segmFile</code></td>
+<td>
+
+<p>Either a NIfTI file containing a segmentation into GM, WM and CSF or
+three files containing probability maps for GM, WM and CSF
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sigma</code></td>
+<td>
+
+<p>Noise standard deviation
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>L</code></td>
+<td>
+
+<p>Effective number of coils, L=1 assumes a Rician signal distribution
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>segmCodes</code></td>
+<td>
+
+<p>sequence of tissue code in segmFile
+</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list of class <code>"IRdata"</code> with components
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>IRdata </code></td>
+<td>
+<p>4D array containing the IRMRI data, first dimension refers to inversion times</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>InvTimes </code></td>
+<td>
+<p>vector of inversion times</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>segm</code></td>
+<td>
+<p>segmentation codes, 1 for CSF, 2 for GM, 3 for WM, 0 for out of brain</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sigma</code></td>
+<td>
+<p>noise standard deviation, if not specified estimated fron CSF areas in image with largest inversion time</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>L</code></td>
+<td>
+<p>effective number of coils</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Karsten Tabelow <a href="mailto:tabelow@wias-berlin.de">tabelow@wias-berlin.de</a><br>
+J\"org Polzehl <a href="mailto:polzehl@wias-berlin.de">polzehl@wias-berlin.de</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>J. Polzehl and K. Tabelow (2023), Magnetic Resonance Brain Imaging:
+Modeling and Data Analysis Using R, 2nd Edition, Chapter 7, Springer, Use R! Series.
+&lt;doi:10.1007/978-3-031-38949-8_7&gt;.
+</p>
+<p>J. Polzehl and K. Tabelow (2023), Magnetic Resonance Brain Imaging - 
+Modeling and Data Analysis Using R: Code and Data.
+&lt;doi:10.20347/WIAS.DATA.6&gt;.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>estimateIRfluid</code>, <code>estimateIRsolid</code>, <code>estimateIR</code>,<code>smoothIRSolid</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">dataDir0 &lt;- system.file("extdataIR", package = "qMRI")
+dataDir &lt;- tempdir("IRdata")
+library(oro.nifti)
+library(qMRI)
+segm &lt;- readNIfTI(file.path(dataDir0,"Brainweb_segm"))
+Sf &lt;- 900
+Rf &lt;- 0.000285
+Sgm &lt;- 400
+Rgm &lt;- 0.00075
+fgm &lt;- .15
+Swm &lt;- 370
+Rwm &lt;- 0.0011
+fwm &lt;- .05
+InvTimes0 &lt;- c(100, 200, 400, 600, 800, 1200, 1600, 2000, 2500, 3000, 
+              3500, 4000, 4500, 5000, 6000, 15000)
+nTimes &lt;- length(InvTimes0)
+sigma &lt;- 40
+## generate IR signal
+IRdata &lt;- generateIRData(segm, c(Sf,Rf), c(fgm,Rgm,Sgm), c(fwm,Rwm,Swm), InvTimes0, sigma)
+for(i in 1:9) writeNIfTI(as.nifti(IRdata[i,,,]), 
+                         file.path(dataDir,paste0("IR0",i)))
+for(i in 10:nTimes) writeNIfTI(as.nifti(IRdata[i,,,]), 
+                         file.path(dataDir,paste0("IR",i)))
+## generate IRdata object
+t1Files &lt;- list.files(dataDir,"*.nii.gz",full.names=TRUE)
+segmFile &lt;- file.path(dataDir0,"Brainweb_segm")
+IRdata &lt;- readIRData(t1Files, InvTimes0, segmFile, sigma=sigma,
+                     L=1, segmCodes=c("CSF","GM","WM"))
+</code></pre>
+
+
+</div>

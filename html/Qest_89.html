@@ -1,0 +1,185 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>internals</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Internal Functions</h2>
+
+<h3>Description</h3>
+
+<p>Functions for internal use only, or not yet documented.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">expit(x)
+logit(x)
+pmax0(x)
+num.fun(dx,fx)
+formatPerc(probs, digits)
+Ltau(opt, tau)
+minabs(x1,x2)
+invJ(J, type)
+tensorX(X)
+buildTau(ntau, wtau = NULL, nobs, wtauoptions = NULL)
+callwtau(wtau, tau, opt)
+callQ(Q, theta, tau, data)
+start.Qest(z, y, d, x, w, tau, Q, opt, start, data, type, control)
+start.Qest.family(z, y, d, x, w, tau, wtau, wtauoptions,
+  Q, opt, start, data, type, control)
+rq.fit.br2(x, y, tau = 0.5)
+
+
+Qest.sgs.internal(theta, type, tol, maxit, alpha0, ee, display, eps, n.it, ...)
+Qest.gs.internal(theta, type, tol, maxit, alpha0, ee, display, eps, n.it, ...)
+Qest.gs(theta, type, tol, maxit, alpha0, ee, display, eps, ...)
+Qest.newton(theta, type, tol, maxit, safeit, alpha0, display, eps, ...)
+
+
+Qlm.bfun(wtau, ...)
+start.Qlm(x, y, w, start, ok, Stats)
+scalevars.Qlm(X,y)
+descalecoef.Qlm(theta, Stats)
+
+Qlm.sgs.internal(theta, type, tol, maxit, alpha0, ee, display, n.it, y, X, w, bfun)
+Qlm.gs.internal(theta, type, tol, maxit, alpha0, ee, display, n.it, y, X, w, bfun)
+Qlm.gs(theta, type, tol, maxit, alpha0, ee, display, y, X, w, bfun)
+Qlm.newton(theta, type = "u", tol, maxit, safeit, alpha0, display, y, X, w, bfun)
+
+
+plfcox(y, knots, deriv = 0)
+scalevars.Qcoxph(X,z,y,knots)
+descalecoef.Qcoxph(theta, Stats)
+check.singularities(X, scaleVars)
+starting.points.Qcox(X, Y, n, w, mf, knots)
+adjust.coef(theta)
+agsurv.Qcoxph(y, x, wt, risk, fit)
+basehaz.Qcoxph(fit, centered = TRUE, se.fit = FALSE)
+coxsurv.fit.Qcoxph(ctype, stype, se.fit, varmat, cluster,
+  y, x, wt, risk, position, strata, oldid, y2, x2, risk2,
+  strata2, id2, unlist = TRUE, fit)
+seg.lm.fit1(y,XREG,Z,PSI,return.all.sol=FALSE)
+
+
+gs(theta0, f, ..., tol = 1e-4, maxit = 100)
+myg(theta, f, f0, eps, ...)
+dlist(x1,x2)
+omega(d, tau, type, Fy, Fz)
+choose_eps(Q, theta, y, data, eps0, obj = 0.01)
+derQtheta(theta, eps, Q, Q1, data, tau, ind)
+der2Qtheta(theta, eps, Q, Qtheta1, data, tau)
+intA(A, tau, ifun = TRUE)
+findp(y, tau, Q1)
+findAp(p,tau,A)
+
+
+A_beta_fun(BB)
+A_gamma_fun(BB)
+A_beta_beta_fun(BB)
+A_gamma_gamma_mix_fun(BB)
+A_gamma_gamma_fun(BB)
+A_beta_gamma_fun(BB)
+coxBB(theta, y, X, knots, tau)
+
+
+derQtheta.gamma(Q)
+der2Qtheta.gamma(Q, Qtheta)
+findAp.gamma(atau, tau, dtau, p, int = TRUE)
+QestGamma.ee.u(theta, eps, z, y, d, Q, w, data, tau, J = FALSE, EE)
+QestGamma.ee.c(theta, eps, z, y, d, Q, w, data, tau, J = FALSE, EE)
+QestGamma.ee.ct(theta, eps, z, y, d, Q, w, data, tau, J = FALSE, EE)
+
+
+tau.pois(tau)
+ppoisC(y, lambda)
+dpoisC(y, lambda)
+qpoisC.955(z, lambda)
+qpoisC.me(log.lambda, A, B)
+qpoisC.bisec(tau, lambda)
+qpoisC(obj)
+
+derQtheta.pois(Q)
+der2Qtheta.pois(Q, Qtheta)
+findp.pois(y, tau, Q1, Fy, theta)
+findAp.pois(p, tau, A)
+QestPois.ee.u(theta, eps, z, y, d, Q, w, data, tau, J = FALSE, EE)
+
+
+QestUnif.ee.u(theta, eps, z, y, d, Q, w, data, tau, J = FALSE, EE)
+
+
+QestNorm.ee.u(theta, eps, z, y, d, Q, w, data, tau, J = FALSE, EE)
+QestNorm.ee.c(theta, eps, z, y, d, Q, w, data, tau, J = FALSE, EE)
+QestNorm.ee.ct(theta, eps, z, y, d, Q, w, data, tau, J = FALSE, EE)
+
+
+Qest.ee.u(theta, eps, z, y, d, Q, w, data, tau, J = FALSE, EE)
+Qest.ee.c(theta, eps, z, y, d, Q, w, data, tau, J = FALSE, EE)
+Qest.ee.ct(theta, eps, z, y, d, Q, w, data, tau, J = FALSE, EE)
+QCox.ee.c(theta, eps, z, y, d, X, w, knots, tau, J = FALSE, EE)
+QCox.ee.ct(theta, eps, z, y, d, X, w, knots, tau, J = FALSE, EE)
+Qlm.ee.u(theta, X, w, bfun, EE, J = FALSE)
+
+
+Qest.covar(fit, eps, w)
+Qcox.covar(theta, z, y, d, X, w, knots, tau, type)
+Qlm.covar(g.i, w, H)
+
+
+Loss(w, d, tau, type, Fy, Fz)
+coxLoss(theta, z, y, d, X, w, knots, tau, type, Fy, Fz)
+qlmLoss(theta, y, X, w, bfun)
+
+## S3 method for class 'Qest'
+print(x, digits = max(3L, getOption("digits") - 3L), ...)
+## S3 method for class 'summary.Qest'
+print(x, digits = max(3L, getOption("digits") - 3L), ...)
+## S3 method for class 'Qest'
+confint(object, parm, level = 0.95, ...)
+## S3 method for class 'Qest'
+vcov(object, ...)
+
+## S3 method for class 'Qlm'
+summary(object, correlation = FALSE,
+  symbolic.cor = FALSE, ...)
+## S3 method for class 'summary.Qlm'
+print(x, digits = max(3L, getOption("digits") - 3L),
+  symbolic.cor = x$symbolic.cor, signif.stars = getOption("show.signif.stars"),
+  ...)
+## S3 method for class 'Qlm'
+vcov(object, ...)
+
+## S3 method for class 'Qcoxph'
+print(x, digits = max(1L, getOption("digits") - 3L),
+  signif.stars = FALSE, ...)
+## S3 method for class 'Qcoxph'
+summary(object, conf.int = 0.95, scale = 1, ...)
+## S3 method for class 'summary.Qcoxph'
+print(x, digits = max(getOption("digits") - 3, 3),
+  signif.stars = getOption  ("show.signif.stars"), ...)
+## S3 method for class 'Qcoxph'
+survfit(formula, newdata, se.fit = TRUE, conf.int = 0.95,
+  individual = FALSE, stype = 2, ctype, conf.type = c("log", "log-log",
+  "plain","none", "logit", "arcsin"), censor = TRUE, start.time, id,
+  influence = FALSE, na.action = na.pass, type, ...)
+## S3 method for class 'Qcoxph'
+residuals(object, type = c("martingale", "deviance", "score",
+  "schoenfeld", "dfbeta", "dfbetas", "scaledsch", "partial"),
+  collapse = FALSE, weighted = FALSE, ...)
+## S3 method for class 'Qcoxph'
+predict(object, newdata, type = c("lp", "risk", "expected",
+  "terms", "survival"), se.fit = FALSE, na.action = na.pass,
+  terms = names(object$assign), collapse, reference = c("strata", "sample"),
+  ...)
+</code></pre>
+
+
+<h3>Value</h3>
+
+<p>No return value, internal functions.
+</p>
+
+
+</div>

@@ -1,0 +1,205 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>cmidecdf</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Mid-distribution Functions
+</h2>
+
+<h3>Description</h3>
+
+<p>Compute conditional mid-cumulative probabilities
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">cmidecdf(formula, data, ecdf_est = "npc", npc_args = list(),
+	theta = NULL, subset, weights, na.action,
+	contrasts = NULL)
+cmidecdf.fit(x, y, intercept, ecdf_est, npc_args = list(),
+	theta = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>formula</code></td>
+<td>
+
+<p>an object of class "<code>formula</code>" (or one that can be coerced to that class): a symbolic description of the model to be fitted. The details of model specification are given under ‘Details’.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+
+<p>an optional data frame, list or environment (or object coercible by as.data.frame to a data frame) containing the variables in the model. By default the variables are taken from the environment from which the call is made.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ecdf_est</code></td>
+<td>
+
+<p>estimator of the (standard) conditional cumulative distribution. The options are: <code>npc</code> (default) for kernel estimator (Li and Racine, 2008); <code>logit</code>, <code>probit</code>, <code>cloglog</code> for binomial regression; <code>ao</code> for Aranda-Ordaz binomial regression.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>npc_args</code></td>
+<td>
+
+<p>named list of arguments for <code>npcdistbw</code> when <code>ecdf_est = npc</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>theta</code></td>
+<td>
+
+<p>values of the Aranda-Ordaz transformation parameter for grid search when <code>ecdf_est = "ao"</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>subset</code></td>
+<td>
+
+<p>an optional vector specifying a subset of observations to be used in the fitting process.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>weights</code></td>
+<td>
+
+<p>an optional vector of weights to be used in the fitting process. Not currently implemented.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>na.action</code></td>
+<td>
+
+<p>a function which indicates what should happen when the data contain <code>NA</code>s.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>contrasts</code></td>
+<td>
+
+<p>an optional list. See the contrasts.arg of <code>model.matrix.default</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+
+<p>design matrix of dimension <code class="reqn">n * p</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+
+<p>vector of observations of length <code class="reqn">n</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>intercept</code></td>
+<td>
+
+<p>logical flag. Does <code>x</code> include a vector of ones?
+</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>An object of class <code>class</code> <code>cmidecdf</code> with mid-cumulative probabilities. This is a list that contains:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>G</code></td>
+<td>
+<p>Estimated conditional mid-probabilities. This is a <code class="reqn">n * k</code> matrix, where <code class="reqn">n</code> is the sample size and <code class="reqn">k</code> is the number of unique values of <code>y</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Fhat</code></td>
+<td>
+<p>Estimated (standard) cumulative probabilities.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Fse</code></td>
+<td>
+<p>Standard error for Fhat.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>yo</code></td>
+<td>
+<p>unique values of <code>y</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bw</code></td>
+<td>
+<p><code>npcdistbw</code> object.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ecdf_est</code></td>
+<td>
+<p>estimator used.</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Marco Geraci with contributions from Alessio Farcomeni
+</p>
+
+
+<h3>References</h3>
+
+<p>Geraci, M. and A. Farcomeni. Mid-quantile regression for discrete responses. arXiv:1907.01945 [stat.ME]. URL: <a href="https://arxiv.org/abs/1907.01945">https://arxiv.org/abs/1907.01945</a>.
+</p>
+<p>Li, Q. and J. S. Racine (2008). Nonparametric estimation of conditional cdf and quantile functions with mixed categorical and continuous data. Journal of Business and Economic Statistics 26(4), 423-434.
+</p>
+<p>Peracchi, F. (2002). On estimating conditional quantiles and distribution functions. Computational Statistics and Data Analysis 38(4), 433-447.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>midecdf</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+## Not run: 
+n &lt;- 100
+x &lt;- rnorm(n, 0, 3)
+y &lt;- floor(1 + 2*x) + sample(1:5, n, replace = TRUE)
+cmidecdf(y ~ x, ecdf_est = "logit")
+
+## End(Not run)
+
+</code></pre>
+
+
+</div>

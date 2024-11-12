@@ -1,0 +1,81 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>get_eigschur.spectral</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Extract a Schur Cross-Product from a Hermitian Matrix</h2>
+
+<h3>Description</h3>
+
+<p>Get the Schur product between eigen-projectors based  on the representation of a
+Hermitian Matrix given by class <code>spectral</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'spectral'
+get_eigschur(object, id1, id2 = NULL, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>an instance of class <code>spectral</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>id1</code></td>
+<td>
+<p>index for the first eigenspace according to the ordered (decreasing) spectra.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>id2</code></td>
+<td>
+<p>index for the second eigenspace according to the ordered (decreasing) spectra. If not provided,
+it takes the same value as <code>id1</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>further arguments passed to or from other methods.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>The Schur product of the corresponding eigenprojectors, <code class="reqn">E_{id_1} \circ E_{id_2}</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>spectral()</code>, <code>get_eigschur()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># Spectra is {2, -1} with multiplicities one and two respectively.
+decomp &lt;- spectral(matrix(c(0,1,1,1,0,1,1,1,0), nrow=3))
+
+# Returns the Schur product between the 2-projector and -1-projector.
+get_eigschur(decomp, id1=2, id2=1)
+
+# Returns the Schur square of the 2-projector.
+get_eigschur(decomp, id1=1, id2=1)
+
+# Also returns the Schur square of the 2-projector
+get_eigschur(decomp, id1=1)
+
+</code></pre>
+
+
+</div>

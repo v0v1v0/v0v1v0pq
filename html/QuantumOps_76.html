@@ -1,0 +1,50 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>testGate</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>testGate</h2>
+
+<h3>Description</h3>
+
+<p>Takes a given quantum gate and tests it with computational basis states as input. Can test a subset of possible inputs if specified, otherwise it tests all possible inputs. Useful for testing user defined gates.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">testGate(g,inputs=0:(dim(g)[1]-1) )
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>g</code></td>
+<td>
+<p> Matrix that represents a quantum gate (operation) </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>inputs</code></td>
+<td>
+<p> Vector of indices of computational basis states to test. Default is that all computational basis states will be tested </p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>None
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"> testGate(CX())
+ testGate(CX(),inputs=c(0,1))
+</code></pre>
+
+
+</div>

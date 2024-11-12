@@ -1,0 +1,265 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>growth.gcFitSpline</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Perform a smooth spline fit on growth data</h2>
+
+<h3>Description</h3>
+
+<p><code>growth.gcFitSpline</code> performs a smooth spline fit on the dataset and determines
+the highest growth rate as the global maximum in the first derivative of the spline.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">growth.gcFitSpline(
+  time,
+  data,
+  gcID = "undefined",
+  control = growth.control(biphasic = FALSE)
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>time</code></td>
+<td>
+<p>Vector of the independent variable (usually time).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>Vector of dependent variable (usually: growth values).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gcID</code></td>
+<td>
+<p>(Character) The name of the analyzed sample.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>control</code></td>
+<td>
+<p>A <code>grofit.control</code> object created with <code>growth.control</code>,
+defining relevant fitting options.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>biphasic</code></td>
+<td>
+<p>(Logical) Shall <code>growth.gcFitSpline</code> try to extract growth
+parameters for two different growth phases (as observed with, e.g., diauxic shifts)
+(<code>TRUE</code>) or not (<code>FALSE</code>)?</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>If <code>biphasic = TRUE</code>, the following steps are performed to define a
+second growth phase: </p>
+ <ol>
+<li>
+<p> Determine local minima within the first
+derivative of the smooth spline fit. </p>
+</li>
+<li>
+<p> Remove the 'peak' containing the highest
+value of the first derivative (i.e., <code class="reqn">mu_{max}</code>) that is flanked by two local
+minima. </p>
+</li>
+<li>
+<p> Repeat the smooth spline fit and identification of maximum slope for
+later time values than the local minimum after <code class="reqn">mu_{max}</code>. </p>
+</li>
+<li>
+<p> Repeat the
+smooth spline fit and identification of maximum slope for earlier time values than
+the local minimum before <code class="reqn">mu_{max}</code>. </p>
+</li>
+<li>
+<p> Choose the greater of the two
+independently determined slopes as <code class="reqn">mu_{max}2</code>. </p>
+</li>
+</ol>
+<h3>Value</h3>
+
+<p>A <code>gcFitSpline</code> object. The lag time is estimated as the intersection between the
+tangent at the maximum slope and the horizontal line with <code class="reqn">y = y_0</code>, where
+<code>y0</code> is the first value of the dependent variable. Use <code>plot.gcFitSpline</code> to
+visualize the spline fit and derivative over time.
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>time.in</code></td>
+<td>
+<p>Raw time values provided to the function as <code>time</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data.in</code></td>
+<td>
+<p>Raw growth data provided to the function as <code>data</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>raw.time</code></td>
+<td>
+<p>Filtered time values used for the spline fit.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>raw.data</code></td>
+<td>
+<p>Filtered growth values used for the spline fit.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gcID</code></td>
+<td>
+<p>(Character) Identifies the tested sample.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fit.time</code></td>
+<td>
+<p>Fitted time values.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fit.data</code></td>
+<td>
+<p>Fitted growth values.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>parameters</code></td>
+<td>
+<p>List of determined growth parameters.</p>
+</td>
+</tr>
+</table>
+<ul>
+<li> <p><code>A</code>: Maximum growth.
+</p>
+</li>
+<li> <p><code>dY</code>: Difference in maximum growth and minimum growth.
+</p>
+</li>
+<li> <p><code>mu</code>: Maximum growth rate (i.e., maximum in first derivative of the spline).
+</p>
+</li>
+<li> <p><code>tD</code>: Doubling time.
+</p>
+</li>
+<li> <p><code>t.max</code>: Time at the maximum growth rate.
+</p>
+</li>
+<li> <p><code>lambda</code>: Lag time.
+</p>
+</li>
+<li> <p><code>b.tangent</code>: Intersection of the tangent at the maximum growth rate with the abscissa.
+</p>
+</li>
+<li> <p><code>mu2</code>: For biphasic growth: Growth rate of the second growth phase.
+</p>
+</li>
+<li> <p><code>tD2</code>: Doubling time of the second growth phase.
+</p>
+</li>
+<li> <p><code>lambda2</code>: For biphasic growth: Lag time determined for the second growth phase.
+</p>
+</li>
+<li> <p><code>t.max2</code>: For biphasic growth: Time at the maximum growth rate of the second growth phase.
+</p>
+</li>
+<li> <p><code>b.tangent2</code>: For biphasic growth: Intersection of the tangent at the maximum growth rate of the second growth phase with the abscissa.
+</p>
+</li>
+<li> <p><code>integral</code>: Area under the curve of the spline fit.
+</p>
+</li>
+</ul>
+<table>
+<tr style="vertical-align: top;">
+<td><code>spline</code></td>
+<td>
+<p><code>smooth.spline</code> object generated by the <code>smooth.spline</code> function.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>spline.deriv1</code></td>
+<td>
+<p>list of time ('x') and growth ('y') values describing the first derivative of the spline fit.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>reliable</code></td>
+<td>
+<p>(Logical) Indicates whether the performed fit is reliable (to be set manually).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fitFlag</code></td>
+<td>
+<p>(Logical) Indicates whether a spline fit was successfully performed on the data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fitFlag2</code></td>
+<td>
+<p>(Logical) Indicates whether a second growth phase was identified.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>control</code></td>
+<td>
+<p>Object of class <code>grofit.control</code> containing list of options passed to the function as <code>control</code>.</p>
+</td>
+</tr>
+</table>
+<h3>References</h3>
+
+<p>Matthias Kahm, Guido Hasenbrink, Hella Lichtenberg-Frate, Jost Ludwig, Maik Kschischo (2010). <em>grofit: Fitting Biological Growth Curves with R</em>. Journal of Statistical Software, 33(7), 1-21. DOI: 10.18637/jss.v033.i07
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Other growth fitting functions: 
+<code>growth.drFit()</code>,
+<code>growth.gcBootSpline()</code>,
+<code>growth.gcFitLinear()</code>,
+<code>growth.gcFitModel()</code>,
+<code>growth.gcFit()</code>,
+<code>growth.workflow()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># Create random growth dataset
+rnd.dataset &lt;- rdm.data(d = 35, mu = 0.8, A = 5, label = 'Test1')
+
+# Extract time and growth data for single sample
+time &lt;- rnd.dataset$time[1,]
+data &lt;- rnd.dataset$data[1,-(1:3)] # Remove identifier columns
+
+# Perform spline fit
+TestFit &lt;- growth.gcFitSpline(time, data, gcID = 'TestFit',
+                 control = growth.control(fit.opt = 's'))
+
+plot(TestFit)
+
+
+</code></pre>
+
+
+</div>

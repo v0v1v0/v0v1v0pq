@@ -1,0 +1,46 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>map10</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>An example genetic map</h2>
+
+<h3>Description</h3>
+
+<p>A genetic map corresponding approximately to the mouse genome with
+a 10 cM marker spacing.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">data(map10)</code></pre>
+
+
+<h3>Format</h3>
+
+<p>An object of class <code>map</code>: a list whose components are vectors of
+marker locations.  This map approximates the mouse genome, with 20
+chromosomes (including the X chromosome) and 187 markers at an
+approximately 10 cM spacing.  The markers are equally spaced on each
+chromosome, but the spacings are a bit above or below 10 cM, so that
+the lengths match those in the Mouse Genome Database.</p>
+
+
+<h3>See Also</h3>
+
+ <p><code>sim.map</code>, <code>plotMap</code>,
+<code>pull.map</code> </p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">  data(map10)
+  plot(map10)
+
+  mycross &lt;- sim.cross(map10, type="f2", n.ind=100)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,87 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>trftest</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Backtesting of Value-at-Risk via Traffic Light Test</h2>
+
+<h3>Description</h3>
+
+<p>The Traffic Light Test, is applied to
+previously calculated Value-at-Risk series.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">trftest(obj)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>obj</code></td>
+<td>
+<p>A list returned by the <code>rollcast</code> function, that contains
+a Value-at-Risk series; any other list that follows the name conventions
+of the <code>rollcast</code> function can be used as well.</p>
+</td>
+</tr></table>
+<h3>Details</h3>
+
+<p>This function uses an object returned by the <code>rollcast</code> function
+of the <code>quarks</code> package as an input for the
+function argument <code>obj</code>. A list with different elements, such as
+the cumulative probabilities for the VaR series within <code>obj</code>,
+is returned. Instead of the list, only the traffic light backtesting results
+are printed to the R console.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list of class <code>quarks</code> is returned with the following elements.
+</p>
+
+<dl>
+<dt>model</dt>
+<dd>
+<p>selected model for estimation</p>
+</dd>
+<dt>method</dt>
+<dd>
+<p>selected method for estimation</p>
+</dd>
+<dt>p_VaR</dt>
+<dd>
+<p>cumulative probability of observing the number of
+breaches or fewer for (1 - <code>p</code>)100%-VaR</p>
+</dd>
+<dt>pot_VaR</dt>
+<dd>
+<p>number of exceedances for (1 - <code>p</code>)100%-VaR</p>
+</dd>
+<dt>p</dt>
+<dd>
+<p>coverage level for (1-<code>p</code>)100% VaR</p>
+</dd>
+</dl>
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+prices &lt;- DAX$price_close
+returns &lt;- diff(log(prices))
+n &lt;- length(returns)
+nout &lt;- 250 # number of obs. for out-of-sample forecasting
+nwin &lt;- 500 # window size for rolling forecasts
+results &lt;- rollcast(x = returns, p = 0.975, method = 'age', nout = nout,
+                     nwin = nwin)
+trftest(results)
+
+
+</code></pre>
+
+
+</div>

@@ -1,0 +1,54 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>drop_quantities</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Drop Units and Errors</h2>
+
+<h3>Description</h3>
+
+<p>Drop Units and Errors
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">drop_quantities(x)
+
+## S3 method for class 'quantities'
+drop_units(x)
+
+## S3 method for class 'quantities'
+drop_errors(x)
+
+## S3 method for class 'data.frame'
+drop_quantities(x)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a <code>quantities</code> object.</p>
+</td>
+</tr></table>
+<h3>Details</h3>
+
+<p><code>drop_quantities</code> is equivalent to <code>quantities(x) &lt;- NULL</code>
+or <code>set_quantities(x, NULL, NULL)</code>. <code>drop_units</code> is equivalent to
+<code>units(x) &lt;- NULL</code> or <code>set_units(x, NULL)</code>. <code>drop_errors</code> is
+equivalent to <code>errors(x) &lt;- NULL</code> or <code>set_errors(x, NULL)</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>the numeric without any <code>units</code> or <code>errors</code> attributes,
+while preserving other attributes like dimensions or other classes.
+</p>
+
+
+</div>

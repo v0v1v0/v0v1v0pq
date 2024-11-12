@@ -1,0 +1,83 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>showQsprayOption&lt;-</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Set a show option to a 'qspray' object</h2>
+
+<h3>Description</h3>
+
+<p>Set a show option to a <code>qspray</code> object
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">showQsprayOption(x, which) &lt;- value
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a <code>qspray</code> object</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>which</code></td>
+<td>
+<p>which option to set; this can be <code>"x"</code>, 
+<code>"showMonomial"</code>, or <code>"showQspray"</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>value</code></td>
+<td>
+<p>the value of the option</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>This returns the updated <code>qspray</code>.
+</p>
+
+
+<h3>Note</h3>
+
+<p>The interest of setting some show options to a 'qspray' is that these 
+options are preserved by some operations. See the examples and the README.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">set.seed(3141)
+( qspray &lt;- rQspray() )
+showQsprayOption(qspray, "x") &lt;- "a"
+qspray
+# this is identical to:
+showQsprayOption(qspray, "showMonomial") &lt;- showMonomialX1X2X3("a")
+# and also identical to:
+showQsprayOption(qspray, "showQspray") &lt;- showQsprayX1X2X3("a")
+# old show method:
+showQsprayOption(qspray, "showMonomial") &lt;- showMonomialOld()
+qspray
+# show options are preserved by some operations:
+qspray^2
+3*qspray
+derivQspray(qspray, 1)
+swapVariables(qspray, 1, 2)
+substituteQspray(qspray, c(NA, NA, "3/2"))
+# for the binary arithmetic operations, the show options of the first 
+# operand are transferred to the result when possible:
+( qspray2 &lt;- rQspray() )
+qspray + qspray2 
+</code></pre>
+
+
+</div>

@@ -1,0 +1,58 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>act_eigfun</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Apply a Function to an Operator</h2>
+
+<h3>Description</h3>
+
+<p>Apply a Function to an Operator
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">act_eigfun(object, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>a representation of the operator.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>further arguments passed to or from other methods.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>The resulting operator from the application of the function.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>act_eigfun.spectral()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">s &lt;- spectral(rbind(c(0.5, 0.3), c(0.3,0.7)))
+
+act_eigfun(s, function(x) x^2) #-&gt; act_eigfun.spectral(...)
+
+</code></pre>
+
+
+</div>

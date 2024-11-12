@@ -1,0 +1,102 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>libraryAll</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Load specific R libraries and clear environment</h2>
+
+<h3>Description</h3>
+
+<p>Load specific packages, print a list of the loaded packages along with versions.
+Only include libraries, don't install if library doesn't exist
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">libraryAll(
+  ...,
+  lib.loc = NULL,
+  quietly = FALSE,
+  clear = TRUE,
+  clearPkgs = FALSE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>multiple library names</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lib.loc</code></td>
+<td>
+<p>OPTIONAL. library store location</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>quietly</code></td>
+<td>
+<p>OPTIONAL. attach library quietly</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>clear</code></td>
+<td>
+<p>OPTIONAL. clear environment after attach</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>clearPkgs</code></td>
+<td>
+<p>Clear previous loaded packages, TRUE or FALSE</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>loaded libraries and clear environment
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+# load packages and print their versions to the console
+libraryAll(base) #one package
+
+libraryAll(
+  base,
+  tools,
+  stats
+) #multiple packages
+
+libraryAll("grDevices") #with quotes
+
+libraryAll(
+  stats,
+  utils,
+  quietly = TRUE
+) #load quietly
+
+libraryAll(
+  base,
+clear = FALSE) #do not clear console after load
+
+# clear previously loaded packages, then load r2resize and r2social
+libraryAll(
+  stats,
+  utils,
+  clearPkgs = TRUE
+)
+
+</code></pre>
+
+
+</div>

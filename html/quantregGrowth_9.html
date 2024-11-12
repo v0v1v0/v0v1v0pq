@@ -1,0 +1,359 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>ncross.rq.fitXB</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Estimation of noncrossing regression quantiles with monotonicity restrictions.
+</h2>
+
+<h3>Description</h3>
+
+<p>These are internal functions of package <code>quantregGrowth</code> and should be not 
+called by the user.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">ncross.rq.fitXB(y, x, B=NULL, X=NULL, taus, monotone=FALSE, concave=FALSE, 
+    nomiBy=NULL, byVariabili=NULL, ndx=10, deg=3, dif=3, lambda=0, eps=.0001, 
+    var.pen=NULL, penMatrix=NULL, lambda.ridge=0, dropcList=FALSE, 
+    decomList=FALSE, vcList=FALSE, dropvcList=FALSE, centerList=FALSE, 
+    ridgeList=FALSE, ps.matrix.list=FALSE, colmeansB=NULL, Bconstr=NULL, 
+    adjX.constr=TRUE, adList=FALSE, it.j=10, myeps=NULL, ...)
+
+ncross.rq.fitXBsparse(y, x, B=NULL, X=NULL, taus, monotone=FALSE, concave=FALSE,
+    nomiBy=NULL, byVariabili=NULL, ndx=10, deg=3, dif=3, lambda=0, eps=.0001, 
+    var.pen=NULL, penMatrix=NULL, lambda.ridge=0,  dropcList=FALSE, decomList=FALSE, 
+    vcList=FALSE, dropvcList=FALSE, centerList=FALSE, ridgeList=FALSE, 
+    ps.matrix.list=FALSE, colmeansB=NULL, Bconstr=NULL, adjX.constr=TRUE, 
+    adList=FALSE, it.j=10, myeps=NULL, ...)
+    
+
+ncross.rq.fitX(y, X = NULL, taus, adjX.constr=TRUE, lambda.ridge = 0, 
+    eps = 1e-04, ...) 
+    
+
+gcrq.rq.cv(y, B, X, taus, monotone, concave, ndx, lambda, deg, dif, var.pen=NULL, 
+    penMatrix=NULL, lambda.ridge=0, dropcList=FALSE, decomList=FALSE, 
+    vcList=vcList, dropvcList=FALSE, nfolds=10, foldid=NULL, eps=.0001, 
+    sparse=FALSE, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>the responses vector. see <code>gcrq</code>
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+
+<p>the covariate supposed to have a nonlinear relationship.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>B</code></td>
+<td>
+
+<p>the B-spline basis.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>X</code></td>
+<td>
+
+<p>the design matrix for the linear parameters.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>taus</code></td>
+<td>
+
+<p>the percentiles of interest.
+</p>
+</td>
+</tr>
+</table>
+<table>
+<tr style="vertical-align: top;">
+<td><code>monotone</code></td>
+<td>
+
+<p>numerical value (-1/0/+1) to define a non-increasing, unconstrained, and non-decreasing flexible fit, respectively. 
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>concave</code></td>
+<td>
+
+<p>numerical value (-1/0/+1) to possibly define concave or convex fits. 
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nomiBy</code></td>
+<td>
+
+<p>useful for VC models (when <code>B</code> is not provided).
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>byVariabili</code></td>
+<td>
+
+<p>useful for VC models (when <code>B</code> is not provided).
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ndx</code></td>
+<td>
+
+<p>number of internal intervals within the covariate range, see <code>ndx</code> in <code>ps</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>deg</code></td>
+<td>
+
+<p>spline degree, see <code>ps</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dif</code></td>
+<td>
+
+<p>difference order of the spline coefficients in the penalty term.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lambda</code></td>
+<td>
+
+<p>smoothing parameter value(s), see <code>lambda</code> in <code>ps</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>eps</code></td>
+<td>
+
+<p>tolerance value.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>var.pen</code></td>
+<td>
+
+<p>Varying penalty, see <code>ps</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>penMatrix</code></td>
+<td>
+
+<p>Specified penalty matrix, see <code>pen.matrix</code> in <code>ps</code>.
+</p>
+</td>
+</tr>
+</table>
+<table>
+<tr style="vertical-align: top;">
+<td><code>lambda.ridge</code></td>
+<td>
+
+<p>a (typically very small) value, see <code>lambda.ridge</code> <code>gcrq</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dropcList</code></td>
+<td>
+
+<p>see <code>dropc</code> in <code>ps</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>decomList</code></td>
+<td>
+
+<p>see <code>decompose</code> in <code>ps</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vcList</code></td>
+<td>
+
+<p>to indicate if the smooth is VC or not,  see <code>by</code> in <code>ps</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dropvcList</code></td>
+<td>
+
+<p>see <code>ps</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>centerList</code></td>
+<td>
+
+<p>see <code>center</code> in <code>ps</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ridgeList</code></td>
+<td>
+
+<p>see <code>ridge</code> in <code>ps</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ps.matrix.list</code></td>
+<td>
+
+<p>nothing relevant for the user.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>colmeansB</code></td>
+<td>
+
+<p>see <code>center</code> in <code>ps</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Bconstr</code></td>
+<td>
+<p>see <code>constr.fit</code> in <code>ps.</code>
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>foldid</code></td>
+<td>
+
+<p>vector (optional) to perform cross validation, see the same arguments in <code>gcrq</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nfolds</code></td>
+<td>
+
+<p>number of folds for crossvalidation, see the same arguments in <code>gcrq</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cv</code></td>
+<td>
+
+<p>returning cv scores; see the same arguments in <code>gcrq</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>adjX.constr</code></td>
+<td>
+<p>logical to shift the linear covariates. Appropriate only with linear terms.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>adList</code></td>
+<td>
+<p>see <code>ad</code> in <code>ps</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>it.j</code></td>
+<td>
+<p>Ignore.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>myeps</code></td>
+<td>
+<p>Ignore.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sparse</code></td>
+<td>
+<p>logical, meaning if sparse computations have to be used. 
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+
+<p>optional.
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>These functions are called by <code>gcrq</code> to fit growth charts based on regression 
+quantiles with non-crossing and monotonicity restrictions. The computational methods are based on the package 
+quantreg by R. Koenker and details are described in the reference paper.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list of fit information.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Vito M. R. Muggeo
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>gcrq</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">##See ?gcrq
+</code></pre>
+
+
+</div>

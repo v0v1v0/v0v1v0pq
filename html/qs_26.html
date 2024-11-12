@@ -1,0 +1,64 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qread_url</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>qread_url</h2>
+
+<h3>Description</h3>
+
+<p>A helper function that reads data from the internet to memory and deserializes the object with <code>qdeserialize()</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qread_url(url, buffer_size, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>url</code></td>
+<td>
+<p>The URL where the object is stored</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>buffer_size</code></td>
+<td>
+<p>The buffer size used to read in data (default <code>16777216L</code> i.e. 16 MB)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Arguments passed to <code>qdeserialize()</code></p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>See <code>qdeserialize()</code> for additional details.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The de-serialized object.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+x &lt;- qread_url("http://example_url.com/my_file.qs")
+
+## End(Not run)
+</code></pre>
+
+
+</div>

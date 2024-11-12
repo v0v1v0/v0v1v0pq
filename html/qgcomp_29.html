@@ -1,0 +1,178 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qgcomp.cox.noboot</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Quantile g-computation for survival outcomes under linearity/additivity</h2>
+
+<h3>Description</h3>
+
+<p>This function performs quantile g-computation in a survival
+setting. The approach estimates the covariate-conditional hazard ratio for
+a joint change of 1 quantile in each exposure variable specified in expnms
+parameter
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qgcomp.cox.noboot(
+  f,
+  data,
+  expnms = NULL,
+  q = 4,
+  breaks = NULL,
+  id = NULL,
+  weights,
+  cluster = NULL,
+  alpha = 0.05,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>f</code></td>
+<td>
+<p>R style survival formula, which includes <code>Surv</code>
+in the outcome definition. E.g. <code>Surv(time,event) ~ exposure</code>. Offset
+terms can be included via <code>Surv(time,event) ~ exposure + offset(z)</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>data frame</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>expnms</code></td>
+<td>
+<p>character vector of exposures of interest</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>q</code></td>
+<td>
+<p>NULL or number of quantiles used to create quantile indicator variables
+representing the exposure variables. If NULL, then gcomp proceeds with un-transformed
+version of exposures in the input datasets (useful if data are already transformed,
+or for performing standard g-computation)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>breaks</code></td>
+<td>
+<p>(optional) NULL, or a list of (equal length) numeric vectors that
+characterize the minimum value of each category for which to
+break up the variables named in expnms. This is an alternative to using 'q'
+to define cutpoints.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>id</code></td>
+<td>
+<p>(optional) NULL, or variable name indexing individual units of
+observation (only needed if analyzing data with multiple observations per
+id/cluster)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>weights</code></td>
+<td>
+<p>"case weights" - passed to the "weight" argument of
+<code>coxph</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cluster</code></td>
+<td>
+<p>not yet implemented</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>alpha</code></td>
+<td>
+<p>alpha level for confidence limit calculation</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>arguments to glm (e.g. family)</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>For survival outcomes (as specified using methods from the
+survival package), this yields a conditional log hazard ratio representing
+a change in the expected conditional hazard (conditional on covariates)
+from increasing every exposure by 1 quantile. In general, this quantity
+quantity is not equivalent to g-computation estimates. Hypothesis test
+statistics and 95% confidence intervals are based on using the delta
+estimate variance of a linear combination of random variables.
+</p>
+
+
+<h3>Value</h3>
+
+<p>a qgcompfit object, which contains information about the effect
+measure of interest (psi) and associated variance (var.psi), as well
+as information on the model fit (fit) and information on the
+weights/standardized coefficients in the positive (pos.weights) and
+negative (neg.weights) directions.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>qgcomp.cox.boot</code>, <code>qgcomp.glm.boot</code>,
+and <code>qgcomp</code>
+</p>
+<p>Other qgcomp_methods: 
+<code>qgcomp.cch.noboot()</code>,
+<code>qgcomp.cox.boot()</code>,
+<code>qgcomp.glm.boot()</code>,
+<code>qgcomp.glm.noboot()</code>,
+<code>qgcomp.hurdle.boot()</code>,
+<code>qgcomp.hurdle.noboot()</code>,
+<code>qgcomp.multinomial.boot()</code>,
+<code>qgcomp.multinomial.noboot()</code>,
+<code>qgcomp.partials()</code>,
+<code>qgcomp.zi.boot()</code>,
+<code>qgcomp.zi.noboot()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">set.seed(50)
+N=200
+dat &lt;- data.frame(time=(tmg &lt;- pmin(.1,rweibull(N, 10, 0.1))), 
+                d=1.0*(tmg&lt;0.1), x1=runif(N), x2=runif(N), z=runif(N))
+expnms=paste0("x", 1:2)
+f = survival::Surv(time, d)~x1 + x2
+(fit1 &lt;- survival::coxph(f, data = dat))
+(obj &lt;- qgcomp.cox.noboot(f, expnms = expnms, data = dat))
+## Not run: 
+
+# weighted analysis
+dat$w = runif(N)
+qdata = quantize(dat, expnms=expnms)
+(obj2 &lt;- qgcomp.cox.noboot(f, expnms = expnms, data = dat, weight=w))
+obj2$fit
+survival::coxph(f, data = qdata$data, weight=w)
+
+# not run: bootstrapped version is much slower
+(obj2 &lt;- qgcomp.cox.boot(f, expnms = expnms, data = dat, B=200, MCsize=20000))
+
+## End(Not run)
+</code></pre>
+
+
+</div>

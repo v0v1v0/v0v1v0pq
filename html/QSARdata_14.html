@@ -1,0 +1,93 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>bbb2</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Blood-Brain Barrier Data</h2>
+
+<h3>Description</h3>
+
+<p>These data were compiled and described by Burns et al. (2004). The data set consists of 80 compounds that were designated as either crossing the blood-brain barrier or not crossing. The structures and outcomes were obtained from <a href="http://www.qsarworld.com/index.php">http://www.qsarworld.com/index.php</a>.
+</p>
+<p>The package contains none sets of molecular descriptors: atom pair distances, Daylight fingerprints (<a href="http://www.daylight.com/dayhtml/doc/theory/theory.finger.html">http://www.daylight.com/dayhtml/doc/theory/theory.finger.html</a>), Dragon descriptors (<a href="http://www.talete.mi.it/products/dragon_plus.htm">http://www.talete.mi.it/products/dragon_plus.htm</a>), MOE2D, MOE2D fingerprints, MOE3D, PipelinePilot fingerprints (<a href="http://accelrys.com/products/pipeline-pilot/">http://accelrys.com/products/pipeline-pilot/</a>) and QuickProp descriptors.
+</p>
+<p>For fingerprints, the 500 most variable bits were selected whenever possible.
+</p>
+<p>There are compounds with missing data for some descriptors.
+</p>
+<p>The "2" in the name is due to another data set in the <span class="pkg">caret</span> package for blood-brain barrier data (with numeric outcomes). These are a completely different set of compounds and have no connection.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">data(bbb2)</code></pre>
+
+
+<h3>Format</h3>
+
+<p>The data consist of several data frames. The first column of the descriptor data frames is called "Molecule" representing the compounds.
+</p>
+
+<dl>
+<dt>bbb2_AtomPair</dt>
+<dd>
+<p>Atom pair descriptors</p>
+</dd>
+<dt>bbb2_Daylight_FP</dt>
+<dd>
+<p>Daylight fingerprints (<a href="http://www.daylight.com/dayhtml/doc/theory/theory.finger.html">http://www.daylight.com/dayhtml/doc/theory/theory.finger.html</a>)</p>
+</dd>   
+<dt>bbb2_Dragon</dt>
+<dd>
+<p>Dragon descriptors (<a href="http://www.talete.mi.it/products/dragon_plus.htm">http://www.talete.mi.it/products/dragon_plus.htm</a>)</p>
+</dd> 
+<dt>bbb2_Lcalc</dt>
+<dd>
+<p>LCALC descriptors</p>
+</dd>
+<dt>bbb2_moe2D</dt>
+<dd>
+<p>2 dimensional MOE descriptors</p>
+</dd>
+<dt>bbb2_moe2D_FP</dt>
+<dd>
+<p>2 dimensional MOE fingerprints</p>
+</dd>
+<dt>bbb2_moe3D</dt>
+<dd>
+<p>3 dimensional MOE descriptors</p>
+</dd>
+<dt>bbb2_PipelinePilot_FP</dt>
+<dd>
+<p>PipelinePilot fingerprints (<a href="http://accelrys.com/products/pipeline-pilot/">http://accelrys.com/products/pipeline-pilot/</a>)</p>
+</dd>
+<dt>bbb2_QuickProp</dt>
+<dd>
+<p>QuickProp descriptors</p>
+</dd>
+<dt>bbb2_Class</dt>
+<dd>
+<p>a factor with levels "Crosses" and "DoesNot"</p>
+</dd>
+<dt>bbb2_Outcome</dt>
+<dd>
+<p>a data frame with columns for the molecule name and the outcome (for merging)</p>
+</dd>
+</dl>
+<h3>References</h3>
+
+<p>Burns et al. A mathematical model for prediction of drug molecule diffusion across the blood-brain barrier. The Canadian Journal of Neurological Sciences (2004) vol. 31 (4) pp. 520-527
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(bbb2)
+head(bbb2_Outcome)
+</code></pre>
+
+
+</div>

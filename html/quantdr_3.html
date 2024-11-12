@@ -1,0 +1,82 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>llqrcv</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Cross-Validation for bandwidth selection of local linear quantile regression</h2>
+
+<h3>Description</h3>
+
+<p><code>llqrcv</code> estimates the bandwidth necessary for the local linear fit of
+the <code class="reqn">\tau</code>th conditional quantile of <code>y</code> given <code>x</code>.  The
+estimation is performed using the Cross-Validation criterion.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">llqrcv(x, y, tau = 0.5)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>A design matrix (n x p).  The rows represent observations and the
+columns represent predictor variables.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>A vector of the response variable.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tau</code></td>
+<td>
+<p>A quantile level, a number strictly between 0 and 1.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>A grid of bandwidth values is created and the local linear fit is estimated
+using all the data points except for one point, which is used to make the
+prediction.  This procedure is repeated <code>n</code> times, where <code>n</code> is the
+number of observations.  Then, the bandwidth is selected as the one with the
+smallest average error.
+</p>
+<p>When the dimension of the predictor variable is large compared with the sample
+size, local linear fitting meets the 'curse of dimensionality' problem. In
+situations like that, the grid bandwidth values might be too small and cause
+the function to fail. For these cases, we advice the user to directly use the
+<code>llqr</code> function of the package and specify a bandwidth in the function.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>llqrcv</code> returns the optimal bandwidth selected using
+Cross-Validation criterion for the local linear fit of the <code class="reqn">\tau</code>th
+conditional quantile of <code>y</code> given <code>x</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">set.seed(1234)
+n &lt;- 100
+x &lt;- rnorm(n)
+error &lt;- rnorm(n)
+y &lt;- x^2 + error
+tau &lt;- 0.5
+llqrcv(x, y, tau = tau)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,141 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>IPWE_Qopt_DepCen_trt</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Estimate the Quantile-opt Treatment Regime under the assumption that the censoring
+time's distribution only depends on treatment level</h2>
+
+<h3>Description</h3>
+
+<p>Here we assume the censoring variable is independent of covariates 
+and potential outcomes 
+given the treatment assignment. For example, if evidence shows that patients at 
+certain treatment level are prone to experience censoring earlier.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">IPWE_Qopt_DepCen_trt(data, regimeClass, tau, moPropen = "BinaryRandom",
+  cluster = FALSE, p_level = 1, s.tol = 1e-04, it.num = 8,
+  pop.size = 6000)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>raw data.frame</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>regimeClass</code></td>
+<td>
+<p>a formula specifying the class of treatment regimes to search,
+e.g. if <code>regimeClass = a~x1+x2</code>, and then this function will 
+search the class of treatment regimes
+of the form 
+</p>
+<p style="text-align: center;"><code class="reqn">d(x) = I \left(\beta_0 +\beta_1  x_1 + \beta_2  x_2 &gt; 0\right).
+</code>
+</p>
+
+<p>Polynomial arguments are also supported.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tau</code></td>
+<td>
+<p>the quantile of interest</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>moPropen</code></td>
+<td>
+<p>The propensity score model for the probability of receiving 
+treatment level 1.
+When <code>moPropen</code> equals the string "BinaryRandom",  the proportion of observations
+receiving treatment level 1 in the sample will be plugged in as an estimate
+of the propensity.
+Otherwise, this argument should be a formula/string, based on which this function
+will fit a logistic regression on the treatment level.  e.g. <code>a1~x1</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cluster</code></td>
+<td>
+<p>default is FALSE, meaning do not use parallel computing for the genetic algorithm(GA).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p_level</code></td>
+<td>
+<p>choose between 0,1,2,3 to indicate different levels of output
+from the genetic function. Specifically, 0 (minimal printing),
+1 (normal), 2 (detailed), and 3 (debug).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>s.tol</code></td>
+<td>
+<p>tolerance level for the GA algorithm. This is input for parameter <code>solution.tolerance</code>
+in function <code>rgenoud::genoud</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>it.num</code></td>
+<td>
+<p>the maximum GA iteration number</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pop.size</code></td>
+<td>
+<p>an integer with the default set to be 3000. This is roughly the 
+number individuals for the first generation
+in the genetic algorithm (<code>rgenoud::genoud</code>).</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>data is a dataframe that contains:
+a(observed treatment assignment), 
+censor_y, and
+delta
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">GenerateData_DepCen_trt &lt;- function(n)
+{
+  x1 &lt;- runif(n, min=-0.5,max=0.5)
+  x2 &lt;- runif(n, min=-0.5,max=0.5)
+  error &lt;- rnorm(n, sd= 1)
+  ph &lt;- exp(-0.5+1*(x1+x2))/(1+exp(-0.5 + 1*(x1+x2)))
+  a &lt;- rbinom(n = n, size = 1, prob=ph)
+  c &lt;- 1 + 1*a + runif(n = n, min=0, max=2)
+   # distribution of `c' depends on treatment level `a'
+  cmplt_y &lt;-  pmin(2+x1+x2 +  a*(1 - x1 - x2) +  (0.2 + a*(1+x1+x2)) * error, 4.4)
+  censor_y &lt;- pmin(cmplt_y, c)
+  delta &lt;- as.numeric(c &gt; cmplt_y)
+  return(data.frame(x1=x1,x2=x2,a=a, censor_y = censor_y, delta=delta))
+}
+                        
+
+n &lt;- 400
+data &lt;- GenerateData_DepCen_trt(n)
+fit1 &lt;- IPWE_Qopt_DepCen_trt(data = data, regimeClass = a~x1+x2, moPropen = a~x1+x2,
+                                 tau = 0.2)
+                                 
+   
+</code></pre>
+
+
+</div>

@@ -1,0 +1,189 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>train.ann</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Training an Artificial Neural Network for Interaction Prediction.
+</h2>
+
+<h3>Description</h3>
+
+<p>The function trains a neural network to be used with the functions
+<code>compute.interaction</code> and
+<code>compute.ann</code>. The neural network can then
+be used to predict whether the level of interaction between a quarry and the
+groundwater is <em>low</em>, <em>medium</em>, <em>high</em> or <em>very high</em>.
+</p>
+<p>The user can specify:
+</p>
+
+<ul>
+<li>
+<p> the explanatory variables to be used;
+</p>
+</li>
+<li>
+<p> the data frame used to train and validate the network;
+</p>
+</li>
+<li>
+<p> the structure of the hidden layers;
+</p>
+</li>
+<li>
+<p> the number of repetitions for the neural network training.
+</p>
+</li>
+</ul>
+<h3>Usage</h3>
+
+<pre><code class="language-R">train.ann(var = c("H", "Z", "G", "C", "T", "L"), data = quarrint::quarries, 
+          hidden = 7, rep = 1, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>var</code></td>
+<td>
+
+<p>The explanatory variable to be used. By default, all the variables in the
+default data frame are used. Note that the variables must be categorical
+(coded with integers) and will be transformed in dummy variables. For
+instance if <code>X</code> has 5 possible values (1,2,3,4,5), then it will be
+replaced by the binary variables <code>X1</code>, <code>X2</code>, <code>X3</code>, <code>X4</code>,
+<code>X5</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+
+<p>The training and validation dataframe. It must contain the
+variables listed in <code>"var"</code> and the dependent binary variables
+<code>"low"</code>, <code>"medium"</code>, <code>"high"</code> and <code>"very.high"</code>
+representing the interaction level. By default, it uses the dataframe
+<code>"quarries"</code> from the package.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>hidden</code></td>
+<td>
+
+<p>A vector of integer detailing the structure of the hidden layers. For instance
+if we want 2 hidden layers with 4 and 2 nodes respectively, then it must be
+it to (2, 4). The default is 7, i.e. 1 hidden layer of 7 nodes.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rep</code></td>
+<td>
+
+<p>The number of repetition of the neural network to be computed.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+
+<p>Further arguments passed to or from other methods. See the  documentation of
+"neuralnet" from the package "neuralnet".
+</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list whose elements are:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>ann</code></td>
+<td>
+
+<p>A <code>nn</code> object containing the trained neural network.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>prop.correct.prediction</code></td>
+<td>
+
+<p>A list detailing for each repetition of the neural network the proportion of
+correct predictions.
+</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Johan Barthelemy.
+</p>
+<p>Maintainer: Johan Barthelemy <a href="mailto:johan@uow.edu.au">johan@uow.edu.au</a>.
+</p>
+
+
+<h3>References</h3>
+
+<p>Barthelemy, J., Carletti, T., Collier L., Hallet, V., Moriame, M.,
+Sartenaer, A. (2016)
+Interaction prediction between groundwater and quarry extension using discrete
+choice models and artificial neural networks
+<em>Environmental Earth Sciences</em> (in press)
+</p>
+<p>Collier, L., Barthelemy, J., Carletti, T., Moriame, M., Sartenaer, A.,
+Hallet, V. (2015)
+Calculation of an Interaction Index between the Extractive Activity and
+Groundwater Resources
+<em>Energy Procedia</em> 76, 412-420
+</p>
+<p>Krieselm, D. (2007)
+A Brief Introduction to Neural Networks. On-line
+available at <a href="http://www.dkriesel.com">http://www.dkriesel.com</a>
+</p>
+<p>Ripley, B. (1996)
+<em>Pattern recognition and neural networks</em>
+Cambridge university press
+</p>
+
+
+<h3>See Also</h3>
+
+<p>The function relies on the function <code>neuralnet</code>
+of the <span class="pkg">neuralnet</span> package to generate an object of type <code>nn</code>
+containing the trained neural network.
+</p>
+<p><code>compute.interaction</code> and
+<code>compute.ann</code> to use the trained neural
+network.
+</p>
+<p>The data frame <code>quarries</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+# training a neural network using the attribues H and T as predictors,
+# with 2 hidden layers of 2 nodes each and computing 2 replications
+r.ann &lt;- train.ann(var = c("H", "T", "L", "Z"), hidden = c(2, 2), rep = 2)
+
+# using the ann to compute the interaction
+q &lt;- quarry(geological.context = 2, hydrogeological.context = 4,
+            piezometric.context = 1, quarry.position = 4,
+            production.catchment = 4, quality.catchment = 3)
+compute.interaction(q, method="ann", ann = r.ann$ann)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

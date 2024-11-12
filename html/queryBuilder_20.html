@@ -1,0 +1,118 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>query-rules</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Define filtering query</h2>
+
+<h3>Description</h3>
+
+<p>Query is configuration consisting of rules and group.
+Rule defines a single filtering expression whereas group is combining multiple rules (or nested groups)
+with the provided condition.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">queryGroup(..., condition = "AND")
+
+queryRule(field, operator, value = NULL, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Rules defined with <code>queryRule</code> function.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>condition</code></td>
+<td>
+<p>Group condition. By default 'AND' and 'OR' are available.
+To set custom one use setQueryConditions.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>field</code></td>
+<td>
+<p>Field of the filter applied to the rule.
+To set custom one use setQueryOperators.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>operator</code></td>
+<td>
+<p>Name of the operator to be applied to the rule.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>value</code></td>
+<td>
+<p>(optional) Values that should be applied to the rule.
+Some operators, such as 'is_null', don't require any value provided.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Having the example expression 'a == 1 | (vs == 0 &amp; qsec &gt; 10)' we can distinct the following rules and groups:
+</p>
+<p>Rules:
+- 'am == 1' - related to 'am' field, applies '==' operator with '1' value,
+- 'vs == 0' - related to 'vs' field, applies '==' operator with '1' value,
+- 'qsec &gt; 10' - related to 'qsec' field, applies '&gt;' operator with '10' value.
+</p>
+<p>Groups:
+- '(vs == 0 &amp; qsec &gt; 10)' - combines two rules ('vs == 0' and 'qsec &gt; 10') with '&amp;' condition,
+- 'a == 1 | (vs == 0 &amp; qsec &gt; 10)' - combines rule 'a == 1' and group '(vs == 0 &amp; qsec &gt; 10)' with '|' condition.
+</p>
+<p>Such query can be defined by 'queryBuilder' the following way:
+</p>
+<p><code>
+  queryGroup(
+    condition = "OR",
+    queryRule("am", "equal", 1)
+    queryGroup(
+      condition = "AND",
+      queryRule("vs", "equal", 0),
+      queryRule("qsec", "greater", 10)
+    )
+  )
+</code>
+</p>
+<p>Connection between conditions and operators names and their R-based counterparts are defined with
+queryBuilderConfig class.
+</p>
+<p>The defined query can be then converted to filtering expression with queryToExpr function.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Nested lists structure.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+queryGroup(
+  condition = "OR",
+  queryRule("am", "equal", 1),
+  queryGroup(
+    condition = "AND",
+    queryRule("vs", "equal", 0),
+    queryRule("qsec", "greater", 10)
+  )
+)
+
+</code></pre>
+
+
+</div>

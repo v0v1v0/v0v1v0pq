@@ -1,0 +1,46 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>not.environment</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Not an environment</h2>
+
+<h3>Description</h3>
+
+<p>Check if entry is not an environment object
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">not.environment(x)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>vector entry</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>a boolean value to indicate if entry is an environment
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">test.env &lt;- new.env()
+test.notenv &lt;- list(t=1)
+not.environment(test.env) # FALSE
+not.environment(test.notenv) # TRUE
+if(not.environment(test.notenv)) message("yes") # yes
+
+</code></pre>
+
+
+</div>

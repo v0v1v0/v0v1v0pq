@@ -1,0 +1,93 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>QCSIS</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2> Quantile Correlation-Sure Independence Screening (QC-SIS)
+</h2>
+
+<h3>Description</h3>
+
+<p>The function implemrnts the  quantile correlation-sure independence  screening (QC-SIS).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">QCSIS(x, y, tau, d)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>The design matrix, of dimensions n * p, without an intercept.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>The response vector of dimension n * 1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tau</code></td>
+<td>
+<p>The quantile(s) to be estimated. By default, tau=1:(n-1)/n. </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>d</code></td>
+<td>
+<p>The tuning parameter used to covarites had significant effect on the response variable, such as [n/log(n)],or n-1</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>w</code></td>
+<td>
+<p>The estimate of w.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>M</code></td>
+<td>
+<p>The subscript of x recuited by QC-SIS.</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Xuejun Ma, Jingxiao Zhang, Jingke Zhou
+</p>
+
+
+<h3>References</h3>
+
+<p>Xuejun Ma  and Jingxiao Zhang. Robust model-free feature screening via quantile correlation. Journal of Multivariate Analysis. Online, 2015.<br></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">n &lt;- 20
+p &lt;- 200
+r &lt;- 0.05
+x &lt;- matrix(rnorm(n * p), n, p)
+e &lt;- rnorm(n, 0, 1)
+inde &lt;- sample(n, r * n)
+x[inde, 1] &lt;- 2 * sqrt(rchisq(r * n, df = p))
+y &lt;- 5 * x[, 1] + 5 * x[, 2] + 5 * x[, 3] + e
+d &lt;- 19
+fit.QCSIS &lt;- QCSIS(x = x, y = y, d = d)
+fit.QCSIS$M
+</code></pre>
+
+
+</div>

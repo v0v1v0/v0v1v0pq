@@ -1,0 +1,78 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qualtrics_api_request</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Send httr requests to Qualtrics API</h2>
+
+<h3>Description</h3>
+
+<p>Send httr requests to Qualtrics API
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qualtrics_api_request(
+  verb = c("GET", "POST"),
+  url = url,
+  query = NULL,
+  body = NULL,
+  as = c("parsed", "raw"),
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>verb</code></td>
+<td>
+<p>Type of request to be sent (@seealso <code>httr::VERB()</code>)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>url</code></td>
+<td>
+<p>Qualtrics endpoint URL created by <code>generate_url()</code> functions</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>query</code></td>
+<td>
+<p>Optional query parameters used by some endpoints</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>body</code></td>
+<td>
+<p>Options created by <code>create_raw_payload()</code> function</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>as</code></td>
+<td>
+<p>type of content to return, passed to <code>as</code> in httr::content().
+current options "parsed" (since we get JSON mostly), "raw" (response .zips)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>arguments passed to httr::content when parsing</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>If the request to the Qualtrics API made by this function fails, the request
+will be retried. If you see these failures on a 500 error (such as a 504
+error) be patient while the request is retried; it will typically succeed
+on retrying. If you see other types of errors, retrying is unlikely to help.
+</p>
+
+
+</div>

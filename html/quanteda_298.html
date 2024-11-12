@@ -1,0 +1,304 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>tokens</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Construct a tokens object</h2>
+
+<h3>Description</h3>
+
+<p>Construct a tokens object, either by importing a named list of
+characters from an external tokenizer, or by calling the internal
+<span class="pkg">quanteda</span> tokenizer.
+</p>
+<p><code>tokens()</code> can also be applied to tokens class objects, which
+means that the removal rules can be applied post-tokenization, although it
+should be noted that it will not be possible to remove things that are not
+present.  For instance, if the <code>tokens</code> object has already had punctuation
+removed, then <code>tokens(x, remove_punct = TRUE)</code> will have no additional
+effect.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">tokens(
+  x,
+  what = "word",
+  remove_punct = FALSE,
+  remove_symbols = FALSE,
+  remove_numbers = FALSE,
+  remove_url = FALSE,
+  remove_separators = TRUE,
+  split_hyphens = FALSE,
+  split_tags = FALSE,
+  include_docvars = TRUE,
+  padding = FALSE,
+  concatenator = "_",
+  verbose = quanteda_options("verbose"),
+  ...,
+  xptr = FALSE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>the input object to the tokens constructor; a tokens, corpus or
+character object to tokenize.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>what</code></td>
+<td>
+<p>character; which tokenizer to use.  The default <code>what = "word"</code>
+is the current version of the <span class="pkg">quanteda</span> tokenizer, set by
+<code>quanteda_options(okens_tokenizer_word)</code>. Legacy tokenizers (version &lt; 2)
+are also supported, including the default <code>what = "word1"</code>. See the Details
+and quanteda Tokenizers below.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>remove_punct</code></td>
+<td>
+<p>logical; if <code>TRUE</code> remove all characters in the Unicode
+"Punctuation" <code style="white-space: pre;">⁠[P]⁠</code> class, with exceptions for those used as prefixes for
+valid social media tags if <code>preserve_tags = TRUE</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>remove_symbols</code></td>
+<td>
+<p>logical; if <code>TRUE</code> remove all characters in the Unicode
+"Symbol" <code style="white-space: pre;">⁠[S]⁠</code> class</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>remove_numbers</code></td>
+<td>
+<p>logical; if <code>TRUE</code> remove tokens that consist only of
+numbers, but not words that start with digits, e.g. <code style="white-space: pre;">⁠2day⁠</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>remove_url</code></td>
+<td>
+<p>logical; if <code>TRUE</code> removes URLs (http, https, ftp, sftp)
+and email addresses.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>remove_separators</code></td>
+<td>
+<p>logical; if <code>TRUE</code> remove separators and separator
+characters (Unicode "Separator" <code style="white-space: pre;">⁠[Z]⁠</code> and "Control" <code style="white-space: pre;">⁠[C]⁠</code> categories)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>split_hyphens</code></td>
+<td>
+<p>logical; if <code>FALSE</code>, do not split words that are
+connected by hyphenation and hyphenation-like characters in between words,
+e.g. <code>"self-aware"</code> becomes <code>c("self", "-", "aware")</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>split_tags</code></td>
+<td>
+<p>logical; if <code>FALSE</code>, do not split social media tags defined
+in <code>quanteda_options()</code>. The default patterns are <code>pattern_hashtag = "#\\w+#?"</code> and <code>pattern_username = "@[a-zA-Z0-9_]+"</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>include_docvars</code></td>
+<td>
+<p>if <code>TRUE</code>, pass docvars through to the tokens object.
+Does not apply when the input is a character data or a list of characters.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>padding</code></td>
+<td>
+<p>if <code>TRUE</code>, leave an empty string where the removed tokens
+previously existed.  This is useful if a positional match is needed between
+the pre- and post-selected tokens, for instance if a window of adjacency
+needs to be computed.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>concatenator</code></td>
+<td>
+<p>character; the concatenation character that will connect
+the tokens making up a multi-token sequence.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p>if <code>TRUE</code>, print timing messages to the console</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>used to pass arguments among the functions</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xptr</code></td>
+<td>
+<p>if <code>TRUE</code>, returns a <code>tokens_xptr</code> class object</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p><span class="pkg">quanteda</span> <code>tokens</code> class object, by default a serialized list of
+integers corresponding to a vector of types.
+</p>
+
+
+<h3>Details</h3>
+
+<p>As of version 2, the choice of tokenizer is left more to
+the user, and <code>tokens()</code> is treated more as a constructor (from a named
+list) than a tokenizer. This allows users to use any other tokenizer that
+returns a named list, and to use this as an input to <code>tokens()</code>, with
+removal and splitting rules applied after this has been constructed (passed
+as arguments).  These removal and splitting rules are conservative and will
+not remove or split anything, however, unless the user requests it.
+</p>
+<p>You usually do not want to split hyphenated words or social media tags, but
+extra steps required to preserve such special tokens. If there are many
+random characters in your texts, you should <code>split_hyphens = TRUE</code> and
+<code>split_tags = TRUE</code> to avoid a slowdown in tokenization.
+</p>
+<p>Using external tokenizers is best done by piping the output from these
+other tokenizers into the <code>tokens()</code> constructor, with additional removal
+and splitting options applied at the construction stage.  These will only
+have an effect, however, if the tokens exist for which removal is specified
+at in the <code>tokens()</code> call.  For instance, it is impossible to remove
+punctuation if the input list to <code>tokens()</code> already had its punctuation
+tokens removed at the external tokenization stage.
+</p>
+<p>To construct a tokens object from a list with no additional processing,
+call <code>as.tokens()</code> instead of <code>tokens()</code>.
+</p>
+<p>Recommended tokenizers are those from the <span class="pkg">tokenizers</span> package, which
+are generally faster than the default (built-in) tokenizer but always
+splits infix hyphens, or <span class="pkg">spacyr</span>.  The default tokenizer in
+<strong>quanteda</strong> is very smart, however, and if you do not have special
+requirements, it works extremely well for most languages as well as text
+from social media (including hashtags and usernames).
+</p>
+
+
+<h3>quanteda Tokenizers</h3>
+
+<p>The default word tokenizer <code>what = "word"</code> is
+updated in major version 4.  It is even smarter than the v3 and v4
+versions, with additional options for customization.  See
+<code>tokenize_word4()</code> for full details.
+</p>
+<p>The default tokenizer splits tokens using stri_split_boundaries(x, type = "word") but by default preserves infix
+hyphens (e.g. "self-funding"), URLs, and social media "tag" characters
+(#hashtags and @usernames), and email addresses.  The rules defining a
+valid "tag" can be found at
+https://www.hashtags.org/featured/what-characters-can-a-hashtag-include/
+for hashtags and at
+https://help.twitter.com/en/managing-your-account/twitter-username-rules
+for usernames.
+</p>
+<p>For backward compatibility, the following older tokenizers are also
+supported through <code>what</code>:
+</p>
+
+<dl>
+<dt><code>"word1"</code></dt>
+<dd>
+<p>(legacy) implements
+similar behaviour to the version of <code>what = "word"</code> found in pre-version 2.
+(It preserves social media tags and infix hyphens, but splits URLs.)
+"word1" is also slower than "word2" and "word4".  In "word1",
+the argument <code>remove_twitter</code> controlled whether social
+media tags were preserved or removed, even when <code>remove_punct = TRUE</code>. This
+argument is not longer functional in versions &gt;= 2, but equivalent control
+can be had using the <code>split_tags</code> argument and selective tokens removals.</p>
+</dd>
+<dt><code style="white-space: pre;">⁠"word2", "word3"⁠</code></dt>
+<dd>
+<p>(legacy) implements
+similar behaviour to the versions of "word" found in <span class="pkg">quanteda</span> versions
+3 and 4.</p>
+</dd>
+<dt><code>"fasterword"</code></dt>
+<dd>
+<p>(legacy) splits
+on whitespace and control characters, using
+<code>stringi::stri_split_charclass(x, "[\\p{Z}\\p{C}]+")</code></p>
+</dd>
+<dt><code>"fastestword"</code></dt>
+<dd>
+<p>(legacy) splits on the space character, using
+<code>stringi::stri_split_fixed(x, " ")</code></p>
+</dd> <dt><code>"character"</code></dt>
+<dd>
+<p>tokenization into
+individual characters</p>
+</dd> <dt><code>"sentence"</code></dt>
+<dd>
+<p>sentence segmenter based on
+stri_split_boundaries, but with
+additional rules to avoid splits on words like "Mr." that would otherwise
+incorrectly be detected as sentence boundaries.  For better sentence
+tokenization, consider using <span class="pkg">spacyr</span>.</p>
+</dd> </dl>
+<h3>See Also</h3>
+
+<p><code>tokens_ngrams()</code>, <code>tokens_skipgrams()</code>, <code>tokens_compound()</code>,
+<code>tokens_lookup()</code>, <code>concat()</code>, <code>as.list.tokens()</code>, <code>as.tokens()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">txt &lt;- c(doc1 = "A sentence, showing how tokens() works.",
+         doc2 = "@quantedainit and #textanalysis https://example.com?p=123.",
+         doc3 = "Self-documenting code??",
+         doc4 = "£1,000,000 for 50¢ is gr8 4ever \U0001f600")
+tokens(txt)
+tokens(txt, what = "word1")
+
+# removing punctuation marks but keeping tags and URLs
+tokens(txt[1:2], remove_punct = TRUE)
+
+# splitting hyphenated words
+tokens(txt[3])
+tokens(txt[3], split_hyphens = TRUE)
+
+# symbols and numbers
+tokens(txt[4])
+tokens(txt[4], remove_numbers = TRUE)
+tokens(txt[4], remove_numbers = TRUE, remove_symbols = TRUE)
+
+## Not run: # using other tokenizers
+tokens(tokenizers::tokenize_words(txt[4]), remove_symbols = TRUE)
+tokenizers::tokenize_words(txt, lowercase = FALSE, strip_punct = FALSE) |&gt;
+    tokens(remove_symbols = TRUE)
+tokenizers::tokenize_characters(txt[3], strip_non_alphanum = FALSE) |&gt;
+    tokens(remove_punct = TRUE)
+tokenizers::tokenize_sentences(
+    "The quick brown fox.  It jumped over the lazy dog.") |&gt;
+    tokens()
+
+## End(Not run)
+
+</code></pre>
+
+
+</div>

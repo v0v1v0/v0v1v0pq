@@ -1,0 +1,75 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>fetch_id</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Fetch a unique Qualtrics survey ID based on survey name in the Qualtrics UI</h2>
+
+<h3>Description</h3>
+
+<p>Fetch a unique Qualtrics survey ID based on survey name in the Qualtrics UI
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">fetch_id(.data, survey_name, partial_match = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>.data</code></td>
+<td>
+<p>Data frame of active surveys created by the function
+<code>all_surveys()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>survey_name</code></td>
+<td>
+<p>String. Name of the survey as it appears in the Qualtrics
+UI. Must be unique to be passed to <code>fetch_id()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>partial_match</code></td>
+<td>
+<p>Boolean. Will match all surveys containing the exact
+string provided.  Defaults to FALSE, which matches against the entire name.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Survey names in the Qualtrics platform are not required to be
+unique, but the <code>survey_name</code> argument for this function <em>must</em> be unique.
+If input results in multiple surveys being matched, will error with a list
+of up to 5 matches &amp; their IDs
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+# Register your Qualtrics credentials if you haven't already
+qualtrics_api_credentials(
+  api_key = "&lt;YOUR-API-KEY&gt;",
+  base_url = "&lt;YOUR-BASE-URL&gt;"
+)
+
+# Retrieve a list of surveys
+surveys &lt;- all_surveys()
+
+# Retrieve surveyID for a unique survey
+my_id &lt;- fetch_id(surveys, "Unique Survey Name")
+
+
+## End(Not run)
+</code></pre>
+
+
+</div>

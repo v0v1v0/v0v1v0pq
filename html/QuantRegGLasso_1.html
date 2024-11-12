@@ -1,0 +1,92 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>awgl</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Internal function: Quantile Regression with Adaptively Group Lasso without <code>Omega</code>
+</h2>
+
+<h3>Description</h3>
+
+<p>Internal function: Quantile regression with adaptively group Lasso without <code>Omega</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">awgl(Y, W, lambda, tau, L, qn, zeta, zetaincre, maxit, tol)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>Y</code></td>
+<td>
+<p>Data matrix (<code class="reqn">n \times 1</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>W</code></td>
+<td>
+<p>B-splines with covariates matrix with <code class="reqn">p \times L</code> columns and <code class="reqn">n</code> rows.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lambda</code></td>
+<td>
+<p>A sequence of tuning parameters.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tau</code></td>
+<td>
+<p>A quantile of interest.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>L</code></td>
+<td>
+<p>The number of groups.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qn</code></td>
+<td>
+<p>A bound parameter for HDIC.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>zeta</code></td>
+<td>
+<p>A step parameter.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>zetaincre</code></td>
+<td>
+<p>An increment of each step.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>maxit</code></td>
+<td>
+<p>The maximum number of iterations.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tol</code></td>
+<td>
+<p>A tolerance rate.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list of selected parameters.
+</p>
+
+
+</div>

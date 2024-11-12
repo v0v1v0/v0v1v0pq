@@ -1,0 +1,74 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>makemermaid</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>makemermaid</h2>
+
+<h3>Description</h3>
+
+<p>Create a Quarto Mermaid Diagram Chunk With Variable Insertions
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">makemermaid(.object., ..., file)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>.object.</code></td>
+<td>
+<p>character string or vector with <code>mermaid</code> markup</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>name=value pairs that makes values replace <code>{{name}}</code> elements in the markup</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>file</code></td>
+<td>
+<p>name of file to hold <code>mermaid</code> markup after variable insertions.  Run this in Quarto using a chunk to looks like the following, which was for <code>file='mermaid1.mer'</code>.
+</p>
+<div class="sourceCode"><pre>```{mermaid}
+%%| fig-cap: "Consort diagram produced by `mermaid`"
+%%| label: fig-mermaid1
+%%| file: mermaid1.mer
+```
+</pre></div>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Takes a character string or vector and uses <code>knitr::knit_expand()</code> to apply variable insertions before the diagram is rendered by Quarto.  See <a href="https://hbiostat.org/rflow/doverview.html#fig-mermaid1/">this</a> for an example.
+</p>
+
+
+<h3>Value</h3>
+
+<p>nothing; used to <code>knitr::knit_expand()</code> mermaid markup
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Frank Harrell
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>makegraphviz()</code>
+</p>
+
+
+</div>

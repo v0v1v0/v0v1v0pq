@@ -1,0 +1,147 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>maxmarg</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Find genotypes with maximum marginal probabilities</h2>
+
+<h3>Description</h3>
+
+<p>For each individual at each position, find the genotype with the maximum marginal probability.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">maxmarg(
+  probs,
+  map = NULL,
+  minprob = 0.95,
+  chr = NULL,
+  pos = NULL,
+  return_char = FALSE,
+  quiet = TRUE,
+  cores = 1,
+  tol = 0.0000000000001
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>probs</code></td>
+<td>
+<p>Genotype probabilities, as calculated from
+<code>calc_genoprob()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>map</code></td>
+<td>
+<p>Map of pseudomarkers in <code>probs</code>. Used only if <code>chr</code> and <code>pos</code> are provided.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>minprob</code></td>
+<td>
+<p>Minimum probability for making a call. If maximum
+probability is less then this value, give <code>NA</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>chr</code></td>
+<td>
+<p>If provided (along with <code>pos</code>), consider only the single specified position.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pos</code></td>
+<td>
+<p>If provided (along with <code>chr</code>), consider only the single specified position.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>return_char</code></td>
+<td>
+<p>If TRUE, return genotype names as character strings.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>quiet</code></td>
+<td>
+<p>IF <code>FALSE</code>, print progress messages.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cores</code></td>
+<td>
+<p>Number of CPU cores to use, for parallel calculations.
+(If <code>0</code>, use <code>parallel::detectCores()</code>.)
+Alternatively, this can be links to a set of cluster sockets, as
+produced by <code>parallel::makeCluster()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tol</code></td>
+<td>
+<p>Tolerance value; genotypes with probability that are within
+<code>tol</code> of each other are treated as equivalent.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>If multiple genotypes share the maximum probability, one is chosen at random.
+</p>
+
+
+<h3>Value</h3>
+
+<p>If <code>chr</code> and <code>pos</code> are provided, a vector of
+genotypes is returned. In this case, <code>map</code> is needed.
+</p>
+<p>Otherwise, the result is a object like that returned by <code>viterbi()</code>,
+A list of two-dimensional arrays of imputed genotypes,
+individuals x positions. Also includes these attributes:
+</p>
+
+<ul>
+<li> <p><code>crosstype</code> - The cross type of the input <code>cross</code>.
+</p>
+</li>
+<li> <p><code>is_x_chr</code> - Logical vector indicating whether chromosomes
+are to be treated as the X chromosome or not, from input <code>cross</code>.
+</p>
+</li>
+<li> <p><code>alleles</code> - Vector of allele codes, from input
+<code>cross</code>.
+</p>
+</li>
+</ul>
+<h3>See Also</h3>
+
+<p><code>sim_geno()</code>, <code>viterbi()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># load data and calculate genotype probabilities
+iron &lt;- read_cross2(system.file("extdata", "iron.zip", package="qtl2"))
+pr &lt;- calc_genoprob(iron, error_prob=0.002)
+
+# full set of imputed genotypes
+ginf &lt;- maxmarg(pr)
+
+# imputed genotypes at a fixed position
+g &lt;- maxmarg(pr, iron$gmap, chr=8, pos=45.5)
+
+# return genotype names rather than integers
+g &lt;- maxmarg(pr, iron$gmap, chr=8, pos=45.5, return_char=TRUE)
+</code></pre>
+
+
+</div>

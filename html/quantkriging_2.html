@@ -1,0 +1,59 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>LOOquants</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Revaluate Quantiles</h2>
+
+<h3>Description</h3>
+
+<p>Generates Leave-One-Out predictions for each location and quantile.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">LOOquants(QKResults)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>QKResults</code></td>
+<td>
+<p>Output from the quantKrig function.</p>
+</td>
+</tr></table>
+<h3>Details</h3>
+
+<p>Returns the estimated quantiles and a plot of the leave-one-out predictions against the observed values.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Leave-one-out predictions at the input locations
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+X &lt;- seq(0,1,length.out = 20)
+Y &lt;- cos(5*X) + cos(X)
+Xstar &lt;- rep(X,each = 100)
+Ystar &lt;- rep(Y,each = 100)
+e &lt;- rchisq(length(Ystar),5)/5 - 1
+Ystar &lt;- Ystar + e
+lb &lt;- c(0.0001,0.0001)
+ub &lt;- c(10,10)
+Qout &lt;- quantKrig(Xstar,Ystar, seq(0.05,0.95, length.out = 7), lower = lb, upper = ub)
+
+LOOquants(Qout)
+
+</code></pre>
+
+
+</div>

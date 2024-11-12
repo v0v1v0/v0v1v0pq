@@ -1,0 +1,56 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>is.wholenumber</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Checks whether <code>x</code> contains integer numbers.</h2>
+
+<h3>Description</h3>
+
+<p>Borrowed from the example in <code>integer</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">is.wholenumber(x, tol = .Machine$double.eps^0.5)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a vector to be checked for integers</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tol</code></td>
+<td>
+<p>an optional parameter specifying to which precision the check is
+to be performed.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Returns a vector of logicals with the same length as <code>x</code>; each
+element <code>i</code> is <code>TRUE</code> iff <code>x[i]</code> is an integer.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+is.wholenumber(1) # is TRUE
+(x &lt;- seq(1, 5, by = 0.5) )
+is.wholenumber( x ) #--&gt;  TRUE FALSE TRUE ...
+
+## End(Not run)
+</code></pre>
+
+
+</div>

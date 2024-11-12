@@ -1,0 +1,251 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>Gene_Quantile_CenIPWE_DTR</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>A low-level function for the generic optimization step in 
+estimating dynamic Quanilte-optimal treatment regime for censored data</h2>
+
+<h3>Description</h3>
+
+<p>This function supports wrapper functions for two stage Quantile-optimal
+treatment regime estimation, namely
+<code>IPWE_Qopt_DTR_IndCen</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">Gene_Quantile_CenIPWE_DTR(data, max, tau, regimeClass.stg1,
+  regimeClass.stg2, s_Diff_Time, txVec1, txVec2, nvars.stg1, nvars.stg2,
+  p.data1, p.data2, sign_beta1.stg1, sign_beta1.stg2, p_level, cluster,
+  s.tol, it.num, pop.size, Domains1 = NULL, Domains2 = NULL,
+  Penalty.level = 0)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>raw data.frame</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>max</code></td>
+<td>
+<p>Maximization (TRUE) or Minimizing (FALSE). Determines if genoud minimizes or maximizes the objective function.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tau</code></td>
+<td>
+<p>a quantile level of interest</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>regimeClass.stg1</code></td>
+<td>
+<p>the class of treatment regimes for stage one</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>regimeClass.stg2</code></td>
+<td>
+<p>the class of treatment regimes for stage two</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>s_Diff_Time</code></td>
+<td>
+<p>the length of time between the first stage treatment and the
+second stage treatment</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>txVec1</code></td>
+<td>
+<p>the vector of treatment received at the first stage</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>txVec2</code></td>
+<td>
+<p>the vector of treatment received at the second stage, it expects entries
+to be <code>NA</code> for patients who did not receive the second treatment</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nvars.stg1</code></td>
+<td>
+<p>number of coeffients for the decision rule of the first stage</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nvars.stg2</code></td>
+<td>
+<p>number of coeffients for the decision rule of the second stage</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p.data1</code></td>
+<td>
+<p>the design matrix to be used for decision in stage one</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p.data2</code></td>
+<td>
+<p>the design matrix to be used for decision in stage two</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sign_beta1.stg1</code></td>
+<td>
+<p>Is sign of the coefficient for the first non-intercept 
+variable for the first stage known? Default is NULL, meaning user does not have contraint on
+the sign;
+FALSE if the coefficient for the first continuous variable 
+is fixed to be <code>-1</code>; TRUE if <code>1</code>. We can make the search space discrete because we employ
+<code class="reqn">|\beta_1| = 1</code> scale normalizaion.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sign_beta1.stg2</code></td>
+<td>
+<p>Default is NULL. Similar to <code>sign_beta1.stg1</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p_level</code></td>
+<td>
+<p>choose between 0,1,2,3 to indicate different levels of output
+from the genetic function. Specifically, 0 (minimal printing),
+1 (normal), 2 (detailed), and 3 (debug).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cluster</code></td>
+<td>
+<p>default is FALSE, meaning do not use parallel computing for the genetic algorithm(GA).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>s.tol</code></td>
+<td>
+<p>tolerance level for the GA algorithm. This is input for parameter <code>solution.tolerance</code>
+in function <code>rgenoud::genoud</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>it.num</code></td>
+<td>
+<p>the maximum GA iteration number</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pop.size</code></td>
+<td>
+<p>an integer with the default set to be 3000. This is roughly the 
+number individuals for the first generation
+in the genetic algorithm (<code>rgenoud::genoud</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Domains1</code></td>
+<td>
+<p>This is optional. If not NULL, please provide 
+the two-column matrix for the searching range of coeffients in stage one.
+The coefficient taking value of positive/negative one should not be included.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Domains2</code></td>
+<td>
+<p>This is optional. If not NULL, please provide 
+the two-column matrix for the searching range of coeffients in stage two.
+The coefficient taking value of positive/negative one should not be included.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Penalty.level</code></td>
+<td>
+<p>the level that determines which objective function to use. 
+<code>Penalty.level = 0</code> indicates no regularization;
+<code>Penalty.level = 1</code> indicates the value function estimation minus the means absolute average coefficient 
+is the output, which is useful trick to achieve uniqueness of estimated optimal TR
+when resolution of input response is low.</p>
+</td>
+</tr>
+</table>
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(survival)
+# Simulate data
+n=200
+s_Diff_Time = 1
+D &lt;- simJLSDdata(n, case="a")
+
+# give regime classes
+regimeClass.stg1 &lt;- as.formula(a0~x0)
+regimeClass.stg2 &lt;- as.formula(a1~x1)
+
+# extract columns that matches each stage's treatment regime formula
+p.data1 &lt;- model.matrix(regimeClass.stg1, D)
+
+# p.data2 would only contain observations with non-null value.
+p.data2 &lt;- model.matrix(regimeClass.stg2, D)
+
+txVec1 &lt;- D[, "a0"]
+txVec2 &lt;- D[, "a1"]
+
+# Eligibility flag
+ELG &lt;- (D$censor_y  &gt;  s_Diff_Time)
+
+# Build weights
+D$deltaC &lt;- 1 - D$delta
+survfit_all &lt;- survfit(Surv(censor_y, event = deltaC)~1, data=D)
+survest &lt;- stepfun(survfit_all$time, c(1, survfit_all$surv))
+D$ghat &lt;- survest(D$censor_y)
+g_s_Diff_Time &lt;- survest(s_Diff_Time)
+D$w_di_vec &lt;- rep(-999, n)
+for(i in 1:n){
+  if (!ELG[i]) {
+      D$w_di_vec[i] &lt;- 0.5 * D$ghat[i]} else {
+         D$w_di_vec[i] &lt;- 0.5* D$ghat[i] * 0.5
+ }
+}
+
+
+ 
+fit1  &lt;- Gene_Quantile_CenIPWE_DTR(data=D, max=TRUE,
+  tau=0.3,
+  regimeClass.stg1 = regimeClass.stg1,
+  regimeClass.stg2 = regimeClass.stg2,
+  s_Diff_Time = s_Diff_Time,
+  txVec1 = txVec1,
+  txVec2 = txVec2,
+  nvars.stg1=2,
+  nvars.stg2=2,
+  p.data1=p.data1,
+  p.data2=p.data2,
+  sign_beta1.stg1=FALSE,
+  sign_beta1.stg2=NULL,
+  p_level=1,
+  cluster=FALSE,
+  s.tol=1e-6,
+  it.num=5,
+  pop.size=6000,
+  Domains1 = NULL,
+  Domains2 = NULL,
+  Penalty.level = 0
+  )
+ 
+
+</code></pre>
+
+
+</div>

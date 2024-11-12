@@ -1,0 +1,68 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>c.cross</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Combine data for QTL experiments</h2>
+
+<h3>Description</h3>
+
+<p>Concatenate the data for multiple QTL experiments.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'cross'
+c(...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>A set of objects of class <code>cross</code>.  See
+<code>read.cross</code> for details.  These must all either be of the
+same cross type or be a combination of backcrosses and intercrosses.
+All crosses must have the same number of chromosomes and chromosome
+names, and the same marker orders and positions, though the set of
+markers need not be precisely the same.</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>The concatenated input, as a <code>cross</code> object. Additional
+columns are added to the phenotype data indicating which cross an
+individual comes from; another column indicates cross type (0=BC,
+1=intercross), if there are crosses of different types.  The crosses
+are not required to have exactly the same set of phenotypes;
+phenotypes with the same names are assumed to be the same.
+</p>
+<p>If the crosses have different sets of markers, we
+interpolate marker order, but the cM positions of markers that are in
+common between crosses must be precisely the same in the different crosses.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Karl W Broman, <a href="mailto:broman@wisc.edu">broman@wisc.edu</a> </p>
+
+
+<h3>See Also</h3>
+
+ <p><code>subset.cross</code> </p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(fake.f2)
+junk &lt;- fake.f2
+junk &lt;- c(fake.f2,junk)
+</code></pre>
+
+
+</div>

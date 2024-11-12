@@ -1,0 +1,69 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>textmodel_lsa-postestimation</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Post-estimations methods for textmodel_lsa</h2>
+
+<h3>Description</h3>
+
+<p>Post-estimation methods for fitted textmodel_lsa objects.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'textmodel_lsa'
+predict(object, newdata = NULL, ...)
+
+## S3 method for class 'textmodel_lsa'
+as.dfm(x)
+
+## S3 method for class 'textmodel_lsa'
+coef(object, doc_dim = 1, feat_dim = 1, ...)
+
+coefficients.textmodel_lsa(object, doc_dim = 1, feat_dim = 1, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object, x</code></td>
+<td>
+<p>previously fitted textmodel_lsa object</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>newdata</code></td>
+<td>
+<p>new matrix to be transformed into the lsa space</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>unused</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>doc_dim, feat_dim</code></td>
+<td>
+<p>the document and feature dimension scores to be
+extracted</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p><code>predict()</code> returns a predicted textmodel_lsa object, projecting the patterns onto
+new data.
+</p>
+<p><code>coef.textmodel_lsa</code> extracts model coefficients from a fitted
+textmodel_ca object.
+</p>
+
+
+</div>

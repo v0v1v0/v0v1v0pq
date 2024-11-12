@@ -1,0 +1,207 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>gam.style</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Modified generalized additive model plots for interpreting QRNN models
+</h2>
+
+<h3>Description</h3>
+
+<p>Generalized additive model (GAM)-style effects plots provide a graphical
+means of interpreting relationships between covariates and conditional
+quantiles predicted by a QRNN. From Plate et al. (2000): The effect of the
+<code>i</code>th input variable at a particular input point <code>Delta.i.x</code>
+is the change in <code>f</code> resulting from changing <code>X1</code> to <code>x1</code>
+from <code>b1</code> (the baseline value [...]) while keeping the other
+inputs constant. The effects are plotted as short line segments, centered
+at (<code>x.i</code>, <code>Delta.i.x</code>), where the slope of the segment
+is given by the partial derivative. Variables that strongly influence
+the function value have a large total vertical range of effects.
+Functions without interactions appear as possibly broken straight lines
+(linear functions) or curves (nonlinear functions). Interactions show up as
+vertical spread at a particular horizontal location, that is, a vertical
+scattering of segments. Interactions are present when the effect of
+a variable depends on the values of other variables.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">gam.style(x, parms, column, baseline=mean(x[,column]),
+         epsilon=1e-5, seg.len=0.02, seg.cols="black",
+         plot=TRUE, return.results=FALSE, trim=0,
+         ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+
+<p>matrix with number of rows equal to the number of samples and number of columns equal to the number of covariate variables.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>parms</code></td>
+<td>
+
+<p>list returned by <code>qrnn.fit</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>column</code></td>
+<td>
+
+<p>column of <code>x</code> for which effects plots should be returned.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>baseline</code></td>
+<td>
+
+<p>value of <code>x[,column]</code> to be used as the baseline for calculation of covariate effects; defaults to <code>mean(x[,column])</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>epsilon</code></td>
+<td>
+
+<p>step-size used in the finite difference calculation of the partial derivatives.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>seg.len</code></td>
+<td>
+
+<p>length of effects line segments expressed as a fraction of the range of <code>x[,column]</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>seg.cols</code></td>
+<td>
+
+<p>colors of effects line segments.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>plot</code></td>
+<td>
+
+<p>if <code>TRUE</code> (the default) then an effects plots for the given model is produced.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>return.results</code></td>
+<td>
+
+<p>if <code>TRUE</code> then values of effects and partial derivatives are returned.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>trim</code></td>
+<td>
+
+<p>if <code>plot=TRUE</code> and <code>parms</code> is for a model with <code>n.ensemble &gt; 1</code>, value of <code>trim</code> passed to <code>censored.mean</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+
+<p>further arguments to be passed to <code>plot</code>.
+</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list with elements:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>effects</code></td>
+<td>
+<p>a matrix of covariate effects.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>partials</code></td>
+<td>
+<p>a matrix of covariate partial derivatives.</p>
+</td>
+</tr>
+</table>
+<h3>References</h3>
+
+<p>Cannon, A.J. and I.G. McKendry, 2002. A graphical sensitivity analysis
+for interpreting statistical climate models: Application to Indian
+monsoon rainfall prediction by artificial neural networks and
+multiple linear regression models. International Journal of
+Climatology, 22:1687-1708.
+</p>
+<p>Plate, T., J. Bert, J. Grace, and P. Band, 2000. Visualizing the function
+computed by a feedforward neural network. Neural Computation,
+12(6): 1337-1354.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>qrnn.fit</code>, <code>qrnn.predict</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## YVR precipitation data with seasonal cycle and NCEP/NCAR Reanalysis
+## covariates
+data(YVRprecip)
+
+y &lt;- YVRprecip$precip
+x &lt;- cbind(sin(2*pi*seq_along(y)/365.25),
+           cos(2*pi*seq_along(y)/365.25),
+           YVRprecip$ncep)
+
+## Fit QRNN, additive QRNN (QADD), and quantile regression (QREG)
+## models for the conditional 75th percentile
+set.seed(1)
+train &lt;- c(TRUE, rep(FALSE, 49))
+w.qrnn &lt;- qrnn.fit(x=x[train,], y=y[train,,drop=FALSE],
+                   n.hidden=2, tau=0.75, iter.max=500,
+                   n.trials=1, lower=0, penalty=0.01)
+w.qadd &lt;- qrnn.fit(x=x[train,], y=y[train,,drop=FALSE],
+                   n.hidden=ncol(x), tau=0.75, iter.max=250,
+                   n.trials=1, lower=0, additive=TRUE)
+w.qreg &lt;- qrnn.fit(x=x[train,], y=y[train,,drop=FALSE],
+                   tau=0.75, iter.max=100, n.trials=1,
+                   lower=0, Th=linear, Th.prime=linear.prime)
+
+## GAM-style plots for slp, sh700, and z500
+for (column in 3:5) {
+    gam.style(x[train,], parms=w.qrnn, column=column,
+              main="QRNN")
+    gam.style(x[train,], parms=w.qadd, column=column,
+              main="QADD")
+    gam.style(x[train,], parms=w.qreg, column=column,
+              main="QREG")
+}
+</code></pre>
+
+
+</div>

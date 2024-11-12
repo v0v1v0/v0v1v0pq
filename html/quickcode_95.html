@@ -1,0 +1,162 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>read.csv.print</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Read a CSV and preview first X rows and columns</h2>
+
+<h3>Description</h3>
+
+<p>The purpose of this function is combine the functionality of
+<strong>read.csv</strong> and <strong>print</strong>, which are often used together.<br><br>
+The purpose of this function is to read data from a file into a variable and
+simultaneously display a preview of the data, showing either the first few rows or
+columns based on the user's specification. It is important to emphasize that the
+function expects the user to assign the result of the read operation to a variable
+in order to achieve its intended purpose. eg. Use <strong>var1 = read.csv.print(file1)</strong> instead of
+<strong>read.csv.print(file1)</strong>
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">read.csv.print(
+  file,
+  header = TRUE,
+  sep = ",",
+  quote = "\"",
+  dec = ".",
+  fill = TRUE,
+  comment.char = "",
+  ...,
+  dim = c(10L, 5L)
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>file</code></td>
+<td>
+<p>the name of the file which the data are to be read from.
+Each row of the table appears as one line of the file.  If it does
+not contain an <em>absolute</em> path, the file name is
+<em>relative</em> to the current working directory,
+<code>getwd()</code>. Tilde-expansion is performed where supported.
+This can be a compressed file (see <code>file</code>).
+</p>
+<p>Alternatively, <code>file</code> can be a readable text-mode
+connection (which will be opened for reading if
+necessary, and if so <code>close</code>d (and hence destroyed) at
+the end of the function call).  (If <code>stdin()</code> is used,
+the prompts for lines may be somewhat confusing.  Terminate input
+with a blank line or an EOF signal, <code>Ctrl-D</code> on Unix and
+<code>Ctrl-Z</code> on Windows.  Any pushback on <code>stdin()</code> will be
+cleared before return.)
+</p>
+<p><code>file</code> can also be a complete URL.  (For the supported URL
+schemes, see the ‘URLs’ section of the help for
+<code>url</code>.)
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>header</code></td>
+<td>
+<p>a logical value indicating whether the file contains the
+names of the variables as its first line.  If missing, the value is
+determined from the file format: <code>header</code> is set to <code>TRUE</code>
+if and only if the first row contains one fewer field than the
+number of columns.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sep</code></td>
+<td>
+<p>the field separator character.  Values on each line of the
+file are separated by this character.  If <code>sep = ""</code> (the
+default for <code>read.table</code>) the separator is ‘white space’,
+that is one or more spaces, tabs, newlines or carriage returns.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>quote</code></td>
+<td>
+<p>the set of quoting characters. To disable quoting
+altogether, use <code>quote = ""</code>.  See <code>scan</code> for the
+behaviour on quotes embedded in quotes.  Quoting is only considered
+for columns read as character, which is all of them unless
+<code>colClasses</code> is specified.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dec</code></td>
+<td>
+<p>the character used in the file for decimal points.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fill</code></td>
+<td>
+<p>logical. If <code>TRUE</code> then in case the rows have unequal
+length, blank fields are implicitly added.  See ‘Details’.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>comment.char</code></td>
+<td>
+<p>character: a character vector of length one
+containing a single character or an empty string.  Use <code>""</code> to
+turn off the interpretation of comments altogether.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Further arguments to be passed to <code>read.table</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dim</code></td>
+<td>
+<p>dimension of CSV content to show</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Read a dataset of type csv and show x rows and y columns with
+one function call
+</p>
+
+
+<h3>Value</h3>
+
+<p>read csv content and a print out of the data head
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+# Example: read a csv file and print the first 10 lines
+# declare file
+new.file &lt;- "test.csv"
+
+# read file and preview default
+dth3 &lt;- read.csv.print(file = new.file)
+
+# read file and preview 10 rows and all columns
+dth1 &lt;- read.csv.print(file = new.file, dim = 10)
+
+# read file and preview 10 rows and 5 columns
+dth2 &lt;- read.csv.print(file = new.file, dim = c(10,5))
+
+## End(Not run)
+</code></pre>
+
+
+</div>

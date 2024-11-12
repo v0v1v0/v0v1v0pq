@@ -1,0 +1,73 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>plotNorm</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2> Normal Density Plot</h2>
+
+<h3>Description</h3>
+
+<p>Plots the density distribution of 'x' (e.g., smoothed histogram) with an overlaying normal density plot with the same mean and SD. This is useful for 'seeing' the degree of deviance from normality.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">plotNormX(x)
+plotNormXm(x, im)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p> any data object such as a column(s) or variable(s) from a data.frame</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>im</code></td>
+<td>
+<p> number of items in x-multivariate to be plotted</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p><code>plotNormX</code> is useful for single use (univariate) objects, but <code>plotNormXm</code> is more useful for creating multiple graphs (i.e., multivariate) as in sending graphs to a postcript or pdf device. See examples below. </p>
+
+
+<h3>Value</h3>
+
+<p>A graph of density of x. 
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Thomas D. Fletcher <a href="mailto:t.d.fletcher05@gmail.com">t.d.fletcher05@gmail.com</a> </p>
+
+
+<h3>See Also</h3>
+
+ <p><code>eda.uni</code> </p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">#	plot.normX	
+data(USJudgeRatings)	# data packaged with R
+plotNormX(USJudgeRatings$CONT) 
+
+# plot all 12 variables in USJudgeRatings, using function plotNormXm
+
+data(USJudgeRatings)	
+plotNormXm(USJudgeRatings, 12) 
+
+</code></pre>
+
+
+</div>

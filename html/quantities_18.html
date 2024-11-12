@@ -1,0 +1,92 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>errors</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Handle Measurement Uncertainty on a Numeric Vector</h2>
+
+<h3>Description</h3>
+
+<p>Set or retrieve measurement uncertainty to/from numeric vectors (extensions
+to the <span class="pkg">errors</span> package for <code>quantities</code> and <code>units</code> objects).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'units'
+errors(x)
+
+## S3 method for class 'mixed_units'
+errors(x)
+
+## S3 replacement method for class 'units'
+errors(x) &lt;- value
+
+## S3 replacement method for class 'mixed_units'
+errors(x) &lt;- value
+
+## S3 method for class 'units'
+set_errors(x, value = 0)
+
+## S3 method for class 'mixed_units'
+set_errors(x, value = 0)
+
+## S3 method for class 'units'
+errors_max(x)
+
+## S3 method for class 'units'
+errors_min(x)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a numeric object, or object of class <code>quantities</code>, <code>units</code>
+or <code>errors</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>value</code></td>
+<td>
+<p>a numeric vector or <code>units</code> object of length 1, or the same
+length as <code>x</code> (see details).</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>For objects of class <code>quantities</code> or <code>units</code>, the
+<code>errors()</code> method returns a <code>units</code> object that matches the units
+of <code>x</code>. Methods <code>`errors&lt;-`()</code> and <code>set_errors()</code> assume that
+the provided uncertainty (<code>value</code>) has the same units as <code>x</code>.
+However, it is a best practice to provide a <code>value</code> with explicit units.
+In this way, uncertainty can be provided in different (but compatible) units,
+and it will be automatically converted to the units of <code>x</code> (see examples
+below).
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>errors</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">x &lt;- set_units(1:5, m)
+errors(x) &lt;- 0.01 # implicit units, same as x
+errors(x)
+errors(x) &lt;- set_units(1, cm) # explicit units
+errors(x)
+
+</code></pre>
+
+
+</div>

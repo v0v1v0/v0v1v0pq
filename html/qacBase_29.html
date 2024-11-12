@@ -1,0 +1,124 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>univariate_plot</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Univariate plot</h2>
+
+<h3>Description</h3>
+
+<p>Generates a descriptive graph for a quantitative variable.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">univariate_plot(
+  data,
+  x,
+  bins = 30,
+  fill = "deepskyblue",
+  pointcolor = "black",
+  density = TRUE,
+  densitycolor = "grey",
+  alpha = 0.2,
+  seed = 1234
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>a data frame.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a variable name (without quotes).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bins</code></td>
+<td>
+<p>number of histogram bins.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fill</code></td>
+<td>
+<p>fill color for the histogram and boxplot.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pointcolor</code></td>
+<td>
+<p>point color for the jitter plot.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>density</code></td>
+<td>
+<p>logical. Plot a filled density curve over the
+the histogram. (default=TRUE)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>densitycolor</code></td>
+<td>
+<p>fill color for density curve.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>alpha</code></td>
+<td>
+<p>Alpha transparency (0-1) for the density curve and
+jittered points.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>seed</code></td>
+<td>
+<p>pseudorandom number seed for jittered plot.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p><code>univariate_plot</code> generates a plot containing three graphs:
+a histogram (with an optional density curve), a horizontal
+jittered point plot, and a horizontal box plot. The <code>subtitle</code>
+contains descriptive statistics, including the mean, standard
+deviation, median, minimum, maximum, and skew.
+</p>
+
+
+<h3>Value</h3>
+
+<p>a ggplot2 graph
+</p>
+
+
+<h3>Note</h3>
+
+<p>The graphs are created with ggplot2 and then assembled into
+a single plot through the patchwork package. Missing values
+are deleted.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">univariate_plot(mtcars, mpg)
+univariate_plot(cardata, city_mpg, fill="lightsteelblue",
+                pointcolor="lightsteelblue", densitycolor="lightpink",
+                alpha=.6)
+</code></pre>
+
+
+</div>

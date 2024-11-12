@@ -1,0 +1,141 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>wop</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Weight of partitions for pooled solution parameters
+for conservative or parsimonious solution</h2>
+
+<h3>Description</h3>
+
+<p><code>wop</code> calculates the contribution or weight of partitions
+for the pooled solution parameters of consistency and coverage
+for the conservative or parsimonious solution.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">wop(dataset, units, time, cond, out, n_cut, incl_cut, solution, amb_selector)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>dataset</code></td>
+<td>
+<p>Calibrated pooled dataset for partitioning and minimization
+of pooled solution.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>units</code></td>
+<td>
+<p>Units that define the within-dimension of data (time series).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>time</code></td>
+<td>
+<p>Periods that define the between-dimension of data (cross sections).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cond</code></td>
+<td>
+<p>Conditions used for the pooled analysis.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>out</code></td>
+<td>
+<p>Outcome used for the pooled analysis.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n_cut</code></td>
+<td>
+<p>Frequency cut-off for designating truth table rows as observed
+in the pooled analysis.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>incl_cut</code></td>
+<td>
+<p>Inclusion cut-off for designating truth table rows as
+consistent in the pooled analysis.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>solution</code></td>
+<td>
+<p>A character specifying the type of solution that should
+be derived. <code>C</code> produces the conservative (or complex) solution,
+<code>P</code> the parsimonious solution. See <code>wop_inter</code> for deriving
+intermediate solution.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>amb_selector</code></td>
+<td>
+<p>Numerical value for selecting a single model in the
+presence of model ambiguity. Models are numbered according to their
+order produced by <code>minimize</code> by the <code>QCA</code> package.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A dataframe with information about the weight of the partitions
+with the following columns:
+</p>
+
+<ul>
+<li> <p><code>type</code>: The type of the partition. <code>between</code> stands for
+cross-sections; <code>within</code> stands for time series. <code>pooled</code> stands
+information about the pooled data.
+</p>
+</li>
+<li> <p><code>partition</code>: Type of partition. For
+between-dimension, the unit identifiers are listed  (argument <code>units</code>).
+For the within-dimension, the time identifiers are listed (argument <code>time</code>).
+The entry is <code>-</code> for the pooled data.
+</p>
+</li>
+<li> <p><code>denom_cons</code>: Denominator of the consistency formula. It is the sum
+over the cases' membership in the solution.
+</p>
+</li>
+<li> <p><code>num_cons</code>: Numerator of the consistency formula. It is the sum
+over the minimum of the cases' membership in the solution and the outcome.
+</p>
+</li>
+<li> <p><code>denom_cov</code>: Denominator of the coverage formula. It is the sum
+over the cases' membership in the outcome.
+</p>
+</li>
+<li> <p><code>num_cov</code>: Numerator of the coverage formula. It is the sum
+over the minimum of the cases' membership in the solution and the outcome.
+(identical to <code>num_cons</code>)
+</p>
+</li>
+</ul>
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(Thiem2011)
+wop_pars &lt;- wop(
+  dataset = Thiem2011,
+  units = "country", time = "year",
+  cond = c("fedismfs", "homogtyfs", "powdifffs", "comptvnsfs", "pubsupfs", "ecodpcefs"),
+  out = "memberfs",
+  n_cut = 6, incl_cut = 0.8,
+  solution = "P",
+  amb_selector = 1)
+wop_pars
+</code></pre>
+
+
+</div>

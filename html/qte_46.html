@@ -1,0 +1,194 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>spatt</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>spatt</h2>
+
+<h3>Description</h3>
+
+<p><code>spatt</code> computes the Average Treatment Effect on the
+Treated (ATT) using the method of Abadie (2005)
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">spatt(
+  formla,
+  xformla = NULL,
+  t,
+  tmin1,
+  tname,
+  data,
+  w = NULL,
+  panel = FALSE,
+  idname = NULL,
+  iters = 100,
+  alp = 0.05,
+  method = "logit",
+  plot = FALSE,
+  se = TRUE,
+  retEachIter = FALSE,
+  seedvec = NULL,
+  pl = FALSE,
+  cores = 2
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>formla</code></td>
+<td>
+<p>The formula y ~ d where y is the outcome and d is the
+treatment indicator (d should be binary)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xformla</code></td>
+<td>
+<p>A optional one sided formula for additional covariates that
+will be adjusted for.  E.g ~ age + education.  Additional covariates can
+also be passed by name using the x paramater.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>t</code></td>
+<td>
+<p>The 3rd time period in the sample (this is the name of the column)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tmin1</code></td>
+<td>
+<p>The 2nd time period in the sample (this is the name of the
+column)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tname</code></td>
+<td>
+<p>The name of the column containing the time periods</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>The name of the data.frame that contains the data</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>w</code></td>
+<td>
+<p>an additional vector of sampling weights</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>panel</code></td>
+<td>
+<p>Boolean indicating whether the data is panel or repeated cross
+sections</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>idname</code></td>
+<td>
+<p>The individual (cross-sectional unit) id name</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>iters</code></td>
+<td>
+<p>The number of iterations to compute bootstrap standard errors.
+This is only used if se=TRUE</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>alp</code></td>
+<td>
+<p>The significance level used for constructing bootstrap
+confidence intervals</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+<p>The method for estimating the propensity score when covariates
+are included</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>plot</code></td>
+<td>
+<p>Boolean whether or not the estimated QTET should be plotted</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>se</code></td>
+<td>
+<p>Boolean whether or not to compute standard errors</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>retEachIter</code></td>
+<td>
+<p>Boolean whether or not to return list of results
+from each iteration of the bootstrap procedure</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>seedvec</code></td>
+<td>
+<p>Optional value to set random seed; can possibly be used
+in conjunction with bootstrapping standard errors.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pl</code></td>
+<td>
+<p>boolean for whether or not to compute bootstrap error in parallel.
+Note that computing standard errors in parallel is a new feature and may
+not work at all on Windows.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cores</code></td>
+<td>
+<p>the number of cores to use if bootstrap standard errors are
+computed in parallel</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p><code>QTE</code> object
+</p>
+
+
+<h3>References</h3>
+
+<p>Abadie (2005)
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">##load the data
+data(lalonde)
+
+## Run the panel.qtet method on the experimental data with no covariates
+att1 &lt;- spatt(re ~ treat, t=1978, tmin1=1975, tname="year",
+ x=NULL, data=lalonde.psid.panel, idname="id", se=FALSE)
+summary(att1)
+
+## Run the panel.qtet method on the observational data with no covariates
+
+
+</code></pre>
+
+
+</div>

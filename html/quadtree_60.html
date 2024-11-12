@@ -1,0 +1,263 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>CppNode-class</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+<code>CppNode</code>: C++ quadtree node</h2>
+
+<h3>Description</h3>
+
+<p>The <code>CppNode</code> C++ class defines objects that represent a
+single node of a quadtree. This is used internally - end users should have
+no need to use any of the methods listed here.
+</p>
+
+
+<h3>Details</h3>
+
+<p>This class is defined in 'src/NodeWrapper.h' and
+'src/NodeWrapper.cpp'. When made available to R, it is exposed as
+<code>CppNode</code> instead of <code>NodeWrapper</code>. <code>NodeWrapper</code> contains a
+pointer to a <code>Node</code> object (defined in 'src/Node.h' and
+'src/Node.cpp'). All of the core functionality is in the <code>Node</code> class
+- <code>NodeWrapper</code> is a wrapper class that adds the 'Rcpp' code required
+for it to be accessible from R.
+</p>
+
+
+<h3>Fields</h3>
+
+
+<dl>
+<dt><code>asVector</code></dt>
+<dd>
+<ul>
+<li> <p><strong>Description</strong>: Returns a vector giving info about the node
+</p>
+</li>
+<li> <p><strong>Parameters</strong>: none
+</p>
+</li>
+<li> <p><strong>Returns</strong>: a numeric vector with the following named elements:
+</p>
+
+<ul>
+<li>
+<p><code>id</code>
+</p>
+</li>
+<li>
+<p><code>hasChidren</code>
+</p>
+</li>
+<li>
+<p><code>level</code>
+</p>
+</li>
+<li>
+<p><code>xmin</code>
+</p>
+</li>
+<li>
+<p><code>xmax</code>
+</p>
+</li>
+<li>
+<p><code>ymin</code>
+</p>
+</li>
+<li>
+<p><code>ymax</code>
+</p>
+</li>
+<li>
+<p><code>smallestChildLength</code>
+</p>
+</li>
+</ul>
+<p><code>as_data_frame</code> makes use of this function to output info on
+each node - see the documentation of that function for details on what each
+column represents
+</p>
+</li>
+</ul>
+</dd>
+<dt><code>getChildren</code></dt>
+<dd>
+<ul>
+<li> <p><strong>Description</strong>: Returns a list of the child nodes
+</p>
+</li>
+<li> <p><strong>Parameters</strong>: none
+</p>
+</li>
+<li> <p><strong>Returns</strong>: a list of <code>CppNode</code> objects
+</p>
+</li>
+</ul>
+</dd>
+<dt><code>getNeighborIds</code></dt>
+<dd>
+<ul>
+<li> <p><strong>Description</strong>: Returns the IDs of the neighboring cells
+</p>
+</li>
+<li> <p><strong>Parameters</strong>: none
+</p>
+</li>
+<li> <p><strong>Returns</strong>: a numeric vector containing the neighbor IDs
+</p>
+</li>
+</ul>
+</dd>
+<dt><code>getNeighborInfo</code></dt>
+<dd>
+<ul>
+<li> <p><strong>Description</strong>: Returns a matrix with info on each of the
+neighboring cells
+</p>
+</li>
+<li> <p><strong>Parameters</strong>: none
+</p>
+</li>
+<li> <p><strong>Returns</strong>: a matrix. The <code>getNeighborList()</code> member
+function of <code>CppQuadtree</code> makes use of this function - see
+documentation of that function for details on the return matrix.
+</p>
+</li>
+</ul>
+</dd>
+<dt><code>getNeighborVals</code></dt>
+<dd>
+<ul>
+<li> <p><strong>Description</strong>: Returns the values of all neighboring cells
+</p>
+</li>
+<li> <p><strong>Parameters</strong>: none
+</p>
+</li>
+<li> <p><strong>Returns</strong>: a numeric vector
+</p>
+</li>
+</ul>
+</dd>
+<dt><code>getNeighbors</code></dt>
+<dd>
+<ul>
+<li> <p><strong>Description</strong>: Returns a list of the neighboring nodes
+</p>
+</li>
+<li> <p><strong>Parameters</strong>: none
+</p>
+</li>
+<li> <p><strong>Returns</strong>: a list of <code>CppNode</code> objects
+</p>
+</li>
+</ul>
+</dd>
+<dt><code>hasChildren</code></dt>
+<dd>
+<ul>
+<li> <p><strong>Description</strong>: Returns a boolean representing whether the node
+has children
+</p>
+</li>
+<li> <p><strong>Parameters</strong>: none
+</p>
+</li>
+<li> <p><strong>Returns</strong>: a boolean value - <code>TRUE</code> if it has children,
+<code>FALSE</code> otherwise
+</p>
+</li>
+</ul>
+</dd>
+<dt><code>id</code></dt>
+<dd>
+<ul>
+<li> <p><strong>Description</strong>: Returns the ID of this node
+</p>
+</li>
+<li> <p><strong>Parameters</strong>: none
+</p>
+</li>
+<li> <p><strong>Returns</strong>: an integer
+</p>
+</li>
+</ul>
+</dd>
+<dt><code>level</code></dt>
+<dd>
+<ul>
+<li> <p><strong>Description</strong>: Returns the 'level' (i.e. depth in the tree) of
+this node
+</p>
+</li>
+<li> <p><strong>Parameters</strong>: none
+</p>
+</li>
+<li> <p><strong>Returns</strong>: an integer
+</p>
+</li>
+</ul>
+</dd>
+<dt><code>smallestChildSideLength</code></dt>
+<dd>
+<ul>
+<li> <p><strong>Description</strong>: Returns the side length of the smallest
+descendant node
+</p>
+</li>
+<li> <p><strong>Parameters</strong>: none
+</p>
+</li>
+<li> <p><strong>Returns</strong>: a double
+</p>
+</li>
+</ul>
+</dd>
+<dt><code>value</code></dt>
+<dd>
+<ul>
+<li> <p><strong>Description</strong>: Returns the value of the node
+</p>
+</li>
+<li> <p><strong>Parameters</strong>: none
+</p>
+</li>
+<li> <p><strong>Returns</strong>: a double
+</p>
+</li>
+</ul>
+</dd>
+<dt><code>xLims</code></dt>
+<dd>
+<ul>
+<li> <p><strong>Description</strong>: Returns the x boundaries of the node
+</p>
+</li>
+<li> <p><strong>Parameters</strong>: none
+</p>
+</li>
+<li> <p><strong>Returns</strong>: two-element numeric vector (xmin, xmax)
+</p>
+</li>
+</ul>
+</dd>
+<dt><code>yLims</code></dt>
+<dd>
+<ul>
+<li> <p><strong>Description</strong>: Returns the y boundaries of the node
+</p>
+</li>
+<li> <p><strong>Parameters</strong>: none
+</p>
+</li>
+<li> <p><strong>Returns</strong>: two-element numeric vector (ymin, ymax)
+</p>
+</li>
+</ul>
+</dd>
+</dl>
+</div>

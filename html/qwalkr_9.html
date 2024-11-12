@@ -1,0 +1,77 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>gavg_matrix.ctqwalk</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>The Generalized Average Mixing Matrix of a Continuous-Time Quantum Walk</h2>
+
+<h3>Description</h3>
+
+<p>The Generalized Average Mixing Matrix of a Continuous-Time Quantum Walk
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'ctqwalk'
+gavg_matrix(object, R, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>a representation of the quantum walk.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>R</code></td>
+<td>
+<p>samples from the random variable <code class="reqn">R</code> (For performance, it is recommended at most 10000 samples).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>further arguments passed to or from other methods.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Let <code class="reqn">M(t)</code> be the mixing matrix of the quantum walk and <code class="reqn">R</code> a random variable
+with associated probability density function <code class="reqn">f_R(t)</code>. Then the generalized average mixing
+matrix under <code class="reqn">R</code> is defined as
+</p>
+<p style="text-align: center;"><code class="reqn">\widehat{M}_R := \mathbb{E}[M(R)] = \int_{-\infty}^{\infty} M(t)f_R(t)\textrm{d}t</code>
+</p>
+
+
+
+<h3>Value</h3>
+
+<p><code>gavg_matrix()</code> returns the generalized average mixing matrix
+as a square matrix of the same order as the walk.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>ctqwalk()</code>, <code>gavg_matrix()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">walk &lt;- ctqwalk(matrix(c(0,1,0,1,0,1,0,1,0), nrow=3))
+
+# Return the average mixing matrix under a Standard Gaussian distribution
+gavg_matrix(walk, rnorm(1000))
+</code></pre>
+
+
+</div>

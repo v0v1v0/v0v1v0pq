@@ -1,0 +1,122 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>tokens_ngrams</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Create n-grams and skip-grams from tokens</h2>
+
+<h3>Description</h3>
+
+<p>Create a set of n-grams (tokens in sequence) from already tokenized text
+objects, with an optional skip argument to form skip-grams. Both the n-gram
+length and the skip lengths take vectors of arguments to form multiple
+lengths or skips in one pass.  Implemented in C++ for efficiency.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">tokens_ngrams(x, n = 2L, skip = 0L, concatenator = concat(x))
+
+char_ngrams(x, n = 2L, skip = 0L, concatenator = "_")
+
+tokens_skipgrams(x, n, skip, concatenator = concat(x))
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a tokens object, or a character vector, or a list of characters</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p>integer vector specifying the number of elements to be concatenated
+in each n-gram.  Each element of this vector will define a <code class="reqn">n</code> in the
+<code class="reqn">n</code>-gram(s) that are produced.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>skip</code></td>
+<td>
+<p>integer vector specifying the adjacency skip size for tokens
+forming the n-grams, default is 0 for only immediately neighbouring words.
+For <code>skipgrams</code>, <code>skip</code> can be a vector of integers, as the
+"classic" approach to forming skip-grams is to set skip = <code class="reqn">k</code> where
+<code class="reqn">k</code> is the distance for which <code class="reqn">k</code> or fewer skips are used to
+construct the <code class="reqn">n</code>-gram.  Thus a "4-skip-n-gram" defined as <code>skip = 0:4</code> produces results that include 4 skips, 3 skips, 2 skips, 1 skip, and 0
+skips (where 0 skips are typical n-grams formed from adjacent words).  See
+Guthrie et al (2006).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>concatenator</code></td>
+<td>
+<p>character for combining words, default is <code style="white-space: pre;">⁠_⁠</code>
+(underscore) character</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Normally, these functions will be called through
+<code style="white-space: pre;">⁠[tokens](x, ngrams = , ...)⁠</code>, but these functions are provided
+in case a user wants to perform lower-level n-gram construction on tokenized
+texts.
+</p>
+<p><code>tokens_skipgrams()</code> is a wrapper to <code>tokens_ngrams()</code> that requires
+arguments to be supplied for both <code>n</code> and <code>skip</code>. For <code class="reqn">k</code>-skip
+skip-grams, set <code>skip</code> to <code style="white-space: pre;">⁠0:⁠</code><code class="reqn">k</code>, in order to conform to the
+definition of skip-grams found in Guthrie et al (2006): A <code class="reqn">k</code> skip-gram
+is an n-gram which is a superset of all n-grams and each <code class="reqn">(k-i)</code>
+skip-gram until <code class="reqn">(k-i)==0</code> (which includes 0 skip-grams).
+</p>
+
+
+<h3>Value</h3>
+
+<p>a tokens object consisting a list of character vectors of n-grams, one
+list element per text, or a character vector if called on a simple
+character vector
+</p>
+
+
+<h3>Note</h3>
+
+<p><code>char_ngrams</code> is a convenience wrapper for a (non-list)
+vector of characters, so named to be consistent with <span class="pkg">quanteda</span>'s naming
+scheme.
+</p>
+
+
+<h3>References</h3>
+
+<p>Guthrie, David, Ben Allison, Wei Liu, Louise Guthrie, and Yorick Wilks. 2006.
+"A Closer Look at Skip-Gram Modelling." <code style="white-space: pre;">⁠https://aclanthology.org/L06-1210/⁠</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># ngrams
+tokens_ngrams(tokens(c("a b c d e", "c d e f g")), n = 2:3)
+
+toks &lt;- tokens(c(text1 = "the quick brown fox jumped over the lazy dog"))
+tokens_ngrams(toks, n = 1:3)
+tokens_ngrams(toks, n = c(2,4), concatenator = " ")
+tokens_ngrams(toks, n = c(2,4), skip = 1, concatenator = " ")
+# skipgrams
+toks &lt;- tokens("insurgents killed in ongoing fighting")
+tokens_skipgrams(toks, n = 2, skip = 0:1, concatenator = " ")
+tokens_skipgrams(toks, n = 2, skip = 0:2, concatenator = " ")
+tokens_skipgrams(toks, n = 3, skip = 0:2, concatenator = " ")
+</code></pre>
+
+
+</div>

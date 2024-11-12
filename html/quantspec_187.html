@@ -1,0 +1,47 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>lenTS</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Validates if <code>Y</code> is of an appropriate type for a time series and
+returns the length of the time series.</h2>
+
+<h3>Description</h3>
+
+<p>Runs <code>timeSeriesValidator</code> and returns the number of rows of the
+returned matrix.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">lenTS(Y)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>Y</code></td>
+<td>
+<p>the time series to be validated and of which the length is to
+be returned.</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>Returns the length of the time series after validating it's valid.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">Y &lt;- lenTS(sp500)
+Y &lt;- lenTS(wheatprices)
+Y &lt;- lenTS(rnorm(10))
+## Not run: Y &lt;- lenTS("Not a valid input")
+</code></pre>
+
+
+</div>

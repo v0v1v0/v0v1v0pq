@@ -1,0 +1,71 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>rDecomPkg</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Check whether an R package has been decommissioned in CRAN</h2>
+
+<h3>Description</h3>
+
+<p>Designed to assist users in checking the decommission status
+of an R package on CRAN. In the context of R language,
+CRAN stands for the Comprehensive R Archive Network.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">rDecomPkg(package)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>package</code></td>
+<td>
+<p>package name to query</p>
+</td>
+</tr></table>
+<h3>Details</h3>
+
+<p>CRAN is a network of servers around the world that store R packages
+and their documentation, providing a centralized repository for
+the R community. With the current function, users can quickly and
+easily determine whether a specific R package has been decommissioned
+on CRAN, ensuring they stay informed about the availability and
+support status of the packages they rely on for their R
+programming projects. This tool simplifies the process of package
+management, helping users maintain up-to-date and reliable
+dependencies in their R code.
+</p>
+
+
+<h3>Value</h3>
+
+<p>the decommissioned status of a particular package based on the available packages using the utils package
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+# check if cattonum package is decommissioned
+# the current package is expected to be decommissioned
+rDecomPkg("cattonum")
+
+# check if dplyr is decommissioned
+# the current package is expected NOT to be decommissioned
+rDecomPkg("dplyr")
+
+# when a package never existed in CRAN
+# the result of the function call should be NA
+rDecomPkg("printy")
+rDecomPkg("package0002312122312")
+
+## End(Not run)
+</code></pre>
+
+
+</div>

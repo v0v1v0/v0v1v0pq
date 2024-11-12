@@ -1,0 +1,172 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qiita_item</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Qiita Item (Article) API</h2>
+
+<h3>Description</h3>
+
+<p>Get, post, delete, stock or unstock articles via Qiita API.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qiita_get_items(
+  item_id = NULL,
+  tag_id = NULL,
+  user_id = NULL,
+  query = NULL,
+  per_page = 100L,
+  page_offset = 0L,
+  page_limit = 1L
+)
+
+qiita_post_item(
+  title,
+  body,
+  tags = qiita_util_tag("R"),
+  coediting = FALSE,
+  private = TRUE,
+  gist = FALSE,
+  tweet = FALSE
+)
+
+qiita_delete_item(item_id)
+
+qiita_update_item(
+  item_id,
+  title,
+  body,
+  tags = list(qiita_util_tag("R")),
+  private = TRUE
+)
+
+qiita_stock_item(item_id)
+
+qiita_unstock_item(item_id)
+
+qiita_is_stocked_item(item_id)
+
+qiita_get_stocks(user_id, per_page = 100L, page_offset = 0L, page_limit = 1L)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>item_id</code></td>
+<td>
+<p>Item (Article) ID.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tag_id</code></td>
+<td>
+<p>Tag IDs (e.g. <code>"R"</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>user_id</code></td>
+<td>
+<p>User ID (e.g. <code>"yutannihilation"</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>query</code></td>
+<td>
+<p>Query string (e.g. <code>"dplyr user:yutannihlation"</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>per_page</code></td>
+<td>
+<p>Number of items per one page.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>page_offset</code></td>
+<td>
+<p>Number of offset pages.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>page_limit</code></td>
+<td>
+<p>Max number of pages to retrieve.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>title</code></td>
+<td>
+<p>Title.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>body</code></td>
+<td>
+<p>Content body.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tags</code></td>
+<td>
+<p>Tags. Use <code>qiita_util_tag</code> to generate tag objects.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>coediting</code></td>
+<td>
+<p>If <code>TRUE</code>, the post will be editable by team members.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>private</code></td>
+<td>
+<p>If <code>TRUE</code>, the post will be private.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gist</code></td>
+<td>
+<p>If <code>TRUE</code>, post the code to Gist.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tweet</code></td>
+<td>
+<p>If <code>TRUE</code>, notify on Twitter.</p>
+</td>
+</tr>
+</table>
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+# get items by item ID
+qiita_get_items(item_id = "7a78d897810446dd6a3b")
+
+# get items by tag ID
+qiita_get_items(tag_id = c("dplyr", "tidyr"), per_pages = 10L, page_limit = 1L)
+
+# get items by user ID
+qiita_get_items(user_id = "yutannihilation")
+
+# Post an item. Note that the post is private by default.
+# You should manually check if the post is valid before make it public.
+item &lt;- qiita_post_item(title = "test", body = "This is an example.")
+
+# update the post
+qiita_update_item(item$id, title = "test", body = "**This is a strong example!**")
+
+# delete the post
+qiita_delete_item(item$id)
+
+## End(Not run)
+
+</code></pre>
+
+
+</div>

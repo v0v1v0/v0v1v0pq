@@ -1,0 +1,80 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>addCCI</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2> Add Commodity Channel Index </h2>
+
+<h3>Description</h3>
+
+<p>Add Commodity Channel Index
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">addCCI(n = 20, maType="SMA", c=0.015)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p> periods to use for DX calculation</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>maType</code></td>
+<td>
+<p> moving average type </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>c</code></td>
+<td>
+<p> Constant to apply to the mean deviation.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>See 'CCI' in <span class="pkg">TTR</span> for specific details and references.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An CCI indicator will be draw in a new window on the current
+chart.  A chobTA object will be returned silently.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jeffrey A. Ryan </p>
+
+
+<h3>References</h3>
+
+<p> see CCI in <span class="pkg">TTR</span> written by Josh Ulrich </p>
+
+
+<h3>See Also</h3>
+
+ <p><code>addTA</code> </p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+addCCI()
+
+## End(Not run)
+</code></pre>
+
+
+</div>

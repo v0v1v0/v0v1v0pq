@@ -1,0 +1,121 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>mqmsetcofactors</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Set cofactors at fixed intervals, to be used with MQM</h2>
+
+<h3>Description</h3>
+
+<p>Set cofactors, at fixed marker intervals. Together
+with <code>mqmscan</code> cofactors are selected through backward elimination.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">mqmsetcofactors(cross, each = NULL, cofactors=NULL, sexfactors=NULL, verbose=FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>cross</code></td>
+<td>
+<p>An object of class <code>cross</code>. See
+<code>read.cross</code> for details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>each</code></td>
+<td>
+<p> Every 'each' marker will be used as a cofactor, when each is used the <code>cofactors</code> and <code>sexfactors</code> parameter is ignored </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cofactors</code></td>
+<td>
+
+<p>List of cofactors to be analysed in the QTL model. To set cofactors use <code>mqmautocofactors</code> or <code>mqmsetcofactors</code>; when <code>each</code> is set, this parameter is ignored </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sexfactors</code></td>
+<td>
+<p> list of markers which should be treated as dominant cofactors (sexfactors), when <code>each</code> is set, this parameter is ignored </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p>If TRUE, print tracing information.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>An list of cofactors to be passed into <code>mqmscan</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Ritsert C Jansen; Danny Arends; Pjotr Prins; Karl W Broman <a href="mailto:broman@wisc.edu">broman@wisc.edu</a> 
+</p>
+
+
+<h3>See Also</h3>
+
+
+
+<ul>
+<li>
+<p> The MQM tutorial: <a href="https://rqtl.org/tutorials/MQM-tour.pdf">https://rqtl.org/tutorials/MQM-tour.pdf</a>
+</p>
+</li>
+<li> <p><code>MQM</code> - MQM description and references
+</p>
+</li>
+<li> <p><code>mqmscan</code> - Main MQM single trait analysis
+</p>
+</li>
+<li> <p><code>mqmscanall</code> - Parallellized traits analysis
+</p>
+</li>
+<li> <p><code>mqmaugment</code> - Augmentation routine for estimating missing data
+</p>
+</li>
+<li> <p><code>mqmautocofactors</code> - Set cofactors using marker density
+</p>
+</li>
+<li> <p><code>mqmsetcofactors</code> - Set cofactors at fixed locations
+</p>
+</li>
+<li> <p><code>mqmpermutation</code> - Estimate significance levels
+</p>
+</li>
+<li> <p><code>scanone</code> - Single QTL scanning
+
+</p>
+</li>
+</ul>
+<h3>Examples</h3>
+
+<pre><code class="language-R">    data(hyper)                                 # Hyper dataset
+    
+    hyperfilled &lt;- fill.geno(hyper)
+  # Automatic cofactors every third marker
+    cofactors &lt;- mqmsetcofactors(hyperfilled,3)
+    result &lt;- mqmscan(hyperfilled,cofactors)	# Backward model selection
+    mqmgetmodel(result)
+  #Manual cofactors at markers 3,6,9,12,40 and 60
+  cofactors &lt;- mqmsetcofactors(hyperfilled,cofactors=c(3,6,9,12,40,60))
+    result &lt;- mqmscan(hyperfilled,cofactors)	# Backward model selection
+    mqmgetmodel(result)
+</code></pre>
+
+
+</div>

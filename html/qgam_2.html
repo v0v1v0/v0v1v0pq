@@ -1,0 +1,64 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>check</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Generic checking function</h2>
+
+<h3>Description</h3>
+
+<p>Generic function for checking R objects which produces, for instance, convergence tests or diagnostic plots. 
+For <code>qgam</code> objects <code>check.qgam()</code> will be used.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">check(obj, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>obj</code></td>
+<td>
+<p>the object to be checked.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>extra arguments, mainly used by graphic functions.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Reports the results of convergence tests and/or produces diagnostic plots.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Matteo Fasiolo &lt;matteo.fasiolo@gmail.com&gt;.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">#######
+# Using check.qgam
+#######
+library(qgam)
+set.seed(0)
+dat &lt;- gamSim(1, n=200)
+b&lt;-qgam(y~s(x0)+s(x1)+s(x2)+s(x3), data=dat, qu = 0.5)
+plot(b, pages=1)
+check(b, pch=19, cex=.3) 
+</code></pre>
+
+
+</div>

@@ -1,0 +1,203 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>ddid2</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>ddid2</h2>
+
+<h3>Description</h3>
+
+<p><code>ddid2</code> computes the Quantile Treatment Effect
+on the Treated (QTET) using the method of Callaway, Li, and Oka (2015).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">ddid2(
+  formla,
+  xformla = NULL,
+  t,
+  tmin1,
+  tname,
+  data,
+  panel = TRUE,
+  dropalwaystreated = TRUE,
+  idname = NULL,
+  probs = seq(0.05, 0.95, 0.05),
+  iters = 100,
+  alp = 0.05,
+  method = "logit",
+  se = TRUE,
+  retEachIter = FALSE,
+  seedvec = NULL,
+  pl = FALSE,
+  cores = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>formla</code></td>
+<td>
+<p>The formula y ~ d where y is the outcome and d is the
+treatment indicator (d should be binary)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xformla</code></td>
+<td>
+<p>A optional one sided formula for additional covariates that
+will be adjusted for.  E.g ~ age + education.  Additional covariates can
+also be passed by name using the x paramater.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>t</code></td>
+<td>
+<p>The 3rd time period in the sample (this is the name of the column)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tmin1</code></td>
+<td>
+<p>The 2nd time period in the sample (this is the name of the
+column)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tname</code></td>
+<td>
+<p>The name of the column containing the time periods</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>The name of the data.frame that contains the data</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>panel</code></td>
+<td>
+<p>Boolean indicating whether the data is panel or repeated cross
+sections</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dropalwaystreated</code></td>
+<td>
+<p>How to handle always treated observations
+in panel data case (not currently used)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>idname</code></td>
+<td>
+<p>The individual (cross-sectional unit) id name</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>probs</code></td>
+<td>
+<p>A vector of values between 0 and 1 to compute the QTET at</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>iters</code></td>
+<td>
+<p>The number of iterations to compute bootstrap standard errors.
+This is only used if se=TRUE</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>alp</code></td>
+<td>
+<p>The significance level used for constructing bootstrap
+confidence intervals</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+<p>The method for estimating the propensity score when covariates
+are included</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>se</code></td>
+<td>
+<p>Boolean whether or not to compute standard errors</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>retEachIter</code></td>
+<td>
+<p>Boolean whether or not to return list of results
+from each iteration of the bootstrap procedure</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>seedvec</code></td>
+<td>
+<p>Optional value to set random seed; can possibly be used
+in conjunction with bootstrapping standard errors.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pl</code></td>
+<td>
+<p>boolean for whether or not to compute bootstrap error in parallel.
+Note that computing standard errors in parallel is a new feature and may
+not work at all on Windows.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cores</code></td>
+<td>
+<p>the number of cores to use if bootstrap standard errors are
+computed in parallel</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p><code>QTE</code> object
+</p>
+
+
+<h3>References</h3>
+
+<p>Callaway, Brantly, Tong Li, and Tatsushi Oka.  “Quantile Treatment Effects
+in Difference in Differences Models under Dependence Restrictions and with
+Only Two Time Periods.” Working Paper, 2015.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">##load the data
+data(lalonde)
+
+## Run the ddid2 method on the observational data with no covariates
+d1 &lt;- ddid2(re ~ treat, t=1978, tmin1=1975, tname="year",
+ data=lalonde.psid.panel, idname="id", se=FALSE,
+ probs=seq(0.05, 0.95, 0.05))
+summary(d1)
+
+## Run the ddid2 method on the observational data with covariates
+d2 &lt;- ddid2(re ~ treat, t=1978, tmin1=1975, tname="year",
+ data=lalonde.psid.panel, idname="id", se=FALSE,
+ xformla=~age + I(age^2) + education + black + hispanic + married + nodegree,
+ probs=seq(0.05, 0.95, 0.05))
+summary(d2)
+
+
+</code></pre>
+
+
+</div>

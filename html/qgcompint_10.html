@@ -1,0 +1,180 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qgcomp.emm.noboot</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>EMM for Quantile g-computation for continuous, binary, and count outcomes under linearity/additivity</h2>
+
+<h3>Description</h3>
+
+<p>This function fits a quantile g-computation model, allowing
+effect measure modification by a binary or continuous covariate. This allows
+testing of statistical interaction as well as estimation of stratum specific effects.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qgcomp.emm.noboot(
+  f,
+  data,
+  expnms = NULL,
+  emmvar = NULL,
+  q = 4,
+  breaks = NULL,
+  id = NULL,
+  weights,
+  alpha = 0.05,
+  bayes = FALSE,
+  errcheck = TRUE,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>f</code></td>
+<td>
+<p>R style formula</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>data frame</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>expnms</code></td>
+<td>
+<p>character vector of exposures of interest</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>emmvar</code></td>
+<td>
+<p>(character) name of effect measure modifier in dataset (if categorical, must be coded as a factor variable)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>q</code></td>
+<td>
+<p>NULL or number of quantiles used to create quantile indicator variables
+representing the exposure variables. If NULL, then gcomp proceeds with un-transformed
+version of exposures in the input datasets (useful if data are already transformed,
+or for performing standard g-computation)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>breaks</code></td>
+<td>
+<p>(optional) NULL, or a list of (equal length) numeric vectors that
+characterize the minimum value of each category for which to
+break up the variables named in expnms. This is an alternative to using 'q'
+to define cutpoints.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>id</code></td>
+<td>
+<p>(optional) NULL, or variable name indexing individual units of
+observation (only needed if analyzing data with multiple observations per
+id/cluster). Note that qgcomp.noboot will not produce cluster-appropriate
+standard errors (this parameter is essentially ignored in qgcomp.noboot).
+Qgcomp.boot can be used for this, which will use bootstrap
+sampling of clusters/individuals to estimate cluster-appropriate standard
+errors via bootstrapping.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>weights</code></td>
+<td>
+<p>"case weights" - passed to the "weight" argument of
+<code>glm</code> or <code>bayesglm</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>alpha</code></td>
+<td>
+<p>alpha level for confidence limit calculation</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bayes</code></td>
+<td>
+<p>use underlying Bayesian model (<code>arm</code> package defaults). Results
+in penalized parameter estimation that can help with very highly correlated
+exposures. Note: this does not lead to fully Bayesian inference in general,
+so results should be interpreted as frequentist.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>errcheck</code></td>
+<td>
+<p>(logical, default=TRUE) include some basic error checking. Slightly
+faster if set to false (but be sure you understand risks)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>arguments to glm (e.g. family)</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>a qgcompfit object, which contains information about the effect
+measure of interest (psi) and associated variance (var.psi), as well
+as information on the model fit (fit) and information on the
+weights/standardized coefficients in the positive (pos.weights) and
+negative (neg.weights) directions.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>qgcomp.noboot</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">set.seed(50)
+# linear model, binary modifier
+dat &lt;- data.frame(y=runif(50), x1=runif(50), x2=runif(50),
+  z=rbinom(50,1,0.5), r=rbinom(50,1,0.5))
+(qfit &lt;- qgcomp.emm.noboot(f=y ~ z + x1 + x2, emmvar="z",
+  expnms = c('x1', 'x2'), data=dat, q=2, family=gaussian()))
+# logistic model, continuous modifier
+dat2 &lt;- data.frame(y=rbinom(50, 1,0.5), x1=runif(50), x2=runif(50),
+  z=runif(50), r=rbinom(50,1,0.5))
+(qfit2 &lt;- qgcomp.emm.noboot(f=y ~ z + x1 + x2, emmvar="z",
+  expnms = c('x1', 'x2'), data=dat2, q=2, family=binomial()))
+# get weights and stratum specific effects at specific value of Z
+#  (note that when Z=0, the effect is equal to psi1)
+qgcompint::getstratweights(qfit2,emmval=0)
+qgcompint::getstrateffects(qfit2,emmval=0)
+qgcompint::getstratweights(qfit2,emmval=0.5)
+qgcompint::getstrateffects(qfit2,emmval=0.5)
+# linear model, categorical modifier
+dat3 &lt;- data.frame(y=runif(50), x1=runif(50), x2=runif(50),
+  z=as.factor(sample(0:2, 50,replace=TRUE)), r=rbinom(50,1,0.5))
+(qfit3 &lt;- qgcomp.emm.noboot(f=y ~ z + x1 + x2, emmvar="z",
+  expnms = c('x1', 'x2'), data=dat3, q=2, family=gaussian()))
+# get weights and stratum specific effects at each value of Z
+#  (note that when Z=0, the effect is equal to psi1)
+qgcompint::getstratweights(qfit3,emmval=0)
+qgcompint::getstrateffects(qfit3,emmval=0)
+qgcompint::getstratweights(qfit3,emmval=1)
+qgcompint::getstrateffects(qfit3,emmval=1)
+qgcompint::getstratweights(qfit3,emmval=2)
+qgcompint::getstrateffects(qfit3,emmval=2)
+</code></pre>
+
+
+</div>

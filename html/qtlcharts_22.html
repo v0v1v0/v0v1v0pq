@@ -1,0 +1,123 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>iplotCurves</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Plot of a bunch of curves, linked to points in scatterplots</h2>
+
+<h3>Description</h3>
+
+<p>Creates an interactive graph with a panel having a number of curves
+(say, a phenotype measured over time) linked to one or two (or no) scatter plots
+(say, of the first vs middle and middle vs last times).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">iplotCurves(
+  curveMatrix,
+  times = NULL,
+  scatter1 = NULL,
+  scatter2 = NULL,
+  group = NULL,
+  chartOpts = NULL,
+  digits = 5
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>curveMatrix</code></td>
+<td>
+<p>Matrix (dim n_ind x n_times) with outcomes</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>times</code></td>
+<td>
+<p>Vector (length n_times) with time points for the
+columns of curveMatrix</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>scatter1</code></td>
+<td>
+<p>Matrix (dim n_ind x 2) with data for the first
+scatterplot</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>scatter2</code></td>
+<td>
+<p>Matrix (dim n_ind x 2) with data for the second
+scatterplot</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>group</code></td>
+<td>
+<p>Optional vector of groups of individuals (e.g., a genotype)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>chartOpts</code></td>
+<td>
+<p>A list of options for configuring the chart (see
+the coffeescript code). Each element must be named using the
+corresponding option.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>digits</code></td>
+<td>
+<p>Round data to this number of significant digits
+before passing to the chart function. (Use NULL to not round.)</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>An object of class 'htmlwidget' that will
+intelligently print itself into HTML in a variety of contexts
+including the R console, within R Markdown documents, and within
+Shiny output bindings.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>[iplotCorr()], [iplot()], [scat2scat()]
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># random growth curves, based on some data
+times &lt;- 1:16
+n &lt;- 100
+start &lt;- rnorm(n, 5.2, 0.8)
+slope1to5 &lt;- rnorm(n, 2.6, 0.5)
+slope5to16 &lt;- rnorm(n, 0.24 + 0.09*slope1to5, 0.195)
+y &lt;- matrix(ncol=16, nrow=n)
+y[,1] &lt;- start
+for(j in 2:5)
+    y[,j] &lt;- y[,j-1] + slope1to5
+for(j in 6:16)
+    y[,j] &lt;- y[,j-1] + slope5to16
+y &lt;- y + rnorm(prod(dim(y)), 0, 0.35)
+
+
+iplotCurves(y, times, y[,c(1,5)], y[,c(5,16)],
+            chartOpts=list(curves_xlab="Time", curves_ylab="Size",
+                           scat1_xlab="Size at T=1", scat1_ylab="Size at T=5",
+                           scat2_xlab="Size at T=5", scat2_ylab="Size at T=16"))
+
+</code></pre>
+
+
+</div>

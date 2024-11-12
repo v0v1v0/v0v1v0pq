@@ -1,0 +1,100 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>make_diet_rand</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Generate random diet compositions</h2>
+
+<h3>Description</h3>
+
+<p>The function <code>make_diet_rand</code> generates a user-specified number of
+random diet compositions.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">make_diet_rand(uniq_types, n_diet)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>uniq_types</code></td>
+<td>
+<p>A factor of unique prey-type names.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n_diet</code></td>
+<td>
+<p>The integer number of diet compositions to generate.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list containing the following elements: </p>
+
+<dl>
+<dt>diet_rand</dt>
+<dd>
+<p>A numeric matrix of random diet compositions, in
+column-major format.</p>
+</dd>
+<dt>err_code</dt>
+<dd>
+<p>An integer error code (0 if no error is detected).</p>
+</dd>
+<dt>err_message</dt>
+<dd>
+<p>A string contains a brief summary of the execution.</p>
+</dd>
+</dl>
+<h3>Details</h3>
+
+<p>The function <code>make_diet_rand</code> generates a specified number of random
+diet compositions to support simulation-based research of the performance
+of QFASA diet estimation procedures. Given a diet composition, predator
+fatty acid signatures can be generated using the
+function <code>make_pred_sigs</code>. The diets of such simulated predators
+can then be estimated, and the diet estimates can be compared to the
+known diet composition to evaluate bias, variance, and perhaps other
+properties.
+</p>
+<p>The algorithm starts by generating a uniformly distributed random number
+between 0 and 1 as the diet proportion for the first prey type. The algorithm
+then considers each additional prey type in turn, generating a uniform random
+number between zero and 1 minus the sum of the proportions assigned to the
+preceding prey types. The diet proportion for the last prey type is 1 minus
+the sum of the other diet proportions. As a hedge against limitations in the
+random number generator, the proportions are then randomly ordered among prey
+types.
+</p>
+<p>It is critical that the prey-type names match those in the prey library. The
+easiest way to ensure this happens is to pass the object uniq_types returned
+a call to the function <code>prep_sig</code> as the uniq_types argument.
+Alternatively, and more risky, a vector of unique prey names can be created
+using the concatenate function and cast as a factor, i.e.,
+uniq_types &lt;- as.factor(c("Prey_1", "Prey_2", ..., "Prey_P)).
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">make_diet_rand(uniq_types = as.factor(c("Bearded",
+                                        "Beluga",
+                                        "Bowhead",
+                                        "Ribbon",
+                                        "Ringed",
+                                        "Spotted",
+                                        "Walrus")),
+               n_diet = 100)
+
+</code></pre>
+
+
+</div>

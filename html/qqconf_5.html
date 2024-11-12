@@ -1,0 +1,46 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>get_asymptotic_approx_corrected_alpha</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Calculates Approximate Local Level</h2>
+
+<h3>Description</h3>
+
+<p>This function uses the approximation from Gontscharuk &amp; Finner's Asymptotics of
+goodness-of-fit tests based on minimum p-value statistics (2017) to approximate
+local levels for finite sample size. We use these authors constants for <code class="reqn">\alpha</code> = .1, and .05,
+and for <code class="reqn">\alpha</code> = .01 we use a slightly different approximation.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">get_asymptotic_approx_corrected_alpha(n, alpha)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p>Number of tests to do</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>alpha</code></td>
+<td>
+<p>Global type I error rate <code class="reqn">\alpha</code> of the tests</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Approximate local level
+</p>
+
+
+</div>

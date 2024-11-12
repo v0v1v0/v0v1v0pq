@@ -1,0 +1,122 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qsave_fd</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>qsave_fd</h2>
+
+<h3>Description</h3>
+
+<p>Saves an object to a file descriptor.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qsave_fd(x, fd,
+preset = "high", algorithm = "zstd", compress_level = 4L,
+shuffle_control = 15L, check_hash=TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>The object to serialize.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fd</code></td>
+<td>
+<p>A file descriptor.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>preset</code></td>
+<td>
+<p>One of <code>"fast"</code>, <code>"balanced"</code>, <code>"high"</code> (default), <code>"archive"</code>, <code>"uncompressed"</code> or <code>"custom"</code>. See section <em>Presets</em> for details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>algorithm</code></td>
+<td>
+<p><strong>Ignored unless <code>preset = "custom"</code>.</strong> Compression algorithm used: <code>"lz4"</code>, <code>"zstd"</code>, <code>"lz4hc"</code>, <code>"zstd_stream"</code> or <code>"uncompressed"</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>compress_level</code></td>
+<td>
+<p><strong>Ignored unless <code>preset = "custom"</code>.</strong> The compression level used.
+</p>
+<p>For lz4, this number must be &gt; 1 (higher is less compressed).
+</p>
+<p>For zstd, a number  between <code>-50</code> to <code>22</code> (higher is more compressed). Due to the format of qs, there is very little benefit to compression levels &gt; 5
+or so.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>shuffle_control</code></td>
+<td>
+<p><strong>Ignored unless <code>preset = "custom"</code>.</strong> An integer setting the use of byte shuffle compression. A value between <code>0</code> and <code>15</code>
+(default <code>15</code>). See section <em>Byte shuffling</em> for details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>check_hash</code></td>
+<td>
+<p>Default <code>TRUE</code>, compute a hash which can be used to verify file integrity during serialization.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>This function serializes and compresses R objects using block compression with the option of byte shuffling.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The total number of bytes written to the file (returned invisibly).
+</p>
+
+
+<h3>Presets</h3>
+
+<p>There are lots of possible parameters. To simplify usage, there are four main presets that are performant over a large variety of data:
+</p>
+
+<ul>
+<li> <p><strong><code>"fast"</code></strong> is a shortcut for <code>algorithm = "lz4"</code>, <code>compress_level = 100</code> and <code>shuffle_control = 0</code>.
+</p>
+</li>
+<li> <p><strong><code>"balanced"</code></strong> is a shortcut for <code>algorithm = "lz4"</code>, <code>compress_level = 1</code> and <code>shuffle_control = 15</code>.
+</p>
+</li>
+<li> <p><strong><code>"high"</code></strong> is a shortcut for <code>algorithm = "zstd"</code>, <code>compress_level = 4</code> and <code>shuffle_control = 15</code>.
+</p>
+</li>
+<li> <p><strong><code>"archive"</code></strong> is a shortcut for <code>algorithm = "zstd_stream"</code>, <code>compress_level = 14</code> and <code>shuffle_control = 15</code>. (<code>zstd_stream</code> is currently
+single-threaded only)
+</p>
+</li>
+</ul>
+<p>To gain more control over compression level and byte shuffling, set <code>preset = "custom"</code>, in which case the individual parameters <code>algorithm</code>,
+<code>compress_level</code> and <code>shuffle_control</code> are actually regarded.
+</p>
+
+
+<h3>Byte shuffling</h3>
+
+<p>The parameter <code>shuffle_control</code> defines which numerical R object types are subject to <em>byte shuffling</em>. Generally speaking, the more ordered/sequential an
+object is (e.g., <code>1:1e7</code>), the larger the potential benefit of byte shuffling. It is not uncommon to improve compression ratio or compression speed by
+several orders of magnitude. The more random an object is (e.g., <code>rnorm(1e7)</code>), the less potential benefit there is, even negative benefit is possible.
+Integer vectors almost always benefit from byte shuffling, whereas the results for numeric vectors are mixed. To control block shuffling, add +1 to the
+parameter for logical vectors, +2 for integer vectors, +4 for numeric vectors and/or +8 for complex vectors.
+</p>
+
+
+</div>

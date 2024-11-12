@@ -1,0 +1,145 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>bases</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>qKernel Functions</h2>
+
+<h3>Description</h3>
+
+<p>The kernel generating functions provided in qkerntool. <br>
+The Non Linear Kernel <code class="reqn">k(x,y) = \frac{1}{2(1-q)}(q^{-\alpha||x||^2}+q^{-\alpha||y||^2}-2q^{-\alpha x'y}) </code>.<br>
+The Gaussian kernel <code class="reqn">k(x,y) =\frac{1}{1-q} (1-q^{(||x-y||^2/\sigma)})</code>.<br>
+The Laplacian Kernel <code class="reqn">k(x,y) =\frac{1}{1-q} (1-q^{(||x-y||/\sigma)})</code>.<br></p>
+<p>The Rational Quadratic Kernel <code class="reqn">k(x,y) =\frac{1}{1-q} (1-q^{\frac{||x-y||^2}{||x-y||^2+c}})</code>.<br>
+The Multiquadric Kernel <code class="reqn">k(x,y) =\frac{1}{1-q} (q^c-q^{\sqrt{||x-y||^2+c}})</code>.<br>
+The Inverse Multiquadric Kernel <code class="reqn">k(x,y) =\frac{1}{1-q} (q^{-\frac{1}{c}}-q^{-\frac{1}{\sqrt{||x-y||^2+c}}})</code>.<br>
+The Wave Kernel <code class="reqn">k(x,y) =\frac{1}{1-q} (q^{-1}-q^{-\frac{\theta}{||x-y||}\sin{\frac{||x-y||}{\theta}}})</code>.<br>
+The d Kernel <code class="reqn">k(x,y) = \frac{1}{1-q}[1-q^(||x-y||^d)] </code>.<br>
+The Log Kernel <code class="reqn">k(x,y) =\frac{1}{1-q} [1-q^ln(||x-y||^d+1)]</code>.<br>
+The Cauchy Kernel <code class="reqn">k(x,y) =\frac{1}{1-q} (q^{-1}-q^{-\frac{1}{1+||x-y||^2/\sigma}})</code>.<br>
+The Chi-Square Kernel <code class="reqn">k(x,y) =\frac{1}{1-q} (1-q^{\sum{2(x-y)^2/(x+y)} \gamma})</code>.<br>
+The Generalized T-Student Kernel <code class="reqn">k(x,y) =\frac{1}{1-q} (q^{-1}-q^{-\frac{1}{1+||x-y||^d}})</code>.<br></p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">rbfbase(sigma=1,q=0.8)
+nonlbase(alpha = 1,q = 0.8)
+laplbase(sigma = 1, q = 0.8)
+ratibase(c = 1, q = 0.8)
+multbase(c = 1, q = 0.8)
+invbase(c = 1, q = 0.8)
+wavbase(theta = 1,q = 0.8)
+powbase(d = 2, q = 0.8)
+logbase(d = 2, q = 0.8)
+caubase(sigma = 1, q = 0.8)
+chibase(gamma = 1, q = 0.8)
+studbase(d = 2, q = 0.8)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>q</code></td>
+<td>
+<p>for all the qkernel function.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sigma</code></td>
+<td>
+<p>for the Radial Basis qkernel function "rbfbase" , the Laplacian qkernel function "laplbase" and the Cauchy qkernel function "caubase".</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>alpha</code></td>
+<td>
+<p>for the Non Linear qkernel function "nonlbase".</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>c</code></td>
+<td>
+<p>for the Rational Quadratic qkernel function "ratibase" , the Multiquadric qkernel
+function "multbase" and the Inverse Multiquadric qkernel function "invbase".</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>theta</code></td>
+<td>
+<p>for the Wave qkernel function "wavbase".</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>d</code></td>
+<td>
+<p>for the d qkernel function "powbase" , the Log qkernel function "logbase"
+and the Generalized T-Student qkernel function "studbase".</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gamma</code></td>
+<td>
+<p>for the Chi-Square qkernel function "chibase".</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The kernel generating functions are used to initialize a kernel
+function
+which calculates the kernel function value between two feature vectors in a
+Hilbert Space. These functions can be passed as a <code>qkernel</code> argument on almost all
+functions in <span class="pkg">qkerntool</span>(e.g., <code>qkgda</code>, <code>qkpca</code>  etc).
+</p>
+
+
+<h3>Value</h3>
+
+<p>Return an S4 object of class <code>qkernel</code> which extents the
+<code>function</code> class. The resulting function implements the given
+kernel calculating the kernel function value between two vectors.
+</p>
+<table><tr style="vertical-align: top;">
+<td><code>qpar</code></td>
+<td>
+<p>a list containing the kernel parameters (hyperparameters)
+used.</p>
+</td>
+</tr></table>
+<p>The kernel parameters can be accessed by the <code>qpar</code> function.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Yusen Zhang<br><a href="mailto:yusenzhang@126.com">yusenzhang@126.com</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code>qkernmatrix</code>, <code>cndkernmatrix</code></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">qkfunc &lt;- rbfbase(sigma=1,q=0.8)
+qkfunc
+
+qpar(qkfunc)
+
+## create two vectors
+x &lt;- rnorm(10)
+y &lt;- rnorm(10)
+
+## calculate dot product
+qkfunc(x,y)
+
+</code></pre>
+
+
+</div>

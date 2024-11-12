@@ -1,0 +1,79 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>fst_restore</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Restore fst_genoprob object to original dimensions.</h2>
+
+<h3>Description</h3>
+
+<p>Any <code>"fst_genoprob"</code> object has embedded its original data and dimensions.
+This resets elements <code>ind</code>, <code>chr</code> and <code>mar</code> to the full set.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">fst_restore(object)
+
+fst_genoprob_restore(object)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>Object of class <code>"fst_genoprob"</code> as produced by <code>fst_genoprob()</code>.</p>
+</td>
+</tr></table>
+<h3>Details</h3>
+
+<p>Object is unclassed and elements <code>ind</code>, <code>chr</code> and <code>mar</code> are changed before
+reseting attributes as <code>"fst_genoprob"</code> object.
+See <code>fst_genoprob()</code> for details on the object.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Input <code>object</code> with dimensions restored.
+</p>
+
+
+<h3>Functions</h3>
+
+
+<ul><li> <p><code>fst_genoprob_restore</code>: Deprecated version (to be removed).
+</p>
+</li></ul>
+<h3>See Also</h3>
+
+<p><code>fst_genoprob()</code>, <code>fst_extract()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(qtl2)
+grav2 &lt;- read_cross2(system.file("extdata", "grav2.zip", package="qtl2"))
+map &lt;- insert_pseudomarkers(grav2$gmap, step=1)
+probs &lt;- calc_genoprob(grav2, map, error_prob=0.002)
+dir &lt;- tempdir()
+fprobs &lt;- fst_genoprob(probs, "grav2", dir, overwrite=TRUE)
+
+# subset probabilities
+fprobs2 &lt;- subset(fprobs, chr=1:2)
+
+# use object to get the full probabilities back
+fprobs5 &lt;- fst_restore(fprobs2)
+
+# clean up: remove all the files we created
+unlink(fst_files(fprobs))
+
+</code></pre>
+
+
+</div>

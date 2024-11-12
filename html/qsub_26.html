@@ -1,0 +1,70 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>set_default_qsub_config</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Set a default qsub_config.</h2>
+
+<h3>Description</h3>
+
+<p>If permanent, the qsub_config will be written to the specified path.
+Otherwise, it will be saved in the current environment.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">set_default_qsub_config(
+  qsub_config,
+  permanent = TRUE,
+  config_file = config_file_location()
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>qsub_config</code></td>
+<td>
+<p>The qsub_config to use as default.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>permanent</code></td>
+<td>
+<p>Whether or not to make this the default qsub_config.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>config_file</code></td>
+<td>
+<p>The location to which to save the permanent qsub_config.</p>
+</td>
+</tr>
+</table>
+<h3>See Also</h3>
+
+<p><code>qsub_lapply</code>, <code>create_qsub_config</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+qsub_config &lt;- create_qsub_config(
+  remote = "myserver",
+  local_tmp_path = "/home/myuser/workspace/.r2gridengine",
+  remote_tmp_path = "/scratch/myuser/.r2gridengine"
+)
+set_default_qsub_config(qsub_config, permanent = T)
+qsub_lapply(1:10, function(x) x + 1)
+
+## End(Not run)
+
+</code></pre>
+
+
+</div>

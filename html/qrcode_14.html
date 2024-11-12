@@ -1,0 +1,105 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>plot.qr_code</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Plot the QR code
+This function plots to QR code to the open device.</h2>
+
+<h3>Description</h3>
+
+<p>Plot the QR code
+This function plots to QR code to the open device.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'qr_code'
+plot(x, col = c("white", "black"), y, ...)
+
+## S3 method for class 'qr_logo'
+plot(x, col = c("white", "black"), y, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>the <code>qr_code</code> object</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>col</code></td>
+<td>
+<p>Define the colours.
+The first element refers to <code>FALSE</code> and the second <code>TRUE</code>.
+Defaults to <code>c("white", "black")</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>currently ignored</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>currently ignored</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Thierry Onkelinx
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>opencv::ocv_qr_detect()</code> for reading QR codes.
+</p>
+<p>Other qr: 
+<code>coordinates()</code>,
+<code>generate_svg()</code>,
+<code>print.qr_code()</code>,
+<code>qr_code()</code>,
+<code>qr_event()</code>,
+<code>qr_location()</code>,
+<code>qr_sepa()</code>,
+<code>qr_wifi()</code>
+</p>
+<p>Other qr: 
+<code>coordinates()</code>,
+<code>generate_svg()</code>,
+<code>print.qr_code()</code>,
+<code>qr_code()</code>,
+<code>qr_event()</code>,
+<code>qr_location()</code>,
+<code>qr_sepa()</code>,
+<code>qr_wifi()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">qr &lt;- qr_code("HELLO WORLD")
+plot(qr)
+
+# Test the QR code with the opencv package
+if (requireNamespace("opencv")) {
+  png("test.png")
+  plot(qr)
+  dev.off()
+  opencv::ocv_qr_detect(opencv::ocv_read('test.png'))
+  unlink("test.png")
+}
+</code></pre>
+
+
+</div>

@@ -1,0 +1,131 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>Qhot</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>QTL Hotspot</h2>
+
+<h3>Description</h3>
+
+<p>This function generates both numerical and graphical summaries of the QTL
+hotspot detection in the genomes, including information about the flanking
+markers of QTLs.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">Qhot(DataQTL, DataCrop, ScanStep = 1, NH = 100, NP = 1000, save.pdf = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>DataQTL</code></td>
+<td>
+<p>data.frame. A data frame with 5 columns for QTL information.
+The columns represent the serial number of QTLs, the trait names, the
+chromosome numbers, the left flanking marker positions(in cM) of QTLs, and
+the right flanking marker positions(in cM) of QTLs.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>DataCrop</code></td>
+<td>
+<p>data.frame. A data frame with 3 columns for chromosome
+information consists of the chromosome names, the center positions(in cM)
+and the lengths of chromosomes.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ScanStep</code></td>
+<td>
+<p>numeric. A value for the length(cM) of every bin.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>NH</code></td>
+<td>
+<p>integer. A value for the number of spurious hotspots in the
+proposed method.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>NP</code></td>
+<td>
+<p>integer. A value for permutation times to calculate the
+threshold.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>save.pdf</code></td>
+<td>
+<p>logical. When set to TRUE, the PDF file of plots will be
+saved in the working directory instead of being displayed in the console.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>EQF</code></td>
+<td>
+<p>The expected QTL frequency(EQF) in every bin per chromosome.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>P.threshold</code></td>
+<td>
+<p>The EQF thresholds for proposed method.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Q.threshold</code></td>
+<td>
+<p>The EQF thresholds for the Q method.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nHot</code></td>
+<td>
+<p>The numbers of detected hotspots per chromosome for the proposed
+method and Q method.</p>
+</td>
+</tr>
+</table>
+<p>Graphical outputs for visualizing the summarized results includes the
+expected QTL frequency of scan steps, and the composition of QTLs for
+different traits in the detected hotspots.
+</p>
+
+
+<h3>Note</h3>
+
+<p>This program may generate a large amount of graphical output. To manage this,
+it's recommended to save the results in a PDF file using the "save.pdf"
+argument.
+</p>
+
+
+<h3>References</h3>
+
+<p>Wu, P.-Y., M.-.H. Yang, and C.-H. KAO 2021 A Statistical Framework for QTL
+Hotspot Detection. G3: Genes, Genomes, Genetics: jkab056. &lt;doi: 10.1093/g3journal/jkab056&gt;
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># load the example data
+load(system.file("extdata", "QHOTexample.RDATA", package = "QTLEMM"))
+
+# run and result
+result &lt;- Qhot(QTL.example, crop.example, 5, 20, 100, save.pdf = FALSE)
+</code></pre>
+
+
+</div>

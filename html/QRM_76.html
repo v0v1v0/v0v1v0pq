@@ -1,0 +1,408 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>game</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Smooth Parameter Estimation and Bootstrapping of Generalized Pareto Distributions
+with Penalized Maximum Likelihood Estimation</h2>
+
+<h3>Description</h3>
+
+<p><code>gamGPDfit()</code> fits the parameters of a generalized Pareto
+distribution (GPD) depending on covariates in a non- or semiparametric
+way.
+</p>
+<p><code>gamGPDboot()</code> fits and bootstraps the parameters of a GPD
+distribution depending on covariates in a non- or semiparametric
+way. Applies the post-blackend bootstrap of Chavez-Demoulin and
+Davison (2005).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">gamGPDfit(x, threshold, nextremes = NULL, datvar, xiFrhs, nuFrhs,
+          init = fit.GPD(x[,datvar], threshold = threshold,
+                         type = "pwm", verbose = FALSE)$par.ests,
+          niter = 32, include.updates = FALSE, eps.xi = 1e-05, eps.nu = 1e-05,
+          progress = TRUE, adjust = TRUE, verbose = FALSE, ...)
+gamGPDboot(x, B, threshold, nextremes = NULL, datvar, xiFrhs, nuFrhs,
+           init = fit.GPD(x[,datvar], threshold = threshold,
+                          type = "pwm", verbose = FALSE)$par.ests,
+           niter = 32, include.updates = FALSE, eps.xi = 1e-5, eps.nu = 1e-5,
+           boot.progress = TRUE, progress = FALSE, adjust = TRUE, verbose = FALSE,
+           debug = FALSE, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>data.frame containing the losses (in some component; can be
+specified with the argument <code>datvar</code>; the other components
+contain the covariates).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>B</code></td>
+<td>
+<p>number of bootstrap replications.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>threshold</code></td>
+<td>
+<p>threshold of the peaks-over-threshold (POT)
+method.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nextremes</code></td>
+<td>
+<p>number of excesses. This can be used to determine</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>datvar</code></td>
+<td>
+<p>name of the data column in <code>x</code> which contains the
+the data to be modeled.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xiFrhs</code></td>
+<td>
+<p>right-hand side of the formula for <code class="reqn">\xi</code> in
+the <code>gam()</code> call for fitting <code class="reqn">\xi</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nuFrhs</code></td>
+<td>
+<p>right-hand side of the formula for <code class="reqn">\nu</code> in
+the <code>gam()</code> call for fitting <code class="reqn">\nu</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>init</code></td>
+<td>
+<p>bivariate vector containing initial values
+for <code class="reqn">(\xi, \beta)</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>niter</code></td>
+<td>
+<p>maximal number of iterations in the backfitting
+algorithm.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>include.updates</code></td>
+<td>
+<p><code>logical</code> indicating whether
+updates for xi and nu are returned as well (note: this might lead to
+objects of large size).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>eps.xi</code></td>
+<td>
+<p>epsilon for stop criterion for <code class="reqn">\xi</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>eps.nu</code></td>
+<td>
+<p>epsilon for stop criterion for <code class="reqn">\nu</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>boot.progress</code></td>
+<td>
+<p><code>logical</code> indicating
+whether progress information about <code>gamGPDboot()</code> is displayed.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>progress</code></td>
+<td>
+<p><code>logical</code> indicating whether progress information about
+<code>gamGPDfit()</code> is displayed. For <code>gamGPDboot()</code>,
+<code>progress</code> is only passed to <code>gamGPDfit()</code> in the case that
+<code>boot.progress==TRUE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>adjust</code></td>
+<td>
+<p><code>logical</code> indicating whether non-real values
+of the derivatives are adjusted.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p><code>logical</code> indicating whether additional
+information (in case of undesired behavior) is printed. For <code>gamGPDboot()</code>,
+<code>progress</code> is only passed to <code>gamGPDfit()</code> if
+<code>boot.progress==TRUE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>debug</code></td>
+<td>
+<p><code>logical</code> indicating whether initial fit
+(before the bootstrap is initiated) is saved.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>additional arguments passed to <code>gam()</code> (which is
+called internally; see the source code of <code>gamGPDfitUp()</code>).</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p><code>gamGPDfit()</code> fits the parameters <code class="reqn">\xi</code> and
+<code class="reqn">\beta</code> of the generalized Pareto distribution
+<code class="reqn">\mathrm{GPD}(\xi,\beta)</code> depending on covariates in
+a non- or semiparametric way. The distribution function is given by
+</p>
+<p style="text-align: center;"><code class="reqn">G_{\xi,\beta}(x)=1-(1+\xi x/\beta)^{-1/\xi},\quad
+    x\ge0,</code>
+</p>
+
+<p>for <code class="reqn">\xi&gt;0</code> (which is what we assume) and
+<code class="reqn">\beta&gt;0</code>. Note that <code class="reqn">\beta</code> is also denoted by
+<code class="reqn">\sigma</code> in this package. Estimation of <code class="reqn">\xi</code>
+and <code class="reqn">\beta</code> by <code>gamGPDfit()</code> is done via penalized maximum
+likelihood estimation, where the estimators are computed with a
+backfitting algorithm. In order to guarantee convergence of this
+algorithm, a reparameterization of <code class="reqn">\beta</code> in terms of the parameter
+<code class="reqn">\nu</code> is done via
+</p>
+<p style="text-align: center;"><code class="reqn">\beta=\exp(\nu)/(1+\xi).</code>
+</p>
+
+<p>The parameters <code class="reqn">\xi</code> and <code class="reqn">\nu</code> (and thus
+<code class="reqn">\beta</code>) are allowed to depend on covariates (including
+time) in a non- or semiparametric way, for example:
+</p>
+<p style="text-align: center;"><code class="reqn">\xi=\xi(\bm{x},t)=\bm{x}^{\top}\bm{\alpha}_{\xi}+h_{\xi}(t),</code>
+</p>
+
+<p style="text-align: center;"><code class="reqn">\nu=\nu(\bm{x},t)=\bm{x}^{\top}\bm{\alpha}_{\nu}+h_{\nu}(t),</code>
+</p>
+
+<p>where <code class="reqn">\bm{x}</code> denotes the vector of covariates,
+<code class="reqn">\bm{\alpha}_{\xi}</code>, <code class="reqn">\bm{\alpha}_{\nu}</code>
+are parameter vectors and <code class="reqn">h_{\xi}</code>, <code class="reqn">h_{\nu}</code> are
+regression splines. For more details, see the references and the source
+code.
+</p>
+<p><code>gamGPDboot()</code> first fits the GPD parameters via
+<code>gamGPDfit()</code>. It then conducts the post-blackend bootstrap of
+Chavez-Demoulin and Davison (2005). To this end, it computes the
+residuals, resamples them (<code>B</code> times), reconstructs the
+corresponding excesses, and refits the GPD parameters via
+<code>gamGPDfit()</code> again.
+</p>
+<p>Note that if <code>gam()</code> fails in <code>gamGPDfit()</code> or the
+fitting or one of the bootstrap replications in <code>gamGPDboot()</code>,
+then the output object contains (an) empty (sub)list(s). These
+failures typically happen for too small sample sizes.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>gamGPDfit()</code> returns either an empty list (<code>list()</code>; in
+case at least one of the two <code>gam()</code> calls in the internal
+function <code>gamGPDfitUp()</code> fails) or a list with the components
+</p>
+
+<dl>
+<dt>
+<code>xi</code>:</dt>
+<dd>
+<p>estimated parameters <code class="reqn">\xi</code>;</p>
+</dd>
+<dt>
+<code>beta</code>:</dt>
+<dd>
+<p>estimated parameters <code class="reqn">\beta</code>;</p>
+</dd>
+<dt>
+<code>nu</code>:</dt>
+<dd>
+<p>estimated parameters <code class="reqn">\nu</code>;</p>
+</dd>
+<dt>
+<code>se.xi</code>:</dt>
+<dd>
+<p>standard error for <code class="reqn">\xi</code> ((possibly
+adjusted) second-order derivative of the reparameterized
+log-likelihood with respect to <code class="reqn">\xi</code>) multiplied by -1;</p>
+</dd>
+<dt>
+<code>se.nu</code>:</dt>
+<dd>
+<p>standard error for <code class="reqn">\nu</code> ((possibly
+adjusted) second-order derivative of the reparameterized
+log-likelihood with respect to <code class="reqn">\nu</code>) multiplied by -1;</p>
+</dd>
+<dt>
+<code>xi.covar</code>:</dt>
+<dd>
+<p>(unique) covariates for <code class="reqn">\xi</code>;</p>
+</dd>
+<dt>
+<code>nu.covar</code>:</dt>
+<dd>
+<p>(unique) covariates for <code class="reqn">\nu</code>;</p>
+</dd>
+<dt>
+<code>covar</code>:</dt>
+<dd>
+<p>available covariate combinations used for
+fitting <code class="reqn">\beta</code> (<code class="reqn">\xi</code>, <code class="reqn">\nu</code>);</p>
+</dd>
+<dt>
+<code>y</code>:</dt>
+<dd>
+<p>vector of excesses (exceedances minus threshold);</p>
+</dd>
+<dt>
+<code>res</code>:</dt>
+<dd>
+<p>residuals;</p>
+</dd>
+<dt>
+<code>MRD</code>:</dt>
+<dd>
+<p>mean relative distances between for all
+iterations, calculated between old parameters <code class="reqn">(\xi, \nu)</code> (from the last iteration) and new parameters (currently
+estimated ones);</p>
+</dd>
+<dt>
+<code>logL</code>:</dt>
+<dd>
+<p>log-likelihood at the estimated parameters;</p>
+</dd>
+<dt>
+<code>xiObj</code>:</dt>
+<dd>
+<p><span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> object of type <code>gamObject</code> for estimated
+<code class="reqn">\xi</code> (returned by <code>mgcv::gam()</code>);</p>
+</dd>
+<dt>
+<code>nuObj</code>:</dt>
+<dd>
+<p><span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> object of type <code>gamObject</code> for estimated
+<code class="reqn">\nu</code> (returned by <code>mgcv::gam()</code>);</p>
+</dd>
+<dt>
+<code>xiUpdates</code>:</dt>
+<dd>
+<p>if <code>include.updates</code> is
+<code>TRUE</code>, updates for <code class="reqn">\xi</code> for each
+iteration. This is a list of <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> objects of type <code>gamObject</code>
+which contains <code>xiObj</code> as last element;</p>
+</dd>
+<dt>
+<code>nuUpdates</code>:</dt>
+<dd>
+<p>if <code>include.updates</code> is
+<code>TRUE</code>, updates for <code class="reqn">\nu</code> for each
+iteration. This is a list of <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> objects of type <code>gamObject</code>
+which contains <code>nuObj</code> as last element;</p>
+</dd>
+</dl>
+<p><code>gamGPDboot()</code> returns a list of length <code>B+1</code> where
+the first component contains the results of
+the initial fit via <code>gamGPDfit()</code> and the other <code>B</code>
+components contain the results for each replication of the
+post-blackend bootstrap. Components for which <code>gam()</code>
+fails (e.g., due to too few data) are given as empty lists (<code>list()</code>).
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Marius Hofert, Valerie Chavez-Demoulin.</p>
+
+
+<h3>References</h3>
+
+<p>Chavez-Demoulin, V., and Davison, A. C. (2005).
+Generalized additive models for sample extremes.
+<em>Applied Statistics</em> <b>54</b>(1), 207–222.
+</p>
+<p>Chavez-Demoulin, V., Embrechts, P., and Hofert, M. (2014).
+An extreme value approach for modeling Operational
+Risk losses depending on covariates.
+<em>Journal of Risk and Insurance</em>; accepted.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(QRM)
+## generate an example data set
+years &lt;- 2003:2012 # years
+nyears &lt;- length(years)
+n &lt;- 250 # sample size for each (different) xi
+u &lt;- 200 # threshold
+rGPD &lt;- function(n, xi, beta) ((1-runif(n))^(-xi)-1)*beta/xi # sampling GPD
+
+set.seed(17) # setting seed
+xi.true.A &lt;- seq(0.4, 0.8, length=nyears) # true xi for group "A"
+## generate losses for group "A"
+lossA &lt;- unlist(lapply(1:nyears,
+                       function(y) u + rGPD(n, xi=xi.true.A[y], beta=1)))
+xi.true.B &lt;- xi.true.A^2 # true xi for group "B"
+## generate losses for group "B"
+lossB &lt;- unlist(lapply(1:nyears,
+                       function(y) u + rGPD(n, xi=xi.true.B[y], beta=1)))
+## build data frame
+time &lt;- rep(rep(years, each=n), 2) # "2" stands for the two groups
+covar &lt;- rep(c("A","B"), each=n*nyears)
+value &lt;- c(lossA, lossB)
+x &lt;- data.frame(covar=covar, time=time, value=value)
+
+## fit
+eps &lt;- 1e-3 # to decrease the run time for this example
+require(mgcv) # due to s()
+fit &lt;- gamGPDfit(x, threshold=u, datvar="value", xiFrhs=~covar+s(time)-1,
+                 nuFrhs=~covar+s(time)-1, eps.xi=eps, eps.nu=eps)
+## note: choosing s(..., bs="cr") will fit cubic splines
+
+## grab the fitted values per group and year
+xi.fit &lt;- fitted(fit$xiObj)
+xi.fit. &lt;- xi.fit[1+(0:(2*nyears-1))*n] # pick fit for each group and year
+xi.fit.A &lt;- xi.fit.[1:nyears] # fit for "A" and each year
+xi.fit.B &lt;- xi.fit.[(nyears+1):(2*nyears)] # fit for "B" and each year
+
+## plot the fitted values of xi and the true ones we simulated from
+par(mfrow=c(1,2))
+plot(years, xi.true.A, type="l", ylim=range(xi.true.A, xi.fit.A),
+     main="Group A", xlab="Year", ylab=expression(xi))
+points(years, xi.fit.A, type="l", col="red")
+legend("topleft", inset=0.04, lty=1, col=c("black", "red"),
+       legend=c("true", "fitted"), bty="n")
+plot(years, xi.true.B, type="l", ylim=range(xi.true.B, xi.fit.B),
+     main="Group B", xlab="Year", ylab=expression(xi))
+points(years, xi.fit.B, type="l", col="blue")
+legend("topleft", inset=0.04, lty=1, col=c("black", "blue"),
+       legend=c("true", "fitted"), bty="n")
+</code></pre>
+
+
+</div>

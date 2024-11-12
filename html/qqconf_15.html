@@ -1,0 +1,54 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>monte_carlo_two_sided</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Monte Carlo Simulation for Two-Sided Test</h2>
+
+<h3>Description</h3>
+
+<p>Given bounds for a two sided test on uniform order statistics, this computes
+the Type I Error Rate <code class="reqn">\alpha</code> using simulations.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">monte_carlo_two_sided(lower_bounds, upper_bounds, num_sims = 1e+06)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>lower_bounds</code></td>
+<td>
+<p>Numeric vector where the ith component is the lower bound
+for the ith order statistic. The components must be distinct values in (0, 1) that
+are in ascending order.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>upper_bounds</code></td>
+<td>
+<p>Numeric vector where the ith component is the lower bound
+for the ith order statistic. The values must be in ascending order and
+the ith component must be larger than the ith component of the lower bounds.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>num_sims</code></td>
+<td>
+<p>(optional) Number of simulations to be run, 1 Million by default.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Type I Error Rate <code class="reqn">\alpha</code>
+</p>
+
+
+</div>

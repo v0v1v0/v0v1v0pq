@@ -1,0 +1,76 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>rel2qtl</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Convert data from QTLRel to R/qtl format</h2>
+
+<h3>Description</h3>
+
+<p>Convert the data for a QTL mapping experiment from the QTLRel format
+to that used by R/qtl (http://www.rqtl.org).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">rel2qtl(gdat, pdat, gmap)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>gdat</code></td>
+<td>
+<p>Genotype data</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pdat</code></td>
+<td>
+<p>Phenotype data</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gmap</code></td>
+<td>
+<p>Genetic map</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Pedigree information is ignored, and X chromosome data is omitted.
+</p>
+<p>The data are treated as an intercross.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A cross object for the R/qtl package (http://www.rqtl.org).
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Karl W Broman, <a href="mailto:kbroman@biostat.wisc.edu">kbroman@biostat.wisc.edu</a> </p>
+
+
+<h3>See Also</h3>
+
+ <p><code>qtl2rel</code> </p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(miscEx)
+f8 &lt;- rel2qtl(gdatF8, pdatF8, gmapF8)
+summary(f8)
+</code></pre>
+
+
+</div>

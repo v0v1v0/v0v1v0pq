@@ -1,0 +1,114 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>BarrierLT</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Barrrier option valuation via lattice tree (LT)</h2>
+
+<h3>Description</h3>
+
+<p>Use Binomial Tree to price barrier options with relatively large NSteps (NSteps &gt; 100) steps.
+The price may be not as percise as BSM function cause the convergence speed for Binomial Tree is kind of slow.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">BarrierLT(o = OptPx(Opt(Style = "Barrier"), vol = 0.25, r = 0.05, q = 0.02,
+  NSteps = 5), dir = c("Up", "Down"), knock = c("In", "Out"), H = 60)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>o</code></td>
+<td>
+<p>An object of class <code>OptPx</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dir</code></td>
+<td>
+<p>A direction for the barrier, either <code>'Up'</code> or <code>'Down'</code> Default=<code>'Up'</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>knock</code></td>
+<td>
+<p>The option is either a knock-in option or knock-out option. Default=<code>'In'</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>H</code></td>
+<td>
+<p>The barrier level. <code>H</code> should less than <code>S0</code> if <code>'Up'</code>,
+<code>H</code> should greater than <code>S0</code> if <code>'Down'</code> Default=60.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list of class <code>BarrierLT</code> consisting of the input object <code>OptPx</code>
+and the appended new parameters and option price.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Tong Liu, Department of Statistics, Rice University, Spring 2015
+</p>
+
+
+<h3>References</h3>
+
+<p>Hull, John C., <em>Options, Futures and Other Derivatives</em>, 9ed, 2014. Prentice Hall.
+ISBN 978-0-13-345631-8, <a href="http://www-2.rotman.utoronto.ca/~hull/ofod/index.html">http://www-2.rotman.utoronto.ca/~hull/ofod/index.html</a>
+<br> p.467-468. Trinomial Trees, p.604-606: Barrier Options.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># default Up and Knock-in Call Option with H=60, approximately 7.09
+(o = BarrierLT())$PxLT
+
+#Visualization of price changes as Nsteps change.
+o = Opt(Style="Barrier")
+visual=sapply(10:200,function(n) BarrierLT(OptPx(o,NSteps=n))$PxLT)
+
+c=(10:200)
+plot(visual~c,type="l",xlab="NSteps",ylab="Price",main="Price converence with NSteps")
+
+# Down and Knock-out Call Option with H=40
+o = OptPx(o=Opt(Style="Barrier"))
+BarrierLT(o,dir="Down",knock="Out",H=40)
+
+# Down and Knock-in Call Option with H=40
+o = OptPx(o=Opt(Style="Barrier"))
+BarrierLT(o,dir="Down",knock="In",H=40)
+
+# Up and Knock-out Call Option with H=60
+o = OptPx(o=Opt(Style="Barrier"))
+BarrierLT(o,dir='Up',knock="Out")
+
+# Down and Knock-out Put Option with H=40
+o = OptPx(o=Opt(Style="Barrier",Right="Put"))
+BarrierLT(o,dir="Down",knock="Out",H=40)
+
+# Down and Knock-in Put Option with H=40
+o = OptPx(o=Opt(Style="Barrier",Right="Put"))
+BarrierLT(o,dir="Down",knock="In",H=40)
+
+# Up and Knock-out Put Option with H=60
+o = OptPx(o=Opt(Style="Barrier",Right="Put"))
+BarrierLT(o,dir='Up',knock="Out")
+
+# Up and Knock-in Put Option with H=60
+BarrierLT(OptPx(o=Opt(Style="Barrier",Right="Put")))
+</code></pre>
+
+
+</div>

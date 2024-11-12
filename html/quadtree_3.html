@@ -1,0 +1,54 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>as_sf</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Convert to other R spatial objects</h2>
+
+<h3>Description</h3>
+
+<p>Convert to other R spatial objects
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">as_sf(x)
+
+as_vect(x)
+
+as_character(x)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>Quadtree object</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>an object of class <code>sf</code> or <code>SpatVector</code>, or a Well-Known Text (WKT) <code>character</code> representation
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+
+library(quadtree)
+habitat &lt;- terra::rast(system.file("extdata", "habitat.tif", package="quadtree"))
+
+qt &lt;- quadtree(habitat, .1)
+sf &lt;- as(qt, "sf")
+sr &lt;- as(qt, "SpatRaster")
+sv &lt;- as(qt, "SpatVector")
+ch &lt;- as(qt, "character")
+</code></pre>
+
+
+</div>

@@ -1,0 +1,135 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>fdqcs.rank</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Function to plot rank functional data (DFD) - chart</h2>
+
+<h3>Description</h3>
+
+<p>This function is used to compute statistics required by the RFD chart.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">fdqcs.rank(x, ...)
+
+## S3 method for class 'fdqcd'
+fdqcs.rank(
+  x,
+  y = x,
+  func.depth = depth.FM,
+  alpha = 0.01,
+  plot = TRUE,
+  trim = 0.1,
+  draw.control = NULL,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>an R object (used to select the method). See details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>arguments passed to or from methods.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>The set of new curves to evaluate the depth. fdqcd class object.
+The set of reference curves respect to which the depth is computed. fdqcd class object.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>func.depth</code></td>
+<td>
+<p>Type of depth measure, by default depth.mode.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>alpha</code></td>
+<td>
+<p>Quantile to determine the cutoff from the Bootstrap procedure</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>plot</code></td>
+<td>
+<p>a logical value indicating that it should be plotted.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>trim</code></td>
+<td>
+<p>The porcentage of the trimming.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>draw.control</code></td>
+<td>
+<p>ist that it specifies the col, lty and lwd for objects: fdataobj, statistic, IN and OUT.</p>
+</td>
+</tr>
+</table>
+<h3>References</h3>
+
+<p>Flores, M.; Naya, S.; Fernández-Casal,R.; Zaragoza, S.; Raña, P.; Tarrío-Saavedra, J. 
+Constructing a Control Chart Using Functional Data. Mathematics 2020, 8, 58.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+library(qcr)
+m &lt;- 30
+tt&lt;-seq(0,1,len=m)
+mu&lt;-30 * tt * (1 - tt)^(3/2)
+n0 &lt;- 100
+set.seed(12345)
+mdata&lt;-matrix(NA,ncol=m,nrow=n0)
+sigma &lt;- exp(-3*as.matrix(dist(tt))/0.9)
+for (i in 1:n0) mdata[i,]&lt;- mu+0.5*mvrnorm(mu = mu,Sigma = sigma )
+fdchart &lt;- fdqcd(mdata)
+summary(fdchart)
+plot(fdchart,type="l",col="gray")
+out &lt;- fddep$out
+## Outliers - State in Control
+alpha &lt;- 0.005
+trim &lt;- 0.1
+while (length(out)&gt;0) {
+ mdata &lt;- fddep$fdata$data[-out,]
+ fddep &lt;- fdqcs.depth(mdata,ns = alpha, trim=trim, plot=FALSE)
+ out &lt;- fddep$out
+}
+plot(fddep,title.fdata = "FD-State in Control",title.depth = "Depth")
+# Ha
+mu_a&lt;- 30 * tt^(3/2) * (1 - tt)
+n_a &lt;- 50
+set.seed(12345)
+mdata_a&lt;-matrix(NA,ncol=m,nrow=n_a)
+for (i in 1:n_a) mdata_a[i,]&lt;- mu_a+0.5*mvrnorm(mu = mu_a,Sigma = sigma )
+fdchart_a &lt;- fdqcd(mdata_a,"Curves Monitoring")
+plot(fdchart_a)
+plot(fdchart,fdchart_a,main="Phase II")
+pashe2.chart &lt;- fdqcs.rank(fdchart,fdchart_a)
+plot(pashe2.chart,title.fdata = "FDA",title.rank = "Rank")
+summary(pashe2.chart)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,85 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>as_raster</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Create a raster from a <code>Quadtree</code>
+</h2>
+
+<h3>Description</h3>
+
+<p>Creates a <code>SpatRaster</code>
+from a <code>Quadtree</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S4 method for signature 'Quadtree'
+as_raster(x, rast = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a <code>Quadtree</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rast</code></td>
+<td>
+<p>a <code>SpatRaster</code> or
+<code>RasterLayer</code>; optional;
+this will be used as a template - the output raster will have the same
+extent and dimensions as this raster. If <code>NULL</code> (the default), a
+raster is automatically created, where the quadtree extent is used as the
+raster extent, and the size of smallest cell in the quadtree is used as
+the resolution of the raster.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Note that the value of a raster cell is determined by the value of the
+quadtree cell located at the centroid of the raster cell - thus, if a raster
+cell overlaps several quadtree cells, whichever quadtree cell the centroid of
+the raster cell falls in will determine the raster cell's value. If no value
+is provided for the <code>rast</code> parameter, the raster's dimensions are
+automatically determined from the quadtree in such a way that the cells are
+guaranteed to line up with the quadtree cells with no overlap, thus avoiding
+the issue.
+</p>
+
+
+<h3>Value</h3>
+
+<p>a <code>SpatRaster</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(quadtree)
+habitat &lt;- terra::rast(system.file("extdata", "habitat.tif", package="quadtree"))
+
+# create a quadtree
+qt &lt;- quadtree(habitat, split_threshold = .1, split_method = "sd")
+
+rst1 &lt;- as_raster(qt) # use the default raster
+rst2 &lt;- as_raster(qt, habitat) # use another raster as a template
+
+old_par &lt;- par(mfrow = c(2, 2))
+plot(habitat, main = "original raster")
+plot(qt, main = "quadtree")
+plot(rst1, main = "raster from quadtree")
+plot(rst2, main = "raster from quadtree")
+par(old_par)
+</code></pre>
+
+
+</div>

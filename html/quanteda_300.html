@@ -1,0 +1,79 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>tokens_chunk</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Segment tokens object by chunks of a given size</h2>
+
+<h3>Description</h3>
+
+<p>Segment tokens into new documents of equally sized token lengths, with the
+possibility of overlapping the chunks.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">tokens_chunk(x, size, overlap = 0, use_docvars = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>tokens object whose token elements will be segmented into
+chunks</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>size</code></td>
+<td>
+<p>integer; the token length of the chunks</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>overlap</code></td>
+<td>
+<p>integer; the number of tokens in a chunk to be taken from the
+last <code>overlap</code> tokens from the preceding chunk</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>use_docvars</code></td>
+<td>
+<p>if <code>TRUE</code>, repeat the docvar values for each chunk;
+if <code>FALSE</code>, drop the docvars in the chunked tokens</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A tokens object whose documents have been split into chunks of
+length <code>size</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>tokens_segment()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">txts &lt;- c(doc1 = "Fellow citizens, I am again called upon by the voice of
+                  my country to execute the functions of its Chief Magistrate.",
+          doc2 = "When the occasion proper for it shall arrive, I shall
+                  endeavor to express the high sense I entertain of this
+                  distinguished honor.")
+toks &lt;- tokens(txts)
+tokens_chunk(toks, size = 5)
+tokens_chunk(toks, size = 5, overlap = 4)
+</code></pre>
+
+
+</div>

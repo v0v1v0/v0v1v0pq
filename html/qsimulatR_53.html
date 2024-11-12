@@ -1,0 +1,50 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>sqgate</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>A single qubit gate</h2>
+
+<h3>Description</h3>
+
+<p>This class represents a generic single qubit gate
+</p>
+
+
+<h3>Details</h3>
+
+<p>The qubits are counted from 1 to <code>nbits</code> starting with the least
+significant bit.
+</p>
+
+
+<h3>Slots</h3>
+
+
+<dl>
+<dt><code>bit</code></dt>
+<dd>
+<p>Integer. The single bit to act on.</p>
+</dd>
+<dt><code>M</code></dt>
+<dd>
+<p>complex valued array. The 2x2 matrix representing the
+gate</p>
+</dd>
+<dt><code>type</code></dt>
+<dd>
+<p>a character vector representing the type of gate</p>
+</dd>
+</dl>
+<h3>Examples</h3>
+
+<pre><code class="language-R">x &lt;- qstate(nbits=2)
+## application of the X (NOT) gate to bit 1
+z &lt;- sqgate(bit=1L, M=array(as.complex(c(0,1,1,0)), dim=c(2,2))) * x
+z
+
+</code></pre>
+
+
+</div>

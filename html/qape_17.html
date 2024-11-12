@@ -1,0 +1,58 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>EstCM</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Estimated covariance matrix of predicted random effects
+</h2>
+
+<h3>Description</h3>
+
+<p>A list of estimated covariance matrices of predicted random effects, where the length of the list equals the number of grouping variables used to define random effects as described in Carpenter, Goldstein and Rasbash (2003) in Section 3.2 and in Thai et al. (2013) in Section 2.3.3.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">EstCM(model)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>model</code></td>
+<td>
+ <p><em>lmer</em> object.</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>a list of estimated covariance matrices of predicted random effects.</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Alicja Wolny-Dominiak, Tomasz Zadlo</p>
+
+
+<h3>References</h3>
+
+<p>1. Carpenter, J.R., Goldstein, H. and Rasbash, J. (2003), A novel bootstrap procedure for assessing the relationship between class size and achievement. Journal of the Royal Statistical Society: Series C (Applied Statistics), 52, 431-443. <br></p>
+<p>2. Thai, H.-T., Mentre, F., Holford, N.H., Veyrat-Follet, C. and Comets, E. (2013), A comparison of bootstrap approaches for estimating uncertainty of parameters in linear mixed-effects models. Pharmaceutical Statistics, 12, 129-140. <br></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(lme4)
+data(invData)
+attach(invData)
+model &lt;- lmer(investments ~ newly_registered + ((1|NUTS2) + 
+((newly_registered - 1)|NUTS2) + ((newly_registered)|NUTS4)))
+EstCM(model)
+detach(invData)
+</code></pre>
+
+
+</div>

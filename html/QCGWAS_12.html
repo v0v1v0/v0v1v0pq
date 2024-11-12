@@ -1,0 +1,98 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>identify_column</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Identify non-standard column names</h2>
+
+<h3>Description</h3>
+
+<p>This function is a subroutine of <code>translate_header</code>
+and several other functions. It is used to translate non-standard
+column names into standard ones.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">identify_column(std_name, alt_names, header)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>std_name</code></td>
+<td>
+<p>character string; the standard name for
+the data-column.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>alt_names</code></td>
+<td>
+<p>translation table; with in the left column
+the standard name(s) and in the right column possible
+alternatives. See <code>translate_header</code> for more
+details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>header</code></td>
+<td>
+<p>the column names of the dataset.
+The names should be entirely in uppercase.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The purpose of <code>identify_column</code> is essentially to look
+up in the translation table (<code>alt_names</code>) which of the
+names in <code>header</code> can be translated into <code>std_name</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An integer vector of the entry(s) in <code>header</code> (i.e. the
+column-numbers) that can be translated into <code>std_name</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>translate_header</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">  sample_data &lt;-
+    data.frame(SNP = paste("rs", 1:10, sep = ""),
+               chrom = 2,
+               effect = 1:10/10,
+               misc = NA)
+  sample_header &lt;- toupper(names(sample_data))
+
+
+  alt_headers &lt;-
+    data.frame(
+      standard = c("MARKER", "MARKER", "CHR", "CHR"),
+      alternative = c("MARKER", "SNP", "CHR", "CHROM"),
+      stringsAsFactors = FALSE)
+  
+  identify_column(std_name = "EFFECT", alt_names = alt_headers,
+                  header = sample_header)
+  identify_column(std_name = "MARKER", alt_names = alt_headers,
+                  header = sample_header)
+  identify_column(std_name = "CHR", alt_names = alt_headers,
+                  header = sample_header)
+  identify_column(std_name = "MISC", alt_names = alt_headers,
+                  header = sample_header)
+</code></pre>
+
+
+</div>

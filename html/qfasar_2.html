@@ -1,0 +1,126 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>adj_diet_fat</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Adjust diet composition estimates for prey fat content</h2>
+
+<h3>Description</h3>
+
+<p>The function <code>est_diet</code> estimates diet composition in terms of the
+mass of fatty acids consumed. The function <code>adj_diet_fat</code> uses
+estimates of fatty acid mass per prey type to transform estimates of diet
+composition in terms of fatty acid mass to another scale.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">adj_diet_fat(prey_fat, diet_est, diet_var = NA)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>prey_fat</code></td>
+<td>
+<p>A numeric vector of the mean fatty acid mass for each prey
+type.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>diet_est</code></td>
+<td>
+<p>A numeric vector or matrix of the estimated diet
+composition(s) of individual predator(s) or predator type(s). Intended to
+be the object <code>est_ind</code> or <code>est_mean</code>returned by the function
+<code>est_diet</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>diet_var</code></td>
+<td>
+<p>A numeric matrix or array containing the estimated variance
+matrix for the estimated diet(s) of individual predator(s) or predator
+type(s). Intended to be the object <code>var_ind</code> or <code>var_mean)</code>
+returned by the function <code>est_diet</code>. Optional.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list containing the following elements: </p>
+
+<dl>
+<dt>diet_est</dt>
+<dd>
+<p>A numeric vector or matrix of the estimated diet
+composition of individual predator(s) or predator type(s) in terms of
+the scale represented by <code>prey_fat</code>.</p>
+</dd>
+<dt>diet_var</dt>
+<dd>
+<p>A numeric matrix or array containing the estimated variance
+matrix for the estimated diet of individual predator(s) or predator
+type(s), in terms of the scale represented by <code>prey_fat</code>.</p>
+</dd>
+<dt>err_code</dt>
+<dd>
+<p>An integer error code (0 if no error is detected).</p>
+</dd>
+<dt>err_message</dt>
+<dd>
+<p>A string contains a brief summary of the execution.</p>
+</dd>
+</dl>
+<h3>Details</h3>
+
+<p>The function <code>est_diet</code> estimates diet composition in terms of the
+mass of fatty acids consumed. Such estimates may be of direct ecological
+interest, especially for ecosystems in which lipids are particularly
+important. In other cases, one may wish to transform estimates to a different
+scale. For example, if the units of <code>prey_fat</code> are (fatty acid mass)/
+(animal mass), the function <code>adj_diet_fat</code> returns diet composition
+estimates in terms of the relative prey mass consumed. Alternatively, if the
+units of <code>prey_fat</code> are (fatty acid mass)/(animal), the function
+<code>adj_diet_fat</code> returns diet composition estimates in terms of the
+relative numbers of prey animals consumed.
+</p>
+<p><code>adj_diet_fat</code> uses the fat transformation of Iverson et al. (2004).
+Variance matrices are estimated using the delta method (Seber 1982).
+</p>
+<p>NOTE: values of mass per prey type are treated as known constants without
+variance.
+</p>
+
+
+<h3>References</h3>
+
+<p>Iverson, S.J., C. Field, W.D. Bowen, and W. Blanchard. 2004.
+Quantitative fatty acid signature analysis: A new method of
+estimating predator diets. <em>Ecological Monographs</em> 74:211-235.
+</p>
+<p>Seber, G.A.F. 1982. The Estimation of Animal Abundance and Related
+Parameters, second edition. Macmillan Publishing Co., New York.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">adj_diet_fat(prey_fat = c(0.5, 1, 2),
+             diet_est = c(0.3, 0.2, 0.5),
+             diet_var = matrix(c( 0.030,  0.004, -0.003,
+                                 0.004,  0.025, -0.007,
+                                -0.003, -0.007,  0.045),
+                               nrow = 3, ncol = 3))
+
+adj_diet_fat(prey_fat = c(0.5, 1, 2),
+             diet_est = c(0.3, 0.2, 0.5))
+
+</code></pre>
+
+
+</div>

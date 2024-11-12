@@ -1,0 +1,46 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>extent</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Get extent of a variety of spatial objects</h2>
+
+<h3>Description</h3>
+
+<p>This is a wrapper around <code>terra::ext</code>, <code>sf::st_bbox</code>, and
+<code>raster::extent</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S4 method for signature 'ANY'
+extent(x, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>The spatial object from which to extract the extent.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Not used.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Returns a list of length 4 with elements <code>xmin</code>, <code>xmax</code>, <code>ymin</code>, and <code>ymax</code>,
+in that order.
+</p>
+
+
+</div>

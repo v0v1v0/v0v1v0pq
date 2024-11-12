@@ -1,0 +1,166 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>annual2quarterly</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Estimates quarterly life tables</h2>
+
+<h3>Description</h3>
+
+<p>Given an annual life table and a set of estimates seasonal-ageing indexes, estimates the four
+quarterly life tables associated to the annual life table.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">annual2quarterly(table.a, SAIs, mx = FALSE, min.age = 0, max.age = 100)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>table.a</code></td>
+<td>
+<p>A data.frame corresponding to the reference annual life table. The life table can be defined via
+via death probabilities ('qx', default) or death rates ('mx'). The first column of 'table.a' refers to 'age',
+and the second column to either 'mx' rates or 'qx' probabilities. In case of using death probabilities ('qx'),
+'table.a' can have an optional third column, which refers to the the average number of years lived
+for those dying with age x, 'ax'. If this last column is missing ax is assumed to be constant and equal to 0.5.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>SAIs</code></td>
+<td>
+<p>An object output of the <code>compute_SAI</code> function.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mx</code></td>
+<td>
+<p>A 'TRUE/FALSE' argument informing whether 'table.a' is either an annual life table of death rates or
+an annual table of death probabilities. Default, 'FALSE'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>min.age</code></td>
+<td>
+<p>A non-negative integer informing about the initial minimal age for which quarterly tables must be computed.
+This minimum age can be increased depending on the ages for which there are values in 'table.a' and in
+'SAIs'. Default, 0.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>max.age</code></td>
+<td>
+<p>A positive integer informing about the initial maximum age for which quarterly tables must be computed.
+This maximum age can be decreased  depending on the ages for which there are values in 'table.a' and in
+'SAIs'. Default, 100.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A data frame with ten columns
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>age</code></td>
+<td>
+<p> Integer age to which death rates and probabilities corresponds.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>quarter.age</code></td>
+<td>
+<p> Age quarter to which death rates and probabilities corresponds.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mx.quarter.birth.1</code></td>
+<td>
+<p> Death rates corresponding to people born during the first quarter of the year.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mx.quarter.birth.2</code></td>
+<td>
+<p> Death rates corresponding to people born during the second quarter of the year.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mx.quarter.birth.3</code></td>
+<td>
+<p> Death rates corresponding to people born during the third quarter of the year.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mx.quarter.birth.4</code></td>
+<td>
+<p> Death rates corresponding to people born during the four quarter of the year.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qx.quarter.birth.1</code></td>
+<td>
+<p> Death Probabilites corresponding to people born during the first quarter of the year.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qx.quarter.birth.2</code></td>
+<td>
+<p> Death Probabilites corresponding to people born during the second quarter of the year.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qx.quarter.birth.3</code></td>
+<td>
+<p> Death Probabilites corresponding to people born during the third quarter of the year.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qx.quarter.birth.4</code></td>
+<td>
+<p> Death Probabilites corresponding to people born during the four quarter of the year.</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Jose M. Pavia <a href="mailto:pavia@uv.es">pavia@uv.es</a>
+</p>
+<p>Josep Lledo <a href="mailto:josep.lledo@uv.es">josep.lledo@uv.es</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Pavia, JM and Lledo, J (2022). Estimation of the Combined Effects of Ageing and Seasonality on Mortality Risk. An application to Spain. *Journal of the Royal Statistical Society, Series A (Statistics in Society)*, 185(2), 471-497. <a href="https://doi.org/10.1111/rssa.12769">doi:10.1111/rssa.12769</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+# This can take a while
+ t.stock &lt;- time_exposed_stock(pop_2006$date.birth, 2006, "forward")
+ t.stock &lt;- t.stock[t.stock$age &lt;= 100, ]
+ temp &lt;- quarterly_variables(death_2006$date.birth, death_2006$date.death)
+ e.death &lt;- count_events_quarter(temp)
+ e.death &lt;- e.death[e.death$age &lt;= 100, ]
+ t.birth &lt;- time_exposed_newborns(birth_2006$date.birth)
+ out &lt;- crude_mx(t.stock, e.death, time.birth = t.birth)
+ SAI.example &lt;- compute_SAI(out, out)
+ dx &lt;- tapply(e.death$number.events, e.death$age, sum)
+ Lax &lt;- tapply(t.stock$time.exposed, t.stock$age, sum)
+ table.ex &lt;- data.frame(age = 0:100, mx.a = dx/Lax)
+ example &lt;- annual2quarterly(table.a = table.ex, SAIs = SAI.example, mx = TRUE)
+
+
+</code></pre>
+
+
+</div>

@@ -1,0 +1,114 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>geo.cv</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Calculate geometric coefficient of variation, mean, or SD and round</h2>
+
+<h3>Description</h3>
+
+<p>Calculate the coefficient of variation
+</p>
+<p>Calculate the geometric mean
+</p>
+<p>Calculate the geometric standard deviation
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">geo.cv(num, round = 2, na.rm = TRUE, neg.rm = TRUE, pct = TRUE)
+
+geo.mean(num, round = 2, na.rm = TRUE, neg.rm = TRUE)
+
+geo.sd(num, round = 2, na.rm = TRUE, neg.rm = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>num</code></td>
+<td>
+<p>vector of numbers</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>round</code></td>
+<td>
+<p>round result to decimal place</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>na.rm</code></td>
+<td>
+<p>remove NAs from the vector</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>neg.rm</code></td>
+<td>
+<p>remove negative values from the vector</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pct</code></td>
+<td>
+<p>TRUE or FALSE. should result be in percent</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>the geometric cv of a set of numbers
+</p>
+<p>the geometric mean of a set of numbers
+</p>
+<p>the geometric standard deviation of a set of numbers
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">#simulate numbers using a fixed seed
+num1 &lt;- number(n = 1115,max.digits = 4, seed = 10)
+
+#get geometric CV, represent as percent and round to 2 decimal places
+geo.cv(num1,round = 2) # result: 60.61%
+
+#or round to 3 decimal places
+geo.cv(num1,round = 3) # result: 60.609%
+
+#by default, the above examples return a CV%
+#if you do not want the result as percentage, specify "pct"
+geo.cv(num1,pct = FALSE) # result: 0.61
+
+num1 &lt;- sample(300:3000,10)
+
+#get the geometric mean, excluding all negatives and round to 2
+geo.mean(num1)
+
+#or
+geo.mean(num1)
+
+
+#get geometric mean, but round the final value to 5 decimal places
+geo.mean(num1, round = 5)
+
+num1 &lt;- sample(330:400,20)
+
+#get geometric SD remove negative values and round to 2 decimal places
+geo.sd(num1)
+
+#get geometric SD, DON'T remove negative values and round to 2 decimal places
+geo.sd(num1,na.rm=FALSE)
+
+#get geometric SD, remove negative values and round to 3 decimal places
+geo.sd(num1,round = 3)
+
+</code></pre>
+
+
+</div>

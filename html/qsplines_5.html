@@ -1,0 +1,47 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>quaternionFromTo</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Quaternion between two vectors</h2>
+
+<h3>Description</h3>
+
+<p>Get a unit quaternion whose corresponding rotation sends
+<code>u</code> to <code>v</code>; the vectors <code>u</code> and <code>v</code> must be normalized.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">quaternionFromTo(u, v)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>u, v</code></td>
+<td>
+<p>two unit 3D vectors</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>A unit quaternion whose corresponding rotation transforms <code>u</code>
+to <code>v</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(qsplines)
+u &lt;- c(1, 1, 1) / sqrt(3)
+v &lt;- c(1, 0, 0)
+q &lt;- quaternionFromTo(u, v)
+rotate(rbind(u), q) # this should be v
+</code></pre>
+
+
+</div>

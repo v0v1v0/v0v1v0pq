@@ -1,0 +1,77 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>convert2sa</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Convert a sex-specific map to a sex-averaged one</h2>
+
+<h3>Description</h3>
+
+<p>Convert a sex-specific map to a sex-averaged one, assuming that the
+female and male maps are actually the same (that is, that the map was
+estimated assuming a common recombination rate in females and males).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">convert2sa(map, tol=1e-4)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>map</code></td>
+<td>
+<p>A map object with sex-specific locations (but assuming that
+the female and male maps are the same), as output by the function
+<code>est.map</code> for a 4-way cross, with argument
+<code>sex.sp=FALSE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tol</code></td>
+<td>
+<p>Tolerance value for inspecting the differences between the
+female and male maps; if they differ by more than this tolerance, a
+warning is issued.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>We pull out just the female marker locations, and give a warning if
+there are large differences between the female and male maps.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A map object, with sex-averaged distances.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Karl W Broman, <a href="mailto:broman@wisc.edu">broman@wisc.edu</a> </p>
+
+
+<h3>See Also</h3>
+
+ <p><code>est.map</code>, <code>plotMap</code> </p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(fake.4way)
+## Not run: fake.4way &lt;- subset(fake.4way, chr="-X")
+
+nm &lt;- est.map(fake.4way, sex.sp=FALSE)
+plot(convert2sa(nm))
+</code></pre>
+
+
+</div>

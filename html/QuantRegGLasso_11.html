@@ -1,0 +1,200 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qrglasso</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Adaptively Weighted Group Lasso</h2>
+
+<h3>Description</h3>
+
+<p>The function <code>qrglasso</code> performs Adaptively Weighted Group Lasso for semiparametric quantile regression models. It estimates the coefficients of a quantile regression model with adaptively weighted group lasso regularization. The algorithm supports the use of B-spline basis functions to model the relationship between covariates and the response variable. Regularization is applied across different groups of covariates, and an adaptive weighting scheme is employed to enhance variable selection.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qrglasso(
+  Y,
+  W,
+  p,
+  omega = NULL,
+  tau = 0.5,
+  qn = 1,
+  lambda = NULL,
+  maxit = 1000,
+  thr = 1e-04
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>Y</code></td>
+<td>
+<p>A <code class="reqn">n \times 1</code> data matrix where <code class="reqn">n</code> is the sample size.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>W</code></td>
+<td>
+<p>A <code class="reqn">n \times (p \times L)</code> B-spline matrix where <code class="reqn">L</code> is the number of groups and <code class="reqn">p</code> is the number of covariates.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p</code></td>
+<td>
+<p>A numeric indicating the number of covariates.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>omega</code></td>
+<td>
+<p>A <code class="reqn">p \times 1</code> weight matrix. Default value is NULL.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tau</code></td>
+<td>
+<p>A numeric quantile of interest. Default value is 0.5.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qn</code></td>
+<td>
+<p>A numeric bound parameter for HDIC. Default value is 1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lambda</code></td>
+<td>
+<p>A sequence of tuning parameters. Default value is NULL.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>maxit</code></td>
+<td>
+<p>The maximum number of iterations. Default value is 1000.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>thr</code></td>
+<td>
+<p>Threshold for convergence. Default value is <code class="reqn">10^{-4}</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list with the following components:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>gamma</code></td>
+<td>
+<p>A target estimate.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xi</code></td>
+<td>
+<p>An auxiliary estimate in the ADMM algorithm.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>phi</code></td>
+<td>
+<p>An auxiliary estimate in the ADMM algorithm.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>BIC</code></td>
+<td>
+<p>A sequence of BIC values with respect to different lambdas.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lambda</code></td>
+<td>
+<p>A sequence of tuning parameters used in the algorithm.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>L</code></td>
+<td>
+<p>The number of groups.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>omega</code></td>
+<td>
+<p>A <code class="reqn">p \times 1</code> weight matrix used in the algorithm.</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Wen-Ting Wang
+</p>
+
+
+<h3>References</h3>
+
+<p>Toshio Honda, Ching-Kang Ing, Wei-Ying Wu (2019). Adaptively weighted group Lasso for semiparametric quantile regression models. <em>Bernoulli</em> <b>225</b> 4B.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># Example: One true non-linear covariate function
+# Define the function g1
+g1 &lt;- function(x) { 
+  (3 * sin(2 * pi * x) / (2 - sin(2 * pi * x))) - 0.4641016 
+}
+
+# Set parameters
+n &lt;- 100
+p &lt;- 50
+err_sd &lt;- 0.1 ** 2
+tau &lt;- 0.7
+
+# Generate synthetic data
+set.seed(1234)
+x &lt;- matrix(runif(n * p, min = 0, max = 1), n, p)
+error_tau &lt;- rnorm(n, sd = err_sd) - qnorm(tau, sd = err_sd)
+y &lt;- g1(x[, 1]) + error_tau
+y &lt;- y - mean(y)
+
+# B-spline parameters
+total_knots &lt;- 5
+degree &lt;- 2
+boundaries &lt;- c(0, 1)
+xx &lt;- seq(from = 0, to = 1, length.out = total_knots)
+knots &lt;- xx[2:(total_knots - 1)]
+
+# Create B-spline matrix W
+L &lt;- total_knots + degree - 1
+bspline_results &lt;- lapply(1:n, function(i) orthogonize_bspline(knots, boundaries, degree, x[i, ]))
+W &lt;- matrix(
+   t(sapply(bspline_results, function(result) sqrt(L) * result$bsplines[, -1])), 
+   ncol = p * (L - 1),
+   byrow = TRUE
+)
+
+# Perform quantile regression with group Lasso
+n_lambda &lt;- 10
+max_lambda &lt;- 10
+lambda &lt;- c(0, exp(seq(log(max_lambda / 1e4), log(max_lambda), length = (n_lambda - 1))))
+result &lt;- qrglasso(as.matrix(y), W, p)
+# BIC Results
+plot(result)
+# Prediction
+estimate = predict(result, top_k = 1)
+plot(estimate)
+
+</code></pre>
+
+
+</div>

@@ -1,0 +1,128 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>maref.rqt</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Marginal Effects
+</h2>
+
+<h3>Description</h3>
+
+<p>This function computes marginal effects for <code>rqt</code> and <code>rq.counts</code> objects.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">maref(object, namevec)
+## S3 method for class 'rqt'
+maref(object, namevec)
+## S3 method for class 'rq.counts'
+maref(object, namevec)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+
+<p>an <code>rqt</code> or an <code>rq.counts</code> object.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>namevec</code></td>
+<td>
+
+<p>character giving the name of the covariate with respect to which the marginal effect is to be computed.
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Given the <code class="reqn">\tau</code>th conditional quantile function <code class="reqn">Q_{h(Y)|X}(\tau) = \eta = Xb</code>, where <code class="reqn">Y</code> is the response variable, <code class="reqn">X</code> a design matrix, and <code class="reqn">h</code> is a one-parameter transformation with inverse <code class="reqn">h^{-1} = g</code>, <code>maref</code> computes the marginal effect:
+</p>
+<p style="text-align: center;"><code class="reqn">
+\frac{dQ_{Y|X}(\tau)}{dx_{j}} = \frac{dg\{Q_{h(Y)|X}(\tau)\}}{dx_{j}}
+</code>
+</p>
+
+<p>where <code class="reqn">x_{j}</code> is the <em>j</em>-th covariate with respect to which the marginal effect is to be computed and its name is given in the argument <code>namevec</code>.
+</p>
+<p>The derivative of the quantile function is the the product of two components
+</p>
+<p style="text-align: center;"><code class="reqn">\frac{dQ_{Y|X}(\tau)}{dx_{j}} = \frac{dg(\eta)}{d\eta} \cdot \frac{d\eta}{dx_{j}}
+</code>
+</p>
+
+<p>The derivative w.r.t. the linear predictor <code class="reqn">\eta</code> is calculated symbolically after parsing the <code>object</code>'s formula and is evaluated using the <code>object</code>'s model frame. The function that parses formulae has a limited scope. It recognizes interactions and basic operators (e.g., log, exp, etc.). Therefore, it is recommended to use simple expressions for the model's formula.
+</p>
+<p>This function can be applied to models of class <code>rqt</code> and <code>rq.counts</code>. Note that marginal effects can be similarly obtained using <code>predict.rqt</code> or <code>predict.rq.counts</code> with argument <code>type = "maref"</code> which, in addition, allows for an optional data frame to be specified via <code>newdata</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>a vector for single quantiles or a matrix for multiple quantiles of marginal effects.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Marco Geraci
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>tsrq</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+# Box-Cox quantile regression model (dataset trees from package 'datasets')
+fit &lt;- tsrq(Volume ~ Height, data = trees, tsf = "bc", tau = 0.9)
+
+# Coefficients (transformed scale)
+coef(fit)
+
+# Design matrix
+head(fit$x)
+
+# Marginal effect of 'Height'
+maref(fit, namevec = "Height")
+
+# Predict marginal effects over grid of values for Height
+nd &lt;- data.frame(Height = seq(min(trees$Height), max(trees$Height), length = 100))
+x &lt;- predict(fit, newdata = nd, type = "maref", namevec = "Height")
+
+# Plot
+plot(nd$Height, x, xlab = "Height", ylab = "Marginal effect on volume")
+
+# Include 'Girth' and interaction between 'Height' and 'Girth'
+fit &lt;- tsrq(Volume ~ Height * Girth, data = trees, tsf = "bc", tau = 0.5)
+head(fit$x)
+
+# Predict marginal effects over grid of values for Height (for fixed girth)
+nd$Girth &lt;- rep(mean(trees$Girth), 100)
+x &lt;- predict(fit, newdata = nd, type = "maref", namevec = "Height")
+plot(nd$Height, x, xlab = "Height", ylab = "Marginal effect on volume")
+
+# Quantile regression for counts (log transformation)
+data(esterase)
+fit &lt;- rq.counts(Count ~ Esterase, tau = 0.25, data = esterase, M = 50)
+maref(fit, namevec = "Esterase")
+
+## End(Not run)
+</code></pre>
+
+
+</div>

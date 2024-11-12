@@ -1,0 +1,87 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qgis_path</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Get metadata about the used 'qgis_process' command</h2>
+
+<h3>Description</h3>
+
+<p><code>qgis_path()</code> returns the filepath of the 'qgis_process' command, while
+<code>qgis_version()</code> returns the QGIS version.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qgis_path(query = FALSE, quiet = TRUE)
+
+qgis_version(query = FALSE, quiet = TRUE, full = TRUE, debug = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>query</code></td>
+<td>
+<p>Use <code>TRUE</code> to refresh the cached value.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>quiet</code></td>
+<td>
+<p>Use <code>FALSE</code> to display more information,
+possibly useful for debugging.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>full</code></td>
+<td>
+<p>Logical.
+If <code>FALSE</code>, only return the <code>"x.y.z"</code> version string instead of the full
+version string that includes the name.
+Defaults to <code>TRUE</code>; ignored if <code>debug = TRUE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>debug</code></td>
+<td>
+<p>Logical.
+If <code>TRUE</code>, also output the version of QGIS, the operating system and all
+relevant libraries, as reported by the 'qgis_process' command.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A string.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>qgis_configure()</code>
+</p>
+<p>Other topics about reporting the QGIS state: 
+<code>has_qgis()</code>,
+<code>qgis_algorithms()</code>,
+<code>qgis_using_json_input()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+qgis_path()
+qgis_path(quiet = FALSE)
+qgis_version()
+qgis_version(full = FALSE)
+qgis_version(debug = TRUE)
+
+</code></pre>
+
+
+</div>

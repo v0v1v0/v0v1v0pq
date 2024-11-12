@@ -1,0 +1,106 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>pathways</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Highlight shortest pathways in a network
+</h2>
+
+<h3>Description</h3>
+
+<p>This function highlights the shortest paths between nodes in a network made by <code>qgraph</code>. Based on Isvoranu et al. (2016).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">pathways(graph, from, to, fading = 0.25, lty = 3)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>graph</code></td>
+<td>
+
+<p>Output from <code>qgraph</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>from</code></td>
+<td>
+
+<p>A vector indicating the first set of nodes between which pathways should be highlighted. Can be numeric or characters corresponding to node labels.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>to</code></td>
+<td>
+
+<p>A vector indicating the second set of nodes between which pathways should be highlighted. Can be numeric or characters corresponding to node labels.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fading</code></td>
+<td>
+
+<p>The fading of the edges that are not part of shortest paths between 'from' and 'to'.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lty</code></td>
+<td>
+
+<p>The line type of the edges that are not part of shortest paths between 'from' and 'to'. 
+</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Sacha Epskamp and Adela M. Isvoranu
+</p>
+
+
+<h3>References</h3>
+
+<p>Isvoranu, A. M., van Borkulo, C. D., Boyette, L. L., Wigman, J. T., Vinkers, C. H., Borsboom, D., &amp; Group Investigators. (2016). A Network Approach to Psychosis: Pathways Between Childhood Trauma and Psychotic Symptoms. Schizophrenia bulletin, sbw055.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>qgraph</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library("qgraph")
+library("psych")
+data(bfi)
+
+# Compute correlations:
+CorMat &lt;- cor_auto(bfi[,1:25])
+
+# Compute graph with tuning = 0 (BIC):
+BICgraph &lt;- qgraph(CorMat, graph = "glasso", sampleSize = nrow(bfi),
+                   tuning = 0, layout = "spring", title = "BIC", details = TRUE)
+
+# All paths between Agreeableness and Neuroticism:
+pathways(BICgraph, 
+         from = c("A1","A2","A3","A4","A5"), 
+         to = c("N1","N2","N3","N4","N5"))
+
+</code></pre>
+
+
+</div>

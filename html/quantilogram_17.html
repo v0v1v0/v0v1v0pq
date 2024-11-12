@@ -1,0 +1,77 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>crossqreg.partial</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Paritial Cross-Quantilogram</h2>
+
+<h3>Description</h3>
+
+<p>Returns the partial cross-quantilogram
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">crossqreg.partial(DATA1, DATA2, vecA, k)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>DATA1</code></td>
+<td>
+<p>An input matrix (T x p1)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>DATA2</code></td>
+<td>
+<p>An input matrix (T x p2)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vecA</code></td>
+<td>
+<p>A vector of probability values at which sample quantiles are estiamted</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>k</code></td>
+<td>
+<p>The lag order</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>This function obtains the partial corss-quantilogram and the cross-quantilogram.
+To obtain the partial cross-correlation given an input matrix, this function interacts
+the values of the first column and the k-lagged values of the rest of the matrix.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The partial corss-quantilogram and the cross-quantilogram
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Heejoon Han, Oliver Linton, Tatsushi Oka and Yoon-Jae Whang
+</p>
+
+
+<h3>References</h3>
+
+<p>Han, H., Linton, O., Oka, T., and Whang, Y. J. (2016).
+"The cross-quantilogram: Measuring quantile dependence and testing directional predictability between time series."
+<em>Journal of Econometrics</em>, 193(1), 251-270.
+</p>
+
+
+</div>

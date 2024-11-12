@@ -1,0 +1,176 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>QUALYPSO.ANOVA</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>QUALYPSO.ANOVA</h2>
+
+<h3>Description</h3>
+
+<p>Partition uncertainty in climate responses using an ANOVA inferred with a Bayesian approach.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">QUALYPSO.ANOVA(phiStar, scenAvail, listOption = NULL, namesEff)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>phiStar</code></td>
+<td>
+<p>matrix of climate change responses (absolute or relative changes): <code>nS</code> x <code>n</code>.
+<code>n</code> can be the number of time steps or the number of grid points</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>scenAvail</code></td>
+<td>
+<p>data.frame <code>nS</code> x <code>nEff</code> with the <code>nEff</code> characteristics (e.g. type of GCM) for each of the <code>nS</code> x <code>nS</code> scenarios</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>listOption</code></td>
+<td>
+<p>list of options (see <code>QUALYPSO</code>)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>namesEff</code></td>
+<td>
+<p>names of the main effects</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>list with the following fields:
+</p>
+
+<ul>
+<li> <p><strong>GRANDMEAN</strong>: List of estimates for the grand mean:
+</p>
+
+<ul>
+<li> <p>strong: MEAN: vector of length <code>n</code> of posterior means
+</p>
+</li>
+<li> <p>strong: SD: vector of length <code>n</code> of posterior standard dev.
+</p>
+</li>
+<li> <p>strong: CI: matrix <code>n</code> x 2 of credible intervals of
+probability <code>probCI</code> given in <code>listOption</code>.
+</p>
+</li>
+<li> <p>strong: QUANT: matrix <code>n</code> x <code>nQ</code> of quantiles related
+to the probabilities <code>quantilePosterior</code> given in <code>listOption</code>
+</p>
+</li>
+</ul>
+</li>
+<li> <p><strong>RESIDUALVAR</strong>: List of estimates for the variance of the
+residual errors:
+</p>
+
+<ul>
+<li> <p>strong: MEAN: vector of length <code>n</code> of posterior means
+</p>
+</li>
+<li> <p>strong: SD: vector of length <code>n</code> of posterior standard dev.
+</p>
+</li>
+<li> <p>strong: CI: matrix <code>n</code> x 2 of credible intervals of
+probability <code>probCI</code> given in <code>listOption</code>.
+</p>
+</li>
+<li> <p>strong: QUANT: matrix <code>n</code> x <code>nQ</code> of quantiles related
+to the probabilities <code>quantilePosterior</code> given in <code>listOption</code>
+</p>
+</li>
+</ul>
+</li>
+<li> <p><strong>MAINEFFECT</strong>: List of estimates for the main effects. For each
+main effect (GCM, RCM,..), each element of the list contains a list with:
+</p>
+
+<ul>
+<li> <p>strong: MEAN: matrix <code>n</code> x <code>nTypeEff</code> of posterior means
+</p>
+</li>
+<li> <p>strong: SD: matrix <code>n</code> x <code>nTypeEff</code> of posterior standard dev.
+</p>
+</li>
+<li> <p>strong: CI: array <code>n</code> x 2 x <code>nTypeEff</code> of credible
+intervals of probability <code>probCI</code> given in <code>listOption</code>.
+</p>
+</li>
+<li> <p>strong: QUANT: array <code>n</code> x <code>nQ</code> x <code>nTypeEff</code> of
+quantiles related to the probabilities <code>quantilePosterior</code> given in
+<code>listOption</code>
+</p>
+</li>
+</ul>
+</li>
+<li> <p><strong>CHANGEBYEFFECT</strong>: For each main effect, list of estimates for
+the mean change by main effect, i.e. mean change by scenario (RCP4.5). For
+each main effect (GCM, RCM,..), each element of the list contains a list with:
+</p>
+
+<ul>
+<li> <p>strong: MEAN: matrix <code>n</code> x <code>nTypeEff</code> of posterior means
+</p>
+</li>
+<li> <p>strong: SD: matrix <code>n</code> x <code>nTypeEff</code> of posterior standard dev.
+</p>
+</li>
+<li> <p>strong: CI: array <code>n</code> x 2 x <code>nTypeEff</code> of credible
+intervals of probability <code>probCI</code> given in <code>listOption</code>.
+</p>
+</li>
+<li> <p>strong: QUANT: array <code>n</code> x <code>nQ</code> x <code>nTypeEff</code> of
+quantiles related to the probabilities <code>quantilePosterior</code> given in
+<code>listOption</code>
+</p>
+</li>
+</ul>
+</li>
+<li> <p><strong>EFFECTVAR</strong>: variability related to the main effects (i.e.
+variability between the different RCMs, GCMs,..). Matrix <code>n</code> x
+<code>nTypeEff</code>
+</p>
+</li>
+<li> <p><strong>CONTRIB_EACH_EFFECT</strong>: Contribution of each individual effect
+to its component (percentage), e.g. what is the contribution of GCM1 to the
+variability related to GCMs. For each main effect (GCM, RCM,..), each
+element of the list contains a matrix <code>n</code> x <code>nTypeEff</code>
+</p>
+</li>
+<li> <p><strong>listOption</strong>: list of options used to obtained these results
+(obtained from <code>QUALYPSO.check.option</code>)
+</p>
+</li>
+<li> <p><strong>listScenarioInput</strong>: list of scenario characteristics
+(obtained from <code>QUALYPSO.process.scenario</code>)
+</p>
+</li>
+</ul>
+<h3>Author(s)</h3>
+
+<p>Guillaume Evin
+</p>
+
+
+<h3>References</h3>
+
+<p>Evin, G., B. Hingray, J. Blanchet, N. Eckert, S. Morin, and D. Verfaillie (2020)
+Partitioning Uncertainty Components of an Incomplete Ensemble of Climate Projections Using Data Augmentation.
+Journal of Climate. &lt;doi:10.1175/JCLI-D-18-0606.1&gt;.
+</p>
+
+
+</div>

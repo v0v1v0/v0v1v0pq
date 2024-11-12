@@ -1,0 +1,280 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>elastic.net</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Fit a linear model with elastic-net regularization</h2>
+
+<h3>Description</h3>
+
+<p>Adjust a linear model with elastic-net regularization, mixing a
+(possibly weighted) <code class="reqn">\ell_1</code>-norm (LASSO) and a
+(possibly structured) <code class="reqn">\ell_2</code>-norm (ridge-like). The
+solution path is computed at a grid of values for the
+<code class="reqn">\ell_1</code>-penalty, fixing the amount of <code class="reqn">\ell_2</code>
+regularization. See details for the criterion optimized.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">elastic.net(
+  x,
+  y,
+  lambda1 = NULL,
+  lambda2 = 0.01,
+  penscale = rep(1, p),
+  struct = NULL,
+  intercept = TRUE,
+  normalize = TRUE,
+  naive = FALSE,
+  nlambda1 = ifelse(is.null(lambda1), 100, length(lambda1)),
+  min.ratio = ifelse(n &lt;= p, 0.01, 1e-04),
+  max.feat = ifelse(lambda2 &lt; 0.01, min(n, p), min(4 * n, p)),
+  beta0 = NULL,
+  control = list(),
+  checkargs = TRUE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>matrix of features, possibly sparsely encoded
+(experimental). Do NOT include intercept. When normalized os
+<code>TRUE</code>, coefficients will then be rescaled to the original
+scale.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>response vector.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lambda1</code></td>
+<td>
+<p>sequence of decreasing <code class="reqn">\ell_1</code>-penalty
+levels. If <code>NULL</code> (the default), a vector is generated with
+<code>nlambda1</code> entries, starting from a guessed level
+<code>lambda1.max</code> where only the intercept is included, then
+shrunken to <code>min.ratio*lambda1.max</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lambda2</code></td>
+<td>
+<p>real scalar; tunes the <code class="reqn">\ell_2</code> penalty in
+the Elastic-net. Default is 0.01. Set to 0 to recover the Lasso.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>penscale</code></td>
+<td>
+<p>vector with real positive values that weight the
+<code class="reqn">\ell_1</code>-penalty of each feature. Default set all weights
+to 1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>struct</code></td>
+<td>
+<p>matrix structuring the coefficients (preferably
+sparse). Must be at least positive semidefinite (this is checked
+internally if the <code>checkarg</code> argument is <code>TRUE</code>). The
+default uses the identity matrix. See details below.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>intercept</code></td>
+<td>
+<p>logical; indicates if an intercept should be
+included in the model. Default is <code>TRUE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>normalize</code></td>
+<td>
+<p>logical; indicates if variables should be
+normalized to have unit L2 norm before fitting.  Default is
+<code>TRUE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>naive</code></td>
+<td>
+<p>logical; Compute either 'naive' of classic
+elastic-net as defined in Zou and Hastie (2006): the vector of
+parameters is rescaled by a coefficient <code>(1+lambda2)</code> when
+<code>naive</code> equals <code>FALSE</code>.  No rescaling otherwise.
+Default is <code>FALSE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nlambda1</code></td>
+<td>
+<p>integer that indicates the number of values to put
+in the <code>lambda1</code> vector.  Ignored if <code>lambda1</code> is
+provided.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>min.ratio</code></td>
+<td>
+<p>minimal value of <code class="reqn">\ell_1</code>-part of the
+penalty that will be tried, as a fraction of the maximal
+<code>lambda1</code> value. A too small value might lead to unstability
+at the end of the solution path corresponding to small
+<code>lambda1</code> combined with <code class="reqn">\lambda_2=0</code>.  The
+default value tries to avoid this, adapting to the
+'<code class="reqn">n&lt;p</code>' context. Ignored if <code>lambda1</code> is provided.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>max.feat</code></td>
+<td>
+<p>integer; limits the number of features ever to
+enter the model; i.e., non-zero coefficients for the Elastic-net:
+the algorithm stops if this number is exceeded and <code>lambda1</code>
+is cut at the corresponding level. Default is
+<code>min(nrow(x),ncol(x))</code> for small <code>lambda2</code> (&lt;0.01) and
+<code>min(4*nrow(x),ncol(x))</code> otherwise. Use with care, as it
+considerably changes the computation time.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>beta0</code></td>
+<td>
+<p>a starting point for the vector of parameter. When
+<code>NULL</code> (the default), will be initialized at zero. May save
+time in some situation.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>control</code></td>
+<td>
+<p>list of argument controlling low level options of
+the algorithm –use with care and at your own risk– :
+</p>
+
+<dl>
+<dt>
+<code>verbose</code>: </dt>
+<dd>
+<p>integer; activate verbose mode –this one
+is not too much risky!– set to <code>0</code> for no output; <code>1</code>
+for warnings only, and <code>2</code> for tracing the whole
+progression. Default is <code>1</code>. Automatically set to <code>0</code>
+when the method is embedded within cross-validation or stability
+selection.</p>
+</dd>
+<dt>
+<code>timer</code>: </dt>
+<dd>
+<p>logical; use to record the timing of the
+algorithm. Default is <code>FALSE</code>.</p>
+</dd>
+<dt>
+<code>max.iter</code>: </dt>
+<dd>
+<p>the maximal number of iteration used to
+solve the problem for a given value of lambda1. Default is 500.</p>
+</dd>
+<dt>
+<code>method</code>: </dt>
+<dd>
+<p>a string for the underlying solver
+used. Either <code>"quadra"</code>, <code>"pathwise"</code> or
+<code>"fista"</code>. Default is <code>"quadra"</code>.</p>
+</dd>
+<dt>
+<code>threshold</code>: </dt>
+<dd>
+<p>a threshold for convergence. The
+algorithm stops when the optimality conditions are fulfill up to
+this threshold. Default is <code>1e-7</code> for <code>"quadra"</code> and
+<code>1e-2</code> for the first order methods.</p>
+</dd>
+<dt>
+<code>monitor</code>: </dt>
+<dd>
+<p>indicates if a monitoring of the
+convergence should be recorded, by computing a lower bound between
+the current solution and the optimum: when <code>'0'</code> (the
+default), no monitoring is provided; when <code>'1'</code>, the bound
+derived in Grandvalet et al. is computed; when <code>'&gt;1'</code>, the
+Fenchel duality gap is computed along the algorithm.</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>checkargs</code></td>
+<td>
+<p>logical; should arguments be checked to
+(hopefully) avoid internal crashes? Default is
+<code>TRUE</code>. Automatically set to <code>FALSE</code> when calls are made
+from cross-validation or stability selection procedures.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The optimized criterion is the following:  
+
+
+β<sup>hat</sup><sub>λ<sub>1</sub>,λ<sub>2</sub></sub> = argmin<sub>β</sub> 1/2 RSS(β) + λ<sub>1</sub> | D β |<sub>1</sub> + λ/2 <sub>2</sub> β<sup>T</sup> S β,
+
+ where
+<code class="reqn">D</code> is a diagonal matrix, whose diagonal terms are provided
+as a vector by the <code>penscale</code> argument. The <code class="reqn">\ell_2</code>
+structuring matrix <code class="reqn">S</code> is provided via the <code>struct</code>
+argument, a positive semidefinite matrix (possibly of class
+<code>Matrix</code>).
+</p>
+
+
+<h3>Value</h3>
+
+<p>an object with class <code>quadrupen</code>, see the
+documentation page <code>quadrupen</code> for details.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>See also <code>quadrupen</code>,
+<code>plot,quadrupen-method</code> and <code>crossval</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Simulating multivariate Gaussian with blockwise correlation
+## and piecewise constant vector of parameters
+beta &lt;- rep(c(0,1,0,-1,0), c(25,10,25,10,25))
+cor &lt;- 0.75
+Soo &lt;- toeplitz(cor^(0:(25-1))) ## Toeplitz correlation for irrelevant variables
+Sww  &lt;- matrix(cor,10,10) ## bloc correlation between active variables
+Sigma &lt;- bdiag(Soo,Sww,Soo,Sww,Soo)
+diag(Sigma) &lt;- 1
+n &lt;- 50
+x &lt;- as.matrix(matrix(rnorm(95*n),n,95) %*% chol(Sigma))
+y &lt;- 10 + x %*% beta + rnorm(n,0,10)
+
+labels &lt;- rep("irrelevant", length(beta))
+labels[beta != 0] &lt;- "relevant"
+## Comparing the solution path of the LASSO and the Elastic-net
+plot(elastic.net(x,y,lambda2=0), label=labels) ## a mess
+plot(elastic.net(x,y,lambda2=10), label=labels) ## a lot better
+
+</code></pre>
+
+
+</div>

@@ -1,0 +1,72 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>dist_sum_pairwise</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Distance between pairs of fatty acid signatures</h2>
+
+<h3>Description</h3>
+
+<p>The utility function <code>dist_sum_pairwise</code> computes the total distance
+between all possible pairs of fatty acid signatures.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">dist_sum_pairwise(sig_data, dist_meas = 1, gamma = 1)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>sig_data</code></td>
+<td>
+<p>A numeric matrix of fatty acid signatures in column-major
+format.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dist_meas</code></td>
+<td>
+<p>An integer indicator of the distance measure to compute.
+Default value 1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gamma</code></td>
+<td>
+<p>The power parameter of the chi-square distance measure. Default
+value 1.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>The summed distance between all possible pairs of signatures.
+</p>
+
+
+<h3>Details</h3>
+
+<p><code>dist_sum_pairwise</code> is an internal utility function.  The signature
+data in <code>sig_data</code> are presumed to be ready for analysis, which is best
+accomplished by a call to the function <code>prep_sig</code>.  Consequently, to
+increase execution speed during simulations, no numeric error checking of the
+signatures is performed.  Please refer to documentation for the function
+<code>prep_sig</code> for information regarding signature preparation.
+</p>
+<p>Please refer to documentation for the function
+<code>dist_between_2_sigs</code> for additional information regarding the
+arguments <code>dist_meas</code> and <code>gamma</code>.
+</p>
+<p>Utility functions called by <code>dist_sigs_2_mean</code>:
+</p>
+
+<ul><li> <p><code>dist_between_2_sigs</code>
+</p>
+</li></ul>
+</div>

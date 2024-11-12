@@ -1,0 +1,94 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>Advanced Plots</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Advanced Plots</h2>
+
+<h3>Description</h3>
+
+<p>Miscellaneous specialized plots.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">plotPairedResids(data,qeOut) 
+plotClassesUMAP(data,classVar) 
+qeFreqParcoord(dataName,k=25,opts=NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>A data frame or equivalent.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qeOut</code></td>
+<td>
+<p>An object returned from one of the qe-series
+predictive functions..</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>classVar</code></td>
+<td>
+<p>Name of the column containing class information.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dataName</code></td>
+<td>
+<p>Quoted name of a data frame.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>k</code></td>
+<td>
+<p>Number of nearest neighbors.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>opts</code></td>
+<td>
+<p>Options to be passed to <code>discparcoord</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The <code>plotPairedResids</code> function plots model residuals against pairs
+of features, for example for model validation.  Pairs are chosen
+randomly.
+</p>
+<p>The function <code>qeFreqParcoord</code> is a <code>qeML</code> interface to the
+<code>cdparcoord</code> package.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Norm Matloff
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+## Not run: 
+data(pef)
+linout &lt;- qeLin(pef,'wageinc')
+plotPairedResids(pef,linout)
+
+## End(Not run)
+
+</code></pre>
+
+
+</div>

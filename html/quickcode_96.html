@@ -1,0 +1,361 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>read.table.print</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Read in a table and show first X rows and columns</h2>
+
+<h3>Description</h3>
+
+<p>The purpose of this function is combine the functionality of
+<strong>read.table</strong> and <strong>print</strong>, which are often used together.<br><br>
+The purpose of this function is to read table from a file into a variable and
+simultaneously display a preview of the data, showing either the first few rows or
+columns based on the user's specification. It is important to emphasize that the
+function expects the user to assign the result of the read operation to a variable
+in order to achieve its intended purpose. eg. Use <strong>var1 = read.table.print(file1)</strong> instead of
+<strong>read.table.print(file1)</strong>
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">read.table.print(
+  file,
+  header = FALSE,
+  sep = "",
+  quote = "\"'",
+  dec = ".",
+  numerals = c("allow.loss", "warn.loss", "no.loss"),
+  row.names,
+  col.names,
+  as.is = TRUE,
+  na.strings = "NA",
+  colClasses = NA,
+  nrows = -1,
+  skip = 0,
+  check.names = TRUE,
+  fill = NULL,
+  strip.white = FALSE,
+  blank.lines.skip = TRUE,
+  comment.char = "#",
+  allowEscapes = FALSE,
+  flush = FALSE,
+  stringsAsFactors = FALSE,
+  fileEncoding = "",
+  encoding = "unknown",
+  skipNul = FALSE,
+  dim = c(10L, 5L),
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>file</code></td>
+<td>
+<p>the name of the file which the data are to be read from.
+Each row of the table appears as one line of the file.  If it does
+not contain an <em>absolute</em> path, the file name is
+<em>relative</em> to the current working directory,
+<code>getwd()</code>. Tilde-expansion is performed where supported.
+This can be a compressed file (see <code>file</code>).
+</p>
+<p>Alternatively, <code>file</code> can be a readable text-mode
+connection (which will be opened for reading if
+necessary, and if so <code>close</code>d (and hence destroyed) at
+the end of the function call).  (If <code>stdin()</code> is used,
+the prompts for lines may be somewhat confusing.  Terminate input
+with a blank line or an EOF signal, <code>Ctrl-D</code> on Unix and
+<code>Ctrl-Z</code> on Windows.  Any pushback on <code>stdin()</code> will be
+cleared before return.)
+</p>
+<p><code>file</code> can also be a complete URL.  (For the supported URL
+schemes, see the ‘URLs’ section of the help for
+<code>url</code>.)
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>header</code></td>
+<td>
+<p>a logical value indicating whether the file contains the
+names of the variables as its first line.  If missing, the value is
+determined from the file format: <code>header</code> is set to <code>TRUE</code>
+if and only if the first row contains one fewer field than the
+number of columns.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sep</code></td>
+<td>
+<p>the field separator character.  Values on each line of the
+file are separated by this character.  If <code>sep = ""</code> (the
+default for <code>read.table</code>) the separator is ‘white space’,
+that is one or more spaces, tabs, newlines or carriage returns.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>quote</code></td>
+<td>
+<p>the set of quoting characters. To disable quoting
+altogether, use <code>quote = ""</code>.  See <code>scan</code> for the
+behaviour on quotes embedded in quotes.  Quoting is only considered
+for columns read as character, which is all of them unless
+<code>colClasses</code> is specified.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dec</code></td>
+<td>
+<p>the character used in the file for decimal points.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>numerals</code></td>
+<td>
+<p>string indicating how to convert numbers whose conversion
+to double precision would lose accuracy, see <code>type.convert</code>.
+Can be abbreviated.  (Applies also to complex-number inputs.)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>row.names</code></td>
+<td>
+<p>a vector of row names.  This can be a vector giving
+the actual row names, or a single number giving the column of the
+table which contains the row names, or character string giving the
+name of the table column containing the row names.
+</p>
+<p>If there is a header and the first row contains one fewer field than
+the number of columns, the first column in the input is used for the
+row names.  Otherwise if <code>row.names</code> is missing, the rows are
+numbered.
+</p>
+<p>Using <code>row.names = NULL</code> forces row numbering. Missing or
+<code>NULL</code> <code>row.names</code> generate row names that are considered
+to be ‘automatic’ (and not preserved by <code>as.matrix</code>).
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>col.names</code></td>
+<td>
+<p>a vector of optional names for the variables.
+The default is to use <code>"V"</code> followed by the column number.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>as.is</code></td>
+<td>
+<p>controls conversion of character variables (insofar as
+they are not converted to logical, numeric or complex) to factors,
+if not otherwise specified by <code>colClasses</code>.
+Its value is either a vector of logicals (values are recycled if
+necessary), or a vector of numeric or character indices which
+specify which columns should not be converted to factors.
+</p>
+<p>Note: to suppress all conversions including those of numeric
+columns, set <code>colClasses = "character"</code>.
+</p>
+<p>Note that <code>as.is</code> is specified per column (not per
+variable) and so includes the column of row names (if any) and any
+columns to be skipped.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>na.strings</code></td>
+<td>
+<p>a character vector of strings which are to be
+interpreted as <code>NA</code> values.  Blank fields are also
+considered to be missing values in logical, integer, numeric and
+complex fields.  Note that the test happens <em>after</em> 
+white space is stripped from the input, so <code>na.strings</code> 
+values may need their own white space stripped in advance.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>colClasses</code></td>
+<td>
+<p>character.  A vector of classes to be assumed for
+the columns.  If unnamed, recycled as necessary.  If named, names
+are matched with unspecified values being taken to be <code>NA</code>.
+</p>
+<p>Possible values are <code>NA</code> (the default, when
+<code>type.convert</code> is used), <code>"NULL"</code> (when the column
+is skipped), one of the atomic vector classes (logical, integer,
+numeric, complex, character, raw), or <code>"factor"</code>, <code>"Date"</code>
+or <code>"POSIXct"</code>.  Otherwise there needs to be an <code>as</code>
+method (from package <span class="pkg">methods</span>) for conversion from
+<code>"character"</code> to the specified formal class.
+</p>
+<p>Note that <code>colClasses</code> is specified per column (not per
+variable) and so includes the column of row names (if any).
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nrows</code></td>
+<td>
+<p>integer: the maximum number of rows to read in.  Negative
+and other invalid values are ignored.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>skip</code></td>
+<td>
+<p>integer: the number of lines of the data file to skip before
+beginning to read data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>check.names</code></td>
+<td>
+<p>logical.  If <code>TRUE</code> then the names of the
+variables in the data frame are checked to ensure that they are
+syntactically valid variable names.  If necessary they are adjusted
+(by <code>make.names</code>) so that they are, and also to ensure
+that there are no duplicates.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fill</code></td>
+<td>
+<p>logical. If <code>TRUE</code> then in case the rows have unequal
+length, blank fields are implicitly added.  See ‘Details’.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>strip.white</code></td>
+<td>
+<p>logical. Used only when <code>sep</code> has
+been specified, and allows the stripping of leading and trailing
+white space from unquoted <code>character</code> fields (<code>numeric</code> fields
+are always stripped).  See <code>scan</code> for further details
+(including the exact meaning of ‘white space’),
+remembering that the columns may include the row names.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>blank.lines.skip</code></td>
+<td>
+<p>logical: if <code>TRUE</code> blank lines in the
+input are ignored.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>comment.char</code></td>
+<td>
+<p>character: a character vector of length one
+containing a single character or an empty string.  Use <code>""</code> to
+turn off the interpretation of comments altogether.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>allowEscapes</code></td>
+<td>
+<p>logical.  Should C-style escapes such as
+‘<span class="samp">⁠\n⁠</span>’ be processed or read verbatim (the default)?   Note that if
+not within quotes these could be interpreted as a delimiter (but not
+as a comment character).  For more details see <code>scan</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>flush</code></td>
+<td>
+<p>logical: if <code>TRUE</code>, <code>scan</code> will flush to the
+end of the line after reading the last of the fields requested.
+This allows putting comments after the last field.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>stringsAsFactors</code></td>
+<td>
+<p>logical: should character vectors be converted
+to factors?  Note that this is overridden by <code>as.is</code> and
+<code>colClasses</code>, both of which allow finer control.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fileEncoding</code></td>
+<td>
+<p>character string: if non-empty declares the
+encoding used on a file (not a connection) so the character data can
+be re-encoded.  See the ‘Encoding’ section of the help for
+<code>file</code>, the ‘R Data Import/Export Manual’ and
+‘Note’.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>encoding</code></td>
+<td>
+<p>encoding to be assumed for input strings.  It is
+used to mark character strings as known to be in
+Latin-1 or UTF-8 (see <code>Encoding</code>): it is not used to
+re-encode the input, but allows <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> to handle encoded strings in
+their native encoding (if one of those two).  See ‘Value’
+and ‘Note’.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>skipNul</code></td>
+<td>
+<p>logical: should nuls be skipped?</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dim</code></td>
+<td>
+<p>dimension of table content to show</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Further arguments to be passed to <code>read.table</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Read a dataset of type table and show x rows and y columns
+</p>
+
+
+<h3>Value</h3>
+
+<p>read table content and a print out of the data head
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+# Example: read a table file and print the first 10 lines
+# declare file
+new.file &lt;- "test.csv"
+
+# read file and preview default
+dth3 &lt;- read.table.print(file = new.file, sep=",",quote = "\"",dec = ".",
+fill = TRUE, comment.char = "", header = TRUE)
+
+# read file and preview 10 rows and all columns
+dth1 &lt;- read.table.print(file = new.file, sep=",",quote = "\"",dec = ".",
+fill = TRUE, comment.char = "", header = TRUE, dim = 10)
+
+# read file and preview 10 rows and 5 columns
+dth2 &lt;- read.table.print(file = new.file, sep=",",quote = "\"",dec = ".",
+fill = TRUE, comment.char = "", header = TRUE, dim = c(10,5))
+
+## End(Not run)
+</code></pre>
+
+
+</div>

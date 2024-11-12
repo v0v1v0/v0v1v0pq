@@ -1,0 +1,156 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>bernlnorm</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+The Bernoulli-Log-Normal distribution
+</h2>
+
+<h3>Description</h3>
+
+<p>Density, distribution function, quantile function and random
+generation for the Bernoulli-Log-Normal distribution with parameters
+<code>prob</code>, <code>meanlog</code>,  and <code>sdlog</code>. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">dbernlnorm(x, prob, meanlog, sdlog)
+pbernlnorm(q, prob, meanlog, sdlog)
+qbernlnorm(p, prob, meanlog, sdlog)
+rbernlnorm(n, prob, meanlog, sdlog)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x,q</code></td>
+<td>
+
+<p>vector of quantiles.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p</code></td>
+<td>
+
+<p>vector of probabilities.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>prob</code></td>
+<td>
+
+<p>probability of non-zero event.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+
+<p>number of random samples.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>meanlog,sdlog</code></td>
+<td>
+
+<p>meanlog and sdlog parameters of the Log-Normal distribution.
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Mixture of Bernoulli and Log-Normal distribution. The mixture is analogue
+to the one described for the <code>berngamma</code> distribution. 
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>dbernlnorm</code> gives the density (pdf), <code>pbernlnorm</code> gives
+the distribution function (cdf), <code>qbernlnorm</code> gives the
+quantile function (inverse cdf), and <code>rbernlnorm</code> generates
+random deviates.  
+</p>
+
+
+<h3>Note</h3>
+
+<p>The implementation is largely based on the <code>blnorm</code> family in
+the <code>CaDENCE</code>-package (Cannon, 2012) that was only available as
+test version at time of implementation (Mar. 2012). The
+<code>CaDENCE</code>-package is available at
+<a href="http://www.eos.ubc.ca/~acannon/CaDENCE/">http://www.eos.ubc.ca/~acannon/CaDENCE/</a>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Lukas Gudmundsson
+</p>
+
+
+<h3>References</h3>
+
+<p>Cannon, A. J. Neural networks for probabilistic environmental
+prediction: Conditional Density Estimation Network Creation and
+Evaluation (CaDENCE) in R. Computers &amp; Geosciences, 2012, 41, 126 -
+135, doi:10.1016/j.cageo.2011.08.023.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>Lognormal</code>, <code>berngamma</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(obsprecip)
+
+(ts &lt;- startbernlnorm(obsprecip[,1]))
+hist(obsprecip[,1],freq=FALSE)
+lines(seq(0,20),dbernlnorm(0:20,
+                           prob=ts$prob,
+                           meanlog=ts$meanlog,
+                           sdlog=ts$sdlog),
+      col="red")
+
+pp &lt;- seq(0.01,0.99,by=0.01)
+qq &lt;-quantile(obsprecip[,1],probs=pp) 
+
+plot(qq,pp)
+lines(qbernlnorm(pp,
+                 prob=ts$prob,
+                 meanlog=ts$meanlog,
+                 sdlog=ts$sdlog),
+      pp,col="red")
+
+plot(qq,pp)
+lines(qq,
+      pbernlnorm(qq,
+                 prob=ts$prob,
+                 meanlog=ts$meanlog,
+                 sdlog=ts$sdlog),
+      col="red")
+
+hist(rbernlnorm(1000,prob=ts$prob,
+                meanlog=ts$meanlog,
+                sdlog=ts$sdlog),freq=FALSE)
+
+</code></pre>
+
+
+</div>

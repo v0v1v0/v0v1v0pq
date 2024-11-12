@@ -1,0 +1,115 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>renames</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Rename Data Columns from a Codebook</h2>
+
+<h3>Description</h3>
+
+<p><code>renames</code> renames columns in a data.frame from a codebook. The codebook is
+assumed to be a list of data.frames containing the old and new column names.
+See details for how the codebook should be structured. The idea is that the
+codebook has been imported as an excel workbook with different sets of column
+renaming information in different workbook sheets. This function is simply a wrapper
+for <code>plyr::rename</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">renames(
+  data,
+  codebook,
+  old = 1L,
+  new = 2L,
+  warn_missing = TRUE,
+  warn_duplicated = TRUE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>data.frame of data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>codebook</code></td>
+<td>
+<p>list of data.frames containing the old and new column names.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>old</code></td>
+<td>
+<p>numeric vector or character vector of length 1 specifying the
+position or name of the column in the <code>codebook</code> data.frames that
+contains the old column names present in <code>data</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>new</code></td>
+<td>
+<p>numeric vector or character vector of length 1 specifying the
+position or name of the column in the <code>codebook</code> data.frames that
+contains the new column names to rename to in <code>data</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>warn_missing</code></td>
+<td>
+<p>logical vector of length 1 specifying whether <code>renames</code>
+should return a warning if any old names in <code>codebook</code> are not present in
+<code>data</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>warn_duplicated</code></td>
+<td>
+<p>logical vector of length 1 specifying whether <code>renames</code>
+should return a warning if the renaming process results in duplicate column names
+in the return object.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p><code>codebook</code> is a list of data.frames where one column refers to the old names
+and another column refers to the new names. Therefore, each row of the data.frames
+refers to a column in <code>data</code>. The position or names of the columns in the
+<code>codebook</code> data.frames that contain the old (i.e., <code>old</code>) and new
+(i.e., <code>new</code>) <code>data</code> columns must be the same for each data.frame in
+<code>codebook</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>data.frame identical to <code>data</code> except that the old names in
+<code>codebook</code> have been replaced by the new names in <code>codebook</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>rename</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">code_book &lt;- list(
+   data.frame("old" = c("rating","complaints"), "new" = c("RATING","COMPLAINTS")),
+   data.frame("old" = c("privileges","learning"), "new" = c("PRIVILEGES","LEARNING"))
+)
+renames(data = attitude, codebook = code_book, old = "old", new = "new")
+</code></pre>
+
+
+</div>

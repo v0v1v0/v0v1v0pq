@@ -1,0 +1,68 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>hideLocation</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+<code>hideLocation</code> Obfuscating the true location of the real data.</h2>
+
+<h3>Description</h3>
+
+<p>Hides the true location of the data as a non-obvious calculation string.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">hideLocation(trueLoc, nSubjects)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>trueLoc</code></td>
+<td>
+<p>A vector of one or more numbers in the set 1, 2, ..., nSubjects whose locations are to be hidden.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nSubjects</code></td>
+<td>
+<p>An integer larger than 1 used to define the set 1, 2, ..., nSubjects.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Returns a character vector, each element being a string
+containing an obscure calculation which, if parsed and evaluated, would return
+the value of the corresponding number in <code>trueLoc</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>revealLocation</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">trueLoc &lt;- hideLocation(3,100)
+trueLoc
+revealLocation(trueLoc)
+
+n &lt;- 200
+trueLoc &lt;- sample(1:n, 3)
+trueLoc
+ans &lt;- hideLocation(trueLoc , n)
+ans
+revealLocation(ans)
+
+</code></pre>
+
+
+</div>

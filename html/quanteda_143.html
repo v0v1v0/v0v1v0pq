@@ -1,0 +1,59 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>fcm_sort</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Sort an fcm in alphabetical order of the features</h2>
+
+<h3>Description</h3>
+
+<p>Sorts an fcm in alphabetical order of the features.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">fcm_sort(x)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>fcm object</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>A fcm object whose features have been alphabetically sorted.
+Differs from <code>fcm_sort()</code> in that this function sorts the fcm by
+the feature labels, not the counts of the features.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Kenneth Benoit
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># with tri = FALSE
+fcmat1 &lt;- fcm(tokens(c("A X Y C B A", "X Y C A B B")), tri = FALSE)
+rownames(fcmat1)[3] &lt;- colnames(fcmat1)[3] &lt;- "Z"
+fcmat1
+fcm_sort(fcmat1)
+
+# with tri = TRUE
+fcmat2 &lt;- fcm(tokens(c("A X Y C B A", "X Y C A B B")), tri = TRUE)
+rownames(fcmat2)[3] &lt;- colnames(fcmat2)[3] &lt;- "Z"
+fcmat2
+fcm_sort(fcmat2)
+</code></pre>
+
+
+</div>

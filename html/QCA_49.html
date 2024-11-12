@@ -1,0 +1,88 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>fuzzyand, fuzzyor</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Logical operations</h2>
+
+<h3>Description</h3>
+
+<p>These functions perform logical operations <code>AND</code> and <code>OR</code>, for binary crisp or fuzzy
+set membership scores.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">fuzzyand(..., na.rm = FALSE)
+
+fuzzyor(..., na.rm = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Two or more numerical (calibrated) objects containing membership scores,
+or a matrix / data frame of calibrated columns.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>na.rm</code></td>
+<td>
+<p>Logical, indicating whether missing values should be removed.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A numerical vector of class <code>"QCA_fuzzy"</code>, with a <code>name</code> attribute expression</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Adrian Dusa
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># -----
+# Cebotari &amp; Vink (2013, 2015)
+
+# DEMOC*GEOCON*NATPRIDE
+using(CVF, fuzzyand(DEMOC, GEOCON, NATPRIDE))
+
+# same thing with
+fuzzyand(CVF[, c(1,3,5)])
+
+# DEMOC*~GEOCON*NATPRIDE
+fa &lt;- using(
+    CVF,
+    fuzzyand(DEMOC, 1 - GEOCON, NATPRIDE)
+)
+fa
+
+attr(fa, "name")
+
+
+# ETHFRACT + POLDIS
+using(CVF, fuzzyor(ETHFRACT, POLDIS))
+
+# same thing with
+fuzzyor(CVF[, c(2,4)])
+
+# ETHFRACT + ~POLDIS
+fo &lt;- using(CVF, fuzzyor(ETHFRACT, 1 - POLDIS))
+fo
+
+attr(fo, "name")
+
+</code></pre>
+
+
+</div>

@@ -1,0 +1,87 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>slice_quantile</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Quantile Slice Sampler</h2>
+
+<h3>Description</h3>
+
+<p>Single update using a quantile slice sampler of Heiner et al. (2024+).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">slice_quantile(x, log_target, pseudo)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>The current state (as a numeric scalar).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>log_target</code></td>
+<td>
+<p>A function taking numeric scalar that evaluates the
+(potentially unnormalized) log-target density, returning a numeric scalar.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pseudo</code></td>
+<td>
+<p>List containing two functions specifying the pseudo-target distribution:
+</p>
+<p><code>ld</code> evaluates the log density for a scalar input, and
+</p>
+<p><code>q</code> evaluates the quantile (inverse-CDF) function for an input in (0,1).</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list containing three elements:
+</p>
+<p><code>x</code> is the new state.
+</p>
+<p><code>u</code> is the value of the CDF of the psuedo-target associated with the
+returned value (also referred to as psi).
+</p>
+<p><code>nEvaluations</code> is the number of evaluations of the
+target function used to obtain the new state.
+</p>
+
+
+<h3>References</h3>
+
+<p>Heiner, M. J., Johnson, S. B., Christensen, J. R., and Dahl, D. B. (2024+), "Quantile Slice Sampling," <em>arXiv preprint arXiv:###</em>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">lf &lt;- function(x) dbeta(x, 3, 4, log = TRUE)
+pseu &lt;- list(ld = function(x) dbeta(x, shape1 = 1, shape2 = 1, log = TRUE),
+             q = function(u) qbeta(u, shape1 = 1, shape2 = 1))
+draws &lt;- numeric(10) # set to numeric(1e3) for more complete illustration
+nEvaluations &lt;- 0L
+for (i in seq.int(2, length(draws))) {
+  out &lt;- slice_quantile(draws[i - 1], log_target = lf, pseudo = pseu)
+  draws[i] &lt;- out$x
+  nEvaluations &lt;- nEvaluations + out$nEvaluations
+}
+nEvaluations / (length(draws) - 1)
+plot(density(draws), xlim = c(0, 1))
+curve(exp(lf(x)), 0, 1, col = "blue", add = TRUE)
+
+</code></pre>
+
+
+</div>

@@ -1,0 +1,57 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>extract_colmap</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Extract column map from survey data download</h2>
+
+<h3>Description</h3>
+
+<p>Helper function to extract the column map attached to a response data
+download obtained from <code>fetch_survey()</code> (using the
+default <code>add_column_map = TRUE</code>)
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">extract_colmap(respdata)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>respdata</code></td>
+<td>
+<p>Response data including a column map dataframe as an attribute</p>
+</td>
+</tr></table>
+<h3>Details</h3>
+
+<p>If the request to the Qualtrics API made by this function fails, the request
+will be retried. If you see these failures on a 500 error (such as a 504
+error) be patient while the request is retried; it will typically succeed
+on retrying. If you see other types of errors, retrying is unlikely to help.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+# Retrieve a list of surveys
+surveys &lt;- all_surveys()
+
+# Retrieve a single survey
+mysurvey &lt;- fetch_survey(surveyID = surveys$id[6])
+
+# Extract column mapping for survey
+extract_colmap(mysurvey)
+
+## End(Not run)
+
+</code></pre>
+
+
+</div>

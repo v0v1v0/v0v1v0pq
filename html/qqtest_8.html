@@ -1,0 +1,112 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qkay</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+<code>qkay</code> The K distribution quantile function</h2>
+
+<h3>Description</h3>
+
+<p>Quantile function for the K distribution on <code>df</code> degrees of freedom having non-centrality parameter <code>ncp</code>.
+</p>
+<p>A K distribution is the square root of a chi-square divided by its degrees of freedom.  That is, if x is chi-squared on m degrees of freedom, then y = sqrt(x/m) is K on m degrees of freedom.
+Under standard normal theory, K is the distribution of the pivotal quantity  s/sigma where s is the sample standard deviation and sigma is the standard deviation parameter of the normal density.  K is the natural distribution for tests and confidence intervals about sigma.
+K densities are more nearly symmetric than are chi-squared and concentrate near 1.  As the degrees of freedom increase, they become more symmetric, more concentrated, and more nearly normally distributed.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qkay(p, df, ncp = 0, upper.tail = FALSE, log.p = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>p</code></td>
+<td>
+<p>A vector of probabilities at which to calculate the quantiles.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>df</code></td>
+<td>
+<p>Degrees of freedom (non-negative, but can be non-integer).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ncp</code></td>
+<td>
+<p>Non-centrality parameter (non-negative).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>upper.tail</code></td>
+<td>
+<p>logical; if <code>TRUE</code>,  instead of returning F(x)  (the default), the upper tail probabilities 1-F(x) = Pr(X&gt;x) are returned.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>log.p</code></td>
+<td>
+<p>logical; if <code>TRUE</code>, probabilities are given as log(p).</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p><code>qkay</code> returns the quantiles at probabilities <code>p</code> for a K on <code>df</code> degrees of freedom and non-centrality parameter <code>ncp</code>.
+</p>
+<p>Invalid arguments will result in return value NaN, with a warning.
+</p>
+<p>The length of the result is the maximum of the lengths of the numerical arguments.
+</p>
+<p>The numerical arguments are recycled to the length of the result. Only the first elements of the logical arguments are used.
+</p>
+
+
+<h3>Note</h3>
+
+<p>All calls depend on analogous calls to chi-squared functions.  See <code>qchisq</code> for details on non-centrality parameter calculations.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+p &lt;- ppoints(30)
+# Get the quantiles for these points
+q5 &lt;- qkay(p, 5)
+plot(p, q5, main="Quantile plot of K(20)", ylim=c(0,max(q5)))
+# Add quantiles from another K
+points(p, qkay(p, 20), pch=19)
+
+#
+# Do these EXACT quantiles from a K(5) look like they might
+# have been generated from K(20)?
+qqtest(q5, dist="kay",df=20)
+
+# How about compared to normal?
+qqnorm(q5)
+qqtest(q5)
+# for this many degrees of freedom it looks a lot like
+# a gaussian (normal) distribution
+
+# And should look really good compared to the true distribution
+qqtest(q5, dist="kay", df=5)
+#
+#
+# But not so much like it came from a K on 1 degree of freedom
+qqtest(q5, dist="kay",df=1)
+
+#
+# See the vignette for more on the "K-distribution"
+#
+</code></pre>
+
+
+</div>

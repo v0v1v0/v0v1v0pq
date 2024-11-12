@@ -1,0 +1,72 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>addCap</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>addCap</h2>
+
+<h3>Description</h3>
+
+<p>Add Figure Captions to a Dataset
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">addCap(label = NULL, cap = NULL, scap = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>label</code></td>
+<td>
+<p>figure label to use if not fetched from chunk information</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cap</code></td>
+<td>
+<p>caption to use if not from chunk</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>scap</code></td>
+<td>
+<p>short caption to use if not from chunk</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Fetches the figure caption and optional short caption from the currently running code chunk (under <code>knitr</code>) and appends them to a running caption dataset named <code>.captions.</code> in the global environment.  This facilites customizing a table of figures in a report.
+</p>
+
+
+<h3>Value</h3>
+
+<p>invisible list with <code>label</code>, <code>cap</code>, <code>scap</code>
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Frank Harrell
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+# Called from inside a knitr chunk and all information pulled from
+# chunk information
+addCap()
+
+## End(Not run)
+</code></pre>
+
+
+</div>

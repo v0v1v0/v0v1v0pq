@@ -1,0 +1,111 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>rSparseMatrix</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Construct a random sparse matrix
+</h2>
+
+<h3>Description</h3>
+
+<p>This convenience function constructs a random sparse matrix of specified size, with specified sparsity. This is mainly useful for testing speed and memory load of sparse matrix manipulations
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">rSparseMatrix(nrow, ncol, nnz, 
+	rand.x = function(n) round(rnorm(nnz), 2), ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>nrow</code></td>
+<td>
+
+<p>number of rows of the resulting matrix.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ncol</code></td>
+<td>
+
+<p>number of columns of the resulting matrix.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nnz</code></td>
+<td>
+
+<p>number of entries of the resulting matrix.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rand.x</code></td>
+<td>
+
+<p>randomization used for the construction of the entries. if <code>NULL</code> then a pattern matrix is constructed (random entries without values).
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+
+<p>Other arguments passed to <code>sparseMatrix</code> internally.
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The sparsity of the resulting matrix (i.e. the fraction of non-zero entries to all entries) is <code class="reqn">\frac{nnz}{nrow * ncol}</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns a sparse matrix of the type <code>dgCMatrix</code>. Defaults to random numeric entries with two decimal digits, generated randomly from a normal distribution with <code>mean = 0</code> and <code>sd = 1</code>.
+</p>
+<p>When <code>rand.x = NULL</code> then the result is a patter<strong>n</strong> matrix of type <code>ngCMatrix</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Martin Maechler with slight tweaks by Michael Cysouw
+</p>
+
+
+<h3>See Also</h3>
+
+<p>For random permutation matrices, see <code>pMatrix-class</code>. Specifically note the construction option <br><code>(p10 &lt;- as(sample(10),"pMatrix"))</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># example with reasonably large (100.000 by 100.000) but sparse matrix
+# (only one in 10.000 entries is non-zero). On average 10 entries per column.
+X &lt;- rSparseMatrix(1e5, 1e5, 1e6)
+print(object.size(X), units = "auto")
+
+# speed of cosine similarity
+system.time(M &lt;- cosSparse(X))
+
+# reduce memory footprint by removing low values
+print(object.size(M), units = "auto")
+M &lt;- drop0(M, tol = 0.1)
+print(object.size(M), units = "auto")
+</code></pre>
+
+
+</div>

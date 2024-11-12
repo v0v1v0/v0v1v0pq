@@ -1,0 +1,60 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>newQuants</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Revaluate Quantiles</h2>
+
+<h3>Description</h3>
+
+<p>Generates new quantiles from a quantile object
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">newQuants(QKResults, quantv)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>QKResults</code></td>
+<td>
+<p>Output from the quantKrig function.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>quantv</code></td>
+<td>
+<p>Vector of quantile values alpha between 0 and 1,</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>The same quantile object with new estimated quantiles.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">X &lt;- seq(0,1,length.out = 20)
+Y &lt;- cos(5*X) + cos(X)
+Xstar &lt;- rep(X,each = 100)
+Ystar &lt;- rep(Y,each = 100)
+e &lt;- rchisq(length(Ystar),5)/5 - 1
+Ystar &lt;- Ystar + e
+lb &lt;- c(0.0001,0.0001)
+ub &lt;- c(10,10)
+Qout &lt;- quantKrig(Xstar,Ystar, seq(0.05,0.95, length.out = 7), lower = lb, upper = ub)
+
+Qout2 &lt;- newQuants(Qout, c(0.025, 0.5, 0.975))
+QuantPlot(Qout2)
+</code></pre>
+
+
+</div>

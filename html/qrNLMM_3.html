@@ -1,0 +1,99 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>group.plots</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Plot function for grouped data
+</h2>
+
+<h3>Description</h3>
+
+<p>Functions for plotting a profiles plot for grouped data.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">group.plot(x,y,groups,...)
+group.lines(x,y,groups,...)
+group.points(x,y,groups,...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+
+<p>the response vector of dimension <code class="reqn">N</code> where <code class="reqn">N</code> is the total of observations.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+
+<p>vector of longitudinal (repeated measures) covariate of dimension <code class="reqn">N</code>. For example: Time, location, etc.  
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>groups</code></td>
+<td>
+
+<p>factor of dimension <code class="reqn">N</code> specifying the partitions of the data over which the random effects vary.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+
+<p>additional graphical arguments passed to <code>matplot</code>. See <code>par</code>.
+</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Christian E. Galarza &lt;<a href="mailto:chedgala@espol.edu.ec">chedgala@espol.edu.ec</a>&gt; and 
+Victor H. Lachos &lt;<a href="mailto:hlachos@uconn.edu">hlachos@uconn.edu</a>&gt;
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>Soybean</code>, <code>HIV</code>, <code>QRNLMM</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+#A full profile plot for Soybean data
+
+data(Soybean)
+attach(Soybean)
+
+group.plot(x = Time,y = weight,groups = Plot,type="b",
+             main="Soybean profiles",xlab="time (days)",
+             ylab="mean leaf weight (gr)")
+
+#Profile plot by genotype
+
+group.plot(x = Time[Variety=="P"],y = weight[Variety=="P"],
+             groups = Plot[Variety=="P"],type="l",col="blue",
+             main="Soybean profiles by genotype",xlab="time (days)",
+             ylab="mean leaf weight (gr)")
+
+group.lines(x = Time[Variety=="F"],y = weight[Variety=="F"],
+              groups = Plot[Variety=="F"],col="black")
+
+## End(Not run)
+</code></pre>
+
+
+</div>

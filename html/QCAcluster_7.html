@@ -1,0 +1,67 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>upset_conditions</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Aggregation of individual conditions over partition-specific models</h2>
+
+<h3>Description</h3>
+
+<p>Models that have been derived for individual partitions are first
+decomposed into conditions, that is single conditions or
+conditions that are INUS (insufficient conditions that are necessary
+parts of a conjunction that is unnecessary and sufficient). The individual
+conditions are aggregated using UpSet plots to determine how frequent
+they are individually and in combination.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">upset_conditions(df, nsets)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>df</code></td>
+<td>
+<p>Dataframe created with <code>partition_min</code> or
+<code>partition_min_inter</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nsets</code></td>
+<td>
+<p>Number of sets to include in plot (default is 5).</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>An UpSet plot produced with <code>upset</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(Grauvogel2014)
+GS_pars &lt;- partition_min(
+ dataset = Grauvogel2014,
+ units = "Sender",
+ cond = c("Comprehensiveness", "Linkage", "Vulnerability",
+          "Repression", "Claims"),
+ out = "Persistence",
+ n_cut = 1, incl_cut = 0.75,
+ solution = "P",
+ BE_cons = rep(0.75, 3),
+ BE_ncut = rep(1, 3))
+upset_conditions(GS_pars, nsets = 5)
+
+</code></pre>
+
+
+</div>

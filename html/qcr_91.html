@@ -1,0 +1,135 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qcs.hat.cpm</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Process capability index (estimate cpm)</h2>
+
+<h3>Description</h3>
+
+<p>Estimate  <code>"cpm"</code> using the method described by Kerstin Vannman(2001).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qcs.hat.cpm(
+  object,
+  limits = c(lsl = -3, usl = 3),
+  target = NULL,
+  mu = 0,
+  std.dev = 1,
+  nsigmas = 3,
+  k0 = 1,
+  alpha = 0.05,
+  n = 50,
+  contour = TRUE,
+  ylim = NULL,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>qcs object of type <code>"qcs.xbar"</code> or <code>"qcs.one"</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>limits</code></td>
+<td>
+<p>A vector specifying the lower and upper specification limits.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>target</code></td>
+<td>
+<p>A value specifying the target of the process. 
+If is <code>NULL</code>, the target is set at the middle value bewteen specification limits.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mu</code></td>
+<td>
+<p>A value specifying the mean of data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>std.dev</code></td>
+<td>
+<p>A value specifying the within-group standard deviation.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nsigmas</code></td>
+<td>
+<p>A numeric value specifying the number of sigmas to use.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>k0</code></td>
+<td>
+<p>A numeric value. If the capacity index exceeds the <code>k</code> value, then the process is capable.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>alpha</code></td>
+<td>
+<p>The significance level (0.05 for default)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p>Size of the sample.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>contour</code></td>
+<td>
+<p>Logical value indicating whether contour graph should be plotted.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ylim</code></td>
+<td>
+<p>The y limits of the plot.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Arguments to be passed to or from methods.</p>
+</td>
+</tr>
+</table>
+<h3>References</h3>
+
+<p>Montgomery, D.C. (1991) <em>Introduction to Statistical Quality Control</em>, 2nd
+ed, New York, John Wiley &amp; Sons. <br>
+Vannman, K. (2001). <em>A Graphical Method to Control Process Capability</em>. Frontiers in Statistical Quality Control, 
+No 6, Editors: H-J Lenz and P-TH Wilrich. Physica-Verlag, Heidelberg, 290-311.<br>
+Hubele and Vannman (2004). <em>The E???ect of Pooled and Un-pooled Variance Estimators on Cpm When Using Subsamples</em>.
+Journal Quality Technology, 36, 207-222.<br></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(qcr)
+data(pistonrings) 
+xbar &lt;- qcs.xbar(pistonrings[1:125,],plot = TRUE)
+mu &lt;-xbar$center
+std.dev &lt;-xbar$std.dev
+LSL=73.99; USL=74.01
+qcs.hat.cpm(limits = c(LSL,USL),
+           mu = mu,std.dev = std.dev,ylim=c(0,1))
+qcs.hat.cpm(object = xbar, limits = c(LSL,USL),ylim=c(0,1))
+</code></pre>
+
+
+</div>

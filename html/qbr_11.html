@@ -1,0 +1,78 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>get_report</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Get a report</h2>
+
+<h3>Description</h3>
+
+<p>Get metadata about a report.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">get_report(subdomain, auth, table_id, report_id, agent = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>subdomain</code></td>
+<td>
+<p>Character vector with one element. Found at the beginning of
+the Quickbase URL. Realm specific.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>auth</code></td>
+<td>
+<p>Character vector with one element. The Quickbase authentication
+scheme you are using to authenticate the request (e.g., user token).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>table_id</code></td>
+<td>
+<p>Character vector with one element. Found in the URL of a
+Quickbase table.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>report_id</code></td>
+<td>
+<p>Character vector with one element. Found in the 'Reports &amp;
+Charts' page in Quickbase and in the report URL.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>agent</code></td>
+<td>
+<p>Optional. Character vector with one element. Describes
+user/agent making API call.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A named list.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+   get_report(subdomain = "abc",
+              auth = keyring::key_get("qb_example"),
+              table_id = "bn9d8iesz",
+              report_id = "7")
+
+## End(Not run)
+</code></pre>
+
+
+</div>

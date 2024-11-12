@@ -1,0 +1,114 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>dtil2_pq</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Coefficients in polynomial expansion of generating function—for products</h2>
+
+<h3>Description</h3>
+
+<p>These are internal functions to calculate the coefficients
+in polynomial expansion of joint generating functions for two or three
+quadratic forms in potentially noncentral multivariate normal variables,
+<code class="reqn">\mathbf{x} \sim N_n(\bm{\mu}, \mathbf{I}_n)</code>.  They
+are primarily used to calculate moments of a product of two or
+three quadratic forms.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">dtil2_pq_m(A1, A2, mu = rep.int(0, n), p = 1L, q = 1L)
+
+dtil2_1q_m(A1, A2, mu = rep.int(0, n), q = 1L)
+
+dtil2_pq_v(L1, L2, mu = rep.int(0, n), p = 1L, q = 1L)
+
+dtil2_1q_v(L1, L2, mu = rep.int(0, n), q = 1L)
+
+dtil3_pqr_m(A1, A2, A3, mu = rep.int(0, n), p = 1L, q = 1L, r = 1L)
+
+dtil3_pqr_v(L1, L2, L3, mu = rep.int(0, n), p = 1L, q = 1L, r = 1L)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>A1, A2, A3</code></td>
+<td>
+<p>Argument matrices.  Assumed to be symmetric and of the same order.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mu</code></td>
+<td>
+<p>Mean vector <code class="reqn">\bm{\mu}</code> for <code class="reqn">\mathbf{x}</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p, q, r</code></td>
+<td>
+<p>Integer-alikes to specify the order along the three argument matrices</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>L1, L2, L3</code></td>
+<td>
+<p>Eigenvalues of the argument matrices</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p><code>dtil2_pq_m()</code> and <code>dtil2_pq_v()</code> calculate
+<code class="reqn">\tilde{d}_{p,q}(\mathbf{A}_1, \mathbf{A}_2)</code>
+in Hillier et al. (2014).  <code>dtil2_1q_m()</code> and <code>dtil2_1q_v()</code> are
+fast versions for the commonly used case where <code class="reqn">p = 1</code>.  Similarly,
+<code>dtil3_pqr_m()</code> and <code>dtil3_pqr_v()</code> are for
+<code class="reqn">\tilde{d}_{p,q,r}(\mathbf{A}_1, \mathbf{A}_2, \mathbf{A}_3)
+     </code>.
+</p>
+<p>Those ending with <code>_m</code> take matrices as arguments, whereas
+those with <code>_v</code> take eigenvalues.  The latter can be used only when
+the argument matrices share the same eigenvectors, to which the eigenvalues
+correspond in the orders given, but is substantially faster.
+</p>
+<p>These functions calculate the coefficients based on the super-short
+recursion algorithm described in Hillier et al. (2014: sec. 4.2).
+</p>
+
+
+<h3>Value</h3>
+
+<p>A <code>(p + 1) * (q + 1)</code> matrix for the 2D functions,
+or a <code>(p + 1) * (q + 1) * (r + 1)</code> array for the 3D functions.
+</p>
+<p>The 1st, 2nd, and 3rd dimensions correspond to increasing orders for
+<code class="reqn">\mathbf{A}_1</code>, <code class="reqn">\mathbf{A}_2</code>, and
+<code class="reqn">\mathbf{A}_3</code>, respectively.  And the 1st row/column of each
+dimension corresponds to the 0th order (hence <code>[p + 1, q + 1]</code> for
+the <code class="reqn">(p,q)</code>-th moment).
+</p>
+
+
+<h3>References</h3>
+
+<p>Hillier, G., Kan, R. and Wang, X. (2014) Generating functions and
+short recursions, with applications to the moments of quadratic forms
+in noncentral normal vectors. <em>Econometric Theory</em>, <strong>30</strong>, 436–473.
+<a href="https://doi.org/10.1017/S0266466613000364">doi:10.1017/S0266466613000364</a>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>qfpm</code> is a front-end functions that utilizes these functions
+</p>
+<p><code>d1_i</code> for a single-matrix equivalent of <code class="reqn">\tilde{d}</code>
+</p>
+
+
+</div>

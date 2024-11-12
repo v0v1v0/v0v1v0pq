@@ -1,0 +1,169 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>growth.gcBootSpline</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Perform a bootstrap on growth vs. time data followed by spline fits for each resample</h2>
+
+<h3>Description</h3>
+
+<p><code>growth.gcBootSpline</code> resamples the growth-time value pairs in a dataset with replacement and performs a spline fit for each bootstrap sample.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">growth.gcBootSpline(time, data, gcID = "undefined", control = growth.control())
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>time</code></td>
+<td>
+<p>Vector of the independent variable (usually: time).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>Vector of dependent variable (usually: growth values).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gcID</code></td>
+<td>
+<p>(Character) The name of the analyzed sample.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>control</code></td>
+<td>
+<p>A <code>grofit.control</code> object created with <code>growth.control</code>, defining relevant fitting options.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A <code>gcBootSpline</code> object containing a distribution of growth parameters and
+a <code>gcFitSpline</code> object for each bootstrap sample. Use <code>plot.gcBootSpline</code>
+to visualize all bootstrapping splines as well as the distribution of
+physiological parameters.
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>raw.time</code></td>
+<td>
+<p>Raw time values provided to the function as <code>time</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>raw.data</code></td>
+<td>
+<p>Raw growth data provided to the function as <code>data</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gcID</code></td>
+<td>
+<p>(Character) Identifies the tested sample.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>boot.time</code></td>
+<td>
+<p>Table of time values per column, resulting from each spline fit of the bootstrap.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>boot.data</code></td>
+<td>
+<p>Table of growth values per column, resulting from each spline fit of the bootstrap.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>boot.gcSpline</code></td>
+<td>
+<p>List of <code>gcFitSpline</code> object, created by <code>growth.gcFitSpline</code> for each resample of the bootstrap.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lambda</code></td>
+<td>
+<p>Vector of estimated lambda (lag time) values from each bootstrap entry.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mu</code></td>
+<td>
+<p>Vector of estimated mu (maximum growth rate) values from each bootstrap entry.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>A</code></td>
+<td>
+<p>Vector of estimated A (maximum growth) values from each bootstrap entry.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>integral</code></td>
+<td>
+<p>Vector of estimated integral values from each bootstrap entry.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bootFlag</code></td>
+<td>
+<p>(Logical) Indicates the success of the bootstrapping operation.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>control</code></td>
+<td>
+<p>Object of class <code>grofit.control</code> containing list of options passed to the function as <code>control</code>.</p>
+</td>
+</tr>
+</table>
+<h3>References</h3>
+
+<p>Matthias Kahm, Guido Hasenbrink, Hella Lichtenberg-Frate, Jost Ludwig, Maik Kschischo (2010). <em>grofit: Fitting Biological Growth Curves with R</em>. Journal of Statistical Software, 33(7), 1-21. DOI: 10.18637/jss.v033.i07
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Other growth fitting functions: 
+<code>growth.drFit()</code>,
+<code>growth.gcFitLinear()</code>,
+<code>growth.gcFitModel()</code>,
+<code>growth.gcFitSpline()</code>,
+<code>growth.gcFit()</code>,
+<code>growth.workflow()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># Create random growth dataset
+rnd.dataset &lt;- rdm.data(d = 35, mu = 0.8, A = 5, label = 'Test1')
+
+# Extract time and growth data for single sample
+time &lt;- rnd.dataset$time[1,]
+data &lt;- rnd.dataset$data[1,-(1:3)] # Remove identifier columns
+
+# Introduce some noise into the measurements
+data &lt;- data + stats::runif(97, -0.01, 0.09)
+
+# Perform bootstrapping spline fit
+TestFit &lt;- growth.gcBootSpline(time, data, gcID = 'TestFit',
+              control = growth.control(fit.opt = 's', nboot.gc = 50))
+
+plot(TestFit, combine = TRUE, lwd = 0.5)
+
+</code></pre>
+
+
+</div>

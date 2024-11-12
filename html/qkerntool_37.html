@@ -1,0 +1,140 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>cndkernmatrix</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>CND Kernel Matrix functions</h2>
+
+<h3>Description</h3>
+
+<p><code>cndkernmatrix</code> calculates the kernel matrix <code class="reqn">K_{ij} = k(x_i,x_j)</code> or <code class="reqn">K_{ij} =
+    k(x_i,y_j)</code>.<br></p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S4 method for signature 'cndkernel'
+cndkernmatrix(cndkernel, x, y = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>cndkernel</code></td>
+<td>
+<p>the cndkernel function to be used to calculate the CND kernel
+matrix.
+This has to be a function of class <code>cndkernel</code>, i.e. which can be
+generated either one of the build in
+kernel generating functions (e.g., <code>rbfcnd</code> <code>nonlcnd</code> etc.) or a user defined
+function of class <code>cndkernel</code> taking two vector arguments and returning a scalar.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a data matrix to be used to calculate the kernel matrix.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>second data matrix to calculate the kernel matrix.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Common functions used during kernel based computations.<br>
+The <code>cndkernel</code> parameter can be set to any function, of class
+cndkernel, which computes the kernel function value in feature space between two
+vector arguments. <span class="pkg">qkerntool</span> provides more than 10 CND kernel functions
+which can be initialized by using the following
+functions:
+</p>
+
+<ul>
+<li> <p><code>nonlcnd</code> Non Linear cndkernel function
+</p>
+</li>
+<li> <p><code>polycnd</code> Polynomial  cndkernel function
+</p>
+</li>
+<li> <p><code>rbfcnd</code>  Gaussian cndkernel function
+</p>
+</li>
+<li> <p><code>laplcnd</code> Laplacian cndkernel function
+</p>
+</li>
+<li> <p><code>anocnd</code>  ANOVA cndkernel function
+</p>
+</li>
+<li> <p><code>raticnd</code> Rational Quadratic cndkernel function
+</p>
+</li>
+<li> <p><code>multcnd</code> Multiquadric cndkernel function
+</p>
+</li>
+<li> <p><code>invcnd</code>  Inverse Multiquadric cndkernel function
+</p>
+</li>
+<li> <p><code>wavcnd</code>  Wave  cndkernel function
+</p>
+</li>
+<li> <p><code>powcnd</code>  d cndkernel function
+</p>
+</li>
+<li> <p><code>logcnd</code>  Log cndkernel function
+</p>
+</li>
+<li> <p><code>caucnd</code>  Cauchy cndkernel function
+</p>
+</li>
+<li> <p><code>chicnd</code>  Chi-Square cndkernel function
+</p>
+</li>
+<li> <p><code>studcnd</code> Generalized T-Student cndkernel function
+</p>
+</li>
+</ul>
+<p>  (see example.)
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>cndkernmatrix</code> returns a conditionally negative definite matrix with a zero diagonal element.<br></p>
+
+
+<h3>Author(s)</h3>
+
+<p>Yusen Zhang <br><a href="mailto:yusenzhang@126.com">yusenzhang@126.com</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code>nonlbase</code>, <code>rbfbase</code>,
+<code>laplbase</code>, <code>ratibase</code>, <code>multbase</code>, <code>invbase</code>,
+<code>wavbase</code>, <code>powbase</code>, <code>logbase</code>, <code>caubase</code>,
+<code>chibase</code>, <code>studbase</code></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## use the iris data
+data(iris)
+dt &lt;- as.matrix(iris[ ,-5])
+
+## initialize cndkernel function
+lapl &lt;- laplcnd(gamma = 1)
+lapl
+
+## calculate cndkernel matrix
+cndkernmatrix(lapl, dt)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,56 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>get_program_studies</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Get the List of Trials, Studies, and Locations Information for the Current Selected Program</h2>
+
+<h3>Description</h3>
+
+<p>Retrieves comprehensive information about the trials, studies, and environments/locations
+within the current active breeding program, as configured in the internal state object using 
+the <code>set_program</code> function. This includes test and check entry counts for each study.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">get_program_studies()
+</code></pre>
+
+
+<h3>Value</h3>
+
+<p>A data frame containing detailed information for each study within the program's trials, 
+including trial names, study names, location information, and entry counts.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Khaled Al-Shamaa, <a href="mailto:k.el-shamaa@cgiar.org">k.el-shamaa@cgiar.org</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>login_bms</code>, <code>set_crop</code>, <code>set_program</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">if (interactive()) {
+  set_qbms_config("https://bms.icarda.org/ibpworkbench")
+  login_bms()
+  set_crop("wheat")
+  set_program("Wheat International Nurseries")
+  program_studies &lt;- get_program_studies()
+  head(program_studies)
+}
+
+</code></pre>
+
+
+</div>

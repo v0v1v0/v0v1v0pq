@@ -1,0 +1,151 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>quadrupen-class</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Class "quadrupen"</h2>
+
+<h3>Description</h3>
+
+<p>Class of object returned by any fitting function of the
+<span class="pkg">quadrupen</span> package (<code>elastic.net</code> or
+<code>bounded.reg</code>).
+</p>
+
+
+<h3>Slots</h3>
+
+
+<dl>
+<dt>
+<code>coefficients</code>:</dt>
+<dd>
+<p>Matrix (class <code>"dgCMatrix"</code>) of
+coefficients with respect to the original input. The number of
+rows corresponds the length of <code>lambda1</code>.</p>
+</dd>
+<dt>
+<code>active.set</code>:</dt>
+<dd>
+<p>Matrix (class <code>"dgCMatrix"</code>, generally
+sparse) indicating the 'active' variables, in the sense that they
+activate the constraints. For the <code>elastic.net</code>, it
+corresponds to the nonzero variables; for the
+<code>bounded.reg</code> function, it is the set of variables
+reaching the boundary along the path of solutions.</p>
+</dd>
+<dt>
+<code>intercept</code>:</dt>
+<dd>
+<p>logical; indicates if an intercept has
+been included to the model.</p>
+</dd>
+<dt>
+<code>mu</code>:</dt>
+<dd>
+<p>A vector (class <code>"numeric"</code>)
+containing the successive values of the (unpenalized) intercept.
+Equals to zero if <code>intercept</code> has been set to <code>FALSE</code>.</p>
+</dd>
+<dt>
+<code>meanx</code>:</dt>
+<dd>
+<p>Vector (class <code>"numeric"</code>) containing
+the column means of the predictor matrix.</p>
+</dd>
+<dt>
+<code>normx</code>:</dt>
+<dd>
+<p>Vector (class <code>"numeric"</code>) containing the
+square root of the sum of squares of each column of the design
+matrix.</p>
+</dd>
+<dt>
+<code>penscale</code>:</dt>
+<dd>
+<p>Vector <code>"numeric"</code> with real positive
+values that have been used to weight the penalty tuned by
+<code class="reqn">\lambda_1</code>.</p>
+</dd>
+<dt>
+<code>penalty</code>:</dt>
+<dd>
+<p>Object of class <code>"character"</code>
+indicating the method used (<code>"elastic-net"</code> or <code>"bounded
+regression"</code>).</p>
+</dd>
+<dt>
+<code>naive</code>:</dt>
+<dd>
+<p>logical; was the <code>naive</code> mode on?</p>
+</dd>
+<dt>
+<code>lambda1</code>:</dt>
+<dd>
+<p>Vector (class <code>"numeric"</code>) of penalty
+levels (either <code class="reqn">\ell_1</code> or <code class="reqn">\ell_\infty</code>)
+for which the model has eventually been fitted.</p>
+</dd>
+<dt>
+<code>lambda2</code>:</dt>
+<dd>
+<p>Scalar (class <code>"numeric"</code>) for the
+amount of <code class="reqn">\ell_2</code> (ridge-like) penalty.</p>
+</dd>
+<dt>
+<code>struct</code>:</dt>
+<dd>
+<p>Object of class <code>"Matrix"</code> used to
+structure the coefficients in the <code class="reqn">\ell_2</code> penalty.</p>
+</dd>
+<dt>
+<code>control</code>:</dt>
+<dd>
+<p>Object of class <code>"list"</code> with low
+level options used for optimization.</p>
+</dd>
+<dt>
+<code>monitoring</code>:</dt>
+<dd>
+<p>List (class <code>"list"</code>) which
+contains various indicators dealing with the optimization
+process.</p>
+</dd>
+<dt>
+<code>residuals</code>:</dt>
+<dd>
+<p>Matrix of residuals, each column
+corresponding to a value of <code>lambda1</code>.</p>
+</dd>
+<dt>
+<code>r.squared</code>:</dt>
+<dd>
+<p>Vector (class <code>"numeric"</code>) given the
+coefficient of determination as a function of lambda1.</p>
+</dd>
+<dt>
+<code>fitted</code>:</dt>
+<dd>
+<p>Matrix of fitted values, each column
+corresponding to a value of <code>lambda1</code>.</p>
+</dd>  </dl>
+<h3>Methods</h3>
+
+<p>This class comes with the usual <code>predict(object, newx, ...)</code>,
+<code>fitted(object, ...)</code>, <code>residuals(object, ...)</code>,
+<code>print(object, ...)</code>, <code>show(object)</code> and
+<code>deviance(object, ...)</code> generic (undocumented) methods.
+</p>
+<p>A specific plotting method is available and documented
+(<code>plot,quadrupen-method</code>).
+</p>
+
+
+<h3>See Also</h3>
+
+<p>See also <code>plot,quadrupen-method</code>.
+</p>
+
+
+</div>

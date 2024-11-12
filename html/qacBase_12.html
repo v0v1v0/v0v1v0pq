@@ -1,0 +1,103 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>lso</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>List object sizes and types</h2>
+
+<h3>Description</h3>
+
+<p><code>lso</code> lists object sizes and types.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">lso(
+  pos = 1,
+  pattern,
+  order.by = "Size",
+  decreasing = TRUE,
+  head = TRUE,
+  n = 10
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>pos</code></td>
+<td>
+<p>a number specifying the environment as a position in the search list.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pattern</code></td>
+<td>
+<p>an optional regular expression. Only names matching pattern are returned. glob2rx can be used to convert wildcard patterns to regular expressions.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>order.by</code></td>
+<td>
+<p>column to sort the list by. Values are <code>"Type"</code>, <code>"Size"</code>, <code>"Rows"</code>, and <code>"Columns"</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>decreasing</code></td>
+<td>
+<p>logical. If <code>FALSE</code>, the list is sorted in ascending order.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>head</code></td>
+<td>
+<p>logical. Should output be limited to <code>n</code> lines?</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p>if <code>head=TRUE</code>, number of rows should be displayed?</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>This function list the sizes and types of all objects in an environment.
+By default, the list describes the objects in the current environment, presented in descending order
+by object size and reported in megabytes (Mb).
+</p>
+
+
+<h3>Value</h3>
+
+<p>a data.frame with four columns (Type, Size, Rows, Columns) and object names as row names.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Based on based on postings by Petr Pikal and David Hinds to the r-help list in 2004 and
+modified Dirk Eddelbuettel, Patrick McCann, and Rob Kabacoff.
+</p>
+
+
+<h3>References</h3>
+
+<p><a href="https://stackoverflow.com/questions/1358003/tricks-to-manage-the-available-memory-in-an-r-session/">https://stackoverflow.com/questions/1358003/tricks-to-manage-the-available-memory-in-an-r-session/</a>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(cardata)
+data(cars74)
+lso()
+</code></pre>
+
+
+</div>

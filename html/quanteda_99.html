@@ -1,0 +1,102 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>dfm</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Create a document-feature matrix</h2>
+
+<h3>Description</h3>
+
+<p>Construct a sparse document-feature matrix from a tokens or dfm object.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">dfm(
+  x,
+  tolower = TRUE,
+  remove_padding = FALSE,
+  verbose = quanteda_options("verbose"),
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a tokens or dfm object.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tolower</code></td>
+<td>
+<p>convert all features to lowercase.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>remove_padding</code></td>
+<td>
+<p>logical; if <code>TRUE</code>, remove the "pads" left as empty tokens after
+calling <code>tokens()</code> or <code>tokens_remove()</code> with <code>padding = TRUE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p>display messages if <code>TRUE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>not used.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>a dfm object
+</p>
+
+
+<h3>Changes in version 3</h3>
+
+<p>In <span class="pkg">quanteda</span> v4, many convenience functions formerly available in
+<code>dfm()</code> were removed.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>as.dfm()</code>, <code>dfm_select()</code>, dfm
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## for a corpus
+toks &lt;- data_corpus_inaugural |&gt;
+  corpus_subset(Year &gt; 1980) |&gt;
+  tokens()
+dfm(toks)
+
+# removal options
+toks &lt;- tokens(c("a b c", "A B C D")) |&gt;
+    tokens_remove("b", padding = TRUE)
+toks
+dfm(toks)
+dfm(toks) |&gt;
+ dfm_remove(pattern = "") # remove "pads"
+
+# preserving case
+dfm(toks, tolower = FALSE)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,82 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>predict.QKResults</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Revaluate Quantiles</h2>
+
+<h3>Description</h3>
+
+<p>Quantile Predictions using Quantile Kriging model (class QKResults)
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'QKResults'
+predict(object, xnew, quantnew = NULL, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>Output from the quantKrig function.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xnew</code></td>
+<td>
+<p>Locations for prediction</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>quantnew</code></td>
+<td>
+<p>Quantiles for prediction, default is to keep the same as the quantile object</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Ignore. No other arguments for this method</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Quantile predictions at the specified input locations
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Kevin Quinlan quinlan5@llnl.gov
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+X &lt;- seq(0,1,length.out = 20)
+Y &lt;- cos(5*X) + cos(X)
+Xstar &lt;- rep(X,each = 100)
+Ystar &lt;- rep(Y,each = 100)
+e &lt;- rchisq(length(Ystar),5)/5 - 1
+Ystar &lt;- Ystar + e
+lb &lt;- c(0.0001,0.0001)
+ub &lt;- c(10,10)
+Qout &lt;- quantKrig(Xstar,Ystar, seq(0.05,0.95, length.out = 7), lower = lb, upper = ub)
+
+predict(Qout, xnew = c(0.4, 0.5, 0.6))
+
+quantpreds &lt;- predict(Qout, xnew = seq(0,1,length.out = 100), quantnew = seq(0.01,0.99,by = 0.01))
+matplot(seq(0,1,length.out = 100), quantpreds, type = 'l')
+</code></pre>
+
+
+</div>

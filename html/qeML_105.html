@@ -1,0 +1,206 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>Feature Model Select</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Feature Selection and Model Building</h2>
+
+<h3>Description</h3>
+
+<p>Utilties to help build models, both in specific applications such as
+time series and text analysis, and in general tools..
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qeCompare(data,yName,qeFtnList,nReps,opts=NULL,seed=9999)
+qeFT(data,yName,qeftn,pars,nCombs,nTst,nXval,showProgress=TRUE)
+qeText(data,yName,kTop=50,stopWords=tm::stopwords("english"),
+   qeName,opts=NULL,holdout=floor(min(1000,0.1*nrow(data))))
+qeTS(lag,data,qeName,opts=NULL,holdout=floor(min(1000,0.1*length(data))))
+## S3 method for class 'qeText'
+predict(object,newDocs,...)
+## S3 method for class 'qeTS'
+predict(object,newx,...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Further arguments.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>Object returned by a qe-series function.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>newx</code></td>
+<td>
+<p>New data to be predicted.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>newDocs</code></td>
+<td>
+<p>Vector of new documents to be predicted.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lag</code></td>
+<td>
+<p>number of recent values to use in predicting the next.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qeName</code></td>
+<td>
+<p>Name of qe-series predictive function, e.g. 'qeRF'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>stopWords</code></td>
+<td>
+<p>Stop lists to use.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nTst</code></td>
+<td>
+<p>Number of parameter combinations.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>kTop</code></td>
+<td>
+<p>Number of most-frequent words to use.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>Dataframe, training set. Classification case is signaled
+via labels column being an R factor.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>yName</code></td>
+<td>
+<p>Name of the class labels column.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>holdout</code></td>
+<td>
+<p>If not NULL, form a holdout set of the specified size.
+After fitting to the remaining data, evaluate accuracy on the test set.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qeFtnList</code></td>
+<td>
+<p>Character vector of <code>qe*</code> function names.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nReps</code></td>
+<td>
+<p>Number of holdout sets to generate.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>opts</code></td>
+<td>
+<p>R list of optional arguments for none, some or all of th
+functions in <code>qeFtnList</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>seed</code></td>
+<td>
+<p>Seed for random number generation.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qeftn</code></td>
+<td>
+<p>Quoted string, specifying the name of a qe-series
+machine learning method.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pars</code></td>
+<td>
+<p>R list of hyperparameter ranges.  See 
+<code>regtools::fineTuning</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nCombs</code></td>
+<td>
+<p>Number of hyperparameter combinations to run.  
+See <code>regtools::fineTuning</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nXval</code></td>
+<td>
+<p>Number of cross-validations to run.  
+See <code>regtools::fineTuning</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>showProgress</code></td>
+<td>
+<p>If TRUE, show results as they arise.  
+See <code>regtools::fineTuning</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Overviews of the functions:
+</p>
+
+<ul>
+<li> <p><code>qeTs</code> is a tool for time series modeling
+</p>
+</li>
+<li> <p><code>qeText</code> is a tool for textual modeling
+</p>
+</li>
+<li> <p><code>qeCompare</code> facilitates comparison among models
+</p>
+</li>
+<li> <p><code>qeFT</code> does a random grid search for optimal hyperparameter
+values
+</p>
+</li>
+</ul>
+<h3>Author(s)</h3>
+
+<p>Norm Matloff
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+data(mlb1)
+# predict Weight in the mlb1 dataset, using qeKNN, with k = 5 and 25,
+# with 10 cross-validations
+qeFT(mlb1,'Weight','qeKNN',list(k=c(5,25)),nTst=100,nXval=10)
+
+
+</code></pre>
+
+
+</div>

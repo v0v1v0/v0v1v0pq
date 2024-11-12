@@ -1,0 +1,66 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>print.qualpal</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Print qualpal palette</h2>
+
+<h3>Description</h3>
+
+<p>Print the result from a call to <code>qualpal</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'qualpal'
+print(x, colorspace = c("HSL", "DIN99d", "RGB"), digits = 2, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>An object of class <code>"qualpal"</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>colorspace</code></td>
+<td>
+<p>Color space to print colors in.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>digits</code></td>
+<td>
+<p>Number of significant digits for the output.
+(See print.default.) Setting it to <code>NULL</code> uses
+<code>getOption("digits")</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Arguments to pass to <code>print.default</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Prints the colors as a matrix in the specified color space as well
+as a distance matrix of the color differences. Invisibly returns x.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">f &lt;- qualpal(3)
+print(f, colorspace = "DIN99d", digits = 3)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,92 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>rdq.condf</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Conditional density estimation</h2>
+
+<h3>Description</h3>
+
+<p><code>rdq.condf</code> estimates conditional density functions by using the differencing method.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">rdq.condf(x, Q, bcoe, taus, taul, delta, cov)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a vector (or a matrix) of covariates.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Q</code></td>
+<td>
+<p>a vector of estimated conditional quantiles.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>bcoe</code></td>
+<td>
+<p>quantile regression coefficient estimates.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>taus</code></td>
+<td>
+<p>a vector of quantiles of interest.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>taul</code></td>
+<td>
+<p>a vector of quantiles used for the conditional density estimation.
+It is needed to estimate the tail parts of conditional density functions more precisely.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>delta</code></td>
+<td>
+<p>bandwidths for estimating the conditional density.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cov</code></td>
+<td>
+<p>either 0 or 1. Set <em>cov=1</em> if covariates are present in the model;
+otherwise set <em>cov=0</em>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>conditional density function estimates
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">n = 500
+x = runif(n,min=-4,max=4)
+d = (x &gt; 0)
+y = x + 0.3*(x^2) - 0.1*(x^3) + 1.5*d + rnorm(n)
+tlevel = seq(0.1,0.9,by=0.1)
+hh = rep(2,length(tlevel))
+
+ab = rdq(y=y,x=x,d=d,x0=0,z0=NULL,tau=tlevel,h.tau=hh,cov=0)
+delta = 0.186
+fe = rdq.condf(x=x,Q=ab$qp.est,bcoe=ab$bcoe.p,taus=0.5,taul=tlevel,delta=delta,cov=0)
+
+
+</code></pre>
+
+
+</div>

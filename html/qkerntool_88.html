@@ -1,0 +1,66 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>Eucdist</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Computes the Euclidean(square Euclidean) distance matrix</h2>
+
+<h3>Description</h3>
+
+<p><code>Eucdist</code> Computes the Euclidean(square Euclidean) distance matrix.
+</p>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p> (NxD) matrix  (N samples, D features)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p> (MxD) matrix  (M samples, D features)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sEuclidean</code></td>
+<td>
+<p>can be TRUE or FALSE, FALSE to Compute the Euclidean distance matrix.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>E - (MxN) Euclidean (square Euclidean) distances between vectors in x and y
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Yusen Zhang <br><a href="mailto:yusenzhang@126.com">yusenzhang@126.com</a></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">###
+data(iris)
+testset &lt;- sample(1:150,20)
+x &lt;- as.matrix(iris[-testset,-5])
+y &lt;- as.matrix(iris[testset,-5])
+
+##
+res0 &lt;- Eucdist(x)
+res1 &lt;- Eucdist(x, x, sEuclidean = FALSE)
+res2 &lt;- Eucdist(x, y = NULL, sEuclidean = FALSE)
+res3 &lt;- Eucdist(x, x, sEuclidean = TRUE)
+res4 &lt;- Eucdist(x, y = NULL)
+res5 &lt;- Eucdist(x, sEuclidean = FALSE)
+</code></pre>
+
+
+</div>

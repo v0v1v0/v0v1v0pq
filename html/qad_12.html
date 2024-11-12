@@ -1,0 +1,152 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>plot.qad</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Plot conditional probabilites</h2>
+
+<h3>Description</h3>
+
+<p>Visualizes the conditional probabilities for each strip of the checkerboard copula in the copula setting or in the retransformed sample setting.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'qad'
+plot(
+  x,
+  addSample = FALSE,
+  copula = FALSE,
+  density = FALSE,
+  margins = FALSE,
+  title = "",
+  x.axis = "X1",
+  y.axis = "X2",
+  point.size = 0.9,
+  panel.grid = TRUE,
+  color = "plasma",
+  rb_values = c(10, 0.315, 0.15),
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>an object of class qad.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>addSample</code></td>
+<td>
+<p>a logical indicating whether the observations are returned. In the copula setting the mass squares of the empirical copula are added too. (default = FALSE).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>copula</code></td>
+<td>
+<p>a logical indicating whether the plot depicts the conditional probabilities
+of the empirical checkerboard copula or of the retransformed data setting (default = FALSE).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>density</code></td>
+<td>
+<p>a logical indicating whether the density should be plotted instead of the conditional probabilites (default = FALSE).
+Only works in the copula setting, i.e. if copula = TRUE.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>margins</code></td>
+<td>
+<p>a logical indicating whether the margin distribution is added in form of a rug plot.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>title</code></td>
+<td>
+<p>The text for the title</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x.axis</code></td>
+<td>
+<p>The text for the x-axis</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y.axis</code></td>
+<td>
+<p>The text for the y-axis</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>point.size</code></td>
+<td>
+<p>a numeric specifying the point size of the sample (relevant if addSample = TRUE).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>panel.grid</code></td>
+<td>
+<p>a logical indicating whether the panel grid is plotted. (default = TRUE)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>color</code></td>
+<td>
+<p>a color palette of the viridis package or rainbow. options are c("viridis", "magma", "inferno", "plasma", "cividis", "rainbow")</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rb_values</code></td>
+<td>
+<p>a vector of size 3 with number of values, start value and end value in the rainbow colors space.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>some methods for this generic require additional arguments.  None are used in this method.</p>
+</td>
+</tr>
+</table>
+<h3>Note</h3>
+
+<p>The conditional probabilities are constant at squares in the copula setting. If the squares are retransformed in the data setting, the resulting objects are rectangles.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Example 1
+n &lt;- 100
+x &lt;- runif(n, 0, 1)
+y &lt;- runif(n, 0, 1)
+sample &lt;- data.frame(x, y)
+
+#qad
+fit &lt;- qad(sample)
+plot(fit, addSample = TRUE, copula = FALSE)
+
+## Example 2
+n &lt;- 100
+x &lt;- runif(n, -1, 1)
+y &lt;- x^2 + rnorm(n, 0, 0.1)
+sample &lt;- data.frame(x, y)
+
+#qad
+fit &lt;- qad(sample)
+plot(fit, addSample = TRUE, copula = TRUE)
+plot(fit, addSample = TRUE, copula = FALSE)
+
+</code></pre>
+
+
+</div>

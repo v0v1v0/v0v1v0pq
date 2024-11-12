@@ -1,0 +1,80 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>center</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Centering and/or Standardizing a Numeric Vector</h2>
+
+<h3>Description</h3>
+
+<p><code>center</code> centers and/or standardized a numeric vector. It is an
+alternative to <code>scale.default</code> that returns a numeric vector rather than
+a numeric matrix.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">center(x, center = TRUE, scale = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>numeric vector.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>center</code></td>
+<td>
+<p>logical vector with length 1 specifying whether grand-mean
+centering should be done.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>scale</code></td>
+<td>
+<p>logical vector with length 1 specifying whether grand-SD scaling
+should be done.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p><code>center</code> first coerces <code>x</code> to a matrix in preparation for the call
+to <code>scale.default</code>. If the coercion results in a non-numeric matrix
+(e.g., <code>x</code> is a character vector or factor), then an error is returned.
+</p>
+
+
+<h3>Value</h3>
+
+<p>numeric vector of <code>x</code> centered and/or standardized with the same
+names as <code>x</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>centers</code>
+<code>center_by</code>
+<code>centers_by</code>
+<code>scale.default</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">center(x = mtcars$"disp")
+center(x = mtcars$"disp", scale = TRUE)
+center(x = mtcars$"disp", center = FALSE, scale = TRUE)
+center(x = setNames(mtcars$"disp", nm = row.names(mtcars)))
+</code></pre>
+
+
+</div>

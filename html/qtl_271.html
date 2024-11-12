@@ -1,0 +1,73 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>summary.comparegeno</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Print pairs of individuals with similar genotype data.</h2>
+
+<h3>Description</h3>
+
+<p>Prints a summary the output from <code>comparegeno</code> that
+includes pairs of individuals whose proportion of matching genotypes
+is above a chosen threshold.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'comparegeno'
+summary(object, thresh=0.9, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>An object of class <code>comparegeno</code>, the output of the
+function <code>comparegeno</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>thresh</code></td>
+<td>
+<p>Threshold on the proportion of matching genotypes.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Ignored at this point.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A data frame with each row being a pair of individuals and columns
+including the individual identifiers (via <code>getid</code>, or just as
+numeric indexes) along with the proportion of matching genotypes.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Karl W Broman, <a href="mailto:broman@wisc.edu">broman@wisc.edu</a> </p>
+
+
+<h3>See Also</h3>
+
+ <p><code>comparegeno</code>, <code>plot.comparegeno</code> </p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(fake.f2)
+cg &lt;- comparegeno(fake.f2)
+summary(cg, 0.7)
+</code></pre>
+
+
+</div>

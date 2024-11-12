@@ -1,0 +1,164 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>retention</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Compute Retention Probabilities of QCA Baseline Solutions</h2>
+
+<h3>Description</h3>
+
+<p>This evaluation function computes retention probabilities of QCA baseline solutions. It has 
+been programmed for <a href="http://dx.doi.org/10.1093/pan/mpv028">Thiem, Spoehel, and Dusa (2016)</a>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">retention(data, outcome = "", exo.facs = c(""), type = "corruption",
+          assump = "DPA", n.cut = 1, incl.cut = 1, p.pert = 0.5,
+          n.pert = 1)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>A dataset of bivalent crisp-set factors.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>outcome</code></td>
+<td>
+<p>The name of the outcome.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>exo.facs</code></td>
+<td>
+<p>A character vector with the names of the exogenous factors.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>type</code></td>
+<td>
+<p>Induce errors on the endogenous factor or delete cases.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>assump</code></td>
+<td>
+<p>Assume dependent or independent perturbations.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n.cut</code></td>
+<td>
+<p>The minimum number of cases for a minterm not to be 
+considered as a remainder.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>incl.cut</code></td>
+<td>
+<p>The minimum sufficiency inclusion score for an output function 
+value of "1".</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p.pert</code></td>
+<td>
+<p>The probability of perturbation under independence.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n.pert</code></td>
+<td>
+<p>The number of perturbations under dependence.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>This function computes exact retention probabilities of QCA baseline solutions for saturated truth tables and truth tables with a two-difference restriction (every remainder differs on at least two positions from every positive minterm). 
+</p>
+<p>The argument <code>data</code> requires a suitable dataset. Suitable datasets have the following structure: values of "0" and "1" for bivalent crisp-set factors. 
+</p>
+<p>The argument <code>exo.facs</code> specifies the exogenous factors. If omitted, all 
+factors in <code>data</code> are used except that of the <code>outcome</code>.
+</p>
+<p>The argument <code>type</code> specifies whether errors are to be induced in the endogenous factor ("1" is recoded to "0"; "0" is recoded to "1") of cases or whether entire cases are to be deleted from the data.
+</p>
+<p>The argument <code>assump</code> specifies whether the perturbations detailed in <code>type</code> occur independently of each other or whether they are dependent on each other. Note that the assumption of dependence increases the consumption of computational resources significantly.
+</p>
+<p>Minterms that contain fewer than <code>n.cut</code> cases with membership scores above 0.5 are coded as remainders (<code>OUT = "?"</code>). If the number of such cases is at least <code>n.cut</code>, minterms with an inclusion score of at least <code>incl.cut</code> are coded positive (<code>OUT = "1"</code>), and minterms with an inclusion score below <code>incl.cut</code> are coded negative (<code>OUT = "0"</code>). The possibility to specify contradictions using a second inclusion cut-off as in the <code>truthTable</code> function does not exist.
+</p>
+<p>The argument <code>p.pert</code> specifies the probability of perturbation for <code>type = "independent"</code>. For example, if <code>p.pert = 1</code>, each case is guaranteed to have measurement error on the endogenous factor.
+</p>
+<p>The argument <code>n.pert</code> specifies the number of perturbations for <code>type = "dependent"</code>. This must be an integer between zero (no case suffers from measurement error in the endogenous factor or no case gets deleted) and the total number of cases in <code>data</code> (all cases suffer from measurement error in the endogenous factor or all cases get deleted.)
+</p>
+
+
+<h3>Contributors</h3>
+
+
+<table>
+<tr>
+<td style="text-align: left;">
+Dusa, Adrian</td>
+<td style="text-align: left;">: programming, testing</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+Spoehel, Reto</td>
+<td style="text-align: left;">: development</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+Thiem, Alrik</td>
+<td style="text-align: left;">: development, documentation, testing
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Alrik Thiem (<a href="http://www.alrik-thiem.net">Personal Website</a>; <a href="https://www.researchgate.net/profile/Alrik_Thiem">ResearchGate Website</a>)
+</p>
+
+
+<h3>References</h3>
+
+<p>Hug, Simon. 2013. “Qualitative Comparative Analysis: How Inductive Use and 
+Measurement Error lead to Problematic Inference.” <em>Political Analysis</em> <strong>21</strong> (2):252-65.
+DOI: <a href="http://dx.doi.org/10.1093/pan/mps061">10.1093/pan/mps061</a>.
+</p>
+<p>Thiem, Alrik, Reto Spoehel, and Adrian Dusa. 2016. “Enhancing Sensitivity Diagnostics for Qualitative Comparative Analysis: A Combinatorial Approach.” <em>Political Analysis</em> <strong>24</strong> (1):104-20. DOI: <a href="http://dx.doi.org/10.1093/pan/mpv028">10.1093/pan/mpv028</a>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>truthTable</code></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># replicate results from Hug (2013) for 2 deleted cases
+#------------------------------------------------------
+dat &lt;- data.frame(matrix(c(
+   rep(1,25),rep(0,20),rep(c(0,0,1,0,0),3),
+   0,0,0,1,0,0,1,0,0,0,0,rep(1,7),0,1),
+   nrow = 16, byrow = TRUE, dimnames = list(c(
+    "AT","DK","FI","NO","SE","AU","CA","FR",
+    "US","DE","NL","CH","JP","NZ","IE","BE"),
+   c("P", "U", "C", "S", "W"))
+))
+
+retention(dat, outcome = "W", type = "deletion", assump = "dependent", n.pert = 2)
+</code></pre>
+
+
+</div>

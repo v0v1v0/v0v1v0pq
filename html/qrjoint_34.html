@@ -1,0 +1,450 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qrjoint</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Joint Estimation of Linear Quantile Planes</h2>
+
+<h3>Description</h3>
+
+<p> Estimate intercept and slope functions within a joint linear regression model of the quantiles, with possible right or left censoring of the response.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R"> 
+qrjoint(formula, data, nsamp = 1e3, thin = 10, cens = NULL, 
+    wt = NULL, incr = 0.01, par = "prior", nknots = 6,
+    hyper = list(sig = c(.1,.1), lam = c(6,4), kap = c(.1,.1,1)), 
+    shrink = FALSE, prox.range = c(.2,.95), acpt.target = 0.15, 
+    ref.size = 3, blocking = "std5", temp = 1, expo = 2, 
+    blocks.mu, blocks.S, fix.nu=FALSE, fbase = c("t", "logistic", "unif"), verbose = TRUE)
+    
+## S3 method for class 'qrjoint'
+update(object, nadd, append = TRUE, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>formula</code></td>
+<td>
+<p>an object of class "formula": a symbolic description of the model to be fitted. It must include at least one predictor.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>a data frame containing variables in the model.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nsamp</code></td>
+<td>
+<p>number of posterior samples to be saved; defaults to 1000.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>thin</code></td>
+<td>
+<p>thinning rate for the Markov chain sampler – one posterior sample is saved per <code>thin</code> iterations. Defaults to 10. The Markov chain sampler runs for a total of <code>nsamp * thin</code> many iterations.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cens</code></td>
+<td>
+<p>censoring status of response. Must be a vector of length NROW(data), with 0 indicating no censoring, 1 indicating right censoring, and 2 indicating left censoring. If not supplied, defaults to all zeros.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>wt</code></td>
+<td>
+<p>weights attached to the observation units, expected to be non-negative numbers, and defaults to a vector of ones if not otherwise supplied.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>incr</code></td>
+<td>
+<p>tau grid increment. Defaults to 0.01.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>par</code></td>
+<td>
+<p>character string indicating how the sampler is to be initialized. Three options are currently supported: "prior" to initialize at a random draw from the prior; "RQ" to initialize at a model space approximation of the estimates from <code>rq</code>; and, "noX" to initialize at a model with all slope functions being equal to zero, and the intercept function obtained by fitting <code>qde</code> to the response data alone.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nknots</code></td>
+<td>
+<p>number of knots to be used for low rank approximation of the Gaussian process priors. Defaults to 6.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>hyper</code></td>
+<td>
+<p>hyperparameters of the prior distribution. Must be a list with some of all of the following fields: <code>sig</code>: a two vector giving the parameters of the inverse-gamma distribution on sigma-square that is used when <code>shrink</code>=TRUE, <code>lam</code>: a two vector giving the parameters of the beta distribution on proximity = <code class="reqn">\exp(-0.01* \lambda^2)</code>, and <code>kap</code>: a vector to be coerced into a <code>3 * nkap</code> matrix, with <code>nkap</code> being the number of components in the mixture of gamma prior on <code>kappa</code>, and each column of the matrix gives the shape, rate and mixing weight of a component.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>shrink</code></td>
+<td>
+<p>for applying shrinkage to gamma[0] and gamma. Defaults to FALSE, in which case a right Haar prior is used on (gamma[0], gamma, sigma2). If TRUE then a horseshoe type prior is used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>prox.range</code></td>
+<td>
+<p>for specifying the range of length-scale parameter of the Gaussian process prior.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>acpt.target</code></td>
+<td>
+<p>target acceptance rate of the adaptive Metropolis sampler; defaults to 0.15</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ref.size</code></td>
+<td>
+<p>adaptation rate of the adaptive Metropolis sampler. The proposal density is updated once every <code>ref.size</code> iterations. Could be a single number or a vector of length same as the number of blocks.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>blocking</code></td>
+<td>
+<p>type of blocking to be applied. Either a character string specifying one to be chosen from the supplied menu (see Details), or a list giving user specified blocks. In the latter case, each element of the list is a logical vector of length equal to the total number of model parameters, which equals <code>(nknots+1)*(ncol(X)+1) + 2</code> indicating which model parameters belong to the block.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>temp</code></td>
+<td>
+<p>temperature of the log-likelihood function. The log-likelihood function is raised to the power of <code>temp</code>. Defaults to 1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>expo</code></td>
+<td>
+<p>the exponent to be used in the covariance kernel of the Gaussian process priors. Defaults to 2, giving the standard squared-exponential covariance kernel.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>blocks.mu</code></td>
+<td>
+<p>initial block specific means in the form of  a list. If left unspecified then will be automatically generated as a list of vectors of zeros of appropriate lengths matching the corresponding block sizes.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>blocks.S</code></td>
+<td>
+<p>initial block specific covariance matrices in the form of a list. If left unspecified then will be automatically generated as a list of identity matrices of appropriate dimensions matching the corresponding block sizes. When <code>blocking</code> is chosen as one of the menu items of the form "std*", known prior covariance information and estimated variance matrices from <code>rq</code> are used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fix.nu</code></td>
+<td>
+<p>either the logical FALSE indicating that nu should be learned, or a positive real number giving the fixed value of nu, which is then excluded from MCMC updates</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fbase</code></td>
+<td>
+<p>either "t" (default), "logistic" or "unif" to indicate what base distribution is to be used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p>logical indicating whether MCMC progress should be printed, defaults to TRUE</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>a fitted model of the class 'qrjoint'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nadd</code></td>
+<td>
+<p>number of additional MCMC samples.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>append</code></td>
+<td>
+<p>logical indicating whether new samples should be appended to old ones. If FALSE then old samples are discarded.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>no additional arguments are allowed</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>A formula has an implied intercept term. This model requires that the intercept term be included; therefore, it cannot be explicitely removed via (y ~ 0 + x) or (y ~ -1 + x) constructs.
+</p>
+<p>The model assumes each conditional quantile of the response is a hyper-plane. The intercept and slope functions (as functons of the quantile level) are estimated under the constraint that the resulting quantile planes are non-crossing over some closed, convex predictor domain. The domain is equated, by default, to the convex hull of the observed predictor vectors. The input argument <code>wt</code> provides more flexibility in the domain specification. All observation units are used in calculating the convex hull, but only those with non-zero weights are used in the likelihood evaluation. By including pseudo-points with zero weight (e.g. covariates from a test dataframe), the boundaries of the predictor domain can be expanded.
+</p>
+<p>In running the MCMC, the following menu choices are available for blocking the parameter vector. Below, <code>p = ncol(X)</code>.
+</p>
+<p><code>"single"</code>: a single block containing all parameters
+</p>
+<p><code>"single2"</code>: one block containing all parameters and an additional block containing only (gamma[0], gamma, sigma, nu)
+</p>
+<p><code>"single3"</code>: like <code>"single2"</code>, but the second block is split into two further blocks, one with <code class="reqn">(\gamma_0, \gamma)</code>, the other with <code class="reqn">(\sigma, \nu)</code>
+</p>
+<p><code>"std0"</code>: <code>p+1</code> blocks, <code class="reqn">(j+1)</code>-th contains <code class="reqn">(W_{*j}, \gamma_j, \sigma, \nu)</code>, <code class="reqn">j= 0,\ldots ,p</code>.
+</p>
+<p><code>"std1"</code>: total <code>p+2</code> blocks. First <code>p+1</code> blocks same as <code>"std0"</code> and one additional block of <code class="reqn">(\gamma_0, \gamma, \sigma, \nu)</code>.
+</p>
+<p><code>"std2"</code>: total <code>p+3</code> blocks. First <code>p+1</code> blocks same as <code>"std0"</code> and two additional blocks of <code class="reqn">(\gamma_0, \gamma)</code> and <code class="reqn">(\sigma, \nu)</code>
+</p>
+<p><code>"std3"</code>: total <code>p+3</code> blocks. First <code>p+1</code> blocks are <code class="reqn">W_{*j}</code>, <code class="reqn">j = 0, \ldots, p</code>, last two are <code class="reqn">(\gamma_0, \gamma)</code> and <code class="reqn">(\sigma, \nu)</code>
+</p>
+<p><code>"std4"</code>: total <code>p+3</code> blocks. First <code>p+1</code> blocks are <code class="reqn">(W_{*j}, \gamma_j)</code>, <code class="reqn">j = 0, \ldots, p</code>, last two are <code class="reqn">(\gamma_0, \gamma)</code> and <code class="reqn">(\sigma, \nu)</code>
+</p>
+<p><code>"std5"</code>: total <code>p+4</code> blocks. First <code>p+3</code> are same as <code>"std4"</code> and one additional block containing all parameters.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>qrjoint(x, y, ...)</code> returns a ‘qrjoint’ class object to be used by <code>update.qrjoint</code>, <code>coef.qrjoint</code> and <code>summary.qrjoint</code>. 
+</p>
+<p><code>update(object,...)</code> runs additional Markov chain iterations and appends thinned draws to an existing ‘qrjoint’ object <code>object</code>. All relevant details are inherited from <code>object</code>.
+</p>
+<p>Returned object is a list containing the following variables.
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>par</code></td>
+<td>
+<p>latest draw of the parameter vector</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>scaled and centered design matrix</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>response vector</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cens</code></td>
+<td>
+<p>censoring status vector, 0=uncensored, 1=right censored, 2=left censored</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>wt</code></td>
+<td>
+<p>vector of observation weights</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>shrink</code></td>
+<td>
+<p>shrinkage indicator</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>hyper</code></td>
+<td>
+<p>completed list of hyper-parameters</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dim</code></td>
+<td>
+<p>model dimension vector of the form c(n, p, length of tau grid, position of <code class="reqn">\tau_0</code> on the grid, nknots, length of lambda grid, nkap, total number of MCMC iterations, thin, nsamp)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gridmats</code></td>
+<td>
+<p>details of covariance matrix factors etc, intended for internal use.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tau.g</code></td>
+<td>
+<p>the tau grid</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>muV</code></td>
+<td>
+<p>list of means for parameter blocks</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>SV</code></td>
+<td>
+<p>list of covariance matrices for parameter blocks</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>blocks</code></td>
+<td>
+<p>list of blocks</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>blocks.size</code></td>
+<td>
+<p>vector of block lengths</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dmcmcpar</code></td>
+<td>
+<p>numeric vector containing details of adaptive MCMC runs, equals c(temp, decay rate of adaptation, vector of target acceptance rates for the blocks, vector of increment scales used in adaptation). Intended strictly for internal use.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>imcmcpar</code></td>
+<td>
+<p>numeric vector containing details of adaptive MCMC runs, equals c(number of parameter blocks, ref.size, indicator on whether details are to be printed during MCMC progress, rate of details printing, a vector of counters needed for printing). Intended strictly for internal use.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>parsamp</code></td>
+<td>
+<p>a long vector containing the parameter draws. Could be coerced into a matrix of dim <code>npar * nsamp</code>. Intended primarily for use by <code>summary.qrjoint</code> and <code>coef.qrjoint</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>acptsamp</code></td>
+<td>
+<p>a long vector containing rates of acceptance statistics for parameter blocks. Could be coerced into a matrix of dim <code>nblocks * nsamp</code>. Not very informative, because thinning times and adaptation times may not be exactly synced.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lpsamp</code></td>
+<td>
+<p>vector of log posterior values for the saved MCMC draws.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fbase.choice</code></td>
+<td>
+<p>integer 1 for "t", 2 for "logistic" and 3 "unif" base.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>prox</code></td>
+<td>
+<p>vector of proximity (exp(-0.01*lambda^2)) grid values</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>reg.ix</code></td>
+<td>
+<p>positions of the regular tau grid on the expanded tail-appended grid</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>runtime</code></td>
+<td>
+<p>run time of the MCMC</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>call</code></td>
+<td>
+<p>original model call</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>terms</code></td>
+<td>
+<p>terms included in model frame</p>
+</td>
+</tr>
+</table>
+<h3>References</h3>
+
+<p>Yang, Y. and Tokdar, S.T., 2017. Joint estimation of quantile planes over arbitrary predictor spaces. Journal of the American Statistical Association, 112(519), pp.1107-1120.</p>
+
+
+<h3>See Also</h3>
+
+<p><code>summary.qrjoint</code> and <code>coef.qrjoint</code>.</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"> 
+## Plasma data analysis
+
+# recoding variables
+data(plasma)
+plasma$Sex &lt;- as.factor(plasma$Sex)
+plasma$SmokStat &lt;- as.factor(plasma$SmokStat)
+plasma$VitUse &lt;- 3 - plasma$VitUse
+plasma$VitUse &lt;- as.factor(plasma$VitUse)
+
+# Model fitting with 40 posterior samples from 80 iterations (thin = 2) is for
+# illustration only. For practical model fitting, increase iterations, 
+# e.g. nsamp = 500, thin = 20
+fit.qrj &lt;- qrjoint(BetaPlasma ~ Age + Sex + SmokStat + Quetelet + VitUse + Calories + 
+        Fat + Fiber + Alcohol + Cholesterol + BetaDiet, plasma, nsamp = 40, thin = 2)
+summary(fit.qrj, more = TRUE)
+
+## Not run: 
+# additional MCMC runs to get 10 more samples (20 additional iterations)
+fit.qrj &lt;- update(fit.qrj, 10)
+summary(fit.qrj, more = TRUE)
+
+## End(Not run)
+
+## Not run: 
+### UIS data analysis (with right censoring)
+data(uis)
+uis.qrj &lt;- qrjoint(Y ~ TREAT + NDT + IV3 + BECK + FRAC + 
+                       RACE + AGE + SITE , data=uis, cens = (1 - uis$CENSOR), 
+                     nsamp = 50, thin = 2, fix.nu = 1e5)
+summary(uis.qrj, more = TRUE)
+
+betas &lt;- coef(uis.qrj, plot = TRUE, col = "darkgreen")
+tau.grid &lt;- uis.qrj$tau.g[uis.qrj$reg.ix]
+L &lt;- length(tau.grid)
+beta.samp &lt;- betas$beta.samp
+
+# survival curve estimation for k randomly chosen subjects
+n &lt;- nrow(uis)
+k &lt;- 9
+ix.sel &lt;- sort(sample(n, k))
+Qsel.gp &lt;- predict(uis.qrj, newdata=uis[ix.sel,], summarize=FALSE)
+  
+colRGB &lt;- col2rgb("darkgreen")/255
+colTrans &lt;- rgb(colRGB[1], colRGB[2], colRGB[3], alpha = 0.05)
+par(mfrow = c(3,3), mar = c(4,3,2,1) + .1)
+for(i in 1:k){
+  plot(exp(apply(Qsel.gp[i,,],1,mean)), 1 - tau.grid, ty = "n", ann = FALSE, 
+        bty = "n", xlim = exp(c(2, 8)), ylim = c(0,1), lty = 2, log = "x")
+  for(j in 1:dim(beta.samp)[3])
+      lines(exp(Qsel.gp[i,,j]), 1 - tau.grid, col = colTrans, lwd = 1)
+  title(xlab = "Return time (days)", ylab = "Survival function", line = 2)
+  title(main = bquote(Obs.Id == .(ix.sel[i])))
+  grid()  
+}
+
+## End(Not run)
+</code></pre>
+
+
+</div>

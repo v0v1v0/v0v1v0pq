@@ -1,0 +1,124 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>mStep</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Model selection in multivariate multiple regression
+</h2>
+
+<h3>Description</h3>
+
+<p>Select a multivariate multiple regression model via model selection.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">mStep(object, scope, direction=c("both","backward","forward"),
+   trace=FALSE, keep=TRUE, steps=1000, k=2, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+
+<p>initial model in model search.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>scope</code></td>
+<td>
+
+<p>a single formula, which provides ‘upper’, or a list containing components ‘upper’ and ‘lower’, both formulae; defines the lower and upper bound. See <code>step</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>direction</code></td>
+<td>
+
+<p>forward selection, backward elimination or stepwise.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>trace</code></td>
+<td>
+
+<p>whether to track the process for monitoring purpose.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>keep</code></td>
+<td>
+
+<p>whether to return the change of terms and related statistics.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>steps</code></td>
+<td>
+
+<p>maximum number of search steps.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>k</code></td>
+<td>
+
+<p>penalty on a parameter. The selection criterion is the known "AIC" if <code>k = 2</code> and is "BIC" if <code>k = log(n)</code> where "n" is the sample size.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+
+<p>additional arguments to <code>update</code>.
+</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>a list with components of a <code>lm</code> object plus ‘keep’ if required.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>mAdd1</code> and <code>mDrop1</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(etrait)
+mdf&lt;- data.frame(traits,markers)
+## Not run: 
+mlm&lt;- lm(cbind(T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14,T15,T16) ~
+   m1 + m2 + m3 + m4 + m5, data=mdf)
+
+lw&lt;- formula(paste("~ ", paste("m",1:3,collapse=" + ",sep="")))
+up&lt;- formula(paste("~", paste("m",1:15,collapse=" + ",sep="")))
+
+ob&lt;- mStep(mlm, scope=list(lower=lw), k=99, direction="backward", data=mdf)
+of&lt;- mStep(mlm, scope=list(upper=up), k=5, direction="forward", data=mdf)
+o1&lt;- mStep(mlm, scope=list(upper=up), k=5, direction="both", data=mdf)
+o2&lt;- mStep(o1, scope=list(upper=up), k=2, direction="forward", data=mdf)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

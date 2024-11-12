@@ -1,0 +1,89 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>PlotQuartet</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Plot quartet on tree topologies</h2>
+
+<h3>Description</h3>
+
+<p>Draws a tree, highlighting the members of a specified quartet in colour.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">PlotQuartet(tree, quartet, overwritePar = TRUE, caption = TRUE, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>tree</code></td>
+<td>
+<p>A tree of class <code>phylo</code>,
+or a list of such trees.  The first member of <code>tree</code> will be considered
+the "reference" tree.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>quartet</code></td>
+<td>
+<p>A vector of four integers, corresponding to numbered leaves on
+the tree; or a character vector specifying the labels of four leaves.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>overwritePar</code></td>
+<td>
+<p>Logical specifying whether to use existing <code>mfrow</code> and
+<code>mar</code> parameters from <code>par()</code> (<code>FALSE</code>),
+or to plot trees side-by-side in a new graphical device (<code>TRUE</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>caption</code></td>
+<td>
+<p>Logical specifying whether to annotate each plot to specify
+whether the quartet selected is in the same or a different state to the
+reference tree.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Additional parameters to send to
+<code>plot()</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p><code>PlotQuartet()</code> returns <code>invisible()</code>, having plotted a tree in
+which the first two members of <code>quartet</code> are highlighted in orange, and the
+second two highlighted in blue.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p><a href="https://orcid.org/0000-0001-5660-1727">Martin R. Smith</a>
+(<a href="mailto:martin.smith@durham.ac.uk">martin.smith@durham.ac.uk</a>)
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data("sq_trees")
+
+oPar &lt;- par(mfrow = c(3, 6), mar = rep(0.5, 4))
+PlotQuartet(sq_trees, c(2, 5, 3, 8), overwritePar = FALSE)
+par(oPar)
+
+</code></pre>
+
+
+</div>

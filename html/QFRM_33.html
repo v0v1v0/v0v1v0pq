@@ -1,0 +1,102 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>LookbackMC</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Lookback option valuation via Monte Carlo (MC) simulation</h2>
+
+<h3>Description</h3>
+
+<p>Calculates the price of a lookback option using a Monte Carlo (MC) Simulation.
+Carries the assumption that the asset price is observed continuously.
+Assumes that the the option o followes ds = mu * S * dt + sqrt(vol) * S * dz
+where dz is a Wiener Process. Assume that without dividends, mu are default to be r.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">LookbackMC(o = OptPx(Opt(Style = "Lookback"), r = 0.05, q = 0, vol = 0.3),
+  NPaths = 5, div = 1000, Type = c("Floating", "Fixed"))
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>o</code></td>
+<td>
+<p>The <code>OptPx</code> option object to price. See <code>OptPx</code> and <code>Opt</code> for more information.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>NPaths</code></td>
+<td>
+<p>How many time of the simulation are applied. Coustomer defined.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>div</code></td>
+<td>
+<p>number to decide length of each interval</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Type</code></td>
+<td>
+<p>Specifies the Lookback option as either Floating or Fixed- default argument is Floating.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>To price the lookback option, we require the S0, K, and ttm arguments from object <code>Opt</code>
+and r, q, vol from object OptPx defined in the package. The results of simulation would
+unstable without setting seeds.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list of class <code>LookbackMC</code> consisting of the input object <code>OptPx</code> and the price of the lookback option based on Monte Carlo Simulation (see references).
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Tong Liu, Department of Statistics, Rice University, Spring 2015
+</p>
+
+
+<h3>References</h3>
+
+<p>Hull, John C., <em>Options, Futures and Other Derivatives</em>, 9ed, 2014. Prentice Hall.
+ISBN 978-0-13-345631-8, <a href="http://www-2.rotman.utoronto.ca/~hull/ofod">http://www-2.rotman.utoronto.ca/~hull/ofod</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">(o = LookbackMC())$PxMC   #Use default arguments, Output: approximately 16.31.
+
+ # Floating &amp; Put
+ o=OptPx(Opt(S0=50,K=50,ttm=0.25,Right='Put',Style="Lookback"),r=0.1,vol=.4)
+ LookbackMC(o,NPaths=5,div=1000) #Output: 7.79 from Hull 9e Example 26.2 Pg 608.
+
+ # Floating &amp; Call
+ o=OptPx(Opt(S0=50,K=50,ttm=0.25,Right='Call',Style="Lookback"),r=0.1,vol=.4)
+ LookbackMC(o,NPaths=5,div=1000) #Output: 8.04 from Hull 9e Example 26.2 Pg 608
+
+ # Fixed &amp; Put
+ o=OptPx(Opt(S0=50,K=60,ttm=1,Right='Put',Style="Lookback"),r=0.05,q=0.02,vol=.25)
+ LookbackMC(o,Type="Fixed",NPaths=5,div=1000)
+
+ # Fixed &amp; Call
+ o=OptPx(Opt(S0=50,K=55,ttm=1,Right='Call',Style="Lookback"),r=0.1,vol=.25)
+ LookbackMC(o,Type="Fixed",NPaths=5,div=1000)
+</code></pre>
+
+
+</div>

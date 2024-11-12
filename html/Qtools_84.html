@@ -1,0 +1,134 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>predict.qlss</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Predictions from Conditional LSS Objects
+</h2>
+
+<h3>Description</h3>
+
+<p>This function computes predictions based on fitted conditional QLSS objects.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'qlss'
+predict(object, newdata, interval = FALSE, level = 0.95, R = 200,
+	na.action = na.pass, trim = 0.05, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+
+<p>an object as returned by <code>qlss.formula</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>newdata</code></td>
+<td>
+
+<p>an optional data frame in which to look for variables with which to predict. If omitted, the fitted values are used.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>interval</code></td>
+<td>
+
+<p>logical flag. If <code>TRUE</code>, confidence intervals for predictions are computed by bootstrap.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>level</code></td>
+<td>
+
+<p>nominal coverage level of the confidence interval.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>R</code></td>
+<td>
+
+<p>number of bootstrap replications used to compute confidence intervals.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>na.action</code></td>
+<td>
+
+<p>function determining what should be done with missing values in <code>newdata</code>. The default is to predict <code>NA</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>trim</code></td>
+<td>
+
+<p>proportion of extreme bootstrap replications to be trimmed before standard errors are computed.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+
+<p>not used.
+</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Marco Geraci
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>qlss.formula</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+## Not run: 
+# Fit QLSS object
+trees2 &lt;- trees[order(trees$Height),]
+fit &lt;- qlss(Volume ~ Height, data = trees2)
+
+## Predict using newdata. Calculate confidence intervals using 200 bootstrap replications
+# large confidence intervals for shape index due to small IQR at low values of height
+#xx &lt;- seq(min(trees2$Height), max(trees2$Height), length = 100)
+#new &lt;- data.frame(Height = xx)
+#set.seed(121)
+#fit.pred &lt;- predict(fit, newdata = new, interval = TRUE, level = 0.95, R = 200)
+#plot(fit.pred, z = xx, interval = TRUE, xlab = "height")
+
+# Restrict range for Height
+
+xx &lt;- seq(65, 87, length = 100)
+new &lt;- data.frame(Height = xx)
+set.seed(121)
+fit.pred &lt;- predict(fit, newdata = new, interval = TRUE, level = 0.95, R = 200)
+plot(fit.pred, z = xx, interval = TRUE, xlab = "height") # better
+
+
+## End(Not run)
+</code></pre>
+
+
+</div>

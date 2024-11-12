@@ -1,0 +1,95 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>Newlabels.cmprsk</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Change the Predictor Labels for a Competing Risks Regression Model</h2>
+
+<h3>Description</h3>
+
+<p>Uses the <code>Newlabels</code> function to change the labels predictors when constructing a nomogram.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'cmprsk'
+Newlabels(fit, labels, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>fit</code></td>
+<td>
+<p>A model fit by <code>crr.fit</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>labels</code></td>
+<td>
+<p>A character vector specifying the new labels for variables in a fit.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Other arguments for <code>Newlabels</code></p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>To give new labels for all variables, you can specify labels of the
+form <code>labels = c("Age in Years","Cholesterol")</code>, where the list of new labels
+is assumed to be the length of all main effect-type variables in the fit
+and in their original order in the model formula. You may specify a named
+vector to give new labels in any order for a subset of the variables,
+e.g., <code>labels = c(age = "Age in Years", chol = "Cholesterol")</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A new <code>crr.fit</code> object with adjusted labels
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Changhong Yu. Department of
+Quantitative Health Sciences, Cleveland Clinic
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>Newlevels.cmprsk</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">dd &lt;- datadist(prostate.dat)
+options(datadist = "dd")
+prostate.f &lt;- cph(Surv(TIME_EVENT,EVENT_DOD == 1) ~ TX  + rcs(PSA,3) +
+           BX_GLSN_CAT +  CLIN_STG + rcs(AGE,3) +
+           RACE_AA, data = prostate.dat,
+           x = TRUE, y = TRUE, surv = TRUE,time.inc = 144)
+prostate.crr &lt;- crr.fit(prostate.f, cencode = 0, failcode = 1)
+prostate.g &lt;- Newlabels(
+prostate.crr,
+c(
+  TX = 'Treatment options',
+  BX_GLSN_CAT = 'Biopsy Gleason Score Sum',
+  CLIN_STG = 'Clinical stage'
+)
+)
+
+</code></pre>
+
+
+</div>

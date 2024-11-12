@@ -1,0 +1,140 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>nll</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Negative Log Likelihood</h2>
+
+<h3>Description</h3>
+
+<p>Computes the negative log likelihood function for the open population asymptotic N-mixtures model.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">nll(
+  par,
+  nit,
+  K,
+  l_s_c = NULL,
+  g_s_c = NULL,
+  g_t_c = NULL,
+  o_s_c = NULL,
+  o_t_c = NULL,
+  p_s_c = NULL,
+  p_t_c = NULL,
+  SMALL_a_CORRECTION = FALSE,
+  VERBOSE = FALSE,
+  outfile = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>par</code></td>
+<td>
+<p>Vector of parameter values: c(log(lambda), log(gamma), logit(omega), logit(pdet)). Note that the parameter vector will need to be longer if covariate values are supplied.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nit</code></td>
+<td>
+<p>Matrix of counts data. Rows represent sites, columns represent sampling occasions. Note that if the data is a vector, then it will be converted to a matrix with a single row.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>K</code></td>
+<td>
+<p>Upper bound on summations in the likelihood function. K should be chosen large enough that the negative log likelihood function is stable (unchanging as K increases).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>l_s_c</code></td>
+<td>
+<p>List of lambda site covariates, Default: NULL</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>g_s_c</code></td>
+<td>
+<p>List of gamma site covariates, Default: NULL</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>g_t_c</code></td>
+<td>
+<p>List of gamma time covariates, Default: NULL</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>o_s_c</code></td>
+<td>
+<p>List of omega site covariates, Default: NULL</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>o_t_c</code></td>
+<td>
+<p>List of omega time covariates, Default: NULL</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p_s_c</code></td>
+<td>
+<p>List of pdet site covariates, Default: NULL</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p_t_c</code></td>
+<td>
+<p>List of pdet time covariates, Default: NULL</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>SMALL_a_CORRECTION</code></td>
+<td>
+<p>If TRUE will apply the small a correction when calculating the transition probability matrix, Default: FALSE</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>VERBOSE</code></td>
+<td>
+<p>If TRUE, will print additional information, Default: FALSE</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>outfile</code></td>
+<td>
+<p>Location of csv file to write/append parameter values, Default: NULL</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>DETAILS
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns the negative log likelihood function evaluated at par.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">if (interactive()) {
+nit = matrix(c(1,1,0,1,1), nrow=1) # observations for 1 site, 5 sampling occassions
+par = c(1,1,1,0) # parameter values at which to calculate the negative log likelihood (nll)
+nll(par, nit, K=10) # nll with K=10
+nll(par, nit, K=10, SMALL_a_CORRECTION=TRUE) # nll with small a correction
+}
+</code></pre>
+
+
+</div>

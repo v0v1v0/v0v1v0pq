@@ -1,0 +1,101 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>search_glob</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Select types without performing slow regex search</h2>
+
+<h3>Description</h3>
+
+<p>This is an internal function for <code>pattern2id</code> that select types using
+keys in index when available.
+</p>
+<p><code>index_types</code> is an internal function for <code>pattern2id</code> that
+constructs an index of "glob" or "fixed" patterns to avoid expensive
+sequential search.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">search_glob(pattern, types_search, case_insensitive, index = NULL)
+
+search_glob_multi(patterns, types_search, case_insensitive, index)
+
+search_regex(pattern, types_search, case_insensitive)
+
+search_regex_multi(patterns, types_search, case_insensitive)
+
+search_fixed(pattern, types_search, index = NULL)
+
+search_fixed_multi(patterns, types_search, index)
+
+index_types(
+  pattern,
+  types,
+  valuetype = c("glob", "fixed", "regex"),
+  case_insensitive = TRUE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>pattern</code></td>
+<td>
+<p>a "glob", "fixed" or "regex" pattern</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>types_search</code></td>
+<td>
+<p>lowercased types when <code>case_insensitive=TRUE</code>, but
+not used in glob and fixed matching as types are in the index.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>case_insensitive</code></td>
+<td>
+<p>logical; if <code>TRUE</code>, ignore case when matching a
+<code>pattern</code> or dictionary values</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>index</code></td>
+<td>
+<p>index object created by <code>index_types</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>patterns</code></td>
+<td>
+<p>a list of "glob", "fixed" or "regex" patterns</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>valuetype</code></td>
+<td>
+<p>the type of pattern matching: <code>"glob"</code> for "glob"-style
+wildcard expressions; <code>"regex"</code> for regular expressions; or <code>"fixed"</code> for
+exact matching. See valuetype for details.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p><code>index_types</code> returns a list of integer vectors containing type
+IDs with index keys as an attribute
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">index &lt;- quanteda:::index_types("yy*", c("xxx", "yyyy", "ZZZ"), "glob", FALSE)
+quanteda:::search_glob("yy*", attr(index, "types_search"), index)
+</code></pre>
+
+
+</div>

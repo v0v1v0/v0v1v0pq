@@ -1,0 +1,233 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>coupon.dates</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Coupon date payments</h2>
+
+<h3>Description</h3>
+
+<p>Function to calculate the upcoming coupon payment dates of a given asset,
+based on its payment frequency. The list of payment dates encompass
+the time period between the analysis date and the maturity of the asset.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">coupon.dates(
+  maturity,
+  analysis.date = Sys.Date(),
+  asset.type = "TES",
+  freq = NULL,
+  convention = "F",
+  loc = "BOG",
+  trade.date = NULL,
+  coupon.schedule = "SF"
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>maturity</code></td>
+<td>
+<p>Last day of the contract: YYYY-MM-DD.
+Alternatively, it can be a numeric value that represents the duration of the contract in years.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>analysis.date</code></td>
+<td>
+<p>Date in which the asset is valued. By default, the
+current date.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>asset.type</code></td>
+<td>
+<p>String that determines the asset type to value. See also
+'Details'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>freq</code></td>
+<td>
+<p>Frequency of payments of a given asset in a year. For LIBOR and
+IBR the default frequency is four (quarterly payments). TES has a default
+frequency of one (annual payments).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>convention</code></td>
+<td>
+<p>String that establishes if the effective dates are
+calculated using Following, Modified Following, Backward or Backward Following.
+See also 'Details'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>loc</code></td>
+<td>
+<p>String related to the location of the asset. It is used to
+calculate the effective dates, taking into account the business days
+of the given location. See also 'Details'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>trade.date</code></td>
+<td>
+<p>The date on which the transaction occurs. It is used to calculate
+maturity as a date, when given in years. Also required for non-trivial cases such as
+bonds with long first coupon.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>coupon.schedule</code></td>
+<td>
+<p>String that establishes if a bond first coupon period is a long
+first coupon or a short first coupon. On the contrary, establishes if last coupon period
+is long last coupon or a short last coupon. See also 'Details'.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p><code>asset.type</code> makes reference to the following type of assets:
+</p>
+
+<ul>
+<li>
+<p> "TES" for Colombian Treasury Bonds (default).
+</p>
+</li>
+<li>
+<p> "FixedIncome" for assets that are indexed to a fixed income with
+different frequency of payments.
+</p>
+</li>
+<li>
+<p> "IBR" for bonds and assets indexed to 3M IBR rate.
+</p>
+</li>
+<li>
+<p> "IBRSwaps" for swaps indexed to IBR rate.
+</p>
+</li>
+<li>
+<p> "LIBOR" for bonds and assets indexed to 3M LIBOR.
+</p>
+</li>
+<li>
+<p> "UVRSwaps" for cross-currency swaps indexed to UVR-IBR rate.
+</p>
+</li>
+<li>
+<p> "LIBORSwaps" for Interest Rate Swaps (IRS) indexed to 3M LIBOR.
+</p>
+</li>
+</ul>
+<p><code>loc</code> makes reference to the following locations:
+</p>
+
+<ul>
+<li>
+<p> "BOG" for colombian issued assets and national business days
+(default).
+</p>
+</li>
+<li>
+<p> "LDN" for business days of London.
+</p>
+</li>
+<li>
+<p> "NY" for business days of New York
+</p>
+</li>
+<li>
+<p> "NYLDN" for the intersection of business days in New York and
+London.
+</p>
+</li>
+<li>
+<p> "BOGNY" for the intersection of business days in Bogota and
+New York.
+</p>
+</li>
+</ul>
+<p><code>convention</code> makes reference to the following type of business day conventions:
+</p>
+
+<ul>
+<li>
+<p> "F" for Following business day convention.
+</p>
+</li>
+<li>
+<p> "MF" for Modified Following business day convention.
+</p>
+</li>
+<li>
+<p> "B" for Backward business day convention.
+</p>
+</li>
+<li>
+<p> "MB" for Modified Backward business day convention.
+</p>
+</li>
+</ul>
+<p><code>coupon.schedule</code> makes reference to the following type of coupon payment schedule
+of a bond:
+</p>
+
+<ul>
+<li>
+<p> "LF" for Long First coupon payment.
+</p>
+</li>
+<li>
+<p> "LL" for Long Last coupon payment.
+</p>
+</li>
+<li>
+<p> "SF" for Short First coupon payment.
+</p>
+</li>
+<li>
+<p> "SL" for Short Last coupon payment.
+</p>
+</li>
+</ul>
+<h3>Value</h3>
+
+<p>Upcoming coupon dates and dates of payment according to business day conventions.
+</p>
+
+
+<h3>Note</h3>
+
+<p>If only maturity is given, function assumes that the coupon payments have
+already started. If <code>maturity</code> and <code>trade.date</code> are included,
+coupon dates are calculated from <code>trade.date</code> to <code>maturity</code>.
+If by doing so, <code>trade.date</code> doesn't converge to <code>maturity</code>, month remainder
+is adjusted according to <code>coupon.schedule</code>.
+For LIBOR assets, function adds 2 business days to <code>trade.date</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">coupon.dates("2028-04-03")
+coupon.dates(maturity = 2, analysis.date = "2021-10-01")
+coupon.dates(maturity = "2029-10-01", asset.type = "FixedIncome", freq = 2, convention = "MB")
+coupon.dates(maturity = "2028-02-29", analysis.date = "2022-07-29", trade.date = "2022-07-29",
+             asset.type = "TES", coupon.schedule = "SF")
+coupon.dates(maturity = "2025-11-30", analysis.date = "2022-03-01", trade.date = "2021-05-31",
+             asset.type = "IBR", loc = "NY", convention = "F")
+</code></pre>
+
+
+</div>

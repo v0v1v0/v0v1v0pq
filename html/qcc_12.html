@@ -1,0 +1,129 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>ellipseChart</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Multivariate Quality Control Charts</h2>
+
+<h3>Description</h3>
+
+<p>Plot an ellipse chart for a bivariate quality control data.</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">ellipseChart(object, chart.all = TRUE, show.id = FALSE, ngrid = 50,
+             confidence.level, correct.multiple = TRUE, 
+             title, xlim, ylim, xlab, ylab,
+             restore.par = TRUE, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>an object of class 'mqcc'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>chart.all</code></td>
+<td>
+<p>a logical value indicating whether both statistics for <code>data</code> and for <code>newdata</code> (if given) should be plotted.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>show.id</code></td>
+<td>
+<p>a logical value indicating whether to plot point labels (<code>TRUE</code>) or symbols (<code>FALSE</code>) for group means.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ngrid</code></td>
+<td>
+<p>a value for the size of the grid over which the ellipse is evaluated.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>confidence.level</code></td>
+<td>
+<p>a numeric value between 0 and 1 specifying the confidence level of the computed probability limits.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>correct.multiple</code></td>
+<td>
+<p>a logical value indicating whether to correct or not for multiple comparisons.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>title</code></td>
+<td>
+<p>a string giving the label for the main title.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xlim</code></td>
+<td>
+<p>a numeric vector specifying the limits for the x-axis.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ylim</code></td>
+<td>
+<p>a numeric vector specifying the limits for the y-axis.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xlab</code></td>
+<td>
+<p>a string giving the label for the x-axis.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ylab</code></td>
+<td>
+<p>a string giving the label for the y-axis.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>restore.par</code></td>
+<td>
+<p>a logical value indicating whether the previous <code>par</code> settings must be restored. If you need to add points, lines, etc. to a control chart set this to <code>FALSE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>additional arguments to be passed to the generic <code>points</code> function.</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Luca Scrucca</p>
+
+
+<h3>References</h3>
+
+<p>Mason, R.L. and Young, J.C. (2002) <em>Multivariate Statistical Process Control with Industrial Applications</em>, SIAM. <br>
+Montgomery, D.C. (2005) <em>Introduction to Statistical Quality Control</em>, 5th ed. New York: John Wiley &amp; Sons. <br>
+Ryan, T. P. (2000), <em>Statistical Methods for Quality Improvement</em>, 2nd ed. New York: John Wiley &amp; Sons, Inc.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>mqcc</code>, <code>stats.T2</code>, <code>stats.T2.single</code></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># See examples in help(mqcc)
+</code></pre>
+
+
+</div>

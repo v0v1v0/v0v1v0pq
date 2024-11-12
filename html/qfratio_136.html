@@ -1,0 +1,163 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>rqfr</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Monte Carlo sampling of ratio/product of quadratic forms</h2>
+
+<h3>Description</h3>
+
+<p><code>rqfr()</code>, <code>rqfmr()</code>, and <code>rqfp()</code> calculate a random sample of
+a simple ratio, multiple ratio (of special form), and product, respectively,
+of quadratic forms in normal variables of specified mean and covariance
+(standard multivariate normal by default).  These functions are primarily for
+empirical verification of the analytic results provided in this package.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">rqfr(nit = 1000L, A, B, p = 1, q = p, mu, Sigma, use_cpp = TRUE)
+
+rqfmr(nit = 1000L, A, B, D, p = 1, q = p/2, r = q, mu, Sigma, use_cpp = TRUE)
+
+rqfp(nit = 1000L, A, B, D, p = 1, q = 1, r = 1, mu, Sigma, use_cpp = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>nit</code></td>
+<td>
+<p>Number of iteration or sample size.  Should be an integer-alike of
+length 1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>A, B, D</code></td>
+<td>
+<p>Argument matrices (see “Details”).  Assumed to be square matrices of
+the same order.  When missing, set to the identity matrix.  At least
+one of these must be specified.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p, q, r</code></td>
+<td>
+<p>Exponents for A, B, D, respectively (see “Details”).  Assumed to be
+numeric of length 1 each.  See “Details” for default values.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mu</code></td>
+<td>
+<p>Mean vector <code class="reqn">\bm{\mu}</code> for <code class="reqn">\mathbf{x}</code>.  Default
+zero vector.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Sigma</code></td>
+<td>
+<p>Covariance matrix <code class="reqn">\mathbf{\Sigma}</code> for
+<code class="reqn">\mathbf{x}</code>.  Default identity matrix.  <code>mu</code> and
+<code>Sigma</code> are assumed to be of the same order as the argument matrices.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>use_cpp</code></td>
+<td>
+<p>Logical to specify whether an C++ version is called or
+not.  <code>TRUE</code> by default.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>These functions generate a random sample of
+<code class="reqn"> \frac{(\mathbf{x^\mathit{T} A x})^p}{(\mathbf{x^\mathit{T} B x})^q}
+     </code>
+(<code>rqfr()</code>),
+<code class="reqn"> \frac{(\mathbf{x^\mathit{T} A x})^p}
+           {(\mathbf{x^\mathit{T} B x})^q (\mathbf{x^\mathit{T} Dx})^r}
+     </code>
+(<code>rqfmr()</code>), and
+<code class="reqn"> (\mathbf{x^\mathit{T} A x})^p (\mathbf{x^\mathit{T} B x})^q
+      (\mathbf{x^\mathit{T} D x})^r </code>
+(<code>rqfp()</code>), where
+<code class="reqn">\mathbf{x} \sim N_n(\bm{\mu}, \mathbf{\Sigma})
+     </code>.  (Internally, <code>rqfr()</code> and <code>rqfmr()</code>
+just call <code>rqfp()</code> with negative exponents.)
+</p>
+<p>When only one of <code>p</code> and <code>q</code> is provided in <code>rqfr()</code>,
+the other (missing) one is set to the same value.
+</p>
+<p>In <code>rqfmr()</code>, <code>q</code> and <code>r</code> are set to <code>p/2</code>
+when both missing, and set to the same value when only one is missing.  When
+<code>p</code> is missing, this is set to be <code>q + r</code>.  If unsure,
+specify all these explicitly.
+</p>
+<p>In <code>rqfp()</code>, <code>p</code>, <code>q</code> and <code>r</code> are <code>1</code> by default,
+provided that the corresponding argument matrices are given.  If both
+an argument matrix and its exponent (e.g., <code>D</code> and <code>r</code>)
+are missing, the exponent is set to <code>0</code> so that the factor be unity.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Numeric vector of length <code>nit</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>qfrm</code> and <code>qfpm</code> for analytic moments
+</p>
+<p><code>dqfr</code> for analytic distribution-related functions for
+simple ratios
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">p &lt;- 4
+A &lt;- diag(1:p)
+B &lt;- diag(p:1)
+D &lt;- diag(sqrt(1:p))
+
+## By default B = I, p = q = 1;
+## i.e., (x^T A x) / (x^T x), x ~ N(0, I)
+rqfr(5, A)
+
+## (x^T A x) / ((x^T B x)(x^T D x))^(1/2), x ~ N(0, I)
+rqfmr(5, A, B, D, 1, 1/2, 1/2)
+
+## (x^T A x), x ~ N(0, I)
+rqfp(5, A)
+
+## (x^T A x) (x^T B x), x ~ N(0, I)
+rqfp(5, A, B)
+
+## (x^T A x) (x^T B x) (x^T D x), x ~ N(0, I)
+rqfp(5, A, B, D)
+
+## Example with non-standard normal
+mu &lt;- 1:p / p
+Sigma &lt;- matrix(0.5, p, p)
+diag(Sigma) &lt;- 1
+rqfr(5, A, mu = 1:p / p, Sigma = Sigma)
+
+## Compare Monte Carlo sample and analytic expression
+set.seed(3)
+mcres &lt;- rqfr(1000, A, p = 2)
+mean(mcres)
+(anres &lt;- qfrm(A, p = 2))
+stats::t.test(mcres, mu = anres$statistic)
+
+</code></pre>
+
+
+</div>

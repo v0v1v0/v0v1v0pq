@@ -1,0 +1,59 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>sim1</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Simulate a single multivariate data set consisting of n subjects and d phenotypes for each</h2>
+
+<h3>Description</h3>
+
+<p>Simulate a single multivariate data set consisting of n subjects and d phenotypes for each
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">sim1(X, B, Sigma)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>X</code></td>
+<td>
+<p>design matrix (incorporating genotype probabilities from two loci), dn by df</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>B</code></td>
+<td>
+<p>a matrix of allele effects, f rows by d columns</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Sigma</code></td>
+<td>
+<p>dn by dn covariance matrix</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>a vector of length dn. The first n entries are for trait 1, the second n for trait 2, etc.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">n_mouse &lt;- 20
+geno &lt;- rbinom(n = n_mouse, size = 1, prob = 1 / 2)
+X &lt;- gemma2::stagger_mats(geno, geno)
+B &lt;- matrix(c(1, 2), ncol = 2, nrow = 1)
+sim1(X, B, Sigma = diag(2 * n_mouse))
+</code></pre>
+
+
+</div>

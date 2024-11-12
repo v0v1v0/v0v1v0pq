@@ -1,0 +1,178 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>compareME</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Compute Several Deviance Measures for Comparison</h2>
+
+<h3>Description</h3>
+
+<p>Various deviance measures are computed allowing the user to find the
+aspects in which two time series differ.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">compareME(o, p,
+          o.t      = seq(0, 1, length.out = length(o)),
+          p.t      = seq(0, 1, length.out = length(p)),
+          ignore   = c("raw", "centered", "scaled", "ordered"),
+          geometry = c("real", "logarithmic", "geometric", "ordinal"),
+          measure  = c("mad", "var", "sd"),
+          type     = "normalized",
+          time     = "fixed", ..., col.vars=c("time", "ignore")
+         )
+## S3 method for class 'compareME'
+print(x, ..., digits = 3)
+## S3 method for class 'compareME'
+summary(object, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>o</code></td>
+<td>
+<p>vector of observed values,</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p</code></td>
+<td>
+<p>vector of predicted values,</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>o.t</code></td>
+<td>
+<p>vector of observation times,</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p.t</code></td>
+<td>
+<p>vector of times for predicted values,</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ignore</code></td>
+<td>
+<p>a subset of <code>c("raw", "centered", "scaled",
+      "ordered")</code> as defined in <code>generalME</code> to specify
+the aspects of the data to be ignored,</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>geometry</code></td>
+<td>
+<p>a subset of <code>c("real", "logarithmic", "geometric",
+      "ordinal")</code> as defined in <code>generalME</code> to specify the
+geometry of the observed data,</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>measure</code></td>
+<td>
+<p>a subset of <code>c("mad", "var", "sd")</code> to specify the
+type of error to be measured,</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>type</code></td>
+<td>
+<p>a subset of <code>c("dissimilarity", "normalized",
+      "similarity", "reference")</code> as defined in <code>generalME</code>
+to specify the type of deviance measure to be used,</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>time</code></td>
+<td>
+<p>a subset of <code>c("fixed", "transform")</code>, indicates wether
+the time should actually be transformed. If this argument and the
+time arguments are missing the comparison is based on values only
+without time matching.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>further arguments passed to <code>timeTransME</code>,</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>col.vars</code></td>
+<td>
+<p>a subset of <code>c("ignore", "geometry", "measure",
+      "time")</code> to be displayed in the columns of the resulting <code>ftable</code>,</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>digits</code></td>
+<td>
+<p>number of significant digits displayed,</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x, object</code></td>
+<td>
+<p>objects of class <code>compareME</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The function provides a simple standard interface to get a first idea
+on the similarities and dissimilarities of two time series spanning the
+same time interval. The <code>print</code> and <code>summary</code> methods extract
+the relevant information, rounded to an optional number of significant 
+digits.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The result is a list of <code>ftable</code>s containing the deviance
+measures of all requested combinations of parameters. The list is done
+over the different types of measures requested. 
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>timeTransME</code>,
+<code>generalME</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># a constructed example
+x &lt;- seq(0, 2*pi, 0.1)
+y &lt;- 5 + sin(x)             # a process
+o &lt;- y + rnorm(x, sd = 0.2) # observation with random error
+p &lt;- y + 0.1                # simulation with systematic bias
+
+os &lt;- ksmooth(x, o, kernel = "normal",
+  bandwidth = dpill(x, o), x.points = x)$y
+plot(x, o); lines(x, p); lines(x, os, col = "red")
+
+compareME(o, p)
+compareME(os, p)
+
+# observed and measured data with non-matching time intervals
+data(phyto)
+compareME(obs$y, sim$y, obs$t, sim$t, time = "fixed")
+tt &lt;- timeTransME(obs$y, sim$y, obs$t, sim$t, ME = SMSLE, trials = 5)
+compareME(tt$yo, tt$yp)
+
+# show names of deviance measures
+compareME(type = "name")
+</code></pre>
+
+
+</div>

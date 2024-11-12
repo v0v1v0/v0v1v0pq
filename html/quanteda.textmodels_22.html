@@ -1,0 +1,71 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>data_corpus_moviereviews</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Movie reviews with polarity from Pang and Lee (2004)</h2>
+
+<h3>Description</h3>
+
+<p>A corpus object containing 2,000 movie reviews classified by positive or negative sentiment.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">data_corpus_moviereviews
+</code></pre>
+
+
+<h3>Format</h3>
+
+<p>The corpus includes the following document variables: </p>
+
+<dl>
+<dt>sentiment</dt>
+<dd>
+<p>factor indicating whether a review was manually classified as
+positive <code>pos</code> or negative <code>neg</code>.</p>
+</dd>
+<dt>id1</dt>
+<dd>
+<p>Character counting the position in the corpus.</p>
+</dd>
+<dt>id2</dt>
+<dd>
+<p>Random number for each review.</p>
+</dd>
+</dl>
+<h3>Details</h3>
+
+<p>For more information, see <code>cat(meta(data_corpus_moviereviews, "readme"))</code>.
+</p>
+
+
+<h3>Source</h3>
+
+<p><a href="https://www.cs.cornell.edu/people/pabo/movie-review-data/">https://www.cs.cornell.edu/people/pabo/movie-review-data/</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Pang, B., Lee, L.  (2004)
+"<a href="https://www.cs.cornell.edu/home/llee/papers/cutsent.pdf">A Sentimental Education: Sentiment Analysis Using Subjectivity Summarization Based on Minimum Cuts.</a>", Proceedings of the ACL.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># check polarities
+table(data_corpus_moviereviews$sentiment)
+
+# make the data into sentences, because each line is a sentence
+data_corpus_moviereviewsents &lt;-
+    quanteda::corpus_segment(data_corpus_moviereviews, "\n", extract_pattern = FALSE)
+print(data_corpus_moviereviewsents, max_ndoc = 3)
+</code></pre>
+
+
+</div>

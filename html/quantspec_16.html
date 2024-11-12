@@ -1,0 +1,101 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>ClippedFT-constructor</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Create an instance of the <code>ClippedFT</code> class.</h2>
+
+<h3>Description</h3>
+
+<p>The parameter <code>type.boot</code> can be set to choose a block bootstrapping
+procedure. If <code>"none"</code> is chosen, a moving blocks bootstrap with
+<code>l=lenTS(Y)</code> and <code>N=lenTS(Y)</code> would be done. Note that in that
+case one would also chose <code>B=0</code> which means that <code>getPositions</code>
+would never be called. If <code>B&gt;0</code> then each bootstrap replication would
+be the undisturbed time series.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">clippedFT(
+  Y,
+  frequencies = 2 * pi/lenTS(Y) * 0:(lenTS(Y) - 1),
+  levels = 0.5,
+  isRankBased = TRUE,
+  B = 0,
+  l = 0,
+  type.boot = c("none", "mbb")
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>Y</code></td>
+<td>
+<p>A <code>matrix</code> of real numbers containing the time series from
+which to determine the quantile periodogram as columns, or a
+<code>ts</code> object or a <code>zoo</code> object.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>frequencies</code></td>
+<td>
+<p>A vector containing frequencies at which to determine the
+quantile periodogram.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>levels</code></td>
+<td>
+<p>A vector of length <code>K</code> containing the levels at which the
+<code>ClippedFT</code> frequency representation is to be
+determined.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>isRankBased</code></td>
+<td>
+<p>If true the time series is first transformed to pseudo
+data [cf. <code>FreqRep</code>].</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>B</code></td>
+<td>
+<p>number of bootstrap replications</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>l</code></td>
+<td>
+<p>(expected) length of blocks</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>type.boot</code></td>
+<td>
+<p>A flag to choose a method for the block bootstrap; currently
+two options are implemented: <code>"none"</code> and <code>"mbb"</code>
+which means to do a moving blocks  bootstrap with <code>B</code>
+and <code>l</code> as specified.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Returns an instance of <code>ClippedFT</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>For an example see <code>FreqRep</code>.
+</p>
+
+
+</div>

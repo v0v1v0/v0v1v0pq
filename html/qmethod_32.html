@@ -1,0 +1,144 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qzscores</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Q methodology: z-scores from loadings</h2>
+
+<h3>Description</h3>
+
+<p>Calculates factor characteristics, z-scores, and factor scores, provided a matrix of loadings and a matrix of (manually or automatically) flagged Q-sorts.</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qzscores(dataset, nfactors, loa, flagged, forced = TRUE, 
+         distribution = NULL)</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>dataset</code></td>
+<td>
+<p>a matrix or a data frame containing raw data, with statements as rows, Q-sorts as columns, and the column scores in the distribution in each cell.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nfactors</code></td>
+<td>
+<p>number of factors to extract.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>loa</code></td>
+<td>
+<p>matrix or data frame of <code>nqsorts</code> rows and <code>nfactors</code> columns, with values of factor loadings for Q-sorts, calculated using, e.g., <code>principal(...)$loadings</code> or <code>centroid</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>flagged</code></td>
+<td>
+<p>matrix or data frame of <code>nqsorts</code> rows and <code>nfactors</code> columns, with <code>TRUE</code> values for the Q-sorts that are flagged. Automatic flagging can be aplied using <code>qflag</code>. Manual flagging can be done by providing a logical matrix with <code>nqsorts</code> rows and <code>nfactors</code> columns to the argument <code>flagged</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>forced</code></td>
+<td>
+<p>logical; Is the distribution of items forced? Set to <code>TRUE</code> if all respondents ranked the items following strictly the distribution scores, and the values of the distribution are calculated automatically. Set to <code>FALSE</code> if respondents were able to rank the items without following the distribution, and the values of the distribution have to be provided as an array in the argument <code>distribution</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>distribution</code></td>
+<td>
+<p>logical; when <code>forced = FALSE</code>, the distribution has to be provided as a vector of numbers, such as <code>c(-2, -1, -1, 0, 1, 1, 2, 2)</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>In order to implement manual flagging, use a manually created data frame (or matrix) for <code>flagged</code>. See an example of code to perform manual flagging or to manipulate the loadings in <a href="http://aiorazabala.github.io/qmethod/Advanced-analysis">the website</a>.
+</p>
+<p>The loadings from <code>principal(...)$loadings</code> or <code>centroid</code> can be explored to decide upon flagging. The <code>loa</code> data frame should have Q-sorts as rows, and factors as columns, where <code>TRUE</code> are the flagged Q-sorts.</p>
+
+
+<h3>Value</h3>
+
+<p>Returns a list of class <code>QmethodRes</code>, with seven objects:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>brief</code></td>
+<td>
+<p>a list with the basic values of the analysis: date (<code>"date"</code>), number of statements (<code>"nstat"</code>), number of Q-sorts (<code>"nqsort"</code>), whether the distribution was 'forced' (<code>"distro"</code>),  number of factors extracted (<code>"nfactors"</code>), type of extraction (<code>"extraction"</code>), type of rotation (<code>"rotation"</code>), method for correlation (<code>"cor.method"</code>), and a summary of this information for display purposes (<code>"info"</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dataset</code></td>
+<td>
+<p>original data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>loa</code></td>
+<td>
+<p>factor loadings for Q-sorts.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>flagged</code></td>
+<td>
+<p>logical dataframe of flagged Q-sorts.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>zsc</code></td>
+<td>
+<p>statements z-scores.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>zsc_n</code></td>
+<td>
+<p>statements rounded scores, rounded to the values in the first row of the original dataset.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>f_char</code></td>
+<td>
+<p>factor characteristics obtained from <code>qfcharact</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Note</h3>
+
+<p>This is a function used within <code>qmethod</code>. Rarely to be used independently.</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Aiora Zabala</p>
+
+
+<h3>References</h3>
+
+<p>Brown, S. R., 1980 <em>Political subjectivity: Applications of Q methodology in political science</em>, New Haven, CT: Yale University Press.
+</p>
+<p>See further references on the methodology in <code>qmethod-package</code>.</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(lipset)
+library(psych)
+loa &lt;- unclass(principal(lipset[[1]], 
+               nfactors = 3, rotate = "varimax")$loadings)
+flagged &lt;- qflag(nstat = 33, loa = loa)
+qmzsc &lt;- qzscores(lipset[[1]], nfactors = 3, flagged = flagged, loa = loa)
+qmzsc # Show results
+</code></pre>
+
+
+</div>

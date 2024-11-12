@@ -1,0 +1,71 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qgis_function</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Create a wrapper function that runs one algorithm</h2>
+
+<h3>Description</h3>
+
+<p>As opposed to <code>qgis_run_algorithm()</code>, <code>qgis_function()</code> creates a callable
+function based on the argument metadata provided by <code>qgis_get_argument_specs()</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qgis_function(algorithm, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>algorithm</code></td>
+<td>
+<p>A qualified algorithm name
+(e.g., <code>"native:buffer"</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Algorithm arguments.
+These values are evaluated once and immediately, so you shouldn't
+call <code>qgis_tmp_file()</code> here.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The logic of <code>qgis_function()</code> has been implemented in R package
+<a href="https://github.com/JanCaha/r_package_qgis">qgis</a>.
+This package also provides the QGIS documentation of each processing
+algorithm as corresponding R function documentation.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A function.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+qgis_buffer &lt;- qgis_function("native:buffer")
+qgis_buffer(
+  system.file(
+    "longlake/longlake_depth.gpkg",
+    package = "qgisprocess"
+  ),
+  DISTANCE = 10
+)
+
+</code></pre>
+
+
+</div>

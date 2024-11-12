@@ -1,0 +1,64 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>normCholTest</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Test of normality of the dependent variable</h2>
+
+<h3>Description</h3>
+
+<p>The function conducts a test of normality of the depenedent 
+variable based on residuals transformed using Cholesky decomposition of
+the inverse of the estimated variance-covariance matrix of the variable.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">normCholTest(model, normTest)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>model</code></td>
+<td>
+<p>lmer object.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>normTest</code></td>
+<td>
+<p>function which implements a normality test e.g. shapiro.test
+(takes a vector of the values of the variable as an argument and 
+conducts a test of normality of the variable).
+</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>testResults</code></td>
+<td>
+<p>output of the normTest function chosen by the user.</p>
+</td>
+</tr></table>
+<h3>Author(s)</h3>
+
+<p>Tomasz Zadlo</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(lme4)
+mod &lt;- lmer(Reaction ~ Days + (Days | Subject), sleepstudy)
+normCholTest(mod, shapiro.test)
+</code></pre>
+
+
+</div>

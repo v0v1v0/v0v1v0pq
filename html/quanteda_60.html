@@ -1,0 +1,97 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>corpus_trim</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Remove sentences based on their token lengths or a pattern match</h2>
+
+<h3>Description</h3>
+
+<p>Removes sentences from a corpus or a character vector shorter than a
+specified length.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">corpus_trim(
+  x,
+  what = c("sentences", "paragraphs", "documents"),
+  min_ntoken = 1,
+  max_ntoken = NULL,
+  exclude_pattern = NULL
+)
+
+char_trim(
+  x,
+  what = c("sentences", "paragraphs", "documents"),
+  min_ntoken = 1,
+  max_ntoken = NULL,
+  exclude_pattern = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>corpus or character object whose sentences will be selected.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>what</code></td>
+<td>
+<p>units of trimming, <code>"sentences"</code> or <code>"paragraphs"</code>, or
+<code>"documents"</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>min_ntoken, max_ntoken</code></td>
+<td>
+<p>minimum and maximum lengths in word tokens
+(excluding punctuation).  Note that these are approximate numbers of tokens
+based on checking for word boundaries, rather than on-the-fly full
+tokenisation.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>exclude_pattern</code></td>
+<td>
+<p>a <span class="pkg">stringi</span> regular expression whose match (at the
+sentence level) will be used to exclude sentences</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>a corpus or character vector equal in length to the input.  If
+the input was a corpus, then the all docvars and metadata are preserved.
+For documents whose sentences have been removed entirely, a null string
+(<code>""</code>) will be returned.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">txt &lt;- c("PAGE 1. This is a single sentence.  Short sentence. Three word sentence.",
+         "PAGE 2. Very short! Shorter.",
+         "Very long sentence, with multiple parts, separated by commas.  PAGE 3.")
+corp &lt;- corpus(txt, docvars = data.frame(serial = 1:3))
+corp
+
+# exclude sentences shorter than 3 tokens
+corpus_trim(corp, min_ntoken = 3)
+# exclude sentences that start with "PAGE &lt;digit(s)&gt;"
+corpus_trim(corp, exclude_pattern = "^PAGE \\d+")
+
+# trimming character objects
+char_trim(txt, "sentences", min_ntoken = 3)
+char_trim(txt, "sentences", exclude_pattern = "sentence\\.")
+</code></pre>
+
+
+</div>

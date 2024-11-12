@@ -1,0 +1,94 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>Optimal marker spacing</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Optimal marker spacing</h2>
+
+<h3>Description</h3>
+
+<p>Functions to find optimal marker spacing given cost.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">optspacing(cost,G=NULL,sel.frac,cross)
+optspacing.bc(cost,G=NULL,sel.frac)
+optspacing.f2(cost,G=NULL,sel.frac)
+optspacing(cost,G=NULL,sel.frac=NULL,cross)
+optspacing.bc(cost,G=NULL,sel.frac=NULL)
+optspacing.f2(cost,G=NULL,sel.frac=NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>cost</code></td>
+<td>
+<p>Cost of genotyping in units of raising an individual</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sel.frac</code></td>
+<td>
+<p>Selection fraction; proportion of individuals genotyped</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>G</code></td>
+<td>
+<p>Genome size in centiMorgans</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cross</code></td>
+<td>
+<p>Cross type, "bc" or "f2"</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The function <code>optim</code> is used to search for the optima.
+</p>
+
+
+<h3>Value</h3>
+
+<p>In the first form, with the selection fraction specified, the
+spacing in centiMorgans that maximizes the information to cost ratio
+in the middle of the marker interval.  In the second form, with the
+selection fraction unspecified, it returns the value of
+(<code>spacing</code>,<code>sel.frac</code>) which maximizes the information
+to cost ratio in the middle of the marker interval.</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Saunak Sen, Jaya Satagopan, Karl Broman, and Gary Churchill</p>
+
+
+<h3>References</h3>
+
+<p>Sen S, Satagopan JM, Churchill GA (2005) 	
+Quantitative trait locus study design from an information perspective.
+Genetics, 170:447-64.</p>
+
+
+<h3>See Also</h3>
+
+<p><code>optim</code>, <code>optimize</code></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">optspacing(cost=0.1,G=1440,sel.frac=0.5,cross="bc")
+optspacing(cost=30/3000,G=1440,sel.frac=NULL,cross="f2")
+</code></pre>
+
+
+</div>

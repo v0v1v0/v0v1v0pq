@@ -1,0 +1,50 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>SynthesizeCircuit</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>SynthesizeCircuit</h2>
+
+<h3>Description</h3>
+
+<p>Converts the list form of a quantum circuit into a matrix representation. If the input is a single list, this function multiplies each entry. If each entry is a 4x4 unitary matrix, this function will multiply all, starting with the first, and generate a single 4x4 unitary matrix. If the input is a list of lists, this function will perform the same operation but interleave each list. The lists can be of different lengths.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">SynthesizeCircuit(l)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code> l </code></td>
+<td>
+<p> list containing the quantum operators of each cycle. The quantum operators should be unitary matrices which act on a number of qubits. Each entry in l should be of the same dimension. Optionally, l can be a of such lists, in which case each list will be interleaved. </p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>A matrix representing the result of applying each operation listed in l
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+ SynthesizeCircuit( list( tensor(X(),X()) , tensor(Y(),X()),
+		 tensor(I(),X()) , tensor(Z(),Z())  ))
+
+## End(Not run)
+## Not run: 
+ SynthesizeCircuit( list(  list(  tensor(X(),X()) , tensor(I(),X()) ),
+		 list( tensor(Y(),X()) , tensor(Z(),Z()) ) ) )
+
+## End(Not run)
+</code></pre>
+
+
+</div>

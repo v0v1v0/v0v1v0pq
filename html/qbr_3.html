@@ -1,0 +1,125 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>copy_app</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Copy an app</h2>
+
+<h3>Description</h3>
+
+<p>Copy an app. Provides options to copy data and users.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">copy_app(
+  subdomain,
+  auth,
+  app_id,
+  app_name,
+  app_desc = NULL,
+  agent = NULL,
+  users_and_roles = FALSE,
+  keep_data = FALSE,
+  exclude_files = TRUE,
+  assign_user_token = TRUE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>subdomain</code></td>
+<td>
+<p>Character vector with one element. Found at the beginning of
+the Quickbase URL. Realm specific.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>auth</code></td>
+<td>
+<p>Character vector with one element. The Quickbase authentication
+scheme you are using to authenticate the request (e.g., user token).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>app_id</code></td>
+<td>
+<p>Character vector with one element. Unique identifier of an app.
+Found in the URL of the app's homepage after /db/</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>app_name</code></td>
+<td>
+<p>Character vector with one element. Name the app's copy.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>app_desc</code></td>
+<td>
+<p>Optional. Character vector with one element. Describe the
+app's copy.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>agent</code></td>
+<td>
+<p>Optional. Character vector with one element. Describes
+user/agent making API call.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>users_and_roles</code></td>
+<td>
+<p>Logical. If true, users will be copied along with
+their assigned roles. If false, users and roles will be copied but roles
+will not be assigned.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>keep_data</code></td>
+<td>
+<p>Logical. Whether to copy the app's data along with the
+schema.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>exclude_files</code></td>
+<td>
+<p>Logical. If keep_data is true, whether to copy the file
+attachments as well. If keep_data is false, this parameter is ignored.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>assign_user_token</code></td>
+<td>
+<p>Logical. Whether to add the user token used to make
+this request to the new app.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+   copy_app(subdomain = "abc",
+            auth = keyring::key_get("qb_example"),
+            app_id = "bn9d8f78g",
+            app_name = "Copy of my app",
+            keep_data = TRUE)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

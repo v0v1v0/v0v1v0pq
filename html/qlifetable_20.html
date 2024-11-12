@@ -1,0 +1,101 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>time_exposed_ins</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Data frame of time exposed at risk for a population of immigrants/portfolio entries</h2>
+
+<h3>Description</h3>
+
+<p>Computes for each integer age and each combination of age and seasonal quarter
+the total time exposed at risk (in years) of a population of immigrants/new policies
+(new production) during the year of the event.
+The computation is performed using the associated data frame of quarterly variables
+corresponding to the population obtained using the <code>quarterly_variables</code> function.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">time_exposed_ins(x)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>A data.frame output of the <code>quarterly_variables</code> function.</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>A data frame with the time exposed at risk for each (potential) combination of integer age and age and
+season quarter of the input dataset. The data frame has the following components:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>age</code></td>
+<td>
+<p> Integer age to which the time exposed at risk corresponds.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>quarter.age</code></td>
+<td>
+<p> Age quarter to which the time exposed at risk corresponds.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>quarter.calendar</code></td>
+<td>
+<p> Calendar (time, season) quarter to which the time exposed at risk corresponds.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>time.exposed</code></td>
+<td>
+<p> Total time (in years) exposed at risk of the population during the quarter determined for the
+combination of 'age', 'quarter.age' and 'quarter.calendar'.</p>
+</td>
+</tr>
+</table>
+<h3>Note</h3>
+
+<p>The time exposed at risk is computed for each death from the beginning of the year in which the event occurred
+until the moment of occurrence of the event. Please see the note in the <code>time_exposed_stock</code> function.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Josep Lledo <a href="mailto:josep.lledo@uv.es">josep.lledo@uv.es</a>
+</p>
+<p>Jose M. Pavia <a href="mailto:pavia@uv.es">pavia@uv.es</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Pavia, JM and Lledo, J (2022). Estimation of the Combined Effects of Ageing and Seasonality on Mortality Risk. An application to Spain. *Journal of the Royal Statistical Society, Series A (Statistics in Society)*, 185(2), 471-497. <a href="https://doi.org/10.1111/rssa.12769">doi:10.1111/rssa.12769</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>time_exposed_stock</code>, <code>time_exposed_outs</code>, <code>time_exposed_newborns</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">dates.b &lt;- c("1920-05-13", "1999-04-12", "2019-01-01")
+dates.e &lt;- c("2002-03-23", "2009-04-12", "2019-01-01")
+x &lt;- quarterly_variables(dates.b, dates.e)
+out &lt;- time_exposed_ins(x)
+</code></pre>
+
+
+</div>

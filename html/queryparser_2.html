@@ -1,0 +1,57 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>extract_alias</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Extract the column alias from a SQL expression</h2>
+
+<h3>Description</h3>
+
+<p>Extracts the column alias assignment from an expression used in
+the <code>SELECT</code> list of a SQL query
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">extract_alias(expr)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>expr</code></td>
+<td>
+<p>a character string containing a SQL expression which might have a
+column alias assignment at the end</p>
+</td>
+</tr></table>
+<h3>Details</h3>
+
+<p>The expression must not contain any unquoted whitespace characters
+except spaces, and there must be no unquoted runs or two or more spaces.
+Use <code>squish_sql</code> to satisfy this whitespace requirement.
+</p>
+<p>queryparser also uses this function internally to extract table aliases
+used in the <code>FROM</code> clause.
+</p>
+
+
+<h3>Value</h3>
+
+<p>a character string containing the inputted SQL expression with the
+column alias assignment removed (if it existed) and with the assigned alias
+as its name
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">expr &lt;- "round(AVG(arr_delay)) AS avg_delay"
+extract_alias(expr)
+</code></pre>
+
+
+</div>

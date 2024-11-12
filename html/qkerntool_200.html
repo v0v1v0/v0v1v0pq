@@ -1,0 +1,136 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qkernmatrix</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>qKernel Matrix functions</h2>
+
+<h3>Description</h3>
+
+<p><code>qkernmatrix</code> calculates the qkernel matrix <code class="reqn">K_{ij} = k(x_i,x_j)</code> or <code class="reqn">K_{ij} =
+    k(x_i,y_j)</code>.<br></p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S4 method for signature 'qkernel'
+qkernmatrix(qkernel, x, y = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>qkernel</code></td>
+<td>
+<p>the kernel function to be used to calculate the qkernel
+matrix.
+This has to be a function of class <code>qkernel</code>, i.e. which can be
+generated either one of the build in
+kernel generating functions (e.g., <code>rbfbase</code> etc.) or a user defined
+function of class <code>qkernel</code> taking two vector arguments and returning a scalar.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a data matrix to be used to calculate the kernel matrix</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>second data matrix to calculate the kernel matrix</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Common functions used during kernel based computations.<br>
+The <code>qkernel</code> parameter can be set to any function, of class
+qkernel, which computes the kernel function value in feature space between two
+vector arguments. <span class="pkg">qkerntool</span> provides more than 10 qkernel functions
+which can be initialized by using the following
+functions:
+</p>
+
+<ul>
+<li> <p><code>nonlbase</code> Non Linear qkernel function
+</p>
+</li>
+<li> <p><code>rbfbase</code>  Gaussian qkernel function
+</p>
+</li>
+<li> <p><code>laplbase</code> Laplacian qkernel function
+</p>
+</li>
+<li> <p><code>ratibase</code> Rational Quadratic qkernel function
+</p>
+</li>
+<li> <p><code>multbase</code> Multiquadric qkernel function
+</p>
+</li>
+<li> <p><code>invbase</code>  Inverse Multiquadric qkernel function
+</p>
+</li>
+<li> <p><code>wavbase</code>  Wave  qkernel function
+</p>
+</li>
+<li> <p><code>powbase</code>  d qkernel function
+</p>
+</li>
+<li> <p><code>logbase</code>  Log qkernel function
+</p>
+</li>
+<li> <p><code>caubase</code>  Cauchy qkernel function
+</p>
+</li>
+<li> <p><code>chibase</code>  Chi-Square qkernel function
+</p>
+</li>
+<li> <p><code>studbase</code> Generalized T-Student qkernel function
+</p>
+</li>
+</ul>
+<p>  (see example.)
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>qkernmatrix</code> returns a conditionally negative definite matrix with a zero diagonal element.<br></p>
+
+
+<h3>Author(s)</h3>
+
+<p>Yusen Zhang <br><a href="mailto:yusenzhang@126.com">yusenzhang@126.com</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code>nonlcnd</code>, <code>rbfcnd</code>,<code>polycnd</code>,<code>laplcnd</code>,
+<code>anocnd</code>, <code>raticnd</code>, <code>multcnd</code>, <code>invcnd</code>,
+<code>wavcnd</code>, <code>powcnd</code>, <code>logcnd</code>, <code>caucnd</code>,
+<code>chicnd</code>, <code>studcnd</code></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+data(iris)
+dt &lt;- as.matrix(iris[ ,-5])
+
+## initialize kernel function
+rbf &lt;- rbfbase(sigma = 1.4, q=0.8)
+rbf
+
+## calculate qkernel matrix
+qkernmatrix(rbf, dt)
+
+
+</code></pre>
+
+
+</div>

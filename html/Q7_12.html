@@ -1,0 +1,71 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>list2inst</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Build a Q7 Object Instance from a List</h2>
+
+<h3>Description</h3>
+
+<p>Build a Q7 Object Instance from a List
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">list2inst(x, s3 = "default", parent = parent.frame(), ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>list</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>s3</code></td>
+<td>
+<p>S3 class name of the instance</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>parent</code></td>
+<td>
+<p>parent environment of the instance</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>dot-dot-dot</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Q7 object instance
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">my_data &lt;- list(a = 1,
+                add_to_a = function(value){
+                  .my$a &lt;- a + value
+                })
+
+myDataObject &lt;- list2inst(my_data)
+
+myDataObject$a
+myDataObject$add_to_a(20)
+myDataObject$a
+
+</code></pre>
+
+
+</div>

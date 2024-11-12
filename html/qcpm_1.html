@@ -1,0 +1,169 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>assessment</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Assessment measures of quantile composite-based path modeling</h2>
+
+<h3>Description</h3>
+
+<p><code>assessment</code> returns the following measures for assessing both the inner 
+and the outer model: communality of each manifest variable, communality of 
+each block,redundancy of each manifest variable of endogenous blocks, redundancy 
+of the endogenous blocks, and <code class="reqn">pseudo-R^2</code> for each inner equation.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">assessment(qcpm)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>qcpm</code></td>
+<td>
+<p>is an object of class <code>qcpm</code></p>
+</td>
+</tr></table>
+<h3>Details</h3>
+
+<p>All the assessment measures discussed in Davino et al. (2016) and Dolce et al. (2021) 
+are based on <code class="reqn">pseudo-R^2</code>, proposed by Koenker and Machado (1999), which simulates the 
+role and interpretation of the <code class="reqn">R^2</code> in classical regression analysis. The <code class="reqn">pseudo-R^2</code> is 
+considered as a local measure of goodness of fit for a particular quantile as it measures 
+the contribute of the selected regressors to the explanation of the dependent variable, 
+with respect to the trivial model without regressors. In more technical way, <code class="reqn">pseudo-R^2</code>
+compares the residual absolute sum of weighted differences using the selected model with 
+the total absolute sum of weighted differences using a model with the only intercept. 
+The <code class="reqn">pseudo-R^2</code> can be used to assess the inner model measuring the amount of variability of a 
+given endogenous construct explained by its explanatory constructs. A synthesis of the 
+evaluations regarding the whole inner model can be obtained by the average of all the <code class="reqn">pseudo-R^2</code>. 
+Communality indicates how much of the MV variance is explained by the corresponding construct. 
+It can be calculated for each MV, and for each block, using the average of MV communalities. 
+Redundancy measures the percent of the variance of MVs in an endogenous block that is predicted 
+from the explanatory constructs related to the endogenous construct. Redundancy can be computed 
+only for each MVs of endogenous blocks and for the whole endogenous blocks, using the average of 
+MV redundancies. Results are provided for each quantile of interest. When <code>fix.quantile=TRUE</code>, the 
+function returns communalities and redundancies only for the quantile 0.5.
+</p>
+
+
+<h3>Value</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>Communality</code></td>
+<td>
+<p>Communality of each MV. It is the proportion of the MV 
+variance explained by the corresponding construct.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Block_Communality</code></td>
+<td>
+<p>Communality of a whole block. It is computed 
+as average of the MV communalities belonging to that block.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Redundancy</code></td>
+<td>
+<p>Redundancy of each MV of the endogenous blocks. It measures 
+the percent of the variance of MVs in endogenous blocks that is predicted from the 
+explanatory constructs related to the endogenous construct.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Block_Redundancy</code></td>
+<td>
+<p>Redundancy of a block. It is computed as average of 
+MV redundancies belonging to that block.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pseudo.R2</code></td>
+<td>
+<p>The <code class="reqn">pseudo-R^2</code>. It assesses the goodness of fit of the inner 
+model.</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Cristina Davino, Pasquale Dolce, Giuseppe Lamberti, Domenico Vistocco
+</p>
+
+
+<h3>References</h3>
+
+<p>Davino, C., Dolce, P., Taralli, S. and Vistocco, D. (2020). Composite-based 
+path modeling for conditional quantiles prediction. An application to assess 
+health differences at local level in a well-being perspective.
+<em>Social Indicators Research</em>, doi:10.1007/s11205-020-02425-5..
+</p>
+<p>Davino, C. and Esposito Vinzi, V. (2016). Quantile composite-based path modeling. 
+<em>Advances in Data Analysis and Classification</em>, <b>10 (4)</b>, pp. 
+491–520, doi:10.1007/s11634-015-0231-9.
+</p>
+<p>Davino, C., Esposito Vinzi, V. and Dolce, P. (2016). Assessment and validation in 
+quantile composite-based path modeling. In: Abdi H.,  Esposito Vinzi, V., Russolillo, G., 
+Saporta, G., Trinchera, L. (eds.). <em>The Multiple Facets of Partial Least Squares Methods</em>, 
+chapter 13. Springer proceedings in mathematics and statistics. Springer, Berlin
+</p>
+<p>Dolce, P., Davino, C. and Vistocco, D. (2021). Quantile composite-based path modeling: 
+algorithms, properties and applications. <em>Advances in Data Analysis and Classification</em>,
+doi:10.1007/s11634-021-00469-0.
+</p>
+<p>Koenker, R. and Machado, J.A. (1999). Goodness of fit and related inference processes 
+for quantile regression. <em>Journal of the American Statistical Association</em>, <b>94 (448)</b> 
+pp. 1296–1310, doi: 10.1080/01621459.1999.10473882
+</p>
+<p>He, X.M. and Zhu, L.X. (2003). A lack-of-fit test for quantile regression. 
+<em>Journal of the American Statistical Association</em> <b>98</b> pp. 1013–1022, 
+doi: 10.1198/016214503000000963
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>summary</code>, <code>qcpm</code>, <code>boot</code>, and 
+<code>reliability</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+# Example of QC-PM in Well-Being analysis
+# model with three LVs and reflective indicators
+
+# load library and dataset province
+library(qcpm)
+data(province)
+
+# Define the model using laavan sintax. Use a set of regression formulas defining 
+# firstly the structural model and then the measurement model
+model &lt;- "
+ECOW ~ EDU
+HEALTH ~ EDU + ECOW
+
+# Reflective measurement model
+EDU =~ EDU1 + EDU2 + EDU3 + EDU4 + EDU5 + EDU6 + EDU7
+ECOW =~ ECOW1 + ECOW2 + ECOW3 + ECOW4 + ECOW5 + ECOW6
+HEALTH =~  HEALTH1 + HEALTH2 + HEALTH3
+"
+
+
+# Apply qcpm
+well.qcpm = qcpm(model,province)
+well.assessment = assessment(well.qcpm)   
+well.assessment 
+
+</code></pre>
+
+
+</div>

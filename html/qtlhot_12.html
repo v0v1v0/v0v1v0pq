@@ -1,0 +1,103 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>GetCommonQtls</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Get common QTLs for phenotypes</h2>
+
+<h3>Description</h3>
+
+<p>Perform joint QTL mapping for phenotypes
+with marginal LOD peak positions higher than LOD threshold and within
+set distance of each other
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">GetCommonQtls(cross, pheno1, pheno2, thr = 3, peak.dist = 5,
+  addcov1 = NULL, addcov2 = NULL, intcov1 = NULL, intcov2 = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>cross</code></td>
+<td>
+<p>object of class <code>cross</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pheno1</code></td>
+<td>
+<p>first phenotype column number or character string name</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pheno2</code></td>
+<td>
+<p>second phenotype column number or character string name;
+if more than one, then all phenotypes will be tested against <code>pheno1</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>thr</code></td>
+<td>
+<p>LOD threshold</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>peak.dist</code></td>
+<td>
+<p>maximal peak distance to be considered the same peak
+(in cM)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>addcov1, addcov2</code></td>
+<td>
+<p>additive covariates for first and second
+phenotype, respectively</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>intcov1, intcov2</code></td>
+<td>
+<p>interactive covariates for first and second
+phenotype, respectively</p>
+</td>
+</tr>
+</table>
+<h3>References</h3>
+
+<p>Chaibub Neto E, Broman AT, Keller MP, Attie AD, Zhang B, Zhu J, Yandell BS,
+Causal model selection hypothesis tests in systems genetics.
+Genetics (in review).
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>CMSTCross</code></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(CMSTCross)
+commqtls &lt;- GetCommonQtls(CMSTCross, 
+                          pheno1 = "y1", 
+                          pheno2 = "y3",
+                          thr = 3,
+                          peak.dist = 5,
+                          addcov1 = NULL, 
+                          addcov2 = NULL, 
+                          intcov1 = NULL, 
+                          intcov2 = NULL)
+commqtls
+</code></pre>
+
+
+</div>

@@ -1,0 +1,243 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qcs</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Quality Control Statistics</h2>
+
+<h3>Description</h3>
+
+<p>Create an object of class 'qcs' to perform statistical quality control.
+This object may then be used to plot Shewhart charts, Multivariate Control Charts,
+and more.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qcs(
+  x,
+  sample.index,
+  sizes = NULL,
+  type = c("xbar", "R", "S", "one", "p", "np", "c", "u", "ewma", "cusum"),
+  center = NULL,
+  std.dev,
+  conf.nsigma = 3,
+  limits = NULL,
+  type.data = c("continuous", "atributte", "dependence"),
+  lambda = 0.2,
+  decision.interval = 5,
+  se.shift = 1
+)
+
+qcs.continuous(
+  x,
+  sample.index,
+  sizes = NULL,
+  type = c("xbar", "R", "S", "one"),
+  center = NULL,
+  std.dev,
+  conf.nsigma = 3,
+  limits = NULL
+)
+
+qcs.atributte(
+  x,
+  sample.index = NULL,
+  sizes = NULL,
+  type = c("p", "np", "c", "u"),
+  center = NULL,
+  conf.nsigma = 3,
+  limits = NULL
+)
+
+qcs.dependence(
+  x,
+  sample.index = NULL,
+  sizes = NULL,
+  type = c("ewma", "cusum"),
+  center = NULL,
+  std.dev,
+  nsigma = 3,
+  lambda = 0.2,
+  decision.interval = 5,
+  se.shift = 1
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a vector containing observed data</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sample.index</code></td>
+<td>
+<p>a scalar with the column number corresponding to the index 
+of each group (sample).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sizes</code></td>
+<td>
+<p>a value or a vector of values specifying the sample sizes
+associated with each group. For continuous data the sample sizes are obtained counting the non-<code>NA</code> elements of
+the sample.index vector. For <code>"p"</code>, <code>"np"</code> and <code>"u"</code> charts the argument
+<code>sizes</code> is required.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>type</code></td>
+<td>
+<p>a character string specifying the group statistics to compute:
+</p>
+
+<table>
+<tr>
+<td style="text-align: left;"> </td>
+<td style="text-align: left;"> Statistic charted </td>
+<td style="text-align: left;"> Chart description </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+<code>"xbar"</code> </td>
+<td style="text-align: left;"> mean </td>
+<td style="text-align: left;"> means of a continuous process variable </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+<code>"R"</code> </td>
+<td style="text-align: left;"> range </td>
+<td style="text-align: left;"> ranges of a continuous process variable </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+<code>"S"</code> </td>
+<td style="text-align: left;"> standard deviation </td>
+<td style="text-align: left;"> standard deviations of a continuous
+variable </td>
+</tr>
+<tr>
+<td style="text-align: left;"> <code>"one"</code> </td>
+<td style="text-align: left;"> mean </td>
+<td style="text-align: left;"> one-at-time data of a
+continuous process variable </td>
+</tr>
+<tr>
+<td style="text-align: left;"> <code>"p"</code> </td>
+<td style="text-align: left;"> proportion </td>
+<td style="text-align: left;"> proportion
+of nonconforming units </td>
+</tr>
+<tr>
+<td style="text-align: left;"> <code>"np"</code> </td>
+<td style="text-align: left;"> count </td>
+<td style="text-align: left;"> number of
+nonconforming units </td>
+</tr>
+<tr>
+<td style="text-align: left;"> <code>"c"</code> </td>
+<td style="text-align: left;"> count </td>
+<td style="text-align: left;"> nonconformities per unit
+</td>
+</tr>
+<tr>
+<td style="text-align: left;"> <code>"u"</code> </td>
+<td style="text-align: left;"> count </td>
+<td style="text-align: left;"> average nonconformities per unit </td>
+</tr>
+<tr>
+<td style="text-align: left;">
+<code>"g"</code> </td>
+<td style="text-align: left;"> count </td>
+<td style="text-align: left;"> number of non-events between events </td>
+</tr>
+</table>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>center</code></td>
+<td>
+<p>a value specifying the center of group statistics or the
+”target” value of the process.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>std.dev</code></td>
+<td>
+<p>a value or an available method specifying the within-group standard
+deviation(s) of the process. Several methods are available for estimating the
+standard deviation in case of a continuous process variable.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>conf.nsigma</code></td>
+<td>
+<p>a numeric value used to compute control limits, specifying the
+number of standard deviations (if <code>conf.nsigma</code> &gt; 1) or the confidence level (if 0
+&lt; <code>conf.nsigma</code> &lt; 1).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>limits</code></td>
+<td>
+<p>a two-value vector specifying control limits.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>type.data</code></td>
+<td>
+<p>a string specifying el type de data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lambda</code></td>
+<td>
+<p>the smoothing parameter <code class="reqn">0 \le \lambda \le 1</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>decision.interval</code></td>
+<td>
+<p>A numeric value specifying the number of standard
+errors of the summary statistics at which the cumulative sum is out of
+control.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>se.shift</code></td>
+<td>
+<p>The amount of shift to detect in the process, measured in
+standard errors of the summary statistics.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nsigma</code></td>
+<td>
+<p>a numeric value used to compute control limits, specifying the
+number of standard deviations.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Returns an object of class 'qcs'.
+</p>
+
+
+<h3>References</h3>
+
+<p>Montgomery, D.C. (2000) <em>Introduction to Statistical
+Quality Control</em>, 4th ed. New York: John Wiley &amp; Sons. <br> Wetherill, G.B.
+and Brown, D.W. (1991) <em>Statistical Process Control</em>. New York:
+Chapman &amp; Hall.
+</p>
+
+
+</div>

@@ -1,0 +1,149 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>triangmesh</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Create a triangle-type mesh for use in rgl.</h2>
+
+<h3>Description</h3>
+
+<p>Convert an object to a <code>mesh3d</code> (of rgl package) triangle mesh,
+with methods for <code>raster::raster()</code> and <code>matrix</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">triangmesh(
+  x,
+  z = x,
+  na.rm = FALSE,
+  ...,
+  texture = NULL,
+  texture_filename = NULL
+)
+
+## S3 method for class 'matrix'
+triangmesh(
+  x,
+  z = x,
+  na.rm = FALSE,
+  ...,
+  texture = NULL,
+  texture_filename = NULL
+)
+
+## S3 method for class 'BasicRaster'
+triangmesh(
+  x,
+  z = x,
+  na.rm = FALSE,
+  ...,
+  texture = NULL,
+  texture_filename = NULL
+)
+
+dtriangmesh(
+  x,
+  z = x,
+  na.rm = FALSE,
+  ...,
+  texture = NULL,
+  texture_filename = NULL
+)
+
+## Default S3 method:
+dtriangmesh(
+  x,
+  z = x,
+  na.rm = FALSE,
+  ...,
+  texture = NULL,
+  texture_filename = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>raster object for mesh structure</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>z</code></td>
+<td>
+<p>raster object for height values</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>na.rm</code></td>
+<td>
+<p>remove quads where missing values?</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>ignored</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>texture</code></td>
+<td>
+<p>optional input RGB raster, 3-layers</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>texture_filename</code></td>
+<td>
+<p>optional input file path for PNG texture</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p><code>triangmesh()</code> generates the point-based interpretation of a raster (POINT) with the obvious continuous
+interpretation. <code>dtriangmesh</code> splits the mesh so that each primitive is independent.  This is more coherent
+than the analogous distinction for quadmesh, though both will appear the same on creation.
+</p>
+<p>The output is described as a mesh because it is a dense representation
+of a continuous shape, in this case plane-filling triangles defined
+by index of three of the available vertices.
+</p>
+<p>The <code>z</code> argument defaults to the input <code>x</code> argument, though may be set to <code>NULL</code>, a constant
+numeric value, or another raster. If the coordinate system of <code>z</code> and <code>x</code> don't match the z values
+are queried by reprojection.
+</p>
+<p>Any raster RGB object (3-layers, ranging in 0-255) may be used as
+a <em>texture</em> on the resulting mesh3d object.
+It is not possible to provide rgl with an object of data for texture, it must be a PNG file and so
+the in-memory <code>texture</code> argument is written out to PNG file (with a message). The location of the file
+may be set explicitly with <code>texture_filename</code>.  Currently it's not possible to not use the <code>texture</code> object
+in-memory.
+</p>
+
+
+<h3>Value</h3>
+
+<p>mesh3d (primitivetype triangle)
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(raster)
+r &lt;- setExtent(raster(volcano), extent(0, nrow(volcano), 0, ncol(volcano)))
+tm &lt;- triangmesh(r)
+
+## jitter the mesh just enough to show that they are distinct in the discrete case
+a &lt;- dtriangmesh(r)
+a$vb[3L, ] &lt;- jitter(a$vb[3L, ], factor = 10)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,121 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>textmodel_lr</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Logistic regression classifier for texts</h2>
+
+<h3>Description</h3>
+
+<p>Fits a fast penalized maximum likelihood estimator to predict discrete
+categories from sparse dfm objects. Using the <span class="pkg">glmnet</span>
+package, the function computes the regularization path for the lasso or
+elasticnet penalty at a grid of values for the regularization parameter
+lambda.  This is done automatically by testing on several folds of the data
+at estimation time.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">textmodel_lr(x, y, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>the dfm on which the model will be fit.  Does not
+need to contain only the training documents.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>vector of training labels associated with each document identified
+in <code>train</code>.  (These will be converted to factors if not already
+factors.)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>additional arguments passed to
+<code>cv.glmnet()</code></p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>an object of class <code>textmodel_lr</code>, a list containing:
+</p>
+
+<ul>
+<li> <p><code>x</code>, <code>y</code> the input model matrix and input training class labels
+</p>
+</li>
+<li> <p><code>algorithm</code> character; the type and family of logistic regression model used in calling
+<code>cv.glmnet()</code>
+</p>
+</li>
+<li> <p><code>type</code> the type of associated with <code>algorithm</code>
+</p>
+</li>
+<li> <p><code>classnames</code> the levels of training classes in <code>y</code>
+</p>
+</li>
+<li> <p><code>lrfitted</code> the fitted model object from <code>cv.glmnet()</code>
+</p>
+</li>
+<li> <p><code>call</code> the model call
+</p>
+</li>
+</ul>
+<h3>References</h3>
+
+<p>Friedman, J., Hastie, T., &amp; Tibshirani, R. (2010). Regularization Paths for
+Generalized Linear Models via Coordinate Descent. <em>Journal of Statistical
+Software</em> 33(1), 1-22.  <a href="https://doi.org/10.18637/jss.v033.i01">doi:10.18637/jss.v033.i01</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>cv.glmnet()</code>, <code>predict.textmodel_lr()</code>,
+<code>coef.textmodel_lr()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Example from 13.1 of _An Introduction to Information Retrieval_
+library("quanteda")
+corp &lt;- corpus(c(d1 = "Chinese Beijing Chinese",
+                 d2 = "Chinese Chinese Shanghai",
+                 d3 = "Chinese Macao",
+                 d4 = "Tokyo Japan Chinese",
+                 d5 = "London England Chinese",
+                 d6 = "Chinese Chinese Chinese Tokyo Japan"),
+               docvars = data.frame(train = factor(c("Y", "Y", "Y", "N", "N", NA))))
+dfmat &lt;- dfm(tokens(corp), tolower = FALSE)
+
+## simulate bigger sample as classification on small samples is problematic
+set.seed(1)
+dfmat &lt;- dfm_sample(dfmat, 50, replace = TRUE)
+
+## train model
+(tmod1 &lt;- textmodel_lr(dfmat, docvars(dfmat, "train")))
+summary(tmod1)
+coef(tmod1)
+
+## predict probability and classes
+predict(tmod1, type = "prob")
+predict(tmod1)
+</code></pre>
+
+
+</div>

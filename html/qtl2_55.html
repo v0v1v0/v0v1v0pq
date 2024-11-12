@@ -1,0 +1,93 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>find_index_snp</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Find name of indexed snp</h2>
+
+<h3>Description</h3>
+
+<p>For a particular SNP, find the name of the corresponding indexed SNP.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">find_index_snp(snpinfo, snp)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>snpinfo</code></td>
+<td>
+<p>Data frame with SNP information with the following columns:
+</p>
+
+<ul>
+<li> <p><code>chr</code> - Character string or factor with chromosome
+</p>
+</li>
+<li> <p><code>index</code> - Numeric index of equivalent, indexed SNP, as produced by <code>index_snps()</code>.
+</p>
+</li>
+<li> <p><code>snp</code> - Character string with SNP identifier (if
+missing, the rownames are used).
+</p>
+</li>
+</ul>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>snp</code></td>
+<td>
+<p>Name of snp to look for (can be a vector).</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A vector of SNP IDs (the corresponding indexed SNPs), with NA if a SNP is not found.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>find_marker()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+# load example data and calculate genotype probabilities
+file &lt;- paste0("https://raw.githubusercontent.com/rqtl/",
+               "qtl2data/main/DO_Recla/recla.zip")
+recla &lt;- read_cross2(file)
+
+# founder genotypes for a set of SNPs
+snpgeno &lt;- rbind(m1=c(3,1,1,3,1,1,1,1),
+                 m2=c(3,1,1,3,1,1,1,1),
+                 m3=c(1,1,1,1,3,3,3,3),
+                 m4=c(1,3,1,3,1,3,1,3))
+sdp &lt;- calc_sdp(snpgeno)
+snpinfo &lt;- data.frame(chr=c("19", "19", "X", "X"),
+                      pos=c(40.36, 40.53, 110.91, 111.21),
+                      sdp=sdp,
+                      snp=c("m1", "m2", "m3", "m4"), stringsAsFactors=FALSE)
+
+# update snp info by adding the SNP index column
+snpinfo &lt;- index_snps(recla$pmap, snpinfo)
+
+# find indexed snp for a particular snp
+find_index_snp(snpinfo, "m3")
+
+## End(Not run)
+
+</code></pre>
+
+
+</div>

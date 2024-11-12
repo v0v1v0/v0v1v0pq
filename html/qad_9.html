@@ -1,0 +1,130 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>heatmap.qad</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Heatmap of dependence measures</h2>
+
+<h3>Description</h3>
+
+<p>The pairwise computed dependence measures (output of the function <code>pairwise.qad()</code>) are illustrated by a heatmap.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">heatmap.qad(
+  pw_qad,
+  select = c("dependence", "max.dependence", "asymmetry"),
+  fontsize = 4,
+  significance = FALSE,
+  use_p.adjust = TRUE,
+  sign.level = 0.05,
+  scale = "abs",
+  color = "plasma",
+  white_font = 0.7,
+  rb_values = c(10, 0.315, 0.15),
+  title = ""
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>pw_qad</code></td>
+<td>
+<p>output of the function <code>pairwise.qad</code>().</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>select</code></td>
+<td>
+<p>a character indicating which dependence value is plotted.
+Options are c("dependence", "max.dependence", "asymmetry").</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fontsize</code></td>
+<td>
+<p>a numeric specifying the font size of the values.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>significance</code></td>
+<td>
+<p>a logical indicating whether significant values with respect to the (adjusted) qad p.values are denoted by a star.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>use_p.adjust</code></td>
+<td>
+<p>a logical indicating if the adjusted p.values are used (default = TRUE).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sign.level</code></td>
+<td>
+<p>numeric value indicating the significance level.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>scale</code></td>
+<td>
+<p>character indicating whether the heatmap uses a relative or absolute scale. Options are 'rel' or 'abs' (default).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>color</code></td>
+<td>
+<p>Select the color palette. Options are c("plasma" (default), "viridis", "inferno", "magma", "cividis", "rainbow").</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>white_font</code></td>
+<td>
+<p>numeric between 0 and 1 denoting the start value for white text font (default = 0.7)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rb_values</code></td>
+<td>
+<p>a vector of size 3 with number of values, start value and end value in the rainbow colors space (if color = 'rainbow').</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>title</code></td>
+<td>
+<p>The text for the title</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>If the output of <code>pairwise.qad</code>() contains p-values, significant values can be highlighted by stars by setting significance=TRUE.
+</p>
+
+
+<h3>Value</h3>
+
+<p>a heatmap
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">n &lt;- 100
+x1 &lt;- runif(n, 0, 1)
+x2 &lt;- x1^2 + rnorm(n, 0, 0.1)
+x3 &lt;- runif(n, 0, 1)
+x4 &lt;- x3 - x2 + rnorm(n, 0, 0.1)
+sample_df &lt;- data.frame(x1,x2,x3,x4)
+#Fit qad
+model &lt;- pairwise.qad(sample_df, p.value = FALSE)
+heatmap.qad(model, select = "dependence", fontsize = 6)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,124 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>calc_type_metrics</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Calculate Type Metrics for Text Data</h2>
+
+<h3>Description</h3>
+
+<p>This function calculates type metrics for tokenized text data.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">calc_type_metrics(data, type, document, frequency = NULL, dispersion = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>A data frame containing the tokenized text data</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>type</code></td>
+<td>
+<p>The variable in <code>data</code> that contains the type
+(e.g., term, lemma) to analyze.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>document</code></td>
+<td>
+<p>The variable in <code>data</code> that contains the document IDs.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>frequency</code></td>
+<td>
+<p>A character vector indicating which
+frequency metrics to use. If NULL (default),
+only the <code>type</code> and <code>n</code> are returned.
+Other options:
+'all',
+'rf' calculates relative frequency,
+'orf' calculates observed relative frequency.
+Can specify multiple options: c("rf", "orf").</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dispersion</code></td>
+<td>
+<p>A character vector indicating which
+dispersion metrics to use. If NULL (default),
+only the <code>type</code> and <code>n</code> are returned.
+Other options:
+'all',
+'df' calculates Document Frequency.
+'idf' calculates Inverse Document Frequency.
+'dp' calculates Gries' Deviation of Proportions.
+Can specify multiple options: c("df", "idf").</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A data frame with columns:
+</p>
+
+<ul>
+<li> <p><code>type</code>: The unique types from the input data.
+</p>
+</li>
+<li> <p><code>n</code>: The frequency of each type across all document.
+Optionally (based on the <code>frequency</code> and <code>dispersion</code> arguments):
+</p>
+</li>
+<li> <p><code>rf</code>: The relative frequency of each type across all document.
+</p>
+</li>
+<li> <p><code>orf</code>: The observed relative frequency (per 100) of each
+type across all document.
+</p>
+</li>
+<li> <p><code>df</code>: The document frequency of each type.
+</p>
+</li>
+<li> <p><code>idf</code>: The inverse document frequency of each type.
+</p>
+</li>
+<li> <p><code>dp</code>: Gries' Deviation of Proportions of each type.
+</p>
+</li>
+</ul>
+<h3>References</h3>
+
+<p>Gries, Stefan Th. (2023). Statistical Methods in Corpus Linguistics.
+In Readings in Corpus Linguistics: A Teaching and Research Guide
+for Scholars in Nigeria and Beyond, pp. 78-114.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data_path &lt;- system.file("extdata", "types_data.rds", package = "qtkit")
+data &lt;- readRDS(data_path)
+calc_type_metrics(
+  data = data,
+  type = type,
+  document = document,
+  frequency = c("rf", "orf"),
+  dispersion = c("df", "idf")
+)
+
+</code></pre>
+
+
+</div>

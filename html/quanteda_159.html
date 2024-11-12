@@ -1,0 +1,82 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>summary_metadata</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Functions to add or retrieve corpus summary metadata</h2>
+
+<h3>Description</h3>
+
+<p>Functions to add or retrieve corpus summary metadata
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">add_summary_metadata(x, extended = FALSE, ...)
+
+get_summary_metadata(x, ...)
+
+summarize_texts_extended(x, stop_words = stopwords("en"), n = 100)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>corpus object</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>additional arguments passed to <code>tokens()</code> when computing the
+summary information</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>This is provided so that a corpus object can be stored with
+summary information to avoid having to compute this every time
+<code>summary.corpus()</code> is called.
+</p>
+<p>So in future calls, if <code style="white-space: pre;">⁠!is.null(meta(x, "summary", type = "system") &amp;&amp; !length(list(...))⁠</code>,
+then <code>summary.corpus()</code> will simply return <code>get_system_meta()</code> rather than
+compute the summary statistics on the fly, which requires tokenizing the
+text.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>add_summary_metadata()</code> returns a corpus with summary metadata added
+as a data.frame, with the top-level list element names <code>summary()</code>.
+</p>
+<p><code>get_summary_metadata()</code> returns the summary metadata as a data.frame.
+</p>
+<p><code>summarize_texts_extended()</code> returns extended summary information.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">corp &lt;- corpus(data_char_ukimmig2010)
+corp &lt;- quanteda:::add_summary_metadata(corp)
+quanteda:::get_summary_metadata(corp)
+
+## using extended summary
+
+## Not run: 
+extended_data &lt;- quanteda:::summarize_texts_extended(data_corpus_inaugural)
+topfeatures(extended_data$top_dfm)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

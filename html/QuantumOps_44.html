@@ -1,0 +1,55 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>PauliOperators</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>PauliOperators</h2>
+
+<h3>Description</h3>
+
+<p>Generates random Pauli operators (tensor products of random I,X,Y,or Z gates applied to each qubit) that can be applied to register of n qubits. Used with Randomized Compiling, where random Pauli gates are applied to each qubit. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">PauliOperators(n,m=4^n,unique=TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code> n </code></td>
+<td>
+<p> Size of the Pauli operators to generate, should be equal to the number of target qubits   </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code> m </code></td>
+<td>
+<p> Number of different Pauli operators to generate </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code> unique </code></td>
+<td>
+<p> Boolean indicating if each Pauli operator generated should be unqiue. Must be false is m &gt; 4^n </p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list of m Pauli operators of size n
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"> PauliOperators( n=2,m=2,unique=FALSE)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,155 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qkspeclust</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>qkernel spectral Clustering</h2>
+
+<h3>Description</h3>
+
+<p>This is also a qkernel spectral clustering algorithm which uses three ways to assign labels after the laplacian embedding: kmeans, hclust and dbscan.</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S4 method for signature 'qkspecc'
+qkspeclust(x, clustmethod = "kmeans",
+         Nocent=NULL,iterations=NULL, hmethod=NULL,eps = NULL, MinPts = NULL)</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>object of class <code>qkspecc</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>clustmethod</code></td>
+<td>
+<p>the strategy to use to assign labels in the embedding space.
+There are three ways to assign labels after the laplacian embedding: kmeans, hclust and dbscan. </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Nocent</code></td>
+<td>
+<p>the number of clusters</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>iterations</code></td>
+<td>
+<p>the maximum number of iterations allowed for "kmeans". </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>hmethod</code></td>
+<td>
+<p>the agglomeration method for "hclust". This should be (an unambiguous abbreviation of) one of "ward.D", "ward.D2", "single", "complete", "average" (= UPGMA), "mcquitty" (= WPGMA), "median" (= WPGMC) or "centroid" (= UPGMC).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>eps</code></td>
+<td>
+<p>Reachability distance for "dbscan".</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>MinPts</code></td>
+<td>
+<p>Reachability minimum no. of points for "dbscan".</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The qkernel spectral clustering  works by embedding the data points of the
+partitioning problem into the subspace of the eigenvectors corresponding to the
+<code class="reqn">k</code> smallest eigenvalues of the graph Laplacian matrix.
+Using the simple clustering methods like <code>kmeans</code>, <code>hclust</code> and <code>dbscan</code>
+on the embedded points usually leads to good performance. It can be shown that
+qkernel spectral clustering methods boil down to graph partitioning.<br></p>
+
+
+<h3>Value</h3>
+
+<p>An S4 object of class <code>qkspecc</code> which extends the class <code>vector</code>
+containing integers indicating the cluster to which
+each point is allocated. The following slots contain useful information
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>clust</code></td>
+<td>
+<p>The cluster assignments</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>eVec</code></td>
+<td>
+<p>The corresponding eigenvector</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>eVal</code></td>
+<td>
+<p>The corresponding eigenvalues</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xmatrix</code></td>
+<td>
+<p>The original data matrix</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ymatrix</code></td>
+<td>
+<p>The real valued matrix of eigenvectors corresponding to the k smallest eigenvalues of the graph Laplacian matrix</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cndkernf</code></td>
+<td>
+<p>The kernel function used</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Yusen Zhang <br><a href="mailto:yusenzhang@126.com">yusenzhang@126.com</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Andrew Y. Ng, Michael I. Jordan, Yair Weiss<br><em>On Spectral Clustering: Analysis and an Algorithm</em><br>
+Neural Information Processing Symposium 2001<br></p>
+
+
+<h3>See Also</h3>
+
+<p><code>qkernmatrix</code>, <code>cndkernmatrix</code>, <code>qkspecc-class</code>, <code>qkspecc</code></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data("iris")
+x=as.matrix(iris[ ,-5])
+
+qspe &lt;- qkspecc(x,kernel = "rbfbase", qpar = list(sigma = 90, q = 0.9),
+                Nocent=3, normalize="symmetric", maxk=15,iterations=1200)
+plot(x, col = clust(qspe))
+
+qspec &lt;- qkspeclust(qspe,clustmethod = "hclust", Nocent=3, hmethod="ward.D2")
+plot(x, col = clust(qspec))
+plot(qspec)
+
+</code></pre>
+
+
+</div>

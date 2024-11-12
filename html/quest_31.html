@@ -1,0 +1,57 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>confint2</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Confidence Intervals from Statistical Information</h2>
+
+<h3>Description</h3>
+
+<p><code>confint2</code> is a generic function for creating confidence intervals from
+various statistical information (e.g., <code>confint2.default</code>) or
+object classes (e.g., <code>confint2.boot</code>). It is an alternative to
+the original <code>confint</code> generic function in the <code>stats</code>
+package.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">confint2(obj, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>obj</code></td>
+<td>
+<p>object of a particular class (e.g., "boot") or the first argument
+in the default method (e.g., the <code>obj</code> argument in <code>confint2.default</code>)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>additional arguments specific to the particular method of <code>confint2</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>depends on the particular method of <code>confint2</code>, but usually a data.frame
+with a column for the parameter estimate ("est"), standard error ("se"),
+lower bound of the confidence interval ("lwr"), and upper bound of the confidence interval ("upr").
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>confint2.default</code> for the default method,
+<code>confint2.boot</code> for the <code>boot</code> method,
+</p>
+
+
+</div>

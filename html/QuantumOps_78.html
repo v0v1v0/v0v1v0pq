@@ -1,0 +1,44 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>U</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>U</h2>
+
+<h3>Description</h3>
+
+<p>Takes as input a list of gates (in matrix form) and creates the tensor product, forming a higher dimensional gate. If the last argument is a ket, the gate is applied to the ket and the ket returned. If last argument is another gate, it returns the tensor product of all gates
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">U(...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p> List of quantum gates in matrix form, optionally the last argument is ket (column vector) that is input to the gate   </p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>Matix of the gate that is the tensor product of all input gates, or the ket which is the result of the gate applied to the input ket
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"> U(X(),ket(1,0))
+ U(H(),H(),ket(1,0,0,0))
+ U(I(),X(),ket(1,0,1,0))
+ U(I(),X())
+</code></pre>
+
+
+</div>

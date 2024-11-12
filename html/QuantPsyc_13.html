@@ -1,0 +1,96 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>moderate.lm</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2> Simple Moderated Regression Model </h2>
+
+<h3>Description</h3>
+
+<p>This function creates an object of class lm() specific to a moderated multiple regression involving 3 variables.</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">moderate.lm(x, z, y, data, mc = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p> focal explanatory variable </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>z</code></td>
+<td>
+<p> moderating variable </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p> outcome variable </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p> data.frame containing the variables</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mc</code></td>
+<td>
+<p> Logical specifying wheter the data are already mean centered</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>This model takes x and z and creates the interaction term x*z. If the data are not already mean centered, then x and z are mean centered by subtracting out the means. This is necessary for interpretation and to reduce multicolinearity. The lm() is then computed thusly: Y ~ X + Z + XZ. 
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class lm(). One can use summary(), coef() or any other function useful to lm(). This model is used by other moderator tools - see below. 
+</p>
+
+
+<h3>Warning </h3>
+
+<p>This is a very simplistic model. If x or z are categorical, the results will not be accurate. The function can be modified by the user to deal with complications such as covariates, non-continuous variables, etc. </p>
+
+
+<h3>Author(s)</h3>
+
+<p> Thomas D. Fletcher <a href="mailto:t.d.fletcher05@gmail.com">t.d.fletcher05@gmail.com</a> </p>
+
+
+<h3>References</h3>
+
+ 
+<p>Aiken, L. S., &amp; West, S. G. (1991). <em>Multiple regression: Testing and interpreting interactions.</em> Newbury Park: Sage Publications.<br></p>
+<p>Cohen, J., Cohen, P., West, S. G., &amp; Aiken, L. S. (2003). <em>Applied multiple regression/correlation analysis for the behavioral sciences, 3rd ed.</em> Mahwah, NJ: Lawrence Erlbaum Associates.<br></p>
+
+
+<h3>See Also</h3>
+
+ <p><code>sim.slopes</code>, <code>graph.mod</code>  </p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(tra)
+lm.mod1 &lt;- moderate.lm(beliefs, values, attitudes, tra)
+summary(lm.mod1)
+</code></pre>
+
+
+</div>

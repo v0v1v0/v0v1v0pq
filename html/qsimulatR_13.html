@@ -1,0 +1,33 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>ccnotgate</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>The CCNOT gate</h2>
+
+<h3>Description</h3>
+
+<p>This class represents a generic CNOT gate
+</p>
+
+
+<h3>Slots</h3>
+
+
+<dl>
+<dt><code>bits</code></dt>
+<dd>
+<p>Integer vector of length 2. First two bits are the control bits,
+third the target bit.</p>
+</dd>
+</dl>
+<h3>Examples</h3>
+
+<pre><code class="language-R">x &lt;- qstate(nbits=3)
+z &lt;- CCNOT(c(1,2,3)) * (H(1) * x)
+
+</code></pre>
+
+
+</div>

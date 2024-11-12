@@ -1,0 +1,154 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>implicIndep</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Test for Implicational Independence between two Factors</h2>
+
+<h3>Description</h3>
+
+<p>This evaluation function tests for the implicational independence between two factors. It has been programmed for <a href="http://dx.doi.org/10.1177/0081175016654736">Thiem and Baumgartner (2016)</a>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">implicIndep(expression, n.samples = 1, size.sample = 100, corr = "0")
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>expression</code></td>
+<td>
+<p>A string representing the Boolean function to be evaluated.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n.samples</code></td>
+<td>
+<p>The number of datasets to be sampled.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>size.sample</code></td>
+<td>
+<p>The size of each data sample.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>corr</code></td>
+<td>
+<p>The direction of correlation between the endogenous factor and the
+implicationally independent factor.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Randomly sample <code>n.samples</code> different data-sets with uniform probability mass function (any other discrete function would do as well; proficient users may adjust this at the relevant places in the function); and run QCA for each dataset; check whether the irrelevant factor is eliminated and get the correlations between the irrelevant factor and the outcome factor.
+</p>
+<p>The correlation can be controlled with <code>corr</code>: <code>"0"</code> means no correlation; <code>"+"</code> positive correlation, and <code>"-"</code> negative correlation. The larger the sample size, the larger the positive / negative correlation. The argument <code>expression</code> may represent any Boolean function in disjunctive normal form as shown below, including proper causal structures such as <code>"(X1*X2 + X3*X4 &lt;=&gt; Y)*(Z1 + z1)"</code> or non-causal structures such as <code>"(x1*X2 + X1*x2 + X1*X3 + X2*X3 &lt;=&gt; Y)*(Z1 + z1)"</code> (contains redundant prime implicants) or <code>"(X3*x2 + X2 &lt;=&gt; Y)*(Z1 + z1)"</code> (contains redundant conjuncts).
+</p>
+<p>If <code>expression</code> is no causal structure, an additional note will be issued together with the test output for whether the irrelevant factor has been eliminated.
+</p>
+<p>You can use the following possibilities for <code>expression</code>: <code>"(X1X2 + X3X4 &lt;=&gt; Y)(Z1 + z1)"</code> if a factor has one letter and a one-digit number, <code>"(AB + CD &lt;=&gt; E)(F + f)"</code> if a factor has one letter, <code>"(X1*X2 + X3*X4 &lt;=&gt; Y)*(Z1 + z1)"</code> or <code>"(A*B + C*D &lt;=&gt; E)*(F + f)"</code> (curly-bracket notation is not supported). Empty spaces and the type of the biconditional operator (<code>&lt;-&gt;</code>/<code>&lt;=&gt;</code>) have no effect.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list with the following five components:<br></p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>tt</code></td>
+<td>
+<p>The evaluated truth tables.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dat.list</code></td>
+<td>
+<p>The test datasets generated on the basis of the evaluaetd truth tables.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sol.list</code></td>
+<td>
+<p>The corresponding solutions.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cor.list</code></td>
+<td>
+<p>The correlations between the endogenous factor and the irrelevant factor.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>test</code></td>
+<td>
+<p>The result for whether the irrelevant factor has been eliminated in all
+tests.</p>
+</td>
+</tr>
+</table>
+<h3>Contributors</h3>
+
+
+<table>
+<tr>
+<td style="text-align: left;">
+Baumgartner, Michael</td>
+<td style="text-align: left;">: testing</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+Thiem, Alrik        </td>
+<td style="text-align: left;">: development, documentation, programming, testing
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Alrik Thiem (<a href="http://www.alrik-thiem.net">Personal Website</a>; <a href="https://www.researchgate.net/profile/Alrik_Thiem">ResearchGate Website</a>)
+</p>
+
+
+<h3>References</h3>
+
+<p>Thiem, Alrik, and Baumgartner, Michael. 2016. “Modeling Causal Irrelevance in Evaluations of Configurational Comparative Methods.” <em>Sociological Methodology</em> 46 (1):345-57. DOI: <a href="http://dx.doi.org/10.1177/0081175016654736">10.1177/0081175016654736</a>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>eQMC</code></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+# simulation with 10 sample datasets
+simulation &lt;- vector(mode = "list", length = 3)
+n.samples &lt;- 10 
+
+# directions of correlation and number of cases in each sample
+corr &lt;- c("-", "0", "+") 
+nofc &lt;- c(40, 160, 640) 
+simulation &lt;- lapply(nofc, function (x) {lapply(corr, function (y) {
+  implicIndep("(X1*X2 + X3*X4 &lt;=&gt; Y)*(Z1 + z1)", n.samples, x, y)})})
+
+# has Z1 been eliminated in all data experiments of a block of tests?
+series.test &lt;- matrix(sapply(1:length(corr), function (x) {sapply(1:length(nofc),
+  function (y) {simulation[[x]][[y]]$test == "Z1 has been eliminated."})}),
+  ncol = length(corr), dimnames = list(as.character(nofc), corr))
+series.test
+
+## End(Not run)
+</code></pre>
+
+
+</div>

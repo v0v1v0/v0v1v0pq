@@ -1,0 +1,40 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>subset_kinship</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Subset a kinship matrix to include only those subjects present in all inputs</h2>
+
+<h3>Description</h3>
+
+<p>Since a kinship matrix has subject ids in both rownames and colnames, so we need to
+remove rows and columns according to names in 'id2keep'. We first remove rows and
+columns of subjects that are not in 'id2keep'. We then order rows and columns of the
+resulting matrix by the ordering in 'id2keep'.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">subset_kinship(kinship, id2keep)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>kinship</code></td>
+<td>
+<p>a kinship matrix</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>id2keep</code></td>
+<td>
+<p>a character vector of subject ids to identify those subjects that are shared by all inputs</p>
+</td>
+</tr>
+</table>
+</div>

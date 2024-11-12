@@ -1,0 +1,71 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>reverse</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Reverse Code a Numeric Vector</h2>
+
+<h3>Description</h3>
+
+<p><code>reverse</code> reverse codes a numeric vector based on minimum and maximum
+values. For example, say numerical values of response options can range from
+1 to 4. The function will change 1 to 4, 2 to 3, 3 to 2, and 4 to 1. If there
+are an odd number of response options, the middle in the sequence will be
+unchanged.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">reverse(x, mini, maxi)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>numeric vector.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mini</code></td>
+<td>
+<p>numeric vector of length 1 specifying the minimum numeric value.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>maxi</code></td>
+<td>
+<p>numeric vector of length 1 specifying the maximum numeric value.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>numeric vector that correlates exactly -1 with <code>x</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>reverses</code>
+<code>reverse.code</code>
+<code>recode</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">x &lt;- psych::bfi[[1]]
+head(x, n = 15)
+y &lt;- reverse(x = psych::bfi[[1]], min = 1, max = 6)
+head(y, n = 15)
+cor(x, y, use = "complete.obs")
+</code></pre>
+
+
+</div>

@@ -1,0 +1,171 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>compute_MellinQF_ratio</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Mellin Transform of the Independent Positive QFs Ratio</h2>
+
+<h3>Description</h3>
+
+<p>The function computes the Mellin transform of the ratio of independent and positive definite quadratic forms producing a <code>MellinQF_ratio</code> object.
+The output can be used to evaluate the density, cumulative and quantile functions of the target quadratic form.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">compute_MellinQF_ratio(
+  lambdas_num,
+  lambdas_den,
+  etas_num = rep(0, length(lambdas_num)),
+  etas_den = rep(0, length(lambdas_den)),
+  eps = 1e-06,
+  rho = 1 - 1e-04,
+  maxit_comp = 1e+05,
+  eps_quant = 1e-06,
+  maxit_quant = 10000,
+  lambdas_tol = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>lambdas_num</code></td>
+<td>
+<p>vector of positive weights for the numerator.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lambdas_den</code></td>
+<td>
+<p>vector of positive weights for the denominator.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>etas_num</code></td>
+<td>
+<p>vector of non-centrality parameters for the numerator. Default all zeros (central chi square).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>etas_den</code></td>
+<td>
+<p>vector of non-centrality parameters for the denominator. Default all zeros (central chi square).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>eps</code></td>
+<td>
+<p>required absolute error for density and cumulative functions.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>rho</code></td>
+<td>
+<p>distribution total probability mass for which it is desired to keep the error <code>eps</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>maxit_comp</code></td>
+<td>
+<p>maximum number of iterations.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>eps_quant</code></td>
+<td>
+<p>required numerical error for quantile computation.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>maxit_quant</code></td>
+<td>
+<p>maximum number of iterations before stopping the quantile computation.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lambdas_tol</code></td>
+<td>
+<p>maximum value admitted for the weight skewness for both the numerator and the denominator. When it is not NULL (default), elements of lambdas such that the ratio max(lambdas)/lambdas is greater than the specified value are removed.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The Mellin transform of the ratio of two independent quadratic forms having positive weights <code>lambdas_num</code> and <code>lambdas_den</code>
+and non-centrality parameters <code>etas_num</code> and <code>etas_den</code> is computed
+exploiting the density formulation by Ruben (1962).  The numerical error is controlled in order to provide the requested precision (<code>eps</code>) for the
+interval of quantiles that contains the specified total probability <code>rho</code>.
+</p>
+<p>The argument <code>eps_quant</code> controls the relative precision requested for the computation of quantiles that determine the range in which the error <code>eps</code> is
+guaranteed, whereas <code>maxit_quant</code> sets the maximum number of Newton-Raphson iterations of the algorithm.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The function returns an object of the class <code>MellinQF_ratio</code> that contains information on the Mellin transform
+of the ratio of two linear combinations of positively weighted chi-square random variables. This information can be used in order to
+evaluate the density, cumulative distribution and quantile functions of the desired quadratic form.
+</p>
+<p>An object of the class <code>MellinQF_ratio</code> has the following components:
+</p>
+
+<ul>
+<li> <p><code>range_q</code>: the range of quantiles that contains the specified mass of probability <code>rho</code> in which it
+is possible to compute density and CDF preserving the error level <code>eps</code>.
+</p>
+</li>
+<li> <p><code>Mellin</code>: a list containing the values of the Mellin transform (<code>Mellin</code>),
+the corresponding evaluation points (<code>z</code>), the integration step <code>delta</code> and the lowest numerator weight (<code>lambda_min</code>).
+</p>
+</li>
+<li>
+<p> the inputs <code>rho</code>, <code>lambdas_num</code>, <code>lambdas_den</code>, <code>etas_num</code>, <code>etas_den</code>, <code>eps</code> needed for CDF, PDF and quantile function computation.
+</p>
+</li>
+</ul>
+<h3>Source</h3>
+
+<p>Ruben, Harold. "Probability content of regions under spherical normal distributions, IV:
+The distribution of homogeneous and non-homogeneous quadratic functions of normal variables."
+The Annals of Mathematical Statistics 33.2 (1962): 542-570.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>The function <code>print.MellinQF_ratio</code> can be used to summarize the basic information on the Mellin transform.
+</p>
+<p>The object can be used in the function <code>dQF_ratio</code> to compute the density function of the QFs ratio,
+<code>pQF_ratio</code> for the CDF and <code>qQF_ratio</code> for the quantile function.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+
+library(QF)
+# Definition of the QFs
+lambdas_QF_num &lt;- c(rep(7, 6),rep(3, 2))
+etas_QF_num &lt;- c(rep(6, 6), rep(2, 2))
+lambdas_QF_den &lt;- c(0.6, 0.3, 0.1)
+# Computation Mellin transform
+eps &lt;- 1e-7
+rho &lt;- 0.999
+Mellin_ratio &lt;- compute_MellinQF_ratio(lambdas_QF_num, lambdas_QF_den,
+                                       etas_QF_num, eps = eps, rho = rho)
+print(Mellin_ratio)
+
+
+
+
+</code></pre>
+
+
+</div>

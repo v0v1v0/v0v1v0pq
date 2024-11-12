@@ -1,0 +1,192 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>parallel.qtlhot</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Code for parallelizing R/qtlhot.
+</h2>
+
+<h3>Description</h3>
+
+<p>Code for parallelizing R/qtlhot. See installed parallel directory for
+proper use. There is apparently an S3 parallel method, so doc has to be
+as shown below, even though it is called as parallel.qtlhot.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'qtlhot'
+parallel(x, data = 1, ..., dirpath = ".")
+qtlhot.phase0(dirpath, init.seed = 92387475, len = rep(400,16), n.mar = 185, n.ind = 112,
+   n.phe = 100, latent.eff = 0, res.var = 1, lod.thrs, ...)
+big.phase0(dirpath, cross, trait.file, trait.matrix, droptrait.names = NULL,
+   keeptrait.names = NULL, lod.thrs, sex = "Sex", trait.index,
+   batch.effect = NULL, size.set = 250, offset = 0, subset.sex = NULL, verbose = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>phase of parallel processing (1,2,3)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>index for parallel processing (1,2,...)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>additional arguments passed along</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dirpath</code></td>
+<td>
+<p>directory path as character string</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>init.seed</code></td>
+<td>
+<p>initial seed for pseudorandom number generation</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>len</code></td>
+<td>
+<p>vector of chromosome lengths for simulated map</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n.mar</code></td>
+<td>
+<p>number of markers for simulated map</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n.ind</code></td>
+<td>
+<p>number of individuals for simulated cross</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n.phe</code></td>
+<td>
+<p>number of phenotypes for simulated phenotypes</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>latent.eff</code></td>
+<td>
+<p>size of latent effect</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>res.var</code></td>
+<td>
+<p>magnitude of residual variance</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lod.thrs</code></td>
+<td>
+<p>vector of LOD thresholds to examine</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cross</code></td>
+<td>
+<p>object of class <code>cross</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>trait.file</code></td>
+<td>
+<p>character string name of trait file</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>trait.matrix</code></td>
+<td>
+<p>character string name of trait matrix</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>droptrait.names</code></td>
+<td>
+<p>vector of character strings for traits to drop
+(none if <code>NULL</code>)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>keeptrait.names</code></td>
+<td>
+<p>vector of character strings for traits to keep
+(keep all if <code>NULL</code>)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sex</code></td>
+<td>
+<p>character string name of phenotype for sex</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>trait.index</code></td>
+<td>
+<p>vector of character strings for trait names</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>batch.effect</code></td>
+<td>
+<p>character string for batch effect (none if <code>NULL</code>)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>size.set</code></td>
+<td>
+<p>maximum size of set of traits to scan at one time</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>offset</code></td>
+<td>
+<p>offset for name of trait RData files</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>subset.sex</code></td>
+<td>
+<p>string of sex to subset on (both sexes if <code>NULL</code>)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p>verbose output if <code>TRUE</code></p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Brian S Yandell and Elias Chaibub Neto
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>read.cross</code></p>
+
+
+</div>

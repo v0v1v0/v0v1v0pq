@@ -1,0 +1,135 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>as.list.tokens</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Coercion, checking, and combining functions for tokens objects</h2>
+
+<h3>Description</h3>
+
+<p>Coercion functions to and from tokens objects, checks for whether an
+object is a tokens object, and functions to combine tokens
+objects.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'tokens'
+as.list(x, ...)
+
+## S3 method for class 'tokens'
+as.character(x, use.names = FALSE, ...)
+
+is.tokens(x)
+
+as.tokens(x, concatenator = "_", ...)
+
+## S3 method for class 'spacyr_parsed'
+as.tokens(
+  x,
+  concatenator = "/",
+  include_pos = c("none", "pos", "tag"),
+  use_lemma = FALSE,
+  ...
+)
+
+is.tokens(x)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>object to be coerced or checked</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>additional arguments used by specific methods.  For
+c.tokens, these are the tokens objects to be concatenated.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>use.names</code></td>
+<td>
+<p>logical; preserve names if <code>TRUE</code>.  For
+<code>as.character</code> and <code>unlist</code> only.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>concatenator</code></td>
+<td>
+<p>character; the concatenation character that will connect
+the tokens making up a multi-token sequence.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>include_pos</code></td>
+<td>
+<p>character; whether and which part-of-speech tag to use:
+<code>"none"</code> do not use any part of speech indicator, <code>"pos"</code> use the
+<code>pos</code> variable, <code>"tag"</code> use the <code>tag</code> variable.  The POS
+will be added to the token after <code>"concatenator"</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>use_lemma</code></td>
+<td>
+<p>logical; if <code>TRUE</code>, use the lemma rather than the raw
+token</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The <code>concatenator</code> is used to automatically generate dictionary
+values for multi-word expressions in <code>tokens_lookup()</code> and
+<code>dfm_lookup()</code>. The underscore character is commonly used to join
+elements of multi-word expressions (e.g. "piece_of_cake", "New_York"), but
+other characters (e.g. whitespace " " or a hyphen "-") can also be used.
+In those cases, users have to tell the system what is the concatenator in
+your tokens so that the conversion knows to treat this character as the
+inter-word delimiter, when reading in the elements that will become the
+tokens.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>as.list</code> returns a simple list of characters from a
+tokens object.
+</p>
+<p><code>as.character</code> returns a character vector from a
+tokens object.
+</p>
+<p><code>is.tokens</code> returns <code>TRUE</code> if the object is of class
+tokens, <code>FALSE</code> otherwise.
+</p>
+<p><code>as.tokens</code> returns a quanteda tokens object.
+</p>
+<p><code>is.tokens</code> returns <code>TRUE</code> if the object is of class
+tokens, <code>FALSE</code> otherwise.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+# create tokens object from list of characters with custom concatenator
+dict &lt;- dictionary(list(country = "United States",
+                   sea = c("Atlantic Ocean", "Pacific Ocean")))
+lis &lt;- list(c("The", "United-States", "has", "the", "Atlantic-Ocean",
+              "and", "the", "Pacific-Ocean", "."))
+toks &lt;- as.tokens(lis, concatenator = "-")
+tokens_lookup(toks, dict)
+
+</code></pre>
+
+
+</div>

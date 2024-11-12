@@ -1,0 +1,113 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>centroid</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Q methodology: centroid extraction</h2>
+
+<h3>Description</h3>
+
+<p>Extracts factors/ components using the centroid approach as an alternative to Principal Components Analysis.</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">centroid(tmat, nfactors = 7, spc)</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>tmat</code></td>
+<td>
+<p>a correlation matrix between Q-sorts.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nfactors</code></td>
+<td>
+<p>number of factors/ components to extract. Defaults to 7.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>spc</code></td>
+<td>
+<p>the threshold to accept factor results, set to 0.00001 by default (in Brown 1980, this is set to 0.02).</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>This functions implement the centroid method for extraction of factors, an alternative to Principal Components that can be used in Q methodology. The calculations are based in Brown (1980; below). 
+</p>
+<p>The function is called from within <code>qmethod</code> where the attribute <code>extraction</code> is set to <code>centroid</code>.
+</p>
+<p>This function can be used independently where conducting each step of the analysis separately, preceded by a correlation between Q-sorts and followed by the rotation of factors/ components (see below), calculation of z-scores, etc.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns a matrix with Q-sorts as rows, and rotated factors as columns.
+</p>
+
+
+<h3>Note</h3>
+
+<p>This is a function used within <code>qmethod</code>. Rarely to be used independently.</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Frans Hermans</p>
+
+
+<h3>References</h3>
+
+<p>Brown, S. R., 1980 <em>Political subjectivity: Applications of Q methodology in political science</em>, New Haven, CT: Yale University Press, pages 208-224.
+</p>
+<p>See further references on the methodology in <code>qmethod-package</code>.</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">#### Example
+require('qmethod')
+require ("psych")
+
+# Load data
+data("lipset")
+lip &lt;- lipset[[1]]
+
+# Correlation matrix
+corlip &lt;-cor(lip)
+
+# Centroid extraction
+lipcent &lt;- centroid(corlip)
+lipcent
+
+
+## To finalise the full analysis, continue with the following steps
+# Rotation (in this example, varimax over 3 factors)
+vmax &lt;- varimax(lipcent[,1:3])
+
+# Automatic pre-flagging of Q-sorts
+flags &lt;- qflag(unclass(vmax$loadings), nstat = 33)
+
+# Calculate z-scores and general characeristics
+results &lt;- qzscores(lip, 3, loa=vmax$loadings, flagged=flags)
+summary(results)
+
+# Consensus and distinguishing statements
+results$qdc &lt;- qdc(lip, 3, zsc=results$zsc, sed=results$f_char$sd_dif)
+
+plot(results)
+
+## All of the above can be done with:
+results2 &lt;- qmethod(lip, 3, extraction="centroid")
+</code></pre>
+
+
+</div>

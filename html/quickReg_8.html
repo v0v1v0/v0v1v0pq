@@ -1,0 +1,87 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>reg_y</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Build regression models with more than one dependent variable</h2>
+
+<h3>Description</h3>
+
+<p>Build general linear model, generalized linear model, cox regression model,etc.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">reg_y(data = NULL, x = NULL, y = NULL, cov = NULL, factors = NULL,
+  model = NULL, time = NULL, confint_glm = "default", cov_show = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>A data.frame</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>Integer column indices or names of the variables to be included in univariate analysis, the default columns are all the variables except 'y' and 'time' and 'cov'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>Integer column indices or name of dependent variable</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cov</code></td>
+<td>
+<p>Integer column indices or name of covariate variables</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>factors</code></td>
+<td>
+<p>Integer column indices or names of variables to be treated as factor</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>model</code></td>
+<td>
+<p>regression model, see <code>lm</code>, <code>glm</code>, <code>coxph</code> for more details</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>time</code></td>
+<td>
+<p>Integer column indices  or name of survival time, used in cox regression, see <code>coxph</code> for more details</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>confint_glm</code></td>
+<td>
+<p>A character, 'default' or 'profile'. The default method for 'glm' class to compute confidence intervals assumes asymptotic normality <code>confint</code>, you can also use profile likelihood method <code>confint.glm</code>, but it is pretty slow.
+In this case you could specify 'default' for speed.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cov_show</code></td>
+<td>
+<p>A logical, whether to create covariates result, default FALSE</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>The return result is a concentrated result in a  data.frame.
+</p>
+
+
+</div>

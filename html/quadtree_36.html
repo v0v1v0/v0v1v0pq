@@ -1,0 +1,62 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>LcpFinder-class</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>LcpFinder Class</h2>
+
+<h3>Description</h3>
+
+<p>This S4 class is a wrapper around a <code>CppLcpFinder</code> C++ object
+that is made available to R via the 'Rcpp' package. Instances of this class
+can be created from a <code>Quadtree</code> object using the
+<code>lcp_finder</code> function.
+</p>
+<p>The methods of the C++ object (<code>CppLcpFinder</code>) can be
+accessed from R, but the typical end-user should have no need of these
+methods - they are meant for internal use. That being said, descriptions of
+the available methods can be found on the <code>CppLcpFinder</code>
+documentation page.
+</p>
+
+
+<h3>Details</h3>
+
+<p>Functions for creating a <code>LcpFinder</code> object: </p>
+
+<ul><li> <p><code>lcp_finder()</code>
+</p>
+</li></ul>
+<p>Methods: </p>
+
+<ul>
+<li> <p><code>find_lcp()</code>
+</p>
+</li>
+<li> <p><code>find_lcps()</code>
+</p>
+</li>
+<li> <p><code>plot()</code>
+</p>
+</li>
+<li> <p><code>show()</code>
+</p>
+</li>
+<li> <p><code>summarize_lcps()</code>
+</p>
+</li>
+<li> <p><code>summary()</code>
+</p>
+</li>
+</ul>
+<h3>Slots</h3>
+
+
+<dl>
+<dt><code>ptr</code></dt>
+<dd>
+<p>a C++ object of class <code>CppLcpFinder</code></p>
+</dd>
+</dl>
+</div>

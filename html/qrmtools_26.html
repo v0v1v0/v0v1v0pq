@@ -1,0 +1,290 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>fit_GARCH_11</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Fast(er) and Numerically More Robust Fitting of GARCH(1,1) Processes</h2>
+
+<h3>Description</h3>
+
+<p>Fast(er) and numerically more robust fitting of GARCH(1,1) processes
+according to Zumbach (2000).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">fit_GARCH_11(x, init = NULL, sig2 = mean(x^2), delta = 1,
+             distr = c("norm", "st"), control = list(), ...)
+tail_index_GARCH_11(innovations, alpha1, beta1,
+                    interval = c(1e-6, 1e2), ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>vector of length <code class="reqn">n</code> containing the data (typically
+log-returns) to be fitted a GARCH(1,1) to.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>init</code></td>
+<td>
+<p>vector of length 2 giving the initial values for the
+likelihood fitting. Note that these are initial values for
+<code class="reqn">z_{corr}</code> and <code class="reqn">z_{ema}</code>
+as in Zumbach (2000).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sig2</code></td>
+<td>
+<p>annualized variance (third parameter of the
+reparameterization according to Zumbach (2000)).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>delta</code></td>
+<td>
+<p>unit of time (defaults to 1 meaning daily data;
+for yearly data, use 250).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>distr</code></td>
+<td>
+<p>character string specifying the innovation distribution
+(<code>"norm"</code> for N(0,1) or <code>"st"</code> for a standardized <code class="reqn">t</code>
+distribution).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>control</code></td>
+<td>
+<p>see <code>?optim()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>innovations</code></td>
+<td>
+<p>random variates from the innovation distribution;
+for example, obtained via <code>rnorm()</code> or
+<code>rt(, df = nu) * sqrt((nu-2)/nu)</code> where <code>nu</code> are
+the d.o.f. of the <code class="reqn">t</code> distribution.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>alpha1</code></td>
+<td>
+<p>nonnegative GARCH(1,1) coefficient <code class="reqn">alpha[1]</code>
+satisfying <code class="reqn">alpha[1] + beta[1] &lt; 1</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>beta1</code></td>
+<td>
+<p>nonnegative GARCH(1,1) coefficient <code class="reqn">beta[1]</code>
+satisfying <code class="reqn">alpha[1] + beta[1] &lt; 1</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>interval</code></td>
+<td>
+<p>initial interval for computing the tail index;
+passed to the underlying <code>uniroot()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+
+
+<dl>
+<dt>
+<code>fit_GARCH_11()</code>:</dt>
+<dd>
+<p>additional arguments passed to the
+underlying <code>optim()</code>.</p>
+</dd>
+<dt>
+<code>tail_index_GARCH_11()</code>:</dt>
+<dd>
+<p>additional arguments passed
+to the underlying <code>uniroot()</code>.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+
+<dl>
+<dt>
+<code>fit_GARCH_11()</code>:<br>
+</dt>
+<dd>
+
+<dl>
+<dt>coef:</dt>
+<dd>
+<p>estimated coefficients <code class="reqn">\alpha_0</code>,
+<code class="reqn">\alpha_1</code>, <code class="reqn">\beta_1</code> and, if
+<code>distr = "st"</code> the estimated degrees of freedom.</p>
+</dd>
+<dt>logLik:</dt>
+<dd>
+<p>maximized log-likelihood.</p>
+</dd>
+<dt>counts:</dt>
+<dd>
+<p>number of calls to the objective function; see
+<code>?optim</code>.</p>
+</dd>
+<dt>convergence:</dt>
+<dd>
+<p>convergence code ('0' indicates successful
+completion); see <code>?optim</code>.</p>
+</dd>
+<dt>message:</dt>
+<dd>
+<p>see <code>?optim</code>.</p>
+</dd>
+<dt>sig.t:</dt>
+<dd>
+<p>vector of length <code class="reqn">n</code> giving the conditional
+volatility.</p>
+</dd>
+<dt>Z.t:</dt>
+<dd>
+<p>vector of length <code class="reqn">n</code> giving the standardized
+residuals.</p>
+</dd>
+</dl>
+</dd>
+<dt>
+<code>tail_index_GARCH_11()</code>:</dt>
+<dd>
+<p>The tail index <code class="reqn">alpha</code> estimated by Monte Carlo via
+McNeil et al. (2015, p. 576), so the <code class="reqn">alpha</code> which solves
+</p>
+<p style="text-align: center;"><code class="reqn">E({(\alpha_1Z^2 + \beta_1)}^{\alpha/2}) = 1</code>
+</p>
+<p>,
+where <code class="reqn">Z</code> are the <code>innovations</code>. If no solution
+is found (e.g. if the objective function does not have
+different sign at the endpoints of <code>interval</code>),
+<code>NA</code> is returned.
+</p>
+</dd>
+</dl>
+<h3>Author(s)</h3>
+
+<p>Marius Hofert</p>
+
+
+<h3>References</h3>
+
+<p>Zumbach, G. (2000). The pitfalls in fitting GARCH (1,1) processes.
+<em>Advances in Quantitative Asset Management</em> <b>1</b>, 179–200.
+</p>
+<p>McNeil, A. J., Frey, R. and Embrechts, P. (2015).
+<em>Quantitative Risk Management: Concepts, Techniques, Tools</em>.
+Princeton University Press.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>fit_ARMA_GARCH()</code> based on <span class="pkg">rugarch</span>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">### Example 1: N(0,1) innovations ##############################################
+
+## Generate data from a GARCH(1,1) with N(0,1) innovations
+library(rugarch)
+uspec &lt;- ugarchspec(variance.model = list(model = "sGARCH",
+                                          garchOrder = c(1, 1)),
+                    distribution.model = "norm",
+                    mean.model = list(armaOrder = c(0, 0)),
+                    fixed.pars = list(mu = 0,
+                                      omega = 0.1, # alpha_0
+                                      alpha1 = 0.2, # alpha_1
+                                      beta1 = 0.3)) # beta_1
+X &lt;- ugarchpath(uspec, n.sim = 1e4, rseed = 271) # sample (set.seed() fails!)
+X.t &lt;- as.numeric(X@path$seriesSim) # actual path (X_t)
+
+## Fitting via ugarchfit()
+uspec. &lt;- ugarchspec(variance.model = list(model = "sGARCH",
+                                           garchOrder = c(1, 1)),
+                     distribution.model = "norm",
+                     mean.model = list(armaOrder = c(0, 0)))
+fit &lt;- ugarchfit(uspec., data = X.t)
+coef(fit) # fitted mu, alpha_0, alpha_1, beta_1
+Z &lt;- fit@fit$z # standardized residuals
+stopifnot(all.equal(mean(Z), 0, tol = 1e-2),
+          all.equal(var(Z),  1, tol = 1e-3))
+
+## Fitting via fit_GARCH_11()
+fit. &lt;- fit_GARCH_11(X.t)
+fit.$coef # fitted alpha_0, alpha_1, beta_1
+Z. &lt;- fit.$Z.t # standardized residuals
+stopifnot(all.equal(mean(Z.), 0, tol = 5e-3),
+          all.equal(var(Z.),  1, tol = 1e-3))
+
+## Compare
+stopifnot(all.equal(fit.$coef, coef(fit)[c("omega", "alpha1", "beta1")],
+                    tol = 5e-3, check.attributes = FALSE)) # fitted coefficients
+summary(Z. - Z) # standardized residuals
+
+
+### Example 2: t_nu(0, (nu-2)/nu) innovations ##################################
+
+## Generate data from a GARCH(1,1) with t_nu(0, (nu-2)/nu) innovations
+uspec &lt;- ugarchspec(variance.model = list(model = "sGARCH",
+                                          garchOrder = c(1, 1)),
+                    distribution.model = "std",
+                    mean.model = list(armaOrder = c(0, 0)),
+                    fixed.pars = list(mu = 0,
+                                      omega = 0.1, # alpha_0
+                                      alpha1 = 0.2, # alpha_1
+                                      beta1 = 0.3, # beta_1
+                                      shape = 4)) # nu
+X &lt;- ugarchpath(uspec, n.sim = 1e4, rseed = 271) # sample (set.seed() fails!)
+X.t &lt;- as.numeric(X@path$seriesSim) # actual path (X_t)
+
+## Fitting via ugarchfit()
+uspec. &lt;- ugarchspec(variance.model = list(model = "sGARCH",
+                                           garchOrder = c(1, 1)),
+                     distribution.model = "std",
+                     mean.model = list(armaOrder = c(0, 0)))
+fit &lt;- ugarchfit(uspec., data = X.t)
+coef(fit) # fitted mu, alpha_0, alpha_1, beta_1, nu
+Z &lt;- fit@fit$z # standardized residuals
+stopifnot(all.equal(mean(Z), 0, tol = 1e-2),
+          all.equal(var(Z),  1, tol = 5e-2))
+
+## Fitting via fit_GARCH_11()
+fit. &lt;- fit_GARCH_11(X.t, distr = "st")
+c(fit.$coef, fit.$df) # fitted alpha_0, alpha_1, beta_1, nu
+Z. &lt;- fit.$Z.t # standardized residuals
+stopifnot(all.equal(mean(Z.), 0, tol = 2e-2),
+          all.equal(var(Z.),  1, tol = 2e-2))
+
+## Compare
+fit.coef &lt;- coef(fit)[c("omega", "alpha1", "beta1", "shape")]
+fit..coef &lt;- c(fit.$coef, fit.$df)
+stopifnot(all.equal(fit.coef, fit..coef, tol = 7e-2, check.attributes = FALSE))
+summary(Z. - Z) # standardized residuals
+</code></pre>
+
+
+</div>

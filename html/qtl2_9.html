@@ -1,0 +1,77 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>calc_entropy</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Calculate entropy of genotype probability distribution</h2>
+
+<h3>Description</h3>
+
+<p>For each individual at each genomic position, calculate the entropy
+of the genotype probability distribution, as a quantitative summary
+of the amount of missing information.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">calc_entropy(probs, quiet = TRUE, cores = 1)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>probs</code></td>
+<td>
+<p>Genotype probabilities, as calculated from
+<code>calc_genoprob()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>quiet</code></td>
+<td>
+<p>IF <code>FALSE</code>, print progress messages.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cores</code></td>
+<td>
+<p>Number of CPU cores to use, for parallel calculations.
+(If <code>0</code>, use <code>parallel::detectCores()</code>.)
+Alternatively, this can be links to a set of cluster sockets, as
+produced by <code>parallel::makeCluster()</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>We calculate -sum(p log_2 p), where we take 0 log 0 = 0.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list of matrices (each matrix is a chromosome and is arranged as individuals x markers).
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">grav2 &lt;- read_cross2(system.file("extdata", "grav2.zip", package="qtl2"))
+
+probs &lt;- calc_genoprob(grav2, error_prob=0.002)
+e &lt;- calc_entropy(probs)
+e &lt;- do.call("cbind", e) # combine chromosomes into one big matrix
+
+# summarize by individual
+mean_ind &lt;- rowMeans(e)
+
+# summarize by marker
+mean_marker &lt;- colMeans(e)
+</code></pre>
+
+
+</div>

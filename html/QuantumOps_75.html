@@ -1,0 +1,44 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>tensor</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>tensor</h2>
+
+<h3>Description</h3>
+
+<p>Takes all arguments and combines them as a tensor product. Can be used to create a unified vector that represents multiple qubits or to create higher dimensional gates. If the inputs are two n-dimensional kets, the output is a 2-n dimensional ket representing the combined system. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">tensor(...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p> kets (column vectosr) or gates (matrices) to take tensor product of </p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>The tensor product of all supplied arguments
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"> tensor(ket(1,0),ket(0,1),ket(1,0),ket(1,0))
+ tensor(ket(1,1,1,1),ket(1,0,0,1))
+ tensor(X(),I())
+ tensor(H(),H(),H())
+</code></pre>
+
+
+</div>

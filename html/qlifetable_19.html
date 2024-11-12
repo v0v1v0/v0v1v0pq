@@ -1,0 +1,157 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>SAI_shortcut_1</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Estimates seasonal-ageing indexes using shortcut 1.</h2>
+
+<h3>Description</h3>
+
+<p>Given a set of data frames with the number of deaths recorded in a population/portfolio
+during several years (periods) in a set of integer ages for each combination of age and
+season/calendar quarter, this function approximates their corresponding seasonal-ageing indexes
+by employing shortcut 1, based on equation (2.5), proposed in Pavia and Lledo (2023).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">SAI_shortcut_1(x, y, ..., margins = FALSE, min.age = 0, max.age = 100)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>A data frame with the number of deaths recorded in the population/portfolio during a period (typically a year)
+in a set of integer ages for each combination of age and season/calendar quarter. Usually, this is an output
+of the <code>count_events_quarter</code> function (or a data frame with the same structure).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>A data frame with the number of deaths recorded in the population/portfolio during another period
+(typically a different year than the one corresponding to 'x') in a set of integer ages for each
+combination of age and season/calendar quarter. Usually, this is an output
+of the <code>count_events_quarter</code> function (or a data frame with the same structure).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Further data frames similar to 'x' and 'y' corresponding to another period(s)/year(s).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>margins</code></td>
+<td>
+<p>A 'TRUE/FALSE' argument informing whether or not the marginal seasonal and ageing indexes should be also
+computed. Default, 'FALSE'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>min.age</code></td>
+<td>
+<p>A non-negative integer informing about the initial minimal age for which SAIs must be computed. This minimum age can
+be increased depending on the ages for which there are crude mx estimates (exposed-at-risk) in the objects  'x', 'y', '...'. Default, 0.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>max.age</code></td>
+<td>
+<p>A positive integer informing about the initial maximum age for which SAIs must be computed. This maximum age can
+be decreased depending on the maximum ages for which there are crude mx estimates (exposed-at-risk) in the objects  'x', 'y', '...'.
+Default, 100.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>When 'margins = FALSE' a data frame with the (raw, normalized and linearized) estimated seasonal-ageing
+indexes (SAI) corresponding to the set of integer ages determined by 'min.age' and 'max.age' and the ages
+for which there is a least a death in the data frames introduced via the 'x', 'y' and '...' arguments for
+each combination of age and calendar quarter. The data frame has the following components:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>age</code></td>
+<td>
+<p> Integer age to which the SAIs corresponds.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>quarter.age</code></td>
+<td>
+<p> Age quarter to which the SAIs corresponds.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>quarter.calendar</code></td>
+<td>
+<p> Calendar (time, season) quarter to which the SAIs corresponds.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>SAI.raw</code></td>
+<td>
+<p> Estimates of raw seasonal-ageing indexes for each combination of 'age', 'quarter.age' and 'quarter.calendar'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>SAI.norm</code></td>
+<td>
+<p> Estimates of seasonal-ageing indexes, attained after normalizing raw SAIs estimates, for each  combination of 'age', 'quarter.age' and 'quarter.calendar'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>SAI.lin</code></td>
+<td>
+<p> Final estimates of seasonal-ageing indexes, attained after linearizing normalized SAIs estimates,  for each combination of 'age', 'quarter.age' and 'quarter.calendar'.</p>
+</td>
+</tr>
+</table>
+<p>When 'margins = TRUE' the output is a list with three data frames 'SAI', 'SAI.age' and 'SAI.quarter'.
+'SAI' is defined as just described above. 'SAI.age' and  'SAI.quarter' contains, in a similar vein than 'SAI',
+the estimated marginal SAIs, corresponding to, respectively, the age quarter and the calendar (time, season)
+quarter.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jose M. Pavia <a href="mailto:pavia@uv.es">pavia@uv.es</a>
+</p>
+<p>Josep Lledo <a href="mailto:josep.lledo@uv.es">josep.lledo@uv.es</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Pavia, JM and Lledo, J (2023). Shortcuts for the construction of sub-annual life tables. *ASTIN Bulletin: The Journal of the International Actuarial Association*, 53(2), 332-350. <a href="https://doi.org/10.1017/asb.2023.16">doi:10.1017/asb.2023.16</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+# This can take a while
+ temp &lt;- quarterly_variables(death_2006$date.birth, death_2006$date.death)
+ e.death &lt;- count_events_quarter(temp)
+ SAI.example &lt;- SAI_shortcut_1(e.death, e.death)
+
+
+# Fast example
+dates.b &lt;- c("2017-05-13", "2018-04-12", "2018-01-01")
+dates.d &lt;- c("2020-09-23", "2021-10-11", "2021-11-23")
+x &lt;- quarterly_variables(dates.b, dates.d)
+e.death &lt;- count_events_quarter(x)
+SAI.example &lt;- SAI_shortcut_1(e.death, e.death)
+</code></pre>
+
+
+</div>

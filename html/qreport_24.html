@@ -1,0 +1,70 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>multDataOverview</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>multDataOverview</h2>
+
+<h3>Description</h3>
+
+<p>Multiple Dataset Overview
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">multDataOverview(X, id = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>X</code></td>
+<td>
+<p>list object containing any number of data frames/tables</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>id</code></td>
+<td>
+<p>formula containing a single subject identifier, e.g., <code style="white-space: pre;">⁠id = ⁠</code> patient.id'</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Provides an overview of the data tables inside a giant list.  The result returned (invisible) is a data table containing for each variable a comma-separated list of datasets containing that variable (other than <code>id</code> variables).
+</p>
+
+
+<h3>Value</h3>
+
+<p>invisibly, a data table
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Frank Harrell
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>dataOverview()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+multDataOverview(list(data1=mydata1, data2=mydata2), id = ~ subject.id)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

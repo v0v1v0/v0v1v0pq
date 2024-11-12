@@ -1,0 +1,51 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>join_align</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Join various multialignments into one combined dataframe
+</h2>
+
+<h3>Description</h3>
+
+<p>Multialignments are mostly stored in separate files per cognateset. This function can be used to bind together a list of multialignments read by read_align.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">join_align(alignments)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>alignments</code></td>
+<td>
+
+<p>A list of objects as returned from read_align.
+</p>
+</td>
+</tr></table>
+<h3>Details</h3>
+
+<p>The alignments have to be reordered for this to work properly. Also, duplicate data (i.e. multiple words from the same language) will be removed. Simply the first occurrence is retained. This is not ideal, but it is currently the best and easiest solution.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The result will be a dataframe with <code>doculects</code> as rows and <code>alignments</code> as columns.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Michael Cysouw &lt;cysouw@mac.com&gt;
+</p>
+
+
+</div>

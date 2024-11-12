@@ -1,0 +1,135 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>WangS</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>The second step of wang method</h2>
+
+<h3>Description</h3>
+
+<p>The second step of wang method
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">WangS(
+  flag = NULL,
+  CriLOD = NULL,
+  NUM = NULL,
+  pheRaw = NULL,
+  chrRaw_name = NULL,
+  yygg = NULL,
+  mx = NULL,
+  phe = NULL,
+  chr_name = NULL,
+  gen = NULL,
+  mapname = NULL,
+  CLO = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>flag</code></td>
+<td>
+<p>fix or random model.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>CriLOD</code></td>
+<td>
+<p>Critical LOD scores for significant QTL.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>NUM</code></td>
+<td>
+<p>The number of trait.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pheRaw</code></td>
+<td>
+<p>Raw phenotype matrix.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>chrRaw_name</code></td>
+<td>
+<p>raw chromosome name.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>yygg</code></td>
+<td>
+<p>covariate matrix.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mx</code></td>
+<td>
+<p>raw genotype matrix.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>phe</code></td>
+<td>
+<p>phenotype matrix.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>chr_name</code></td>
+<td>
+<p>chromosome name.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gen</code></td>
+<td>
+<p>genotype matrix.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mapname</code></td>
+<td>
+<p>linkage map matrix.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>CLO</code></td>
+<td>
+<p>Number of CPUs.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>a list
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(DHdata)
+readraw&lt;-Readdata(file=DHdata,fileFormat="GCIM",
+method="GCIM",filecov=NULL,MCIMmap=NULL,MultiEnv=FALSE)
+DoResult&lt;-Dodata(fileFormat="GCIM",Population="DH",
+method="GCIM",Model="Random",readraw,MultiEnv=FALSE)
+W1re&lt;-WangF(pheRaw=DoResult$pheRaw,genRaw=DoResult$genRaw,
+mapRaw1=DoResult$mapRaw1,yygg1=DoResult$yygg1,
+flagRIL=DoResult$flagRIL,cov_en=DoResult$cov_en,
+Population="DH",WalkSpeed=1,CriLOD=2.5)
+ws&lt;-WangS(flag=DoResult$flag,CriLOD=2.5,NUM=1,
+pheRaw=DoResult$pheRaw,chrRaw_name=W1re$chrRaw_name,
+yygg=W1re$yygg,mx=W1re$mx,phe=W1re$phe,
+chr_name=W1re$chr_name,gen=W1re$gen,
+mapname=W1re$mapname,CLO=1)
+</code></pre>
+
+
+</div>

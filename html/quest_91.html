@@ -1,0 +1,128 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>pomps</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Recode Numeric Data to Percentage of Maximum Possible (POMP) Units</h2>
+
+<h3>Description</h3>
+
+<p><code>pomps</code> recodes numeric data to percentage of maximum possible (POMP)
+units. This can be useful when data is measured with arbitrary units (e.g.,
+Likert scale).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">pomps(
+  data,
+  vrb.nm,
+  mini,
+  maxi,
+  relative = FALSE,
+  unit = 1,
+  suffix = paste0("_p", unit)
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>data.frame of data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>vrb.nm</code></td>
+<td>
+<p>character vector of colnames from <code>data</code> specifying the
+variables.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mini</code></td>
+<td>
+<p>numeric vector of length 1 specifying the minimum numeric value
+possible. Note, this is assumed to be the same for each variable.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>maxi</code></td>
+<td>
+<p>numeric vector of length 1 specifying the maximum numeric value
+possible. Note, this is assumed to be the same for each variable.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>relative</code></td>
+<td>
+<p>logical vector of length 1 specifying whether relative POMP
+scores (rather than absolute POMP scores) should be created. If TRUE, then
+the <code>mini</code> and <code>maxi</code> arguments are ignored. See details for the
+distinction between absolute and relative POMP scores.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>unit</code></td>
+<td>
+<p>numeric vector of length 1 specifying how many percentage points
+is desired for the units. Traditionally, POMP scores use <code>unit</code> = 1
+(default) such that one unit is one percentage point. However, another
+option is to use <code>unit</code> = 100 such that one unit is all 100 percentage
+points (i.e., proportion of maximum possible). This argument also gives the
+flexibility of specifying units in between 1 and 100 percentage points. For
+example, <code>unit</code> = 50 would mean that one unit represents going from
+low (i.e., 25th percentile) to high (i.e., 75th percentile) on the
+variable.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>suffix</code></td>
+<td>
+<p>character vector of length 1 specifying the string to add to
+the end of the column names in the return object.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>There are too common approaches to POMP scores: 1) absolute POMP units where
+the minimum and maximum are the smallest/largest values possible from the
+measurement instrument (e.g., 1 to 7 on a Likert scale) and 2) relative POMP
+units where the minimum and maximum are the smallest/largest values observed
+in the data (e.g., 1.3 to 6.8 on a Likert scale). Both will be correlated
+perfectly with the original units as they are each linear transformations.
+</p>
+
+
+<h3>Value</h3>
+
+<p>data.frame of variables recoded to percentage of maximum possible
+(pomp) with units specified by <code>unit</code> and names specified by
+<code>paste0(vrb.nm, suffix)</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>pomp</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">vrb_nm &lt;- names(psych::bfi)[grepl(pattern = "A", x = names(psych::bfi))]
+pomps(data = psych::bfi, vrb.nm = vrb_nm, min = 1, max = 6) # absolute POMP units
+pomps(data = psych::bfi, vrb.nm = vrb_nm, relative = TRUE) # relative POMP units
+pomps(data = psych::bfi, vrb.nm = vrb_nm, min = 1, max = 6, unit = 100) # unit = 100
+pomps(data = psych::bfi, vrb.nm = vrb_nm, min = 1, max = 6, unit = 50) # unit = 50
+pomps(data = psych::bfi, vrb.nm = vrb_nm, min = 1, max = 6, suffix = "_pomp")
+</code></pre>
+
+
+</div>

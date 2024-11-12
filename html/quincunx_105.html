@@ -1,0 +1,88 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>subset-publications</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Subset a publications object</h2>
+
+<h3>Description</h3>
+
+<p>You can subset publications by identifier or by position using
+the <code>`[`</code> operator.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S4 method for signature 'publications,missing,missing,missing'
+x[i, j, ..., drop = FALSE]
+
+## S4 method for signature 'publications,numeric,missing,missing'
+x[i, j, ..., drop = FALSE]
+
+## S4 method for signature 'publications,character,missing,missing'
+x[i, j, ..., drop = FALSE]
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>A publications object.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>i</code></td>
+<td>
+<p>Position of the identifier or the name of the identifier itself.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>j</code></td>
+<td>
+<p>Not used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Additional arguments not used here.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>drop</code></td>
+<td>
+<p>Not used.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A publications object.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+# Get all publications in the PGS Catalog:
+all_pub &lt;- get_publications(interactive = FALSE, progress_bar = FALSE)
+
+#
+# Subsetting by position
+#
+all_pub[1:5]
+
+#
+# Subsetting by publication identifier (character)
+#
+all_pub['PGP000001']
+
+</code></pre>
+
+
+</div>

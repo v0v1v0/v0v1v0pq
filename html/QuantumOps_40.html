@@ -1,0 +1,44 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>nBitAddition</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>nBitAddition</h2>
+
+<h3>Description</h3>
+
+<p>Strings together output from FullAdder function to create multi-(qu)bit addition. It assumes the input operands are laid out as in &lt;DOI:10.1049/el:20020949&gt;. From left to right (top to bottom) the order is C0, a1, b1, C1, a2, b2, C2, .... bn-1, Cn. There must be 3n+1 qubits in order to perform n-(qu)bit addition.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">nBitAddition(n)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p>Length of input (qu)bit strings. </p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>A list containing the quantum circuit (each elemented is one cycle of the circuit) performing n-bit addition. 
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+ nBitAddition(2)
+
+## End(Not run)
+</code></pre>
+
+
+</div>

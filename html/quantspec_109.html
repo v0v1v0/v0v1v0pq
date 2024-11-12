@@ -1,0 +1,94 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>getSdBoot-SmoothedPG</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Get bootstrap estimates for the standard deviation of the smoothed quantile
+periodogram.</h2>
+
+<h3>Description</h3>
+
+<p>Determines and returns an array of dimension <code>[J,K1,K2]</code>,
+where <code>J=length(frequencies)</code>, <code>K1=length(levels.1)</code>, and
+<code>K2=length(levels.2))</code>.
+At position <code>(j,k1,k2)</code> the real part of the returned value is the
+standard deviation estimated from the real parts of the bootstrap
+replications and the imaginary part of the returned value is the standard
+deviation estimated from the imaginary part of the bootstrap replications.
+The estimate is determined from those bootstrap replicates of the estimator
+that have
+<code>frequencies[j]</code>, <code>levels.1[k1]</code> and <code>levels.2[k2]</code> closest
+to the <code>frequencies</code>, <code>levels.1</code> and <code>levels.2</code>
+available in <code>object</code>; <code>closest.pos</code> is used to determine
+what closest to means.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S4 method for signature 'SmoothedPG'
+getSdBoot(
+  object,
+  frequencies = 2 * pi * (0:(lenTS(object@qPG@freqRep@Y) -
+    1))/lenTS(object@qPG@freqRep@Y),
+  levels.1 = getLevels(object, 1),
+  levels.2 = getLevels(object, 2)
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p><code>SmoothedPG</code> of which to get the bootstrap estimates for the
+standard deviation.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>frequencies</code></td>
+<td>
+<p>a vector of frequencies for which to get the result</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>levels.1</code></td>
+<td>
+<p>the first vector of levels for which to get the result</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>levels.2</code></td>
+<td>
+<p>the second vector of levels for which to get the result</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Requires that the <code>SmoothedPG</code> is available at all Fourier
+frequencies from <code class="reqn">(0,\pi]</code>. If this is not the case the missing
+values are imputed by taking one that is available and has a frequency
+that is closest to the missing Fourier frequency; <code>closest.pos</code> is used
+to determine which one this is.
+</p>
+<p>If there are no bootstrap replicates available (i. e., <code>B == 0</code>) an
+error is returned.
+</p>
+<p>Note the “standard deviation” estimated here is not the square root of the
+complex-valued variance. It's real part is the square root of the variance
+of the real part of the estimator and the imaginary part is the square root
+of the imaginary part of the variance of the estimator.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns the estimate described above.
+</p>
+
+
+</div>

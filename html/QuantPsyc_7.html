@@ -1,0 +1,133 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>proximal.med</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2> Simple Mediation Models </h2>
+
+<h3>Description</h3>
+
+<p>Computes the Indirect Effect for a simple 3 variable mediation model: X -&gt; M -&gt; Y assuming direct effect X -&gt; Y
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">proximal.med(data)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p> data.frame containing the variables labeled 'x', 'm', and 'y' respectively. </p>
+</td>
+</tr></table>
+<h3>Details</h3>
+
+<p>This function computes all paths in the simple 3 variable system involving the following regressions: <br>
+Y = t'X + bM, and <br>
+M = aX <br>
+where t' + ab = t <br></p>
+<p>The indirect effect is computed as the product of a*b. Several formula are used for the computation of the standard error for the indirect effect (see MacKinnon et al for a comprehensive review). <br>
+As noted below, one can use this function to create the indirect effect and then utilize bootstrapping for a more accurate estimate of the standard error and model the distribution of the direct effect. 
+</p>
+
+
+<h3>Value</h3>
+
+<p>Creates a table containing the following effects, their standard errors, and t-values :
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>a</code></td>
+<td>
+<p>Effect of X on M</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>b</code></td>
+<td>
+<p>Effect of M on Y controlling for X</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>t</code></td>
+<td>
+<p>Total effect of X on Y</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>t'</code></td>
+<td>
+<p>Direct effect of X on Y accounting for M</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ab</code></td>
+<td>
+<p>Indirect effect of X on Y though M</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Aroian</code></td>
+<td>
+<p>Standard error of ab using Aroian method</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Goodman</code></td>
+<td>
+<p>Standard error of ab using Goodman method</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Med.Ratio</code></td>
+<td>
+<p>Mediation Ratio: indirect effect / total effect</p>
+</td>
+</tr>
+</table>
+<h3>Warning</h3>
+
+<p>This function is primative in that it is based on a simplistic model <em>AND</em> forces the user to name the variables in the dataset x, m, and y. </p>
+
+
+<h3>Note</h3>
+
+<p> This function uses the following undocumented functions: <code>aroian.se.indirect2</code>, <code>goodman.se.indirect2</code>, <code>se.indirect2</code></p>
+
+
+<h3>Author(s)</h3>
+
+<p> Thomas D. Fletcher <a href="mailto:t.d.fletcher05@gmail.com">t.d.fletcher05@gmail.com</a> </p>
+
+
+<h3>References</h3>
+
+ 
+<p>MacKinnon, D. P., Lockwood, C. M., Hoffman, J. M., West, S. G., &amp; Sheets, V. (2002). A comparison of methods to test mediation and other intervening variable effects.  <em>Psychological Methods, 7,</em> 83-104.<br></p>
+
+
+<h3>See Also</h3>
+
+<p><code>distal.med</code>, <code>proxInd.ef</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+data(tra)
+tmp.tra &lt;- tra
+names(tmp.tra) &lt;- c('x','z','m','y')
+data.frame(proximal.med(tmp.tra))  ## data.frame() simple makes the table 'pretty'
+
+
+</code></pre>
+
+
+</div>

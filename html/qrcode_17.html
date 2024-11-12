@@ -1,0 +1,78 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qr_code</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Generate the QR code</h2>
+
+<h3>Description</h3>
+
+<p>A <a href="https://en.wikipedia.org/wiki/QR_code">QR code</a> is a two-dimensional
+barcode developed by the Denso Wave company.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qr_code(x, ecl = c("L", "M", "Q", "H"))
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>the input string</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ecl</code></td>
+<td>
+<p>the required error correction level.
+Available options are <code>"L"</code> (7%), <code>"M"</code> (15%), <code>"Q"</code> (25%) and <code>"H"</code> (30%).
+Defaults to <code>"L"</code>.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>The QR code as a logical matrix with "qr_code" class.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Thierry Onkelinx
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Other qr: 
+<code>coordinates()</code>,
+<code>generate_svg()</code>,
+<code>plot.qr_code()</code>,
+<code>print.qr_code()</code>,
+<code>qr_event()</code>,
+<code>qr_location()</code>,
+<code>qr_sepa()</code>,
+<code>qr_wifi()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">qr_code("https://www.r-project.org")
+qr &lt;- qr_code("https://cran.r-project.org/package=qrcode", ecl = "M")
+qr
+plot(qr)
+# the qr_code object is a logical matrix
+str(qr)
+qr[1:10, 1:10]
+</code></pre>
+
+
+</div>

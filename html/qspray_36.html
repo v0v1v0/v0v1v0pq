@@ -1,0 +1,47 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>isHomogeneousQspray</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Whether a 'qspray' polynomial is homogeneous</h2>
+
+<h3>Description</h3>
+
+<p>Checks whether the polynomial defined by a <code>qspray</code> 
+object is homogeneous, and also returns the degree if this is true.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">isHomogeneousQspray(qspray)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>qspray</code></td>
+<td>
+<p>a <code>qspray</code> object</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>A Boolean value indicating whether the polynomial defined by 
+<code>qspray</code> is homogeneous. Moreover, if it is homogeneous, the degree 
+is given in the attribute <code>"degree"</code> of the output.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">lambda &lt;- c(3, 2, 1)
+p &lt;- PSFpoly(4, lambda)
+( homogeneous &lt;- isHomogeneousQspray(p) ) # should be TRUE
+attr(homogeneous, "degree") == sum(lambda) # should be TRUE
+</code></pre>
+
+
+</div>

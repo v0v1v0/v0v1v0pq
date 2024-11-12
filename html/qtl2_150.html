@@ -1,0 +1,55 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>scale_kinship</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Scale kinship matrix</h2>
+
+<h3>Description</h3>
+
+<p>Scale kinship matrix to be like a correlation matrix.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">scale_kinship(kinship)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>kinship</code></td>
+<td>
+<p>A kinship matrix, or a list of such in the case of
+the "leave one chromosome out" method, as calculated by
+<code>calc_kinship()</code>.</p>
+</td>
+</tr></table>
+<h3>Details</h3>
+
+<p>We take
+<em>c<sub>ij</sub> = k<sub>ij</sub> / √(k<sub>ii</sub> k<sub>jj</sub>)</em>
+</p>
+
+
+<h3>Value</h3>
+
+<p>A matrix or list of matrices, as with the input, but with
+the matrices scaled to be like correlation matrices.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">grav2 &lt;- read_cross2(system.file("extdata", "grav2.zip", package="qtl2"))
+map &lt;- insert_pseudomarkers(grav2$gmap, step=1)
+probs &lt;- calc_genoprob(grav2, map, error_prob=0.002)
+K &lt;- calc_kinship(probs)
+Ka &lt;- scale_kinship(K)
+</code></pre>
+
+
+</div>

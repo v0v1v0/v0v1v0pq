@@ -1,0 +1,50 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>.computeSdNaive</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Workhorse function for <code>getSdNaive-SmoothedPG</code>.</h2>
+
+<h3>Description</h3>
+
+<p>C++ implementation to increase performance.
+</p>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>V</code></td>
+<td>
+<p>a 3-dimensional array of complex numbers; dimensions are
+<code>[N, K1, K2]</code>, where <code>N</code> frequencies are
+<code class="reqn">\omega_j := 2\pi j/N</code> for <code class="reqn">j=0,\ldots,N</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>W</code></td>
+<td>
+<p>a vector of length <code>W</code> of length <code>N</code> used for smoothing.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>Returns an array with complex numbers
+<code class="reqn">\sigma(\tau_1, \tau_2, \omega_j</code> as defined in
+Kley et. al (2016), p. 26.
+</p>
+
+
+<h3>References</h3>
+
+<p>Dette, H., Hallin, M., Kley, T. &amp; Volgushev, S. (2015).
+Of Copulas, Quantiles, Ranks and Spectra: an <code class="reqn">L_1</code>-approach to
+spectral analysis. <em>Bernoulli</em>, <b>21</b>(2), 781–831.
+[cf. <a href="http://arxiv.org/abs/1111.7205">http://arxiv.org/abs/1111.7205</a>]
+</p>
+
+
+</div>

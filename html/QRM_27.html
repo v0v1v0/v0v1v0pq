@@ -1,0 +1,175 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>GHYP</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Uni- and Multivariate Generalized Hyperbolic Distribution 
+</h2>
+
+<h3>Description</h3>
+
+<p>Values of density and random number generation for uni- and
+multivariate Generalized Hyperbolic distribution in new QRM
+parameterization <code class="reqn">(\chi, \psi, \gamma)</code> and in
+standard parametrization <code class="reqn">(\alpha, \beta, \delta)</code>; univariate only. See pp. 77–81 in QRM. The special case of a
+multivariate symmetric GHYP is implemented seperately as function
+<code>dsmghyp()</code>.    
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">dghyp(x, lambda, chi, psi, mu = 0, gamma = 0, log = FALSE) 
+dmghyp(x, lambda, chi, psi, mu, Sigma, gamma, log = FALSE)
+dsmghyp(x, lambda, chi, psi, mu, Sigma, log = FALSE)
+dghypB(x, lambda, delta, alpha, beta = 0, mu = 0, log = FALSE) 
+rghyp(n, lambda, chi, psi, mu = 0, gamma = 0)
+rmghyp(n, lambda, chi, psi, Sigma, mu, gamma)
+rghypB(n, lambda, delta, alpha, beta = 0, mu = 0)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>alpha</code></td>
+<td>
+<p><code>numeric</code>, parameter(s).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>beta</code></td>
+<td>
+<p><code>numeric</code>, skewness parameter.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>chi</code></td>
+<td>
+<p><code>numeric</code>,  mixing parameter(s).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>delta</code></td>
+<td>
+<p><code>numeric</code>, parameter(s).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gamma</code></td>
+<td>
+<p><code>numeric</code>, skewness parameter(s).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lambda</code></td>
+<td>
+<p><code>numeric</code>, mixing parameter(s).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>log</code></td>
+<td>
+<p><code>logical</code>, should log density be returned; default is
+<code>FALSE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>mu</code></td>
+<td>
+<p><code>numeric</code>, location parameter(s).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p><code>integer</code>, count of random variates.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>psi</code></td>
+<td>
+<p><code>numeric</code>, mixing parameter(s).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Sigma</code></td>
+<td>
+<p><code>matrix</code>, dispersion matrix for multivaraiate GHYP.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p><code>vector</code>, values to evaluate density.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The univariate QRM parameterization is defined in terms of parameters
+<code class="reqn">\chi, \psi, \gamma</code> instead of the
+<code class="reqn">\alpha, \beta, \delta</code> model used by Blaesild
+(1981). If <code class="reqn">\gamma = 0</code>, a normal variance mixture where
+the mixing variable <code class="reqn">W</code> has a Generalized Inverse Gaussian
+distribution (GIG) with parameters <code class="reqn">\lambda, \chi, \psi</code> is given, with heavier tails. If <code class="reqn">\gamma &gt; 0</code>, a normal mean-variance mixture where the mean is also perturbed to
+equal <code class="reqn">\mu + (W * \gamma)</code> which introduces
+asymmetry as well, is obtained. Values for <code class="reqn">\lambda</code> and
+<code class="reqn">\mu</code> are identical in both QRM and B parameterizations. The
+dispersion matrix <code class="reqn">\Sigma</code> does not appear as argument in
+the univariate case since its value is identically one.  
+</p>
+
+
+<h3>Value</h3>
+
+<p>numeric, value(s) of density or log-density (dghyp, dmghyp, dsmghyp
+and dghypB) or random sample (rghyp, rmghyp, rghypB) 
+</p>
+
+
+<h3>Note</h3>
+
+<p>Density values from dgyhp() should be identical to those from dghypB()
+if the <code class="reqn">\alpha, \beta, \delta</code> parameters of
+the B type are translated to the corresponding <code class="reqn">\gamma, \chi,
+  \psi</code> parameters of the QRM type by formulas on pp
+79–80 in QRM.<br>
+If <code class="reqn">\gamma</code> is a vector of zeros, the distribution is
+elliptical and <code>dsmghyp()</code> is utilised in <code>dmghyp()</code>. If
+<code class="reqn">\lambda = (d + 1) / 2</code>, a d-dimensional
+hyperbolic density results. If <code class="reqn">\lambda = 1</code>, the
+univariate marginals are one-dimensional hyperbolics. If <code class="reqn">\lambda
+  = -1/2</code>, the distribution is Normal Inverse Gaussian
+(NIG). If <code class="reqn">\lambda &gt; 0</code> and <code class="reqn">\chi = 0</code>,
+one obtains a Variance Gamma distribution (VG). If one can define a
+constant <code class="reqn">\nu</code> such that <code class="reqn">\lambda = (-1/2) * \nu</code> and <code class="reqn">\chi = \nu</code> then one obtains a
+multivariate skewed-t distribution. See p. 80 of QRM for details.  
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">old.par &lt;- par(no.readonly = TRUE)
+par(mfrow = c(2, 2))
+ll &lt;- c(-4, 4)
+BiDensPlot(func = dmghyp, xpts = ll, ypts = ll, mu = c(0, 0),
+           Sigma = equicorr(2, -0.7), lambda = 1, chi = 1, psi = 1,
+           gamma = c(0, 0))
+BiDensPlot(func = dmghyp, type = "contour", xpts = ll, ypts = ll,
+           mu = c(0, 0), Sigma = equicorr(2, -0.7), lambda = 1,
+           chi = 1, psi = 1, gamma = c(0, 0))
+BiDensPlot(func = dmghyp, xpts = ll, ypts = ll, mu = c(0, 0),
+           Sigma = equicorr(2, -0.7), lambda = 1, chi = 1, psi = 1,
+           gamma = c(0.5, -0.5))
+BiDensPlot(func = dmghyp, type = "contour", xpts = ll, ypts = ll,
+           mu = c(0, 0), Sigma = equicorr(2, -0.7), lambda = 1,
+           chi = 1, psi = 1, gamma = c(0.5, -0.5))
+par(old.par)
+</code></pre>
+
+
+</div>

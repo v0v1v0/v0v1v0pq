@@ -1,0 +1,121 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qsort_score</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>qsort_score</h2>
+
+<h3>Description</h3>
+
+<p>qsort_score returns a data frame with scores derived from criteria Q-sorts and
+from scales created from subsets of items.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qsort_score(x, qset, qsort_length, item1, subj_id = NULL, group_id = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>data frame. x should be in wide format, with each subject data in one
+row and the scores for qset items in different columns. Columns for qset
+items' scores should be ordered sequentially from left to right, starting
+with item 1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qset</code></td>
+<td>
+<p>A data frame containing Q-set criterion scores and / or derived scales.
+For details see for example ?qset_aqs, ?qset_cqq, ?qset_mbqs and ?qset_pq.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qsort_length</code></td>
+<td>
+<p>The number of items in the qsort.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>item1</code></td>
+<td>
+<p>Column name of x containing item 1 score</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>subj_id</code></td>
+<td>
+<p>Optional. Column name of x with subjects' identification codes.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>group_id</code></td>
+<td>
+<p>Optional. Column name of x with groups' identification codes.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>qsort_score function returns a data frame. This data frame will have a
+varying number of columns depending on the number of available criteria
+sorts and scales for the selected Q-set. Column names ending in "_c" refer
+to criteria sorts' scores, while column names ending in "_s" refer to
+scales' scores. Following Waters et al.'s (1985) suggestion about the
+influence of social desirability bias in Q-sort data, for Q-sets that have
+social desirability criterion scores, this data frame will also include
+criteria sorts' scores controlled for social desirability (i.e., partial
+correlations). Column names starting with "partial_" refer to these scores.
+The different criteria sorts and scales for each Q-set can be consulted in
+the documentation of qsets object (?qsets).
+</p>
+
+
+<h3>References</h3>
+
+<p>Baumrind, D. (1968). Manual for the Preschool Behaviour Q-set.
+Parental Research Project. Berkeley, CA: Institute of Human Development,
+University of California.
+</p>
+<p>Block, J. H., &amp; Block, J. (1969). The California Child Q-Set. Berkeley, CA:
+Institute of Human Development, University of California.
+</p>
+<p>Pederson, D. R., Moran, G., &amp; Bento, S. (1999). Maternal Behaviour
+Q-sort (version 3.1). London, ON: Psychology Department, Western University.
+</p>
+<p>Waters, E. (1995). Appendix A: The attachment Q-set (Version 3. 0).
+Monographs of the Society for Research in Child Development, 60, 234-246.
+</p>
+<p>Waters, E., Noyes, D. M., Vaughn, B. E., &amp; Ricks, M. (1985). Q-sort
+definitions of social competence and self-esteem: Discriminant validity of
+related constructs in theory and data. Developmental Psychology, 21, 508-522.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data_ccq &lt;- qsort_score(ex_qsort$ccq,
+                       qset_ccq,
+                       qsort_length = 100,
+                       item1 = "ccq1",
+                       subj_id = "participant",
+                       group_id = "classroom")
+data_ccq
+
+data_aqs &lt;- qsort_score(ex_qsort$aqs,
+                       qset_aqs,
+                       qsort_length = 90,
+                       item1 = "aqs1")
+
+</code></pre>
+
+
+</div>

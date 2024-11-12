@@ -1,0 +1,254 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qualpal</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Generate qualitative color palettes</h2>
+
+<h3>Description</h3>
+
+<p>Given a color space or collection of colors, <code>qualpal()</code> projects
+these colors to the DIN99d color space, where it generates a color palette
+from the most visually distinct colors, optionally taking color vision
+deficiency into account.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qualpal(
+  n,
+  colorspace = "pretty",
+  cvd = c("protan", "deutan", "tritan"),
+  cvd_severity = 0,
+  n_threads
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p>The number of colors to generate.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>colorspace</code></td>
+<td>
+<p>A color space to generate colors from. Can be any of the
+following:
+</p>
+
+<ul>
+<li>
+<p>A <code>list</code> with the following <em>named</em> vectors,
+each of length two, giving a range for each item.
+</p>
+
+<dl>
+<dt><code>h</code></dt>
+<dd>
+<p>Hue, in the range [-360, 360]</p>
+</dd>
+<dt><code>s</code></dt>
+<dd>
+<p>Saturation, in the range [0, 1]</p>
+</dd>
+<dt><code>l</code></dt>
+<dd>
+<p>Lightness, in the range [0, 1]</p>
+</dd>
+</dl>
+</li>
+<li>
+<p>A <code>character</code> vector of length one specifying one of
+these predefined color spaces:
+</p>
+
+<dl>
+<dt><code>pretty</code></dt>
+<dd>
+<p>Tries to provide aesthetically pleasing,
+but still distinct color palettes. Hue ranges from 0 to 360,
+saturation from 0.1 to 0.5, and lightness from 0.5 to 0.85. This
+palette is not suitable for high <code>n</code></p>
+</dd>
+<dt><code>pretty_dark</code></dt>
+<dd>
+<p>Like <code>pretty</code> but darker. Hue ranges from 0 to 360, saturation
+from 0.1 to 0.5, and lightness from 0.2 to 0.4.
+</p>
+</dd>
+<dt><code>rainbow</code></dt>
+<dd>
+<p>Uses all hues, chromas, and most of the lightness range. Provides
+distinct but not aesthetically pleasing colors.
+</p>
+</dd>
+<dt><code>pastels</code></dt>
+<dd>
+<p>Pastel colors from the complete range of hues (0-360), with
+saturation between 0.2 and 0.4, and lightness between 0.8 and 0.9.
+</p>
+</dd>
+</dl>
+</li>
+<li>
+<p>A <code>matrix</code> of colors from the sRGB color space, each
+row representing a unique color.
+</p>
+</li>
+<li>
+<p>A <code>data.frame</code> that can be converted to a matrix via
+data.matrix
+</p>
+</li>
+</ul>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cvd</code></td>
+<td>
+<p>Color vision deficiency adaptation. Use <code>cvd_severity</code>
+to set the severity of color vision deficiency to adapt to. Permissible
+values are <code>"protan", "deutan",</code> and <code>"tritan"</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cvd_severity</code></td>
+<td>
+<p>Severity of color vision deficiency to adapt to. Can take
+any value from 0, for normal vision (the default), and 1, for dichromatic
+vision.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n_threads</code></td>
+<td>
+<p>Previously the number of threads to use, but this argument
+is now deprecated.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The function takes a color subspace in the HSL color space, where lightness
+and saturation take values from 0 to 1. Hue take values from -360 to 360,
+although negative values are brought to lie in the range {0, 360}; this
+behavior exists to enable color subspaces that span all hues being that the
+hue space is circular.
+</p>
+<p>The HSL color subspace that the user provides is projected into the DIN99d
+color space, which is approximately perceptually uniform, i.e. color
+difference is proportional to the euclidean distance between two colors. A
+distance matrix is computed and, as an additional step, is transformed using
+power transformations discovered by Huang 2015 in order to fine tune
+differences.
+</p>
+<p><code>qualpal</code> then searches the distance matrix for the most
+distinct colors; it does this iteratively by first selecting a random set of
+colors and then iterates over each color, putting colors back into the total
+set and replaces it with a new color until it has gone through the whole
+range without changing any of the colors.
+</p>
+<p>Optionally, <code>qualpal</code> can adapt palettes to cater to color vision
+deficiency (cvd). This is accomplished by taking the colors
+provided by the user and transforming them to colors that someone with cvd
+would see, that is, simulating cvd. qualpal then chooses colors from
+these new colors.
+</p>
+<p><code>qualpal</code> currently only supports the sRGB color space with the D65
+white point reference.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list of class <code>qualpal</code> with the following
+components.
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>HSL</code></td>
+<td>
+
+<p>A matrix of the colors in the HSL color space.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>DIN99d</code></td>
+<td>
+
+<p>A matrix of the colors in the DIN99d color space (after power
+transformations).
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>RGB</code></td>
+<td>
+
+<p>A matrix of the colors in the sRGB color space.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>hex</code></td>
+<td>
+<p>A
+character vector of the colors in hex notation.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>de_DIN99d</code></td>
+<td>
+<p>A
+distance matrix of color differences according to delta E DIN99d.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>min_de_DIN99d</code></td>
+<td>
+
+<p>The smallest pairwise DIN99d color difference.
+</p>
+</td>
+</tr>
+</table>
+<h3>See Also</h3>
+
+<p><code>plot.qualpal</code>, <code>pairs.qualpal</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># Generate 3 distinct colors from the default color space
+qualpal(3)
+
+# Provide a custom color space
+qualpal(n = 3, list(h = c(35, 360), s = c(0.5, 0.7), l = c(0, 0.45)))
+
+qualpal(3, "pretty")
+
+# Adapt palette to deuteranopia
+qualpal(5, colorspace = "pretty_dark", cvd = "deutan", cvd_severity = 1)
+
+# Adapt palette to protanomaly with severity 0.4
+qualpal(8, colorspace = "pretty_dark", cvd = "protan", cvd_severity = 0.4)
+
+## Not run: 
+# The range of hue cannot exceed 360
+qualpal(3, list(h = c(-20, 360), s = c(0.5, 0.7), l = c(0, 0.45)))
+
+## End(Not run)
+
+</code></pre>
+
+
+</div>

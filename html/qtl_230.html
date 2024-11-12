@@ -1,0 +1,230 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>refineqtl</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Refine the positions of QTL</h2>
+
+<h3>Description</h3>
+
+<p>Iteratively scan the positions for QTL in the context of a multiple
+QTL model, to try to identify the positions with maximum likelihood,
+for a fixed QTL model.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">refineqtl(cross, pheno.col=1, qtl, chr, pos, qtl.name, covar=NULL, formula,
+          method=c("imp","hk"), model=c("normal", "binary"), verbose=TRUE, maxit=10,
+          incl.markers=TRUE, keeplodprofile=TRUE, tol=1e-4,
+          maxit.fitqtl=1000, forceXcovar=FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>cross</code></td>
+<td>
+<p>An object of class <code>cross</code>. See
+<code>read.cross</code> for details.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pheno.col</code></td>
+<td>
+<p>Column number in the phenotype matrix to be
+used as the phenotype.  One may also give a character string matching
+the phenotype name.  Finally, one may give a numeric vector of
+phenotypes, in which case it must have the length equal to the number
+of individuals in the cross, and there must be either non-integers or
+values &lt; 1 or &gt; no. phenotypes; this last case may be useful for studying
+transformations.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qtl</code></td>
+<td>
+<p>A QTL object, as produced by <code>makeqtl</code>,
+containing the positions of the QTL.  Provide either <code>qtl</code> or
+the pair <code>chr</code> and <code>pos</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>chr</code></td>
+<td>
+<p>Vector indicating the chromosome for each QTL; if <code>qtl</code>
+is provided, this should not be.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pos</code></td>
+<td>
+<p>Vector indicating the positions for each QTL; if <code>qtl</code>
+is provided, this should not be.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qtl.name</code></td>
+<td>
+<p>Optional user-specified name for each QTL.  If
+<code>qtl</code> is provided, this should not be.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>covar</code></td>
+<td>
+<p>A matrix or data.frame of covariates.  These must be
+strictly numeric.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>formula</code></td>
+<td>
+<p>An object of class <code>formula</code>
+indicating the model to be fitted.  (It can also be the character
+string representation of a formula.)  QTLs are indicated as <code>Q1</code>,
+<code>Q2</code>, etc.  Covariates are indicated by their names in <code>covar</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+<p>Indicates whether to use multiple imputation or
+Haley-Knott regression.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>model</code></td>
+<td>
+<p>The phenotype model: the usual model or a model for binary
+traits</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p>If TRUE, give feedback about progress.  If
+<code>verbose</code> is an integer &gt; 1, further messages from
+<code>scanqtl</code> are also displayed.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>maxit</code></td>
+<td>
+<p>Maximum number of iterations.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>incl.markers</code></td>
+<td>
+<p>If FALSE, do calculations only at points on an
+evenly spaced grid.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>keeplodprofile</code></td>
+<td>
+<p>If TRUE, keep the LOD profiles from the last
+iteration as attributes to the output.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tol</code></td>
+<td>
+<p>Tolerance for convergence for the binary trait model.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>maxit.fitqtl</code></td>
+<td>
+<p>Maximum number of iterations for fitting the binary trait
+model.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>forceXcovar</code></td>
+<td>
+<p>If TRUE, force inclusion of X-chr-related covariates
+(like sex and cross direction).</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>QTL positions are optimized, within the context of a fixed QTL model,
+by a scheme described in Zeng et al. (1999).  Each QTL is considered
+one at a time (in a random order), and a scan is performed, allowing
+the QTL to vary across its chromosome, keeping the positions of all
+other QTL fixed.  If there is another QTL on the chromosome, the
+position of the floating QTL is scanned from the end of the chromosome
+to the position of the flanking QTL.  If the floating QTL is between
+two QTL on a chromosome, its position is scanned between those two QTL
+positions.  Each QTL is moved to the position giving the highest
+likelihood, and the entire process is repeated until no further
+improvement in likelihood can be obtained.
+</p>
+<p>One may provide either a <code>qtl</code> object (as produced by
+<code>makeqtl</code>), or vectors <code>chr</code> and <code>pos</code>
+(and, optionally, <code>qtl.name</code>) indicating the positions of the
+QTL.
+</p>
+<p>If a <code>qtl</code> object is provided, QTL that do not appear in
+the model <code>formula</code> are ignored, but they remain part of the QTL
+object that is output.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>qtl</code>, with QTL placed in their new positions.
+</p>
+<p>If <code>keeplodprofile=TRUE</code>, LOD profiles from the last pass through
+the refinement algorithm are retained as an attribute,
+<code>"lodprofile"</code>, to the object.  These may be plotted with
+<code>plotLodProfile</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Karl W Broman, <a href="mailto:broman@wisc.edu">broman@wisc.edu</a></p>
+
+
+<h3>References</h3>
+
+<p>Zeng, Z.-B., Kao, C.-H., and Basten, C. J. (1999) Estimating the
+genetic architecture of quantitative traits.  <em>Genet. Res.</em>
+<b>74</b>, 279–289.
+</p>
+<p>Haley, C. S. and Knott, S. A. (1992) A simple regression method for mapping
+quantitative trait loci in line crosses using flanking markers.
+<em>Heredity</em> <b>69</b>, 315–324.
+</p>
+<p>Sen, Ś. and Churchill, G. A. (2001) A statistical framework for quantitative
+trait mapping.  <em>Genetics</em> <b>159</b>, 371–387.
+</p>
+
+
+<h3>See Also</h3>
+
+ <p><code>fitqtl</code>, <code>makeqtl</code>,
+<code>scanqtl</code>, <code>addtoqtl</code>,
+<code>dropfromqtl</code>, <code>replaceqtl</code>,
+<code>plotLodProfile</code> </p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(fake.bc)
+
+fake.bc &lt;- calc.genoprob(fake.bc, step=2)
+qtl &lt;- makeqtl(fake.bc, chr=c(2,5), pos=c(32.5, 17.5), what="prob")
+rqtl &lt;- refineqtl(fake.bc, qtl=qtl, method="hk")
+</code></pre>
+
+
+</div>

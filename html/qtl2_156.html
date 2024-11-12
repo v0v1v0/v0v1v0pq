@@ -1,0 +1,265 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>scan1snps</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Single-QTL genome scan at imputed SNPs</h2>
+
+<h3>Description</h3>
+
+<p>Perform a single-QTL scan across the genome or a defined region at
+SNPs genotyped in the founders, by Haley-Knott regression or a
+liear mixed model, with possible allowance for covariates.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">scan1snps(
+  genoprobs,
+  map,
+  pheno,
+  kinship = NULL,
+  addcovar = NULL,
+  Xcovar = NULL,
+  intcovar = NULL,
+  weights = NULL,
+  reml = TRUE,
+  model = c("normal", "binary"),
+  query_func = NULL,
+  chr = NULL,
+  start = NULL,
+  end = NULL,
+  snpinfo = NULL,
+  batch_length = 20,
+  keep_all_snps = FALSE,
+  cores = 1,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>genoprobs</code></td>
+<td>
+<p>Genotype probabilities as calculated by
+<code>calc_genoprob()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>map</code></td>
+<td>
+<p>Physical map for the positions in the <code>genoprobs</code>
+object: A list of numeric vectors; each vector gives marker
+positions for a single chromosome.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pheno</code></td>
+<td>
+<p>A numeric matrix of phenotypes, individuals x phenotypes.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>kinship</code></td>
+<td>
+<p>Optional kinship matrix, or a list of kinship matrices (one
+per chromosome), in order to use the LOCO (leave one chromosome
+out) method.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>addcovar</code></td>
+<td>
+<p>An optional numeric matrix of additive covariates.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>Xcovar</code></td>
+<td>
+<p>An optional numeric matrix with additional additive covariates used for
+null hypothesis when scanning the X chromosome.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>intcovar</code></td>
+<td>
+<p>An optional numeric matrix of interactive covariates.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>weights</code></td>
+<td>
+<p>An optional numeric vector of positive weights for the
+individuals. As with the other inputs, it must have <code>names</code>
+for individual identifiers.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>reml</code></td>
+<td>
+<p>If <code>kinship</code> provided: if <code>reml=TRUE</code>, use
+REML; otherwise maximum likelihood.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>model</code></td>
+<td>
+<p>Indicates whether to use a normal model (least
+squares) or binary model (logistic regression) for the phenotype.
+If <code>model="binary"</code>, the phenotypes must have values in <code class="reqn">[0, 1]</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>query_func</code></td>
+<td>
+<p>Function for querying SNP information; see
+<code>create_variant_query_func()</code>). Takes arguments
+<code>chr</code>, <code>start</code>, <code>end</code>, (with <code>start</code> and <code>end</code> in the units in
+<code>map</code>, generally Mbp), and returns a data frame containing
+the columns <code>snp</code>, <code>chr</code>, <code>pos</code>, and <code>sdp</code>. (See <code>snpinfo</code> below.)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>chr</code></td>
+<td>
+<p>Chromosome or chromosomes to scan</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>start</code></td>
+<td>
+<p>Position defining the start of an interval to scan.
+Should be a single number, and if provided, <code>chr</code> should also
+have length 1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>end</code></td>
+<td>
+<p>Position defining the end of an interval to scan.
+Should be a single number, and if provided, <code>chr</code> should also
+have length 1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>snpinfo</code></td>
+<td>
+<p>Optional data frame of SNPs to scan; if provided,
+<code>query_func</code>, <code>chr</code>, <code>start</code>, and <code>end</code> are ignored. Should
+contain the following columns:
+</p>
+
+<ul>
+<li> <p><code>chr</code> - Character string or factor with chromosome
+</p>
+</li>
+<li> <p><code>pos</code> - Position (in same units as in the <code>"map"</code>).
+</p>
+</li>
+<li> <p><code>sdp</code> - Strain distribution pattern: an integer, between
+1 and <code class="reqn">2^n - 2</code> where <code class="reqn">n</code> is the number of strains, whose
+binary encoding indicates the founder genotypes
+</p>
+</li>
+<li> <p><code>snp</code> - Character string with SNP identifier (if
+missing, the rownames are used).
+</p>
+</li>
+</ul>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>batch_length</code></td>
+<td>
+<p>Interval length (in units of <code>map</code>, generally
+Mbp) to scan at one time.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>keep_all_snps</code></td>
+<td>
+<p>SNPs are grouped into equivalence classes based
+on position and founder genotypes; if <code>keep_all_snps=FALSE</code>,
+the return value will contain information only on the indexed
+SNPs (one per equivalence class).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cores</code></td>
+<td>
+<p>Number of CPU cores to use, for parallel calculations.
+(If <code>0</code>, use <code>parallel::detectCores()</code>.)
+Alternatively, this can be links to a set of cluster sockets, as
+produced by <code>parallel::makeCluster()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Additional control parameters passed to <code>scan1()</code></p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The analysis proceeds as follows:
+</p>
+
+<ul>
+<li>
+<p> Call <code>query_func()</code> to grab all SNPs over a region.
+</p>
+</li>
+<li>
+<p> Use <code>index_snps()</code> to group SNPs into equivalence classes.
+</p>
+</li>
+<li>
+<p> Use <code>genoprob_to_snpprob()</code> to convert <code>genoprobs</code> to SNP probabilities.
+</p>
+</li>
+<li>
+<p> Use <code>scan1()</code> to do a single-QTL scan at the SNPs.
+</p>
+</li>
+</ul>
+<h3>Value</h3>
+
+<p>A list with two components: <code>lod</code> (matrix of LOD scores)
+and <code>snpinfo</code> (a data frame of SNPs that were scanned,
+including columns <code>index</code> which indicates groups of equivalent
+SNPs)
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>scan1()</code>, <code>genoprob_to_snpprob()</code>, <code>index_snps()</code>, <code>create_variant_query_func()</code>, <code>plot_snpasso()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Not run: 
+# load example data and calculate genotype probabilities
+file &lt;- paste0("https://raw.githubusercontent.com/rqtl/",
+               "qtl2data/main/DOex/DOex.zip")
+DOex &lt;- read_cross2(file)
+probs &lt;- calc_genoprob(DOex, error_prob=0.002)
+
+snpdb_file &lt;- system.file("extdata", "cc_variants_small.sqlite", package="qtl2")
+queryf &lt;- create_variant_query_func(snpdb_file)
+
+out &lt;- scan1snps(probs, DOex$pmap, DOex$pheno, query_func=queryf, chr=2, start=97, end=98)
+
+## End(Not run)
+
+</code></pre>
+
+
+</div>

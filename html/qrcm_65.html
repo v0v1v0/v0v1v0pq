@@ -1,0 +1,107 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>slp</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Shifted Legendre Polynomials
+</h2>
+
+<h3>Description</h3>
+
+<p>Computes shifted Legendre polynomials.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">slp(p, k = 3, intercept = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>p</code></td>
+<td>
+
+<p>the variable for which to compute the polynomials. Must be <kbd>0 &lt;= p &lt;= 1</kbd>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>k</code></td>
+<td>
+
+<p>the degree of the polynomial.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>intercept</code></td>
+<td>
+
+<p>logical. If <kbd>TRUE</kbd>, the polynomials include the constant term.
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>Shifted Legendre polynomials (<abbr><span class="acronym">SLP</span></abbr>) are orthogonal polynomial functions in (0,1) that can be used
+to build a spline basis, typically within a call to <code>iqr</code>.
+The constant term is omitted unless <kbd>intercept = TRUE</kbd>: for example,
+the first two <abbr><span class="acronym">SLP</span></abbr> are <code>(2*p - 1, 6*p^2 - 6*p + 1)</code>, 
+but <code>slp(p, k = 2)</code> will only return <code>(2*p, 6*p^2 - 6*p)</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class “<code>slp</code>”, i.e., 
+a matrix with the same number of rows as <kbd>p</kbd>, and with <kbd>k</kbd> columns
+named <code>slp1, slp2, ...</code> containing the <abbr><span class="acronym">SLP</span></abbr> of the corresponding orders.
+The value of <kbd>k</kbd> is reported as attribute.
+</p>
+
+
+<h3>Note</h3>
+
+<p>The estimation algorithm of <code>iqr</code> is optimized for objects of class “slp”,
+which means that using <code>formula.p = ~ slp(p, k)</code> instead of 
+<code>formula.p = ~ p + I(p^2) + ... + I(p^k)</code> will result in a quicker
+computation, even with <kbd>k = 1</kbd>, with equivalent results. 
+The default for <code>iqr</code> is <code>formula.p = ~ slp(p, k = 3)</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Paolo Frumento <a href="mailto:paolo.frumento@unipi.it">paolo.frumento@unipi.it</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Refaat El Attar (2009), <em>Legendre Polynomials and Functions</em>, CreateSpace, ISBN 978-1-4414-9012-4.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>plf</code>, for piecewise linear functions in the unit interval.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">  p &lt;- seq(0,1,0.1)
+  slp(p, k = 1) # = 2*p
+  slp(p, k = 1, intercept = TRUE) # = 2*p - 1 (this is the true SLP of order 1)
+  slp(p, k = 3) # a linear combination of (p, p^2, p^3), with slp(0,k) = 0
+</code></pre>
+
+
+</div>

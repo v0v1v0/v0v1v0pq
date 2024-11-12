@@ -1,0 +1,79 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>.cronbachs</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Bootstrap Function for <code>cronbachs()</code> Function</h2>
+
+<h3>Description</h3>
+
+<p><code>.cronbachs</code> is the function used by the <code>boot</code>
+function within the <code>cronbachs</code> function. It is primarily created to
+increase the computational efficiency of bootstrap confidence intervals
+within the <code>cronbachs</code> function by doing only the minimal computations
+needed to compute cronbach's alpha for each set of variables/items.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">.cronbachs(dat, i, nm.list, use)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>dat</code></td>
+<td>
+<p>data.frame of data. It can contain variables other than those used
+for cronbach's alpha calculation.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>i</code></td>
+<td>
+<p>integer vector of length = <code>nrow(dat)</code> specifying which rows
+should be included in the computation. When used by the <code>boot::boot</code>
+function this argument will change with every new bootstrapped resample.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nm.list</code></td>
+<td>
+<p>list of character vectors specifying the sets of
+variables/items associated with each of the cronbach's alpha calculations.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>use</code></td>
+<td>
+<p>character vector of length 1 specifying how missing data should be
+handled when computing covariances. See <code>cov</code> for details.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>double vector of length = <code>length(nm.list)</code> providing cronbach's
+alpha for each set of variables/items.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+dat0 &lt;- psych::bfi[1:250, ]
+dat1 &lt;- str2str::pick(x = dat0, val = c("A1","C4","C5","E1","E2","O2","O5",
+   "gender","education","age"), not = TRUE, nm = TRUE)
+vrb_nm_list &lt;- lapply(X = str2str::sn(c("E","N","C","A","O")), FUN = function(nm) {
+   str2str::pick(x = names(dat1), val = nm, pat = TRUE)})
+.cronbachs(dat = dat1,
+   i = sample(x = 1:nrow(dat1), size = nrow(dat1), replace = TRUE),
+   nm.list = vrb_nm_list, use = "pairwise")
+</code></pre>
+
+
+</div>

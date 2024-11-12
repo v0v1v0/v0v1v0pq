@@ -1,0 +1,199 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>mesh_plot</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Plot as a mesh</h2>
+
+<h3>Description</h3>
+
+<p>Convert to a quadmesh and plot in efficient vectorized form using 'grid'.
+</p>
+<p>Plot mesh
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">mesh_plot(
+  x,
+  crs = NULL,
+  col = NULL,
+  add = FALSE,
+  zlim = NULL,
+  ...,
+  coords = NULL
+)
+
+## S3 method for class 'BasicRaster'
+mesh_plot(
+  x,
+  crs = NULL,
+  col = NULL,
+  add = FALSE,
+  zlim = NULL,
+  ...,
+  coords = NULL
+)
+
+## S3 method for class 'RasterLayer'
+mesh_plot(
+  x,
+  crs = NULL,
+  col = NULL,
+  add = FALSE,
+  zlim = NULL,
+  ...,
+  coords = NULL
+)
+
+## S3 method for class 'stars'
+mesh_plot(
+  x,
+  crs = NULL,
+  col = NULL,
+  add = FALSE,
+  zlim = NULL,
+  ...,
+  coords = NULL
+)
+
+## S3 method for class 'TRI'
+mesh_plot(
+  x,
+  crs = NULL,
+  col = NULL,
+  add = FALSE,
+  zlim = NULL,
+  ...,
+  coords = NULL
+)
+
+## S3 method for class 'quadmesh'
+mesh_plot(
+  x,
+  crs = NULL,
+  col = NULL,
+  add = FALSE,
+  zlim = NULL,
+  ...,
+  coords = NULL
+)
+
+## S3 method for class 'mesh3d'
+mesh_plot(
+  x,
+  crs = NULL,
+  col = NULL,
+  add = FALSE,
+  zlim = NULL,
+  ...,
+  coords = NULL,
+  prefer_quad = TRUE,
+  breaks = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>object to convert to mesh and plot</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>crs</code></td>
+<td>
+<p>target map projection</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>col</code></td>
+<td>
+<p>colours to use, defaults to that used by <code>graphics::image()</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>add</code></td>
+<td>
+<p>add to existing plot or start a new one</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>zlim</code></td>
+<td>
+<p>absolute range of data to use for colour scaling (if <code>NULL</code> the data range is used)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>passed through to <code>base::plot</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>coords</code></td>
+<td>
+<p>optional input raster of coordinates of each cell, see details</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>prefer_quad</code></td>
+<td>
+<p>set to <code>TRUE</code> by default, if but may be <code>FALSE</code> to assume use of triangle rather than quad primitives -
+this covers the case for when a mesh3d object may have quads <em>and</em> triangles in the same mesh</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>breaks</code></td>
+<td>
+<p>argument passed along to <code>palr::image_pal()</code></p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The mesh may be reprojected prior to plotting using the 'crs' argument to
+define the target map projection in 'PROJ string' format. (There is no
+"reproject" function for quadmesh, this is performed directly on the x-y
+coordinates of the 'quadmesh' output). The 'col' argument are mapped to the input pplied
+object data as in 'image', and applied relative to 'zlim' if su.
+</p>
+<p>If <code>coords</code> is supplied, it is currently assumed to be a 2-layer <code>RasterBrick</code> with
+longitude and latitude as the <em>cell values</em>. These are used to geographically locate
+the resulting mesh, and will be transformed to the <code>crs</code> if that is supplied. This is
+modelled on the approach to curvilinear grid data used in the <code>angstroms</code> package. There
+the function <code>angstroms::romsmap()</code> and 'angstroms::romscoords()“ are used to separate the complicated
+grid geometry from the grid data itself. A small fudge is applied to extend the coordinates
+by 1 cell to avoid losing any data due to the half cell outer margin (get in touch if this causes problems!).
+</p>
+<p>If 'color' is present on the object it is used. This can be overridden by
+using the 'col' argument, and controlled with 'zlim' and 'breaks' in the usual
+<code>graphics::image()</code> way.
+</p>
+
+
+<h3>Value</h3>
+
+<p>nothing, used for the side-effect of creating or adding to a plot
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">##mesh_plot(worldll)
+## crop otherwise out of bounds from PROJ
+rr &lt;- raster::crop(worldll, raster::extent(-179, 179, -89, 89))
+mesh_plot(rr, crs = "+proj=laea +datum=WGS84")
+mesh_plot(worldll, crs = "+proj=moll +datum=WGS84")
+prj &lt;- "+proj=lcc +datum=WGS84 +lon_0=147 +lat_0=-40 +lat_1=-55 +lat_2=-20"
+mesh_plot(etopo, crs = prj, add = FALSE, col = grey(seq(0, 1, length = 20)))
+mesh_plot(rr, crs = prj, add = TRUE)
+</code></pre>
+
+
+</div>

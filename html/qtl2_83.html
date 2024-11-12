@@ -1,0 +1,52 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>mat2strata</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Define strata based on rows of a matrix</h2>
+
+<h3>Description</h3>
+
+<p>Use the rows of a matrix to define a set of strata for a stratified permutation test
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">mat2strata(mat)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>mat</code></td>
+<td>
+<p>A covariate matrix, as individuals x covariates</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>A vector of character strings: for each row of <code>mat</code>,
+we use <code>base::paste()</code> with <code>collapse="|"</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>get_x_covar()</code>, <code>scan1perm()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">iron &lt;- read_cross2(system.file("extdata", "iron.zip", package="qtl2"))
+
+Xcovar &lt;- get_x_covar(iron)
+perm_strata &lt;- mat2strata(Xcovar)
+
+</code></pre>
+
+
+</div>

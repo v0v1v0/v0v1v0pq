@@ -1,0 +1,358 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qkdbscan</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>qKernel-DBSCAN density reachability and connectivity clustering</h2>
+
+<h3>Description</h3>
+
+<p>Similiar to the Density-Based Spatial Clustering of Applications with Noise(or DBSCAN) algorithm,
+qKernel-DBSCAN is a density-based clustering algorithm that can be applied under both linear and non-linear situations.</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S4 method for signature 'matrix'
+qkdbscan(x, kernel = "rbfbase", qpar = list(sigma = 0.1, q = 0.9),
+eps = 0.25, MinPts = 5, hybrid = TRUE, seeds = TRUE,  showplot  = FALSE,
+countmode = NULL, na.action = na.omit, ...)
+
+## S4 method for signature 'cndkernmatrix'
+qkdbscan(x, eps = 0.25, MinPts = 5, seeds = TRUE,
+showplot  = FALSE, countmode = NULL, ...)
+
+## S4 method for signature 'qkernmatrix'
+qkdbscan(x, eps = 0.25, MinPts = 5, seeds = TRUE,
+showplot  = FALSE, countmode = NULL, ...)
+
+## S4 method for signature 'qkdbscan'
+predict(object, data, newdata = NULL, predict.max = 1000, ...)
+
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>the data matrix indexed by row, or a kernel matrix of <code>cndkernmatrix</code> or <code>qkernmatrix</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>kernel</code></td>
+<td>
+<p>the kernel function used in training and predicting.
+This parameter can be set to any function, of class kernel, which computes a kernel function value between two
+vector arguments. qkerntool provides the most popular kernel functions
+which can be used by setting the kernel parameter to the following
+strings:
+</p>
+
+<ul>
+<li> <p><code>rbfbase</code> Radial Basis qkernel function "Gaussian"
+</p>
+</li>
+<li> <p><code>nonlbase</code> Non Linear qkernel function
+</p>
+</li>
+<li> <p><code>laplbase</code> Laplbase qkernel function
+</p>
+</li>
+<li> <p><code>ratibase</code> Rational Quadratic qkernel function
+</p>
+</li>
+<li> <p><code>multbase</code> Multiquadric qkernel function
+</p>
+</li>
+<li> <p><code>invbase</code> Inverse Multiquadric qkernel function
+</p>
+</li>
+<li> <p><code>wavbase</code> Wave qkernel function
+</p>
+</li>
+<li> <p><code>powbase</code> Power qkernel function
+</p>
+</li>
+<li> <p><code>logbase</code> Log qkernel function
+</p>
+</li>
+<li> <p><code>caubase</code> Cauchy qkernel function
+</p>
+</li>
+<li> <p><code>chibase</code> Chi-Square qkernel function
+</p>
+</li>
+<li> <p><code>studbase</code> Generalized T-Student qkernel function
+</p>
+</li>
+<li> <p><code>nonlcnd</code> Non Linear cndkernel function
+</p>
+</li>
+<li> <p><code>polycnd</code> Polynomial cndkernel function
+</p>
+</li>
+<li> <p><code>rbfcnd</code> Radial Basis cndkernel function "Gaussian"
+</p>
+</li>
+<li> <p><code>laplcnd</code> Laplacian cndkernel function
+</p>
+</li>
+<li> <p><code>anocnd</code> ANOVA cndkernel function
+</p>
+</li>
+<li> <p><code>raticnd</code> Rational Quadratic cndkernel function
+</p>
+</li>
+<li> <p><code>multcnd</code> Multiquadric cndkernel function
+</p>
+</li>
+<li> <p><code>invcnd</code> Inverse Multiquadric cndkernel function
+</p>
+</li>
+<li> <p><code>wavcnd</code> Wave cndkernel function
+</p>
+</li>
+<li> <p><code>powcnd</code> Power cndkernel function
+</p>
+</li>
+<li> <p><code>logcnd</code> Log cndkernel function
+</p>
+</li>
+<li> <p><code>caucnd</code> Cauchy cndkernel function
+</p>
+</li>
+<li> <p><code>chicnd</code> Chi-Square cndkernel function
+</p>
+</li>
+<li> <p><code>studcnd</code> Generalized T-Student cndkernel function
+</p>
+</li>
+</ul>
+<p>The kernel parameter can also be set to a user defined function of
+class kernel by passing the function name as an argument.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>qpar</code></td>
+<td>
+<p>the list of hyper-parameters (kernel parameters).
+This is a list which contains the parameters to be used with the
+kernel function. Valid parameters for existing kernels are :
+</p>
+
+<ul>
+<li> <p><code>sigma, q</code>  for the Radial Basis qkernel function "rbfbase" , the Laplacian qkernel function "laplbase" and the Cauchy qkernel function "caubase".
+</p>
+</li>
+<li> <p><code>alpha, q</code> for the Non Linear qkernel function "nonlbase".
+</p>
+</li>
+<li> <p><code>c, q</code> for the Rational Quadratic qkernel function "ratibase" , the Multiquadric qkernel function "multbase" and the Inverse Multiquadric qkernel function "invbase".
+</p>
+</li>
+<li> <p><code>theta, q</code> for the Wave qkernel function "wavbase".
+</p>
+</li>
+<li> <p><code>d, q</code> for the Power qkernel function "powbase" , the Log qkernel function "logbase" and the Generalized T-Student qkernel function "studbase".
+</p>
+</li>
+<li> <p><code>alpha</code> for the Non Linear cndkernel function "nonlcnd".
+</p>
+</li>
+<li> <p><code>power, alpha, c</code> for the Polynomial cndkernel function "polycnd".
+</p>
+</li>
+<li> <p><code>gamma</code> for the Radial Basis cndkernel function "rbfcnd" and the Laplacian cndkernel function "laplcnd" and the Cauchy cndkernel function "caucnd".
+</p>
+</li>
+<li> <p><code>power, sigma</code> for the ANOVA cndkernel function "anocnd".
+</p>
+</li>
+<li> <p><code>c</code> for the Rational Quadratic cndkernel function "raticnd" , the Multiquadric cndkernel function "multcnd" and the Inverse Multiquadric cndkernel function "invcnd".
+</p>
+</li>
+<li> <p><code>theta</code> for the Wave cndkernel function "wavcnd".
+</p>
+</li>
+<li> <p><code>power</code> for the Power cndkernel function "powcnd" , the Log cndkernel function "logcnd" and the Generalized T-Student cndkernel function "studcnd".
+</p>
+</li>
+</ul>
+<p>Hyper-parameters for user defined kernels can be passed through the
+qpar parameter as well.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>eps</code></td>
+<td>
+<p>reachability distance, see Ester et al. (1996). (default:0.25)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>MinPts</code></td>
+<td>
+<p>reachability minimum number of points, see Ester et al.(1996).(default : 5) </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>hybrid</code></td>
+<td>
+<p>whether the algothrim expects raw data but calculates partial distance matrices, can be TRUE or FALSE</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>seeds</code></td>
+<td>
+<p>can be TRUE or FALSE, FALSE to not include the <code>isseed</code>-vector in the <code>dbscan</code>-object.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>showplot</code></td>
+<td>
+<p>whether to show the plot or not, can be TRUE or FALSE</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>na.action</code></td>
+<td>
+<p>a function to specify the action to be taken if <code>NA</code>s are
+found. The default action is <code>na.omit</code>, which leads to rejection of cases
+with missing values on any required variable. An alternative
+is <code>na.fail</code>, which causes an error if <code>NA</code> cases  are found.
+(NOTE: If given, this argument must be named.)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>countmode</code></td>
+<td>
+<p>NULL or vector of point numbers at which to report progress. </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>object of class <code>dbscan</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+<p>matrix or data.frame.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>newdata</code></td>
+<td>
+<p>matrix or data.frame with raw data to predict. </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>predict.max</code></td>
+<td>
+<p>max. batch size for predictions. </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Further arguments transferred to plot methods.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The data can be passed to the <code>qkdbscan</code> function in a <code>matrix</code>, in addition <code>qkdbscan</code> also supports input in the form of a kernel matrix of class <code>qkernmatrix</code> or class <code>cndkernmatrix</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>predict</code>(qkdbscan-method) gives out a vector of predicted clusters for the points in <code>newdata</code>.
+</p>
+<p><code>qkdbscan</code> gives out an S4 object which is a LIST with components
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>clust</code></td>
+<td>
+<p>integer vector coding cluster membership with noise observations (singletons) coded as 0 </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>eps</code></td>
+<td>
+<p>parameter eps</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>MinPts</code></td>
+<td>
+<p>parameter MinPts</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>kcall</code></td>
+<td>
+<p>the function call</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cndkernf</code></td>
+<td>
+<p>the kernel function used</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>xmatrix</code></td>
+<td>
+<p>the original data matrix</p>
+</td>
+</tr>
+</table>
+<p>all the slots of the object can be accessed by accessor functions.
+</p>
+
+
+<h3>Note</h3>
+
+<p>The predict function can be used to embed new data on the new space.</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Yusen Zhang <br><a href="mailto:yusenzhang@126.com">yusenzhang@126.com</a></p>
+
+
+<h3>References</h3>
+
+<p>Martin Ester, Hans-Peter Kriegel, Joerg Sander, Xiaowei Xu(1996).<br><em>A Density-Based Algorithm for Discovering Clusters in Large Spatial Databases with Noise</em><br>
+Institute for Computer Science, University of Munich.<br><em>Proceedings of 2nd International Conference on Knowledge Discovery and Data Mining (KDD-96)</em>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>qkernmatrix</code>, <code>cndkernmatrix</code></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># a simple example using the iris
+data(iris)
+test &lt;- sample(1:150,20)
+x&lt;- as.matrix(iris[-test,-5])
+ds &lt;- qkdbscan (x,kernel="laplbase",qpar=list(sigma=3.5,q=0.8),eps=0.15,
+MinPts=5,hybrid = FALSE)
+plot(ds,x)
+emb &lt;- predict(ds, x, as.matrix(iris[test,-5]))
+points(iris[test,], col= as.integer(1+emb))
+
+</code></pre>
+
+
+</div>

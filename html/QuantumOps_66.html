@@ -1,0 +1,63 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>single</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>single</h2>
+
+<h3>Description</h3>
+
+<p>Takes as input a gate and generates the matrix for that gate being applied to a single qubit in a ket by creating a tensor product of the matrix with Identity matrices. If a ket is supplied, the matrix will be applied to the ket
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">single(gate,n,t,...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>gate</code></td>
+<td>
+<p> Single qubit gate to apply </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p> Number of qubits that are in the target ket  </p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>t</code></td>
+<td>
+<p> Target qubit that the gate will be applied to, other qubits are unmodified. Indexed from 0.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>Either no argument or a ket that the gate will be applied to</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>The matrix representing the application of a single gate to one of the qubits in a ket or a ket after the gate has been applied
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"> single(H(),4,1)
+ single(H(),2,1,ket(1,0,0,0))
+ single(X(),2,0,ket(1,0,0,0))
+</code></pre>
+
+
+</div>

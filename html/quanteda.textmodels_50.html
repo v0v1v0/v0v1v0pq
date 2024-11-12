@@ -1,0 +1,78 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>textmodel_affinity-internal</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Internal methods for textmodel_affinity</h2>
+
+<h3>Description</h3>
+
+<p>Internal print and summary methods for derivative
+textmodel_affinity objects.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'influence.predict.textmodel_affinity'
+print(x, n = 30, ...)
+
+## S3 method for class 'influence.predict.textmodel_affinity'
+summary(object, ...)
+
+## S3 method for class 'summary.influence.predict.textmodel_affinity'
+print(x, n = 30, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p>how many coefficients to print before truncating</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p><code>summary.influence.predict.textmodel_affinity()</code> returns a list
+classes as <code>summary.influence.predict.textmodel_affinity</code> that includes:
+</p>
+
+<ul>
+<li> <p><code>word</code> the feature name
+</p>
+</li>
+<li> <p><code>count</code> the total counts of each feature for which influence was computed
+</p>
+</li>
+<li> <p><code>mean</code>, <code>median</code>, <code>sd</code>, <code>max</code> mean, median, standard deviation, and maximum
+values of influence for each feature, computed across classes
+</p>
+</li>
+<li> <p><code>direction</code> an integer vector of 1 or 2 indicating the class which the feature
+is influencing
+</p>
+</li>
+<li> <p><code>rate</code> a document by feature class sparse matrix of normalised influence
+measures
+</p>
+</li>
+<li> <p><code>count</code> a vector of counts of each non-zero feature in the input matrix
+</p>
+</li>
+<li> <p><code>rate</code> the median of <code>rate</code> from <code>influence.predict.textmodel_affinity()</code>
+</p>
+</li>
+<li> <p><code>support</code> logical vector for each feature matching the same return from
+<code>predict.textmodel_affinity()</code>
+</p>
+</li>
+</ul>
+<p>the mean, the standard deviation, the direction of the influence, the rate,
+and the support
+</p>
+
+
+</div>

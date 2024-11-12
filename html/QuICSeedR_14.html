@@ -1,0 +1,151 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>SummarizeResult</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Summarize Analysis Results</h2>
+
+<h3>Description</h3>
+
+<p>This function combines analysis results from multiple tests with metadata,
+and determines overall significance based on a specified method. By default, it
+evaluates sample-level result by calculating the percentage of technical replicates
+that exceed the pre-defined threshold.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">SummarizeResult(
+  analysis = NULL,
+  calculation,
+  sig_method = "xth_percent",
+  method_threshold = 50
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>analysis</code></td>
+<td>
+<p>Output of <code>GetAnalysis()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>calculation</code></td>
+<td>
+<p>Output of <code>GetCalculation()</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sig_method</code></td>
+<td>
+<p>Specifies the approach for determining sample-level result.
+Available options include "xth_percent", "metric_count", "xth_count",
+or any metric name present in the analysis list. The default is "xth_percent".</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method_threshold</code></td>
+<td>
+<p>Defines the threshold value for the "metric_count",
+"xth_count", and "xth_percent" methods. This parameter defaults to 50.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A data frame summarizing results of the analysis and calculation, with columns:
+</p>
+
+<ul>
+<li>
+<p> result: Overall result based on the chosen method
+</p>
+</li>
+<li>
+<p> position: Location of the sample replications based on plate layout
+</p>
+</li>
+<li>
+<p> method: Method chosen for determination of the result
+</p>
+</li>
+<li>
+<p> *_sig: Significance indicator for each metric
+</p>
+</li>
+<li>
+<p> *_p: P-value or adjusted p-value for each metric
+</p>
+</li>
+<li>
+<p> metric_count: Count of significant results across all analyses
+</p>
+</li>
+<li>
+<p> xth_count: The number of reactions crossing the fluorescent threshold
+</p>
+</li>
+<li>
+<p> total_rep: Total number of replicates
+</p>
+</li>
+<li>
+<p> xth_percent: Percentage of replicates crossing the fluorescent threshold
+</p>
+</li>
+</ul>
+<h3>Examples</h3>
+
+<pre><code class="language-R"># Define the path to the plate data file
+plate_path &lt;- system.file("extdata/20240716_p3", 
+                          file = '20240716_p3_plate.xlsx', 
+                          package = "QuICSeedR")
+  
+# Read the plate data
+plate &lt;- readxl::read_xlsx(plate_path)
+
+# Define the path to the raw data file
+raw_path &lt;- system.file("extdata/20240716_p3", 
+                        file = '20240716_p3_raw.xlsx', 
+                        package = "QuICSeedR")
+# Read the raw data
+raw &lt;- readxl::read_xlsx(raw_path)
+
+# Get replicate data
+replicate &lt;- GetReplicate(plate)
+
+# Ensure time displayed as decimal hours
+plate_time = ConvertTime(raw)
+
+#Get metadata and display the few rows 
+meta = CleanMeta(raw, plate, replicate)
+
+#Clean data 
+cleanraw &lt;- CleanRaw(meta, raw, plate_time)
+
+#Get calculations using positive controls to normalize values. 
+calculation = GetCalculation(raw = cleanraw, meta, sd_fold = 10)
+
+#Formatting calculations for analysis (also compatible with graphing softwares used in F-SAA 
+#research)
+calculation_spread = SpreadCalculation(calculation)
+
+#Get analysis comparing samples to negative control using the one-tailed Wilcox Rank-Sum test.
+analysis &lt;- GetAnalysis(calculation_spread, control = "Neg", test = "wilcox", 
+                        alternative = 'greater')
+                        
+#Summarization of results. Default method is rate of amyloid formation.
+result &lt;- SummarizeResult(analysis, calculation)
+
+head(result)
+
+</code></pre>
+
+
+</div>

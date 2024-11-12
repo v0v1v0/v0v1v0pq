@@ -1,0 +1,85 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>read_dict_functions</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Internal functions to import dictionary files</h2>
+
+<h3>Description</h3>
+
+<p>Internal functions to import dictionary files in a variety of formats
+</p>
+<p><code>read_dict_lexicoder</code> imports Lexicoder files in the <code>.lc3</code> format.
+</p>
+<p><code>read_dict_wordstat</code> imports WordStat files in the
+<code>.cat</code> format.
+</p>
+<p><code>read_dict_liwc</code> imports LIWC dictionary files in the
+<code>.dic</code> format.
+</p>
+<p><code>read_dict_yoshikoder</code> imports Yoshikoder files in the
+<code>.ykd</code> format.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">read_dict_lexicoder(path)
+
+read_dict_wordstat(path, encoding = "utf-8")
+
+read_dict_liwc(path, encoding = "utf-8")
+
+read_dict_yoshikoder(path)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>path</code></td>
+<td>
+<p>the full path and filename of the dictionary file to be read</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>encoding</code></td>
+<td>
+<p>the encoding of the file to be imported</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>a <span class="pkg">quanteda</span> dictionary object
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">dict &lt;- quanteda:::read_dict_lexicoder(
+    system.file("extdata", "LSD2015.lc3", package = "quanteda")
+)
+
+
+## Not run: 
+dict &lt;- quanteda:::read_dict_wordstat(system.file("extdata", "RID.cat", package = "quanteda"))
+# dict &lt;- read_dict_wordstat("/home/kohei/Documents/Dictionary/LaverGarry.txt", "utf-8")
+# dict &lt;- read_dict_wordstat("/home/kohei/Documents/Dictionary/Wordstat/ROGET.cat", "utf-8")
+# dict &lt;- read_dict_wordstat("/home/kohei/Documents/Dictionary/Wordstat/WordStat Sentiments.cat",
+#                            encoding = "iso-8859-1")
+
+## End(Not run)
+
+dict &lt;- quanteda:::read_dict_liwc(
+    system.file("extdata", "moral_foundations_dictionary.dic", package = "quanteda")
+)
+
+dict &lt;- quanteda:::read_dict_yoshikoder(system.file("extdata", "laver_garry.ykd",
+                                                    package = "quanteda"))
+</code></pre>
+
+
+</div>

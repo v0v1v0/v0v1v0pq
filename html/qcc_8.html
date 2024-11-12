@@ -1,0 +1,57 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>circuit</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Circuit boards data</h2>
+
+<h3>Description</h3>
+
+<p>Number of nonconformities observed in 26 successive samples of 100 printed circuit boards.
+Sample 6 and 20 are outside the control limits. Sample 6 was examined by a new inspector and he did not recognize several type of nonconformities that could have been present. Furthermore, the unusually large number of nonconformities in sample 20 resulted from a temperature control problem in the wave soldering machine, which was subsequently repaired.
+The last 20 samples are further samples collected on inspection units (each formed by 100 boards).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">data(circuit)</code></pre>
+
+
+<h3>Format</h3>
+
+<p>A data frame with 46 observations on the following 3 variables.
+</p>
+
+<dl>
+<dt>x</dt>
+<dd>
+<p>number of defectives in 100 printed circuit boards (inspection unit)</p>
+</dd>
+<dt>size</dt>
+<dd>
+<p>sample size</p>
+</dd>
+<dt>trial</dt>
+<dd>
+<p>trial sample indicator (TRUE/FALSE)</p>
+</dd>
+</dl>
+<h3>References</h3>
+
+<p>Montgomery, D.C. (1991) <em>Introduction to Statistical Quality Control</em>, 2nd ed, New York, John Wiley &amp; Sons, pp. 173–175</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(circuit)
+attach(circuit)
+summary(circuit)
+boxplot(x ~ trial)
+plot(x, type="b")
+detach(circuit)
+</code></pre>
+
+
+</div>

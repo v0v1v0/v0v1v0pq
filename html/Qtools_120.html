@@ -1,0 +1,167 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>rrq</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Restricted Regression Quantiles
+</h2>
+
+<h3>Description</h3>
+
+<p>This function fits a restricted quantile regression model to avoid crossing of quantile curves.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">rrq(formula, tau, data, subset, weights, na.action, method = "fn",
+model = TRUE, contrasts = NULL, ...)
+rrq.fit(x, y, tau, method = "fn", ...)
+rrq.wfit(x, y, tau, weights, method = "fn", ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>formula</code></td>
+<td>
+
+<p>a formula object, with the response on the left of a <code>~</code> operator, and the terms, separated by <code>+</code> operators, on the right.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+
+<p>the design matrix.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+
+<p>the response variable.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tau</code></td>
+<td>
+
+<p>the quantile(s) to be estimated.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>data</code></td>
+<td>
+
+<p>a data frame in which to interpret the variables named in the formula.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>subset</code></td>
+<td>
+
+<p>an optional vector specifying a subset of observations to be used in the fitting process.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>weights</code></td>
+<td>
+
+<p>an optional vector of weights to be used in the fitting process. Should be NULL or a numeric vector. 
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>na.action</code></td>
+<td>
+
+<p>a function which indicates what should happen when the data contain <code>NA</code>s.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>method</code></td>
+<td>
+
+<p>the algorithm used to compute the fit (see <code>rq</code>).
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>model</code></td>
+<td>
+
+<p>if <code>TRUE</code> then the model frame is returned. This is essential if one wants to call summary subsequently.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>contrasts</code></td>
+<td>
+
+<p>a list giving contrasts for some or all of the factors default = NULL appearing in the model formula. The elements of the list should have the same name as the variable and should be either a contrast matrix (specifically, any full-rank matrix with as many rows as there are levels in the factor), or else a function to compute such a matrix given the number of levels.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+
+<p>optional arguments passed to <code>rq.fit</code> or <code>rq.wfit</code>.
+</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Marco Geraci
+</p>
+
+
+<h3>References</h3>
+
+<p>He X. Quantile curves without crossing. The American Statistician 1997;51(2):186-192.
+</p>
+<p>Koenker R. quantreg: Quantile Regression. 2016. R package version 5.29.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(esterase)
+
+# Fit standard quantile regression
+fit &lt;- quantreg::rq(Count ~ Esterase, data = esterase, tau = c(.1,.25,.5,.75,.9))
+yhat &lt;- fit$fitted.values
+
+# Fit restricted quantile regression
+fitr &lt;- rrq(Count ~ Esterase, data = esterase, tau = c(.1,.25,.5,.75,.9))
+yhat2 &lt;- predict(fitr)
+
+
+# Plot results
+par(mfrow = c(1, 2))
+
+# Plot regression quantiles
+with(esterase, plot(Count ~ Esterase, pch = 16, cex = .8))
+apply(yhat, 2, function(y,x) lines(x,y,lwd = 1.5), x = esterase$Esterase)
+
+# Plot restricted regression quantiles
+with(esterase, plot(Count ~ Esterase, pch = 16, cex = .8))
+apply(yhat2, 2, function(y,x) lines(x,y,lwd = 1.5), x = esterase$Esterase)
+
+</code></pre>
+
+
+</div>

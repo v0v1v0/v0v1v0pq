@@ -1,0 +1,71 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>as.function.qspray</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Multivariate polynomial as function</h2>
+
+<h3>Description</h3>
+
+<p>Coerces a <code>qspray</code> polynomial into a function.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'qspray'
+as.function(x, N = FALSE, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>object of class <code>qspray</code></p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>N</code></td>
+<td>
+<p>Boolean, whether the function must numerically approximate 
+the result</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>ignored</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A function having the same variables as the polynomial. If 
+<code>N=FALSE</code>, it returns a string. If <code>N=TRUE</code>, it returns a number 
+if the result does not contain any variable, otherwise it returns a 
+R expression.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">library(qspray)
+P &lt;- (qlone(1) + "1/2"*qlone(2))^2 + 5
+f &lt;- as.function(P)
+g &lt;- as.function(P, N = TRUE)
+f(2, "3/7")
+g(2, "3/7")
+f("x", "y")
+g("x", "y")
+# the evaluation is performed by (R)yacas and complex numbers are
+# allowed; the imaginary unit is denoted by `I`
+f("2 + 2*I", "Sqrt(2)")
+g("2 + 2*I", "Sqrt(2)")
+</code></pre>
+
+
+</div>

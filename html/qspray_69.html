@@ -1,0 +1,53 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>showMonomialOld</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Print a monomial</h2>
+
+<h3>Description</h3>
+
+<p>Prints a monomial like <code>"x^(1, 0, 2)"</code>. This way of 
+showing a monomial was used by default in previous versions of this 
+package.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">showMonomialOld(x = "x")
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>a string, usually a letter such as <code>"x"</code> or <code>"X"</code>, to 
+denote the variable</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>A function which takes as argument a sequence of exponents and 
+which prints the corresponding monomial.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>showMonomialX1X2X3</code>, <code>showMonomialXYZ</code>, 
+<code>showQspray</code>, <code>showQsprayOption&lt;-</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">showMonomialOld("X")(c(1, 0, 2))
+showMonomialOld("X")(NULL)
+</code></pre>
+
+
+</div>

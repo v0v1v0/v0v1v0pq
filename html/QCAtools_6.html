@@ -1,0 +1,60 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>formula_to_function</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Convert formula to function</h2>
+
+<h3>Description</h3>
+
+<p>When given a Boolean formula (in disjunctive normal form, see details), this
+function produces a function that takes a data.frame of a QCA data
+table and computes the fuzzy set score for each case of membership
+in the set described by the formula
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">formula_to_function(formula)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>formula</code></td>
+<td>
+<p>A string or vector of strings containing a Boolean formula in disjunctive normal form</p>
+</td>
+</tr></table>
+<h3>Details</h3>
+
+<p>Set names must be capitalized in the formula and the data; if they are
+lowercase, they are interpreted as the negation of the set.
+If <code>formula</code> is a string, logical 'or' is expressed as a '+',
+and logical 'and' as a '*'.
+If <code>formula</code> is a list of strings, the strings are assumed to be
+the dosjuncts and are concatenated with '+'.
+Disjunctive normal form means that the formula must be a disjunction of
+conjunctions of elementary or negated elementary sets. Example:
+<code>A*b*C + a*B</code>
+</p>
+
+
+<h3>Value</h3>
+
+<p>a function that takes a data.frame and computes the fuzzy set score
+of the set described by the formula for each case into a vector
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">formula_to_function("A*b*C + a*B")
+
+</code></pre>
+
+
+</div>

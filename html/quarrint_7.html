@@ -1,0 +1,141 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>compute.dc</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Discrete Choice Model-based Interaction Index for a Quarry
+</h2>
+
+<h3>Description</h3>
+
+<p>Given an object of type <code>quarry</code>, the function computes the probabilities
+of each level of interaction (low, medium, high and very high) using a Logit
+discrete choice model.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'quarry'
+compute.dc(x, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>An object of type quarry.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+
+<p>Further arguments passed to or from other methods.
+</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The model parameters have been estimated with BIOGEME and has an adjusted
+<code class="reqn">\rho^2</code> of 0.609. The model is fully detailed in the paper "Interaction
+prediction between groundwater and quarry extension using discrete choice
+models and artificial neural networks" (Barthelemy et al., 2016).
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list whose elements are:
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>p.low</code></td>
+<td>
+<p>The probability of a low interaction level.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p.medium</code></td>
+<td>
+<p>The probability of a medium interaction level.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p.high</code></td>
+<td>
+<p>The probability of a high interaction level.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p.very.high</code></td>
+<td>
+<p>The probability of a very high interaciton level.</p>
+</td>
+</tr>
+</table>
+<h3>Note</h3>
+
+<p>In order to use the function, the quarry must have been constructed with the
+function <code>quarry</code> using the default parameters.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Johan Barthelemy.
+</p>
+<p>Maintainer: Johan Barthelemy <a href="mailto:johan@uow.edu.au">johan@uow.edu.au</a>.
+</p>
+
+
+<h3>References</h3>
+
+<p>Barthelemy, J., Carletti, T., Collier L., Hallet, V., Moriame, M.,
+Sartenaer, A. (2016)
+Interaction prediction between groundwater and quarry extension using discrete
+choice models and artificial neural networks
+<em>Environmental Earth Sciences</em> (in press)
+</p>
+<p>Collier, L., Barthelemy, J., Carletti, T., Moriame, M., Sartenaer, A.,
+Hallet, V. (2015)
+Calculation of an Interaction Index between the Extractive Activity and
+Groundwater Resources
+<em>Energy Procedia</em> 76, 412-420
+</p>
+<p>Bierlaire, M. (2003)
+BIOGEME: a free package for the estimation of discrete choice models.
+<em>Swiss Transport Research Conference</em> TRANSP-OR-CONF-2006-048
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>compute.ann</code> to compute an interaction index
+based on an artificial neural network and
+<code>compute.interaction</code> to predict the
+interaction between between the quarry and the groundwater using both the
+discrete choice-based index and the neural network-based index.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R"># creating a quarry
+q &lt;- quarry(geological.context = 2, hydrogeological.context = 4,
+            piezometric.context = 1, quarry.position = 4,
+            production.catchment = 4, quality.catchment = 3)
+
+# computing the interaction index
+inter.idx &lt;- compute.dc(q)
+</code></pre>
+
+
+</div>

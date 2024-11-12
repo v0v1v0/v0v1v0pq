@@ -1,0 +1,127 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>summary.piqr</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Summary After Penalized Quantile Regression Coefficients Modeling
+</h2>
+
+<h3>Description</h3>
+
+<p>Summary of an object of class “<code>piqr</code>”, after selecting the best tuning parameter.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'piqr'
+summary(object, pos.lambda, SE=FALSE, p, cov=FALSE, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+
+<p>an object of class “<code>piqr</code>”, the result of a call to <code>piqr</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>pos.lambda</code></td>
+<td>
+
+<p>the position of a lambda in the sequence of the object of class “<code>piqr</code>”. Could be the best
+after selecting the result of a call to <code>gof.piqr</code>
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>SE</code></td>
+<td>
+
+<p>if TRUE standard errors are printed. Standard errors are computed through sandwich formula only for the             regularized parameters.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>p</code></td>
+<td>
+
+<p>an optional vector of quantiles.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cov</code></td>
+<td>
+
+<p>ff TRUE, the covariance matrix of <code class="reqn">\beta(p)</code> is reported. Ignored if p is missing.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>for future methods.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>If the best lambda or one value of lambda is chosen a summary of the selected model is printed.
+</p>
+
+
+<h3>Value</h3>
+
+<p>See details in <code>summary.iqr</code>
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Gianluca Sottile <a href="mailto:gianluca.sottile@unipa.it">gianluca.sottile@unipa.it</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>piqr</code>, for model fitting; <code>gof.piqr</code>, to find the best lambda value; <code>predict.piqr</code> and <code>plot.piqr</code>, for predicting and plotting objects of class “<code>piqr</code>”.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+# using simulated data
+
+set.seed(1234)
+n &lt;- 300
+x1 &lt;- rexp(n)
+x2 &lt;- runif(n, 0, 5)
+x &lt;- cbind(x1,x2)
+
+b &lt;- function(p){matrix(cbind(1, qnorm(p), slp(p, 2)), nrow=4, byrow=TRUE)}
+theta &lt;- matrix(0, nrow=3, ncol=4); theta[, 1] &lt;- 1; theta[1,2] &lt;- 1; theta[2:3,3] &lt;- 2
+qy &lt;- function(p, theta, b, x){rowSums(x * t(theta %*% b(p)))}
+
+y &lt;- qy(runif(n), theta, b, cbind(1, x))
+
+s &lt;- matrix(1, nrow=3, ncol=4); s[1,3:4] &lt;- 0
+obj &lt;- piqr(y ~ x1 + x2, formula.p = ~ I(qnorm(p)) + slp(p, 2), s=s, nlambda=50)
+
+best &lt;- gof.piqr(obj, method="AIC", plot=FALSE)
+best2 &lt;- gof.piqr(obj, method="BIC", plot=FALSE)
+
+summary(obj, best$posMinLambda)
+summary(obj, best2$posMinLambda)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,150 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>oc.curves</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Operating Characteristic Function</h2>
+
+<h3>Description</h3>
+
+<p>Draws the operating characteristic curves for a 'qcc' object.</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">oc.curves(object, ...)
+
+oc.curves.xbar(object, n, c = seq(0, 5, length=101), 
+               nsigmas = object$nsigmas, identify=FALSE, restore.par=TRUE)
+
+oc.curves.R(object, n, c = seq(1, 6, length=101),
+            nsigmas = object$nsigmas, identify = FALSE, restore.par=TRUE)
+
+oc.curves.S(object, n, c = seq(1, 6, length=101),
+            nsigmas = object$nsigmas, identify = FALSE, restore.par=TRUE)
+
+oc.curves.p(object, nsigmas = object$nsigmas, identify = FALSE, restore.par=TRUE)
+
+oc.curves.c(object, nsigmas = object$nsigmas, identify = FALSE, restore.par=TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>an object of class 'qcc'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>identify</code></td>
+<td>
+<p>logical specifying whether to interactively identify points on the plot (see help for <code>identify</code>).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>n</code></td>
+<td>
+<p>a vector of values specifying the sample sizes for which to draw the OC curves.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>c</code></td>
+<td>
+<p>a vector of values specifying the multipliers for sigma in case of continuous variable.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nsigmas</code></td>
+<td>
+<p>a numeric value specifying the number of sigmas to use for
+computing control limits; if <code>nsigmas</code> is <code>NULL</code>,
+<code>object$conf</code> is used to set up probability limits; <code>nsigmas</code>
+is ignored for types "p" and "c".</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>restore.par</code></td>
+<td>
+<p>a logical value indicating whether the previous <code>par</code> settings must be restored. If you need to add points, lines, etc. to a chart set this to <code>FALSE</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>additional arguments to be passed to the generic function.</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>An operating characteristic curve graphically provides information about the probability of not detecting a shift in the process. <code>oc.curves</code> is a generic function which calls the proper function depending on the type of 'qcc' object. Further arguments provided through ... are passed to the specific function depending on the type of chart.
+</p>
+<p>The probabilities are based on the conventional assumptions about
+process distributions: the normal distribution for "xbar" , "R", and "S",
+the binomial distribution for "p" and "np", and the Poisson distribution
+for "c" and "u". They are all sensitive to departures from those assumptions,
+but to varying degrees. The performance of the "S" chart, and especially
+the "R" chart,
+are likely to be seriously affected by longer tails.</p>
+
+
+<h3>Value</h3>
+
+<p>The function invisibly returns a matrix or a vector of beta values, the probability of type II error.</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Luca Scrucca</p>
+
+
+<h3>References</h3>
+
+<p>Mason, R.L. and Young, J.C. (2002) <em>Multivariate Statistical Process Control with Industrial Applications</em>, SIAM. <br>
+Montgomery, D.C. (2005) <em>Introduction to Statistical Quality Control</em>, 5th ed. New York: John Wiley &amp; Sons. <br>
+Ryan, T. P. (2000), <em>Statistical Methods for Quality Improvement</em>, 2nd ed. New York: John Wiley &amp; Sons, Inc. <br>
+Scrucca, L. (2004). qcc: an R package for quality control charting and statistical process control. <em>R News</em> 4/1, 11-17. <br>
+Wetherill, G.B. and Brown, D.W. (1991) <em>Statistical Process Control</em>. New York: Chapman &amp; Hall.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>qcc</code></p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(pistonrings)
+attach(pistonrings)
+diameter &lt;- qcc.groups(diameter, sample)
+beta &lt;- oc.curves.xbar(qcc(diameter, type="xbar", nsigmas=3, plot=FALSE))
+print(round(beta, digits=4))
+# or to identify points on the plot use
+## Not run: oc.curves.xbar(qcc(diameter, type="xbar", nsigmas=3, plot=FALSE), identify=TRUE)
+detach(pistonrings)
+
+data(orangejuice)
+attach(orangejuice)
+beta &lt;- oc.curves(qcc(D[trial], sizes=size[trial], type="p", plot=FALSE))
+print(round(beta, digits=4))
+# or to identify points on the plot use
+## Not run: oc.curves(qcc(D[trial], sizes=size[trial], type="p", plot=FALSE), identify=TRUE)
+detach(orangejuice)
+
+data(circuit)
+attach(circuit)
+q &lt;- qcc(x[trial], sizes=size[trial], type="c", plot=FALSE)
+beta &lt;- oc.curves(q)
+print(round(beta, digits=4))
+# or to identify points on the plot use
+## Not run: oc.curves(qcc(x[trial], sizes=size[trial], type="c", plot=FALSE), identify=TRUE)
+detach(circuit)
+</code></pre>
+
+
+</div>

@@ -1,0 +1,151 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>fit_highd_model</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Construct the 2D model and lift into high-D</h2>
+
+<h3>Description</h3>
+
+<p>This function fits a high-dimensional model using hexagonal bins and provides options
+to customize the modeling process, including the choice of bin centroids or bin means,
+removal of low-density hexagons, and averaging of high-dimensional data.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">fit_highd_model(
+  training_data,
+  nldr_df_with_id,
+  x,
+  y,
+  num_bins_x = NA,
+  num_bins_y = NA,
+  x_start = NA,
+  y_start = NA,
+  buffer_x = NA,
+  buffer_y = NA,
+  hex_size = NA,
+  is_rm_lwd_hex = FALSE,
+  benchmark_to_rm_lwd_hex = NA,
+  col_start_2d,
+  col_start_highd
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>training_data</code></td>
+<td>
+<p>A data frame containing the training high-dimensional data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nldr_df_with_id</code></td>
+<td>
+<p>A data frame containing 2D embeddings with a unique identifier.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>The name of the column that contains first 2D embeddings component.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>The name of the column that contains second 2D embeddings component.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>num_bins_x</code></td>
+<td>
+<p>Number of bins along the x-axis.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>num_bins_y</code></td>
+<td>
+<p>Number of bins along the y-axis.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x_start</code></td>
+<td>
+<p>Starting point along the x-axis for hexagonal binning.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y_start</code></td>
+<td>
+<p>Starting point along the y-axis for hexagonal binning.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>buffer_x</code></td>
+<td>
+<p>The buffer size along the x-axis.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>buffer_y</code></td>
+<td>
+<p>The buffer size along the y-axis.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>hex_size</code></td>
+<td>
+<p>A numeric value that initializes the radius of the outer circle
+surrounding the hexagon.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>is_rm_lwd_hex</code></td>
+<td>
+<p>Logical, indicating whether to remove low-density hexagons
+(default is FALSE).</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>benchmark_to_rm_lwd_hex</code></td>
+<td>
+<p>The benchmark value to remove low-density hexagons.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>col_start_2d</code></td>
+<td>
+<p>The text prefix for columns in the 2D embedding data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>col_start_highd</code></td>
+<td>
+<p>The text prefix for columns in the high-dimensional data.</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>A list containing the data frame with high-dimensional coordinates
+for 2D bin centroids (<code>df_bin</code>) and the data frame containing
+information about hexagonal bin centroids (<code>df_bin_centroids</code>) in 2D.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">fit_highd_model(training_data = s_curve_noise_training, x = "UMAP1", y = "UMAP2",
+nldr_df_with_id = s_curve_noise_umap_scaled, col_start_2d = "UMAP", col_start_highd = "x")
+
+</code></pre>
+
+
+</div>

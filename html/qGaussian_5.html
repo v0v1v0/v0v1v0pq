@@ -1,0 +1,67 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qbymc</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>qbymc, a q value estimator founded upon medcouple.</h2>
+
+<h3>Description</h3>
+
+<p>Given a random data set, the 'qbymc' uses 
+the medcouple, a robust measure of tail
+weights, to yield a 'q' value, a characteristic 
+entropic index  of the q-gaussian distributions.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qbymc(x)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+<p>numeric vector</p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>a number q &lt; 3, and the standard error.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Emerson Luis de Santa Helena , Wagner Santos de Lima
+</p>
+
+
+<h3>References</h3>
+
+<p>de Santa Helena, E. L., Nascimento, C. M., and Gerhardt, G. J., (2015) Alternative way to 
+charecterize a q-gaussian distribution by a robust heavy tail measurement. Physica A, (435):44-50.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Robustbase for medcouple.
+<code>mc</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">set.seed(0002)
+rr &lt;- rqgauss(1000,1.333)
+qbymc(rr)
+
+</code></pre>
+
+
+</div>

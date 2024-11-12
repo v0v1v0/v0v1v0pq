@@ -1,0 +1,121 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>theta.cl</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+A function to perform the quantile classifier for a given quantile probability
+</h2>
+
+<h3>Description</h3>
+
+<p>Given a certain quantile probability, the function compute the quantile classifier on the training set and gives the predicted class labels in the training and test set.It also computes the training misclassification rate and the test misclassification rate, when the truth labels of the test set are available. When the quantile probability is 0.5 the function compute the median classifier.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">theta.cl(train, test, cl, theta, cl.test = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>train </code></td>
+<td>
+<p>A matrix of data (the training set) with observations in rows and variables in columns. It can be a matrix or a dataframe.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>test </code></td>
+<td>
+<p>A matrix of data (the test set) with observations in rows and variables in columns.  It can be a matrix or a dataframe.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cl </code></td>
+<td>
+<p>A vector of class labels for each sample of the training set. It can be factor or numerical.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>theta </code></td>
+<td>
+<p>The quantile probability. If 0.5 the median classifier is applied</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cl.test </code></td>
+<td>
+<p>If available, a vector of class labels for each sample of the test set (optional)</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p><code>theta.cl</code> carries out quantile classifier for a given quantile probability.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list with components
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>cl.train </code></td>
+<td>
+<p>Predicted classification in the training set</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cl.test </code></td>
+<td>
+<p>Predicted classification in the test set</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>me.train </code></td>
+<td>
+<p>Misclassification error in the training set</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>me.test </code></td>
+<td>
+<p>Misclassification error in the test set (only if <code>cl.test</code> is available)</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Christian Hennig, Cinzia Viroli</p>
+
+
+<h3>See Also</h3>
+
+<p>See Also <code>centroidcl</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">data(ais)
+x=ais[,3:13]
+cl=as.double(ais[,1])
+set.seed(22)
+index=sample(1:202,152,replace=FALSE)
+train=x[index,]
+test=x[-index,]
+cl.train=cl[index]
+cl.test=cl[-index]
+out.m=theta.cl(train,test,cl.train,0.5,cl.test)
+out.m$me.test
+misc(out.m$cl.test,cl.test)
+</code></pre>
+
+
+</div>

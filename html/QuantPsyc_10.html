@@ -1,0 +1,69 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>lm.beta</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2> Standardized Regression Coefficients </h2>
+
+<h3>Description</h3>
+
+<p>Computes the standardized regression coeffients (beta) from an object of class (lm)
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">lm.beta(MOD)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table><tr style="vertical-align: top;">
+<td><code>MOD</code></td>
+<td>
+<p> MOD is object from <code>lm</code> with the form y ~ x1 + x2 + ...  </p>
+</td>
+</tr></table>
+<h3>Value</h3>
+
+<p>A "numeric" representing each standardized coefficient from lm() model
+</p>
+
+
+<h3>Warning </h3>
+
+<p>This function does not produce 'correct' standardized coefficients when interaction terms are present</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Thomas D. Fletcher <a href="mailto:t.d.fletcher05@gmail.com">t.d.fletcher05@gmail.com</a> </p>
+
+
+<h3>See Also</h3>
+
+  <p><code>Make.Z</code>, <code>lm</code> </p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">us &lt;- USJudgeRatings
+names(us)
+lm1 &lt;- lm ( CONT ~ INTG + DMNR + DILG, us)
+lm.beta(lm1)
+
+# Standardized data (using Make.Z())
+
+usz &lt;- data.frame (Make.Z (us))
+lm1.z &lt;- lm ( CONT ~ INTG + DMNR + DILG, usz)
+
+# compare standardized data versus lm.beta
+
+summary(lm1.z)
+
+</code></pre>
+
+
+</div>

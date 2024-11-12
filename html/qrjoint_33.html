@@ -1,0 +1,367 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qde</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>Quantiles based Density Estimation</h2>
+
+<h3>Description</h3>
+
+<p>Provides a semiparametric estimation of the quantiles for independented univariate data with possible right censoring. This is same as estimating the intercept function within a joint linear quantile regression model with no predictors.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qde(y, nsamp = 1e3, thin = 10, cens = NULL,
+    wt = NULL, incr = 0.01, par = "prior", nknots = 6,
+    hyper = list(sig = c(.1,.1), lam = c(6,4), kap = c(0.1,0.1,1)),
+    prox.range = c(.2,.95), acpt.target = 0.15, ref.size = 3,
+    blocking = "single", temp = 1, expo = 2, blocks.mu, blocks.S,
+    fix.nu = FALSE, fbase = c("t", "logistic", "unif"), verbose = TRUE)
+
+## S3 method for class 'qde'
+update(object, nadd, append = TRUE, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>numeric vector of response data.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nsamp</code></td>
+<td>
+<p>number of posterior samples to be saved; defaults to 1000.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>thin</code></td>
+<td>
+<p>thinning rate for the Markov chain sampler – one posterior sample is saved per <code>thin</code> iterations. Defaults to 10. The Markov chain sampler runs for a total of <code>nsamp * thin</code> many iterations.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cens</code></td>
+<td>
+<p>censoring status of response. Must be a vector of length length(y), with 0 indicating no censoring, 1 indicating right censoring, and 2 indicating left censoring. If not supplied, defaults to all zeros.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>wt</code></td>
+<td>
+<p>weights attached to the observation units, expected to be non-negative numbers, and defaults to a vector of ones if not otherwise supplied.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>incr</code></td>
+<td>
+<p>tau grid increment. Defaults to 0.01.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>par</code></td>
+<td>
+<p>character string indicating how the sampler is to be initialized. Only two options are currently supported: "prior" to initialize at a random draw from the prior; "RQ" to initialize at a model space approximation of the estimates from <code>rq</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nknots</code></td>
+<td>
+<p>number of knots to be used for low rank approximation of the Gaussian process priors. Defaults to 6.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>hyper</code></td>
+<td>
+<p>hyperparameters of the prior distribution. Must be a list with some of all of the following fields: <code>sig</code>: a two vector giving the parameters of the inverse-gamma distribution on sigma-square that is used when <code>shrink</code>=TRUE, <code>lam</code>: a two vector giving the parameters of the beta distribution on proximity = <code class="reqn">\exp(-0.01* \lambda^2)</code>, and <code>kap</code>:  a vector to be coerced into a <code>3 * nkap</code> matrix, with <code>nkap</code> being the number of components in the mixture of gamma prior on <code>kappa</code>, and each column of the matrix gives the shape, rate and mixing weight of a component.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>prox.range</code></td>
+<td>
+<p>for specifying the range of length-scale parameter of the Gaussian process prior.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>acpt.target</code></td>
+<td>
+<p>target acceptance rate of the adaptive Metropolis sampler; defaults to 0.15</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>ref.size</code></td>
+<td>
+<p>adaptation rate of the adaptive Metropolis sampler. The proposal density is updated once every <code>ref.size</code> iterations. Could be a single number or a vector of length same as the number of blocks.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>blocking</code></td>
+<td>
+<p>type of blocking to be applied. Either a character string specifying one to be chosen from the supplied menu (see Details), or a list giving user specified blocks. In the latter case, each element of the list is a logical vector of length equal to the total number of model parameters, which equals <code>nknots+3</code> indicating which model parameters belong to the block.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>temp</code></td>
+<td>
+<p>temperature of the log-likelihood function. The log-likelihood function is raised to the power of <code>temp</code>. Defaults to 1.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>expo</code></td>
+<td>
+<p>the exponent to be used in the covariance kernel of the Gaussian process priors. Defaults to 2, giving the standard squared-exponential covariance kernel.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>blocks.mu</code></td>
+<td>
+<p>initial block specific means in the form of  a list. If left unspecified then will be automatically generated as a list of vectors of zeros of appropriate lengths matching the corresponding block sizes.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>blocks.S</code></td>
+<td>
+<p>initial block specific covariance matrices in the form of a list. If left unspecified then will be automatically generated as a list of identity matrices of appropriate dimensions matching the corresponding block sizes. When <code>blocking</code> is chosen as one of the menu items of the form "std*", known prior covariance information and estimated variance matrices from <code>rq</code> are used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fix.nu</code></td>
+<td>
+<p>either the logical FALSE indicating that nu should be learned, or a positive real number giving the fixed value of nu, which is then excluded from MCMC updates</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fbase</code></td>
+<td>
+<p>either "t" (default), "logistic" or "unif" to indicate what base distribution is to be used.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>verbose</code></td>
+<td>
+<p>logical indicating whether MCMC progress should be printed, defaults to TRUE</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+<p>a fitted model of the class 'qde'.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>nadd</code></td>
+<td>
+<p>number of additional MCMC samples.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>append</code></td>
+<td>
+<p>logical indicating whether new samples should be appended to old ones. If FALSE then old samples are discarded.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+<p>no additional arguments are allowed</p>
+</td>
+</tr>
+</table>
+<h3>Details</h3>
+
+<p>The model assumes the quantile function of the data is given by: <code>Q(t) = gamma_0 + sigma * (Qb(zeta(t)|nu) - Qb(zeta(0,5)|nu))</code>, <code>Qb(.|nu)</code> is a parametric quantile function with unknown parameter <code>nu</code>, <code>gamma_0</code> is the unknown median, <code>sigma</code> is an unknown saling factor, and, <code>zeta</code> is an unknown distortion of the unit interval. The distortion <code>zeta</code> is modeled nonparametrically through a logistic Gaussian process prior, other parameters are given diffuse priors.
+</p>
+<p>In running the MCMC, the following menu choices are available for blocking the parameter vector. For this special case <code>p = ncol(X) = 0</code>, some of the menu choices are actually the same, in particular, "std0" is same as "single", "std1" is same as "single2", and, "std2" is same as "single3".
+</p>
+<p><code>"single"</code>: a single block containing all parameters
+</p>
+<p><code>"single2"</code>: one block containing all parameters and an additional block containing only (gamma[0], gamma, sigma, nu)
+</p>
+<p><code>"single3"</code>: like <code>"single2"</code>, but the second block is split into two further blocks, one with <code class="reqn">(\gamma_0, \gamma)</code>, the other with <code class="reqn">(\sigma, \nu)</code>
+</p>
+<p><code>"std0"</code>: Same as <code>"single"</code>.
+</p>
+<p><code>"std1"</code>: Same as <code>"single2"</code>.
+</p>
+<p><code>"std2"</code>: Same as <code>"single3"</code>.
+</p>
+<p><code>"std3"</code>: total 3 blocks. First block is <code class="reqn">W_{*0}</code>, last two are <code class="reqn">(\gamma_0, \gamma)</code> and <code class="reqn">(\sigma, \nu)</code>
+</p>
+<p><code>"std4"</code>: total 3 blocks. First block is <code class="reqn">(W_{*0}, \gamma_0)</code>, last two are <code class="reqn">(\gamma_0, \gamma)</code> and <code class="reqn">(\sigma, \nu)</code>
+</p>
+<p><code>"std5"</code>: total 4 blocks. First three are same as <code>"std4"</code> and one additional block containing all parameters.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>qde(y, ...)</code> returns a ‘qde’ class object to be used by <code>coef</code> and <code>summary</code>.
+</p>
+<p>Returned object is a list containing the following variables.
+</p>
+<table>
+<tr style="vertical-align: top;">
+<td><code>par</code></td>
+<td>
+<p>latest draw of the parameter vector</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>y</code></td>
+<td>
+<p>response vector</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>cens</code></td>
+<td>
+<p>censoring status vector</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>wt</code></td>
+<td>
+<p>vector of observation weights</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>hyper</code></td>
+<td>
+<p>completed list of hyper-parameters</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dim</code></td>
+<td>
+<p>model dimension vector of the form c(n, p, length of tau grid, position of <code class="reqn">\tau_0</code> on the grid, nknots, length of lambda grid, nkap, total number of MCMC iterations, thin, nsamp)</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>gridmats</code></td>
+<td>
+<p>details of covariance matrix factors etc, intended for internal use.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>tau.g</code></td>
+<td>
+<p>the tau grid</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>muV</code></td>
+<td>
+<p>list of means for parameter blocks</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>SV</code></td>
+<td>
+<p>list of covariance matrices for parameter blocks</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>blocks</code></td>
+<td>
+<p>list of blocks</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>blocks.size</code></td>
+<td>
+<p>vector of block lengths</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>dmcmcpar</code></td>
+<td>
+<p>numeric vector containing details of adaptive MCMC runs, equals c(temp, decay rate of adaptation, vector of target acceptance rates for the blocks, vector of increment scales used in adaptation). Intended strictly for internal use.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>imcmcpar</code></td>
+<td>
+<p>numeric vector containing details of adaptive MCMC runs, equals c(number of parameter blocks, ref.size, indicator on whether details are to be printed during MCMC progress, rate of details printing, a vector of counters needed for printing). Intended strictly for internal use.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>parsamp</code></td>
+<td>
+<p>a long vector containing the parameter draws. Could be coerced into a matrix of dim <code>npar * nsamp</code>. Intended primarily for use by <code>summary</code> and <code>coef</code>.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>acptsamp</code></td>
+<td>
+<p>a long vector containing rates of acceptance statistics for parameter blocks. Could be coerced into a matrix of dim <code>nblocks * nsamp</code>. Not very informative, because thinning times and adaptation times may not be exactly synced.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>lpsamp</code></td>
+<td>
+<p>vector of log posterior values for the saved MCMC draws.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>fbase.choice</code></td>
+<td>
+<p>integer 1 for "t", 2 for "logistic" and 3 for "unif" base.</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>prox</code></td>
+<td>
+<p>vector of proximity (exp(-0.01*lambda^2)) grid values</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>reg.ix</code></td>
+<td>
+<p>positions of the regular tau grid on the expanded tail-appended grid</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>runtime</code></td>
+<td>
+<p>run time of the MCMC</p>
+</td>
+</tr>
+</table>
+<h3>References</h3>
+
+<p>Yang, Y. and Tokdar, S.T., 2017. Joint estimation of quantile planes over arbitrary predictor spaces. Journal of the American Statistical Association, 112(519), pp.1107-1120.</p>
+
+
+<h3>See Also</h3>
+
+<p><code>summary.qde</code>, <code>coef.qde</code> and <code>predict.qde</code>. Also see <code>qrjoint</code> for regression model fitting in presence of covariates.</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">## Plasma data analysis
+
+data(plasma)
+Y &lt;- plasma$BetaPlasma
+
+# model fitting with 100 posterior samples from 200 iterations (thin = 2)
+# this is of course for illustration, for practical model fitting you
+# ought to try at least something like nsamp = 500, thin = 20
+fit.qde &lt;- qde(Y, nsamp = 100, thin = 2)
+summary(fit.qde, more = TRUE)
+pred &lt;- predict(fit.qde)
+hist(Y, freq = FALSE, col = "gray", border = "white", ylim = c(0, max(pred$fest)))
+lines(pred$y, pred$fest[,2])
+lines(pred$y, pred$fest[,1], lty = 2)
+lines(pred$y, pred$fest[,3], lty = 2)
+</code></pre>
+
+
+</div>

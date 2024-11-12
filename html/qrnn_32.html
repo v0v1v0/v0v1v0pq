@@ -1,0 +1,87 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>qrnn.rbf</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Radial basis function kernel
+</h2>
+
+<h3>Description</h3>
+
+<p>Evaluate a kernel matrix based on the radial basis function kernel. Can
+be used in conjunction with <code>qrnn.fit</code> with <code>Th</code> set to
+<code>linear</code> and <code>penalty</code> set to a nonzero value for
+kernel quantile ridge regression.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">qrnn.rbf(x, x.basis, sigma)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>x</code></td>
+<td>
+
+<p>covariate matrix with number of rows equal to the number of samples and number of columns equal to the number of variables.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>x.basis</code></td>
+<td>
+
+<p>covariate matrix with number of rows equal to the number of basis functions and number of columns equal to the number of variables.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>sigma</code></td>
+<td>
+
+<p>kernel width
+</p>
+</td>
+</tr>
+</table>
+<h3>Value</h3>
+
+<p>kernel matrix with number of rows equal to the number of samples and number of columns equal to the number of basis functions.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>qrnn.fit</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">x &lt;- as.matrix(iris[,"Petal.Length",drop=FALSE])
+y &lt;- as.matrix(iris[,"Petal.Width",drop=FALSE])
+
+cases &lt;- order(x)
+x &lt;- x[cases,,drop=FALSE]
+y &lt;- y[cases,,drop=FALSE]
+
+set.seed(1)
+kern &lt;- qrnn.rbf(x, x.basis=x, sigma=1)
+
+parms &lt;- qrnn.fit(x=kern, y=y, tau=0.5, penalty=0.1,
+                  Th=linear, Th.prime=linear.prime,
+                  iter.max=500, n.trials=1)
+p &lt;- qrnn.predict(x=kern, parms=parms)
+
+matplot(x, cbind(y, p), type=c("p", "l"), pch=1, lwd=1)
+</code></pre>
+
+
+</div>

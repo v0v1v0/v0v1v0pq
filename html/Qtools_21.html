@@ -1,0 +1,87 @@
+<div class="container">
+
+<table style="width: 100%;"><tr>
+<td>confint.midquantile</td>
+<td style="text-align: right;">R Documentation</td>
+</tr></table>
+<h2>
+Mid-distribution Functions
+</h2>
+
+<h3>Description</h3>
+
+<p>Compute mid-quantiles confidence intervals 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class="language-R">## S3 method for class 'midquantile'
+confint(object, parm = NULL, level = 0.95, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;">
+<td><code>object</code></td>
+<td>
+
+<p>an object of class <code>midquantile</code>.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>parm</code></td>
+<td>
+
+<p>not used (included for consistency with <code>confint.default</code>).
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>level</code></td>
+<td>
+
+<p>nominal coverage level of the confidence interval.
+</p>
+</td>
+</tr>
+<tr style="vertical-align: top;">
+<td><code>...</code></td>
+<td>
+
+<p>not used.
+</p>
+</td>
+</tr>
+</table>
+<h3>Author(s)</h3>
+
+<p>Marco Geraci
+</p>
+
+
+<h3>References</h3>
+
+<p>Ma Y., Genton M., and Parzen E. Asymptotic properties of sample quantiles of discrete distributions. Annals of the Institute of Statistical Mathematics 2011;63(2):227-243
+</p>
+<p>Parzen E. Quantile probability and statistical data modeling. Statistical Science 2004;19(4):652-62.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class="language-R">
+x &lt;- rpois(100, lambda = 3)
+mq &lt;- midquantile(x)
+confint(mq, level = 0.95)
+
+# print standard errors
+attributes(confint(mq, level = 0.95))$stderr
+
+</code></pre>
+
+
+</div>
